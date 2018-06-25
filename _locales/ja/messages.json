@@ -1,0 +1,23 @@
+{
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "特定のサイトをGoogleの検索結果から除外します"
+  },
+  "blacklist": {
+    "message": "Googleの検索結果から除外するサイト"
+  },
+  "blacklistDescription": {
+    "message": "ワイルドカードか正規表現が使用できます"
+  },
+  "example": {
+    "message": "例"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "saveStatus": {
+    "message": "保存しました"
+  }
+}

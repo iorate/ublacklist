@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>uBlacklist Options</title>
+</head>
+<body>
+  <p>
+    <span data-translate="blacklist"></span><br>
+    <small><span data-translate="blacklistDescription"></span></small><br>
+    <small><span data-translate="example"></span>: *://www.example.com/*</small><br>
+    <small><span data-translate="example"></span>: /^(http|https):\/\/www\.example\.com\/.*$/</small><br>
+    <textarea id="blacklist" cols="80" rows="8"></textarea>
+  </p>
+  <p>
+    <button data-translate="save" id="save">Save</button>
+    <span data-translate="saveStatus" id="save-status" style="display:none"></span>
+  </p>
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "Removes specific sites from Google search results"
+  },
+  "blacklist": {
+    "message": "Sites removed from Google search results"
+  },
+  "blacklistDescription": {
+    "message": "You can use wildcards or regular expressions"
+  },
+  "example": {
+    "message": "Example"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "saveStatus": {
+    "message": "Saved"
+  }
+}
