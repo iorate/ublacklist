@@ -3,7 +3,7 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "特定のサイトをGoogleの検索結果から除外します"
+    "message": "特定のページをGoogleの検索結果から除外します"
   },
   "blacklist": {
     "message": "Googleの検索結果から除外するサイト"
@@ -23,10 +23,10 @@
   "nSitesRemoved": {
     "message": "uBlacklist により %d サイトが除外されました"
   },
-  "showRemovedSites": {
+  "show": {
     "message": "表示する"
   },
-  "hideRemovedSites": {
+  "hide": {
     "message": "表示しない"
   },
   "removeThisSite": {
@@ -34,8 +34,5 @@
   },
   "ok": {
     "message": "OK"
-  },
-  "cancel": {
-    "message": "キャンセル"
   }
 }

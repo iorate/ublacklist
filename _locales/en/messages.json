@@ -19,5 +19,20 @@
   },
   "saveStatus": {
     "message": "Saved"
+  },
+  "nSitesRemoved": {
+    "message": "%d site(s) are removed by uBlacklist"
+  },
+  "show": {
+    "message": "show"
+  },
+  "hide": {
+    "message": "hide"
+  },
+  "removeThisSite": {
+    "message": "remove this site"
+  },
+  "ok": {
+    "message": "ok"
   }
 }
