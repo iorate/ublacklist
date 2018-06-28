@@ -19,5 +19,23 @@
   },
   "saveStatus": {
     "message": "保存しました"
+  },
+  "nSitesRemoved": {
+    "message": "uBlacklist により %d サイトが除外されました"
+  },
+  "showRemovedSites": {
+    "message": "表示する"
+  },
+  "hideRemovedSites": {
+    "message": "表示しない"
+  },
+  "removeThisSite": {
+    "message": "このサイトを除外する"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "cancel": {
+    "message": "キャンセル"
   }
 }
