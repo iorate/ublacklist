@@ -15,9 +15,6 @@ class UBlacklist {
 
   main() {
     this.setupRemovalRules();
-    if (!this.removalRules.length) {
-      return;
-    }
     this.setupStyleSheets();
     this.setupObserver();
     document.addEventListener('DOMContentLoaded', () => {
@@ -127,6 +124,9 @@ class UBlacklist {
   removeIf(entry, pred) {
     const pageLink = entry.querySelector('a');
     if (pageLink && pageLink.href && pred(pageLink.href)) {
+      if (entry.classList.contains('uBlacklistRemoved')) {
+        return;
+      }
       entry.classList.add('uBlacklistRemoved');
       ++this.removedEntryCount;
       const stats = document.getElementById('uBlacklistStats');
