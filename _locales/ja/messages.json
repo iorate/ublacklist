@@ -3,7 +3,7 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "特定のページをGoogleの検索結果から除外します"
+    "message": "指定したサイトをGoogleの検索結果から除外します"
   },
   "blacklist": {
     "message": "Googleの検索結果から除外するサイト"
