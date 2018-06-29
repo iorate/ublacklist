@@ -6,7 +6,7 @@ This Chrome extension prevents blacklisted sites from appearing in Google search
 
 The same function is already provided by [Personal Blocklist (by Google)](https://chrome.google.com/webstore/detail/personal-blocklist-by-goo/nolijncfnkgaikbjbdaogikpmpbdcdef). At least in my environment, however, sites to be blocked by Personal Blocklist appear for a moment in search results and then disappear, which annoys me. uBlacklist does not allow blacklisted sites to appear even for a moment.
 
-A blacklist can be specified either by [urls with wildcards](https://developer.chrome.com/apps/match_patterns) (e.g. `*://*.example.com/*`) or by regular expressions (e.g. `/example\.com/`).
+A blacklist can be specified either by [urls with wildcards](https://developer.chrome.com/apps/match_patterns) (e.g. `*://*.example.com/*`) or by regular expressions (e.g. `/example\.(net|org)/`).
 
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
