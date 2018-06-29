@@ -24,15 +24,15 @@
     "message": "%d site(s) are removed by uBlacklist"
   },
   "show": {
-    "message": "show"
+    "message": "Show"
   },
   "hide": {
-    "message": "hide"
+    "message": "Hide"
   },
   "removeThisSite": {
-    "message": "remove this site"
+    "message": "Remove this site"
   },
   "ok": {
-    "message": "ok"
+    "message": "OK"
   }
 }

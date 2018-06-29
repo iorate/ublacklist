@@ -86,8 +86,8 @@ class UBlacklist {
 
   setupRemovalDialog() {
     document.body.insertAdjacentHTML('beforeend', `
-      <dialog id="uBlacklistRemovalDialog">
-        <form id="uBlacklistRemovalForm">
+      <dialog id="uBlacklistRemovalDialog" style="padding:0">
+        <form id="uBlacklistRemovalForm" style="padding:1em">
           <label>
             ${_('removeThisSite')}:
             <input id="uBlacklistLine" type="text" size="40" style="margin:0.5em">
