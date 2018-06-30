@@ -49,7 +49,7 @@ class UBlacklist {
         for (let node of record.addedNodes) {
           if (node.matches && node.matches('.g')) {
             this.removeIf(node, url => this.removalRules.some(rule => rule.test(url)));
-            this.addRemovalLinkTo(node);
+            this.addRemovalLink(node);
           }
         }
       }
@@ -115,7 +115,7 @@ class UBlacklist {
       removalDialog.close();
     });
     removalDialog.addEventListener('click', event => {
-      if (event.target === removalDialog) {
+      if (event.target == removalDialog) {
         removalDialog.close();
       }
     });
@@ -140,7 +140,7 @@ class UBlacklist {
     }
   }
 
-  addRemovalLinkTo(entry) {
+  addRemovalLink(entry) {
     const f = entry.querySelector('.f');
     const pageLink = entry.querySelector('a');
     if (f && pageLink && pageLink.href) {
@@ -171,10 +171,10 @@ class UBlacklist {
         '$'
       );
     }
-    const re = line.match(/\/((?:\\\/|[^\/])*)\/(.*)/);
+    const re = line.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
     if (re) {
       try {
-        return new RegExp(re[1].replace('\\/', '/'), re[2]);
+        return new RegExp(re[1], re[2]);
       } catch (e) {
         console.warning('uBlacklist: invalid regular expression: ' + line);
       }
