@@ -25,7 +25,7 @@ class UBlacklist {
 
   setupRemovalRules() {
     for (let line of this.options.blacklist.split(/\n/)) {
-      const rule = UBlacklist.createRemovalRule(line);
+      const rule = UBlacklist.createRemovalRule(line.trim());
       if (rule) {
         this.removalRules.push(rule);
       }
