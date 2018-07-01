@@ -122,20 +122,19 @@ class UBlacklist {
   }
 
   removeIf(entry, pred) {
-    const pageLink = entry.querySelector('a');
-    if (pageLink && pageLink.href && pred(pageLink.href)) {
-      if (entry.classList.contains('uBlacklistRemoved')) {
-        return;
-      }
-      entry.classList.add('uBlacklistRemoved');
-      ++this.removedEntryCount;
-      const stats = document.getElementById('uBlacklistStats');
-      if (stats) {
-        stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
-      }
-      const control = document.getElementById('uBlacklistControl');
-      if (control) {
-        control.style.display = 'inline';
+    if (!entry.classList.contains('uBlacklistRemoved')) {
+      const pageLink = entry.querySelector('a');
+      if (pageLink && pageLink.href && pred(pageLink.href)) {
+        entry.classList.add('uBlacklistRemoved');
+        ++this.removedEntryCount;
+        const stats = document.getElementById('uBlacklistStats');
+        if (stats) {
+          stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
+        }
+        const control = document.getElementById('uBlacklistControl');
+        if (control) {
+          control.style.display = 'inline';
+        }
       }
     }
   }
