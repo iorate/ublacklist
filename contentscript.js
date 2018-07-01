@@ -177,7 +177,7 @@ class UBlacklist {
       try {
         return new RegExp(re[1], re[2]);
       } catch (e) {
-        console.warning('uBlacklist: invalid regular expression: ' + line);
+        console.warn('uBlacklist: invalid regular expression: ' + line);
       }
     }
   }
