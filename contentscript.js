@@ -145,6 +145,7 @@ class UBlacklist {
     const pageLink = entry.querySelector('a');
     if (f && pageLink && pageLink.href) {
       const removalLink = document.createElement('a');
+      removalLink.className = 'fl';
       removalLink.href = 'javascript:void(0)';
       removalLink.textContent = _('removeThisSite');
       removalLink.addEventListener('click', () => {
