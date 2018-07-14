@@ -1,13 +1,13 @@
-function _(s) {
-  return chrome.i18n.getMessage(s);
-}
+const _ = s => chrome.i18n.getMessage(s);
 
 class UBlacklist {
   constructor() {
     this.removalRules = [];
     this.removedEntryCount = 0;
     this.showsRemovedEntries = false;
-    chrome.storage.sync.get({blacklist: ''}, options => {
+    chrome.storage.sync.get({
+      blacklist: ''
+    }, options => {
       this.options = options;
       this.main();
     });
@@ -106,7 +106,7 @@ class UBlacklist {
           this.removeIf(node, url => rule.test(url));
         }
         this.removalRules.push(rule);
-        if (this.options.blacklist.length && this.options.blacklist.slice(-1) != '\n') {
+        if (this.options.blacklist && this.options.blacklist.slice(-1) != '\n') {
           this.options.blacklist += '\n';
         }
         this.options.blacklist += line + '\n';
@@ -127,12 +127,10 @@ class UBlacklist {
       if (pageLink && pageLink.href && pred(pageLink.href)) {
         entry.classList.add('uBlacklistRemoved');
         ++this.removedEntryCount;
-        const stats = document.getElementById('uBlacklistStats');
-        if (stats) {
-          stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
-        }
         const control = document.getElementById('uBlacklistControl');
         if (control) {
+          const stats = document.getElementById('uBlacklistStats');
+          stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
           control.style.display = 'inline';
         }
       }
@@ -157,9 +155,7 @@ class UBlacklist {
   }
 
   static createRemovalRule(line) {
-    function escapeRegExp(s) {
-      return s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
-    }
+    const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
     const wc = line.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (wc) {
       return new RegExp(
@@ -177,8 +173,10 @@ class UBlacklist {
         return new RegExp(re[1], re[2]);
       } catch (e) {
         console.warn('uBlacklist: invalid regular expression: ' + line);
+        return null;
       }
     }
+    return null;
   }
 }
 

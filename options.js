@@ -1,6 +1,6 @@
 chrome.storage.sync.get({
   blacklist: ''
-}, items => {
+}, options => {
   for (let element of document.querySelectorAll('[data-translate]')) {
     element.textContent = chrome.i18n.getMessage(element.dataset.translate);
   }
@@ -9,16 +9,16 @@ chrome.storage.sync.get({
   const save = document.getElementById('save');
   const saveStatus = document.getElementById('save-status');
 
-  blacklist.value = items.blacklist;
+  blacklist.value = options.blacklist;
 
   save.addEventListener('click', () => {
-    chrome.storage.sync.set({
-      blacklist: blacklist.value
-    }, () => {
+    options.blacklist = blacklist.value;
+
+    chrome.storage.sync.set(options, () => {
       saveStatus.style.display = 'inline';
       setTimeout(() => {
         saveStatus.style.display = 'none';
       }, 1000);
     });
-  }, false);
+  });
 });
