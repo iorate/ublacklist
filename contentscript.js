@@ -4,7 +4,6 @@ class UBlacklist {
   constructor() {
     this.blockRules = [];
     this.blockedEntryCount = 0;
-    this.showsBlockedEntries = false;
     chrome.storage.sync.get({
       blacklist: ''
     }, options => {
@@ -33,14 +32,18 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
-    const redden = document.createElement('style');
-    document.head.appendChild(redden);
-    redden.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; }');
+    const baseStyle = document.createElement('style');
+    document.head.appendChild(baseStyle);
+    baseStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
+    baseStyle.sheet.insertRule('.uBlacklistBlocked { display: none; }');
 
-    const hide = document.createElement('style');
-    hide.id = 'uBlacklistHide';
-    document.head.appendChild(hide);
-    hide.sheet.insertRule('.uBlacklistBlocked { display: none; }');
+    const showStyle = document.createElement('style');
+    showStyle.id = 'uBlacklistShowStyle';
+    document.head.appendChild(showStyle);
+    showStyle.sheet.disabled = true;
+    showStyle.sheet.insertRule('#uBlacklistShowLink { display: none; }');
+    showStyle.sheet.insertRule('#uBlacklistHideLink { display: inline; }');
+    showStyle.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; display: block; }');
   }
 
   setupObserver() {
@@ -64,13 +67,19 @@ class UBlacklist {
       stats.id = 'uBlacklistStats';
       stats.textContent = _('nSitesBlocked').replace('%d', this.blockedEntryCount);
 
-      const toggle = document.createElement('a');
-      toggle.href = 'javascript:void(0)';
-      toggle.textContent = _('show');
-      toggle.addEventListener('click', () => {
-        this.showsBlockedEntries = !this.showsBlockedEntries;
-        document.getElementById('uBlacklistHide').sheet.disabled = this.showsBlockedEntries;
-        toggle.textContent = _(this.showsBlockedEntries ? 'hide' : 'show');
+      const showLink = document.createElement('a');
+      showLink.id = 'uBlacklistShowLink';
+      showLink.href = 'javascript:void(0)';
+      showLink.textContent = _('show');
+      showLink.addEventListener('click', () => {
+        document.getElementById('uBlacklistShowStyle').sheet.disabled = false;
+      });
+      const hideLink = document.createElement('a');
+      hideLink.id = 'uBlacklistHideLink';
+      hideLink.href = 'javascript:void(0)';
+      hideLink.textContent = _('hide');
+      hideLink.addEventListener('click', () => {
+        document.getElementById('uBlacklistShowStyle').sheet.disabled = true;
       });
 
       const control = document.createElement('span');
@@ -78,7 +87,8 @@ class UBlacklist {
       control.style.display = this.blockedEntryCount ? 'inline' : 'none';
       control.appendChild(stats);
       control.appendChild(document.createTextNode('\u00a0'));
-      control.appendChild(toggle);
+      control.appendChild(showLink);
+      control.appendChild(hideLink);
 
       resultStats.appendChild(control);
     }
