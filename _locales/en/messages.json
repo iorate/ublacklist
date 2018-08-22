@@ -21,7 +21,7 @@
     "message": "Saved"
   },
   "nSitesBlocked": {
-    "message": "%d site(s) are blocked by uBlacklist"
+    "message": "uBlacklist has blocked %d site(s)"
   },
   "show": {
     "message": "Show"
@@ -31,6 +31,9 @@
   },
   "blockThisSite": {
     "message": "Block this site"
+  },
+  "unblockThisSite": {
+    "message": "Unblock this site"
   },
   "ok": {
     "message": "OK"

@@ -32,6 +32,9 @@
   "blockThisSite": {
     "message": "このサイトをブロックする"
   },
+  "unblockThisSite": {
+    "message": "このサイトのブロックを解除する"
+  },
   "ok": {
     "message": "OK"
   }

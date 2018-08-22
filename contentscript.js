@@ -3,31 +3,23 @@ const _ = s => chrome.i18n.getMessage(s);
 class UBlacklist {
   constructor() {
     this.blockRules = [];
-    this.blockedEntryCount = 0;
-    chrome.storage.sync.get({
-      blacklist: ''
-    }, options => {
-      this.options = options;
-      this.main();
+    this.blockedSiteCount = 0;
+    chrome.storage.sync.get({ blacklist: '' }, options => {
+      this.setupBlockRules(options.blacklist);
+      this.setupStyleSheets();
+      this.setupObserver();
+      document.addEventListener('DOMContentLoaded', () => {
+        this.setupControl();
+        this.setupBlockDialog();
+        this.setupUnblockDialog();
+      });
     });
   }
 
-  main() {
-    this.setupBlockRules();
-    this.setupStyleSheets();
-    this.setupObserver();
-    document.addEventListener('DOMContentLoaded', () => {
-      this.setupControl();
-      this.setupBlockDialog();
-    });
-  }
-
-  setupBlockRules() {
-    for (let line of this.options.blacklist.split(/\n/)) {
-      const rule = UBlacklist.createBlockRule(line.trim());
-      if (rule) {
-        this.blockRules.push(rule);
-      }
+  setupBlockRules(blacklist) {
+    for (const raw of blacklist.split(/\n/)) {
+      const compiled = UBlacklist.compileBlockRule(raw.trim());
+      this.blockRules.push({ raw, compiled });
     }
   }
 
@@ -36,6 +28,9 @@ class UBlacklist {
     document.head.appendChild(baseStyle);
     baseStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
     baseStyle.sheet.insertRule('.uBlacklistBlocked { display: none; }');
+    baseStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistBlockLink { display: none; }');
+    baseStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; }');
+    baseStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistUnblockLink { display: inline; }');
 
     const showStyle = document.createElement('style');
     showStyle.id = 'uBlacklistShowStyle';
@@ -48,10 +43,10 @@ class UBlacklist {
 
   setupObserver() {
     const observer = new MutationObserver(records => {
-      for (let record of records) {
-        for (let node of record.addedNodes) {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
           if (node.matches && node.matches('.g')) {
-            this.blockIf(node, url => this.blockRules.some(rule => rule.test(url)));
+            this.judgeSite(node);
             this.addBlockLink(node);
           }
         }
@@ -63,9 +58,8 @@ class UBlacklist {
   setupControl() {
     const resultStats = document.getElementById('resultStats');
     if (resultStats) {
-      const stats = document.createElement('uBlacklistStats');
+      const stats = document.createElement('span');
       stats.id = 'uBlacklistStats';
-      stats.textContent = _('nSitesBlocked').replace('%d', this.blockedEntryCount);
 
       const showLink = document.createElement('a');
       showLink.id = 'uBlacklistShowLink';
@@ -74,6 +68,7 @@ class UBlacklist {
       showLink.addEventListener('click', () => {
         document.getElementById('uBlacklistShowStyle').sheet.disabled = false;
       });
+
       const hideLink = document.createElement('a');
       hideLink.id = 'uBlacklistHideLink';
       hideLink.href = 'javascript:void(0)';
@@ -84,13 +79,14 @@ class UBlacklist {
 
       const control = document.createElement('span');
       control.id = 'uBlacklistControl';
-      control.style.display = this.blockedEntryCount ? 'inline' : 'none';
       control.appendChild(stats);
       control.appendChild(document.createTextNode('\u00a0'));
       control.appendChild(showLink);
       control.appendChild(hideLink);
 
       resultStats.appendChild(control);
+
+      this.updateControl();
     }
   }
 
@@ -100,7 +96,7 @@ class UBlacklist {
         <form id="uBlacklistBlockForm" style="padding:1em">
           <label>
             ${_('blockThisSite')}:
-            <input id="uBlacklistLine" type="text" size="40" style="margin:0.5em">
+            <input id="uBlacklistBlockInput" type="text" size="40" style="margin:0.5em">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
@@ -109,18 +105,12 @@ class UBlacklist {
     const blockDialog = document.getElementById('uBlacklistBlockDialog');
     document.getElementById('uBlacklistBlockForm').addEventListener('submit', event => {
       event.preventDefault();
-      const line = document.getElementById('uBlacklistLine').value;
-      const rule = UBlacklist.createBlockRule(line);
-      if (rule) {
-        for (let node of document.querySelectorAll('.g')) {
-          this.blockIf(node, url => rule.test(url));
-        }
-        this.blockRules.push(rule);
-        if (this.options.blacklist && this.options.blacklist.slice(-1) != '\n') {
-          this.options.blacklist += '\n';
-        }
-        this.options.blacklist += line + '\n';
-        chrome.storage.sync.set(this.options);
+      const raw = document.getElementById('uBlacklistBlockInput').value;
+      const compiled = UBlacklist.compileBlockRule(raw);
+      if (compiled) {
+        this.blockRules.push({ raw, compiled });
+        this.saveBlockRules();
+        this.rejudgeAllSites();
       }
       blockDialog.close();
     });
@@ -131,18 +121,62 @@ class UBlacklist {
     });
   }
 
-  blockIf(entry, pred) {
-    if (!entry.classList.contains('uBlacklistBlocked')) {
-      const pageLink = entry.querySelector('a');
-      if (pageLink && pageLink.href && pred(pageLink.href)) {
-        entry.classList.add('uBlacklistBlocked');
-        ++this.blockedEntryCount;
-        const control = document.getElementById('uBlacklistControl');
-        if (control) {
-          const stats = document.getElementById('uBlacklistStats');
-          stats.textContent = _('nSitesBlocked').replace('%d', this.blockedEntryCount);
-          control.style.display = 'inline';
-        }
+  setupUnblockDialog() {
+    document.body.insertAdjacentHTML('beforeend', `
+      <dialog id="uBlacklistUnblockDialog" style="padding:0">
+        <form id="uBlacklistUnblockForm" style="padding:1em">
+          <label>
+            ${_('unblockThisSite')}:
+            <select id="uBlacklistUnblockSelect" style="margin:0.5em;width:20em">
+            </select>
+          </label>
+          <button type="submit">${_('ok')}</button>
+        </form>
+      </dialog>
+    `);
+    const unblockDialog = document.getElementById('uBlacklistUnblockDialog');
+    document.getElementById('uBlacklistUnblockForm').addEventListener('submit', event => {
+      event.preventDefault();
+      this.blockRules.splice(document.getElementById('uBlacklistUnblockSelect').value - 0, 1);
+      this.saveBlockRules();
+      this.rejudgeAllSites();
+      unblockDialog.close();
+    });
+    unblockDialog.addEventListener('click', event => {
+      if (event.target == unblockDialog) {
+        unblockDialog.close();
+      }
+    });
+  }
+
+  judgeSite(node) {
+    const pageLink = node.querySelector('a');
+    if (pageLink && pageLink.href &&
+        this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
+      node.classList.add('uBlacklistBlocked');
+      ++this.blockedSiteCount;
+      this.updateControl();
+    }
+  }
+
+  rejudgeAllSites() {
+    this.blockedSiteCount = 0;
+    for (const node of document.querySelectorAll('.g')) {
+      node.classList.remove('uBlacklistBlocked');
+      this.judgeSite(node);
+    }
+    this.updateControl();
+  }
+
+  updateControl() {
+    const control = document.getElementById('uBlacklistControl');
+    if (control) {
+      if (this.blockedSiteCount) {
+        const stats = document.getElementById('uBlacklistStats');
+        stats.textContent = _('nSitesBlocked').replace('%d', this.blockedSiteCount);
+        control.style.display = 'inline';
+      } else {
+        control.style.display = 'none';
       }
     }
   }
@@ -152,21 +186,52 @@ class UBlacklist {
     const pageLink = entry.querySelector('a');
     if (f && pageLink && pageLink.href) {
       const blockLink = document.createElement('a');
-      blockLink.className = 'fl';
+      blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
-        document.getElementById('uBlacklistLine').value = new URL(pageLink.href).origin + '/*';
+        document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
         document.getElementById('uBlacklistBlockDialog').showModal();
       });
+
+      const unblockLink = document.createElement('a');
+      unblockLink.className = 'fl uBlacklistUnblockLink';
+      unblockLink.href = 'javascript:void(0)';
+      unblockLink.textContent = _('unblockThisSite');
+      unblockLink.addEventListener('click', () => {
+        const unblockSelect = document.getElementById('uBlacklistUnblockSelect');
+        while (unblockSelect.firstChild) {
+          unblockSelect.removeChild(unblockSelect.firstChild);
+        }
+        this.blockRules.forEach((rule, index) => {
+          if (rule.compiled && rule.compiled.test(pageLink.href)) {
+            const option = document.createElement('option');
+            option.textContent = rule.raw.trim();
+            option.value = index + '';
+            unblockSelect.appendChild(option);
+          }
+        });
+        document.getElementById('uBlacklistUnblockDialog').showModal();
+      });
+
       f.appendChild(document.createTextNode('\u00a0'));
       f.appendChild(blockLink);
+      f.appendChild(unblockLink);
     }
   }
 
-  static createBlockRule(line) {
+  saveBlockRules() {
+    let blacklist = '';
+    for (let rule of this.blockRules) {
+      blacklist += rule.raw + '\n';
+    }
+    blacklist = blacklist.slice(0, -1);
+    chrome.storage.sync.set({ blacklist });
+  }
+
+  static compileBlockRule(raw) {
     const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
-    const wc = line.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
+    const wc = raw.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (wc) {
       return new RegExp(
         '^' +
@@ -177,12 +242,12 @@ class UBlacklist {
         '$'
       );
     }
-    const re = line.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
+    const re = raw.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
     if (re) {
       try {
         return new RegExp(re[1], re[2]);
       } catch (e) {
-        console.warn('uBlacklist: invalid regular expression: ' + line);
+        console.warn('uBlacklist: invalid regular expression: ' + raw);
         return null;
       }
     }
