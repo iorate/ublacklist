@@ -2,9 +2,9 @@ const _ = s => chrome.i18n.getMessage(s);
 
 class UBlacklist {
   constructor() {
-    this.removalRules = [];
-    this.removedEntryCount = 0;
-    this.showsRemovedEntries = false;
+    this.blockRules = [];
+    this.blockedEntryCount = 0;
+    this.showsBlockedEntries = false;
     chrome.storage.sync.get({
       blacklist: ''
     }, options => {
@@ -14,20 +14,20 @@ class UBlacklist {
   }
 
   main() {
-    this.setupRemovalRules();
+    this.setupBlockRules();
     this.setupStyleSheets();
     this.setupObserver();
     document.addEventListener('DOMContentLoaded', () => {
       this.setupControl();
-      this.setupRemovalDialog();
+      this.setupBlockDialog();
     });
   }
 
-  setupRemovalRules() {
+  setupBlockRules() {
     for (let line of this.options.blacklist.split(/\n/)) {
-      const rule = UBlacklist.createRemovalRule(line.trim());
+      const rule = UBlacklist.createBlockRule(line.trim());
       if (rule) {
-        this.removalRules.push(rule);
+        this.blockRules.push(rule);
       }
     }
   }
@@ -35,12 +35,12 @@ class UBlacklist {
   setupStyleSheets() {
     const redden = document.createElement('style');
     document.head.appendChild(redden);
-    redden.sheet.insertRule('.uBlacklistRemoved { background-color: #ffe0e0; }');
+    redden.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; }');
 
     const hide = document.createElement('style');
     hide.id = 'uBlacklistHide';
     document.head.appendChild(hide);
-    hide.sheet.insertRule('.uBlacklistRemoved { display: none; }');
+    hide.sheet.insertRule('.uBlacklistBlocked { display: none; }');
   }
 
   setupObserver() {
@@ -48,8 +48,8 @@ class UBlacklist {
       for (let record of records) {
         for (let node of record.addedNodes) {
           if (node.matches && node.matches('.g')) {
-            this.removeIf(node, url => this.removalRules.some(rule => rule.test(url)));
-            this.addRemovalLink(node);
+            this.blockIf(node, url => this.blockRules.some(rule => rule.test(url)));
+            this.addBlockLink(node);
           }
         }
       }
@@ -62,20 +62,20 @@ class UBlacklist {
     if (resultStats) {
       const stats = document.createElement('uBlacklistStats');
       stats.id = 'uBlacklistStats';
-      stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
+      stats.textContent = _('nSitesBlocked').replace('%d', this.blockedEntryCount);
 
       const toggle = document.createElement('a');
       toggle.href = 'javascript:void(0)';
       toggle.textContent = _('show');
       toggle.addEventListener('click', () => {
-        this.showsRemovedEntries = !this.showsRemovedEntries;
-        document.getElementById('uBlacklistHide').sheet.disabled = this.showsRemovedEntries;
-        toggle.textContent = _(this.showsRemovedEntries ? 'hide' : 'show');
+        this.showsBlockedEntries = !this.showsBlockedEntries;
+        document.getElementById('uBlacklistHide').sheet.disabled = this.showsBlockedEntries;
+        toggle.textContent = _(this.showsBlockedEntries ? 'hide' : 'show');
       });
 
       const control = document.createElement('span');
       control.id = 'uBlacklistControl';
-      control.style.display = this.removedEntryCount ? 'inline' : 'none';
+      control.style.display = this.blockedEntryCount ? 'inline' : 'none';
       control.appendChild(stats);
       control.appendChild(document.createTextNode('\u00a0'));
       control.appendChild(toggle);
@@ -84,77 +84,77 @@ class UBlacklist {
     }
   }
 
-  setupRemovalDialog() {
+  setupBlockDialog() {
     document.body.insertAdjacentHTML('beforeend', `
-      <dialog id="uBlacklistRemovalDialog" style="padding:0">
-        <form id="uBlacklistRemovalForm" style="padding:1em">
+      <dialog id="uBlacklistBlockDialog" style="padding:0">
+        <form id="uBlacklistBlockForm" style="padding:1em">
           <label>
-            ${_('removeThisSite')}:
+            ${_('blockThisSite')}:
             <input id="uBlacklistLine" type="text" size="40" style="margin:0.5em">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
       </dialog>
     `);
-    const removalDialog = document.getElementById('uBlacklistRemovalDialog');
-    document.getElementById('uBlacklistRemovalForm').addEventListener('submit', event => {
+    const blockDialog = document.getElementById('uBlacklistBlockDialog');
+    document.getElementById('uBlacklistBlockForm').addEventListener('submit', event => {
       event.preventDefault();
       const line = document.getElementById('uBlacklistLine').value;
-      const rule = UBlacklist.createRemovalRule(line);
+      const rule = UBlacklist.createBlockRule(line);
       if (rule) {
         for (let node of document.querySelectorAll('.g')) {
-          this.removeIf(node, url => rule.test(url));
+          this.blockIf(node, url => rule.test(url));
         }
-        this.removalRules.push(rule);
+        this.blockRules.push(rule);
         if (this.options.blacklist && this.options.blacklist.slice(-1) != '\n') {
           this.options.blacklist += '\n';
         }
         this.options.blacklist += line + '\n';
         chrome.storage.sync.set(this.options);
       }
-      removalDialog.close();
+      blockDialog.close();
     });
-    removalDialog.addEventListener('click', event => {
-      if (event.target == removalDialog) {
-        removalDialog.close();
+    blockDialog.addEventListener('click', event => {
+      if (event.target == blockDialog) {
+        blockDialog.close();
       }
     });
   }
 
-  removeIf(entry, pred) {
-    if (!entry.classList.contains('uBlacklistRemoved')) {
+  blockIf(entry, pred) {
+    if (!entry.classList.contains('uBlacklistBlocked')) {
       const pageLink = entry.querySelector('a');
       if (pageLink && pageLink.href && pred(pageLink.href)) {
-        entry.classList.add('uBlacklistRemoved');
-        ++this.removedEntryCount;
+        entry.classList.add('uBlacklistBlocked');
+        ++this.blockedEntryCount;
         const control = document.getElementById('uBlacklistControl');
         if (control) {
           const stats = document.getElementById('uBlacklistStats');
-          stats.textContent = _('nSitesRemoved').replace('%d', this.removedEntryCount);
+          stats.textContent = _('nSitesBlocked').replace('%d', this.blockedEntryCount);
           control.style.display = 'inline';
         }
       }
     }
   }
 
-  addRemovalLink(entry) {
+  addBlockLink(entry) {
     const f = entry.querySelector('.f');
     const pageLink = entry.querySelector('a');
     if (f && pageLink && pageLink.href) {
-      const removalLink = document.createElement('a');
-      removalLink.className = 'fl';
-      removalLink.href = 'javascript:void(0)';
-      removalLink.textContent = _('removeThisSite');
-      removalLink.addEventListener('click', () => {
+      const blockLink = document.createElement('a');
+      blockLink.className = 'fl';
+      blockLink.href = 'javascript:void(0)';
+      blockLink.textContent = _('blockThisSite');
+      blockLink.addEventListener('click', () => {
         document.getElementById('uBlacklistLine').value = new URL(pageLink.href).origin + '/*';
-        document.getElementById('uBlacklistRemovalDialog').showModal();
+        document.getElementById('uBlacklistBlockDialog').showModal();
       });
       f.appendChild(document.createTextNode('\u00a0'));
-      f.appendChild(removalLink);
+      f.appendChild(blockLink);
     }
   }
 
-  static createRemovalRule(line) {
+  static createBlockRule(line) {
     const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
     const wc = line.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (wc) {

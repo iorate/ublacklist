@@ -3,10 +3,10 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "指定したサイトをGoogleの検索結果から除外します"
+    "message": "指定したサイトをGoogleの検索結果で表示されないようにします"
   },
   "blacklist": {
-    "message": "Googleの検索結果から除外するサイト"
+    "message": "Googleの検索結果で表示されないようにサイト"
   },
   "blacklistDescription": {
     "message": "ワイルドカードか正規表現が使用できます"
@@ -20,8 +20,8 @@
   "saveStatus": {
     "message": "保存しました"
   },
-  "nSitesRemoved": {
-    "message": "uBlacklist により %d サイトが除外されました"
+  "nSitesBlocked": {
+    "message": "uBlacklist により %d サイトがブロックされました"
   },
   "show": {
     "message": "表示する"
@@ -29,8 +29,8 @@
   "hide": {
     "message": "表示しない"
   },
-  "removeThisSite": {
-    "message": "このサイトを除外する"
+  "blockThisSite": {
+    "message": "このサイトをブロックする"
   },
   "ok": {
     "message": "OK"

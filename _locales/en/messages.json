@@ -3,10 +3,10 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "Removes specific sites from Google search results"
+    "message": "Blocks specific sites from appearing in Google search results"
   },
   "blacklist": {
-    "message": "Sites removed from Google search results"
+    "message": "Sites blocked from appearing in Google search results"
   },
   "blacklistDescription": {
     "message": "You can use wildcards or regular expressions"
@@ -20,8 +20,8 @@
   "saveStatus": {
     "message": "Saved"
   },
-  "nSitesRemoved": {
-    "message": "%d site(s) are removed by uBlacklist"
+  "nSitesBlocked": {
+    "message": "%d site(s) are blocked by uBlacklist"
   },
   "show": {
     "message": "Show"
@@ -29,8 +29,8 @@
   "hide": {
     "message": "Hide"
   },
-  "removeThisSite": {
-    "message": "Remove this site"
+  "blockThisSite": {
+    "message": "Block this site"
   },
   "ok": {
     "message": "OK"
