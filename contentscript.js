@@ -2,26 +2,45 @@ const _ = s => chrome.i18n.getMessage(s);
 
 class UBlacklist {
   constructor() {
-    this.blockRules = [];
+    this.queuedSites = [];
     this.blockedSiteCount = 0;
+
     chrome.storage.sync.get({ blacklist: '' }, options => {
-      this.setupBlockRules(options.blacklist);
-      this.setupStyleSheets();
-      this.setupObserver();
-      document.addEventListener('DOMContentLoaded', () => {
-        this.setupControl();
-        this.setupBlockDialog();
-        this.setupUnblockDialog();
-      });
+      // It may take more time than expected to get options, perhaps than to load DOM content
+      this.parseBlacklist(options.blacklist);
+      this.judgeQueuedSites();
+    });
+
+    let hasStyleSheets = false;
+    new MutationObserver(records => {
+      // Set up style sheets as soon as possible so that blocked sites will not appear
+      if (!hasStyleSheets && document.head) {
+        this.setupStyleSheets();
+        hasStyleSheets = true;
+      }
+      this.processSites(records);
+    }).observe(document.documentElement, { childList: true, subtree: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      this.setupControl();
+      this.setupBlockDialog();
+      this.setupUnblockDialog();
     });
   }
 
-  setupBlockRules(blacklist) {
+  parseBlacklist(blacklist) {
+    this.blockRules = [];
     if (blacklist) {
       for (const raw of blacklist.split(/\n/)) {
         const compiled = UBlacklist.compileBlockRule(raw);
         this.blockRules.push({ raw, compiled });
       }
+    }
+  }
+
+  judgeQueuedSites() {
+    for (const site of this.queuedSites) {
+      this.judgeSite(site);
     }
   }
 
@@ -43,19 +62,20 @@ class UBlacklist {
     showStyle.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; display: block; }');
   }
 
-  setupObserver() {
-    const observer = new MutationObserver(records => {
-      for (const record of records) {
-        for (const node of record.addedNodes) {
-          if (node.matches && node.matches('.g')) {
-            this.addBlockLink(node);
+  processSites(records) {
+    for (const record of records) {
+      for (const node of record.addedNodes) {
+        if (node.matches && node.matches('.g')) {
+          this.addBlockLink(node);
+          if (this.blockRules) {
             this.judgeSite(node);
+          } else {
+            this.queuedSites.push(node);
           }
         }
       }
-      this.updateControl();
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    }
+    this.updateControl();
   }
 
   setupControl() {
@@ -152,17 +172,19 @@ class UBlacklist {
     });
   }
 
-  addBlockLink(g) {
-    const f = g.querySelector('.f');
-    const pageLink = g.querySelector('a');
+  addBlockLink(site) {
+    const f = site.querySelector('.f');
+    const pageLink = site.querySelector('a');
     if (f && pageLink && pageLink.href) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
-        document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
-        document.getElementById('uBlacklistBlockDialog').showModal();
+        if (this.blockRules) {
+          document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
+          document.getElementById('uBlacklistBlockDialog').showModal();
+        }
       });
 
       const unblockLink = document.createElement('a');
@@ -170,19 +192,21 @@ class UBlacklist {
       unblockLink.href = 'javascript:void(0)';
       unblockLink.textContent = _('unblockThisSite');
       unblockLink.addEventListener('click', () => {
-        const unblockSelect = document.getElementById('uBlacklistUnblockSelect');
-        while (unblockSelect.firstChild) {
-          unblockSelect.removeChild(unblockSelect.firstChild);
-        }
-        this.blockRules.forEach((rule, index) => {
-          if (rule.compiled && rule.compiled.test(pageLink.href)) {
-            const option = document.createElement('option');
-            option.textContent = rule.raw;
-            option.value = index + '';
-            unblockSelect.appendChild(option);
+        if (this.blockRules) {
+          const unblockSelect = document.getElementById('uBlacklistUnblockSelect');
+          while (unblockSelect.firstChild) {
+            unblockSelect.removeChild(unblockSelect.firstChild);
           }
-        });
-        document.getElementById('uBlacklistUnblockDialog').showModal();
+          this.blockRules.forEach((rule, index) => {
+            if (rule.compiled && rule.compiled.test(pageLink.href)) {
+              const option = document.createElement('option');
+              option.textContent = rule.raw;
+              option.value = index + '';
+              unblockSelect.appendChild(option);
+            }
+          });
+          document.getElementById('uBlacklistUnblockDialog').showModal();
+        }
       });
 
       f.appendChild(document.createTextNode('\u00a0'));
@@ -191,11 +215,11 @@ class UBlacklist {
     }
   }
 
-  judgeSite(g) {
-    const pageLink = g.querySelector('a');
+  judgeSite(site) {
+    const pageLink = site.querySelector('a');
     if (pageLink && pageLink.href &&
         this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
-      g.classList.add('uBlacklistBlocked');
+      site.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
     }
   }
@@ -215,9 +239,9 @@ class UBlacklist {
 
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
-    for (const g of document.querySelectorAll('.g')) {
-      g.classList.remove('uBlacklistBlocked');
-      this.judgeSite(g);
+    for (const site of document.querySelectorAll('.g')) {
+      site.classList.remove('uBlacklistBlocked');
+      this.judgeSite(site);
     }
     this.updateControl();
   }
