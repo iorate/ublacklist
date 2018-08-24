@@ -17,9 +17,11 @@ class UBlacklist {
   }
 
   setupBlockRules(blacklist) {
-    for (const raw of blacklist.split(/\n/)) {
-      const compiled = UBlacklist.compileBlockRule(raw.trim());
-      this.blockRules.push({ raw, compiled });
+    if (blacklist) {
+      for (const raw of blacklist.split(/\n/)) {
+        const compiled = UBlacklist.compileBlockRule(raw);
+        this.blockRules.push({ raw, compiled });
+      }
     }
   }
 
@@ -46,8 +48,8 @@ class UBlacklist {
       for (const record of records) {
         for (const node of record.addedNodes) {
           if (node.matches && node.matches('.g')) {
-            this.judgeSite(node);
             this.addBlockLink(node);
+            this.judgeSite(node);
           }
         }
       }
@@ -149,11 +151,11 @@ class UBlacklist {
     });
   }
 
-  judgeSite(node) {
-    const pageLink = node.querySelector('a');
+  judgeSite(g) {
+    const pageLink = g.querySelector('a');
     if (pageLink && pageLink.href &&
         this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
-      node.classList.add('uBlacklistBlocked');
+      g.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
       this.updateControl();
     }
@@ -161,9 +163,9 @@ class UBlacklist {
 
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
-    for (const node of document.querySelectorAll('.g')) {
-      node.classList.remove('uBlacklistBlocked');
-      this.judgeSite(node);
+    for (const g of document.querySelectorAll('.g')) {
+      g.classList.remove('uBlacklistBlocked');
+      this.judgeSite(g);
     }
     this.updateControl();
   }
@@ -181,9 +183,9 @@ class UBlacklist {
     }
   }
 
-  addBlockLink(entry) {
-    const f = entry.querySelector('.f');
-    const pageLink = entry.querySelector('a');
+  addBlockLink(g) {
+    const f = g.querySelector('.f');
+    const pageLink = g.querySelector('a');
     if (f && pageLink && pageLink.href) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
@@ -206,7 +208,7 @@ class UBlacklist {
         this.blockRules.forEach((rule, index) => {
           if (rule.compiled && rule.compiled.test(pageLink.href)) {
             const option = document.createElement('option');
-            option.textContent = rule.raw.trim();
+            option.textContent = rule.raw;
             option.value = index + '';
             unblockSelect.appendChild(option);
           }
@@ -231,6 +233,7 @@ class UBlacklist {
 
   static compileBlockRule(raw) {
     const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
+    raw = raw.trim();
     const wc = raw.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (wc) {
       return new RegExp(
