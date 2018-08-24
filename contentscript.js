@@ -53,6 +53,7 @@ class UBlacklist {
           }
         }
       }
+      this.updateControl();
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
   }
@@ -111,8 +112,8 @@ class UBlacklist {
       const compiled = UBlacklist.compileBlockRule(raw);
       if (compiled) {
         this.blockRules.push({ raw, compiled });
-        this.saveBlockRules();
         this.rejudgeAllSites();
+        this.saveBlockRules();
       }
       blockDialog.close();
     });
@@ -140,8 +141,8 @@ class UBlacklist {
     document.getElementById('uBlacklistUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
       this.blockRules.splice(document.getElementById('uBlacklistUnblockSelect').value - 0, 1);
-      this.saveBlockRules();
       this.rejudgeAllSites();
+      this.saveBlockRules();
       unblockDialog.close();
     });
     unblockDialog.addEventListener('click', event => {
@@ -149,38 +150,6 @@ class UBlacklist {
         unblockDialog.close();
       }
     });
-  }
-
-  judgeSite(g) {
-    const pageLink = g.querySelector('a');
-    if (pageLink && pageLink.href &&
-        this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
-      g.classList.add('uBlacklistBlocked');
-      ++this.blockedSiteCount;
-      this.updateControl();
-    }
-  }
-
-  rejudgeAllSites() {
-    this.blockedSiteCount = 0;
-    for (const g of document.querySelectorAll('.g')) {
-      g.classList.remove('uBlacklistBlocked');
-      this.judgeSite(g);
-    }
-    this.updateControl();
-  }
-
-  updateControl() {
-    const control = document.getElementById('uBlacklistControl');
-    if (control) {
-      if (this.blockedSiteCount) {
-        const stats = document.getElementById('uBlacklistStats');
-        stats.textContent = _('nSitesBlocked').replace('%d', this.blockedSiteCount);
-        control.style.display = 'inline';
-      } else {
-        control.style.display = 'none';
-      }
-    }
   }
 
   addBlockLink(g) {
@@ -222,9 +191,40 @@ class UBlacklist {
     }
   }
 
+  judgeSite(g) {
+    const pageLink = g.querySelector('a');
+    if (pageLink && pageLink.href &&
+        this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
+      g.classList.add('uBlacklistBlocked');
+      ++this.blockedSiteCount;
+    }
+  }
+
+  updateControl() {
+    const control = document.getElementById('uBlacklistControl');
+    if (control) {
+      if (this.blockedSiteCount) {
+        const stats = document.getElementById('uBlacklistStats');
+        stats.textContent = _('nSitesBlocked').replace('%d', this.blockedSiteCount);
+        control.style.display = 'inline';
+      } else {
+        control.style.display = 'none';
+      }
+    }
+  }
+
+  rejudgeAllSites() {
+    this.blockedSiteCount = 0;
+    for (const g of document.querySelectorAll('.g')) {
+      g.classList.remove('uBlacklistBlocked');
+      this.judgeSite(g);
+    }
+    this.updateControl();
+  }
+
   saveBlockRules() {
     let blacklist = '';
-    for (let rule of this.blockRules) {
+    for (const rule of this.blockRules) {
       blacklist += rule.raw + '\n';
     }
     blacklist = blacklist.slice(0, -1);
