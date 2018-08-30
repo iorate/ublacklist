@@ -19,7 +19,7 @@ class UBlacklistOptions {
 
   onSaveButtonClicked() {
     chrome.storage.local.set({ blacklist: document.getElementById('blacklist').value }, () => {
-      const saveStatus = document.getElementById('save-status');
+      const saveStatus = document.getElementById('saveStatus');
       saveStatus.style.display = 'inline';
       setTimeout(() => {
         saveStatus.style.display = 'none';
