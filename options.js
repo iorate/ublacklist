@@ -1,23 +1,31 @@
-chrome.storage.sync.get({
-  blacklist: ''
-}, options => {
-  for (const element of document.querySelectorAll('[data-translate]')) {
-    element.textContent = chrome.i18n.getMessage(element.dataset.translate);
+class UBlacklistOptions {
+  constructor() {
+    for (const element of document.querySelectorAll('[data-translate]')) {
+      element.textContent = chrome.i18n.getMessage(element.dataset.translate);
+    }
+
+    chrome.storage.local.get({ blacklist: '' }, options => {
+      this.onBlacklistLoaded(options.blacklist);
+    });
+
+    document.getElementById('save').addEventListener('click', () => {
+      this.onSaveButtonClicked();
+    });
   }
 
-  const blacklist = document.getElementById('blacklist');
+  onBlacklistLoaded(blacklist) {
+    document.getElementById('blacklist').value = blacklist;
+  }
 
-  blacklist.value = options.blacklist;
-
-  document.getElementById('save').addEventListener('click', () => {
-    options.blacklist = blacklist.value;
-
-    chrome.storage.sync.set(options, () => {
+  onSaveButtonClicked() {
+    chrome.storage.local.set({ blacklist: document.getElementById('blacklist').value }, () => {
       const saveStatus = document.getElementById('save-status');
       saveStatus.style.display = 'inline';
       setTimeout(() => {
         saveStatus.style.display = 'none';
       }, 1000);
     });
-  });
-});
+  }
+}
+
+new UBlacklistOptions();
