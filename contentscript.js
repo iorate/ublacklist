@@ -104,7 +104,7 @@ class UBlacklist {
             if (rule.compiled && rule.compiled.test(pageLink.href)) {
               const option = document.createElement('option');
               option.textContent = rule.raw;
-              option.value = index + '';
+              option.value = String(index);
               unblockSelect.appendChild(option);
             }
           });
@@ -197,7 +197,7 @@ class UBlacklist {
     const unblockDialog = document.getElementById('uBlacklistUnblockDialog');
     document.getElementById('uBlacklistUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
-      this.blockRules.splice(document.getElementById('uBlacklistUnblockSelect').value - 0, 1);
+      this.blockRules.splice(Number(document.getElementById('uBlacklistUnblockSelect').value), 1);
       this.rejudgeAllSites();
       this.saveBlacklist();
       unblockDialog.close();
@@ -228,12 +228,7 @@ class UBlacklist {
   }
 
   saveBlacklist() {
-    let blacklist = '';
-    for (const rule of this.blockRules) {
-      blacklist += rule.raw + '\n';
-    }
-    blacklist = blacklist.slice(0, -1);
-    chrome.storage.local.set({ blacklist });
+    chrome.storage.local.set({ blacklist: this.blockRules.map(rule => rule.raw).join('\n') });
   }
 
   updateControl() {
