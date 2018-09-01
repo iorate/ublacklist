@@ -255,7 +255,7 @@ class UBlacklist {
         (wc[2] ? '(http|https)' : wc[1]) +
         '://' +
         (wc[3] ? '[^/]+' : (wc[4] ? '([^/]+\\.)?' + escapeRegExp(wc[5]) : escapeRegExp(wc[5]))) +
-        escapeRegExp(wc[6]).replace('\\*', '.*') +
+        escapeRegExp(wc[6]).replace(/\\\*/g, '.*') +
         '$'
       );
     }
