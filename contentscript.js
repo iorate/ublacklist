@@ -33,10 +33,10 @@ class UBlacklist {
   }
 
   onDOMContentMutated(records) {
-      if (!this.styleSheetsLoaded && document.head) {
-        this.setupStyleSheets();
-        this.styleSheetsLoaded = true;
-      }
+    if (!this.styleSheetsLoaded && document.head) {
+      this.setupStyleSheets();
+      this.styleSheetsLoaded = true;
+    }
     for (const record of records) {
       for (const node of record.addedNodes) {
         if (node.matches && node.matches('.g')) {
