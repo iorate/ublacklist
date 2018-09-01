@@ -2,6 +2,7 @@ const _ = s => chrome.i18n.getMessage(s);
 
 class UBlacklist {
   constructor() {
+    this.blockRules = null;
     this.blockedSiteCount = 0;
     this.queuedSites = [];
     this.styleSheetsLoaded = false;
