@@ -9,7 +9,7 @@
     "message": "Sites blocked from appearing in Google search results"
   },
   "blacklistDescription": {
-    "message": "You can use wildcards or regular expressions"
+    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>"
   },
   "example": {
     "message": "Example"

@@ -1,7 +1,7 @@
 class UBlacklistOptions {
   constructor() {
     for (const element of document.querySelectorAll('[data-translate]')) {
-      element.textContent = chrome.i18n.getMessage(element.dataset.translate);
+      element.insertAdjacentHTML('beforeend', chrome.i18n.getMessage(element.dataset.translate));
     }
 
     chrome.storage.local.get({ blacklist: '' }, options => {
