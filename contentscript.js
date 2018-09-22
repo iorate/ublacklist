@@ -279,15 +279,15 @@ class UBlacklist {
   }
 
   static compileBlockRule(raw) {
-    const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
     raw = raw.trim();
     const wc = raw.match(/^((\*)|http|https|file|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (wc) {
+      const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
       return new RegExp(
         '^' +
         (wc[2] ? '(http|https)' : wc[1]) +
         '://' +
-        (wc[3] ? '[^/]+' : (wc[4] ? '([^/]+\\.)?' + escapeRegExp(wc[5]) : escapeRegExp(wc[5]))) +
+        (wc[3] ? '[^/]+' : (wc[4] ? '([^/]+\\.)?' : '') + escapeRegExp(wc[5])) +
         escapeRegExp(wc[6]).replace(/\\\*/g, '.*') +
         '$'
       );
