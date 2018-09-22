@@ -77,16 +77,49 @@ class UBlacklist {
   }
 
   setupBlockLinks(site) {
-    const f = site.querySelector('.f');
-    const pageLink = site.querySelector('a');
-    if (f && pageLink && pageLink.href) {
+    // I have found 2 patterns of DOM tree:
+    // (1)
+    // div.g
+    //  |-div
+    //     |-div.rc
+    //        |-h3.r
+    //           |-a                   <- site link
+    //        |-div.s
+    //           |-div
+    //              |-div.f
+    //                 |-cite
+    //                 |-div
+    //                 |-              <- where to add block/unblock links
+    //              |-span.st
+    //        |-div
+    // (2)
+    // div.g
+    //  |-div
+    //     |-div.rc
+    //        |-div.r
+    //           |-a                   <- site link
+    //              |-h3
+    //              |-br
+    //              |-div
+    //                 |-cite
+    //           |-span
+    //              |-div
+    //           |-                    <- where to add block/unblock links
+    //        |-div.s
+    //           |-div
+    //              |-span.st
+    //                 |-span.f
+    //        |-div
+    const siteLink = site.querySelector('a');
+    const blockLinksParent = site.querySelector('div.f') || site.querySelector('div.r');
+    if (siteLink && siteLink.href && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
+          document.getElementById('uBlacklistBlockInput').value = new URL(siteLink.href).origin + '/*';
           document.getElementById('uBlacklistBlockDialog').showModal();
         }
       });
@@ -102,7 +135,7 @@ class UBlacklist {
             unblockSelect.removeChild(unblockSelect.firstChild);
           }
           this.blockRules.forEach((rule, index) => {
-            if (rule.compiled && rule.compiled.test(pageLink.href)) {
+            if (rule.compiled && rule.compiled.test(siteLink.href)) {
               const option = document.createElement('option');
               option.textContent = rule.raw;
               option.value = String(index);
@@ -113,9 +146,9 @@ class UBlacklist {
         }
       });
 
-      f.appendChild(document.createTextNode('\u00a0'));
-      f.appendChild(blockLink);
-      f.appendChild(unblockLink);
+      blockLinksParent.appendChild(document.createTextNode('\u00a0'));
+      blockLinksParent.appendChild(blockLink);
+      blockLinksParent.appendChild(unblockLink);
     }
   }
 
@@ -211,9 +244,9 @@ class UBlacklist {
   }
 
   judgeSite(site) {
-    const pageLink = site.querySelector('a');
-    if (pageLink && pageLink.href &&
-        this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
+    const siteLink = site.querySelector('a');
+    if (siteLink && siteLink.href &&
+        this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
       site.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
     }
