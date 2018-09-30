@@ -59,21 +59,22 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
-    const baseStyle = document.createElement('style');
-    document.head.appendChild(baseStyle);
-    baseStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
-    baseStyle.sheet.insertRule('.uBlacklistBlocked { display: none; }');
-    baseStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistBlockLink { display: none; }');
-    baseStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; }');
-    baseStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistUnblockLink { display: inline; }');
+    const hideStyle = document.createElement('style');
+    document.head.appendChild(hideStyle);
+    hideStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
+    hideStyle.sheet.insertRule('.uBlacklistBlocked { display: none; }');
+    hideStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; }');
 
     const showStyle = document.createElement('style');
     showStyle.id = 'uBlacklistShowStyle';
     document.head.appendChild(showStyle);
-    showStyle.sheet.disabled = true;
     showStyle.sheet.insertRule('#uBlacklistShowLink { display: none; }');
     showStyle.sheet.insertRule('#uBlacklistHideLink { display: inline; }');
     showStyle.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; display: block; }');
+    showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistBlockLink { display: none; }');
+    showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistUnblockLink { display: inline; }');
+
+    showStyle.sheet.disabled = true;
   }
 
   setupBlockLinks(site) {
