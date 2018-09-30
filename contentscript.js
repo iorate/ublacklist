@@ -82,7 +82,9 @@ class UBlacklist {
     // I have found 2 patterns of DOM tree (Sep 30, 2018).
     // -------------------------------------------------------------------------
     // div.g
+    //  |-h2 *
     //  |-div
+    //     |-link *
     //     |-div.rc
     //        |-h3.r
     //           |-a                   <- site link
@@ -99,9 +101,12 @@ class UBlacklist {
     //              |-div *
     //           |-div *
     //        |-div
+    //     |-table.nrgt *
     // -------------------------------------------------------------------------
     // div.g
+    //  |-h2 *
     //  |-div
+    //     |-link *
     //     |-div.rc
     //        |-div.r
     //           |-a                   <- site link
@@ -122,6 +127,7 @@ class UBlacklist {
     //              |-div *
     //           |-div *
     //        |-div
+    //     |-table.nrgt *
     // -------------------------------------------------------------------------
     // * optional
     const siteLink = site.querySelector('a');
