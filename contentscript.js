@@ -126,7 +126,7 @@ class UBlacklist {
     // * optional
     const siteLink = site.querySelector('a');
     const blockLinksParent = site.querySelector('div.r') || site.querySelector('div.f');
-    if (siteLink && blockLinksParent && !blockLinksParent.querySelector('.uBlacklistBlockLink')) {
+    if (siteLink && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
