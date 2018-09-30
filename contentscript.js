@@ -31,6 +31,7 @@ class UBlacklist {
     for (const site of this.queuedSites) {
       this.judgeSite(site);
     }
+    this.queuedSites = [];
   }
 
   onDOMContentMutated(records) {
