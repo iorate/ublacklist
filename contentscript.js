@@ -207,7 +207,7 @@ class UBlacklist {
         <form id="uBlacklistBlockForm" style="padding:1em">
           <label>
             ${_('blockThisSite')}:
-            <input id="uBlacklistBlockInput" type="text" size="40" style="margin:0.5em">
+            <input id="uBlacklistBlockInput" type="text" size="40" spellcheck="false" style="margin:0.5em">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
