@@ -124,7 +124,7 @@ class UBlacklist {
     // * optional
     const siteLink = site.querySelector('a');
     const blockLinksParent = site.querySelector('div.r') || site.querySelector('div.f');
-    if (siteLink && siteLink.href && blockLinksParent) {
+    if (siteLink && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
@@ -257,8 +257,7 @@ class UBlacklist {
 
   judgeSite(site) {
     const siteLink = site.querySelector('a');
-    if (siteLink && siteLink.href &&
-        this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
+    if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
       site.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
     }
