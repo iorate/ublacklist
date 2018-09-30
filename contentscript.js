@@ -284,7 +284,7 @@ class UBlacklist {
     if (control) {
       if (this.blockedSiteCount) {
         const stats = document.getElementById('uBlacklistStats');
-        stats.textContent = _('nSitesBlocked').replace('%d', this.blockedSiteCount);
+        stats.textContent = _('nSitesBlocked').replace('%d', String(this.blockedSiteCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
