@@ -309,7 +309,8 @@ class UBlacklist {
     const re = raw.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
     if (re) {
       try {
-        return new RegExp(re[1], re[2]);
+        const compiled = new RegExp(re[1], re[2]);
+        return compiled.global ? new RegExp(re[1], re[2].replace('g', '')) : compiled;
       } catch (e) {
         console.warn('uBlacklist: invalid regular expression: ' + raw);
         return null;
