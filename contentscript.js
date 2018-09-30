@@ -318,7 +318,11 @@ class UBlacklist {
     if (re) {
       try {
         const compiled = new RegExp(re[1], re[2]);
-        return compiled.global ? new RegExp(re[1], re[2].replace('g', '')) : compiled;
+        if (compiled.global || compiled.sticky) {
+          console.warn('uBlacklist: unsupported regular expression flag: ' + raw);
+          return null;
+        }
+        return compiled;
       } catch (e) {
         console.warn('uBlacklist: invalid regular expression: ' + raw);
         return null;
