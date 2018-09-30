@@ -288,6 +288,7 @@ class UBlacklist {
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
+        document.getElementById('uBlacklistShowStyle').sheet.disabled = true;
       }
     }
   }
