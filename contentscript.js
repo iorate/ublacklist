@@ -40,7 +40,7 @@ class UBlacklist {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.matches && node.matches('.g')) {
+        if (node.matches && node.matches('.g') && !node.matches('.g .g')) {
           this.setupBlockLinks(node);
           if (this.blockRules) {
             this.judgeSite(node);
@@ -124,7 +124,7 @@ class UBlacklist {
     // * optional
     const siteLink = site.querySelector('a');
     const blockLinksParent = site.querySelector('div.r') || site.querySelector('div.f');
-    if (siteLink && blockLinksParent) {
+    if (siteLink && blockLinksParent && !blockLinksParent.querySelector('.uBlacklistBlockLink')) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
@@ -266,6 +266,7 @@ class UBlacklist {
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
     for (const site of document.querySelectorAll('.g')) {
+      if (site.matches('.g .g')) { continue; }
       site.classList.remove('uBlacklistBlocked');
       this.judgeSite(site);
     }
