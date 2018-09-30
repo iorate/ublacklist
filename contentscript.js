@@ -274,9 +274,10 @@ class UBlacklist {
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
     for (const site of document.querySelectorAll('.g')) {
-      if (site.matches('.g .g')) { continue; }
-      site.classList.remove('uBlacklistBlocked');
-      this.judgeSite(site);
+      if (!site.matches('.g .g')) {
+        site.classList.remove('uBlacklistBlocked');
+        this.judgeSite(site);
+      }
     }
     this.updateControl();
   }
