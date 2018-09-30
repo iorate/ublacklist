@@ -77,22 +77,27 @@ class UBlacklist {
   }
 
   setupBlockLinks(site) {
-    // I have found 2 patterns of DOM tree:
-    // (1)
+    // I have found 2 patterns of DOM tree (Sep 30, 2018).
+    // -------------------------------------------------------------------------
     // div.g
     //  |-div
     //     |-div.rc
     //        |-h3.r
     //           |-a                   <- site link
     //        |-div.s
+    //           |-div *
     //           |-div
     //              |-div.f
     //                 |-cite
-    //                 |-div
+    //                 |-div *
     //                 |-              <- where to add block/unblock links
+    //              |-div.slp.f *
     //              |-span.st
+    //              |-div.osl *
+    //              |-div *
+    //           |-div *
     //        |-div
-    // (2)
+    // -------------------------------------------------------------------------
     // div.g
     //  |-div
     //     |-div.rc
@@ -102,16 +107,23 @@ class UBlacklist {
     //              |-br
     //              |-div
     //                 |-cite
-    //           |-span
-    //              |-div
+    //           |-span *
+    //           |-a.fl *
     //           |-                    <- where to add block/unblock links
     //        |-div.s
+    //           |-div *
     //           |-div
+    //              |-div.slp.f *
     //              |-span.st
     //                 |-span.f
+    //              |-div.osl *
+    //              |-div *
+    //           |-div *
     //        |-div
+    // -------------------------------------------------------------------------
+    // * optional
     const siteLink = site.querySelector('a');
-    const blockLinksParent = site.querySelector('div.f') || site.querySelector('div.r');
+    const blockLinksParent = site.querySelector('div.r') || site.querySelector('div.f');
     if (siteLink && siteLink.href && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
