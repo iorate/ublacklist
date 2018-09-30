@@ -301,15 +301,15 @@ class UBlacklist {
 
   static compileBlockRule(raw) {
     raw = raw.trim();
-    const mp = raw.match(/^(\*|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
+    const mp = raw.match(/^((\*)|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
     if (mp) {
       const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
       return new RegExp(
         '^' +
-        (mp[1] == '*' ? '(http|https)' : mp[1]) +
+        (mp[2] ? '(http|https)' : mp[1]) +
         '://' +
-        (mp[2] ? '[^/]+' : (mp[3] ? '([^/]+\\.)?' : '') + escapeRegExp(mp[4])) +
-        escapeRegExp(mp[5]).replace(/\\\*/g, '.*') +
+        (mp[3] ? '[^/]+' : (mp[4] ? '([^/]+\\.)?' : '') + escapeRegExp(mp[5])) +
+        escapeRegExp(mp[6]).replace(/\\\*/g, '.*') +
         '$'
       );
     }
