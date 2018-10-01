@@ -79,67 +79,16 @@ class UBlacklist {
   }
 
   setupBlockLinks(site) {
-    // I have found 2 patterns of DOM tree (Sep 30, 2018).
-    // -------------------------------------------------------------------------
-    // div.g
-    //  |-h2 *
-    //  |-div
-    //     |-link *
-    //     |-div.rc
-    //        |-h3.r
-    //           |-a                   <- site link
-    //        |-div.s
-    //           |-div *
-    //           |-div
-    //              |-div.f
-    //                 |-cite
-    //                 |-div *
-    //                 |-              <- where to add block/unblock links
-    //              |-div.slp.f *
-    //              |-span.st
-    //              |-div.osl *
-    //              |-div *
-    //           |-div *
-    //        |-div
-    //     |-table.nrgt *
-    // -------------------------------------------------------------------------
-    // div.g
-    //  |-h2 *
-    //  |-div
-    //     |-link *
-    //     |-div.rc
-    //        |-div.r
-    //           |-a                   <- site link
-    //              |-h3
-    //              |-br
-    //              |-div
-    //                 |-cite
-    //           |-span *
-    //           |-a.fl *
-    //           |-                    <- where to add block/unblock links
-    //        |-div.s
-    //           |-div *
-    //           |-div
-    //              |-div.slp.f *
-    //              |-span.st
-    //                 |-span.f
-    //              |-div.osl *
-    //              |-div *
-    //           |-div *
-    //        |-div
-    //     |-table.nrgt *
-    // -------------------------------------------------------------------------
-    // * optional
-    const siteLink = site.querySelector('a');
-    const blockLinksParent = site.querySelector('div.r') || site.querySelector('div.f');
-    if (siteLink && blockLinksParent) {
+    const pageLink = this.getPageLink(site);
+    const blockLinksParent = this.getBlockLinksParent(site);
+    if (pageLink && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('uBlacklistBlockInput').value = new URL(siteLink.href).origin + '/*';
+          document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
           document.getElementById('uBlacklistBlockDialog').showModal();
         }
       });
@@ -155,7 +104,7 @@ class UBlacklist {
             unblockSelect.removeChild(unblockSelect.firstChild);
           }
           this.blockRules.forEach((rule, index) => {
-            if (rule.compiled && rule.compiled.test(siteLink.href)) {
+            if (rule.compiled && rule.compiled.test(pageLink.href)) {
               const option = document.createElement('option');
               option.textContent = rule.raw;
               option.value = String(index);
@@ -263,9 +212,69 @@ class UBlacklist {
     });
   }
 
+  // I have found 2 patterns of DOM tree (Sep 30, 2018)
+  // -------------------------------------------------------------------------
+  // div.g
+  //  |-h2 *
+  //  |-div
+  //     |-link *
+  //     |-div.rc
+  //        |-h3.r
+  //           |-a                   <- page link
+  //        |-div.s
+  //           |-div *
+  //           |-div
+  //              |-div.f
+  //                 |-cite
+  //                 |-div *
+  //                 |-              <- where to add block/unblock links
+  //              |-div.slp.f *
+  //              |-span.st
+  //              |-div.osl *
+  //              |-div *
+  //           |-div *
+  //        |-div
+  //     |-table.nrgt *
+  // -------------------------------------------------------------------------
+  // div.g
+  //  |-h2 *
+  //  |-div
+  //     |-link *
+  //     |-div.rc
+  //        |-div.r
+  //           |-a                   <- page link
+  //              |-h3
+  //              |-br
+  //              |-div
+  //                 |-cite
+  //           |-span *
+  //           |-a.fl *
+  //           |-                    <- where to add block/unblock links
+  //        |-div.s
+  //           |-div *
+  //           |-div
+  //              |-div.slp.f *
+  //              |-span.st
+  //                 |-span.f
+  //              |-div.osl *
+  //              |-div *
+  //           |-div *
+  //        |-div
+  //     |-table.nrgt *
+  // -------------------------------------------------------------------------
+  // * optional
+
+  getPageLink(site) {
+    return site.querySelector('a');
+  }
+
+  getBlockLinksParent(site) {
+    return site.querySelector('div.r') || site.querySelector('div.f');
+  }
+
   judgeSite(site) {
-    const siteLink = site.querySelector('a');
-    if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
+    const pageLink = this.getPageLink(site);
+    if (pageLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
       site.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
     }
