@@ -88,7 +88,7 @@ class UBlacklist {
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('uBlacklistBlockInput').value = new URL(pageLink.href).origin + '/*';
+          document.getElementById('uBlacklistBlockInput').value = pageLink.origin + '/*';
           document.getElementById('uBlacklistBlockDialog').showModal();
         }
       });
