@@ -265,7 +265,7 @@ class UBlacklist {
   // * optional
 
   getPageLink(site) {
-    return site.querySelector('a');
+    return site.querySelector('a[ping]');
   }
 
   getBlockLinksParent(site) {
