@@ -3,10 +3,10 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "指定したサイトがGoogleの検索結果で表示されないようにします"
+    "message": "指定したサイトが Google の検索結果で表示されないようにします"
   },
   "blacklist": {
-    "message": "Googleの検索結果で表示されないようにするサイト"
+    "message": "Google の検索結果で表示されないようにするサイト"
   },
   "blacklistDescription": {
     "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます"
