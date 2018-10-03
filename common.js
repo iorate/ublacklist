@@ -1,8 +1,8 @@
 const _ = s => chrome.i18n.getMessage(s);
 
 const compileBlockRule = raw => {
-  raw = raw.trim();
-  const mp = raw.match(/^((\*)|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
+  const trimmed = raw.trim();
+  const mp = trimmed.match(/^((\*)|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
   if (mp) {
     const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
     return new RegExp(
@@ -14,7 +14,7 @@ const compileBlockRule = raw => {
       '$'
     );
   }
-  const re = raw.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
+  const re = trimmed.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
   if (re) {
     try {
       const compiled = new RegExp(re[1], re[2]);
