@@ -1,6 +1,6 @@
-chrome.storage.local.get({ blacklist: '' }, options => {
+loadOptions(options => {
   chrome.tabs.query({ active: true, currentWindow: true }, activeTabs => {
-    const blockRules = compileBlockRules(options.blacklist);
+    const blockRules = options.blockRules;
     const url = activeTabs[0].url;
     if (!blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
       document.body.insertAdjacentHTML('beforeend', `
@@ -19,7 +19,7 @@ chrome.storage.local.get({ blacklist: '' }, options => {
         const compiled = compileBlockRule(raw);
         if (compiled) {
           blockRules.push({ raw, compiled });
-          chrome.storage.local.set({ blacklist: decompileBlockRules(blockRules) });
+          saveOptions({ blockRules });
         }
         window.close();
       });
@@ -45,7 +45,7 @@ chrome.storage.local.get({ blacklist: '' }, options => {
       document.getElementById('unblockForm').addEventListener('submit', event => {
         event.preventDefault();
         blockRules.splice(Number(document.getElementById('unblockSelect').value), 1);
-        chrome.storage.local.set({ blacklist: decompileBlockRules(blockRules) });
+        saveOptions({ blockRules });
         window.close();
       });
     }

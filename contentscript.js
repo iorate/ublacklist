@@ -5,8 +5,8 @@ class UBlacklist {
     this.queuedSites = [];
     this.styleSheetsLoaded = false;
 
-    chrome.storage.local.get({ blacklist: '' }, options => {
-      this.onBlacklistLoaded(options.blacklist);
+    loadOptions(options => {
+      this.onOptionsLoaded(options);
     });
 
     new MutationObserver(records => {
@@ -18,8 +18,8 @@ class UBlacklist {
     });
   }
 
-  onBlacklistLoaded(blacklist) {
-    this.blockRules = compileBlockRules(blacklist);
+  onOptionsLoaded(options) {
+    this.blockRules = options.blockRules;
     for (const site of this.queuedSites) {
       this.judgeSite(site);
     }
@@ -179,7 +179,7 @@ class UBlacklist {
       if (compiled) {
         this.blockRules.push({ raw, compiled });
         this.rejudgeAllSites();
-        chrome.storage.local.set({ blacklist: decompileBlockRules(this.blockRules) });
+        saveOptions({ blockRules: this.blockRules });
       }
       blockDialog.close();
     });
@@ -194,7 +194,7 @@ class UBlacklist {
       event.preventDefault();
       this.blockRules.splice(Number(document.getElementById('uBlacklistUnblockSelect').value), 1);
       this.rejudgeAllSites();
-      chrome.storage.local.set({ blacklist: decompileBlockRules(this.blockRules) });
+      saveOptions({ blockRules: this.blockRules });
       unblockDialog.close();
     });
     unblockDialog.addEventListener('click', event => {

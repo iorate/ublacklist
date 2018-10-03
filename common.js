@@ -31,10 +31,16 @@ const compileBlockRule = raw => {
   return null;
 };
 
-const compileBlockRules = blacklist => {
-  return blacklist ? blacklist.split(/\n/).map(raw => ({ raw, compiled: compileBlockRule(raw) })) : [];
+const loadOptions = onOptionsLoaded => {
+  chrome.storage.local.get({ blacklist: '' }, items => {
+    const blockRules = items.blacklist ?
+      items.blacklist.split(/\n/).map(raw => ({ raw, compiled: compileBlockRule(raw) })) :
+      [];
+    onOptionsLoaded({ blockRules });
+  });
 };
 
-const decompileBlockRules = blockRules => {
-  return blockRules.map(rule => rule.raw).join('\n');
+const saveOptions = options => {
+  const blacklist = options.blockRules.map(rule => rule.raw).join('\n');
+  chrome.storage.local.set({ blacklist });
 };
