@@ -32,14 +32,7 @@ const compileBlockRule = raw => {
 };
 
 const compileBlockRules = blacklist => {
-  const blockRules = [];
-  if (blacklist) {
-    for (const raw of blacklist.split(/\n/)) {
-      const compiled = compileBlockRule(raw);
-      blockRules.push({ raw, compiled });
-    }
-  }
-  return blockRules;
+  return blacklist ? blacklist.split(/\n/).map(raw => ({ raw, compiled: compileBlockRule(raw) })) : [];
 };
 
 const decompileBlockRules = blockRules => {
