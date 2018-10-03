@@ -1,5 +1,3 @@
-const _ = s => chrome.i18n.getMessage(s);
-
 class UBlacklist {
   constructor() {
     this.blockRules = null;
@@ -21,13 +19,7 @@ class UBlacklist {
   }
 
   onBlacklistLoaded(blacklist) {
-    this.blockRules = [];
-    if (blacklist) {
-      for (const raw of blacklist.split(/\n/)) {
-        const compiled = UBlacklist.compileBlockRule(raw);
-        this.blockRules.push({ raw, compiled });
-      }
-    }
+    this.blockRules = compileBlockRules(blacklist);
     for (const site of this.queuedSites) {
       this.judgeSite(site);
     }
@@ -183,11 +175,11 @@ class UBlacklist {
     document.getElementById('uBlacklistBlockForm').addEventListener('submit', event => {
       event.preventDefault();
       const raw = document.getElementById('uBlacklistBlockInput').value;
-      const compiled = UBlacklist.compileBlockRule(raw);
+      const compiled = compileBlockRule(raw);
       if (compiled) {
         this.blockRules.push({ raw, compiled });
         this.rejudgeAllSites();
-        this.saveBlacklist();
+        chrome.storage.local.set({ blacklist: decompileBlockRules(this.blockRules) });
       }
       blockDialog.close();
     });
@@ -202,7 +194,7 @@ class UBlacklist {
       event.preventDefault();
       this.blockRules.splice(Number(document.getElementById('uBlacklistUnblockSelect').value), 1);
       this.rejudgeAllSites();
-      this.saveBlacklist();
+      chrome.storage.local.set({ blacklist: decompileBlockRules(this.blockRules) });
       unblockDialog.close();
     });
     unblockDialog.addEventListener('click', event => {
@@ -291,10 +283,6 @@ class UBlacklist {
     this.updateControl();
   }
 
-  saveBlacklist() {
-    chrome.storage.local.set({ blacklist: this.blockRules.map(rule => rule.raw).join('\n') });
-  }
-
   updateControl() {
     const control = document.getElementById('uBlacklistControl');
     if (control) {
@@ -307,37 +295,6 @@ class UBlacklist {
         document.getElementById('uBlacklistShowStyle').sheet.disabled = true;
       }
     }
-  }
-
-  static compileBlockRule(raw) {
-    raw = raw.trim();
-    const mp = raw.match(/^((\*)|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
-    if (mp) {
-      const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
-      return new RegExp(
-        '^' +
-        (mp[2] ? '(http|https)' : mp[1]) +
-        '://' +
-        (mp[3] ? '[^/]+' : (mp[4] ? '([^/]+\\.)?' : '') + escapeRegExp(mp[5])) +
-        escapeRegExp(mp[6]).replace(/\\\*/g, '.*') +
-        '$'
-      );
-    }
-    const re = raw.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
-    if (re) {
-      try {
-        const compiled = new RegExp(re[1], re[2]);
-        if (compiled.global || compiled.sticky) {
-          console.warn('uBlacklist: unsupported regular expression flag: ' + raw);
-          return null;
-        }
-        return compiled;
-      } catch (e) {
-        console.warn('uBlacklist: invalid regular expression: ' + raw);
-        return null;
-      }
-    }
-    return null;
   }
 }
 
