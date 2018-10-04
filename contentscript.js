@@ -3,7 +3,6 @@ class UBlacklist {
     this.blockRules = null;
     this.blockedSiteCount = 0;
     this.queuedSites = [];
-    this.styleSheetsLoaded = false;
 
     loadBlockRules(blockRules => {
       this.onBlockRulesLoaded(blockRules);
@@ -27,9 +26,8 @@ class UBlacklist {
   }
 
   onDOMContentMutated(records) {
-    if (!this.styleSheetsLoaded && document.head) {
+    if (!document.getElementById('uBlacklistShowStyle') && document.head) {
       this.setupStyleSheets();
-      this.styleSheetsLoaded = true;
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
@@ -59,14 +57,13 @@ class UBlacklist {
     hideStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; }');
 
     const showStyle = document.createElement('style');
-    showStyle.id = 'uBlacklistShowStyle';
     document.head.appendChild(showStyle);
     showStyle.sheet.insertRule('#uBlacklistShowLink { display: none; }');
     showStyle.sheet.insertRule('#uBlacklistHideLink { display: inline; }');
     showStyle.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; display: block; }');
     showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistBlockLink { display: none; }');
     showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistUnblockLink { display: inline; }');
-
+    showStyle.id = 'uBlacklistShowStyle';
     showStyle.sheet.disabled = true;
   }
 
