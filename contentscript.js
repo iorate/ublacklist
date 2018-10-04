@@ -5,8 +5,8 @@ class UBlacklist {
     this.queuedSites = [];
     this.styleSheetsLoaded = false;
 
-    loadOptions(options => {
-      this.onOptionsLoaded(options);
+    loadBlockRules(blockRules => {
+      this.onBlockRulesLoaded(blockRules);
     });
 
     new MutationObserver(records => {
@@ -18,8 +18,8 @@ class UBlacklist {
     });
   }
 
-  onOptionsLoaded(options) {
-    this.blockRules = options.blockRules;
+  onBlockRulesLoaded(blockRules) {
+    this.blockRules = blockRules;
     for (const site of this.queuedSites) {
       this.judgeSite(site);
     }
@@ -179,7 +179,7 @@ class UBlacklist {
       if (compiled) {
         this.blockRules.push({ raw, compiled });
         this.rejudgeAllSites();
-        saveOptions({ blockRules: this.blockRules });
+        saveBlockRules(this.blockRules);
       }
       blockDialog.close();
     });
@@ -194,7 +194,7 @@ class UBlacklist {
       event.preventDefault();
       this.blockRules.splice(Number(document.getElementById('uBlacklistUnblockSelect').value), 1);
       this.rejudgeAllSites();
-      saveOptions({ blockRules: this.blockRules });
+      saveBlockRules(this.blockRules);
       unblockDialog.close();
     });
     unblockDialog.addEventListener('click', event => {

@@ -1,6 +1,5 @@
-loadOptions(options => {
+loadBlockRules(blockRules => {
   chrome.tabs.query({ active: true, currentWindow: true }, activeTabs => {
-    const blockRules = options.blockRules;
     const url = activeTabs[0].url;
     if (!blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
       document.body.insertAdjacentHTML('beforeend', `
@@ -19,7 +18,7 @@ loadOptions(options => {
         const compiled = compileBlockRule(raw);
         if (compiled) {
           blockRules.push({ raw, compiled });
-          saveOptions({ blockRules });
+          saveBlockRules(blockRules);
         }
         window.close();
       });
@@ -45,7 +44,7 @@ loadOptions(options => {
       document.getElementById('unblockForm').addEventListener('submit', event => {
         event.preventDefault();
         blockRules.splice(Number(document.getElementById('unblockSelect').value), 1);
-        saveOptions({ blockRules });
+        saveBlockRules(blockRules);
         window.close();
       });
     }
