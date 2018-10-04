@@ -1,11 +1,11 @@
-chrome.storage.local.get({ blacklist: '' }, options => {
+chrome.storage.local.get({ blacklist: '' }, items => {
   document.body.insertAdjacentHTML('beforeend', `
     <p>
       ${_('blacklist')}<br>
       <small>${_('blacklistDescription')}</small><br>
       <small>${_('example')}: *://*.example.com/*</small><br>
       <small>${_('example')}: /example\.(net|org)/</small><br>
-      <textarea id="blacklistInput" cols="80" rows="8" spellcheck="false"></textarea>
+      <textarea id="blacklistTextarea" cols="80" rows="8" spellcheck="false"></textarea>
     </p>
     <p>
       <button id="saveButton">${_('save')}</button>
@@ -13,14 +13,14 @@ chrome.storage.local.get({ blacklist: '' }, options => {
     </p>
   `);
 
-  const blacklistInput = document.getElementById('blacklistInput');
+  const blacklistTextarea = document.getElementById('blacklistTextarea');
   const saveButton = document.getElementById('saveButton');
   const saveStatusSpan = document.getElementById('saveStatusSpan');
 
-  blacklistInput.value = options.blacklist;
+  blacklistTextarea.value = items.blacklist;
 
   saveButton.addEventListener('click', () => {
-    chrome.storage.local.set({ blacklist: blacklistInput.value }, () => {
+    chrome.storage.local.set({ blacklist: blacklistTextarea.value }, () => {
       saveStatusSpan.style.display = 'inline';
       setTimeout(() => {
         saveStatusSpan.style.display = 'none';
