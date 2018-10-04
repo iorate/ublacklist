@@ -71,16 +71,16 @@ class UBlacklist {
   }
 
   setupBlockLinks(site) {
-    const pageLink = this.getPageLink(site);
+    const siteLink = this.getSiteLink(site);
     const blockLinksParent = this.getBlockLinksParent(site);
-    if (pageLink && blockLinksParent) {
+    if (siteLink && blockLinksParent) {
       const blockLink = document.createElement('a');
       blockLink.className = 'fl uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('uBlacklistBlockInput').value = pageLink.origin + '/*';
+          document.getElementById('uBlacklistBlockInput').value = siteLink.origin + '/*';
           document.getElementById('uBlacklistBlockDialog').showModal();
         }
       });
@@ -96,7 +96,7 @@ class UBlacklist {
             unblockSelect.removeChild(unblockSelect.firstChild);
           }
           this.blockRules.forEach((rule, index) => {
-            if (rule.compiled && rule.compiled.test(pageLink.href)) {
+            if (rule.compiled && rule.compiled.test(siteLink.href)) {
               const option = document.createElement('option');
               option.textContent = rule.raw;
               option.value = String(index);
@@ -212,7 +212,7 @@ class UBlacklist {
   //     |-link *
   //     |-div.rc
   //        |-h3.r
-  //           |-a                   <- page link
+  //           |-a                   <- site link
   //        |-div.s
   //           |-div *
   //           |-div
@@ -234,7 +234,7 @@ class UBlacklist {
   //     |-link *
   //     |-div.rc
   //        |-div.r
-  //           |-a                   <- page link
+  //           |-a                   <- site link
   //              |-h3
   //              |-br
   //              |-div
@@ -256,7 +256,7 @@ class UBlacklist {
   // -------------------------------------------------------------------------
   // * optional
 
-  getPageLink(site) {
+  getSiteLink(site) {
     return site.querySelector('a[ping]');
   }
 
@@ -265,8 +265,8 @@ class UBlacklist {
   }
 
   judgeSite(site) {
-    const pageLink = this.getPageLink(site);
-    if (pageLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(pageLink.href))) {
+    const siteLink = this.getSiteLink(site);
+    if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
       site.classList.add('uBlacklistBlocked');
       ++this.blockedSiteCount;
     }
