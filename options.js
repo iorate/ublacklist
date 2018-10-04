@@ -12,15 +12,11 @@ chrome.storage.local.get({ blacklist: '' }, items => {
       <span id="saveStatusSpan" style="display:none">${_('saveStatus')}</span>
     </p>
   `);
-
   const blacklistTextarea = document.getElementById('blacklistTextarea');
-  const saveButton = document.getElementById('saveButton');
-  const saveStatusSpan = document.getElementById('saveStatusSpan');
-
   blacklistTextarea.value = items.blacklist;
-
-  saveButton.addEventListener('click', () => {
+  document.getElementById('saveButton').addEventListener('click', () => {
     chrome.storage.local.set({ blacklist: blacklistTextarea.value }, () => {
+      const saveStatusSpan = document.getElementById('saveStatusSpan');
       saveStatusSpan.style.display = 'inline';
       setTimeout(() => {
         saveStatusSpan.style.display = 'none';
