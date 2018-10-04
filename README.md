@@ -4,9 +4,9 @@ Blocks specific sites from appearing in Google search results
 ## Description
 This Chrome extension prevents blacklisted sites from appearing in Google search results.
 
-The same function is already provided by [Personal Blocklist (by Google)](https://chrome.google.com/webstore/detail/personal-blocklist-by-goo/nolijncfnkgaikbjbdaogikpmpbdcdef). At least in my environment, however, sites blocked by Personal Blocklist appear in search results for a moment and then disappear, which annoys me. uBlacklist does not allow blacklisted sites to appear even for a moment.
+The same function is already provided by [Personal Blocklist (by Google)](https://chrome.google.com/webstore/detail/personal-blocklist-by-goo/nolijncfnkgaikbjbdaogikpmpbdcdef). At least in my environment, however, sites blocked by Personal Blocklist appear in search results for a moment and then disappear, which annoys me. uBlacklist prevents blacklisted sites from appearing as far as possible.
 
-Rules can be specified either by [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) (e.g. `/example\.(net|org)/`). You can also add rules from search results.
+Rules can be specified either by [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) (e.g. `/example\.(net|org)/`). You can also add rules on search result pages, or on sites to be blocked by clicking the toolbar icon.
 
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
