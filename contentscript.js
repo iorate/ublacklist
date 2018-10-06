@@ -254,7 +254,7 @@ class UBlacklist {
   // * optional
 
   getSiteLink(site) {
-    return site.querySelector('a[ping]');
+    return site.querySelector('a[ping]') || site.querySelector('a[href^="https://books.google."]');
   }
 
   getBlockLinksParent(site) {
