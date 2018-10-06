@@ -6,7 +6,7 @@ loadBlockRules(blockRules => {
         <form id="blockForm" style="padding:1em;white-space:nowrap">
           <label>
             ${_('blockThisSite')}:
-            <input id="blockInput" type="text" size="40" spellcheck="false" style="margin:0.5em">
+            <input id="blockInput" type="text" autofocus size="40" spellcheck="false" style="margin:0.5em">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
@@ -27,7 +27,7 @@ loadBlockRules(blockRules => {
         <form id="unblockForm" style="padding:1em;white-space:nowrap">
           <label>
             ${_('unblockThisSite')}:
-            <select id="unblockSelect" style="margin:0.5em;width:20em">
+            <select id="unblockSelect" autofocus style="margin:0.5em;width:20em">
             </select>
           </label>
           <button type="submit">${_('ok')}</button>
