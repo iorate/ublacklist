@@ -2,14 +2,14 @@ const _ = s => chrome.i18n.getMessage(s);
 
 const compileBlockRule = raw => {
   const trimmed = raw.trim();
-  const mp = trimmed.match(/^((\*)|http|https|ftp):\/\/(?:(\*)|(\*\.)?([^\/*]+))(\/.*)$/);
+  const mp = trimmed.match(/^((\*)|https?|ftp):\/\/(?:(\*)|(\*\.)?([^/*]+))(\/.*)$/);
   if (mp) {
     const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
     return new RegExp(
       '^' +
-      (mp[2] ? '(http|https)' : mp[1]) +
+      (mp[2] ? 'https?' : mp[1]) +
       '://' +
-      (mp[3] ? '[^/]+' : (mp[4] ? '([^/]+\\.)?' : '') + escapeRegExp(mp[5])) +
+      (mp[3] ? '[^/]+' : (mp[4] ? '([^/.]+\\.)*?' : '') + escapeRegExp(mp[5])) +
       escapeRegExp(mp[6]).replace(/\\\*/g, '.*') +
       '$'
     );
