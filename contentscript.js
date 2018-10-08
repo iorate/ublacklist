@@ -315,7 +315,7 @@ class UBlacklist {
     if (control) {
       if (this.blockedSiteCount) {
         const stats = document.getElementById('ubStats');
-        stats.textContent = _('nSitesBlocked', String(this.blockedSiteCount));
+        stats.textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedSiteCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
