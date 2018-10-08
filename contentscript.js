@@ -226,7 +226,7 @@ class UBlacklist {
       return container;
     }
     const containerParent =
-      /* Search Entry, New Version */
+      /* Search Entry (New Version) or Video Search Entry */
       // div.g
       //  |-div
       //     |-div.rc
@@ -259,7 +259,7 @@ class UBlacklist {
       //            |-                 <- Block Link Container
       //         |-div.st
       site.querySelector('div.slp:not(.f)') ||
-      /* Search Entry, Old Version (no longer used?) */
+      /* Search Entry (Old Version): no longer used? */
       // div.g
       //  |-div
       //     |-div.rc
