@@ -236,15 +236,30 @@ class UBlacklist {
       //              |-br
       //              |-div
       //                 |-cite
-      //           |-                    <- Block Link Container
+      //           |-                  <- Block Link Container
       //        |-div.s
       //           |-div
-      //              |-div.slp.f *      <- ATTENTION!
+      //              |-div.slp.f *    <- ATTENTION!
       //              |-span.st
       //                 |-span.f
       //        |-div
       site.querySelector('div.r') ||
-      /* Search Entry, Old Version */
+      /* News Search Entry */
+      // div.g
+      //  |-div.ts
+      //      |-a
+      //         |-div.f *             <- ATTENTION!
+      //      |-div
+      //         |-h3.r
+      //            |-a
+      //         |-div.slp
+      //            |-span
+      //            |-span
+      //            |-span.f
+      //            |-                 <- Block Link Container
+      //         |-div.st
+      site.querySelector('div.slp:not(.f)') ||
+      /* Search Entry, Old Version (no longer used?) */
       // div.g
       //  |-div
       //     |-div.rc
@@ -254,12 +269,10 @@ class UBlacklist {
       //           |-div
       //              |-div.f
       //                 |-cite
-      //                 |-              <- Block Link Container
-      //              |-div.slp.f *      <- ATTENTION!
+      //                 |-            <- Block Link Container
+      //              |-div.slp.f *    <- ATTENTION!
       //        |-div
-      site.querySelector('div.f') ||
-      /* News Search Entry */
-      site.querySelector('div.slp');
+      site.querySelector('div.f');
     if (containerParent) {
       const container = document.createElement('span');
       container.appendChild(document.createTextNode('\u00a0'));
