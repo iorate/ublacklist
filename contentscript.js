@@ -31,7 +31,7 @@ class UBlacklist {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.matches && node.matches('.g') && !node.matches('.g .g')) {
+        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card')) {
           this.setupBlockLinks(node);
           if (this.blockRules) {
             this.judgeSite(node);
@@ -53,26 +53,29 @@ class UBlacklist {
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
     hideStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
-    hideStyle.sheet.insertRule('.uBlacklistBlocked { display: none; }');
-    hideStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; }');
+    hideStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer { display: none !important; }');
+    hideStyle.sheet.insertRule('.uBlacklistBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
+    hideStyle.sheet.insertRule('.uBlacklistBlockLink { font-size: 14px; }');
+    hideStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; font-size: 14px; }');
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
     showStyle.sheet.insertRule('#uBlacklistShowLink { display: none; }');
     showStyle.sheet.insertRule('#uBlacklistHideLink { display: inline; }');
-    showStyle.sheet.insertRule('.uBlacklistBlocked { background-color: #ffe0e0; display: block; }');
-    showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistBlockLink { display: none; }');
-    showStyle.sheet.insertRule('.uBlacklistBlocked .uBlacklistUnblockLink { display: inline; }');
+    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer { display: block !important; }');
+    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer, .uBlacklistBlockedSiteContainer * { background-color: #ffe0e0; }');
+    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer .uBlacklistBlockLink { display: none; }');
+    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer .uBlacklistUnblockLink { display: inline; }');
     showStyle.id = 'uBlacklistShowStyle';
     showStyle.sheet.disabled = true;
   }
 
   setupBlockLinks(site) {
     const siteLink = this.getSiteLink(site);
-    const blockLinksParent = this.getBlockLinksParent(site);
-    if (siteLink && blockLinksParent) {
+    const blockLinkContainer = this.createBlockLinkContainer(site);
+    if (siteLink && blockLinkContainer) {
       const blockLink = document.createElement('a');
-      blockLink.className = 'fl uBlacklistBlockLink';
+      blockLink.className = 'uBlacklistBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
@@ -83,7 +86,7 @@ class UBlacklist {
       });
 
       const unblockLink = document.createElement('a');
-      unblockLink.className = 'fl uBlacklistUnblockLink';
+      unblockLink.className = 'uBlacklistUnblockLink';
       unblockLink.href = 'javascript:void(0)';
       unblockLink.textContent = _('unblockThisSite');
       unblockLink.addEventListener('click', () => {
@@ -104,9 +107,8 @@ class UBlacklist {
         }
       });
 
-      blockLinksParent.appendChild(document.createTextNode('\u00a0'));
-      blockLinksParent.appendChild(blockLink);
-      blockLinksParent.appendChild(unblockLink);
+      blockLinkContainer.appendChild(blockLink);
+      blockLinkContainer.appendChild(unblockLink);
     }
   }
 
@@ -253,29 +255,62 @@ class UBlacklist {
   // -------------------------------------------------------------------------
   // * optional
 
+  getType(site) {
+    if (site.matches('g-inner-card')) {
+      return 'card';
+    }
+    if (site.matches('.g-blk .g')) {
+      return 'featured';
+    }
+    return 'normal';
+  }
+
   getSiteLink(site) {
     return site.querySelector('a[ping]') || site.querySelector('a[href^="https://books.google."]');
   }
 
-  getBlockLinksParent(site) {
-    return site.querySelector('div.r') || site.querySelector('div.f');
+  createBlockLinkContainer(site) {
+    const type = this.getType(site);
+    if (type == 'card') {
+      const container = document.createElement('div');
+      container.className = 'uBlacklistBlockLinkContainer';
+      site.appendChild(container);
+      return container;
+    }
+    const r = site.querySelector('div.r') || site.querySelector('div.f');
+    if (r) {
+      const container = document.createElement('span');
+      container.appendChild(document.createTextNode('\u00a0'));
+      r.appendChild(container);
+      return container;
+    }
+    return null;
+  }
+
+  getContainer(site) {
+    const type = this.getType(site);
+    if (type == 'card') {
+      return site.parentNode;
+    }
+    if (type == 'featured') {
+      return site.closest('.g-blk');
+    }
+    return site;
   }
 
   judgeSite(site) {
     const siteLink = this.getSiteLink(site);
     if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
-      site.classList.add('uBlacklistBlocked');
+      this.getContainer(site).classList.add('uBlacklistBlockedSiteContainer');
       ++this.blockedSiteCount;
     }
   }
 
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
-    for (const site of document.querySelectorAll('.g')) {
-      if (!site.matches('.g .g')) {
-        site.classList.remove('uBlacklistBlocked');
-        this.judgeSite(site);
-      }
+    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card')) {
+      this.getContainer(site).classList.remove('uBlacklistBlockedSiteContainer');
+      this.judgeSite(site);
     }
     this.updateControl();
   }
