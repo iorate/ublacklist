@@ -54,7 +54,7 @@ class UBlacklist {
     document.head.appendChild(hideStyle);
     hideStyle.sheet.insertRule('#ubHideLink { display: none; }');
     hideStyle.sheet.insertRule('.ubBlockedSiteContainer { display: none !important; }');
-    hideStyle.sheet.insertRule('.ubBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
+    hideStyle.sheet.insertRule('.ubCardBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
     hideStyle.sheet.insertRule('.ubBlockLink { font-size: 14px; }');
     hideStyle.sheet.insertRule('.ubUnblockLink { display: none; font-size: 14px; }');
 
@@ -273,7 +273,7 @@ class UBlacklist {
     const type = this.getType(site);
     if (type == 'card') {
       const container = document.createElement('div');
-      container.className = 'ubBlockLinkContainer';
+      container.className = 'ubCardBlockLinkContainer';
       site.appendChild(container);
       return container;
     }
