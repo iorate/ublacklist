@@ -26,7 +26,7 @@ class UBlacklist {
   }
 
   onDOMContentMutated(records) {
-    if (!document.getElementById('uBlacklistShowStyle') && document.head) {
+    if (!document.getElementById('ubShowStyle') && document.head) {
       this.setupStyleSheets();
     }
     for (const record of records) {
@@ -52,21 +52,21 @@ class UBlacklist {
   setupStyleSheets() {
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
-    hideStyle.sheet.insertRule('#uBlacklistHideLink { display: none; }');
-    hideStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer { display: none !important; }');
-    hideStyle.sheet.insertRule('.uBlacklistBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
-    hideStyle.sheet.insertRule('.uBlacklistBlockLink { font-size: 14px; }');
-    hideStyle.sheet.insertRule('.uBlacklistUnblockLink { display: none; font-size: 14px; }');
+    hideStyle.sheet.insertRule('#ubHideLink { display: none; }');
+    hideStyle.sheet.insertRule('.ubBlockedSiteContainer { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
+    hideStyle.sheet.insertRule('.ubBlockLink { font-size: 14px; }');
+    hideStyle.sheet.insertRule('.ubUnblockLink { display: none; font-size: 14px; }');
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
-    showStyle.sheet.insertRule('#uBlacklistShowLink { display: none; }');
-    showStyle.sheet.insertRule('#uBlacklistHideLink { display: inline; }');
-    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer { display: block !important; }');
-    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer, .uBlacklistBlockedSiteContainer * { background-color: #ffe0e0; }');
-    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer .uBlacklistBlockLink { display: none; }');
-    showStyle.sheet.insertRule('.uBlacklistBlockedSiteContainer .uBlacklistUnblockLink { display: inline; }');
-    showStyle.id = 'uBlacklistShowStyle';
+    showStyle.sheet.insertRule('#ubShowLink { display: none; }');
+    showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer { display: block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer, .ubBlockedSiteContainer * { background-color: #ffe0e0; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubBlockLink { display: none; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubUnblockLink { display: inline; }');
+    showStyle.id = 'ubShowStyle';
     showStyle.sheet.disabled = true;
   }
 
@@ -75,23 +75,23 @@ class UBlacklist {
     const blockLinkContainer = this.createBlockLinkContainer(site);
     if (siteLink && blockLinkContainer) {
       const blockLink = document.createElement('a');
-      blockLink.className = 'uBlacklistBlockLink';
+      blockLink.className = 'ubBlockLink';
       blockLink.href = 'javascript:void(0)';
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('uBlacklistBlockInput').value = siteLink.origin + '/*';
-          document.getElementById('uBlacklistBlockDialog').showModal();
+          document.getElementById('ubBlockInput').value = siteLink.origin + '/*';
+          document.getElementById('ubBlockDialog').showModal();
         }
       });
 
       const unblockLink = document.createElement('a');
-      unblockLink.className = 'uBlacklistUnblockLink';
+      unblockLink.className = 'ubUnblockLink';
       unblockLink.href = 'javascript:void(0)';
       unblockLink.textContent = _('unblockThisSite');
       unblockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          const unblockSelect = document.getElementById('uBlacklistUnblockSelect');
+          const unblockSelect = document.getElementById('ubUnblockSelect');
           while (unblockSelect.firstChild) {
             unblockSelect.removeChild(unblockSelect.firstChild);
           }
@@ -103,7 +103,7 @@ class UBlacklist {
               unblockSelect.appendChild(option);
             }
           });
-          document.getElementById('uBlacklistUnblockDialog').showModal();
+          document.getElementById('ubUnblockDialog').showModal();
         }
       });
 
@@ -116,26 +116,26 @@ class UBlacklist {
     const resultStats = document.getElementById('resultStats');
     if (resultStats) {
       const stats = document.createElement('span');
-      stats.id = 'uBlacklistStats';
+      stats.id = 'ubStats';
 
       const showLink = document.createElement('a');
-      showLink.id = 'uBlacklistShowLink';
+      showLink.id = 'ubShowLink';
       showLink.href = 'javascript:void(0)';
       showLink.textContent = _('show');
       showLink.addEventListener('click', () => {
-        document.getElementById('uBlacklistShowStyle').sheet.disabled = false;
+        document.getElementById('ubShowStyle').sheet.disabled = false;
       });
 
       const hideLink = document.createElement('a');
-      hideLink.id = 'uBlacklistHideLink';
+      hideLink.id = 'ubHideLink';
       hideLink.href = 'javascript:void(0)';
       hideLink.textContent = _('hide');
       hideLink.addEventListener('click', () => {
-        document.getElementById('uBlacklistShowStyle').sheet.disabled = true;
+        document.getElementById('ubShowStyle').sheet.disabled = true;
       });
 
       const control = document.createElement('span');
-      control.id = 'uBlacklistControl';
+      control.id = 'ubControl';
       control.appendChild(stats);
       control.appendChild(document.createTextNode('\u00a0'));
       control.appendChild(showLink);
@@ -149,20 +149,20 @@ class UBlacklist {
 
   setupBlockDialogs() {
     document.body.insertAdjacentHTML('beforeend', `
-      <dialog id="uBlacklistBlockDialog" style="padding:0">
-        <form id="uBlacklistBlockForm" style="padding:1em">
+      <dialog id="ubBlockDialog" style="padding:0">
+        <form id="ubBlockForm" style="padding:1em">
           <label>
             ${_('blockThisSite')}:
-            <input id="uBlacklistBlockInput" type="text" size="40" spellcheck="false" style="margin:0.5em">
+            <input id="ubBlockInput" type="text" size="40" spellcheck="false" style="margin:0.5em">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
       </dialog>
-      <dialog id="uBlacklistUnblockDialog" style="padding:0">
-        <form id="uBlacklistUnblockForm" style="padding:1em">
+      <dialog id="ubUnblockDialog" style="padding:0">
+        <form id="ubUnblockForm" style="padding:1em">
           <label>
             ${_('unblockThisSite')}:
-            <select id="uBlacklistUnblockSelect" style="margin:0.5em;width:20em">
+            <select id="ubUnblockSelect" style="margin:0.5em;width:20em">
             </select>
           </label>
           <button type="submit">${_('ok')}</button>
@@ -170,10 +170,10 @@ class UBlacklist {
       </dialog>
     `);
 
-    const blockDialog = document.getElementById('uBlacklistBlockDialog');
-    document.getElementById('uBlacklistBlockForm').addEventListener('submit', event => {
+    const blockDialog = document.getElementById('ubBlockDialog');
+    document.getElementById('ubBlockForm').addEventListener('submit', event => {
       event.preventDefault();
-      const raw = document.getElementById('uBlacklistBlockInput').value;
+      const raw = document.getElementById('ubBlockInput').value;
       const compiled = compileBlockRule(raw);
       if (compiled) {
         this.blockRules.push({ raw, compiled });
@@ -188,10 +188,10 @@ class UBlacklist {
       }
     });
 
-    const unblockDialog = document.getElementById('uBlacklistUnblockDialog');
-    document.getElementById('uBlacklistUnblockForm').addEventListener('submit', event => {
+    const unblockDialog = document.getElementById('ubUnblockDialog');
+    document.getElementById('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
-      this.blockRules.splice(Number(document.getElementById('uBlacklistUnblockSelect').value), 1);
+      this.blockRules.splice(Number(document.getElementById('ubUnblockSelect').value), 1);
       this.rejudgeAllSites();
       saveBlockRules(this.blockRules);
       unblockDialog.close();
@@ -273,7 +273,7 @@ class UBlacklist {
     const type = this.getType(site);
     if (type == 'card') {
       const container = document.createElement('div');
-      container.className = 'uBlacklistBlockLinkContainer';
+      container.className = 'ubBlockLinkContainer';
       site.appendChild(container);
       return container;
     }
@@ -301,7 +301,7 @@ class UBlacklist {
   judgeSite(site) {
     const siteLink = this.getSiteLink(site);
     if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
-      this.getContainer(site).classList.add('uBlacklistBlockedSiteContainer');
+      this.getContainer(site).classList.add('ubBlockedSiteContainer');
       ++this.blockedSiteCount;
     }
   }
@@ -309,22 +309,22 @@ class UBlacklist {
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
     for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card')) {
-      this.getContainer(site).classList.remove('uBlacklistBlockedSiteContainer');
+      this.getContainer(site).classList.remove('ubBlockedSiteContainer');
       this.judgeSite(site);
     }
     this.updateControl();
   }
 
   updateControl() {
-    const control = document.getElementById('uBlacklistControl');
+    const control = document.getElementById('ubControl');
     if (control) {
       if (this.blockedSiteCount) {
-        const stats = document.getElementById('uBlacklistStats');
+        const stats = document.getElementById('ubStats');
         stats.textContent = _('nSitesBlocked').replace('%d', String(this.blockedSiteCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
-        document.getElementById('uBlacklistShowStyle').sheet.disabled = true;
+        document.getElementById('ubShowStyle').sheet.disabled = true;
       }
     }
   }
