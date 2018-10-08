@@ -226,40 +226,40 @@ class UBlacklist {
       return container;
     }
     const containerParent =
-      /* Search Entry (New Version) or Video Search Entry */
+      /* Search (the New Version), Book Search or Video Search */
       // div.g
       //  |-div
       //     |-div.rc
-      //        |-div.r
+      //        |-div.r                 <- Container Parent
       //           |-a
       //              |-h3
       //              |-br
       //              |-div
       //                 |-cite
-      //           |-                  <- Block Link Container
+      //           |-                   <- Container
       //        |-div.s
       //           |-div
-      //              |-div.slp.f *    <- ATTENTION!
+      //              |-div.slp.f *     <- ATTENTION!
       //              |-span.st
       //                 |-span.f
       //        |-div
       site.querySelector('div.r') ||
-      /* News Search Entry */
+      /* News Search */
       // div.g
       //  |-div.ts
       //      |-a
-      //         |-div.f *             <- ATTENTION!
+      //         |-div.f *              <- ATTENTION!
       //      |-div
       //         |-h3.r
       //            |-a
-      //         |-div.slp
+      //         |-div.slp              <- Container Parent
       //            |-span
       //            |-span
       //            |-span.f
-      //            |-                 <- Block Link Container
+      //            |-                  <- Container
       //         |-div.st
       site.querySelector('div.slp:not(.f)') ||
-      /* Search Entry (Old Version): no longer used? */
+      /* Search (the Old Version): No Longer Used? */
       // div.g
       //  |-div
       //     |-div.rc
@@ -267,10 +267,10 @@ class UBlacklist {
       //           |-a
       //        |-div.s
       //           |-div
-      //              |-div.f
+      //              |-div.f           <- Container Parent
       //                 |-cite
-      //                 |-            <- Block Link Container
-      //              |-div.slp.f *    <- ATTENTION!
+      //                 |-             <- Container
+      //              |-div.slp.f *     <- ATTENTION!
       //        |-div
       site.querySelector('div.f');
     if (containerParent) {
