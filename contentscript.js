@@ -203,58 +203,6 @@ class UBlacklist {
     });
   }
 
-  // I have found 2 patterns of DOM tree (Sep 30, 2018)
-  // -------------------------------------------------------------------------
-  // div.g
-  //  |-h2 *
-  //  |-div
-  //     |-link *
-  //     |-div.rc
-  //        |-h3.r
-  //           |-a                   <- site link
-  //        |-div.s
-  //           |-div *
-  //           |-div
-  //              |-div.f
-  //                 |-cite
-  //                 |-div *
-  //                 |-              <- where to add block/unblock links
-  //              |-div.slp.f *
-  //              |-span.st
-  //              |-div.osl *
-  //              |-div *
-  //           |-div *
-  //        |-div
-  //     |-table.nrgt *
-  // -------------------------------------------------------------------------
-  // div.g
-  //  |-h2 *
-  //  |-div
-  //     |-link *
-  //     |-div.rc
-  //        |-div.r
-  //           |-a                   <- site link
-  //              |-h3
-  //              |-br
-  //              |-div
-  //                 |-cite
-  //           |-span *
-  //           |-a.fl *
-  //           |-                    <- where to add block/unblock links
-  //        |-div.s
-  //           |-div *
-  //           |-div
-  //              |-div.slp.f *
-  //              |-span.st
-  //                 |-span.f
-  //              |-div.osl *
-  //              |-div *
-  //           |-div *
-  //        |-div
-  //     |-table.nrgt *
-  // -------------------------------------------------------------------------
-  // * optional
-
   getType(site) {
     if (site.matches('g-inner-card')) {
       return 'card';
@@ -277,11 +225,45 @@ class UBlacklist {
       site.appendChild(container);
       return container;
     }
-    const r = site.querySelector('div.r') || site.querySelector('div.f') || site.querySelector('div.slp');
-    if (r) {
+    const containerParent =
+      /* Search Entry, New Version */
+      // div.g
+      //  |-div
+      //     |-div.rc
+      //        |-div.r
+      //           |-a
+      //              |-h3
+      //              |-br
+      //              |-div
+      //                 |-cite
+      //           |-                    <- Block Link Container
+      //        |-div.s
+      //           |-div
+      //              |-div.slp.f *      <- ATTENTION!
+      //              |-span.st
+      //                 |-span.f
+      //        |-div
+      site.querySelector('div.r') ||
+      /* Search Entry, Old Version */
+      // div.g
+      //  |-div
+      //     |-div.rc
+      //        |-h3.r
+      //           |-a
+      //        |-div.s
+      //           |-div
+      //              |-div.f
+      //                 |-cite
+      //                 |-              <- Block Link Container
+      //              |-div.slp.f *      <- ATTENTION!
+      //        |-div
+      site.querySelector('div.f') ||
+      /* News Search Entry */
+      site.querySelector('div.slp');
+    if (containerParent) {
       const container = document.createElement('span');
       container.appendChild(document.createTextNode('\u00a0'));
-      r.appendChild(container);
+      containerParent.appendChild(container);
       return container;
     }
     return null;
