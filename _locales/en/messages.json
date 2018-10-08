@@ -21,7 +21,12 @@
     "message": "Saved"
   },
   "nSitesBlocked": {
-    "message": "uBlacklist has blocked %d site(s)"
+    "message": "uBlacklist has blocked $COUNT$ site(s)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "show": {
     "message": "Show"

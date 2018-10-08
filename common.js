@@ -1,4 +1,4 @@
-const _ = s => chrome.i18n.getMessage(s);
+const _ = (...args) => chrome.i18n.getMessage(...args);
 
 const compileBlockRule = raw => {
   const trimmed = raw.trim();

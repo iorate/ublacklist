@@ -21,7 +21,12 @@
     "message": "保存しました"
   },
   "nSitesBlocked": {
-    "message": "uBlacklist により %d サイトがブロックされました"
+    "message": "uBlacklist により $COUNT$ サイトがブロックされました",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "show": {
     "message": "表示する"
