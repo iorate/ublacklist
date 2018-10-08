@@ -277,7 +277,7 @@ class UBlacklist {
       site.appendChild(container);
       return container;
     }
-    const r = site.querySelector('div.r') || site.querySelector('div.f');
+    const r = site.querySelector('div.r') || site.querySelector('div.f') || site.querySelector('div.slp');
     if (r) {
       const container = document.createElement('span');
       container.appendChild(document.createTextNode('\u00a0'));
