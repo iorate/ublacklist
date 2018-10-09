@@ -13,6 +13,7 @@
 
 #ubBlockForm, #ubUnblockForm {
   padding: 1em;
+  white-space: nowrap;
 }
 
 #ubBlockInput, #ubUnblockSelect {
