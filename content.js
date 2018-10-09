@@ -55,9 +55,8 @@ class UBlacklist {
     showStyle.rel = 'stylesheet';
     showStyle.type = 'text/css';
     showStyle.href = chrome.runtime.getURL('contentshow.css');
-    document.head.appendChild(showStyle);
-
     showStyle.disabled = true;
+    document.head.appendChild(showStyle);
   }
 
   setupBlockLinks(site) {
