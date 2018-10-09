@@ -1,0 +1,14 @@
+body {
+  font-size: small arial, sans-serif;
+  margin: 0;
+}
+
+#ubBlockForm, #ubUnblockForm {
+  padding: 1em;
+  white-space: nowrap;
+}
+
+#ubBlockInput, #ubUnblockSelect {
+  margin: .5em;
+  width: 20em;
+}

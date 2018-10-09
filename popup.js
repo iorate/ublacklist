@@ -3,18 +3,18 @@ loadBlockRules(blockRules => {
     const url = activeTabs[0].url;
     if (!blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
       document.body.insertAdjacentHTML('beforeend', `
-        <form id="blockForm" style="padding:1em;white-space:nowrap">
+        <form id="ubBlockForm">
           <label>
             ${_('blockThisSite')}:
-            <input id="blockInput" type="text" autofocus size="40" spellcheck="false" style="margin:0.5em">
+            <input id="ubBlockInput" type="text" autofocus spellcheck="false">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
       `);
-      document.getElementById('blockInput').value = new URL(url).origin + '/*';
-      document.getElementById('blockForm').addEventListener('submit', event => {
+      document.getElementById('ubBlockInput').value = new URL(url).origin + '/*';
+      document.getElementById('ubBlockForm').addEventListener('submit', event => {
         event.preventDefault();
-        const raw = document.getElementById('blockInput').value;
+        const raw = document.getElementById('ubBlockInput').value;
         const compiled = compileBlockRule(raw);
         if (compiled) {
           blockRules.push({ raw, compiled });
@@ -24,10 +24,10 @@ loadBlockRules(blockRules => {
       });
     } else {
       document.body.insertAdjacentHTML('beforeend', `
-        <form id="unblockForm" style="padding:1em;white-space:nowrap">
+        <form id="ubUnblockForm">
           <label>
             ${_('unblockThisSite')}:
-            <select id="unblockSelect" autofocus style="margin:0.5em;width:20em">
+            <select id="ubUnblockSelect" autofocus>
             </select>
           </label>
           <button type="submit">${_('ok')}</button>
@@ -38,12 +38,12 @@ loadBlockRules(blockRules => {
           const option = document.createElement('option');
           option.textContent = rule.raw;
           option.value = String(index);
-          document.getElementById('unblockSelect').appendChild(option);
+          document.getElementById('ubUnblockSelect').appendChild(option);
         }
       });
-      document.getElementById('unblockForm').addEventListener('submit', event => {
+      document.getElementById('ubUnblockForm').addEventListener('submit', event => {
         event.preventDefault();
-        blockRules.splice(Number(document.getElementById('unblockSelect').value), 1);
+        blockRules.splice(Number(document.getElementById('ubUnblockSelect').value), 1);
         saveBlockRules(blockRules);
         window.close();
       });
