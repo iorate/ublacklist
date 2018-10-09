@@ -1,5 +1,8 @@
 const _ = s => chrome.i18n.getMessage(s);
 
+const lines = s => s ? s.split('\n') : [];
+const unlines = ss => ss.join('\n');
+
 const compileBlockRule = raw => {
   const trimmed = raw.trim();
   const mp = trimmed.match(/^((\*)|https?|ftp):\/\/(?:(\*)|(\*\.)?([^/*]+))(\/.*)$/);
@@ -33,14 +36,14 @@ const compileBlockRule = raw => {
 
 const loadBlockRules = onBlockRulesLoaded => {
   chrome.storage.local.get({ blacklist: '' }, items => {
-    const blockRules = items.blacklist ?
-      items.blacklist.split(/\n/).map(raw => ({ raw, compiled: compileBlockRule(raw) })) :
-      [];
+    const blockRules = lines(items.blacklist).map(
+      raw => ({ raw, compiled: compileBlockRule(raw) })
+    );
     onBlockRulesLoaded(blockRules);
   });
 };
 
 const saveBlockRules = blockRules => {
-  const blacklist = blockRules.map(rule => rule.raw).join('\n');
+  const blacklist = unlines(blockRules.map(rule => rule.raw));
   chrome.storage.local.set({ blacklist });
 };

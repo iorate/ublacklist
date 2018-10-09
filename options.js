@@ -1,26 +1,44 @@
 chrome.storage.local.get({ blacklist: '' }, items => {
   document.body.insertAdjacentHTML('beforeend', `
-    <p>
-      ${_('blacklist')}<br>
-      <small>${_('blacklistDescription')}</small><br>
-      <small>${_('example')}: *://*.example.com/*</small><br>
-      <small>${_('example')}: /example\.(net|org)/</small><br>
-      <textarea id="blacklistTextarea" cols="80" rows="8" spellcheck="false"></textarea>
-    </p>
-    <p>
-      <button id="saveButton">${_('save')}</button>
-      <span id="saveStatusSpan" style="display:none">${_('saveStatus')}</span>
-    </p>
+    <div>${_('blacklist')}</div>
+    <div class="small">${_('blacklistDescription')}</div>
+    <div class="small">${_('example')}: *://*.example.com/*</div>
+    <div class="small">${_('example')}: /example\.(net|org)/</div>
+    <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
+    <div>
+      <details id="importDetails">
+        <summary>${_('importFromPersonalBlocklist')}</summary>
+        <div id="importContainer">
+          <div class="small">${_('importDescription')}</div>
+          <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
+          <div><button id="importButton">${_('import')}</button></div>
+        </div>
+      </details>
+    </div>
+    <div><button id="okButton">${_('ok')}</button></div>
   `);
-  const blacklistTextarea = document.getElementById('blacklistTextarea');
-  blacklistTextarea.value = items.blacklist;
-  document.getElementById('saveButton').addEventListener('click', () => {
-    chrome.storage.local.set({ blacklist: blacklistTextarea.value }, () => {
-      const saveStatusSpan = document.getElementById('saveStatusSpan');
-      saveStatusSpan.style.display = 'inline';
-      setTimeout(() => {
-        saveStatusSpan.style.display = 'none';
-      }, 1000);
-    });
+
+  const blacklistTextArea = document.getElementById('blacklistTextArea');
+  const importTextArea = document.getElementById('importTextArea');
+
+  blacklistTextArea.value = items.blacklist;
+
+  document.getElementById('importButton').addEventListener('click', () => {
+    blacklistTextArea.value = unlines(
+      lines(blacklistTextArea.value).concat(
+        lines(importTextArea.value).filter(
+          s => /^([-a-z0-9]+\.)*[-a-z0-9]+$/i.test(s)
+        ).map(
+          s => '*://*.' + s.toLowerCase() + '/*'
+        )
+      )
+    );
+    importTextArea.value = '';
+    document.getElementById('importDetails').open = false;
+  });
+
+  document.getElementById('okButton').addEventListener('click', () => {
+    chrome.storage.local.set({ blacklist: blacklistTextArea.value });
+    window.close();
   });
 });

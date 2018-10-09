@@ -1,0 +1,27 @@
+div {
+  margin-top: 8px;
+}
+
+.small {
+  font-size: smaller;
+}
+
+#blacklistTextArea {
+  height: 16em;
+  width: 40em;
+}
+
+summary {
+  outline: none;
+}
+
+#importContainer {
+  border: solid 1px #bfbfbf;
+  padding: 8px;
+  padding-top: 0;
+}
+
+#importTextArea {
+  height: 8em;
+  width: 100%;
+}

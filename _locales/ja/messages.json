@@ -14,11 +14,17 @@
   "example": {
     "message": "例"
   },
-  "save": {
-    "message": "保存"
+  "importFromPersonalBlocklist": {
+    "message": "Personal Blocklist からインポートする"
   },
-  "saveStatus": {
-    "message": "保存しました"
+  "importDescription": {
+    "message": "Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい"
+  },
+  "import": {
+    "message": "インポート"
+  },
+  "ok": {
+    "message": "OK"
   },
   "nSitesBlocked": {
     "message": "uBlacklist により $COUNT$ サイトがブロックされました",
@@ -39,8 +45,5 @@
   },
   "unblockThisSite": {
     "message": "このサイトのブロックを解除する"
-  },
-  "ok": {
-    "message": "OK"
   }
 }

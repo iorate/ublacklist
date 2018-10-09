@@ -14,11 +14,17 @@
   "example": {
     "message": "Example"
   },
-  "save": {
-    "message": "Save"
+  "importFromPersonalBlocklist": {
+    "message": "Import from Personal Blocklist"
   },
-  "saveStatus": {
-    "message": "Saved"
+  "importDescription": {
+    "message": "Paste a domain list exported from Personal Blocklist"
+  },
+  "import": {
+    "message": "Import"
+  },
+  "ok": {
+    "message": "OK"
   },
   "nSitesBlocked": {
     "message": "uBlacklist has blocked $COUNT$ site(s)",
@@ -39,8 +45,5 @@
   },
   "unblockThisSite": {
     "message": "Unblock this site"
-  },
-  "ok": {
-    "message": "OK"
   }
 }
