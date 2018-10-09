@@ -36,9 +36,7 @@ const compileBlockRule = raw => {
 
 const loadBlockRules = onBlockRulesLoaded => {
   chrome.storage.local.get({ blacklist: '' }, items => {
-    const blockRules = lines(items.blacklist).map(
-      raw => ({ raw, compiled: compileBlockRule(raw) })
-    );
+    const blockRules = lines(items.blacklist).map(raw => ({ raw, compiled: compileBlockRule(raw) }));
     onBlockRulesLoaded(blockRules);
   });
 };
