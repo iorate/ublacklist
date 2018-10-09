@@ -50,13 +50,16 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
-    const showStyle = document.createElement('link');
+    const showStyle = document.createElement('style');
     showStyle.id = 'ubShowStyle';
-    showStyle.rel = 'stylesheet';
-    showStyle.type = 'text/css';
-    showStyle.href = chrome.runtime.getURL('contentshow.css');
-    showStyle.disabled = true;
     document.head.appendChild(showStyle);
+    showStyle.sheet.disabled = true;
+    showStyle.sheet.insertRule('#ubShowLink { display: none; }');
+    showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer { display: block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer, .ubBlockedSiteContainer * { background-color: #ffe0e0; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubBlockLink { display: none; }');
+    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubUnblockLink { display: inline; }');
   }
 
   setupBlockLinks(site) {
@@ -112,7 +115,7 @@ class UBlacklist {
       showLink.href = 'javascript:void(0)';
       showLink.textContent = _('show');
       showLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').disabled = false;
+        document.getElementById('ubShowStyle').sheet.disabled = false;
       });
 
       const hideLink = document.createElement('a');
@@ -120,7 +123,7 @@ class UBlacklist {
       hideLink.href = 'javascript:void(0)';
       hideLink.textContent = _('hide');
       hideLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').disabled = true;
+        document.getElementById('ubShowStyle').sheet.disabled = true;
       });
 
       const control = document.createElement('span');
@@ -308,7 +311,7 @@ class UBlacklist {
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
-        document.getElementById('ubShowStyle').disabled = true;
+        document.getElementById('ubShowStyle').sheet.disabled = true;
       }
     }
   }
