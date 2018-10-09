@@ -50,24 +50,14 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
-    const hideStyle = document.createElement('style');
-    document.head.appendChild(hideStyle);
-    hideStyle.sheet.insertRule('#ubHideLink { display: none; }');
-    hideStyle.sheet.insertRule('.ubBlockedSiteContainer { display: none !important; }');
-    hideStyle.sheet.insertRule('.ubCardBlockLinkContainer { margin: -10px 0 10px 0; padding: 0 16px; }');
-    hideStyle.sheet.insertRule('.ubBlockLink { font-size: 14px; }');
-    hideStyle.sheet.insertRule('.ubUnblockLink { display: none; font-size: 14px; }');
-
-    const showStyle = document.createElement('style');
-    document.head.appendChild(showStyle);
-    showStyle.sheet.insertRule('#ubShowLink { display: none; }');
-    showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer { display: block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer, .ubBlockedSiteContainer * { background-color: #ffe0e0; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubBlockLink { display: none; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubUnblockLink { display: inline; }');
+    const showStyle = document.createElement('link');
     showStyle.id = 'ubShowStyle';
-    showStyle.sheet.disabled = true;
+    showStyle.rel = 'stylesheet';
+    showStyle.type = 'text/css';
+    showStyle.href = chrome.runtime.getURL('contentshow.css');
+    document.head.appendChild(showStyle);
+
+    showStyle.disabled = true;
   }
 
   setupBlockLinks(site) {
@@ -123,7 +113,7 @@ class UBlacklist {
       showLink.href = 'javascript:void(0)';
       showLink.textContent = _('show');
       showLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = false;
+        document.getElementById('ubShowStyle').disabled = false;
       });
 
       const hideLink = document.createElement('a');
@@ -131,7 +121,7 @@ class UBlacklist {
       hideLink.href = 'javascript:void(0)';
       hideLink.textContent = _('hide');
       hideLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = true;
+        document.getElementById('ubShowStyle').disabled = true;
       });
 
       const control = document.createElement('span');
@@ -149,20 +139,20 @@ class UBlacklist {
 
   setupBlockDialogs() {
     document.body.insertAdjacentHTML('beforeend', `
-      <dialog id="ubBlockDialog" style="padding:0">
-        <form id="ubBlockForm" style="padding:1em">
+      <dialog id="ubBlockDialog">
+        <form id="ubBlockForm">
           <label>
             ${_('blockThisSite')}:
-            <input id="ubBlockInput" type="text" size="40" spellcheck="false" style="margin:0.5em">
+            <input id="ubBlockInput" type="text" spellcheck="false">
           </label>
           <button type="submit">${_('ok')}</button>
         </form>
       </dialog>
-      <dialog id="ubUnblockDialog" style="padding:0">
-        <form id="ubUnblockForm" style="padding:1em">
+      <dialog id="ubUnblockDialog">
+        <form id="ubUnblockForm">
           <label>
             ${_('unblockThisSite')}:
-            <select id="ubUnblockSelect" style="margin:0.5em;width:20em">
+            <select id="ubUnblockSelect">
             </select>
           </label>
           <button type="submit">${_('ok')}</button>
@@ -319,7 +309,7 @@ class UBlacklist {
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
-        document.getElementById('ubShowStyle').sheet.disabled = true;
+        document.getElementById('ubShowStyle').disabled = true;
       }
     }
   }

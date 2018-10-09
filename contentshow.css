@@ -1,0 +1,23 @@
+#ubShowLink {
+  display: none;
+}
+
+#ubHideLink {
+  display: inline;
+}
+
+.ubBlockedSiteContainer {
+  display: block !important;
+}
+
+.ubBlockedSiteContainer, .ubBlockedSiteContainer * {
+  background-color: #ffe0e0;
+}
+
+.ubBlockedSiteContainer .ubBlockLink {
+  display: none;
+}
+
+.ubBlockedSiteContainer .ubUnblockLink {
+  display: inline;
+}

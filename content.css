@@ -1,0 +1,35 @@
+.ubCardBlockLinkContainer {
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubBlockLink, .ubUnblockLink {
+  font-size: 14px;
+}
+
+#ubBlockDialog, #ubUnblockDialog {
+  padding: 0;
+}
+
+#ubBlockForm, #ubUnblockForm {
+  padding: 1em;
+}
+
+#ubBlockInput, #ubUnblockSelect {
+  margin: .5em;
+  width: 20em;
+}
+
+/* The below rules can be overridden by contentshow.css */
+
+#ubHideLink {
+  display: none;
+}
+
+.ubBlockedSiteContainer {
+  display: none !important;
+}
+
+.ubUnblockLink {
+  display: none;
+}
