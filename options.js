@@ -26,11 +26,7 @@ chrome.storage.local.get({ blacklist: '' }, items => {
   document.getElementById('importButton').addEventListener('click', () => {
     blacklistTextArea.value = unlines(
       lines(blacklistTextArea.value).concat(
-        lines(importTextArea.value).filter(
-          s => /^([-a-z0-9]+\.)*[-a-z0-9]+$/i.test(s)
-        ).map(
-          s => '*://*.' + s.toLowerCase() + '/*'
-        )
+        lines(importTextArea.value).filter(s => /^[^/*]+$/.test(s)).map(s => '*://*.' + s + '/*')
       )
     );
     importTextArea.value = '';
