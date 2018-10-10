@@ -3,12 +3,12 @@
 }
 
 .small {
-  font-size: smaller;
+  font-size: 10px;
 }
 
 #blacklistTextArea {
-  height: 16em;
-  width: 40em;
+  height: 200px;
+  width: 480px;
 }
 
 summary {
@@ -21,6 +21,6 @@ summary {
 }
 
 #importTextArea {
-  height: 8em;
+  height: 100px;
   width: 100%;
 }
