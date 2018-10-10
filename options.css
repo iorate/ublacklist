@@ -6,6 +6,10 @@
   font-size: 10px;
 }
 
+textarea {
+  resize: none;
+}
+
 #blacklistTextArea {
   height: 200px;
   width: 480px;
