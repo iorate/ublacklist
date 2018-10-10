@@ -6,7 +6,7 @@ chrome.storage.local.get({ blacklist: '' }, items => {
     <div class="small">${_('example')}: /example\.(net|org)/</div>
     <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
     <div>
-      <details id="importDetails">
+      <details>
         <summary>${_('importFromPersonalBlocklist')}</summary>
         <div id="importContainer">
           <div class="small">${_('importDescription')}</div>
@@ -30,7 +30,6 @@ chrome.storage.local.get({ blacklist: '' }, items => {
       )
     );
     importTextArea.value = '';
-    document.getElementById('importDetails').open = false;
   });
 
   document.getElementById('okButton').addEventListener('click', () => {
