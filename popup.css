@@ -4,7 +4,7 @@ body {
 }
 
 #ubBlockForm, #ubUnblockForm {
-  padding: 12px;
+  padding: 20px 12px;
   white-space: nowrap;
 }
 
