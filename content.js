@@ -50,16 +50,23 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
+    const hideStyle = document.createElement('style');
+    document.head.appendChild(hideStyle);
+    hideStyle.sheet.insertRule('#ubHideLink { display: none; }');
+    hideStyle.sheet.insertRule('.ubBlockedSiteContainer { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubUnblockLink { display: none; }');
+
     const showStyle = document.createElement('style');
-    showStyle.id = 'ubShowStyle';
     document.head.appendChild(showStyle);
-    showStyle.sheet.disabled = true;
     showStyle.sheet.insertRule('#ubShowLink { display: none; }');
     showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
     showStyle.sheet.insertRule('.ubBlockedSiteContainer { display: block !important; }');
     showStyle.sheet.insertRule('.ubBlockedSiteContainer, .ubBlockedSiteContainer * { background-color: #ffe0e0; }');
     showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubBlockLink { display: none; }');
     showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubUnblockLink { display: inline; }');
+
+    showStyle.id = 'ubShowStyle';
+    showStyle.sheet.disabled = true;
   }
 
   setupBlockLinks(site) {

@@ -20,17 +20,3 @@
   margin: .5em;
   width: 20em;
 }
-
-/* The below rules can be overridden by contentshow.css */
-
-#ubHideLink {
-  display: none;
-}
-
-.ubBlockedSiteContainer {
-  display: none !important;
-}
-
-.ubUnblockLink {
-  display: none;
-}
