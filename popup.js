@@ -11,7 +11,7 @@ loadBlockRules(blockRules => {
           <button type="submit">${_('ok')}</button>
         </form>
       `);
-      document.getElementById('ubBlockInput').value = new URL(url).origin + '/*';
+      document.getElementById('ubBlockInput').value = makeMatchPattern(url);
       document.getElementById('ubBlockForm').addEventListener('submit', event => {
         event.preventDefault();
         const raw = document.getElementById('ubBlockInput').value;

@@ -79,7 +79,7 @@ class UBlacklist {
       blockLink.textContent = _('blockThisSite');
       blockLink.addEventListener('click', () => {
         if (this.blockRules) {
-          document.getElementById('ubBlockInput').value = siteLink.origin + '/*';
+          document.getElementById('ubBlockInput').value = makeMatchPattern(siteLink.href);
           document.getElementById('ubBlockDialog').showModal();
         }
       });

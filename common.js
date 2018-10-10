@@ -44,4 +44,8 @@ const loadBlockRules = onBlockRulesLoaded => {
 const saveBlockRules = blockRules => {
   const blacklist = unlines(blockRules.map(rule => rule.raw));
   chrome.storage.local.set({ blacklist });
+}
+
+const makeMatchPattern = url => {
+  return '*://*.' + new URL(url).hostname.replace(/^www\./, '') + '/*';
 };
