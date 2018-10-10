@@ -29,6 +29,7 @@ chrome.storage.local.get({ blacklist: '' }, items => {
         lines(importTextArea.value).filter(s => /^[^/*]+$/.test(s)).map(s => '*://*.' + s + '/*')
       )
     );
+    blacklistTextArea.scrollTop = blacklistTextArea.scrollHeight;
     importTextArea.value = '';
   });
 
