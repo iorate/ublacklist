@@ -8,6 +8,7 @@ summary {
 }
 
 textarea {
+  display: block;
   resize: none;
 }
 
