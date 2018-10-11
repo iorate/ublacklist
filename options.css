@@ -1,23 +1,23 @@
-* + div {
+div:not(:first-child) {
   margin-top: 8px;
 }
 
-.small {
-  font-size: 10px;
+summary {
+  cursor: pointer;
+  outline: none;
 }
 
 textarea {
   resize: none;
 }
 
+.small {
+  font-size: 10px;
+}
+
 #blacklistTextArea {
   height: 200px;
   width: 480px;
-}
-
-summary {
-  cursor: pointer;
-  outline: none;
 }
 
 #importContainer {
