@@ -1,7 +1,8 @@
 loadBlockRules(blockRules => {
   chrome.tabs.query({ active: true, currentWindow: true }, activeTabs => {
     const url = activeTabs[0].url;
-    if (!blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
+    if (!/^(https?|ftp):$/.test(new URL(url).protocol) ||
+        !blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
       document.body.insertAdjacentHTML('beforeend', `
         <form id="ubBlockForm">
           <label>
