@@ -1,5 +1,5 @@
 chrome.storage.local.get({ blacklist: '' }, items => {
-  document.body.insertAdjacentHTML('beforeend', `
+  document.body.insertAdjacentHTML('beforeend', String.raw`
     <div>${_('blacklist')}</div>
     <div class="small">${_('blacklistDescription')}</div>
     <div class="small">${_('example')}: *://*.example.com/*</div>

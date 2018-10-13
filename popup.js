@@ -3,7 +3,7 @@ loadBlockRules(blockRules => {
     const url = activeTabs[0].url;
     if (!/^(https?|ftp):$/.test(new URL(url).protocol) ||
         !blockRules.some(rule => rule.compiled && rule.compiled.test(url))) {
-      document.body.insertAdjacentHTML('beforeend', `
+      document.body.insertAdjacentHTML('beforeend', String.raw`
         <form id="ubBlockForm">
           <label>
             ${_('blockThisSite')}:
@@ -24,7 +24,7 @@ loadBlockRules(blockRules => {
         window.close();
       });
     } else {
-      document.body.insertAdjacentHTML('beforeend', `
+      document.body.insertAdjacentHTML('beforeend', String.raw`
         <form id="ubUnblockForm">
           <label>
             ${_('unblockThisSite')}:

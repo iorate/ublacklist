@@ -147,7 +147,7 @@ class UBlacklist {
   }
 
   setupBlockDialogs() {
-    document.body.insertAdjacentHTML('beforeend', `
+    document.body.insertAdjacentHTML('beforeend', String.raw`
       <dialog id="ubBlockDialog">
         <form id="ubBlockForm">
           <label>
