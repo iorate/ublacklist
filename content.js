@@ -280,7 +280,7 @@ class UBlacklist {
       site.querySelector('div.f');
     if (containerParent) {
       const container = document.createElement('span');
-      container.appendChild(document.createTextNode('\u00a0'));
+      container.className = 'ubNormalBlockLinkContainer';
       containerParent.appendChild(container);
       return container;
     }

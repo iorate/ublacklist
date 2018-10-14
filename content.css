@@ -3,6 +3,10 @@
   padding: 0 16px;
 }
 
+.ubNormalBlockLinkContainer {
+  margin-left: 4px;
+}
+
 .ubBlockLink, .ubUnblockLink {
   font-size: 14px;
 }
