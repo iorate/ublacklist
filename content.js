@@ -31,7 +31,7 @@ class UBlacklist {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card')) {
+        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card, .dbsr')) {
           this.setupBlockLinks(node);
           if (this.blockRules) {
             this.judgeSite(node);
@@ -206,6 +206,9 @@ class UBlacklist {
     if (site.matches('g-inner-card')) {
       return 'card';
     }
+    if (site.matches('.dbsr')) {
+      return 'widecard';
+    }
     if (site.matches('.g-blk .g')) {
       return 'featured';
     }
@@ -223,6 +226,9 @@ class UBlacklist {
       container.className = 'ubCardBlockLinkContainer';
       site.appendChild(container);
       return container;
+    }
+    if (type == 'widecard') {
+      return site.querySelector('a > div > div:last-child > div:nth-child(2)');
     }
     const containerParent =
       /* Search (the New Version), Book Search or Video Search */
@@ -284,7 +290,10 @@ class UBlacklist {
   getContainer(site) {
     const type = this.getType(site);
     if (type == 'card') {
-      return site.parentNode;
+      return site.closest('div') || site;
+    }
+    if (type == 'widecard') {
+      return site.closest('g-section-with-header > div > div > div > div') || site;
     }
     if (type == 'featured') {
       return site.closest('.g-blk');
@@ -302,7 +311,7 @@ class UBlacklist {
 
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
-    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card')) {
+    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card, .dbsr')) {
       this.getContainer(site).classList.remove('ubBlockedSiteContainer');
       this.judgeSite(site);
     }
