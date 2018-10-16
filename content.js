@@ -31,7 +31,7 @@ class UBlacklist {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card, .dbsr')) {
+        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card, .dbsr:not(.kno-fb-ctx)')) {
           this.setupBlockLinks(node);
           if (this.blockRules) {
             this.judgeSite(node);
@@ -204,12 +204,16 @@ class UBlacklist {
 
   getType(site) {
     if (site.matches('g-inner-card')) {
-      return 'card';
+      if (site.matches('g-scrolling-carousel *')) {
+        return 'card';
+      } else {
+        return 'listcard';
+      }
     }
     if (site.matches('.dbsr')) {
-      return 'widecard';
+      return 'list';
     }
-    if (site.matches('.g-blk .g')) {
+    if (site.matches('.g-blk *')) {
       return 'featured';
     }
     return 'normal';
@@ -227,7 +231,17 @@ class UBlacklist {
       site.appendChild(container);
       return container;
     }
-    if (type == 'widecard') {
+    if (type == 'listcard') {
+      const containerParent = site.querySelector('g-card-section > div');
+      if (containerParent) {
+        const container = document.createElement('span');
+        container.className = 'ubNormalBlockLinkContainer';
+        containerParent.appendChild(container);
+        return container;
+      }
+      return null;
+    }
+    if (type == 'list') {
       return site.querySelector('a > div > div:last-child > div:nth-child(2)');
     }
     const containerParent =
@@ -292,7 +306,10 @@ class UBlacklist {
     if (type == 'card') {
       return site.closest('div') || site;
     }
-    if (type == 'widecard') {
+    if (type == 'listcard') {
+      return site.closest('div') || site;
+    }
+    if (type == 'list') {
       return site.closest('g-section-with-header > div > div > div > div') || site;
     }
     if (type == 'featured') {
@@ -311,7 +328,7 @@ class UBlacklist {
 
   rejudgeAllSites() {
     this.blockedSiteCount = 0;
-    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card, .dbsr')) {
+    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card, .dbsr:not(.kno-fb-ctx)')) {
       this.getContainer(site).classList.remove('ubBlockedSiteContainer');
       this.judgeSite(site);
     }
