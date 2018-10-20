@@ -1,10 +1,10 @@
-.ubCardBlockLinkContainer {
-  margin: -10px 0 10px 0;
-  padding: 0 16px;
+.ubDefaultBlockContainer {
+  margin-left: 4px;
 }
 
-.ubNormalBlockLinkContainer {
-  margin-left: 4px;
+.ubCarouselBlockContainer {
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
 }
 
 .ubBlockLink, .ubUnblockLink {
