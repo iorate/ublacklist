@@ -32,13 +32,13 @@ class UBlacklist {
     for (const record of records) {
       for (const node of record.addedNodes) {
         if (node.nodeType == Node.ELEMENT_NODE) {
-          const { site, pageUrl, blockContainerParent, blockContainerSelector } = querySite(node);
-          if (site) {
-            this.setupSite(site, pageUrl, blockContainerParent, blockContainerSelector);
+          const siteInfo = querySite(node);
+          if (siteInfo) {
+            this.setupSite(siteInfo);
             if (this.blockRules) {
-              this.judgeSite(site);
+              this.judgeSite(siteInfo.site);
             } else {
-              this.queuedSites.push(site);
+              this.queuedSites.push(siteInfo.site);
             }
           }
         }
@@ -64,6 +64,7 @@ class UBlacklist {
     showStyle.sheet.insertRule('#ubShowLink { display: none; }');
     showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
     showStyle.sheet.insertRule('.ubBlockedSite { display: block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedSite.ivg-i { display: inline-block !important; }');
     showStyle.sheet.insertRule('.ubBlockedSite, .ubBlockedSite * { background-color: #ffe0e0; }');
     showStyle.sheet.insertRule('.ubBlockedSite .ubBlockLink { display: none; }');
     showStyle.sheet.insertRule('.ubBlockedSite .ubUnblockLink { display: inline; }');
@@ -72,11 +73,11 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupSite(site, pageUrl, blockContainerParent, blockContainerSelector) {
+  setupSite({ site, pageUrl, blockContainerParent, blockContainerTag, blockContainerClass }) {
+    if (site.classList.contains('ubSite')) { return; }
     site.classList.add('ubSite');
     site.setAttribute('data-ub-page-url', pageUrl);
 
-    const [blockContainerTag, blockContainerClass] = blockContainerSelector.split('.');
     const blockContainer = document.createElement(blockContainerTag);
     blockContainer.className = blockContainerClass;
 
@@ -120,38 +121,49 @@ class UBlacklist {
   }
 
   setupControl() {
+    const stats = document.createElement('span');
+    stats.id = 'ubStats';
+
+    const showLink = document.createElement('a');
+    showLink.id = 'ubShowLink';
+    showLink.href = 'javascript:void(0)';
+    showLink.textContent = _('show');
+    showLink.addEventListener('click', () => {
+      document.getElementById('ubShowStyle').sheet.disabled = false;
+    });
+
+    const hideLink = document.createElement('a');
+    hideLink.id = 'ubHideLink';
+    hideLink.href = 'javascript:void(0)';
+    hideLink.textContent = _('hide');
+    hideLink.addEventListener('click', () => {
+      document.getElementById('ubShowStyle').sheet.disabled = true;
+    });
+
+    const control = document.createElement('span');
+    control.id = 'ubControl';
+    control.appendChild(stats);
+    control.appendChild(document.createTextNode('\u00a0'));
+    control.appendChild(showLink);
+    control.appendChild(hideLink);
+
     const resultStats = document.getElementById('resultStats');
     if (resultStats) {
-      const stats = document.createElement('span');
-      stats.id = 'ubStats';
-
-      const showLink = document.createElement('a');
-      showLink.id = 'ubShowLink';
-      showLink.href = 'javascript:void(0)';
-      showLink.textContent = _('show');
-      showLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = false;
-      });
-
-      const hideLink = document.createElement('a');
-      hideLink.id = 'ubHideLink';
-      hideLink.href = 'javascript:void(0)';
-      hideLink.textContent = _('hide');
-      hideLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = true;
-      });
-
-      const control = document.createElement('span');
-      control.id = 'ubControl';
-      control.appendChild(stats);
-      control.appendChild(document.createTextNode('\u00a0'));
-      control.appendChild(showLink);
-      control.appendChild(hideLink);
-
       resultStats.appendChild(control);
-
-      this.updateControl();
+    } else {
+      const abCtls = document.getElementById('ab_ctls');
+      if (abCtls) {
+        const li = document.createElement('li');
+        li.className = 'ab_ctl';
+        li.id = 'ubImageControl';
+        li.appendChild(control);
+        abCtls.insertBefore(li, abCtls.firstChild);
+      } else {
+        return;
+      }
     }
+
+    this.updateControl();
   }
 
   setupBlockDialogs() {

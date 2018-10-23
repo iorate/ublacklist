@@ -1,14 +1,27 @@
 .ubDefaultBlockContainer {
+  font-size: 14px;
   margin-left: 4px;
 }
 
-.ubCarouselBlockContainer {
+.ubCardBlockContainer {
+  font-size: 14px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
-.ubBlockLink, .ubUnblockLink {
-  font-size: 14px;
+.ubVideoBlockContainer {
+  font-size: 13px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubImageBlockContainer {
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.ubNewsBlockContainer {
+  font-size: 13px;
 }
 
 #ubBlockDialog, #ubUnblockDialog {
@@ -23,4 +36,8 @@
 #ubBlockInput, #ubUnblockSelect {
   margin: 0 6px;
   width: 280px;
+}
+
+#ubImageControl {
+  font-size: 12px;
 }
