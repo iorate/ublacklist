@@ -33,9 +33,9 @@ const SITE_INSPECTORS = [
   {
     target:               'div#rso > div > div.g.mnr-c.g-blk',
     targetDepth:          0,
-    pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div.g > div > div.rc > div.r > a',
+    pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div.kp-blk > div.xpdopen > div > div.g > div > div.rc > div.r',
+    blockContainerParent: ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
     blockContainerTag:    'span',
     blockContainerClass:  'ubDefaultBlockContainer'
   },
