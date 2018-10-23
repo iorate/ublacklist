@@ -1,7 +1,27 @@
-const SITE_QUERIES = [
+const SITE_INSPECTORS = [
   // Search, Book_Search, Video_Search
   {
     target:               'div#rso > div > div.srg > div.g',
+    targetDepth:          0,
+    pageLink:             ':scope > div > div.rc > div.r > a',
+    pageLinkType:         'default',
+    blockContainerParent: ':scope > div > div.rc > div.r',
+    blockContainerTag:    'span',
+    blockContainerClass:  'ubDefaultBlockContainer'
+  },
+  // Search.Web_Result_with_Site_Links
+  {
+    target:               'div#rso > div > div.g',
+    targetDepth:          0,
+    pageLink:             ':scope > div > div > div.rc > div.r > a',
+    pageLinkType:         'default',
+    blockContainerParent: ':scope > div > div > div.rc > div.r',
+    blockContainerTag:    'span',
+    blockContainerClass:  'ubDefaultBlockContainer'
+  },
+  // Search.Web_Result
+  {
+    target:               'div#rso > div > div.g',
     targetDepth:          0,
     pageLink:             ':scope > div > div.rc > div.r > a',
     pageLinkType:         'default',
@@ -18,16 +38,6 @@ const SITE_QUERIES = [
     blockContainerParent: ':scope > div.kp-blk > div.xpdopen > div > div.g > div > div.rc > div.r',
     blockContainerTag:    'span',
     blockContainerClass:  'ubDefaultBlockContainer'
-  },
-  // Search.Latest
-  {
-    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > a',
-    pageLinkType:         'default',
-    blockContainerParent: ':scope > g-inner-card',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubCardBlockContainer'
   },
   // Search.Top_Story
   {
@@ -49,15 +59,15 @@ const SITE_QUERIES = [
     blockContainerTag:    'div',
     blockContainerClass:  'ubCardBlockContainer'
   },
-  // Search.Top_Story.List
+  // Search.Latest
   {
-    target:               'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
-    targetDepth:          0,
-    pageLink:             ':scope > div.dbsr.kno-fb-ctx > g-card-section > a',
+    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
+    targetDepth:          1,
+    pageLink:             ':scope > g-inner-card > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div.dbsr.kno-fb-ctx > g-card-section > div',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockContainerParent: ':scope > g-inner-card',
+    blockContainerTag:    'div',
+    blockContainerClass:  'ubCardBlockContainer'
   },
   // Search.Video
   {
@@ -69,23 +79,13 @@ const SITE_QUERIES = [
     blockContainerTag:    'div',
     blockContainerClass:  'ubVideoBlockContainer'
   },
-  // Search.Web_Result
+  // Search.Top_Story.List
   {
-    target:               'div#rso > div > div.g',
+    target:               'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
     targetDepth:          0,
-    pageLink:             ':scope > div > div.rc > div.r > a',
+    pageLink:             ':scope > div.dbsr.kno-fb-ctx > g-card-section > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div > div.rc > div.r',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
-  },
-  // Search.Web_Result_with_Site_Links
-  {
-    target:               'div#rso > div > div.g',
-    targetDepth:          0,
-    pageLink:             ':scope > div > div > div.rc > div.r > a',
-    pageLinkType:         'default',
-    blockContainerParent: ':scope > div > div > div.rc > div.r',
+    blockContainerParent: ':scope > div.dbsr.kno-fb-ctx > g-card-section > div',
     blockContainerTag:    'span',
     blockContainerClass:  'ubDefaultBlockContainer'
   },
@@ -112,16 +112,16 @@ const SITE_QUERIES = [
 ];
 
 const querySite = elem => {
-  for (const query of SITE_QUERIES) {
-    if (elem.matches(query.target)) {
+  for (const insp of SITE_INSPECTORS) {
+    if (elem.matches(insp.target)) {
       let site = elem;
-      for (let i = 0; i < query.targetDepth; ++i) {
+      for (let i = 0; i < insp.targetDepth; ++i) {
         site = site.parentNode;
       }
-      const pageLink = site.querySelector(query.pageLink);
+      const pageLink = site.querySelector(insp.pageLink);
       if (!pageLink) { continue; }
       let pageUrl = null;
-      if (query.pageLinkType == 'image') {
+      if (insp.pageLinkType == 'image') {
         const m = /"ru":"([^"]+)"/.exec(pageLink.textContent);
         if (!m) { continue; }
         pageUrl = m[1];
@@ -129,16 +129,16 @@ const querySite = elem => {
         pageUrl = pageLink.href;
       }
       let blockContainerParent = null;
-      if (query.blockContainerParent) {
-        blockContainerParent = site.querySelector(query.blockContainerParent);
+      if (insp.blockContainerParent) {
+        blockContainerParent = site.querySelector(insp.blockContainerParent);
       } else {
         blockContainerParent = site;
       }
       if (!blockContainerParent) { continue; }
       return {
         site, pageUrl, blockContainerParent,
-        blockContainerTag: query.blockContainerTag,
-        blockContainerClass: query.blockContainerClass
+        blockContainerTag: insp.blockContainerTag,
+        blockContainerClass: insp.blockContainerClass
       };
     }
   }
