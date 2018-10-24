@@ -9,13 +9,13 @@ const ENTRY_INFO = [
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
   },
-  // Search.Web_Result_with_Site_Links
+  // Search.Featured_Snippet
   {
-    target:               'div#rso > div > div.g',
+    target:               'div#rso > div > div.g.mnr-c.g-blk',
     targetDepth:          0,
-    pageLink:             ':scope > div > div > div.rc > div.r > a',
+    pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div > div > div.rc > div.r',
+    blockUnblockParent:   ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
   },
@@ -29,15 +29,35 @@ const ENTRY_INFO = [
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
   },
-  // Search.Featured_Snippet
+  // Search.Web_Result_with_Site_Links
   {
-    target:               'div#rso > div > div.g.mnr-c.g-blk',
+    target:               'div#rso > div > div.g',
     targetDepth:          0,
-    pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
+    pageLink:             ':scope > div > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
+    blockUnblockParent:   ':scope > div > div > div.rc > div.r',
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
+  },
+  // Search.Image
+  {
+    target:               'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i',
+    targetDepth:          0,
+    pageLink:             ':scope > div.rg_meta.notranslate',
+    pageLinkType:         'image',
+    blockUnblockParent:   '',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubImageBlockUnblock'
+  },
+  // Search.Latest
+  {
+    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
+    targetDepth:          1,
+    pageLink:             ':scope > g-inner-card > a',
+    pageLinkType:         'default',
+    blockUnblockParent:   ':scope > g-inner-card',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubCardBlockUnblock'
   },
   // Search.Top_Story
   {
@@ -59,26 +79,6 @@ const ENTRY_INFO = [
     blockUnblockTag:      'div',
     blockUnblockClass:    'ubCardBlockUnblock'
   },
-  // Search.Latest
-  {
-    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubCardBlockUnblock'
-  },
-  // Search.Video
-  {
-    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > div > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubVideoBlockUnblock'
-  },
   // Search.Top_Story.List
   {
     target:               'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
@@ -89,15 +89,15 @@ const ENTRY_INFO = [
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
   },
-  // Search.Image
+  // Search.Video
   {
-    target:               'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i',
-    targetDepth:          0,
-    pageLink:             ':scope > div.rg_meta.notranslate',
-    pageLinkType:         'image',
-    blockUnblockParent:   '',
+    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
+    targetDepth:          1,
+    pageLink:             ':scope > g-inner-card > div > a',
+    pageLinkType:         'default',
+    blockUnblockParent:   ':scope > g-inner-card',
     blockUnblockTag:      'div',
-    blockUnblockClass:    'ubImageBlockUnblock'
+    blockUnblockClass:    'ubVideoBlockUnblock'
   },
   // Image_Search
   {
