@@ -49,5 +49,6 @@ const saveBlockRules = blockRules => {
 const makeMatchPattern = url => {
   const u = new URL(url);
   const s = u.protocol.match(/^((https?)|ftp):$/);
-  return s ? (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*' : '';
+  if (!s) { return null; }
+  return (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*';
 };
