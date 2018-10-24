@@ -1,5 +1,6 @@
-#ubImageControl {
+#ubImageSearchControl {
   font-size: 12px;
+  margin-left: 16px;
 }
 
 .ubDefaultBlockUnblock {
@@ -20,11 +21,23 @@
 }
 
 .ubImageBlockUnblock {
+  font-size: 10px;
+}
+
+.birrg > .rg_el.ivg-i {
+  height: 103px !important;
+}
+
+.birrg > .rg_el.ivg-i > .bia {
+  height: 90px;
+}
+
+.ubImageSearchBlockUnblock {
   font-size: 12px;
   padding: 0 4px;
 }
 
-.ubNewsBlockUnblock {
+.ubNewsSearchBlockUnblock {
   font-size: 13px;
   margin-left: 4px;
 }

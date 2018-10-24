@@ -64,7 +64,7 @@ class UBlacklist {
     showStyle.sheet.insertRule('#ubShowButton { display: none; }');
     showStyle.sheet.insertRule('#ubHideButton { display: inline; }');
     showStyle.sheet.insertRule('.ubBlockedEntry { display: block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry.rg_bx { display: inline-block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry.ivg-i { display: inline-block !important; }');
     showStyle.sheet.insertRule('.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }');
     showStyle.sheet.insertRule('.ubBlockedEntry .ubBlockButton { display: none; }');
     showStyle.sheet.insertRule('.ubBlockedEntry .ubUnblockButton { display: inline; }');
@@ -155,9 +155,9 @@ class UBlacklist {
       if (abCtls) {
         const li = document.createElement('li');
         li.className = 'ab_ctl';
-        li.id = 'ubImageControl';
+        li.id = 'ubImageSearchControl';
         li.appendChild(control);
-        abCtls.insertBefore(li, abCtls.firstChild);
+        abCtls.appendChild(li);
       } else {
         return;
       }

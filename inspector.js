@@ -89,6 +89,16 @@ const ENTRY_INFO = [
     blockUnblockTag:      'span',
     blockUnblockClass:    'ubDefaultBlockUnblock'
   },
+  // Search.Image
+  {
+    target:               'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i',
+    targetDepth:          0,
+    pageLink:             ':scope > div.rg_meta.notranslate',
+    pageLinkType:         'image',
+    blockUnblockParent:   '',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubImageBlockUnblock'
+  },
   // Image_Search
   {
     target:               'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
@@ -97,7 +107,7 @@ const ENTRY_INFO = [
     pageLinkType:         'image',
     blockUnblockParent:   '',
     blockUnblockTag:      'div',
-    blockUnblockClass:    'ubImageBlockUnblock'
+    blockUnblockClass:    'ubImageSearchBlockUnblock'
   },
   // News_Search
   {
@@ -107,7 +117,7 @@ const ENTRY_INFO = [
     pageLinkType:         'default',
     blockUnblockParent:   ':scope > div.ts > div > div.slp',
     blockUnblockTag:      'span',
-    blockUnblockClass:    'ubNewsBlockUnblock'
+    blockUnblockClass:    'ubNewsSearchBlockUnblock'
   },
 ];
 
