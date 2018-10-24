@@ -1,13 +1,13 @@
-const SITE_INSPECTORS = [
+const ENTRY_INFO = [
   // Search, Book_Search, Video_Search
   {
     target:               'div#rso > div > div.srg > div.g',
     targetDepth:          0,
     pageLink:             ':scope > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div > div.rc > div.r',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockUnblockParent:   ':scope > div > div.rc > div.r',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubDefaultBlockUnblock'
   },
   // Search.Web_Result_with_Site_Links
   {
@@ -15,9 +15,9 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div > div > div.rc > div.r',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockUnblockParent:   ':scope > div > div > div.rc > div.r',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubDefaultBlockUnblock'
   },
   // Search.Web_Result
   {
@@ -25,9 +25,9 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div > div.rc > div.r',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockUnblockParent:   ':scope > div > div.rc > div.r',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubDefaultBlockUnblock'
   },
   // Search.Featured_Snippet
   {
@@ -35,9 +35,9 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockUnblockParent:   ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubDefaultBlockUnblock'
   },
   // Search.Top_Story
   {
@@ -45,9 +45,9 @@ const SITE_INSPECTORS = [
     targetDepth:          2,
     pageLink:             ':scope > g-inner-card > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > g-inner-card',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubCardBlockContainer'
+    blockUnblockParent:   ':scope > g-inner-card',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubCardBlockUnblock'
   },
   // Search.Top_Story.Hidden
   {
@@ -55,9 +55,9 @@ const SITE_INSPECTORS = [
     targetDepth:          1,
     pageLink:             ':scope > g-inner-card > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > g-inner-card',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubCardBlockContainer'
+    blockUnblockParent:   ':scope > g-inner-card',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubCardBlockUnblock'
   },
   // Search.Latest
   {
@@ -65,9 +65,9 @@ const SITE_INSPECTORS = [
     targetDepth:          1,
     pageLink:             ':scope > g-inner-card > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > g-inner-card',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubCardBlockContainer'
+    blockUnblockParent:   ':scope > g-inner-card',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubCardBlockUnblock'
   },
   // Search.Video
   {
@@ -75,9 +75,9 @@ const SITE_INSPECTORS = [
     targetDepth:          1,
     pageLink:             ':scope > g-inner-card > div > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > g-inner-card',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubVideoBlockContainer'
+    blockUnblockParent:   ':scope > g-inner-card',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubVideoBlockUnblock'
   },
   // Search.Top_Story.List
   {
@@ -85,9 +85,9 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div.dbsr.kno-fb-ctx > g-card-section > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div.dbsr.kno-fb-ctx > g-card-section > div',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubDefaultBlockContainer'
+    blockUnblockParent:   ':scope > div.dbsr.kno-fb-ctx > g-card-section > div',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubDefaultBlockUnblock'
   },
   // Image_Search
   {
@@ -95,9 +95,9 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div.rg_meta.notranslate',
     pageLinkType:         'image',
-    blockContainerParent: '',
-    blockContainerTag:    'div',
-    blockContainerClass:  'ubImageBlockContainer'
+    blockUnblockParent:   '',
+    blockUnblockTag:      'div',
+    blockUnblockClass:    'ubImageBlockUnblock'
   },
   // News_Search
   {
@@ -105,41 +105,43 @@ const SITE_INSPECTORS = [
     targetDepth:          0,
     pageLink:             ':scope > div.ts > div > h3.r > a',
     pageLinkType:         'default',
-    blockContainerParent: ':scope > div.ts > div > div.slp',
-    blockContainerTag:    'span',
-    blockContainerClass:  'ubNewsBlockContainer'
+    blockUnblockParent:   ':scope > div.ts > div > div.slp',
+    blockUnblockTag:      'span',
+    blockUnblockClass:    'ubNewsBlockUnblock'
   },
 ];
 
-const querySite = elem => {
-  for (const insp of SITE_INSPECTORS) {
-    if (elem.matches(insp.target)) {
-      let site = elem;
-      for (let i = 0; i < insp.targetDepth; ++i) {
-        site = site.parentNode;
+const inspectEntry = elem => {
+  for (const info of ENTRY_INFO) {
+    if (elem.matches(info.target)) {
+      let root = elem;
+      for (let i = 0; i < info.targetDepth; ++i) {
+        root = root.parentNode;
       }
-      const pageLink = site.querySelector(insp.pageLink);
+
+      const pageLink = root.querySelector(info.pageLink);
       if (!pageLink) { continue; }
-      let pageUrl = null;
-      if (insp.pageLinkType == 'image') {
+      let pageUrl;
+      if (info.pageLinkType == 'image') {
         const m = /"ru":"([^"]+)"/.exec(pageLink.textContent);
         if (!m) { continue; }
         pageUrl = m[1];
       } else {
         pageUrl = pageLink.href;
       }
-      let blockContainerParent = null;
-      if (insp.blockContainerParent) {
-        blockContainerParent = site.querySelector(insp.blockContainerParent);
+
+      let blockUnblockParent;
+      if (info.blockUnblockParent) {
+        blockUnblockParent = root.querySelector(info.blockUnblockParent);
       } else {
-        blockContainerParent = site;
+        blockUnblockParent = root;
       }
-      if (!blockContainerParent) { continue; }
-      return {
-        site, pageUrl, blockContainerParent,
-        blockContainerTag: insp.blockContainerTag,
-        blockContainerClass: insp.blockContainerClass
-      };
+      if (!blockUnblockParent) { continue; }
+
+      const blockUnblockTag = info.blockUnblockTag;
+      const blockUnblockClass = info.blockUnblockClass;
+
+      return { root, pageUrl, blockUnblockParent, blockUnblockTag, blockUnblockClass };
     }
   }
   return null;

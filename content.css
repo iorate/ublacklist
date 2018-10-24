@@ -1,26 +1,30 @@
-.ubDefaultBlockContainer {
+#ubImageControl {
+  font-size: 12px;
+}
+
+.ubDefaultBlockUnblock {
   font-size: 14px;
   margin-left: 4px;
 }
 
-.ubCardBlockContainer {
+.ubCardBlockUnblock {
   font-size: 14px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
-.ubVideoBlockContainer {
+.ubVideoBlockUnblock {
   font-size: 13px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
-.ubImageBlockContainer {
+.ubImageBlockUnblock {
   font-size: 12px;
   padding: 0 4px;
 }
 
-.ubNewsBlockContainer {
+.ubNewsBlockUnblock {
   font-size: 13px;
   margin-left: 4px;
 }
@@ -37,8 +41,4 @@
 #ubBlockInput, #ubUnblockSelect {
   margin: 0 6px;
   width: 280px;
-}
-
-#ubImageControl {
-  font-size: 12px;
 }
