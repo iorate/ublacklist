@@ -3,24 +3,12 @@
   margin-left: 16px;
 }
 
-.ubDefaultBlockUnblock {
+.ubDefaultAction {
   font-size: 14px;
   margin-left: 4px;
 }
 
-.ubCardBlockUnblock {
-  font-size: 14px;
-  margin: -10px 0 10px 0;
-  padding: 0 16px;
-}
-
-.ubVideoBlockUnblock {
-  font-size: 13px;
-  margin: -10px 0 10px 0;
-  padding: 0 16px;
-}
-
-.ubImageBlockUnblock {
+.ubImageAction {
   font-size: 10px;
 }
 
@@ -32,12 +20,24 @@
   height: 90px;
 }
 
-.ubImageSearchBlockUnblock {
+.ubNewsAction {
+  font-size: 14px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubVideoAction {
+  font-size: 13px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubImageSearchAction {
   font-size: 12px;
   padding: 0 4px;
 }
 
-.ubNewsSearchBlockUnblock {
+.ubNewsSearchAction {
   font-size: 13px;
   margin-left: 4px;
 }

@@ -73,13 +73,13 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupEntry({ root, pageUrl, blockUnblockParent, blockUnblockTag, blockUnblockClass }) {
+  setupEntry({ root, pageUrl, actionParent, actionTag, actionClass }) {
     if (root.classList.contains('ubEntry')) { return; }
     root.classList.add('ubEntry');
     root.setAttribute('data-ub-page-url', pageUrl);
 
-    const blockUnblock = document.createElement(blockUnblockTag);
-    blockUnblock.className = blockUnblockClass;
+    const action = document.createElement(actionTag);
+    action.className = actionClass;
 
     const blockButton = document.createElement('a');
     blockButton.className = 'ubBlockButton';
@@ -114,10 +114,10 @@ class UBlacklist {
       }
     });
 
-    blockUnblock.appendChild(blockButton);
-    blockUnblock.appendChild(unblockButton);
+    action.appendChild(blockButton);
+    action.appendChild(unblockButton);
 
-    blockUnblockParent.appendChild(blockUnblock);
+    actionParent.appendChild(action);
   }
 
   setupControl() {

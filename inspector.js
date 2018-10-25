@@ -1,123 +1,123 @@
 const ENTRY_INFO = [
-  // Search, Book_Search, Video_Search
+  // Search, BookSearch, VideoSearch
   {
-    target:               'div#rso > div > div.srg > div.g',
-    targetDepth:          0,
-    pageLink:             ':scope > div > div.rc > div.r > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div > div.rc > div.r',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubDefaultBlockUnblock'
+    target:       'div#rso > div > div.srg > div.g',
+    targetDepth:  0,
+    pageLink:     '> div > div.rc > div.r > a',
+    pageLinkType: 'default',
+    actionParent: '> div > div.rc > div.r',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction'
   },
-  // Search.Featured_Snippet
+  // Search.FeaturedSnippet
   {
-    target:               'div#rso > div > div.g.mnr-c.g-blk',
-    targetDepth:          0,
-    pageLink:             ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubDefaultBlockUnblock'
+    target:       'div#rso > div > div.g.mnr-c.g-blk',
+    targetDepth:  0,
+    pageLink:     '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
+    pageLinkType: 'default',
+    actionParent: '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction'
   },
-  // Search.Web_Result
+  // Search.WebResult
   {
-    target:               'div#rso > div > div.g',
-    targetDepth:          0,
-    pageLink:             ':scope > div > div.rc > div.r > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div > div.rc > div.r',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubDefaultBlockUnblock'
+    target:       'div#rso > div > div.g',
+    targetDepth:  0,
+    pageLink:     '> div > div.rc > div.r > a',
+    pageLinkType: 'default',
+    actionParent: '> div > div.rc > div.r',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction'
   },
-  // Search.Web_Result_with_Site_Links
+  // Search.WebResultWithSiteLinks
   {
-    target:               'div#rso > div > div.g',
-    targetDepth:          0,
-    pageLink:             ':scope > div > div > div.rc > div.r > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div > div > div.rc > div.r',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubDefaultBlockUnblock'
+    target:       'div#rso > div > div.g',
+    targetDepth:  0,
+    pageLink:     '> div > div > div.rc > div.r > a',
+    pageLinkType: 'default',
+    actionParent: '> div > div > div.rc > div.r',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction'
   },
   // Search.Image
   {
-    target:               'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i',
-    targetDepth:          0,
-    pageLink:             ':scope > div.rg_meta.notranslate',
-    pageLinkType:         'image',
-    blockUnblockParent:   '',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubImageBlockUnblock'
+    target:       'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > div.rg_meta.notranslate',
+    targetDepth:  1,
+    pageLink:     '> div.rg_meta.notranslate',
+    pageLinkType: 'image',
+    actionParent: '',
+    actionTag:    'div',
+    actionClass:  'ubImageAction'
   },
   // Search.Latest
   {
-    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubCardBlockUnblock'
+    target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
+    targetDepth:  1,
+    pageLink:     '> g-inner-card > a',
+    pageLinkType: 'default',
+    actionParent: '> g-inner-card',
+    actionTag:    'div',
+    actionClass:  'ubNewsAction'
   },
-  // Search.Top_Story
+  // Search.TopStory
   {
-    target:               'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(-n+3) > g-inner-card > div:nth-child(2)',
-    targetDepth:          2,
-    pageLink:             ':scope > g-inner-card > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubCardBlockUnblock'
+    target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(-n+3) > g-inner-card > div:nth-child(2)',
+    targetDepth:  2,
+    pageLink:     '> g-inner-card > a',
+    pageLinkType: 'default',
+    actionParent: '> g-inner-card',
+    actionTag:    'div',
+    actionClass:  'ubNewsAction'
   },
-  // Search.Top_Story.Hidden
+  // Search.TopStory.Hidden
   {
-    target:               'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubCardBlockUnblock'
+    target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
+    targetDepth:  1,
+    pageLink:     '> g-inner-card > a',
+    pageLinkType: 'default',
+    actionParent: '> g-inner-card',
+    actionTag:    'div',
+    actionClass:  'ubNewsAction'
   },
-  // Search.Top_Story.List
+  // Search.TopStory.List
   {
-    target:               'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
-    targetDepth:          0,
-    pageLink:             ':scope > div.dbsr.kno-fb-ctx > g-card-section > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div.dbsr.kno-fb-ctx > g-card-section > div',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubDefaultBlockUnblock'
+    target:       'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
+    targetDepth:  0,
+    pageLink:     '> div.dbsr.kno-fb-ctx > g-card-section > a',
+    pageLinkType: 'default',
+    actionParent: '> div.dbsr.kno-fb-ctx > g-card-section > div',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction'
   },
   // Search.Video
   {
-    target:               'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
-    targetDepth:          1,
-    pageLink:             ':scope > g-inner-card > div > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > g-inner-card',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubVideoBlockUnblock'
+    target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
+    targetDepth:  1,
+    pageLink:     '> g-inner-card > div > a',
+    pageLinkType: 'default',
+    actionParent: '> g-inner-card',
+    actionTag:    'div',
+    actionClass:  'ubVideoAction'
   },
-  // Image_Search
+  // ImageSearch
   {
-    target:               'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
-    targetDepth:          0,
-    pageLink:             ':scope > div.rg_meta.notranslate',
-    pageLinkType:         'image',
-    blockUnblockParent:   '',
-    blockUnblockTag:      'div',
-    blockUnblockClass:    'ubImageSearchBlockUnblock'
+    target:       'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
+    targetDepth:  0,
+    pageLink:     '> div.rg_meta.notranslate',
+    pageLinkType: 'image',
+    actionParent: '',
+    actionTag:    'div',
+    actionClass:  'ubImageSearchAction'
   },
-  // News_Search
+  // NewsSearch
   {
-    target:               'div#rso > div > div.g',
-    targetDepth:          0,
-    pageLink:             ':scope > div.ts > div > h3.r > a',
-    pageLinkType:         'default',
-    blockUnblockParent:   ':scope > div.ts > div > div.slp',
-    blockUnblockTag:      'span',
-    blockUnblockClass:    'ubNewsSearchBlockUnblock'
+    target:       'div#rso > div > div.g',
+    targetDepth:  0,
+    pageLink:     '> div.ts > div > h3.r > a',
+    pageLinkType: 'default',
+    actionParent: '> div.ts > div > div.slp',
+    actionTag:    'span',
+    actionClass:  'ubNewsSearchAction'
   },
 ];
 
@@ -129,7 +129,7 @@ const inspectEntry = elem => {
         root = root.parentNode;
       }
 
-      const pageLink = root.querySelector(info.pageLink);
+      const pageLink = root.querySelector(':scope ' + info.pageLink);
       if (!pageLink) { continue; }
       let pageUrl;
       if (info.pageLinkType == 'image') {
@@ -140,18 +140,18 @@ const inspectEntry = elem => {
         pageUrl = pageLink.href;
       }
 
-      let blockUnblockParent;
-      if (info.blockUnblockParent) {
-        blockUnblockParent = root.querySelector(info.blockUnblockParent);
+      let actionParent;
+      if (info.actionParent) {
+        actionParent = root.querySelector(':scope ' + info.actionParent);
       } else {
-        blockUnblockParent = root;
+        actionParent = root;
       }
-      if (!blockUnblockParent) { continue; }
+      if (!actionParent) { continue; }
 
-      const blockUnblockTag = info.blockUnblockTag;
-      const blockUnblockClass = info.blockUnblockClass;
+      const actionTag = info.actionTag;
+      const actionClass = info.actionClass;
 
-      return { root, pageUrl, blockUnblockParent, blockUnblockTag, blockUnblockClass };
+      return { root, pageUrl, actionParent, actionTag, actionClass };
     }
   }
   return null;
