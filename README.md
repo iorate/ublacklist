@@ -14,4 +14,4 @@ You can add rules on search result pages, or on sites to be blocked by clicking 
 ## License
 uBlacklist is licensed under [MIT License](LICENSE.txt).
 
-The icon is from [Material Design Icons](https://material.io/tools/icons/) by Google. It is licensed under [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
+In previous versions, the icon was from [Material Design Icons](https://material.io/tools/icons/) by Google. It is licensed under [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
