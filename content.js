@@ -231,7 +231,7 @@ class UBlacklist {
 
   rejudgeAllEntries() {
     this.blockedEntryCount = 0;
-    for (const entry of document.querySelectorAll('.ubEntry')) {
+    for (const entry of document.getElementsByClassName('ubEntry')) {
       entry.classList.remove('ubBlockedEntry');
       this.judgeEntry(entry);
     }
