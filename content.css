@@ -1,14 +1,45 @@
-.ubCardBlockLinkContainer {
+#ubImageSearchControl {
+  font-size: 12px;
+  margin-left: 16px;
+}
+
+.ubDefaultAction {
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.ubImageAction {
+  font-size: 10px;
+}
+
+.birrg > .rg_el.ivg-i {
+  height: 103px !important;
+}
+
+.birrg > .rg_el.ivg-i > .bia {
+  height: 90px;
+}
+
+.ubNewsAction {
+  font-size: 14px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
-.ubNormalBlockLinkContainer {
-  margin-left: 4px;
+.ubVideoAction {
+  font-size: 13px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
 }
 
-.ubBlockLink, .ubUnblockLink {
-  font-size: 14px;
+.ubImageSearchAction {
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.ubNewsSearchAction {
+  font-size: 13px;
+  margin-left: 4px;
 }
 
 #ubBlockDialog, #ubUnblockDialog {

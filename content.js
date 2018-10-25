@@ -1,8 +1,8 @@
 class UBlacklist {
   constructor() {
     this.blockRules = null;
-    this.blockedSiteCount = 0;
-    this.queuedSites = [];
+    this.blockedEntryCount = 0;
+    this.queuedEntries = [];
 
     loadBlockRules(blockRules => {
       this.onBlockRulesLoaded(blockRules);
@@ -19,10 +19,10 @@ class UBlacklist {
 
   onBlockRulesLoaded(blockRules) {
     this.blockRules = blockRules;
-    for (const site of this.queuedSites) {
-      this.judgeSite(site);
+    for (const entry of this.queuedEntries) {
+      this.judgeEntry(entry);
     }
-    this.queuedSites = [];
+    this.queuedEntries = [];
   }
 
   onDOMContentMutated(records) {
@@ -31,12 +31,15 @@ class UBlacklist {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.matches && node.matches('.g:not(.g-blk), g-inner-card, .dbsr:not(.kno-fb-ctx)')) {
-          this.setupBlockLinks(node);
-          if (this.blockRules) {
-            this.judgeSite(node);
-          } else {
-            this.queuedSites.push(node);
+        if (node.nodeType == Node.ELEMENT_NODE) {
+          const entryInfo = inspectEntry(node);
+          if (entryInfo) {
+            this.setupEntry(entryInfo);
+            if (this.blockRules) {
+              this.judgeEntry(entryInfo.base);
+            } else {
+              this.queuedEntries.push(entryInfo.base);
+            }
           }
         }
       }
@@ -52,98 +55,115 @@ class UBlacklist {
   setupStyleSheets() {
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
-    hideStyle.sheet.insertRule('#ubHideLink { display: none; }');
-    hideStyle.sheet.insertRule('.ubBlockedSiteContainer { display: none !important; }');
-    hideStyle.sheet.insertRule('.ubUnblockLink { display: none; }');
+    hideStyle.sheet.insertRule('#ubHideButton { display: none; }');
+    hideStyle.sheet.insertRule('.ubBlockedEntry { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubUnblockButton { display: none; }');
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
-    showStyle.sheet.insertRule('#ubShowLink { display: none; }');
-    showStyle.sheet.insertRule('#ubHideLink { display: inline; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer { display: block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer, .ubBlockedSiteContainer * { background-color: #ffe0e0; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubBlockLink { display: none; }');
-    showStyle.sheet.insertRule('.ubBlockedSiteContainer .ubUnblockLink { display: inline; }');
+    showStyle.sheet.insertRule('#ubShowButton { display: none; }');
+    showStyle.sheet.insertRule('#ubHideButton { display: inline; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry { display: block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry.ivg-i { display: inline-block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry .ubBlockButton { display: none; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry .ubUnblockButton { display: inline; }');
 
     showStyle.id = 'ubShowStyle';
     showStyle.sheet.disabled = true;
   }
 
-  setupBlockLinks(site) {
-    const siteLink = this.getSiteLink(site);
-    const blockLinkContainer = this.createBlockLinkContainer(site);
-    if (siteLink && blockLinkContainer) {
-      const blockLink = document.createElement('a');
-      blockLink.className = 'ubBlockLink';
-      blockLink.href = 'javascript:void(0)';
-      blockLink.textContent = _('blockThisSite');
-      blockLink.addEventListener('click', () => {
-        if (this.blockRules) {
-          document.getElementById('ubBlockInput').value = makeMatchPattern(siteLink.href);
-          document.getElementById('ubBlockDialog').showModal();
-        }
-      });
+  setupEntry({ base, pageUrl, actionParent, actionTag, actionClass }) {
+    if (base.classList.contains('ubEntry')) { return; }
+    base.classList.add('ubEntry');
+    base.setAttribute('data-ub-page-url', pageUrl);
 
-      const unblockLink = document.createElement('a');
-      unblockLink.className = 'ubUnblockLink';
-      unblockLink.href = 'javascript:void(0)';
-      unblockLink.textContent = _('unblockThisSite');
-      unblockLink.addEventListener('click', () => {
-        if (this.blockRules) {
-          const unblockSelect = document.getElementById('ubUnblockSelect');
-          while (unblockSelect.firstChild) {
-            unblockSelect.removeChild(unblockSelect.firstChild);
+    const action = document.createElement(actionTag);
+    action.className = actionClass;
+
+    const blockButton = document.createElement('a');
+    blockButton.className = 'ubBlockButton';
+    blockButton.href = 'javascript:void(0)';
+    blockButton.textContent = _('blockThisSite');
+    blockButton.addEventListener('click', () => {
+      if (this.blockRules) {
+        document.getElementById('ubBlockInput').value = makeMatchPattern(pageUrl) || '';
+        document.getElementById('ubBlockDialog').showModal();
+      }
+    });
+
+    const unblockButton = document.createElement('a');
+    unblockButton.className = 'ubUnblockButton';
+    unblockButton.href = 'javascript:void(0)';
+    unblockButton.textContent = _('unblockThisSite');
+    unblockButton.addEventListener('click', () => {
+      if (this.blockRules) {
+        const unblockSelect = document.getElementById('ubUnblockSelect');
+        while (unblockSelect.firstChild) {
+          unblockSelect.removeChild(unblockSelect.firstChild);
+        }
+        this.blockRules.forEach((rule, index) => {
+          if (rule.compiled && rule.compiled.test(pageUrl)) {
+            const option = document.createElement('option');
+            option.textContent = rule.raw;
+            option.value = String(index);
+            unblockSelect.appendChild(option);
           }
-          this.blockRules.forEach((rule, index) => {
-            if (rule.compiled && rule.compiled.test(siteLink.href)) {
-              const option = document.createElement('option');
-              option.textContent = rule.raw;
-              option.value = String(index);
-              unblockSelect.appendChild(option);
-            }
-          });
-          document.getElementById('ubUnblockDialog').showModal();
-        }
-      });
+        });
+        document.getElementById('ubUnblockDialog').showModal();
+      }
+    });
 
-      blockLinkContainer.appendChild(blockLink);
-      blockLinkContainer.appendChild(unblockLink);
-    }
+    action.appendChild(blockButton);
+    action.appendChild(unblockButton);
+
+    actionParent.appendChild(action);
   }
 
   setupControl() {
+    const stats = document.createElement('span');
+    stats.id = 'ubStats';
+
+    const showButton = document.createElement('a');
+    showButton.id = 'ubShowButton';
+    showButton.href = 'javascript:void(0)';
+    showButton.textContent = _('show');
+    showButton.addEventListener('click', () => {
+      document.getElementById('ubShowStyle').sheet.disabled = false;
+    });
+
+    const hideButton = document.createElement('a');
+    hideButton.id = 'ubHideButton';
+    hideButton.href = 'javascript:void(0)';
+    hideButton.textContent = _('hide');
+    hideButton.addEventListener('click', () => {
+      document.getElementById('ubShowStyle').sheet.disabled = true;
+    });
+
+    const control = document.createElement('span');
+    control.id = 'ubControl';
+    control.appendChild(stats);
+    control.appendChild(document.createTextNode('\u00a0'));
+    control.appendChild(showButton);
+    control.appendChild(hideButton);
+
     const resultStats = document.getElementById('resultStats');
     if (resultStats) {
-      const stats = document.createElement('span');
-      stats.id = 'ubStats';
-
-      const showLink = document.createElement('a');
-      showLink.id = 'ubShowLink';
-      showLink.href = 'javascript:void(0)';
-      showLink.textContent = _('show');
-      showLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = false;
-      });
-
-      const hideLink = document.createElement('a');
-      hideLink.id = 'ubHideLink';
-      hideLink.href = 'javascript:void(0)';
-      hideLink.textContent = _('hide');
-      hideLink.addEventListener('click', () => {
-        document.getElementById('ubShowStyle').sheet.disabled = true;
-      });
-
-      const control = document.createElement('span');
-      control.id = 'ubControl';
-      control.appendChild(stats);
-      control.appendChild(document.createTextNode('\u00a0'));
-      control.appendChild(showLink);
-      control.appendChild(hideLink);
-
       resultStats.appendChild(control);
-
-      this.updateControl();
+    } else {
+      const abCtls = document.getElementById('ab_ctls');
+      if (abCtls) {
+        const li = document.createElement('li');
+        li.className = 'ab_ctl';
+        li.id = 'ubImageSearchControl';
+        li.appendChild(control);
+        abCtls.appendChild(li);
+      } else {
+        return;
+      }
     }
+
+    this.updateControl();
   }
 
   setupBlockDialogs() {
@@ -176,7 +196,7 @@ class UBlacklist {
       const compiled = compileBlockRule(raw);
       if (compiled) {
         this.blockRules.push({ raw, compiled });
-        this.rejudgeAllSites();
+        this.rejudgeAllEntries();
         saveBlockRules(this.blockRules);
       }
       blockDialog.close();
@@ -191,7 +211,7 @@ class UBlacklist {
     document.getElementById('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
       this.blockRules.splice(Number(document.getElementById('ubUnblockSelect').value), 1);
-      this.rejudgeAllSites();
+      this.rejudgeAllEntries();
       saveBlockRules(this.blockRules);
       unblockDialog.close();
     });
@@ -202,135 +222,18 @@ class UBlacklist {
     });
   }
 
-  getType(site) {
-    if (site.matches('g-inner-card')) {
-      if (site.matches('g-scrolling-carousel *')) {
-        return 'card';
-      } else {
-        return 'listcard';
-      }
-    }
-    if (site.matches('.dbsr')) {
-      return 'list';
-    }
-    if (site.matches('.g-blk *')) {
-      return 'featured';
-    }
-    return 'normal';
-  }
-
-  getSiteLink(site) {
-    return site.querySelector('a[href^="https://books.google."]') || site.querySelector('a[ping]');
-  }
-
-  createBlockLinkContainer(site) {
-    const type = this.getType(site);
-    if (type == 'card') {
-      const container = document.createElement('div');
-      container.className = 'ubCardBlockLinkContainer';
-      site.appendChild(container);
-      return container;
-    }
-    if (type == 'listcard') {
-      const containerParent = site.querySelector('g-card-section > div');
-      if (containerParent) {
-        const container = document.createElement('span');
-        container.className = 'ubNormalBlockLinkContainer';
-        containerParent.appendChild(container);
-        return container;
-      }
-      return null;
-    }
-    if (type == 'list') {
-      return site.querySelector('a > div > div:last-child > div:nth-child(2)');
-    }
-    const containerParent =
-      /* Search (the New Version), Book Search or Video Search */
-      // div.g
-      //  |-div
-      //     |-div.rc
-      //        |-div.r                 <- Container Parent
-      //           |-a
-      //              |-h3
-      //              |-br
-      //              |-div
-      //                 |-cite
-      //           |-                   <- Container
-      //        |-div.s
-      //           |-div
-      //              |-div.slp.f *     <- ATTENTION!
-      //              |-span.st
-      //                 |-span.f
-      //        |-div
-      site.querySelector('div.r') ||
-      /* News Search */
-      // div.g
-      //  |-div.ts
-      //      |-a
-      //         |-div.f *              <- ATTENTION!
-      //      |-div
-      //         |-h3.r
-      //            |-a
-      //         |-div.slp              <- Container Parent
-      //            |-span
-      //            |-span
-      //            |-span.f
-      //            |-                  <- Container
-      //         |-div.st
-      site.querySelector('div.slp:not(.f)') ||
-      /* Search (the Old Version): No Longer Used? */
-      // div.g
-      //  |-div
-      //     |-div.rc
-      //        |-h3.r
-      //           |-a
-      //        |-div.s
-      //           |-div
-      //              |-div.f           <- Container Parent
-      //                 |-cite
-      //                 |-             <- Container
-      //              |-div.slp.f *     <- ATTENTION!
-      //        |-div
-      site.querySelector('div.f');
-    if (containerParent) {
-      const container = document.createElement('span');
-      container.className = 'ubNormalBlockLinkContainer';
-      containerParent.appendChild(container);
-      return container;
-    }
-    return null;
-  }
-
-  getContainer(site) {
-    const type = this.getType(site);
-    if (type == 'card') {
-      return site.closest('div') || site;
-    }
-    if (type == 'listcard') {
-      return site.closest('div') || site;
-    }
-    if (type == 'list') {
-      return site.closest('g-section-with-header > div > div > div > div') || site;
-    }
-    if (type == 'featured') {
-      return site.closest('.g-blk');
-    }
-    return site;
-  }
-
-  judgeSite(site) {
-    const siteLink = this.getSiteLink(site);
-    if (siteLink && this.blockRules.some(rule => rule.compiled && rule.compiled.test(siteLink.href))) {
-      this.getContainer(site).classList.add('ubBlockedSiteContainer');
-      ++this.blockedSiteCount;
+  judgeEntry(entry) {
+    if (this.blockRules.some(rule => rule.compiled && rule.compiled.test(entry.dataset.ubPageUrl))) {
+      entry.classList.add('ubBlockedEntry');
+      ++this.blockedEntryCount;
     }
   }
 
-  rejudgeAllSites() {
-    this.blockedSiteCount = 0;
-    for (const site of document.querySelectorAll('.g:not(.g-blk), g-inner-card, .dbsr:not(.kno-fb-ctx)')) {
-      this.getContainer(site).classList.remove('ubBlockedSiteContainer');
-      this.judgeSite(site);
+  rejudgeAllEntries() {
+    this.blockedEntryCount = 0;
+    for (const entry of document.querySelectorAll('.ubEntry')) {
+      entry.classList.remove('ubBlockedEntry');
+      this.judgeEntry(entry);
     }
     this.updateControl();
   }
@@ -338,9 +241,9 @@ class UBlacklist {
   updateControl() {
     const control = document.getElementById('ubControl');
     if (control) {
-      if (this.blockedSiteCount) {
+      if (this.blockedEntryCount) {
         const stats = document.getElementById('ubStats');
-        stats.textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedSiteCount));
+        stats.textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedEntryCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
