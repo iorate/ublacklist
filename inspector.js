@@ -11,8 +11,8 @@ const ENTRY_INFO = [
   },
   // Search.FeaturedSnippet
   {
-    target:       'div#rso > div > div.g.mnr-c.g-blk',
-    targetDepth:  0,
+    target:       'div#rso > div > div.g.mnr-c.g-blk > div.kp-blk > div.xpdopen > div > div > div.g',
+    targetDepth:  5,
     pageLink:     '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
     pageLinkType: 'default',
     actionParent: '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
