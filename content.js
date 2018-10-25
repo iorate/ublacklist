@@ -36,9 +36,9 @@ class UBlacklist {
           if (entryInfo) {
             this.setupEntry(entryInfo);
             if (this.blockRules) {
-              this.judgeEntry(entryInfo.root);
+              this.judgeEntry(entryInfo.base);
             } else {
-              this.queuedEntries.push(entryInfo.root);
+              this.queuedEntries.push(entryInfo.base);
             }
           }
         }
@@ -73,10 +73,10 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupEntry({ root, pageUrl, actionParent, actionTag, actionClass }) {
-    if (root.classList.contains('ubEntry')) { return; }
-    root.classList.add('ubEntry');
-    root.setAttribute('data-ub-page-url', pageUrl);
+  setupEntry({ base, pageUrl, actionParent, actionTag, actionClass }) {
+    if (base.classList.contains('ubEntry')) { return; }
+    base.classList.add('ubEntry');
+    base.setAttribute('data-ub-page-url', pageUrl);
 
     const action = document.createElement(actionTag);
     action.className = actionClass;

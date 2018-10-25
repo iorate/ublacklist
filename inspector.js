@@ -124,12 +124,12 @@ const ENTRY_INFO = [
 const inspectEntry = elem => {
   for (const info of ENTRY_INFO) {
     if (elem.matches(info.target)) {
-      let root = elem;
+      let base = elem;
       for (let i = 0; i < info.targetDepth; ++i) {
-        root = root.parentNode;
+        base = base.parentNode;
       }
 
-      const pageLink = root.querySelector(':scope ' + info.pageLink);
+      const pageLink = base.querySelector(':scope ' + info.pageLink);
       if (!pageLink) { continue; }
       let pageUrl;
       if (info.pageLinkType == 'image') {
@@ -142,16 +142,16 @@ const inspectEntry = elem => {
 
       let actionParent;
       if (info.actionParent) {
-        actionParent = root.querySelector(':scope ' + info.actionParent);
+        actionParent = base.querySelector(':scope ' + info.actionParent);
       } else {
-        actionParent = root;
+        actionParent = base;
       }
       if (!actionParent) { continue; }
 
       const actionTag = info.actionTag;
       const actionClass = info.actionClass;
 
-      return { root, pageUrl, actionParent, actionTag, actionClass };
+      return { base, pageUrl, actionParent, actionTag, actionClass };
     }
   }
   return null;
