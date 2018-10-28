@@ -74,8 +74,7 @@ class UBlacklist {
   }
 
   setupEntry({ base, pageUrl, actionParent, actionTag, actionClass }) {
-    if (base.classList.contains('ubEntry')) { return; }
-    base.classList.add('ubEntry');
+    if (base.hasAttribute('data-ub-page-url')) { return; }
     base.setAttribute('data-ub-page-url', pageUrl);
 
     const action = document.createElement(actionTag);
@@ -231,7 +230,7 @@ class UBlacklist {
 
   rejudgeAllEntries() {
     this.blockedEntryCount = 0;
-    for (const entry of document.getElementsByClassName('ubEntry')) {
+    for (const entry of document.querySelectorAll('[data-ub-page-url]')) {
       entry.classList.remove('ubBlockedEntry');
       this.judgeEntry(entry);
     }
