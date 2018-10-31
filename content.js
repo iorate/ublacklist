@@ -56,15 +56,18 @@ class UBlacklist {
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
     hideStyle.sheet.insertRule('#ubHideButton { display: none; }');
-    hideStyle.sheet.insertRule('.ubBlockedEntry { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="default"] { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="image"] { display: none !important; }');
+    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: hidden; }');
     hideStyle.sheet.insertRule('.ubUnblockButton { display: none; }');
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
     showStyle.sheet.insertRule('#ubShowButton { display: none; }');
     showStyle.sheet.insertRule('#ubHideButton { display: inline; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry { display: block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry.ivg-i { display: inline-block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="default"] { display: block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="image"] { display: inline-block !important; }');
+    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: visible; }');
     showStyle.sheet.insertRule('.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }');
     showStyle.sheet.insertRule('.ubBlockedEntry .ubBlockButton { display: none; }');
     showStyle.sheet.insertRule('.ubBlockedEntry .ubUnblockButton { display: inline; }');
@@ -73,9 +76,11 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupEntry({ base, pageUrl, actionParent, actionTag, actionClass }) {
+  setupEntry({ base, pageUrl, actionParent, actionTag, actionClass, display }) {
     if (base.hasAttribute('data-ub-page-url')) { return; }
+
     base.setAttribute('data-ub-page-url', pageUrl);
+    base.setAttribute('data-ub-display', display);
 
     const action = document.createElement(actionTag);
     action.className = actionClass;

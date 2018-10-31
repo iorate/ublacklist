@@ -7,7 +7,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div > div.rc > div.r',
     actionTag:    'span',
-    actionClass:  'ubDefaultAction'
+    actionClass:  'ubDefaultAction',
+    display:      'default'
   },
   // Search.FeaturedSnippet
   {
@@ -17,7 +18,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
     actionTag:    'span',
-    actionClass:  'ubDefaultAction'
+    actionClass:  'ubDefaultAction',
+    display:      'default'
   },
   // Search.WebResult
   {
@@ -27,7 +29,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div > div.rc > div.r',
     actionTag:    'span',
-    actionClass:  'ubDefaultAction'
+    actionClass:  'ubDefaultAction',
+    display:      'default'
   },
   // Search.WebResultWithSiteLinks
   {
@@ -37,7 +40,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div > div > div.rc > div.r',
     actionTag:    'span',
-    actionClass:  'ubDefaultAction'
+    actionClass:  'ubDefaultAction',
+    display:      'default'
   },
   // Search.Image
   {
@@ -47,7 +51,8 @@ const ENTRY_INFO = [
     pageLinkType: 'image',
     actionParent: '',
     actionTag:    'div',
-    actionClass:  'ubImageAction'
+    actionClass:  'ubImageAction',
+    display:      'image'
   },
   // Search.Latest
   {
@@ -57,7 +62,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
     actionTag:    'div',
-    actionClass:  'ubNewsAction'
+    actionClass:  'ubNewsAction',
+    display:      'default'
   },
   // Search.TopStory
   {
@@ -67,7 +73,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
     actionTag:    'div',
-    actionClass:  'ubNewsAction'
+    actionClass:  'ubNewsAction',
+    display:      'default'
   },
   // Search.TopStory.Hidden
   {
@@ -77,7 +84,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
     actionTag:    'div',
-    actionClass:  'ubNewsAction'
+    actionClass:  'ubNewsAction',
+    display:      'default'
   },
   // Search.TopStory.List
   {
@@ -87,7 +95,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div.dbsr.kno-fb-ctx > g-card-section > div',
     actionTag:    'span',
-    actionClass:  'ubDefaultAction'
+    actionClass:  'ubDefaultAction',
+    display:      'default'
   },
   // Search.Video
   {
@@ -97,7 +106,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
     actionTag:    'div',
-    actionClass:  'ubVideoAction'
+    actionClass:  'ubVideoAction',
+    display:      'default'
   },
   // ImageSearch
   {
@@ -107,7 +117,8 @@ const ENTRY_INFO = [
     pageLinkType: 'image',
     actionParent: '',
     actionTag:    'div',
-    actionClass:  'ubImageSearchAction'
+    actionClass:  'ubImageSearchAction',
+    display:      'imageSearch'
   },
   // NewsSearch
   {
@@ -117,7 +128,8 @@ const ENTRY_INFO = [
     pageLinkType: 'default',
     actionParent: '> div.ts > div > div.slp',
     actionTag:    'span',
-    actionClass:  'ubNewsSearchAction'
+    actionClass:  'ubNewsSearchAction',
+    display:      'default'
   },
 ];
 
@@ -143,15 +155,16 @@ const inspectEntry = elem => {
       let actionParent;
       if (info.actionParent) {
         actionParent = base.querySelector(':scope ' + info.actionParent);
+        if (!actionParent) { continue; }
       } else {
         actionParent = base;
       }
-      if (!actionParent) { continue; }
 
       const actionTag = info.actionTag;
       const actionClass = info.actionClass;
+      const display = info.display;
 
-      return { base, pageUrl, actionParent, actionTag, actionClass };
+      return { base, pageUrl, actionParent, actionTag, actionClass, display };
     }
   }
   return null;
