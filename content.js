@@ -53,25 +53,34 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
+    const insertRules = (sheet, rules) => {
+      for (let i = 0; i < rules.length; ++i) {
+        sheet.insertRule(rules[i], i);
+      }
+    };
+
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
-    hideStyle.sheet.insertRule('#ubHideButton { display: none; }');
-    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="default"] { display: none !important; }');
-    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="image"] { display: none !important; }');
-    hideStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: hidden; }');
-    hideStyle.sheet.insertRule('.ubUnblockButton { display: none; }');
+    insertRules(hideStyle.sheet, [
+      '#ubHideButton { display: none; }',
+      '.ubBlockedEntry[data-ub-display="default"] { display: none !important; }',
+      '.ubBlockedEntry[data-ub-display="image"] { display: none !important; }',
+      '.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: hidden; }',
+      '.ubUnblockButton { display: none; }',
+    ]);
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
-    showStyle.sheet.insertRule('#ubShowButton { display: none; }');
-    showStyle.sheet.insertRule('#ubHideButton { display: inline; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="default"] { display: block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="image"] { display: inline-block !important; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: visible; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry .ubBlockButton { display: none; }');
-    showStyle.sheet.insertRule('.ubBlockedEntry .ubUnblockButton { display: inline; }');
-
+    insertRules(showStyle.sheet, [
+      '#ubShowButton { display: none; }',
+      '#ubHideButton { display: inline; }',
+      '.ubBlockedEntry[data-ub-display="default"] { display: block !important; }',
+      '.ubBlockedEntry[data-ub-display="image"] { display: inline-block !important; }',
+      '.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: visible; }',
+      '.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }',
+      '.ubBlockedEntry .ubBlockButton { display: none; }',
+      '.ubBlockedEntry .ubUnblockButton { display: inline; }',
+    ]);
     showStyle.id = 'ubShowStyle';
     showStyle.sheet.disabled = true;
   }
