@@ -53,7 +53,8 @@ class UBlacklist {
   }
 
   setupStyleSheets() {
-    const insertRules = (sheet, rules) => {
+    const insertRules = (sheet, rulesString) => {
+      const rules = rulesString.match(/[^}]+\}/g);
       for (let i = 0; i < rules.length; ++i) {
         sheet.insertRule(rules[i], i);
       }
@@ -61,26 +62,52 @@ class UBlacklist {
 
     const hideStyle = document.createElement('style');
     document.head.appendChild(hideStyle);
-    insertRules(hideStyle.sheet, [
-      '#ubHideButton { display: none; }',
-      '.ubBlockedEntry[data-ub-display="default"] { display: none !important; }',
-      '.ubBlockedEntry[data-ub-display="image"] { display: none !important; }',
-      '.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: hidden; }',
-      '.ubUnblockButton { display: none; }',
-    ]);
+    insertRules(hideStyle.sheet, String.raw`
+      #ubHideButton {
+        display: none;
+      }
+      .ubBlockedEntry[data-ub-display="default"] {
+        display: none !important;
+      }
+      .ubBlockedEntry[data-ub-display="image"] {
+        display: none !important;
+      }
+      .ubBlockedEntry[data-ub-display="imageSearch"] {
+        visibility: hidden;
+      }
+      .ubUnblockButton {
+        display: none;
+      }
+    `);
 
     const showStyle = document.createElement('style');
     document.head.appendChild(showStyle);
-    insertRules(showStyle.sheet, [
-      '#ubShowButton { display: none; }',
-      '#ubHideButton { display: inline; }',
-      '.ubBlockedEntry[data-ub-display="default"] { display: block !important; }',
-      '.ubBlockedEntry[data-ub-display="image"] { display: inline-block !important; }',
-      '.ubBlockedEntry[data-ub-display="imageSearch"] { visibility: visible; }',
-      '.ubBlockedEntry, .ubBlockedEntry * { background-color: #ffe0e0; }',
-      '.ubBlockedEntry .ubBlockButton { display: none; }',
-      '.ubBlockedEntry .ubUnblockButton { display: inline; }',
-    ]);
+    insertRules(showStyle.sheet, String.raw`
+      #ubShowButton {
+        display: none;
+      }
+      #ubHideButton {
+        display: inline;
+      }
+      .ubBlockedEntry[data-ub-display="default"] {
+        display: block !important;
+      }
+      .ubBlockedEntry[data-ub-display="image"] {
+        display: inline-block !important;
+      }
+      .ubBlockedEntry[data-ub-display="imageSearch"] {
+        visibility: visible;
+      }
+      .ubBlockedEntry, .ubBlockedEntry * {
+        background-color: #ffe0e0;
+      }
+      .ubBlockedEntry .ubBlockButton {
+        display: none;
+      }
+      .ubBlockedEntry .ubUnblockButton {
+        display: inline;
+      }
+    `);
     showStyle.id = 'ubShowStyle';
     showStyle.sheet.disabled = true;
   }
