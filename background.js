@@ -20,20 +20,25 @@ class SyncService {
         if (this.intervalId) {
           return;
         }
+        this.loadApi();
         this.intervalId = window.setInterval(() => {
-          const script = document.createElement('script');
-          script.src = 'https://apis.google.com/js/client.js';
-          script.addEventListener('load', () => {
-            this.sync();
-          });
-          document.body.appendChild(script);
-          document.body.removeChild(script);
+          this.loadApi();
         }, SYNC_INTERVAL * 1000);
       } else if (this.intervalId) {
         window.clearInterval(this.intervalId);
         this.intervalId = null;
       }
     });
+  }
+
+  loadApi() {
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/client.js';
+    script.addEventListener('load', () => {
+      this.sync();
+    });
+    document.body.appendChild(script);
+    document.body.removeChild(script);
   }
 
   sync() {
