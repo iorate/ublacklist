@@ -57,7 +57,16 @@ chrome.storage.local.get({
       }, granted => {
         if (!granted) {
           enableSyncCheckBox.checked = false;
+          return;
         }
+        chrome.identity.getAuthToken({
+          interactive: true
+        }, token => {
+          if (chrome.runtime.lastError) {
+            enableSyncCheckBox.checked = false;
+            return;
+          }
+        });
       });
     }
   });

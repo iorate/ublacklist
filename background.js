@@ -35,10 +35,25 @@ class SyncService {
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/client.js';
     script.addEventListener('load', () => {
-      this.sync();
+      window.gapi.client.load('drive', 'v3', () => {
+        this.authenticate();
+      });
     });
     document.body.appendChild(script);
     document.body.removeChild(script);
+  }
+
+  authenticate() {
+    chrome.identity.getAuthToken({
+      interactive: false
+    }, token => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+        return;
+      }
+      window.gapi.auth.setToken({ access_token: token });
+      this.sync();
+    });
   }
 
   sync() {

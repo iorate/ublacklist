@@ -33,6 +33,10 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
+  "oauth2": {
+    "client_id": "304167046827-ordtvt68qt83fabg1k7blqeagicu68du.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/drive.file"]
+  },
   "options_ui": {
     "page": "options.html",
     "chrome_style": true
