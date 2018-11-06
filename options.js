@@ -66,7 +66,9 @@ chrome.storage.local.get({
     chrome.storage.local.set({
       blacklist: blacklistTextArea.value,
       enableSync: enableSyncCheckBox.checked
+    }, () => {
+      chrome.runtime.sendMessage('restart');
+      window.close();
     });
-    window.close();
   });
 });

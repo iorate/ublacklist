@@ -27,6 +27,7 @@
     "css": ["content.css"],
     "run_at": "document_start"
   }],
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
