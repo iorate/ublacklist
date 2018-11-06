@@ -1,4 +1,7 @@
-chrome.storage.local.get({ blacklist: '' }, items => {
+chrome.storage.local.get({
+  blacklist: '',
+  enableSync: false
+}, items => {
   document.body.insertAdjacentHTML('beforeend', String.raw`
     <div>${_('blacklist')}</div>
     <div class="small">${_('blacklistDescription')}</div>
@@ -8,20 +11,33 @@ chrome.storage.local.get({ blacklist: '' }, items => {
     <div>
       <details>
         <summary>${_('importFromPersonalBlocklist')}</summary>
-        <div id="importContainer">
+        <div class="container">
           <div class="small">${_('importDescription')}</div>
           <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
           <div><button id="importButton">${_('import')}</button></div>
         </div>
       </details>
     </div>
+    <div>
+      <details>
+        <summary>${_('syncWithGoogleDrive')}</summary>
+        <div class="container">
+          <div>
+            <input id="enableSyncCheckBox" type="checkbox">
+            <label for="enableSyncCheckBox">${_('enableSync')}</label>
+          </div>
+          <div class="small">${_('syncDescription')}</div>
+        </div>
+    </div>
     <div><button id="okButton">${_('ok')}</button></div>
   `);
 
   const blacklistTextArea = document.getElementById('blacklistTextArea');
   const importTextArea = document.getElementById('importTextArea');
+  const enableSyncCheckBox = document.getElementById('enableSyncCheckBox');
 
   blacklistTextArea.value = items.blacklist;
+  enableSyncCheckBox.checked = items.enableSync;
 
   document.getElementById('importButton').addEventListener('click', () => {
     blacklistTextArea.value = unlines(
@@ -33,8 +49,24 @@ chrome.storage.local.get({ blacklist: '' }, items => {
     importTextArea.value = '';
   });
 
+  enableSyncCheckBox.addEventListener('change', () => {
+    if (enableSyncCheckBox.checked) {
+      chrome.permissions.request({
+        permissions: ['identity'],
+        origins: []
+      }, granted => {
+        if (!granted) {
+          enableSyncCheckBox.checked = false;
+        }
+      });
+    }
+  });
+
   document.getElementById('okButton').addEventListener('click', () => {
-    chrome.storage.local.set({ blacklist: blacklistTextArea.value });
+    chrome.storage.local.set({
+      blacklist: blacklistTextArea.value,
+      enableSync: enableSyncCheckBox.checked
+    });
     window.close();
   });
 });

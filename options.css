@@ -16,14 +16,14 @@ textarea {
   font-size: 10px;
 }
 
+.container {
+  border: solid 1px #bfbfbf;
+  padding: 8px;
+}
+
 #blacklistTextArea {
   height: 200px;
   width: 480px;
-}
-
-#importContainer {
-  border: solid 1px #bfbfbf;
-  padding: 8px;
 }
 
 #importTextArea {

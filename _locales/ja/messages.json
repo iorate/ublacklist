@@ -23,6 +23,15 @@
   "import": {
     "message": "インポート"
   },
+  "syncWithGoogleDrive": {
+    "message": "Google Drive で同期する"
+  },
+  "enableSync": {
+    "message": "同期を有効にする"
+  },
+  "syncDescription": {
+    "message": "追加の権限と Chrome へのログインが必要です"
+  },
   "ok": {
     "message": "OK"
   },

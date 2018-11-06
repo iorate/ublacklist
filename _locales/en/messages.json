@@ -23,6 +23,15 @@
   "import": {
     "message": "Import"
   },
+  "syncWithGoogleDrive": {
+    "message": "Sync with Google Drive"
+  },
+  "enableSync": {
+    "message": "Enable sync"
+  },
+  "syncDescription": {
+    "message": "Additional permissions and log-in to Chrome are required"
+  },
   "ok": {
     "message": "OK"
   },
