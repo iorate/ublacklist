@@ -20,9 +20,9 @@ class SyncService {
         if (this.intervalId) {
           return;
         }
-        this.loadApi();
+        this.loadClientApi();
         this.intervalId = window.setInterval(() => {
-          this.loadApi();
+          this.loadClientApi();
         }, SYNC_INTERVAL * 1000);
       } else if (this.intervalId) {
         window.clearInterval(this.intervalId);
@@ -31,16 +31,17 @@ class SyncService {
     });
   }
 
-  loadApi() {
+  loadClientApi() {
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/client.js';
-    script.addEventListener('load', () => {
-      window.gapi.client.load('drive', 'v3', () => {
-        this.authenticate();
-      });
-    });
     document.body.appendChild(script);
     document.body.removeChild(script);
+  }
+
+  loadDriveApi() {
+    window.gapi.client.load('drive', 'v3', () => {
+      this.authenticate();
+    });
   }
 
   authenticate() {
@@ -61,6 +62,10 @@ class SyncService {
 }
 
 const syncService = new SyncService();
+
+window.gapi_onload = () => {
+  syncService.loadDriveApi();
+};
 
 chrome.runtime.onMessage.addListener(request => {
   if (request == 'restart') {
