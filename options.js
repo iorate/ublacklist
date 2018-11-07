@@ -4,15 +4,15 @@ chrome.storage.local.get({
 }, items => {
   document.body.insertAdjacentHTML('beforeend', String.raw`
     <div>${_('blacklist')}</div>
-    <div class="small">${_('blacklistDescription')}</div>
-    <div class="small">${_('example')}: *://*.example.com/*</div>
-    <div class="small">${_('example')}: /example\.(net|org)/</div>
+    <div>${_('blacklistDescription')}</div>
+    <div>${_('example')}: *://*.example.com/*</div>
+    <div>${_('example')}: /example\.(net|org)/</div>
     <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
     <div>
       <details>
         <summary>${_('importFromPersonalBlocklist')}</summary>
         <div class="container">
-          <div class="small">${_('importDescription')}</div>
+          <div>${_('importDescription')}</div>
           <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
           <div><button id="importButton">${_('import')}</button></div>
         </div>
@@ -26,7 +26,7 @@ chrome.storage.local.get({
             <input id="enableSyncCheckBox" type="checkbox">
             <label for="enableSyncCheckBox">${_('enableSync')}</label>
           </div>
-          <div class="small">${_('syncDescription')}</div>
+          <div>${_('syncDescription')}</div>
         </div>
     </div>
     <div><button id="okButton">${_('ok')}</button></div>

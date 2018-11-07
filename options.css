@@ -12,10 +12,6 @@ textarea {
   resize: none;
 }
 
-.small {
-  font-size: 10px;
-}
-
 .container {
   border: solid 1px #bfbfbf;
   padding: 8px;
