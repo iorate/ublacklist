@@ -51,22 +51,13 @@ chrome.storage.local.get({
 
   enableSyncCheckBox.addEventListener('change', () => {
     if (enableSyncCheckBox.checked) {
-      chrome.permissions.request({
-        permissions: ['identity'],
-        origins: []
-      }, granted => {
-        if (!granted) {
+      chrome.identity.getAuthToken({
+        interactive: true
+      }, token => {
+        if (chrome.runtime.lastError) {
           enableSyncCheckBox.checked = false;
           return;
         }
-        chrome.identity.getAuthToken({
-          interactive: true
-        }, token => {
-          if (chrome.runtime.lastError) {
-            enableSyncCheckBox.checked = false;
-            return;
-          }
-        });
       });
     }
   });
