@@ -26,7 +26,7 @@ class UBlacklist {
   }
 
   onDOMContentMutated(records) {
-    if (!document.getElementById('ubShowStyle') && document.head) {
+    if (!$('ubShowStyle') && document.head) {
       this.setupStyleSheets();
     }
     for (const record of records) {
@@ -127,8 +127,8 @@ class UBlacklist {
     blockButton.textContent = _('blockThisSite');
     blockButton.addEventListener('click', () => {
       if (this.blockRules) {
-        document.getElementById('ubBlockInput').value = makeMatchPattern(pageUrl) || '';
-        document.getElementById('ubBlockDialog').showModal();
+        $('ubBlockInput').value = makeMatchPattern(pageUrl) || '';
+        $('ubBlockDialog').showModal();
       }
     });
 
@@ -138,7 +138,7 @@ class UBlacklist {
     unblockButton.textContent = _('unblockThisSite');
     unblockButton.addEventListener('click', () => {
       if (this.blockRules) {
-        const unblockSelect = document.getElementById('ubUnblockSelect');
+        const unblockSelect = $('ubUnblockSelect');
         while (unblockSelect.firstChild) {
           unblockSelect.removeChild(unblockSelect.firstChild);
         }
@@ -150,7 +150,7 @@ class UBlacklist {
             unblockSelect.appendChild(option);
           }
         });
-        document.getElementById('ubUnblockDialog').showModal();
+        $('ubUnblockDialog').showModal();
       }
     });
 
@@ -169,7 +169,7 @@ class UBlacklist {
     showButton.href = 'javascript:void(0)';
     showButton.textContent = _('show');
     showButton.addEventListener('click', () => {
-      document.getElementById('ubShowStyle').sheet.disabled = false;
+      $('ubShowStyle').sheet.disabled = false;
     });
 
     const hideButton = document.createElement('a');
@@ -177,7 +177,7 @@ class UBlacklist {
     hideButton.href = 'javascript:void(0)';
     hideButton.textContent = _('hide');
     hideButton.addEventListener('click', () => {
-      document.getElementById('ubShowStyle').sheet.disabled = true;
+      $('ubShowStyle').sheet.disabled = true;
     });
 
     const control = document.createElement('span');
@@ -187,11 +187,11 @@ class UBlacklist {
     control.appendChild(showButton);
     control.appendChild(hideButton);
 
-    const resultStats = document.getElementById('resultStats');
+    const resultStats = $('resultStats');
     if (resultStats) {
       resultStats.appendChild(control);
     } else {
-      const abCtls = document.getElementById('ab_ctls');
+      const abCtls = $('ab_ctls');
       if (abCtls) {
         const li = document.createElement('li');
         li.className = 'ab_ctl';
@@ -229,10 +229,10 @@ class UBlacklist {
       </dialog>
     `);
 
-    const blockDialog = document.getElementById('ubBlockDialog');
-    document.getElementById('ubBlockForm').addEventListener('submit', event => {
+    const blockDialog = $('ubBlockDialog');
+    $('ubBlockForm').addEventListener('submit', event => {
       event.preventDefault();
-      const raw = document.getElementById('ubBlockInput').value;
+      const raw = $('ubBlockInput').value;
       const compiled = compileBlockRule(raw);
       if (compiled) {
         this.blockRules.push({ raw, compiled });
@@ -247,10 +247,10 @@ class UBlacklist {
       }
     });
 
-    const unblockDialog = document.getElementById('ubUnblockDialog');
-    document.getElementById('ubUnblockForm').addEventListener('submit', event => {
+    const unblockDialog = $('ubUnblockDialog');
+    $('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
-      this.blockRules.splice(Number(document.getElementById('ubUnblockSelect').value), 1);
+      this.blockRules.splice(Number($('ubUnblockSelect').value), 1);
       this.rejudgeAllEntries();
       saveBlockRules(this.blockRules);
       unblockDialog.close();
@@ -279,15 +279,14 @@ class UBlacklist {
   }
 
   updateControl() {
-    const control = document.getElementById('ubControl');
+    const control = $('ubControl');
     if (control) {
       if (this.blockedEntryCount) {
-        const stats = document.getElementById('ubStats');
-        stats.textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedEntryCount));
+        $('ubStats').textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedEntryCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
-        document.getElementById('ubShowStyle').sheet.disabled = true;
+        $('ubShowStyle').sheet.disabled = true;
       }
     }
   }

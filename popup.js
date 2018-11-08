@@ -12,10 +12,10 @@ loadBlockRules(blockRules => {
           <button type="submit">${_('ok')}</button>
         </form>
       `);
-      document.getElementById('ubBlockInput').value = makeMatchPattern(url) || '';
-      document.getElementById('ubBlockForm').addEventListener('submit', event => {
+      $('ubBlockInput').value = makeMatchPattern(url) || '';
+      $('ubBlockForm').addEventListener('submit', event => {
         event.preventDefault();
-        const raw = document.getElementById('ubBlockInput').value;
+        const raw = $('ubBlockInput').value;
         const compiled = compileBlockRule(raw);
         if (compiled) {
           blockRules.push({ raw, compiled });
@@ -39,12 +39,12 @@ loadBlockRules(blockRules => {
           const option = document.createElement('option');
           option.textContent = rule.raw;
           option.value = String(index);
-          document.getElementById('ubUnblockSelect').appendChild(option);
+          $('ubUnblockSelect').appendChild(option);
         }
       });
-      document.getElementById('ubUnblockForm').addEventListener('submit', event => {
+      $('ubUnblockForm').addEventListener('submit', event => {
         event.preventDefault();
-        blockRules.splice(Number(document.getElementById('ubUnblockSelect').value), 1);
+        blockRules.splice(Number($('ubUnblockSelect').value), 1);
         saveBlockRules(blockRules);
         window.close();
       });
