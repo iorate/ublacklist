@@ -4,15 +4,17 @@ chrome.storage.local.get({
 }, items => {
   document.body.insertAdjacentHTML('beforeend', String.raw`
     <div>${_('blacklist')}</div>
-    <div>${_('blacklistDescription')}</div>
-    <div>${_('example')}: *://*.example.com/*</div>
-    <div>${_('example')}: /example\.(net|org)/</div>
+    <div class="description">
+      ${_('blacklistDescription')}<br>
+      ${_('example')}: *://*.example.com/*<br>
+      ${_('example')}: /example\.(net|org)/
+    </div>
     <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
     <div>
       <details>
         <summary>${_('importFromPersonalBlocklist')}</summary>
         <div class="container">
-          <div>${_('importDescription')}</div>
+          <div class="description">${_('importDescription')}</div>
           <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
           <div><button id="importButton">${_('import')}</button></div>
         </div>
@@ -22,24 +24,36 @@ chrome.storage.local.get({
       <details>
         <summary>${_('syncWithGoogleDrive')}</summary>
         <div class="container">
+          <div class="description">${_('syncDescription')}</div>
+          <hr>
+          <div class="description">${_('googleDriveDescription')}</div>
+          <div>
+            <button id="googleDriveButton">${_('confirm')}</button>
+            <span id="googleDriveStatus"></span>
+          </div>
+          <hr>
+          <div class="description">${_('googleApisDescription')}</div>
+          <div>
+            <button id="googleApisButton">${_('confirm')}</button>
+            <span id="googleApisStatus"></span>
+          </div>
+          <hr>
           <div>
             <input id="enableSyncCheckBox" type="checkbox">
             <label for="enableSyncCheckBox">${_('enableSync')}</label>
           </div>
-          <div>${_('syncDescription')}</div>
         </div>
     </div>
     <div><button id="okButton">${_('ok')}</button></div>
   `);
 
-  const blacklistTextArea = document.getElementById('blacklistTextArea');
-  const importTextArea = document.getElementById('importTextArea');
-  const enableSyncCheckBox = document.getElementById('enableSyncCheckBox');
+  const blacklistTextArea = $('blacklistTextArea');
+  const importTextArea = $('importTextArea');
 
   blacklistTextArea.value = items.blacklist;
-  enableSyncCheckBox.checked = items.enableSync;
+  $('enableSyncCheckBox').checked = items.enableSync;
 
-  document.getElementById('importButton').addEventListener('click', () => {
+  $('importButton').addEventListener('click', () => {
     blacklistTextArea.value = unlines(
       lines(blacklistTextArea.value).concat(
         lines(importTextArea.value).filter(s => /^[^/*]+$/.test(s)).map(s => '*://*.' + s + '/*')
@@ -49,23 +63,26 @@ chrome.storage.local.get({
     importTextArea.value = '';
   });
 
-  enableSyncCheckBox.addEventListener('change', () => {
-    if (enableSyncCheckBox.checked) {
-      chrome.identity.getAuthToken({
-        interactive: true
-      }, token => {
-        if (chrome.runtime.lastError) {
-          enableSyncCheckBox.checked = false;
-          return;
-        }
-      });
-    }
+  $('googleDriveButton').addEventListener('click', () => {
+    chrome.identity.getAuthToken({
+      interactive: true
+    }, token => {
+      $('googleDriveStatus').textContent = token ? _('permitted') : _('notPermitted');
+    });
   });
 
-  document.getElementById('okButton').addEventListener('click', () => {
+  $('googleApisButton').addEventListener('click', () => {
+    chrome.permissions.request({
+      origins: ['https://www.googleapis.com/']
+    }, granted => {
+      $('googleApisStatus').textContent = granted ? _('permitted') : _('notPermitted');
+    });
+  });
+
+  $('okButton').addEventListener('click', () => {
     chrome.storage.local.set({
       blacklist: blacklistTextArea.value,
-      enableSync: enableSyncCheckBox.checked
+      enableSync: $('enableSyncCheckBox').checked
     }, () => {
       chrome.runtime.sendMessage('restart');
       window.close();

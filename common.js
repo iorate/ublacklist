@@ -1,5 +1,7 @@
 const _ = s => chrome.i18n.getMessage(s);
 
+const $ = s => document.getElementById(s);
+
 const lines = s => s ? s.split('\n') : [];
 const unlines = ss => ss.join('\n');
 
