@@ -45,7 +45,7 @@ const loadBlockRules = onBlockRulesLoaded => {
 
 const saveBlockRules = blockRules => {
   const blacklist = unlines(blockRules.map(rule => rule.raw));
-  chrome.storage.local.set({ blacklist });
+  chrome.storage.local.set({ blacklist, timestamp: new Date().toISOString() });
 }
 
 const makeMatchPattern = url => {

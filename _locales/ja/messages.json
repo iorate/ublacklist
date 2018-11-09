@@ -26,17 +26,11 @@
   "syncWithGoogleDrive": {
     "message": "Google ドライブで同期する"
   },
-  "syncDescription": {
-    "message": "Google ドライブにファイル uBlacklist.txt を作成し、ローカルの設定と同期する機能です"
+  "permitDescription": {
+    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります<br>同期を有効にすると、Google ドライブにファイル uBlacklist.txt が作成されます"
   },
-  "googleDriveDescription": {
-    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります"
-  },
-  "googleApisDescription": {
-    "message": "Google APIs (www.googleapis.com) へのアクセスを許可する必要があります"
-  },
-  "confirm": {
-    "message": "確認"
+  "permit": {
+    "message": "許可"
   },
   "permitted": {
     "message": "許可されています"

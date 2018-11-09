@@ -1,5 +1,6 @@
 chrome.storage.local.get({
   blacklist: '',
+  timestamp: new Date(0).toISOString(),
   enableSync: false
 }, items => {
   document.body.insertAdjacentHTML('beforeend', String.raw`
@@ -24,18 +25,10 @@ chrome.storage.local.get({
       <details>
         <summary>${_('syncWithGoogleDrive')}</summary>
         <div class="container">
-          <div class="description">${_('syncDescription')}</div>
-          <hr>
-          <div class="description">${_('googleDriveDescription')}</div>
+          <div class="description">${_('permitDescription')}</div>
           <div>
-            <button id="googleDriveButton">${_('confirm')}</button>
-            <span id="googleDriveStatus"></span>
-          </div>
-          <hr>
-          <div class="description">${_('googleApisDescription')}</div>
-          <div>
-            <button id="googleApisButton">${_('confirm')}</button>
-            <span id="googleApisStatus"></span>
+            <button id="permitButton">${_('permit')}</button>
+            <span id="permitStatus"></span>
           </div>
           <hr>
           <div>
@@ -63,25 +56,18 @@ chrome.storage.local.get({
     importTextArea.value = '';
   });
 
-  $('googleDriveButton').addEventListener('click', () => {
+  $('permitButton').addEventListener('click', () => {
     chrome.identity.getAuthToken({
       interactive: true
     }, token => {
-      $('googleDriveStatus').textContent = token ? _('permitted') : _('notPermitted');
-    });
-  });
-
-  $('googleApisButton').addEventListener('click', () => {
-    chrome.permissions.request({
-      origins: ['https://www.googleapis.com/']
-    }, granted => {
-      $('googleApisStatus').textContent = granted ? _('permitted') : _('notPermitted');
+      $('permitStatus').textContent = token ? _('permitted') : _('notPermitted');
     });
   });
 
   $('okButton').addEventListener('click', () => {
     chrome.storage.local.set({
       blacklist: blacklistTextArea.value,
+      timestamp: items.blacklist == blacklistTextArea.value ? items.timestamp : new Date().toISOString(),
       enableSync: $('enableSyncCheckBox').checked
     }, () => {
       chrome.runtime.sendMessage('restart');

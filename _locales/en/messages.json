@@ -26,17 +26,11 @@
   "syncWithGoogleDrive": {
     "message": "Sync with Google Drive"
   },
-  "syncDescription": {
-    "message": "This feature creates a file named uBlacklist.txt on your Google Drive, and synchronizes it with your local settings"
+  "permitDescription": {
+    "message": "You need to sign in to your Google Account, and permit this extension to access your Google Drive<br>If you enable sync, a file named uBlacklist.txt will be created on your Google Drive"
   },
-  "googleDriveDescription": {
-    "message": "You need to sign in to your Google Account, and permit this extension to access your Google Drive"
-  },
-  "googleApisDescription": {
-    "message": "You need to permit this extension to access Google APIs (www.googleapis.com)"
-  },
-  "confirm": {
-    "message": "Confirm"
+  "permit": {
+    "message": "Permit"
   },
   "permitted": {
     "message": "Permitted"
