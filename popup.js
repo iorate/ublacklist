@@ -12,7 +12,7 @@ loadBlockRules(blockRules => {
           <button type="submit">${_('ok')}</button>
         </form>
       `);
-      $('ubBlockInput').value = makeMatchPattern(url) || '';
+      $('ubBlockInput').value = deriveBlockRule(url) || '';
       $('ubBlockForm').addEventListener('submit', event => {
         event.preventDefault();
         const raw = $('ubBlockInput').value;
