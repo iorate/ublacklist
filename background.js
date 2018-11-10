@@ -4,98 +4,100 @@ chrome.runtime.onInstalled.addListener(details => {
   }
 });
 
-const SYNC_INTERVAL = 60;
+const SYNC_INTERVAL = 5;
 
 class SyncService {
   constructor() {
     this.intervalId = null;
-    this.start();
+    (async () => {
+      const { sync } = await getLocalStorage('sync');
+      if (sync) { // sync is boolean or undefined
+        this.start();
+      }
+    })().catch(e => {
+      console.error(e);
+    });
   }
 
   start() {
-    chrome.storage.local.get({
-      enableSync: false
-    }, items => {
-      if (items.enableSync) {
-        if (this.intervalId) {
-          return;
-        }
-        this.loadApiClient();
-        this.intervalId = setInterval(() => {
-          this.loadApiClient();
-        }, SYNC_INTERVAL * 1000);
-      } else if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
-    });
-  }
-
-  loadApiClient() {
-    if (window.gapi && gapi.client) {
-      this.loadAccessToken();
+    if (this.intervalId) {
       return;
     }
-    const script = document.createElement('script');
-    script.src = 'https://apis.google.com/js/api.js';
-    script.addEventListener('load', () => {
-      gapi.load('client', () => {
-        this.loadAccessToken();
+    this.intervalId = setInterval(() => {
+      (async () => {
+        const { blacklist, timestamp } = await getLocalStorage({
+          blacklist: '',
+          timestamp: new Date(0).toISOString()
+        });
+        await this.sync(blacklist, timestamp);
+      })().catch(e => {
+        console.error(e);
       });
-    });
-    document.body.appendChild(script);
-    document.body.removeChild(script);
+    }, SYNC_INTERVAL * 60 * 1000);
   }
 
-  loadAccessToken() {
-    chrome.identity.getAuthToken({
-      interactive: false
-    }, token => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-        return;
-      }
-      gapi.auth.setToken({ access_token: token });
-      this.loadBlacklist(token);
-    });
-  }
-
-  loadBlacklist(token) {
-    chrome.storage.local.get({
-      blacklist: '',
-      timestamp: new Date(0).toISOString()
-    }, items => {
-      this.sync(items.blacklist, items.timestamp).catch(reason => {
-        if (reason.status == 401) {
-          chrome.identity.removeCachedAuthToken(token);
-        } else {
-          console.error(reason);
-        }
-      });
-    });
+  stop() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 
   async sync(localBlacklist, localTimestamp) {
-    let file = await this.find();
-    if (file) {
-      const cloudTimestamp = file.modifiedTime;
+    await loadGApiClient();
+    const token = await getAuthToken({ interactive: false });
+    gapi.auth.setToken({ access_token: token });
+    await syncFile(localBlacklist, localTimestamp).error(e => {
+      if (e.status == 401) {
+        chrome.identity.removeCachedAuthToken(token);
+        return;
+      }
+      throw reason;
+    });
+  }
+
+  loadGApiClient() {
+    return new Promise((resolve, reject) => {
+      if (window.gapi && gapi.client) {
+        resolve();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://apis.google.com/js/api.js';
+      script.addEventListener('load', () => {
+        gapi.load('client', () => {
+          resolve();
+        });
+      });
+      script.addEventListener('error', event => {
+        reject(event.error);
+      });
+      setTimeout(() => {
+        reject(new Error('Google API Client Libraries took too long to load.'));
+      }, 1 * 60 * 1000);
+      document.body.appendChild(script);
+      document.body.removeChild(script);
+    });
+  }
+
+  async syncFile(localBlacklist, localTimestamp) {
+    let fileInfo = await this.findFile();
+    if (fileInfo) {
+      const cloudTimestamp = fileInfo.modifiedTime;
       const timestampDiff = new Date(localTimestamp).getTime() - new Date(cloudTimestamp).getTime();
       if (timestampDiff < 0) {
-        const cloudBlacklist = await this.download(file);
-        chrome.storage.local.set({
-          blacklist: cloudBlacklist,
-          timestamp: cloudTimestamp
-        });
+        const cloudBlacklist = await this.downloadFile(fileInfo);
+        await setLocalStorage({ blacklist: cloudBlacklist, timestamp: cloudTimestamp });
       } else if (timestampDiff > 0) {
-        await this.upload(file, localBlacklist, localTimestamp);
+        await this.uploadFile(fileInfo, localBlacklist, localTimestamp);
       }
     } else {
-      file = await this.create();
-      await this.upload(file, localBlacklist, localTimestamp);
+      fileInfo = await this.createFile();
+      await this.uploadFile(fileInfo, localBlacklist, localTimestamp);
     }
   }
 
-  async find() {
+  async findFile() {
     const response = await gapi.client.request({
       path: '/drive/v3/files',
       method: 'GET',
@@ -109,9 +111,9 @@ class SyncService {
     return response.result.files.length ? response.result.files[0] : null;
   }
 
-  async download(file) {
+  async downloadFile(fileInfo) {
     const response = await gapi.client.request({
-      path: `/drive/v3/files/${file.id}`,
+      path: `/drive/v3/files/${fileInfo.id}`,
       method: 'GET',
       params: {
         alt: 'media'
@@ -120,9 +122,9 @@ class SyncService {
     return response.body;
   }
 
-  async upload(file, localBlacklist, localTimestamp) {
+  async uploadFile(fileInfo, localBlacklist, localTimestamp) {
     await gapi.client.request({
-      path: `/upload/drive/v3/files/${file.id}`,
+      path: `/upload/drive/v3/files/${fileInfo.id}`,
       method: 'PATCH',
       params: {
         uploadType: 'media'
@@ -130,15 +132,15 @@ class SyncService {
       body: localBlacklist
     });
     await gapi.client.request({
-      path: `/drive/v3/files/${file.id}`,
+      path: `/drive/v3/files/${fileInfo.id}`,
       method: 'PATCH',
       body: {
-        modifiedTime: localTimestamp,
+        modifiedTime: localTimestamp
       }
     });
   }
 
-  async create() {
+  async createFile() {
     const response = await gapi.client.request({
       path: '/drive/v3/files',
       method: 'POST',
@@ -152,8 +154,18 @@ class SyncService {
 
 const syncService = new SyncService();
 
-chrome.runtime.onMessage.addListener(request => {
-  if (request == 'restart') {
-    syncService.start();
-  }
+chrome.runtime.onMessage.addListener(message => {
+  (async () => {
+    const { blacklist, timestamp, sync } = await getLocalStorage(null);
+    if (sync) { // sync is boolean or undefined
+      syncService.start();
+      if (message.immediate) {
+        await syncService.sync(blacklist, timestamp);
+      }
+    } else {
+      syncService.stop();
+    }
+  })().catch(e => {
+    console.error(e);
+  });
 });

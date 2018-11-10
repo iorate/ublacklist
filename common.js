@@ -1,9 +1,11 @@
-const _ = s => chrome.i18n.getMessage(s);
-
 const $ = s => document.getElementById(s);
+
+const _ = s => chrome.i18n.getMessage(s);
 
 const lines = s => s ? s.split('\n') : [];
 const unlines = ss => ss.join('\n');
+
+/* Block Rules */
 
 const compileBlockRule = raw => {
   const trimmed = raw.trim();
@@ -38,6 +40,11 @@ const compileBlockRule = raw => {
 
 const loadBlockRules = onBlockRulesLoaded => {
   chrome.storage.local.get({ blacklist: '' }, items => {
+    if (chrome.runtime.lastError) {
+      console.error('uBlacklist: storage error: ' + chrome.runtime.lastError.message);
+      onBlockRulesLoaded([]);
+      return;
+    }
     const blockRules = lines(items.blacklist).map(raw => ({ raw, compiled: compileBlockRule(raw) }));
     onBlockRulesLoaded(blockRules);
   });
@@ -45,12 +52,55 @@ const loadBlockRules = onBlockRulesLoaded => {
 
 const saveBlockRules = blockRules => {
   const blacklist = unlines(blockRules.map(rule => rule.raw));
-  chrome.storage.local.set({ blacklist, timestamp: new Date().toISOString() });
+  chrome.storage.local.set({ blacklist, timestamp: new Date().toISOString() }, () => {
+    if (chrome.runtime.lastError) {
+      console.error('uBlacklist: storage error: ' + chrome.runtime.lastError.message);
+      return;
+    }
+    chrome.runtime.sendMessage({ immediate: true });
+  });
 }
 
 const makeMatchPattern = url => {
   const u = new URL(url);
   const s = u.protocol.match(/^((https?)|ftp):$/);
-  if (!s) { return null; }
-  return (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*';
+  return s ? (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*' : null;
+};
+
+/* Async APIs */
+
+const getLocalStorage = keys => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(keys, items => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+      resolve(items);
+    });
+  });
+}
+
+const setLocalStorage = items => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.set(items, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+      resolve();
+    });
+  });
+}
+
+const getAuthToken = details => {
+  return new Promise((resolve, reject) => {
+    chrome.identity.getAuthToken(details, token => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+      resolve(token);
+    });
+  });
 };

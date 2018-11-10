@@ -1,8 +1,9 @@
-chrome.storage.local.get({
-  blacklist: '',
-  timestamp: new Date(0).toISOString(),
-  enableSync: false
-}, items => {
+(async () => {
+  const { blacklist, timestamp, sync } = await getLocalStorage({
+    blacklist: '',
+    timestamp: new Date(0).toISOString(),
+    sync: false
+  });
   document.body.insertAdjacentHTML('beforeend', String.raw`
     <div>${_('blacklist')}</div>
     <div class="description">
@@ -32,8 +33,8 @@ chrome.storage.local.get({
           </div>
           <hr>
           <div>
-            <input id="enableSyncCheckBox" type="checkbox">
-            <label for="enableSyncCheckBox">${_('enableSync')}</label>
+            <input id="syncCheckBox" type="checkbox">
+            <label for="syncCheckBox">${_('enableSync')}</label>
           </div>
         </div>
     </div>
@@ -43,8 +44,8 @@ chrome.storage.local.get({
   const blacklistTextArea = $('blacklistTextArea');
   const importTextArea = $('importTextArea');
 
-  blacklistTextArea.value = items.blacklist;
-  $('enableSyncCheckBox').checked = items.enableSync;
+  blacklistTextArea.value = blacklist;
+  $('syncCheckBox').checked = sync;
 
   $('importButton').addEventListener('click', () => {
     blacklistTextArea.value = unlines(
@@ -57,21 +58,27 @@ chrome.storage.local.get({
   });
 
   $('permitButton').addEventListener('click', () => {
-    chrome.identity.getAuthToken({
-      interactive: true
-    }, token => {
-      $('permitStatus').textContent = token ? _('permitted') : _('notPermitted');
+    (async () => {
+      await getAuthToken({ interactive: true });
+      $('permitStatus').textContent = _('permitted');
+    })().catch(() => {
+      $('permitStatus').textContent = _('notPermitted');
     });
   });
 
   $('okButton').addEventListener('click', () => {
-    chrome.storage.local.set({
-      blacklist: blacklistTextArea.value,
-      timestamp: items.blacklist == blacklistTextArea.value ? items.timestamp : new Date().toISOString(),
-      enableSync: $('enableSyncCheckBox').checked
-    }, () => {
-      chrome.runtime.sendMessage('restart');
-      window.close();
+    (async () => {
+      const blacklistChanged = blacklistTextArea.value != blacklist;
+      await setLocalStorage({
+        blacklist: blacklistTextArea.value,
+        timestamp: blacklistChanged ? new Date().toISOString() : timestamp,
+        sync: $('syncCheckBox').checked
+      });
+      chrome.runtime.sendMessage({ immediate: blacklistChanged });
+    })().catch(e => {
+      console.error(e);
     });
   });
+})().catch(e => {
+  console.error(e);
 });
