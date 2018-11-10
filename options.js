@@ -75,6 +75,7 @@
         sync: $('syncCheckBox').checked
       });
       chrome.runtime.sendMessage({ immediate: blacklistChanged });
+      window.close();
     })().catch(e => {
       console.error(e);
     });
