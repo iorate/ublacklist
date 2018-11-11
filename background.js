@@ -77,15 +77,20 @@ class SyncService {
       const script = document.createElement('script');
       script.src = 'https://apis.google.com/js/api.js';
       script.addEventListener('load', () => {
-        gapi.load('client', () => {
-          resolve();
+        gapi.load('client', {
+          callback() {
+            resolve();
+          },
+          onerror() {
+            reject(new Error('The Google API client failed to load.'));
+          }
         });
       });
       script.addEventListener('error', event => {
         reject(event.error);
       });
       setTimeout(() => {
-        reject(new Error('Google API Client Libraries took too long to load.'));
+        reject(new Error('The Google API client took too long to load.'));
       }, 1 * 60 * 1000);
       document.body.appendChild(script);
       document.body.removeChild(script);
