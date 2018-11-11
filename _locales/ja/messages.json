@@ -27,7 +27,7 @@
     "message": "Google ドライブで同期する"
   },
   "permitDescription": {
-    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります。<br>同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、同期ストレージとして使用されます。"
+    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります。"
   },
   "permit": {
     "message": "許可"
@@ -39,7 +39,7 @@
     "message": "許可されていません"
   },
   "enableSyncDescription": {
-    "message": "意図しないリストの上書きに備えて、同期を有効にする前にリストのバックアップを取ることをおすすめします。"
+    "message": "同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、ローカルのリストと同期されます。<br>意図しないリストの上書きに備えて、同期を有効にする前にリストのバックアップを取ることをおすすめします。"
   },
   "enableSync": {
     "message": "同期を有効にする"

@@ -27,7 +27,7 @@
     "message": "Sync with Google Drive"
   },
   "permitDescription": {
-    "message": "You need to sign in to your Google Account and permit this extension to access your Google Drive.<br>If you enable sync, a file named 'uBlacklist.txt' will be created on your Google Drive and used as sync storage."
+    "message": "You need to sign in to your Google Account and permit this extension to access your Google Drive."
   },
   "permit": {
     "message": "Permit"
@@ -39,7 +39,7 @@
     "message": "Not permitted"
   },
   "enableSyncDescription": {
-    "message": "In case your blacklist is unintendedly overwritten, it is recommended that you back up your blacklist before you enable sync."
+    "message": "If you enable sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your local blacklist.<br>In case your local blacklist is unintendedly overwritten, it is recommended that you back up it before you enable sync."
   },
   "enableSync": {
     "message": "Enable sync"
