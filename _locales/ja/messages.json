@@ -9,7 +9,7 @@
     "message": "Google の検索結果で表示されないようにするサイト"
   },
   "blacklistDescription": {
-    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます"
+    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます。"
   },
   "example": {
     "message": "例"
@@ -18,7 +18,7 @@
     "message": "Personal Blocklist からインポートする"
   },
   "importDescription": {
-    "message": "Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい"
+    "message": "Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい。"
   },
   "import": {
     "message": "インポート"
@@ -27,7 +27,7 @@
     "message": "Google ドライブで同期する"
   },
   "permitDescription": {
-    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります<br>同期を有効にすると、Google ドライブにファイル uBlacklist.txt が作成されます"
+    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります。<br>同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、同期ストレージとして使用されます。"
   },
   "permit": {
     "message": "許可"
