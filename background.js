@@ -25,20 +25,15 @@ class SyncService {
       if (sync) {
         this.start();
       }
-    })().catch(e => {
-      console.error(e);
-    });
+    })();
   }
 
   start() {
-    const callSync = () => {
-      this.sync().catch(e => {
-        console.error(e);
-      });
-    };
-    callSync();
+    this.sync();
     if (!this.intervalId) {
-      this.intervalId = setInterval(callSync, SYNC_INTERVAL * 60 * 1000);
+      this.intervalId = setInterval(() => {
+        this.sync();
+      }, SYNC_INTERVAL * 60 * 1000);
     }
   }
 
@@ -191,7 +186,5 @@ chrome.runtime.onMessage.addListener(() => {
     } else {
       syncService.stop();
     }
-  })().catch(e => {
-    console.error(e);
-  });
+  })();
 });
