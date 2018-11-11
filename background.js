@@ -178,13 +178,11 @@ class SyncService {
 
 const syncService = new SyncService();
 
-chrome.runtime.onMessage.addListener(() => {
-  (async () => {
-    const { sync } = await getLocalStorage({ sync: false });
-    if (sync) {
-      syncService.start();
-    } else {
-      syncService.stop();
-    }
-  })();
+chrome.runtime.onMessage.addListener(async () => {
+  const { sync } = await getLocalStorage({ sync: false });
+  if (sync) {
+    syncService.start();
+  } else {
+    syncService.stop();
+  }
 });

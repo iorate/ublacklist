@@ -58,26 +58,22 @@
     importTextArea.value = '';
   });
 
-  $('permitButton').addEventListener('click', () => {
-    (async () => {
-      try {
-        await getAuthToken({ interactive: true });
-        $('permitStatus').textContent = _('permitted');
-      } catch (e) {
-        $('permitStatus').textContent = _('notPermitted');
-      }
-    })();
+  $('permitButton').addEventListener('click', async () => {
+    try {
+      await getAuthToken({ interactive: true });
+      $('permitStatus').textContent = _('permitted');
+    } catch (e) {
+      $('permitStatus').textContent = _('notPermitted');
+    }
   });
 
-  $('okButton').addEventListener('click', () => {
-    (async () => {
-      await setLocalStorage({
-        blacklist: blacklistTextArea.value,
-        timestamp: blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp,
-        sync: $('syncCheckBox').checked
-      });
-      chrome.runtime.sendMessage({});
-      window.close();
-    })();
+  $('okButton').addEventListener('click', async () => {
+    await setLocalStorage({
+      blacklist: blacklistTextArea.value,
+      timestamp: blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp,
+      sync: $('syncCheckBox').checked
+    });
+    chrome.runtime.sendMessage({});
+    window.close();
   });
 })();
