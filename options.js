@@ -68,13 +68,12 @@
 
   $('okButton').addEventListener('click', () => {
     (async () => {
-      const blacklistChanged = blacklistTextArea.value != blacklist;
       await setLocalStorage({
         blacklist: blacklistTextArea.value,
-        timestamp: blacklistChanged ? new Date().toISOString() : timestamp,
+        timestamp: blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp,
         sync: $('syncCheckBox').checked
       });
-      chrome.runtime.sendMessage({ immediate: blacklistChanged });
+      chrome.runtime.sendMessage({});
       window.close();
     })().catch(e => {
       console.error(e);

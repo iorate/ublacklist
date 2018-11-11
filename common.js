@@ -57,7 +57,7 @@ const saveBlockRules = blockRules => {
       console.error('uBlacklist: storage error: ' + chrome.runtime.lastError.message);
       return;
     }
-    chrome.runtime.sendMessage({ immediate: true });
+    chrome.runtime.sendMessage({});
   });
 }
 
@@ -101,6 +101,14 @@ const getAuthToken = details => {
         return;
       }
       resolve(token);
+    });
+  });
+};
+
+const removeCachedAuthToken = details => {
+  return new Promise((resolve, reject) => {
+    chrome.identity.removeCachedAuthToken(details, () => {
+      resolve();
     });
   });
 };

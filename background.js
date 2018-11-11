@@ -6,14 +6,21 @@ chrome.runtime.onInstalled.addListener(details => {
 
 const SYNC_INTERVAL = 5;
 
+class GApiRequestError extends Error {
+  constructor(reason) {
+    super(`{reason.status} {reason.statusText}`);
+    Error.captureStackTrace(this, GApiRequestError);
+    this.reason = reason;
+  }
+}
+
 class SyncService {
   constructor() {
     this.intervalId = null;
     (async () => {
-      const { blacklist, timestamp, sync } = await getLocalStorage(null);
+      const { sync } = await getLocalStorage({ sync: false });
       if (sync) {
         this.start();
-        await this.sync(blacklist, timestamp);
       }
     })().catch(e => {
       console.error(e);
@@ -21,20 +28,15 @@ class SyncService {
   }
 
   start() {
-    if (this.intervalId) {
-      return;
-    }
-    this.intervalId = setInterval(() => {
-      (async () => {
-        const { blacklist, timestamp } = await getLocalStorage({
-          blacklist: '',
-          timestamp: new Date(0).toISOString()
-        });
-        await this.sync(blacklist, timestamp);
-      })().catch(e => {
+    const callSync = () => {
+      this.sync().catch(e => {
         console.error(e);
       });
-    }, SYNC_INTERVAL * 60 * 1000);
+    };
+    callSync();
+    if (!this.intervalId) {
+      this.intervalId = setInterval(callSync, SYNC_INTERVAL * 60 * 1000);
+    }
   }
 
   stop() {
@@ -44,17 +46,23 @@ class SyncService {
     }
   }
 
-  async sync(localBlacklist, localTimestamp) {
+  async sync() {
+    const { blacklist, timestamp } = await getLocalStorage({
+      blacklist: '',
+      timestamp: new Date(0).toISOString()
+    });
     await this.loadGApiClient();
     const token = await getAuthToken({ interactive: false });
     gapi.auth.setToken({ access_token: token });
-    await this.syncFile(localBlacklist, localTimestamp).catch(e => {
-      if (e.status == 401) {
-        chrome.identity.removeCachedAuthToken(token);
+    try {
+      await this.syncFile(blacklist, timestamp);
+    } catch(e) {
+      if (e instanceof GApiRequestError && e.reason.status == 401) {
+        await removeCachedAuthToken({ token });
         return;
       }
-      throw reason;
-    });
+      throw e;
+    }
   }
 
   loadGApiClient() {
@@ -99,7 +107,7 @@ class SyncService {
   }
 
   async findFile() {
-    const response = await gapi.client.request({
+    const response = await this.request({
       path: '/drive/v3/files',
       method: 'GET',
       params: {
@@ -113,7 +121,7 @@ class SyncService {
   }
 
   async downloadFile(fileInfo) {
-    const response = await gapi.client.request({
+    const response = await this.request({
       path: `/drive/v3/files/${fileInfo.id}`,
       method: 'GET',
       params: {
@@ -124,7 +132,7 @@ class SyncService {
   }
 
   async uploadFile(fileInfo, localBlacklist, localTimestamp) {
-    await gapi.client.request({
+    await this.request({
       path: `/upload/drive/v3/files/${fileInfo.id}`,
       method: 'PATCH',
       params: {
@@ -132,7 +140,7 @@ class SyncService {
       },
       body: localBlacklist
     });
-    await gapi.client.request({
+    await this.request({
       path: `/drive/v3/files/${fileInfo.id}`,
       method: 'PATCH',
       body: {
@@ -142,7 +150,7 @@ class SyncService {
   }
 
   async createFile() {
-    const response = await gapi.client.request({
+    const response = await this.request({
       path: '/drive/v3/files',
       method: 'POST',
       body: {
@@ -151,18 +159,23 @@ class SyncService {
     });
     return response.result;
   }
+
+  async request(args) {
+    try {
+      return await gapi.client.request(args);
+    } catch (reason) {
+      throw new GApiRequestError(reason);
+    }
+  }
 }
 
 const syncService = new SyncService();
 
-chrome.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(() => {
   (async () => {
-    const { blacklist, timestamp, sync } = await getLocalStorage(null);
+    const { sync } = await getLocalStorage({ sync: false });
     if (sync) {
       syncService.start();
-      if (message.immediate) {
-        await syncService.sync(blacklist, timestamp);
-      }
     } else {
       syncService.stop();
     }
