@@ -38,6 +38,9 @@
   "notPermitted": {
     "message": "許可されていません"
   },
+  "enableSyncDescription": {
+    "message": "意図しないリストの上書きに備えて、同期を有効にする前にリストのバックアップを取ることをおすすめします。"
+  },
   "enableSync": {
     "message": "同期を有効にする"
   },

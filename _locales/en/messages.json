@@ -38,6 +38,9 @@
   "notPermitted": {
     "message": "Not permitted"
   },
+  "enableSyncDescription": {
+    "message": "In case your blacklist is unintendedly overwritten, it is recommended that you back up your blacklist before you enable sync."
+  },
   "enableSync": {
     "message": "Enable sync"
   },

@@ -32,6 +32,7 @@
             <span id="permitStatus"></span>
           </div>
           <hr>
+          <div class="description">${_('enableSyncDescription')}</div>
           <div>
             <input id="syncCheckBox" type="checkbox">
             <label for="syncCheckBox">${_('enableSync')}</label>

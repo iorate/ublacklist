@@ -11,7 +11,7 @@ const SYNC_INTERVAL = 5;
 
 class GApiRequestError extends Error {
   constructor(reason) {
-    super(`{reason.status} {reason.statusText}`);
+    super(`${reason.status} ${reason.statusText}`);
     Error.captureStackTrace(this, GApiRequestError);
     this.reason = reason;
   }
