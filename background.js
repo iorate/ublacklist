@@ -11,9 +11,9 @@ const SYNC_INTERVAL = 5;
 
 class GApiRequestError extends Error {
   constructor(reason) {
-    super(`${reason.status} ${reason.statusText}`);
+    super(reason.result.error.message);
     Error.captureStackTrace(this, GApiRequestError);
-    this.reason = reason;
+    this.status = reason.status;
   }
 }
 
@@ -60,7 +60,7 @@ class SyncService {
     try {
       await this.syncFile(blacklist, timestamp);
     } catch(e) {
-      if (e instanceof GApiRequestError && e.reason.status == 401) {
+      if (e instanceof GApiRequestError && e.status == 401) {
         await removeCachedAuthToken({ token });
         return;
       }

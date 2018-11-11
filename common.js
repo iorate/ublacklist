@@ -73,7 +73,7 @@ const getLocalStorage = keys => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get(keys, items => {
       if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
+        reject(new Error(chrome.runtime.lastError.message));
         return;
       }
       resolve(items);
@@ -85,7 +85,7 @@ const setLocalStorage = items => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.set(items, () => {
       if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
+        reject(new Error(chrome.runtime.lastError.message));
         return;
       }
       resolve();
@@ -97,7 +97,7 @@ const getAuthToken = details => {
   return new Promise((resolve, reject) => {
     chrome.identity.getAuthToken(details, token => {
       if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
+        reject(new Error(chrome.runtime.lastError.message));
         return;
       }
       resolve(token);
