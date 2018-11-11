@@ -60,11 +60,13 @@
 
   $('permitButton').addEventListener('click', () => {
     (async () => {
-      await getAuthToken({ interactive: true });
-      $('permitStatus').textContent = _('permitted');
-    })().catch(() => {
-      $('permitStatus').textContent = _('notPermitted');
-    });
+      try {
+        await getAuthToken({ interactive: true });
+        $('permitStatus').textContent = _('permitted');
+      } catch (e) {
+        $('permitStatus').textContent = _('notPermitted');
+      }
+    })();
   });
 
   $('okButton').addEventListener('click', () => {
