@@ -1,6 +1,9 @@
 chrome.runtime.onInstalled.addListener(details => {
   if (details.reason == 'update') {
-    chrome.storage.sync.clear();
+    const [x] = details.previousVersion.split('.').map(Number);
+    if (x <= 1) {
+      chrome.storage.sync.clear();
+    }
   }
 });
 
