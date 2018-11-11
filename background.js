@@ -54,7 +54,7 @@ class SyncService {
     gapi.auth.setToken({ access_token: token });
     try {
       await this.syncFile(blacklist, timestamp);
-    } catch(e) {
+    } catch (e) {
       if (e instanceof GApiRequestError && e.status == 401) {
         await removeCachedAuthToken({ token });
         return;
