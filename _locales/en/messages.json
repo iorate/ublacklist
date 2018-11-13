@@ -26,6 +26,9 @@
   "syncWithGoogleDrive": {
     "message": "Sync with Google Drive"
   },
+  "experimental": {
+    "message": "experimental"
+  },
   "permitDescription": {
     "message": "You need to sign in to your Google Account and permit this extension to access your Google Drive."
   },

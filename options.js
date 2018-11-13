@@ -24,7 +24,7 @@
     </div>
     <div>
       <details>
-        <summary>${_('syncWithGoogleDrive')}</summary>
+        <summary>${_('syncWithGoogleDrive')} (${_('experimental')})</summary>
         <div class="container">
           <div class="description">${_('permitDescription')}</div>
           <div>
