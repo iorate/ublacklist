@@ -104,10 +104,6 @@ class SyncService {
         await this.uploadFile(fileInfo, localBlacklist, localTimestamp);
       }
     } else {
-      if (!new Date(localTimestamp).getTime()) {
-        localTimestamp = new Date().toISOString();
-        await setLocalStorage({ timestamp: localTimestamp });
-      }
       fileInfo = await this.createFile();
       await this.uploadFile(fileInfo, localBlacklist, localTimestamp);
     }
