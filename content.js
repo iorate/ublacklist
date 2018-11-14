@@ -113,7 +113,9 @@ class UBlacklist {
   }
 
   setupEntry({ base, pageUrl, actionParent, actionTag, actionClass, display }) {
-    if (base.hasAttribute('data-ub-page-url')) { return; }
+    if (base.hasAttribute('data-ub-page-url')) {
+      return;
+    }
 
     base.setAttribute('data-ub-page-url', pageUrl);
     base.setAttribute('data-ub-display', display);
