@@ -16,7 +16,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
       if (compiled) {
         blockRules.push({ raw, compiled });
         (async () => {
-          saveBlockRules(blockRules);
+          await saveBlockRules(blockRules);
           window.close();
         })();
       } else {
@@ -37,7 +37,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
       event.preventDefault();
       blockRules.splice(Number($('unblockSelect').value), 1);
       (async () => {
-        saveBlockRules(blockRules);
+        await saveBlockRules(blockRules);
         window.close();
       })();
     });
