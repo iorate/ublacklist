@@ -1,46 +1,13 @@
+for (const element of document.querySelectorAll('[data-i18n]')) {
+  element.insertAdjacentHTML('beforeend', _(element.dataset.i18n));
+}
+
 (async () => {
   const { blacklist, timestamp, sync } = await getLocalStorage({
     blacklist: '',
     timestamp: new Date(0).toISOString(),
     sync: false
   });
-  document.body.insertAdjacentHTML('beforeend', String.raw`
-    <div>${_('blacklist')}</div>
-    <div class="description">
-      ${_('blacklistDescription')}<br>
-      ${_('example')}: *://*.example.com/*<br>
-      ${_('example')}: /example\.(net|org)/
-    </div>
-    <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
-    <div>
-      <details>
-        <summary>${_('importFromPersonalBlocklist')}</summary>
-        <div class="container">
-          <div class="description">${_('importDescription')}</div>
-          <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
-          <div><button id="importButton">${_('import')}</button></div>
-        </div>
-      </details>
-    </div>
-    <div>
-      <details>
-        <summary>${_('syncWithGoogleDrive')} (${_('experimental')})</summary>
-        <div class="container">
-          <div class="description">${_('permitDescription')}</div>
-          <div>
-            <button id="permitButton">${_('permit')}</button>
-            <span id="permitStatus"></span>
-          </div>
-          <hr>
-          <div class="description">${_('enableSyncDescription')}</div>
-          <div>
-            <input id="syncCheckBox" type="checkbox">
-            <label for="syncCheckBox">${_('enableSync')}</label>
-          </div>
-        </div>
-    </div>
-    <div><button id="okButton">${_('ok')}</button></div>
-  `);
 
   const blacklistTextArea = $('blacklistTextArea');
   const importTextArea = $('importTextArea');
