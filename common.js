@@ -84,12 +84,12 @@ const compileBlockRule = raw => {
     try {
       const compiled = new RegExp(re[1], re[2]);
       if (compiled.global || compiled.sticky) {
-        console.warn('uBlacklist: unsupported regular expression flag: ' + raw);
+        console.warn('Unsupported regular expression flag: ' + raw);
         return null;
       }
       return compiled;
     } catch (e) {
-      console.warn('uBlacklist: invalid regular expression: ' + raw);
+      console.warn('Invalid regular expression: ' + raw);
       return null;
     }
   }
