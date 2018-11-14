@@ -6,6 +6,25 @@
     <title>uBlacklist Popup</title>
   </head>
   <body>
+    <div id="blockPopup">
+      <form id="blockForm">
+        <label>
+          <span data-i18n="blockThisSite"></span>:
+          <input id="blockInput" type="text" autofocus spellcheck="false">
+        </label>
+        <button type="submit" data-i18n="ok"></button>
+      </form>
+    </div>
+    <div id="unblockPopup">
+      <form id="unblockForm">
+        <label>
+          <span data-i18n="unblockThisSite"></span>:
+          <select id="unblockSelect" autofocus>
+          </select>
+        </label>
+        <button type="submit" data-i18n="ok"></button>
+      </form>
+    </div>
     <script src="common.js"></script>
     <script src="popup.js"></script>
   </body>

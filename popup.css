@@ -1,14 +1,15 @@
-body {
+#blockPopup, #unblockPopup {
+  display: none;
   font-size: 13px;
   margin: 0;
 }
 
-#ubBlockForm, #ubUnblockForm {
+#blockForm, #unblockForm {
   padding: 20px 12px;
   white-space: nowrap;
 }
 
-#ubBlockInput, #ubUnblockSelect {
+#blockInput, #unblockSelect {
   margin: 0 6px;
   width: 280px;
 }

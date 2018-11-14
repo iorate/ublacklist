@@ -4,9 +4,9 @@ class UBlacklist {
     this.blockedEntryCount = 0;
     this.queuedEntries = [];
 
-    loadBlockRules(blockRules => {
-      this.onBlockRulesLoaded(blockRules);
-    });
+    (async () => {
+      this.onBlockRulesLoaded(await loadBlockRules());
+    })();
 
     new MutationObserver(records => {
       this.onDOMContentMutated(records);
@@ -237,9 +237,13 @@ class UBlacklist {
       if (compiled) {
         this.blockRules.push({ raw, compiled });
         this.rejudgeAllEntries();
-        saveBlockRules(this.blockRules);
+        (async () => {
+          await saveBlockRules(this.blockRules);
+          blockDialog.close();
+        })();
+      } else {
+        blockDialog.close();
       }
-      blockDialog.close();
     });
     blockDialog.addEventListener('click', event => {
       if (event.target == blockDialog) {
@@ -252,8 +256,10 @@ class UBlacklist {
       event.preventDefault();
       this.blockRules.splice(Number($('ubUnblockSelect').value), 1);
       this.rejudgeAllEntries();
-      saveBlockRules(this.blockRules);
-      unblockDialog.close();
+      (async () => {
+        await saveBlockRules(this.blockRules);
+        unblockDialog.close();
+      })();
     });
     unblockDialog.addEventListener('click', event => {
       if (event.target == unblockDialog) {
