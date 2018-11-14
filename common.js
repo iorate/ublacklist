@@ -97,8 +97,8 @@ const compileBlockRule = raw => {
 };
 
 const loadBlockRules = async () => {
-  const items = await getLocalStorage({ blacklist: '' });
-  return lines(items.blacklist).map(raw => ({ raw, compiled: compileBlockRule(raw) }));
+  const { blacklist } = await getLocalStorage({ blacklist: '' });
+  return lines(blacklist).map(raw => ({ raw, compiled: compileBlockRule(raw) }));
 };
 
 const saveBlockRules = async blockRules => {
