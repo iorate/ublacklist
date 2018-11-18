@@ -82,7 +82,7 @@ class SyncService {
         });
       });
       script.addEventListener('error', event => {
-        reject(event.error);
+        reject(new Error('The Google API client failed to load.'));
       });
       setTimeout(() => {
         reject(new Error('The Google API client took too long to load.'));
