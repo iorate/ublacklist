@@ -142,11 +142,15 @@ const inspectEntry = elem => {
       }
 
       const pageLink = base.querySelector(':scope ' + info.pageLink);
-      if (!pageLink) { continue; }
+      if (!pageLink) {
+        continue;
+      }
       let pageUrl;
       if (info.pageLinkType == 'image') {
         const m = /"ru":"([^"]+)"/.exec(pageLink.textContent);
-        if (!m) { continue; }
+        if (!m) {
+          continue;
+        }
         pageUrl = m[1];
       } else {
         pageUrl = pageLink.href;
@@ -155,16 +159,21 @@ const inspectEntry = elem => {
       let actionParent;
       if (info.actionParent) {
         actionParent = base.querySelector(':scope ' + info.actionParent);
-        if (!actionParent) { continue; }
+        if (!actionParent) {
+          continue;
+        }
       } else {
         actionParent = base;
       }
 
-      const actionTag = info.actionTag;
-      const actionClass = info.actionClass;
-      const display = info.display;
-
-      return { base, pageUrl, actionParent, actionTag, actionClass, display };
+      return {
+        base,
+        pageUrl,
+        actionParent,
+        actionTag: info.actionTag,
+        actionClass: info.actionClass,
+        display: info.display
+      };
     }
   }
   return null;
