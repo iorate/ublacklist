@@ -7,61 +7,35 @@ const unlines = ss => ss.join('\n');
 
 /* Async APIs */
 
-const getAuthToken = details => {
-  return new Promise((resolve, reject) => {
-    chrome.identity.getAuthToken(details, token => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-        return;
-      }
-      resolve(token);
-    });
+const makeAsyncApi = callbackApi => (...args) => new Promise((resolve, reject) => {
+  callbackApi(...args, result => {
+    if (chrome.runtime.lastError) {
+      reject(new Error(chrome.runtime.lastError.message));
+      return;
+    }
+    resolve(result);
   });
-};
+});
 
-const removeCachedAuthToken = details => {
-  return new Promise((resolve, reject) => {
-    chrome.identity.removeCachedAuthToken(details, () => {
-      resolve();
-    });
-  });
-};
+const getAuthToken = makeAsyncApi((details, callback) => {
+  chrome.identity.getAuthToken(details, callback);
+});
 
-const getLocalStorage = keys => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get(keys, items => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-        return;
-      }
-      resolve(items);
-    });
-  });
-};
+const removeCachedAuthToken = makeAsyncApi((details, callback) => {
+  chrome.identity.removeCachedAuthToken(details, callback);
+});
 
-const setLocalStorage = items => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.set(items, () => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-        return;
-      }
-      resolve();
-    });
-  });
-};
+const getLocalStorage = makeAsyncApi((keys, callback) => {
+  chrome.storage.local.get(keys, callback);
+});
 
-const queryTabs = queryInfo => {
-  return new Promise((resolve, reject) => {
-    chrome.tabs.query(queryInfo, result => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-        return;
-      }
-      resolve(result);
-    });
-  });
-};
+const setLocalStorage = makeAsyncApi((items, callback) => {
+  chrome.storage.local.set(items, callback);
+});
+
+const queryTabs = makeAsyncApi((queryInfo, callback) => {
+  chrome.tabs.query(queryInfo, callback);
+});
 
 /* Block Rules */
 
@@ -114,4 +88,3 @@ const deriveBlockRule = url => {
   const s = u.protocol.match(/^((https?)|ftp):$/);
   return s ? (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*' : null;
 };
-
