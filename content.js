@@ -123,22 +123,22 @@ class UBlacklist {
     const action = document.createElement(actionTag);
     action.className = actionClass;
 
-    const blockButton = document.createElement('a');
+    const blockButton = document.createElement('span');
     blockButton.className = 'ubBlockButton';
-    blockButton.href = 'javascript:void(0)';
     blockButton.textContent = _('blockThisSite');
-    blockButton.addEventListener('click', () => {
+    blockButton.addEventListener('click', e => {
+      e.stopPropagation();
       if (this.blockRules) {
         $('ubBlockInput').value = deriveBlockRule(pageUrl) || '';
         $('ubBlockDialog').showModal();
       }
     });
 
-    const unblockButton = document.createElement('a');
+    const unblockButton = document.createElement('span');
     unblockButton.className = 'ubUnblockButton';
-    unblockButton.href = 'javascript:void(0)';
     unblockButton.textContent = _('unblockThisSite');
-    unblockButton.addEventListener('click', () => {
+    unblockButton.addEventListener('click', e => {
+      e.stopPropagation();
       if (this.blockRules) {
         const unblockSelect = $('ubUnblockSelect');
         while (unblockSelect.firstChild) {

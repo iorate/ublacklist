@@ -42,6 +42,15 @@ div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > a.bia
   margin-left: 4px;
 }
 
+.ubBlockButton, .ubUnblockButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
+.ubBlockButton:hover, .ubUnblockButton:hover {
+  text-decoration: underline;
+}
+
 #ubBlockDialog, #ubUnblockDialog {
   padding: 0;
 }
