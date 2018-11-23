@@ -98,6 +98,17 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
+  // Search.TopStory.List
+  {
+    target:       'div#rso > div > div > g-section-with-header > div > div > div > div > div > div > lazy-load-item > div.dbsr',
+    targetDepth:  4,
+    pageLink:     '> div > div > lazy-load-item > div.dbsr > a',
+    pageLinkType: 'default',
+    actionParent: '> div > div > lazy-load-item > div.dbsr > a > div > div:last-child > div:nth-child(2)',
+    actionTag:    'span',
+    actionClass:  'ubDefaultAction',
+    display:      'default'
+  },
   // Search.Video
   {
     target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',

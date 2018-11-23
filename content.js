@@ -127,6 +127,7 @@ class UBlacklist {
     blockButton.className = 'ubBlockButton';
     blockButton.textContent = _('blockThisSite');
     blockButton.addEventListener('click', e => {
+      e.preventDefault();
       e.stopPropagation();
       if (this.blockRules) {
         $('ubBlockInput').value = deriveBlockRule(pageUrl) || '';
@@ -138,6 +139,7 @@ class UBlacklist {
     unblockButton.className = 'ubUnblockButton';
     unblockButton.textContent = _('unblockThisSite');
     unblockButton.addEventListener('click', e => {
+      e.preventDefault();
       e.stopPropagation();
       if (this.blockRules) {
         const unblockSelect = $('ubUnblockSelect');
