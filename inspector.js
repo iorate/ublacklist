@@ -6,7 +6,6 @@ const ENTRY_INFO = [
     pageLink:     '> div > div.rc > div.r > a',
     pageLinkType: 'default',
     actionParent: '> div > div.rc > div.r',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -17,7 +16,6 @@ const ENTRY_INFO = [
     pageLink:     '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
     pageLinkType: 'default',
     actionParent: '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -28,7 +26,6 @@ const ENTRY_INFO = [
     pageLink:     '> div > div.rc > div.r > a',
     pageLinkType: 'default',
     actionParent: '> div > div.rc > div.r',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -39,7 +36,6 @@ const ENTRY_INFO = [
     pageLink:     '> div > div > div.rc > div.r > a',
     pageLinkType: 'default',
     actionParent: '> div > div > div.rc > div.r',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -50,7 +46,6 @@ const ENTRY_INFO = [
     pageLink:     '> div.rg_meta.notranslate',
     pageLinkType: 'image',
     actionParent: '',
-    actionTag:    'div',
     actionClass:  'ubImageAction',
     display:      'image'
   },
@@ -61,7 +56,6 @@ const ENTRY_INFO = [
     pageLink:     '> g-inner-card > a',
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
-    actionTag:    'div',
     actionClass:  'ubNewsAction',
     display:      'default'
   },
@@ -72,7 +66,6 @@ const ENTRY_INFO = [
     pageLink:     '> g-inner-card > a',
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
-    actionTag:    'div',
     actionClass:  'ubNewsAction',
     display:      'default'
   },
@@ -83,7 +76,6 @@ const ENTRY_INFO = [
     pageLink:     '> g-inner-card > a',
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
-    actionTag:    'div',
     actionClass:  'ubNewsAction',
     display:      'default'
   },
@@ -94,7 +86,6 @@ const ENTRY_INFO = [
     pageLink:     '> div.dbsr.kno-fb-ctx > g-card-section > a',
     pageLinkType: 'default',
     actionParent: '> div.dbsr.kno-fb-ctx > g-card-section > div',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -105,7 +96,6 @@ const ENTRY_INFO = [
     pageLink:     '> div > div > lazy-load-item > div.dbsr > a',
     pageLinkType: 'default',
     actionParent: '> div > div > lazy-load-item > div.dbsr > a > div > div:last-child > div:nth-child(2)',
-    actionTag:    'span',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
@@ -116,7 +106,6 @@ const ENTRY_INFO = [
     pageLink:     '> g-inner-card > div > a',
     pageLinkType: 'default',
     actionParent: '> g-inner-card',
-    actionTag:    'div',
     actionClass:  'ubVideoAction',
     display:      'default'
   },
@@ -127,7 +116,6 @@ const ENTRY_INFO = [
     pageLink:     '> div.rg_meta.notranslate',
     pageLinkType: 'image',
     actionParent: '',
-    actionTag:    'div',
     actionClass:  'ubImageSearchAction',
     display:      'imageSearch'
   },
@@ -138,7 +126,6 @@ const ENTRY_INFO = [
     pageLink:     '> div.ts > div > h3.r > a',
     pageLinkType: 'default',
     actionParent: '> div.ts > div > div.slp',
-    actionTag:    'span',
     actionClass:  'ubNewsSearchAction',
     display:      'default'
   },
@@ -151,7 +138,6 @@ const inspectEntry = elem => {
       for (let i = 0; i < info.targetDepth; ++i) {
         base = base.parentNode;
       }
-
       const pageLink = base.querySelector(':scope ' + info.pageLink);
       if (!pageLink) {
         continue;
@@ -166,7 +152,6 @@ const inspectEntry = elem => {
       } else {
         pageUrl = pageLink.href;
       }
-
       let actionParent;
       if (info.actionParent) {
         actionParent = base.querySelector(':scope ' + info.actionParent);
@@ -176,15 +161,7 @@ const inspectEntry = elem => {
       } else {
         actionParent = base;
       }
-
-      return {
-        base,
-        pageUrl,
-        actionParent,
-        actionTag: info.actionTag,
-        actionClass: info.actionClass,
-        display: info.display
-      };
+      return { base, pageUrl, actionParent, actionClass: info.actionClass, display: info.display };
     }
   }
   return null;

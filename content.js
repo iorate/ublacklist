@@ -112,7 +112,7 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupEntry({ base, pageUrl, actionParent, actionTag, actionClass, display }) {
+  setupEntry({ base, pageUrl, actionParent, actionClass, display }) {
     if (base.hasAttribute('data-ub-page-url')) {
       return;
     }
@@ -120,7 +120,7 @@ class UBlacklist {
     base.setAttribute('data-ub-page-url', pageUrl);
     base.setAttribute('data-ub-display', display);
 
-    const action = document.createElement(actionTag);
+    const action = document.createElement('span');
     action.className = actionClass;
 
     const blockButton = document.createElement('span');

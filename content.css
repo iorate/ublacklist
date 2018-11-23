@@ -9,6 +9,7 @@
 }
 
 .ubImageAction {
+  display: block;
   font-size: 10px;
 }
 
@@ -21,18 +22,21 @@ div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > a.bia
 }
 
 .ubNewsAction {
+  display: block;
   font-size: 14px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
 .ubVideoAction {
+  display: block;
   font-size: 13px;
   margin: -10px 0 10px 0;
   padding: 0 16px;
 }
 
 .ubImageSearchAction {
+  display: block;
   font-size: 12px;
   padding: 0 4px;
 }
