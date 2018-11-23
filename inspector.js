@@ -1,6 +1,6 @@
 const ENTRY_INFO = [
-  // Search, BookSearch, VideoSearch
   {
+    id:           'Search.Default',
     target:       'div#rso > div > div.srg > div.g',
     targetDepth:  0,
     pageLink:     '> div > div.rc > div.r > a',
@@ -9,8 +9,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.FeaturedSnippet
   {
+    id:           'Search.FeaturedSnippet',
     target:       'div#rso > div > div.g.mnr-c.g-blk > div.kp-blk > div.xpdopen > div > div > div.g',
     targetDepth:  5,
     pageLink:     '> div.kp-blk > div.xpdopen > div > div > div.g > div > div.rc > div.r > a',
@@ -19,8 +19,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.WebResult
   {
+    id:           'Search.WebResult',
     target:       'div#rso > div > div.g',
     targetDepth:  0,
     pageLink:     '> div > div.rc > div.r > a',
@@ -29,8 +29,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.WebResultWithSiteLinks
   {
+    id:           'Search.WebResultWithSiteLinks',
     target:       'div#rso > div > div.g',
     targetDepth:  0,
     pageLink:     '> div > div > div.rc > div.r > a',
@@ -39,8 +39,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.Image
   {
+    id:           'Search.Image',
     target:       'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > div.rg_meta.notranslate',
     targetDepth:  1,
     pageLink:     '> div.rg_meta.notranslate',
@@ -49,8 +49,8 @@ const ENTRY_INFO = [
     actionClass:  'ubImageAction',
     display:      'image'
   },
-  // Search.Latest
   {
+    id:           'Search.Latest',
     target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
     targetDepth:  1,
     pageLink:     '> g-inner-card > a',
@@ -59,8 +59,8 @@ const ENTRY_INFO = [
     actionClass:  'ubNewsAction',
     display:      'default'
   },
-  // Search.TopStory
   {
+    id:           'Search.TopStory1',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(-n+3) > g-inner-card > div:nth-child(2)',
     targetDepth:  2,
     pageLink:     '> g-inner-card > a',
@@ -69,8 +69,8 @@ const ENTRY_INFO = [
     actionClass:  'ubNewsAction',
     display:      'default'
   },
-  // Search.TopStory.Hidden
   {
+    id:           'Search.TopStory1.Hidden',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
     targetDepth:  1,
     pageLink:     '> g-inner-card > a',
@@ -79,8 +79,8 @@ const ENTRY_INFO = [
     actionClass:  'ubNewsAction',
     display:      'default'
   },
-  // Search.TopStory.List
   {
+    id:           'Search.TopStory2',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
     targetDepth:  0,
     pageLink:     '> div.dbsr.kno-fb-ctx > g-card-section > a',
@@ -89,8 +89,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.TopStory.List
   {
+    id:           'Search.TopStory3',
     target:       'div#rso > div > div > g-section-with-header > div > div > div > div > div > div > lazy-load-item > div.dbsr',
     targetDepth:  4,
     pageLink:     '> div > div > lazy-load-item > div.dbsr > a',
@@ -99,8 +99,8 @@ const ENTRY_INFO = [
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
-  // Search.Video
   {
+    id:           'Search.Video',
     target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
     targetDepth:  1,
     pageLink:     '> g-inner-card > div > a',
@@ -109,8 +109,8 @@ const ENTRY_INFO = [
     actionClass:  'ubVideoAction',
     display:      'default'
   },
-  // ImageSearch
   {
+    id:           'ImageSearch.Default',
     target:       'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
     targetDepth:  0,
     pageLink:     '> div.rg_meta.notranslate',
@@ -119,8 +119,8 @@ const ENTRY_INFO = [
     actionClass:  'ubImageSearchAction',
     display:      'imageSearch'
   },
-  // NewsSearch
   {
+    id:           'NewsSearch.Default',
     target:       'div#rso > div > div.g',
     targetDepth:  0,
     pageLink:     '> div.ts > div > h3.r > a',

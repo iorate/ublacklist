@@ -3,6 +3,11 @@
   margin-left: 16px;
 }
 
+#ubShowButton, #ubHideButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
 .ubDefaultAction {
   font-size: 14px;
   margin-left: 4px;

@@ -168,17 +168,15 @@ class UBlacklist {
     const stats = document.createElement('span');
     stats.id = 'ubStats';
 
-    const showButton = document.createElement('a');
+    const showButton = document.createElement('span');
     showButton.id = 'ubShowButton';
-    showButton.href = 'javascript:void(0)';
     showButton.textContent = _('show');
     showButton.addEventListener('click', () => {
       $('ubShowStyle').sheet.disabled = false;
     });
 
-    const hideButton = document.createElement('a');
+    const hideButton = document.createElement('span');
     hideButton.id = 'ubHideButton';
-    hideButton.href = 'javascript:void(0)';
     hideButton.textContent = _('hide');
     hideButton.addEventListener('click', () => {
       $('ubShowStyle').sheet.disabled = true;
