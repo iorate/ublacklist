@@ -1,4 +1,5 @@
 const SYNC_INTERVAL = 5;
+const SYNC_FILENAME = 'uBlacklist.txt'
 
 class GApiRequestError extends Error {
   constructor(reason) {
@@ -106,7 +107,7 @@ class SyncService {
       method: 'GET',
       params: {
         corpora: 'user',
-        q: `name = 'uBlacklist.txt' and 'root' in parents and trashed = false`,
+        q: `name = '${SYNC_FILENAME}' and 'root' in parents and trashed = false`,
         spaces: 'drive',
         fields: 'files(id, modifiedTime)'
       }
@@ -148,7 +149,7 @@ class SyncService {
       path: '/drive/v3/files',
       method: 'POST',
       body: {
-        name: 'uBlacklist.txt'
+        name: SYNC_FILENAME
       }
     });
     return response.result;
