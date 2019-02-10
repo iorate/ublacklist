@@ -181,7 +181,7 @@ const inspectEntry = elem => {
       } else {
         actionParent = base;
       }
-      return { base, pageUrl, actionParent, actionClass: info.actionClass, display: info.display };
+      return {base, pageUrl, actionParent, actionClass: info.actionClass, display: info.display};
     }
   }
   return null;

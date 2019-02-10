@@ -13,7 +13,7 @@ class SyncService {
   constructor() {
     this.intervalId = null;
     (async () => {
-      const { sync } = await getLocalStorage({ sync: false });
+      const {sync} = await getLocalStorage({sync: false});
       if (sync) {
         this.start();
       }
@@ -37,18 +37,18 @@ class SyncService {
   }
 
   async sync() {
-    const { blacklist, timestamp } = await getLocalStorage({
+    const {blacklist, timestamp} = await getLocalStorage({
       blacklist: '',
       timestamp: new Date(0).toISOString()
     });
     await this.loadGApiClient();
-    const token = await getAuthToken({ interactive: false });
-    gapi.auth.setToken({ access_token: token });
+    const token = await getAuthToken({interactive: false});
+    gapi.auth.setToken({access_token: token});
     try {
       await this.syncFile(blacklist, timestamp);
     } catch (e) {
       if (e instanceof GApiRequestError && e.status == 401) {
-        await removeCachedAuthToken({ token });
+        await removeCachedAuthToken({token});
         return;
       }
       throw e;
@@ -167,7 +167,7 @@ class SyncService {
 const syncService = new SyncService();
 
 chrome.runtime.onMessage.addListener(async () => {
-  const { sync } = await getLocalStorage({ sync: false });
+  const {sync} = await getLocalStorage({sync: false});
   if (sync) {
     syncService.start();
   } else {

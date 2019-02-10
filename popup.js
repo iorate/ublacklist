@@ -4,7 +4,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 
 (async () => {
   const blockRules = await loadBlockRules();
-  const url = (await queryTabs({ active: true, currentWindow: true }))[0].url;
+  const url = (await queryTabs({active: true, currentWindow: true}))[0].url;
   const blocked = /^(https?|ftp):$/.test(new URL(url).protocol) &&
                   blockRules.some(rule => rule.compiled && rule.compiled.test(url));
   if (!blocked) {
@@ -14,7 +14,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
       const raw = $('blockInput').value;
       const compiled = compileBlockRule(raw);
       if (compiled) {
-        blockRules.push({ raw, compiled });
+        blockRules.push({raw, compiled});
         (async () => {
           await saveBlockRules(blockRules);
           window.close();

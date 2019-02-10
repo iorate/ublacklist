@@ -3,7 +3,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 }
 
 (async () => {
-  const { blacklist, timestamp, sync } = await getLocalStorage({
+  const {blacklist, timestamp, sync} = await getLocalStorage({
     blacklist: '',
     timestamp: new Date(0).toISOString(),
     sync: false
@@ -26,7 +26,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 
   $('permitButton').addEventListener('click', async () => {
     try {
-      await getAuthToken({ interactive: true });
+      await getAuthToken({interactive: true});
       $('permitStatus').textContent = _('permitted');
     } catch (e) {
       $('permitStatus').textContent = _('notPermitted');

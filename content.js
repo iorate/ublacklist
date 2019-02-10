@@ -10,7 +10,7 @@ class UBlacklist {
 
     new MutationObserver(records => {
       this.onDOMContentMutated(records);
-    }).observe(document.documentElement, { childList: true, subtree: true });
+    }).observe(document.documentElement, {childList: true, subtree: true});
 
     document.addEventListener('DOMContentLoaded', () => {
       this.onDOMContentLoaded();
@@ -112,7 +112,7 @@ class UBlacklist {
     showStyle.sheet.disabled = true;
   }
 
-  setupEntry({ base, pageUrl, actionParent, actionClass, display }) {
+  setupEntry({base, pageUrl, actionParent, actionClass, display}) {
     if (base.hasAttribute('data-ub-page-url')) {
       return;
     }
@@ -237,7 +237,7 @@ class UBlacklist {
       const raw = $('ubBlockInput').value;
       const compiled = compileBlockRule(raw);
       if (compiled) {
-        this.blockRules.push({ raw, compiled });
+        this.blockRules.push({raw, compiled});
         this.rejudgeAllEntries();
         (async () => {
           await saveBlockRules(this.blockRules);
