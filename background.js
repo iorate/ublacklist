@@ -1,12 +1,3 @@
-chrome.runtime.onInstalled.addListener(details => {
-  if (details.reason == 'update') {
-    const [x] = details.previousVersion.split('.').map(Number);
-    if (x <= 1) {
-      chrome.storage.sync.clear();
-    }
-  }
-});
-
 const SYNC_INTERVAL = 5;
 
 class GApiRequestError extends Error {
