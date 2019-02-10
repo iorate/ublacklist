@@ -58,8 +58,7 @@ const compileBlockRule = raw => {
     try {
       const compiled = new RegExp(re[1], re[2]);
       if (compiled.global || compiled.sticky) {
-        console.warn('Unsupported regular expression flag: ' + raw);
-        return null;
+        return new RegExp(re[1], re[2].replace(/[gy]/g, ''));
       }
       return compiled;
     } catch (e) {
