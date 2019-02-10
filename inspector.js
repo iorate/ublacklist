@@ -110,6 +110,16 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
+    id:           'Search.TwitterResult',
+    target:       'div#rso > div > div > div.g',
+    targetDepth:  0,
+    pageLink:     '> g-section-with-header > div > div > div > h3.r > div > g-link > a',
+    pageLinkType: 'default',
+    actionParent: '> g-section-with-header > div > div > div > div',
+    actionClass:  'ubTwitterAction',
+    display:      'default'
+  },
+  {
     id:           'Search.Video',
     target:       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
     targetDepth:  1,

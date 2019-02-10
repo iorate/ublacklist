@@ -33,6 +33,11 @@ div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > a.bia
   padding: 0 16px;
 }
 
+.ubTwitterAction {
+  flex: 25 0 auto;
+  font-size: 14px;
+}
+
 .ubVideoAction {
   display: block;
   font-size: 13px;
