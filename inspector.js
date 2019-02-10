@@ -60,7 +60,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory1',
+    id:           'Search.TopStory_Horizontal',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(-n+3) > g-inner-card > div:nth-child(2)',
     targetDepth:  2,
     pageLink:     '> g-inner-card > a',
@@ -70,7 +70,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory1.Hidden',
+    id:           'Search.TopStory_Horizontal.Hidden',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
     targetDepth:  1,
     pageLink:     '> g-inner-card > a',
@@ -80,7 +80,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory2',
+    id:           'Search.TopStory_Vertical_V2',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
     targetDepth:  0,
     pageLink:     '> div.dbsr.kno-fb-ctx > g-card-section > a',
@@ -90,12 +90,22 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory3',
+    id:           'Search.TopStory_Vertical',
     target:       'div#rso > div > div > g-section-with-header > div > div > div > div > div > div > lazy-load-item > div.dbsr',
     targetDepth:  4,
     pageLink:     '> div > div > lazy-load-item > div.dbsr > a',
     pageLinkType: 'default',
     actionParent: '> div > div > lazy-load-item > div.dbsr > a > div > div:last-child > div:nth-child(2)',
+    actionClass:  'ubDefaultAction',
+    display:      'default'
+  },
+  {
+    id:           'Search.TopStory_Vertical_NoImage',
+    target:       'div#rso > div > div > g-section-with-header > div > div > div > div > div > div.dbsr > a > div > div > div:nth-child(2)',
+    targetDepth:  6,
+    pageLink:     '> div > div.dbsr > a',
+    pageLinkType: 'default',
+    actionParent: '> div > div.dbsr > a > div > div > div:nth-child(2)',
     actionClass:  'ubDefaultAction',
     display:      'default'
   },
