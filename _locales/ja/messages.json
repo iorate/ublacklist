@@ -26,9 +26,6 @@
   "syncWithGoogleDrive": {
     "message": "Google ドライブで同期する"
   },
-  "experimental": {
-    "message": "実験的"
-  },
   "permitDescription": {
     "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります。"
   },
