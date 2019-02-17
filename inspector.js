@@ -30,7 +30,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.WebResultWithSiteLinks',
+    id:           'Search.WebResult_SiteLink',
     target:       'div#rso > div > div.g',
     targetDepth:  0,
     pageLink:     '> div > div > div.rc > div.r > a',
@@ -70,7 +70,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory_Horizontal.Hidden',
+    id:           'Search.TopStory_Horizontal_Hidden',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
     targetDepth:  1,
     pageLink:     '> g-inner-card > a',
@@ -80,7 +80,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TopStory_Vertical_V2',
+    id:           'Search.TopStory_Vertical.1',
     target:       'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
     targetDepth:  0,
     pageLink:     '> div.dbsr.kno-fb-ctx > g-card-section > a',
@@ -110,7 +110,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TwitterResult_V2',
+    id:           'Search.Twitter.1',
     target:       'div#rso > div > div > div.g',
     targetDepth:  0,
     pageLink:     '> g-section-with-header > div > div > div > div.r > h3 > g-link > a',
@@ -120,7 +120,7 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
-    id:           'Search.TwitterResult',
+    id:           'Search.Twitter',
     target:       'div#rso > div > div > div.g',
     targetDepth:  0,
     pageLink:     '> g-section-with-header > div > div > div > h3.r > div > g-link > a',
