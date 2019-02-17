@@ -110,6 +110,16 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
+    id:           'Search.TwitterResult_V2',
+    target:       'div#rso > div > div > div.g',
+    targetDepth:  0,
+    pageLink:     '> g-section-with-header > div > div > div > div.r > h3 > g-link > a',
+    pageLinkType: 'default',
+    actionParent: '> g-section-with-header > div > div > div > div:nth-child(2)',
+    actionClass:  'ubTwitterAction',
+    display:      'default'
+  },
+  {
     id:           'Search.TwitterResult',
     target:       'div#rso > div > div > div.g',
     targetDepth:  0,
