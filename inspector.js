@@ -137,7 +137,7 @@ const ENTRY_INFO = [
     pageLinkType: 'image',
     actionParent: '',
     actionClass:  'ubImageSearchAction',
-    display:      'imageSearch'
+    display:      'image'
   },
   {
     id:           'NewsSearch.Default',
@@ -181,6 +181,21 @@ const inspectEntry = elem => {
       } else {
         actionParent = base;
       }
+
+      if (info.id == 'Search.Image') {
+        const m = /([0-9]+)px/.exec(base.style.height);
+        if (!m) {
+          continue;
+        }
+        const height = Number(m[1]);
+        base.style.height = String(height + 13) + 'px';
+        const image = base.querySelector(':scope > a.bia > g-img > img');
+        if (!image) {
+          continue;
+        }
+        image.style.height = String(height) + 'px'
+      }
+
       return {base, pageUrl, actionParent, actionClass: info.actionClass, display: info.display};
     }
   }

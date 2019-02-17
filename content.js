@@ -70,9 +70,6 @@ class UBlacklist {
         display: none !important;
       }
       .ubBlockedEntry[data-ub-display="image"] {
-        display: none !important;
-      }
-      .ubBlockedEntry[data-ub-display="imageSearch"] {
         visibility: hidden;
       }
       .ubUnblockButton {
@@ -93,9 +90,6 @@ class UBlacklist {
         display: block !important;
       }
       .ubBlockedEntry[data-ub-display="image"] {
-        display: inline-block !important;
-      }
-      .ubBlockedEntry[data-ub-display="imageSearch"] {
         visibility: visible;
       }
       .ubBlockedEntry, .ubBlockedEntry * {
