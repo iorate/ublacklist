@@ -225,6 +225,7 @@ class UBlacklist {
     `);
 
     const blockDialog = $('ubBlockDialog');
+    dialogPolyfill.registerDialog(blockDialog);
     $('ubBlockForm').addEventListener('submit', event => {
       event.preventDefault();
       const raw = $('ubBlockInput').value;
@@ -247,6 +248,7 @@ class UBlacklist {
     });
 
     const unblockDialog = $('ubUnblockDialog');
+    dialogPolyfill.registerDialog(unblockDialog);
     $('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
       this.blockRules.splice(Number($('ubUnblockSelect').value), 1);
