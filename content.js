@@ -44,7 +44,6 @@ class UBlacklist {
         }
       }
     }
-    this.updateControl();
   }
 
   onDOMContentLoaded() {
@@ -268,16 +267,20 @@ class UBlacklist {
     if (this.blockRules.some(rule => rule.compiled && rule.compiled.test(entry.dataset.ubPageUrl))) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
+      this.updateControl();
     }
   }
 
   rejudgeAllEntries() {
     this.blockedEntryCount = 0;
+    this.updateControl();
     for (const entry of document.querySelectorAll('[data-ub-page-url]')) {
       entry.classList.remove('ubBlockedEntry');
       this.judgeEntry(entry);
     }
-    this.updateControl();
+    if (!this.blockedEntryCount) {
+      $('ubShowStyle').sheet.disabled = true;
+    }
   }
 
   updateControl() {
@@ -288,7 +291,6 @@ class UBlacklist {
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
-        $('ubShowStyle').sheet.disabled = true;
       }
     }
   }
