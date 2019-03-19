@@ -66,5 +66,8 @@
   },
   "unblockThisSite": {
     "message": "Unblock this site"
+  },
+  "save": {
+    "message": "Save"
   }
 }

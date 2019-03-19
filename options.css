@@ -32,7 +32,7 @@ textarea {
 
 #blacklistTextArea {
   height: 240px;
-  width: 480px;
+  width: 100%;
 }
 
 #importTextArea {

@@ -3,7 +3,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 }
 
 (async () => {
-  const {blacklist, timestamp, sync} = await getLocalStorage({
+  let {blacklist, timestamp, sync} = await getLocalStorage({
     blacklist: '',
     timestamp: new Date(0).toISOString(),
     sync: false
@@ -34,12 +34,9 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
   });
 
   $('okButton').addEventListener('click', async () => {
-    await setLocalStorage({
-      blacklist: blacklistTextArea.value,
-      timestamp: blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp,
-      sync: $('syncCheckBox').checked
-    });
+    timestamp = blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp;
+    blacklist = blacklistTextArea.value;
+    await setLocalStorage({blacklist, timestamp, sync: $('syncCheckBox').checked});
     chrome.runtime.sendMessage({});
-    window.close();
   });
 })();
