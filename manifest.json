@@ -29,7 +29,6 @@
     "js": ["dialog-polyfill/dialog-polyfill.js", "common.js", "inspector.js", "content.js"],
     "run_at": "document_start"
   }],
-  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "options_ui": {
     "page": "options.html",
     "chrome_style": true
