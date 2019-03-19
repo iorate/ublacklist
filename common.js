@@ -1,3 +1,6 @@
+const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
+const OAUTH2_SCOPES = ['https://www.googleapis.com/auth/drive.file'];
+
 const $ = s => document.getElementById(s);
 
 const _ = s => chrome.i18n.getMessage(s);
@@ -7,6 +10,35 @@ const unlines = ss => ss.join('\n');
 
 /* Async APIs */
 
+const getAuthToken = async details => {
+  const backgroundPage = await browser.runtime.getBackgroundPage();
+  if (backgroundPage.cachedAuthToken) {
+    return backgroundPage.cachedAuthToken;
+  }
+  const authURL = 'https://accounts.google.com/o/oauth2/auth'
+    + `?client_id=${OAUTH2_CLIENT_ID}`
+    + '&response_type=token'
+    + `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}`
+    + `&scope=${encodeURIComponent(OAUTH2_SCOPES.join(' '))}`;
+  const redirectURL = await browser.identity.launchWebAuthFlow({
+    url: authURL,
+    interactive: details.interactive || false
+  });
+  const token = new URLSearchParams(new URL(redirectURL).hash.slice(1)).get('access_token');
+  if (!token) {
+    throw new Error('The authentication server did not return an access token.');
+  }
+  backgroundPage.cachedAuthToken = token;
+  return token;
+};
+
+const removeCachedAuthToken = async details => {
+  const backgroundPage = await browser.runtime.getBackgroundPage();
+  if (backgroundPage.cachedAuthToken == details.token) {
+    backgroundPage.cachedAuthToken = null;
+  }
+};
+
 const makeAsyncApi = callbackApi => (...args) => new Promise((resolve, reject) => {
   callbackApi(...args, result => {
     if (chrome.runtime.lastError) {
@@ -15,14 +47,6 @@ const makeAsyncApi = callbackApi => (...args) => new Promise((resolve, reject) =
     }
     resolve(result);
   });
-});
-
-const getAuthToken = makeAsyncApi((details, callback) => {
-  chrome.identity.getAuthToken(details, callback);
-});
-
-const removeCachedAuthToken = makeAsyncApi((details, callback) => {
-  chrome.identity.removeCachedAuthToken(details, callback);
 });
 
 const getLocalStorage = makeAsyncApi((keys, callback) => {
