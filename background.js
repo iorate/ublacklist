@@ -1,4 +1,5 @@
-window.cachedAuthToken = null;
+window.accessToken = null;
+window.accessTokenExpDate = null;
 
 const SYNC_INTERVAL = 5;
 const SYNC_FILENAME = 'uBlacklist.txt'

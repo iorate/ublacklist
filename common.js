@@ -11,9 +11,9 @@ const unlines = ss => ss.join('\n');
 /* Async APIs */
 
 const getAuthToken = async details => {
-  const backgroundPage = await browser.runtime.getBackgroundPage();
-  if (backgroundPage.cachedAuthToken) {
-    return backgroundPage.cachedAuthToken;
+  const bgPage = await browser.runtime.getBackgroundPage();
+  if (bgPage.accessTokenExpDate && new Date().getTime() < bgPage.accessTokenExpDate.getTime()) {
+    return bgPage.accessToken;
   }
   const authURL = 'https://accounts.google.com/o/oauth2/auth'
     + `?client_id=${OAUTH2_CLIENT_ID}`
@@ -24,18 +24,22 @@ const getAuthToken = async details => {
     url: authURL,
     interactive: details.interactive || false
   });
-  const token = new URLSearchParams(new URL(redirectURL).hash.slice(1)).get('access_token');
-  if (!token) {
-    throw new Error('The authentication server did not return an access token.');
+  const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
+  if (params.has('error')) {
+    throw new Error(`Authentication failed: ${params.get('error')}`);
   }
-  backgroundPage.cachedAuthToken = token;
-  return token;
+  const accessToken = params.get('access_token');
+  const expiresIn = params.get('expires_in');
+  bgPage.accessToken = accessToken;
+  bgPage.accessTokenExpDate = new Date(new Date().getTime() + expiresIn * 1000);
+  return accessToken;
 };
 
 const removeCachedAuthToken = async details => {
-  const backgroundPage = await browser.runtime.getBackgroundPage();
-  if (backgroundPage.cachedAuthToken == details.token) {
-    backgroundPage.cachedAuthToken = null;
+  const bgPage = await browser.runtime.getBackgroundPage();
+  if (bgPage.accessToken == details.token) {
+    bgPage.accessToken = null;
+    bgPage.accessTokenExpDate = null;
   }
 };
 
