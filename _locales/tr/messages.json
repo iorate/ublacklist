@@ -1,0 +1,70 @@
+{
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller"
+  },
+  "blacklist": {
+    "message": "Google arama sonuçlarında görünmesi engellenen siteler"
+  },
+  "blacklistDescription": {
+    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">düzenli ifadeler</a> kullanabilirsiniz."
+  },
+  "example": {
+    "message": "Örnek"
+  },
+  "importFromPersonalBlocklist": {
+    "message": "Personal Blocklist'ten içe aktar"
+  },
+  "importDescription": {
+    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın."
+  },
+  "import": {
+    "message": "İçe aktar"
+  },
+  "syncWithGoogleDrive": {
+    "message": "Google Drive ile senkronize et"
+  },
+  "permitDescription": {
+    "message": "Google Hesabı'nızda oturum açmanız ve bu uzantıya Google Drive'ınıza erişim izni vermeniz gerekir."
+  },
+  "permit": {
+    "message": "İzin ver"
+  },
+  "permitted": {
+    "message": "İzin verildi"
+  },
+  "notPermitted": {
+    "message": "İzin verilmedi"
+  },
+  "enableSyncDescription": {
+    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir. <br>Yerel kara listenizin istemeden üzerine yazılması durumunda, senkronizasyonu etkinleştirmeden önce yedeklemeniz önerilir."
+  },
+  "enableSync": {
+    "message": "Senkronizasyonu etkinleştir"
+  },
+  "ok": {
+    "message": "Tamam"
+  },
+  "nSitesBlocked": {
+    "message": "uBlacklist $COUNT$ siteyi engelledi",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "show": {
+    "message": "Göster"
+  },
+  "hide": {
+    "message": "Gizle"
+  },
+  "blockThisSite": {
+    "message": "Bu siteyi engelle"
+  },
+  "unblockThisSite": {
+    "message": "Bu sitenin engelini kaldır"
+  }
+}
