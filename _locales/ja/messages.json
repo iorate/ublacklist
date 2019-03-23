@@ -66,8 +66,5 @@
   },
   "unblockThisSite": {
     "message": "このサイトのブロックを解除する"
-  },
-  "save": {
-    "message": "保存"
   }
 }
