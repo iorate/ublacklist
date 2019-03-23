@@ -1,30 +1,76 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="popup.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/bulma.min.css" />
+    <link rel="stylesheet" href="popup.css" />
     <title>uBlacklist Popup</title>
   </head>
   <body>
-    <div id="blockPopup">
-      <form id="blockForm">
-        <label>
-          <span data-i18n="blockThisSite"></span>:
-          <input id="blockInput" type="text" autofocus spellcheck="false">
-        </label>
-        <button type="submit" data-i18n="ok"></button>
-      </form>
-    </div>
-    <div id="unblockPopup">
-      <form id="unblockForm">
-        <label>
-          <span data-i18n="unblockThisSite"></span>:
-          <select id="unblockSelect" autofocus>
-          </select>
-        </label>
-        <button type="submit" data-i18n="ok"></button>
-      </form>
-    </div>
+    <section class="section" id="blockPopup">
+      <div class="container">
+        <h1 class="title is-size-4 has-text-centered has-text-light">
+          <span data-i18n="extensionName"></span>
+        </h1>
+
+        <form id="blockForm">
+          <fieldset>
+            <div class="field">
+              <label class="label has-text-white-ter">
+                <span data-i18n="blockThisSite"></span>
+              </label>
+              <input
+                id="blockInput"
+                class="input is-rounded is-fullwidth"
+                type="text"
+                autofocus
+                spellcheck="false"
+              />
+            </div>
+            <div class="field">
+              <button
+                class="button is-rounded is-link is-inverted is-fullwidth"
+                type="submit"
+                data-i18n="ok"
+              ></button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="unblockPopup">
+      <div class="container">
+        <h1 class="title is-size-4 has-text-centered has-text-light">
+          <span data-i18n="extensionName"></span>
+        </h1>
+
+        <form id="unblockForm">
+          <fieldset>
+            <div class="field">
+              <label class="label has-text-white-ter">
+                <span data-i18n="unblockThisSite"></span>
+              </label>
+              <select
+                id="unblockSelect"
+                class="input is-rounded is-fullwidth"
+                autofocus
+                spellcheck="false"
+              ></select>
+            </div>
+            <div class="field">
+              <button
+                class="button is-rounded is-danger is-inverted is-fullwidth"
+                type="submit"
+                data-i18n="ok"
+              ></button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+
     <script src="common.js"></script>
     <script src="popup.js"></script>
   </body>

@@ -1,15 +1,44 @@
-#blockPopup, #unblockPopup {
+#blockPopup,
+#unblockPopup {
   display: none;
   font-size: 13px;
   margin: 0;
 }
 
-#blockForm, #unblockForm {
-  padding: 20px 12px;
+#blockForm,
+#unblockForm {
   white-space: nowrap;
 }
 
-#blockInput, #unblockSelect {
-  margin: 0 6px;
+#blockInput,
+#unblockSelect {
   width: 280px;
+}
+
+#blockPopup {
+  background: #36d1dc; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #5b86e5,
+    #36d1dc
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #5b86e5,
+    #36d1dc
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#unblockPopup {
+  background: #a73737; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #7a2828,
+    #a73737
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #7a2828,
+    #a73737
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
