@@ -25,12 +25,17 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
   });
 
   $('permitButton').addEventListener('click', async () => {
+    var notificationDiv = $('notification');
+    notificationDiv.classList.remove('is-success', 'is-danger');
     try {
       await getAuthToken({interactive: true});
       $('permitStatus').textContent = _('permitted');
+      notificationDiv.classList.add('is-success');
     } catch (e) {
       $('permitStatus').textContent = _('notPermitted');
+      notificationDiv.classList.add('is-danger');
     }
+    notificationDiv.style.display = 'block';
   });
 
   $('okButton').addEventListener('click', async () => {
@@ -43,3 +48,14 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
     window.close();
   });
 })();
+
+// Adds functionality to delete function of permitStatus notification.
+document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    $notification = $delete.parentNode;
+    $delete.addEventListener('click', () => {
+      $notification.style.display = 'none';
+    });
+  });
+});
+

@@ -1,47 +1,94 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="options.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/bulma.min.css" />
+    <link rel="stylesheet" href="options.css" />
     <title>uBlacklist Options</title>
   </head>
   <body>
-    <div data-i18n="blacklist"></div>
-    <div class="description">
-      <span data-i18n="blacklistDescription"></span><br>
-      <span data-i18n="example"></span>: *://*.example.com/*<br>
-      <span data-i18n="example"></span>: /example\.(net|org)/
-    </div>
-    <div><textarea id="blacklistTextArea" spellcheck="false"></textarea></div>
-    <div>
-      <details>
-        <summary data-i18n="importFromPersonalBlocklist"></summary>
-        <div class="container">
-          <div class="description" data-i18n="importDescription"></div>
-          <div><textarea id="importTextArea" spellcheck="false"></textarea></div>
-          <div><button id="importButton" data-i18n="import"></button></div>
+    <section class="section">
+      <div class="container">
+        <div class="is-size-6" data-i18n="blacklist"></div>
+
+        <div class="content description">
+          <span data-i18n="blacklistDescription"></span><br />
+          <span data-i18n="example"></span>: *://*.example.com/*<br />
+          <span data-i18n="example"></span>: /example\.(net|org)/
         </div>
-      </details>
-    </div>
-    <div>
-      <details>
-        <summary><span data-i18n="syncWithGoogleDrive"></span></summary>
-        <div class="container">
-          <div class="description" data-i18n="permitDescription"></div>
-          <div>
-            <button id="permitButton" data-i18n="permit"></button>
-            <span id="permitStatus"></span>
-          </div>
-          <hr>
-          <div class="description" data-i18n="enableSyncDescription"></div>
-          <div>
-            <input id="syncCheckBox" type="checkbox">
-            <label for="syncCheckBox" data-i18n="enableSync"></label>
-          </div>
+        <div>
+          <textarea
+            class="textarea"
+            id="blacklistTextArea"
+            spellcheck="false"
+          ></textarea>
         </div>
-    </div>
-    <div><button id="okButton" data-i18n="ok"></button></div>
-    <script src="common.js"></script>
-    <script src="options.js"></script>
+
+        <div>
+          <details class="box">
+            <summary data-i18n="importFromPersonalBlocklist"></summary>
+            <div class="content">
+              <div class="description" data-i18n="importDescription"></div>
+              <div>
+                <textarea
+                  class="textarea"
+                  id="importTextArea"
+                  spellcheck="false"
+                ></textarea>
+              </div>
+              <div class="control">
+                <a
+                  id="importButton"
+                  class="button is-rounded"
+                  data-i18n="import"
+                ></a>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div>
+          <details class="box">
+            <summary><span data-i18n="syncWithGoogleDrive"></span></summary>
+            <div class="content">
+              <div class="description" data-i18n="permitDescription"></div>
+              <div class="control">
+                <a
+                  id="permitButton"
+                  class="button is-rounded is-fullwidth"
+                  data-i18n="permit"
+                ></a>
+              </div>
+              <div class="notification" id="notification">
+                <a class="delete"></a>
+                <span id="permitStatus" class="is-size-6"></span>
+              </div>
+
+              <div
+                class="content description"
+                data-i18n="enableSyncDescription"
+              ></div>
+              <div>
+                <label class="checkbox" data-i18n="enableSync">
+                  <input id="syncCheckBox" type="checkbox" />
+                </label>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="control">
+          <a
+            id="okButton"
+            class="button is-link is-rounded is-fullwidth"
+            data-i18n="ok"
+          ></a>
+        </div>
+
+        <script src="common.js"></script>
+        <script src="options.js"></script>
+      </div>
+    </section>
   </body>
 </html>

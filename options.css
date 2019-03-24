@@ -1,5 +1,5 @@
 body {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 div:not(:first-child), hr {
@@ -21,9 +21,12 @@ textarea {
   resize: none;
 }
 
-.container {
-  border: solid 1px #bfbfbf;
-  padding: 8px;
+.section {
+  padding: 12px;
+}
+
+#notification {
+  display: none;
 }
 
 .description {
