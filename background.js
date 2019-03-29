@@ -144,15 +144,11 @@ class SyncService {
       }
     }
     const response = await fetch(uri, init);
-    const result = await response.clone().json().catch(() => {
-      return false;
-    });
+    const result = await response.clone().json().catch(() => false);
     const responseOrReason = {
       result,
       body: await response.text(),
-      headers: Object.fromEntries(response.headers.entries()),
-      status: response.status,
-      statusText: response.statusText
+      status: response.status
     };
     if (response.ok) {
       return responseOrReason;
