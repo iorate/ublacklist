@@ -75,10 +75,10 @@ class BlockRule {
       const mp = this.matchPattern;
       if (mp.host == '*') {
       } else if (mp.host.startsWith('*.')) {
-        if (url.host != mp.host.slice(2) && !url.host.endsWith(mp.host.slice(1))) {
+        if (url.hostname != mp.host.slice(2) && !url.hostname.endsWith(mp.host.slice(1))) {
           return false;
         }
-      } else if (url.host != mp.host) {
+      } else if (url.hostname != mp.host) {
         return false;
       }
       if (mp.scheme == '*') {
