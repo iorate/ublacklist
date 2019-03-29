@@ -140,7 +140,7 @@ class UBlacklist {
           unblockSelect.removeChild(unblockSelect.firstChild);
         }
         this.blockRules.forEach((rule, index) => {
-          if (rule.compiled && rule.compiled.test(pageUrl)) {
+          if (rule.test(new URL(pageUrl))) {
             const option = document.createElement('option');
             option.textContent = rule.raw;
             option.value = String(index);
@@ -229,9 +229,9 @@ class UBlacklist {
     $('ubBlockForm').addEventListener('submit', event => {
       event.preventDefault();
       const raw = $('ubBlockInput').value;
-      const compiled = compileBlockRule(raw);
-      if (compiled) {
-        this.blockRules.push({raw, compiled});
+      const rule = new BlockRule(raw);
+      if (rule.isValid) {
+        this.blockRules.push(rule);
         this.rejudgeAllEntries();
         (async () => {
           await saveBlockRules(this.blockRules);
@@ -266,7 +266,8 @@ class UBlacklist {
   }
 
   judgeEntry(entry) {
-    if (this.blockRules.some(rule => rule.compiled && rule.compiled.test(entry.dataset.ubPageUrl))) {
+    const url = new URL(entry.dataset.ubPageUrl);
+    if (this.blockRules.some(rule => rule.test(url))) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
       this.updateControl();

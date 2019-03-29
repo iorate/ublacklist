@@ -18,7 +18,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
   $('importButton').addEventListener('click', () => {
     blacklistTextArea.value = unlines([
       ...lines(blacklistTextArea.value),
-      ...lines(importTextArea.value).filter(s => /^[^/*]+$/.test(s)).map(s => '*://*.' + s + '/*')
+      ...lines(importTextArea.value).filter(s => /^[^/*]+$/.test(s)).map(s => `*://*.${s}/*`)
     ]);
     blacklistTextArea.scrollTop = blacklistTextArea.scrollHeight;
     importTextArea.value = '';
