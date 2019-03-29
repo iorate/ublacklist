@@ -26,6 +26,7 @@
 }
 
 .ubTwitterAction {
+  margin-top: 2px;
   flex: 25 0 auto;
   font-size: 14px;
 }
