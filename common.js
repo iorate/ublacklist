@@ -39,39 +39,67 @@ const queryTabs = makeAsyncApi((queryInfo, callback) => {
 
 /* Block Rules */
 
-const compileBlockRule = raw => {
-  const trimmed = raw.trim();
-  const mp = trimmed.match(/^((\*)|https?|ftp):\/\/(?:(\*)|(\*\.)?([^/*]+))(\/.*)$/);
-  if (mp) {
-    const escapeRegExp = s => s.replace(/[$^\\.*+?()[\]{}|]/g, '\\$&');
-    return new RegExp(
-      '^' +
-      (mp[2] ? 'https?' : mp[1]) +
-      '://' +
-      (mp[3] ? '[^/]+' : (mp[4] ? '([^/.]+\\.)*?' : '') + escapeRegExp(mp[5])) +
-      escapeRegExp(mp[6]).replace(/\\\*/g, '.*') +
-      '$'
-    );
-  }
-  const re = trimmed.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
-  if (re) {
-    try {
-      const compiled = new RegExp(re[1], re[2]);
-      if (compiled.global || compiled.sticky) {
-        return new RegExp(re[1], re[2].replace(/[gy]/g, ''));
+class BlockRule {
+  constructor(raw) {
+    this.raw = raw;
+    const trimmed = raw.trim();
+    const mp = trimmed.match(/^(\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*)$/);
+    if (mp) {
+      this.matchPattern = {
+        scheme: mp[1],
+        host: mp[2],
+        path: new RegExp(`^${mp[3].replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*')}$`)
+      };
+      return;
+    }
+    const re = trimmed.match(/^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/);
+    if (re) {
+      try {
+        let regExp = new RegExp(re[1], re[2]);
+        if (regExp.global || regExp.sticky) {
+          regExp = new RegExp(regExp, re[2].replace(/[gy]/g, ''));
+        }
+        this.regExp = regExp;
+      } catch (e) {
+        console.warn(`Invalid regular expression: ${trimmed}`);
       }
-      return compiled;
-    } catch (e) {
-      console.warn('Invalid regular expression: ' + raw);
-      return null;
     }
   }
-  return null;
+
+  get isValid() {
+    return Boolean(this.matchPattern || this.regExp);
+  }
+
+  test(url) {
+    if (this.matchPattern) {
+      const mp = this.matchPattern;
+      if (mp.host == '*') {
+      } else if (mp.host.startsWith('*.')) {
+        if (url.host != mp.host.slice(2) && !url.host.endsWith(mp.host.slice(1))) {
+          return false;
+        }
+      } else if (url.host != mp.host) {
+        return false;
+      }
+      if (mp.scheme == '*') {
+        if (url.protocol != 'http:' && url.protocol != 'https:') {
+          return false;
+        }
+      } else if (url.protocol != `${mp.scheme}:`) {
+        return false;
+      }
+      return mp.path.test(`${url.pathname}${url.search}`);
+    } else if (this.regExp) {
+      return this.regExp.test(String(url));
+    } else {
+      return false;
+    }
+  }
 };
 
 const loadBlockRules = async () => {
   const {blacklist} = await getLocalStorage({blacklist: ''});
-  return lines(blacklist).map(raw => ({raw, compiled: compileBlockRule(raw)}));
+  return lines(blacklist).map(raw => new BlockRule(raw));
 };
 
 const saveBlockRules = async blockRules => {
