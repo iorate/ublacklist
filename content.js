@@ -123,7 +123,7 @@ class UBlacklist {
       e.preventDefault();
       e.stopPropagation();
       if (this.blockRules) {
-        $('ubBlockInput').value = deriveBlockRule(pageUrl) || '';
+        $('ubBlockInput').value = deriveBlockRule(new SimpleURL(pageUrl));
         $('ubBlockDialog').showModal();
       }
     });
@@ -139,8 +139,9 @@ class UBlacklist {
         while (unblockSelect.firstChild) {
           unblockSelect.removeChild(unblockSelect.firstChild);
         }
+        const url = new SimpleURL(pageUrl);
         this.blockRules.forEach((rule, index) => {
-          if (rule.test(new URL(pageUrl))) {
+          if (rule.test(url)) {
             const option = document.createElement('option');
             option.textContent = rule.raw;
             option.value = String(index);
@@ -264,7 +265,7 @@ class UBlacklist {
   }
 
   judgeEntry(entry) {
-    const url = new URL(entry.dataset.ubPageUrl);
+    const url = new SimpleURL(entry.dataset.ubPageUrl);
     if (this.blockRules.some(rule => rule.test(url))) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
