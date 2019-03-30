@@ -4,10 +4,15 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
 
 (async () => {
   const blockRules = await loadBlockRules();
-  const url = (await queryTabs({active: true, currentWindow: true}))[0].url;
-  const blocked = blockRules.some(rule => rule.test(new URL(url)));
-  if (!blocked) {
-    $('blockInput').value = deriveBlockRule(url) || '';
+  const url = new SimpleURL((await queryTabs({active: true, currentWindow: true}))[0].url);
+  const blockIndices = [];
+  blockRules.forEach((rule, index) => {
+    if (rule.test(url)) {
+      blockIndices.push(index);
+    }
+  });
+  if (!blockIndices.length) {
+    $('blockInput').value = deriveBlockRule(url);
     $('blockForm').addEventListener('submit', event => {
       event.preventDefault();
       const raw = $('blockInput').value;
@@ -24,14 +29,15 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
     });
     $('blockPopup').style.display = 'block';
   } else {
-    blockRules.forEach((rule, index) => {
-      if (rule.test(new URL(url))) {
+    for (const index of blockIndices) {
+      const rule = blockRules[index];
+      if (rule.test(url)) {
         const option = document.createElement('option');
         option.textContent = rule.raw;
         option.value = String(index);
         $('unblockSelect').appendChild(option);
       }
-    });
+    }
     $('unblockForm').addEventListener('submit', event => {
       event.preventDefault();
       blockRules.splice(Number($('unblockSelect').value), 1);

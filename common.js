@@ -67,6 +67,19 @@ const queryTabs = makeAsyncApi((queryInfo, callback) => {
 
 /* Block Rules */
 
+class SimpleURL {
+  constructor(href) {
+    const u = new URL(href);
+    this.scheme = u.protocol.slice(0, -1);
+    this.host = u.hostname;
+    this.path = `${u.pathname}${u.search}`;
+  }
+
+  get href() {
+    return `${this.scheme}://${this.host}${this.path}`;
+  }
+}
+
 class BlockRule {
   constructor(raw) {
     this.raw = raw;
@@ -103,27 +116,27 @@ class BlockRule {
       const mp = this.matchPattern;
       if (mp.host == '*') {
       } else if (mp.host.startsWith('*.')) {
-        if (url.hostname != mp.host.slice(2) && !url.hostname.endsWith(mp.host.slice(1))) {
+        if (url.host != mp.host.slice(2) && !url.host.endsWith(mp.host.slice(1))) {
           return false;
         }
-      } else if (url.hostname != mp.host) {
+      } else if (url.host != mp.host) {
         return false;
       }
       if (mp.scheme == '*') {
-        if (url.protocol != 'http:' && url.protocol != 'https:') {
+        if (url.scheme != 'http' && url.scheme != 'https') {
           return false;
         }
-      } else if (url.protocol != `${mp.scheme}:`) {
+      } else if (url.scheme != mp.scheme) {
         return false;
       }
-      return mp.path.test(`${url.pathname}${url.search}`);
+      return mp.path.test(url.path);
     } else if (this.regExp) {
-      return this.regExp.test(String(url));
+      return this.regExp.test(url.href);
     } else {
       return false;
     }
   }
-};
+}
 
 const loadBlockRules = async () => {
   const {blacklist} = await getLocalStorage({blacklist: ''});
@@ -139,7 +152,11 @@ const saveBlockRules = async blockRules => {
 };
 
 const deriveBlockRule = url => {
-  const u = new URL(url);
-  const s = u.protocol.match(/^((https?)|ftp):$/);
-  return s ? (s[2] ? '*' : s[1]) + '://' + u.hostname + '/*' : null;
+  if (url.scheme == 'http' || url.scheme == 'https') {
+    return `*://${url.host}/*`;
+  } else if (url.scheme == 'ftp') {
+    return `${url.scheme}://${url.host}/*`;
+  } else {
+    return '';
+  }
 };
