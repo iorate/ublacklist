@@ -72,5 +72,8 @@
   },
   "hideBlockLinks": {
     "message": "Hide the \"Block this site\" links"
+  },
+  "save": {
+    "message": "Save"
   }
 }

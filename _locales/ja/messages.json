@@ -72,5 +72,8 @@
   },
   "hideBlockLinks": {
     "message": "「このサイトをブロックする」リンクを表示しない"
+  },
+  "save": {
+    "message": "保存"
   }
 }
