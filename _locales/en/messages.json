@@ -66,5 +66,15 @@
   },
   "unblockThisSite": {
     "message": "Unblock this site"
+  },
+  "advancedSettings": {
+    "message": "Advanced Settings"
+  },
+  "hideBlockLinks": {
+    "message": "Hide the \"Block this site\" links"
+  },
+  "save": {
+    "message": "Save",
+    "description": "Save the options (used in the Firefox add-on)"
   }
 }

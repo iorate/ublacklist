@@ -103,6 +103,22 @@ class UBlacklist {
     `);
     showStyle.id = 'ubShowStyle';
     showStyle.sheet.disabled = true;
+
+    (async () => {
+      const {hideBlockLinks} = await getLocalStorage({hideBlockLinks: false});
+      if (hideBlockLinks) {
+        const hideBlockLinksStyle = document.createElement('style');
+        document.head.appendChild(hideBlockLinksStyle);
+        insertRules(hideBlockLinksStyle.sheet, String.raw`
+          .ubBlockButton {
+            display: none;
+          }
+          .ubBlockedEntry .ubUnblockButton {
+            display: none;
+          }
+        `);
+      }
+    })();
   }
 
   setupEntry({base, pageUrl, actionParent, actionClass, display}) {
