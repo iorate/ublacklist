@@ -35,7 +35,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
     }
   });
 
-  $('okButton').addEventListener('click', async () => {
+  $('saveButton').addEventListener('click', async () => {
     timestamp = blacklistTextArea.value != blacklist ? new Date().toISOString() : timestamp;
     blacklist = blacklistTextArea.value;
     sync = $('syncCheckBox').checked;
