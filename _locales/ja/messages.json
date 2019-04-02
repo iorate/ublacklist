@@ -66,5 +66,11 @@
   },
   "unblockThisSite": {
     "message": "このサイトのブロックを解除する"
+  },
+  "advancedSettings": {
+    "message": "高度な設定"
+  },
+  "hideBlockLinks": {
+    "message": "「このサイトをブロックする」リンクを表示しない"
   }
 }

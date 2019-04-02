@@ -66,5 +66,11 @@
   },
   "unblockThisSite": {
     "message": "Bu sitenin engelini kaldır"
+  },
+  "advancedSettings": {
+    "message": "Advanced Settings"
+  },
+  "hideBlockLinks": {
+    "message": "Hide the \"Block this site\" links"
   }
 }
