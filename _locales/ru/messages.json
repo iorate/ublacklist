@@ -1,0 +1,79 @@
+{
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "Запрещает выбранным сайтам отображаться в поисковой выдачи Google"
+  },
+  "blacklist": {
+    "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
+  },
+  "blacklistDescription": {
+    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>."
+  },
+  "example": {
+    "message": "Пример"
+  },
+  "importFromPersonalBlocklist": {
+    "message": "Импорт из расширения Personal Blocklist"
+  },
+  "importDescription": {
+    "message": "Вставьте список доменов из Personal Blocklist."
+  },
+  "import": {
+    "message": "Импортировать"
+  },
+  "syncWithGoogleDrive": {
+    "message": "Синхронизировать с Google Диском"
+  },
+  "permitDescription": {
+    "message": "Вам необходимо будет войти в свою учетную запись Google и разрешить доступ к Google Диску."
+  },
+  "permit": {
+    "message": "Разрешить доступ"
+  },
+  "permitted": {
+    "message": "Доступ разрешён"
+  },
+  "notPermitted": {
+    "message": "Отказано в доступе"
+  },
+  "enableSyncDescription": {
+    "message": "Если вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком.<br>Чтобы локальный список не перезаписался, рекомендуется сделать его резервную копию перед включением синхронизации."
+  },
+  "enableSync": {
+    "message": "Включить синхронизацию"
+  },
+  "ok": {
+    "message": "ОК"
+  },
+  "nSitesBlocked": {
+    "message": "uBlacklist заблокировал $COUNT$ сайт(ов)",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "show": {
+    "message": "Показать"
+  },
+  "hide": {
+    "message": "Скрыть"
+  },
+  "blockThisSite": {
+    "message": "Заблокировать этот сайт"
+  },
+  "unblockThisSite": {
+    "message": "Разблокировать этот сайт"
+  },
+  "advancedSettings": {
+    "message": "Дополнительные настройки"
+  },
+  "hideBlockLinks": {
+    "message": "Не показывать ссылки \"Заблокировать этот сайт\""
+  },
+  "save": {
+    "message": "Сохранить"
+  }
+}
