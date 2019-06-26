@@ -214,7 +214,7 @@ const inspectEntry = elem => {
 
       if (info.id == 'Search.ForFirefoxMobileWebResult') {
         const parsed = new URL(pageUrl);
-        if (parsed && (parsed.pathname !== '/url')) {
+        if (!parsed || (parsed.pathname !== '/url')) {
           continue;
         }
         pageUrl = parsed.searchParams.get('q') || pageUrl;
