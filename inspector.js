@@ -40,6 +40,26 @@ const ENTRY_INFO = [
     display:      'default'
   },
   {
+    id:           'Search.ModernMobileWebResult',
+    target:       'div#rso div.xpd',
+    targetDepth:  0,
+    pageLink:     '> div:first-child a',
+    pageLinkType: 'default',
+    actionParent: '> div:last-child',
+    actionClass:  'ubMobileAction',
+    display:      'default'
+  },
+  {
+    id:           'Search.ForFirefoxMobileWebResult',
+    target:       'div#main > div.xpd',
+    targetDepth:  0,
+    pageLink:     '> div > div:first-child > a',
+    pageLinkType: 'default',
+    actionParent: '> div',
+    actionClass:  'ubMobileAction',
+    display:      'default'
+  },
+  {
     id:           'Search.Image',
     target:       'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > div.rg_meta.notranslate',
     targetDepth:  1,
@@ -190,6 +210,14 @@ const inspectEntry = elem => {
         }
       } else {
         actionParent = base;
+      }
+
+      if (info.id == 'Search.ForFirefoxMobileWebResult') {
+        const parsed = new URL(pageUrl);
+        if (parsed && (parsed.pathname !== '/url')) {
+          continue;
+        }
+        pageUrl = parsed.searchParams.get('q') || pageUrl;
       }
 
       if (info.id == 'Search.Image') {
