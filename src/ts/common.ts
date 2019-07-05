@@ -41,7 +41,7 @@ export function successResult(): SuccessResult {
   return {
     type: 'success',
     timestamp: dayjs().toISOString(),
-  }
+  };
 }
 
 export function isErrorResult(result: Result): result is ErrorResult {
@@ -130,7 +130,7 @@ export interface SetBlacklistMessageArgs {
   blacklist: string;
 }
 
-export function sendMessage(type: 'SetBlacklist', args: SetBlacklistMessageArgs): Promise<void>;
+export function sendMessage(type: 'setBlacklist', args: SetBlacklistMessageArgs): Promise<void>;
 export function sendMessage(type: string, args: any): Promise<any> {
   return new Promise<any>((resolve, reject) => {
     chrome.runtime.sendMessage({ type, args }, response => {

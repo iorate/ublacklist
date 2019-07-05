@@ -15,7 +15,7 @@ const backgroundPage = window as BackgroundPage;
 // Keys: 'blacklist', 'subscriptions'
 const lock = new AsyncLock();
 
-// Use SingleTask to prevent multiple tasks.
+// Use SingleTask to prevent concurrent tasks.
 // Keys: 'sync', `update${id}`
 class SingleTask {
   running: { [key: string]: boolean } = {};
@@ -39,7 +39,7 @@ const singleTask = new SingleTask();
 
 // #region Messages
 
-function addMessageListener(type: 'SetBlacklist', listener: (args: SetBlacklistMessageArgs) => void | Promise<void>): void;
+function addMessageListener(type: 'setBlacklist', listener: (args: SetBlacklistMessageArgs) => void | Promise<void>): void;
 function addMessageListener(type: string, listener: (args: any) => any) {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.type === type) {
@@ -79,13 +79,9 @@ backgroundPage.setBlacklist = async function (blacklist: string): Promise<void> 
       timestamp: dayjs().toISOString(),
     });
   });
-  // Request sync, but don't await.
+  // Request sync, but don't await it.
   backgroundPage.syncBlacklist();
 };
-
-addMessageListener('SetBlacklist', async (args: SetBlacklistMessageArgs): Promise<void> => {
-  await backgroundPage.setBlacklist(args.blacklist);
-});
 
 interface RequestArgs {
   method: 'GET' | 'PATCH' | 'POST';
@@ -258,7 +254,6 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
         invokeEvent('syncEnd', { result: successResult() });
       } catch (e) {
         invokeEvent('syncEnd', { result: errorResult(e.message) });
-        throw e;
       }
     });
   });
@@ -341,7 +336,6 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
         id,
         result: errorResult(e.message),
       });
-      throw e;
     }
   });
 };
@@ -439,6 +433,10 @@ async function updateAllSubscriptions(): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  addMessageListener('setBlacklist', async (args: SetBlacklistMessageArgs): Promise<void> => {
+    await backgroundPage.setBlacklist(args.blacklist);
+  });
+
   const {
     syncInterval,
     updateInterval
