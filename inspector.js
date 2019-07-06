@@ -51,11 +51,11 @@ const ENTRY_INFO = [
   },
   {
     id:           'Search.ForFirefoxMobileWebResult',
-    target:       'div#main > div.xpd',
+    target:       'div#main div.xpd',
     targetDepth:  0,
-    pageLink:     '> div > div:first-child > a',
+    pageLink:     '> div:first-child > a',
     pageLinkType: 'default',
-    actionParent: '> div',
+    actionParent: '',
     actionClass:  'ubMobileAction',
     display:      'default'
   },

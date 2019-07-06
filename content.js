@@ -116,6 +116,9 @@ class UBlacklist {
           .ubBlockedEntry .ubUnblockButton {
             display: none;
           }
+          .ubMobileAction {
+            display: none;
+          }
         `);
       }
     })();
