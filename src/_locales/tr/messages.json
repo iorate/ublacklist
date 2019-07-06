@@ -1,30 +1,72 @@
 {
-  "extensionName": {
-    "message": "uBlacklist"
-  },
-  "extensionDescription": {
-    "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller"
-  },
   "blacklist": {
     "message": "Google arama sonuçlarında görünmesi engellenen siteler"
   },
   "blacklistDescription": {
     "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">düzenli ifadeler</a> kullanabilirsiniz."
   },
-  "example": {
-    "message": "Örnek"
+  "cancel": {
+    "message": "Cancel"
   },
-  "importFromPersonalBlocklist": {
-    "message": "Personal Blocklist'ten içe aktar"
+  "dayjsLocale": {
+    "message": "tr"
   },
-  "importDescription": {
-    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın."
+  "disable": {
+    "message": "Disable"
+  },
+  "enableSync": {
+    "message": "Senkronizasyonu etkinleştir"
+  },
+  "enableSyncDescription": {
+    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir. <br>Yerel kara listenizin istemeden üzerine yazılması durumunda, senkronizasyonu etkinleştirmeden önce yedeklemeniz önerilir."
+  },
+  "error": {
+    "message": "Error"
+  },
+  "extensionDescription": {
+    "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller"
+  },
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "general": {
+    "message": "General"
+  },
+  "hideBlockLinks": {
+    "message": "Hide the \"Block this site\" links"
   },
   "import": {
     "message": "İçe aktar"
   },
+  "importBlacklistDescription": {
+    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın."
+  },
+  "importFromPersonalBlocklist": {
+    "message": "Personal Blocklist'ten içe aktar"
+  },
+  "lastSync": {
+    "message": "Last sync"
+  },
+  "neverSynced": {
+    "message": "Never synced"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "sync": {
+    "message": "Sync"
+  },
+  "syncNow": {
+    "message": "Sync now"
+  },
   "syncWithGoogleDrive": {
     "message": "Google Drive ile senkronize et"
+  },
+  "syncWithGoogleDriveEnabled": {
+    "message": "Sync with Google Drive is enabled."
+  },
+  "syncing": {
+    "message": "Syncing..."
   },
   "permitDescription": {
     "message": "Google Hesabı'nızda oturum açmanız ve bu uzantıya Google Drive'ınıza erişim izni vermeniz gerekir."
@@ -37,12 +79,6 @@
   },
   "notPermitted": {
     "message": "İzin verilmedi"
-  },
-  "enableSyncDescription": {
-    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir. <br>Yerel kara listenizin istemeden üzerine yazılması durumunda, senkronizasyonu etkinleştirmeden önce yedeklemeniz önerilir."
-  },
-  "enableSync": {
-    "message": "Senkronizasyonu etkinleştir"
   },
   "ok": {
     "message": "Tamam"
@@ -69,11 +105,5 @@
   },
   "advancedSettings": {
     "message": "Advanced Settings"
-  },
-  "hideBlockLinks": {
-    "message": "Hide the \"Block this site\" links"
-  },
-  "save": {
-    "message": "Save"
   }
 }

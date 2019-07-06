@@ -8,6 +8,14 @@ const manifest = {
   manifest_version: 2,
   name: '__MSG_extensionName__',
   optional_permissions: ['*://*/*'],
+  options_ui: {
+// #if BROWSER === 'chrome'
+    chrome_style: false,
+// #else
+    browser_style: false,
+// #endif
+    page: 'options.html',
+  },
   permissions: ['identity', 'storage'],
   version: '3.0.0',
 // #if BROWSER === 'chrome'
@@ -16,7 +24,7 @@ const manifest = {
     client_id: '304167046827-ordtvt68qt83fabg1k7blqeagicu68du.apps.googleusercontent.com',
     scopes: ['https://www.googleapis.com/auth/drive.file'],
   },
-// #elif BROWSER === 'firefox'
+// #else
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',

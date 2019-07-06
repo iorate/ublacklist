@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const browser = process.env.BROWSER || 'chrome';
 const env = process.env.NODE_ENV || 'development';
@@ -15,24 +16,34 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'manifest.json': './manifest.json.js',
+    'css/options': './sass/options.sass',
     'js/background': './ts/background.ts',
+    'js/options': './ts/options.ts',
+    'manifest.json': './manifest.json.js',
   },
   mode: env,
   module: {
     rules: [
       {
-        test: /\.json\.js$/,
+        test: /\.sass$/,
         use: [
-          { loader: 'file-loader', options: { name: '[name]' } },
-          { loader: 'val-loader' },
-          { loader: 'ifdef-loader', options: ifdefOptions },
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
         ],
       },
       {
         test: /\.ts$/,
         use: [
           { loader: 'ts-loader' },
+          { loader: 'ifdef-loader', options: ifdefOptions },
+        ],
+      },
+      {
+        test: /\.json\.js$/,
+        use: [
+          { loader: 'file-loader', options: { name: '[name]' } },
+          { loader: 'val-loader' },
           { loader: 'ifdef-loader', options: ifdefOptions },
         ],
       },
@@ -48,9 +59,13 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       './_locales/**/messages.json',
+      './options.html',
     ]),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
     new FixStyleOnlyEntriesPlugin({
-      extensions: ['json.js'],
+      extensions: ['sass', 'json.js'],
       silent: true,
     }),
   ],

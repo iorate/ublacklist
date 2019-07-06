@@ -1,7 +1,7 @@
 import AsyncLock from 'async-lock';
 import dayjs, { Dayjs } from 'dayjs';
 import {
-  ISOString, errorResult, successResult, SubscriptionId, Subscription, getOptions, setOptions,
+  ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, getOptions, setOptions,
   SetBlacklistMessageArgs,
   SyncStartEventArgs, SyncEndEventArgs, UpdateStartEventArgs, UpdateEndEventArgs,
   BackgroundPage,
@@ -81,6 +81,13 @@ backgroundPage.setBlacklist = async function (blacklist: string): Promise<void> 
   });
   // Request sync, but don't await it.
   backgroundPage.syncBlacklist();
+};
+
+backgroundPage.setSync = async function (sync: boolean): Promise<void> {
+  await setOptions({ sync });
+  if (sync) {
+    backgroundPage.syncBlacklist();
+  }
 };
 
 interface RequestArgs {
@@ -224,6 +231,7 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
         return;
       }
       invokeEvent('syncStart', {});
+      let result: Result;
       try {
         const token = await backgroundPage.getAuthToken(false);
         try {
@@ -245,16 +253,18 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
             const newFile = await createFile(client, filename);
             await uploadFile(client, newFile, localBlacklist, localTimestamp);
           }
+          result = successResult();
         } catch (e) {
           if (e instanceof RequestError && e.code === 401) {
             backgroundPage.removeCachedAuthToken(token);
           }
           throw e;
         }
-        invokeEvent('syncEnd', { result: successResult() });
       } catch (e) {
-        invokeEvent('syncEnd', { result: errorResult(e.message) });
+        result = errorResult(e.message);
       }
+      setOptions({ syncResult: result });
+      invokeEvent('syncEnd', { result });
     });
   });
 };
@@ -420,8 +430,6 @@ backgroundPage.removeCachedAuthToken = async function (token: string): Promise<v
 
 // #endregion Auth
 
-// #region Main
-
 async function updateAllSubscriptions(): Promise<void> {
   // Don't lock now.
   const { subscriptions } = await getOptions('subscriptions');
@@ -450,5 +458,3 @@ async function main(): Promise<void> {
 }
 
 main();
-
-// #endregion Main

@@ -1,33 +1,75 @@
 {
-  "extensionName": {
-    "message": "uBlacklist"
-  },
-  "extensionDescription": {
-    "message": "指定したサイトが Google の検索結果で表示されないようにします"
-  },
   "blacklist": {
     "message": "Google の検索結果で表示されないようにするサイト"
   },
   "blacklistDescription": {
     "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます。"
   },
-  "example": {
-    "message": "例"
+  "cancel": {
+    "message": "Cancel"
   },
-  "importFromPersonalBlocklist": {
-    "message": "Personal Blocklist からインポートする"
+  "dayjsLocale": {
+    "message": "ja"
   },
-  "importDescription": {
-    "message": "Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい。"
+  "disable": {
+    "message": "無効にする"
+  },
+  "enableSync": {
+    "message": "同期を有効にする"
+  },
+  "enableSyncDescription": {
+    "message": "同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、ローカルのリストと同期されます。"
+  },
+  "error": {
+    "message": "エラー"
+  },
+  "extensionDescription": {
+    "message": "指定したサイトが Google の検索結果で表示されないようにします"
+  },
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "general": {
+    "message": "一般"
+  },
+  "hideBlockLinks": {
+    "message": "「このサイトをブロックする」リンクを表示しない"
   },
   "import": {
     "message": "インポート"
   },
+  "importBlacklistDescription": {
+    "message": "Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい。"
+  },
+  "importFromPersonalBlocklist": {
+    "message": "Personal Blocklist からインポートする"
+  },
+  "lastSync": {
+    "message": "最後の同期"
+  },
+  "neverSynced": {
+    "message": "まだ同期されていません"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "sync": {
+    "message": "同期"
+  },
+  "syncNow": {
+    "message": "今すぐ同期"
+  },
   "syncWithGoogleDrive": {
     "message": "Google ドライブで同期する"
   },
+  "syncWithGoogleDriveEnabled": {
+    "message": "Google ドライブとの同期が有効です。"
+  },
+  "syncing": {
+    "message": "同期中..."
+  },
   "permitDescription": {
-    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります。"
+    "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります"
   },
   "permit": {
     "message": "許可"
@@ -37,12 +79,6 @@
   },
   "notPermitted": {
     "message": "許可されていません"
-  },
-  "enableSyncDescription": {
-    "message": "同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、ローカルのリストと同期されます。<br>意図しないリストの上書きに備えて、同期を有効にする前にリストのバックアップを取ることをおすすめします。"
-  },
-  "enableSync": {
-    "message": "同期を有効にする"
   },
   "ok": {
     "message": "OK"
@@ -69,11 +105,5 @@
   },
   "advancedSettings": {
     "message": "高度な設定"
-  },
-  "hideBlockLinks": {
-    "message": "「このサイトをブロックする」リンクを表示しない"
-  },
-  "save": {
-    "message": "保存"
   }
 }

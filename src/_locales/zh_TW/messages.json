@@ -1,30 +1,72 @@
 {
-  "extensionName": {
-    "message": "uBlacklist"
-  },
-  "extensionDescription": {
-    "message": "封鎖來自於 Google 搜尋結果中的特定網站"
-  },
   "blacklist": {
     "message": "在 Google 搜尋結果中被封鎖的網站"
   },
   "blacklistDescription": {
     "message": "您可以使用 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表達式</a>。"
   },
-  "example": {
-    "message": "範例"
+  "cancel": {
+    "message": "Cancel"
   },
-  "importFromPersonalBlocklist": {
-    "message": "匯入個人封鎖清單"
+  "dayjsLocale": {
+    "message": "zh-tw"
   },
-  "importDescription": {
-    "message": "貼上從 Personal Blocklist 匯出的網域清單。"
+  "disable": {
+    "message": "Disable"
+  },
+  "enableSync": {
+    "message": "啟用同步"
+  },
+  "enableSyncDescription": {
+    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。<br>如果您本地端的黑名單無意中被覆蓋，建議您在啟用同步前先備份。"
+  },
+  "error": {
+    "message": "Error"
+  },
+  "extensionDescription": {
+    "message": "封鎖來自於 Google 搜尋結果中的特定網站"
+  },
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "general": {
+    "message": "General"
+  },
+  "hideBlockLinks": {
+    "message": "隱藏「封鎖這個網站」的連結"
   },
   "import": {
     "message": "匯入"
   },
+  "importBlacklistDescription": {
+    "message": "貼上從 Personal Blocklist 匯出的網域清單。"
+  },
+  "importFromPersonalBlocklist": {
+    "message": "匯入個人封鎖清單"
+  },
+  "lastSync": {
+    "message": "Last sync"
+  },
+  "neverSynced": {
+    "message": "Never synced"
+  },
+  "save": {
+    "message": "儲存"
+  },
+  "sync": {
+    "message": "Sync"
+  },
+  "syncNow": {
+    "message": "Sync now"
+  },
   "syncWithGoogleDrive": {
     "message": "與 Google Drive 同步"
+  },
+  "syncWithGoogleDriveEnabled": {
+    "message": "Sync with Google Drive is enabled."
+  },
+  "syncing": {
+    "message": "Syncing..."
   },
   "permitDescription": {
     "message": "您必須登入 Google 帳戶，並且允許這個擴充功能可以存取您的 Google Drive。"
@@ -37,12 +79,6 @@
   },
   "notPermitted": {
     "message": "不允許"
-  },
-  "enableSyncDescription": {
-    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。<br>如果您本地端的黑名單無意中被覆蓋，建議您在啟用同步前先備份。"
-  },
-  "enableSync": {
-    "message": "啟用同步"
   },
   "ok": {
     "message": "確定"
@@ -69,12 +105,5 @@
   },
   "advancedSettings": {
     "message": "進階設定"
-  },
-  "hideBlockLinks": {
-    "message": "隱藏「封鎖這個網站」的連結"
-  },
-  "save": {
-    "message": "儲存",
-    "description": "儲存選項 (用於 Firefox add-on)"
   }
 }

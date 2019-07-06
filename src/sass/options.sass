@@ -1,0 +1,37 @@
+$block-spacing: 1rem
+$primary: #1a73e8
+$body-size: 13px
+
+// Section
+$section-padding: 1.5rem
+
+// Form
+$label-weight: normal
+$help-size: 1rem
+
+// Title
+$title-size: 1.25rem
+$title-weight: normal
+
+// Switch
+$switch-focus: none
+
+@import 'bulma'
+@import '~bulma-switch/src/sass/index.sass'
+
+// Button
+.button[disabled]
+  cursor: default !important
+
+// Modal
+.modal-content
+  width: 80% !important
+
+// Switch
+.switch-wrapper
+  height: 2.25rem
+  padding-top: 0.525rem
+
+// Page-specific
+body
+  min-width: 600px !important

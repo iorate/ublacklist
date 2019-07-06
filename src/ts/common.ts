@@ -18,6 +18,10 @@ export type ISOString = string;
 export type UTCString = string;
 
 // Result
+export interface NullResult {
+  type: 'null';
+}
+
 export interface ErrorResult {
   type: 'error';
   message: string;
@@ -28,7 +32,11 @@ export interface SuccessResult {
   timestamp: ISOString;
 }
 
-export type Result = ErrorResult | SuccessResult;
+export type Result = NullResult | ErrorResult | SuccessResult;
+
+export function nullResult(): NullResult {
+  return { type: 'null' };
+}
 
 export function errorResult(message: string): ErrorResult {
   return {
@@ -42,6 +50,10 @@ export function successResult(): SuccessResult {
     type: 'success',
     timestamp: dayjs().toISOString(),
   };
+}
+
+export function isNullResult(result: Result): result is NullResult {
+  return result.type === 'null';
 }
 
 export function isErrorResult(result: Result): result is ErrorResult {
@@ -60,7 +72,7 @@ export interface Subscription {
   url: string;
   blacklist: string;
   timestamp?: UTCString;
-  updateResult?: Result;
+  updateResult: Result;
 }
 
 // Options
@@ -70,7 +82,7 @@ export interface Options {
   blacklist: string;
   timestamp: ISOString;
   sync: boolean;
-  syncResult?: Result;
+  syncResult: Result;
   subscriptions: { [key: number]: Subscription };
   nextSubscriptionId: SubscriptionId;
   hideBlockLinks: boolean;
@@ -86,6 +98,7 @@ const defaultOptions: Options = {
   blacklist: '',
   timestamp: dayjs().toISOString(),
   sync: false,
+  syncResult: nullResult(),
   subscriptions: [],
   nextSubscriptionId: 0,
   hideBlockLinks: false,
@@ -176,6 +189,7 @@ export interface BackgroundPage extends Window {
 
   // Blacklist
   setBlacklist(blacklist: string): Promise<void>;
+  setSync(sync: boolean): Promise<void>;
   syncBlacklist(): Promise<void>;
 
   // Subscriptions

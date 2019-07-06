@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>uBlacklist Options</title>
+    <link href="css/options.css" rel="stylesheet">
+    <script defer src="js/options.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <h1 class="title">
+        <span data-i18n="general"></span>
+      </h1>
+      <ul class="list">
+        <li class="list-item">
+          <div class="field">
+            <label class="label">
+              <span data-i18n="blacklist"></span>
+            </label>
+            <p class="control">
+              <textarea id="blacklist" class="textarea has-fixed-size" placeholder="*://*.example.com&#13;&#10;/example\.(net|org)/" rows="10" spellcheck="false"></textarea>
+            </p>
+            <p class="help has-text-grey">
+              <span data-i18n="blacklistDescription"></span>
+            </p>
+          </div>
+          <div class="field"></div>
+          <div class="columns is-mobile is-vcentered">
+            <div class="column is-narrow">
+              <button id="importBlacklist" class="button has-text-primary">
+                <span data-i18n="importFromPersonalBlocklist"></span>
+              </button>
+            </div>
+            <div class="column"></div>
+            <div class="column is-narrow">
+              <button id="saveBlacklist" class="button is-primary" disabled>
+                <span data-i18n="save"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="columns is-mobile is-vcentered">
+            <div class="column is-narrow">
+              <label class="label" for="hideBlockLinks">
+                <span data-i18n="hideBlockLinks"></span>
+              </label>
+            </div>
+            <div class="column"></div>
+            <div class="column is-narrow">
+              <div class="switch-wrapper">
+                <input id="hideBlockLinks" class="switch is-rounded" type="checkbox"></input>
+                <label class="label" for="hideBlockLinks"></label>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="section">
+      <h1 class="title">
+        <span data-i18n="sync"></span>
+      </h1>
+      <ul class="list">
+        <li class="list-item">
+          <div class="columns is-mobile is-vcentered">
+            <div class="column">
+              <p class="sync-false">
+                <span data-i18n="syncWithGoogleDrive"></span>
+              </p>
+              <p class="sync-false has-text-grey">
+                <span data-i18n="enableSyncDescription"></span>
+              </p>
+              <p class="sync-true is-hidden">
+                <span data-i18n="syncWithGoogleDriveEnabled"></span>
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <button id="enableSync" class="sync-false button is-primary">
+                <span data-i18n="enableSync"></span>
+              </button>
+              <button id="disableSync" class="sync-true is-hidden button has-text-primary">
+                <span data-i18n="disable"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="columns is-mobile is-vcentered">
+            <div class="column">
+              <p>
+                <span data-i18n="lastSync"></span>
+              </p>
+              <p class="has-text-grey">
+                <span id="syncResult"></span>
+              </p>
+            </div>
+            <div class="column is-narrow">
+              <button id="syncNow" class="button has-text-primary">
+                <span data-i18n="syncNow"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <div id="importBlacklistDialog" class="modal">
+      <div id="importBlacklistDialog_background" class="modal-background"></div>
+      <div class="modal-content box">
+        <div class="field">
+          <label class="label">
+            <span data-i18n="importFromPersonalBlocklist"></span>
+          </label>
+          <p class="control">
+            <textarea id="importBlacklistDialog_blacklist" class="textarea has-fixed-size" placeholder="example.com" rows="5" spellcheck="false"></textarea>
+          </p>
+          <p class="help has-text-grey">
+            <span data-i18n="importBlacklistDescription"></span>
+          </p>
+        </div>
+        <div class="field is-grouped is-grouped-right">
+          <p class="control">
+            <button id="importBlacklistDialog_cancel" class="button has-text-primary">
+              <span data-i18n="cancel"></span>
+            </button>
+          </p>
+          <p class="control">
+            <button id="importBlacklistDialog_importBlacklist" class="button is-primary">
+              <span data-i18n="import"></span>
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

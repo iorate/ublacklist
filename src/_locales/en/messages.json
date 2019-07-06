@@ -1,30 +1,73 @@
 {
-  "extensionName": {
-    "message": "uBlacklist"
-  },
-  "extensionDescription": {
-    "message": "Blocks specific sites from appearing in Google search results"
-  },
   "blacklist": {
     "message": "Sites blocked from appearing in Google search results"
   },
   "blacklistDescription": {
     "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>."
   },
-  "example": {
-    "message": "Example"
+  "cancel": {
+    "message": "Cancel"
   },
-  "importFromPersonalBlocklist": {
-    "message": "Import from Personal Blocklist"
+  "dayjsLocale": {
+    "message": "en",
+    "description": "See https://github.com/iamkun/dayjs/tree/dev/src/locale and select a proper locale."
   },
-  "importDescription": {
-    "message": "Paste a domain list exported from Personal Blocklist."
+  "disable": {
+    "message": "Disable"
+  },
+  "enableSync": {
+    "message": "Enable sync"
+  },
+  "enableSyncDescription": {
+    "message": "If you enable sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your local blacklist."
+  },
+  "error": {
+    "message": "Error"
+  },
+  "extensionDescription": {
+    "message": "Blocks specific sites from appearing in Google search results"
+  },
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "general": {
+    "message": "General"
+  },
+  "hideBlockLinks": {
+    "message": "Hide the \"Block this site\" links"
   },
   "import": {
     "message": "Import"
   },
+  "importBlacklistDescription": {
+    "message": "Paste a domain list exported from Personal Blocklist."
+  },
+  "importFromPersonalBlocklist": {
+    "message": "Import from Personal Blocklist"
+  },
+  "lastSync": {
+    "message": "Last sync"
+  },
+  "neverSynced": {
+    "message": "Never synced"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "sync": {
+    "message": "Sync"
+  },
+  "syncNow": {
+    "message": "Sync now"
+  },
   "syncWithGoogleDrive": {
     "message": "Sync with Google Drive"
+  },
+  "syncWithGoogleDriveEnabled": {
+    "message": "Sync with Google Drive is enabled."
+  },
+  "syncing": {
+    "message": "Syncing..."
   },
   "permitDescription": {
     "message": "You need to sign in to your Google Account and permit this extension to access your Google Drive."
@@ -37,12 +80,6 @@
   },
   "notPermitted": {
     "message": "Not permitted"
-  },
-  "enableSyncDescription": {
-    "message": "If you enable sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your local blacklist.<br>In case your local blacklist is unintendedly overwritten, it is recommended that you back up it before you enable sync."
-  },
-  "enableSync": {
-    "message": "Enable sync"
   },
   "ok": {
     "message": "OK"
@@ -69,12 +106,5 @@
   },
   "advancedSettings": {
     "message": "Advanced Settings"
-  },
-  "hideBlockLinks": {
-    "message": "Hide the \"Block this site\" links"
-  },
-  "save": {
-    "message": "Save",
-    "description": "Save the options (used in the Firefox add-on)"
   }
 }
