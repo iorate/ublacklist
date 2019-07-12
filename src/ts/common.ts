@@ -15,7 +15,6 @@ export function unlines(ss: string[]) {
 // #region Options
 
 export type ISOString = string;
-export type UTCString = string;
 
 // Result
 export interface NullResult {
@@ -71,7 +70,7 @@ export interface Subscription {
   name: string;
   url: string;
   blacklist: string;
-  timestamp?: UTCString;
+  timestamp?: ISOString;
   updateResult: Result;
 }
 

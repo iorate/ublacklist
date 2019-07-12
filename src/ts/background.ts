@@ -1,7 +1,7 @@
 import AsyncLock from 'async-lock';
 import dayjs, { Dayjs } from 'dayjs';
 import {
-  ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, getOptions, setOptions,
+  ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, Options, getOptions, setOptions,
   SetBlacklistMessageArgs,
   SyncStartEventArgs, SyncEndEventArgs, UpdateStartEventArgs, UpdateEndEventArgs,
   BackgroundPage,
@@ -231,40 +231,42 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
         return;
       }
       invokeEvent('syncStart', {});
-      let result: Result;
       try {
-        const token = await backgroundPage.getAuthToken(false);
+        const options: Partial<Options> = {};
         try {
-          const client = new Client(token);
-          const file = await findFile(client, filename);
-          if (file) {
-            const cloudTimestamp = file.modifiedTime;
-            const timestampDiff = dayjs(localTimestamp).diff(cloudTimestamp, 'millisecond');
-            if (timestampDiff < 0) {
-              const cloudBlacklist = await downloadFile(client, file);
-              await setOptions({
-                blacklist: cloudBlacklist,
-                timestamp: cloudTimestamp,
-              });
-            } else if (timestampDiff > 0) {
-              await uploadFile(client, file, localBlacklist, localTimestamp);
+          const token = await backgroundPage.getAuthToken(false);
+          try {
+            const client = new Client(token);
+            const file = await findFile(client, filename);
+            if (file) {
+              const cloudTimestamp = file.modifiedTime;
+              const timestampDiff = dayjs(localTimestamp).diff(cloudTimestamp, 'millisecond');
+              if (timestampDiff < 0) {
+                const cloudBlacklist = await downloadFile(client, file);
+                options.blacklist = cloudBlacklist;
+                options.timestamp = cloudTimestamp;
+              } else if (timestampDiff > 0) {
+                await uploadFile(client, file, localBlacklist, localTimestamp);
+              }
+            } else {
+              const newFile = await createFile(client, filename);
+              await uploadFile(client, newFile, localBlacklist, localTimestamp);
             }
-          } else {
-            const newFile = await createFile(client, filename);
-            await uploadFile(client, newFile, localBlacklist, localTimestamp);
+            options.syncResult = successResult();
+          } catch (e) {
+            if (e instanceof RequestError && e.code === 401) {
+              await backgroundPage.removeCachedAuthToken(token);
+            }
+            throw e;
           }
-          result = successResult();
         } catch (e) {
-          if (e instanceof RequestError && e.code === 401) {
-            backgroundPage.removeCachedAuthToken(token);
-          }
-          throw e;
+          options.syncResult = errorResult(e.message);
         }
+        setOptions(options);
+        invokeEvent('syncEnd', { result: options.syncResult });
       } catch (e) {
-        result = errorResult(e.message);
+        invokeEvent('syncEnd', { result: errorResult(e.message) });
       }
-      setOptions({ syncResult: result });
-      invokeEvent('syncEnd', { result });
     });
   });
 };
@@ -306,18 +308,18 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
     }
     invokeEvent('updateStart', { id });
     try {
-      const init: RequestInit = {};
-      if (subscription.timestamp != null) {
-        init.headers = {
-          'If-Modified-Since': subscription.timestamp,
-        };
-      }
       try {
+        const init: RequestInit = {};
+        if (subscription.timestamp != null) {
+          init.headers = {
+            'If-Modified-Since': dayjs(subscription.timestamp).toString(),
+          };
+        }
         const response = await fetch(subscription.url, init);
         if (response.ok) {
           subscription.blacklist = await response.text();
           if (response.headers.has('Last-Modified')) {
-            subscription.timestamp = response.headers.get('Last-Modified')!;
+            subscription.timestamp = dayjs(response.headers.get('Last-Modified')!).toISOString();
           }
           subscription.updateResult = successResult();
         } else if (response.status === 304) {
@@ -410,9 +412,6 @@ backgroundPage.getAuthToken = async function (interactive: boolean): Promise<str
   const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
   if (params.has('error')) {
     throw new Error(params.get('error')!);
-  }
-  if (!params.has('access_token') || !params.has('expires_in')) {
-    throw new Error(`Bad Redirect URL: ${redirectURL}`);
   }
   authCache = {
     token: params.get('access_token')!,

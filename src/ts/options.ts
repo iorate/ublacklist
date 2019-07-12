@@ -47,6 +47,7 @@ function onSyncChanged(sync: boolean): void {
   for (const element of document.getElementsByClassName('sync-false')) {
     element.classList.toggle('is-hidden', sync);
   }
+  $('syncNow').disabled = !sync;
 }
 
 function onSyncResultChanged(syncResult: Result): void {
@@ -61,9 +62,9 @@ function onSyncResultChanged(syncResult: Result): void {
   $('syncResult').textContent = syncResultString;
 }
 
-async function requestOriginPermissions(origins: string[]): Promise<boolean> {
+async function requestOriginPermission(origin: string): Promise<boolean> {
   return new Promise<boolean>((resolve, reject) => {
-    chrome.permissions.request({ origins }, granted => {
+    chrome.permissions.request({ origins: [origin] }, granted => {
       if (chrome.runtime.lastError) {
         reject(new Error(chrome.runtime.lastError.message));
       } else {
@@ -127,22 +128,19 @@ async function main(): Promise<void> {
 // #region Sync
   onSyncChanged(syncInit);
   onSyncResultChanged(syncResultInit);
-  $('disableSync').addEventListener('click', async () => {
-    await backgroundPage.setSync(false);
+  $('disableSync').addEventListener('click', () => {
+    backgroundPage.setSync(false);
     onSyncChanged(false);
   });
   $('enableSync').addEventListener('click', async () => {
 // #if BROWSER === 'firefox'
-    const granted = await requestOriginPermissions([
-      '*://*.googleapis.com/*',
-      '*://*.googleusercontent.com/*',
-    ]);
+    const granted = await requestOriginPermission('https://www.googleapis.com/*');
     if (!granted) {
       return;
     }
 // #endif
     await backgroundPage.getAuthToken(true);
-    await backgroundPage.setSync(true);
+    backgroundPage.setSync(true);
     onSyncChanged(true);
   });
   $('syncNow').addEventListener('click', () => {

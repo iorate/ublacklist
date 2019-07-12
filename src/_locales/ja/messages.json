@@ -6,7 +6,7 @@
     "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます。"
   },
   "cancel": {
-    "message": "Cancel"
+    "message": "キャンセル"
   },
   "dayjsLocale": {
     "message": "ja"
