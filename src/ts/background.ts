@@ -1,4 +1,3 @@
-import AsyncLock from 'async-lock';
 import dayjs, { Dayjs } from 'dayjs';
 import {
   ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, Options, getOptions, setOptions,
@@ -9,33 +8,37 @@ import {
 
 const backgroundPage = window as BackgroundPage;
 
-// #region Utilities
+// #region Mutex
 
-// Use AsyncLock to prevent data race.
-// Keys: 'blacklist', 'subscriptions'
-const lock = new AsyncLock();
+class Mutex {
+  private queue: (() => Promise<void>)[] = [];
 
-// Use SingleTask to prevent concurrent tasks.
-// Keys: 'sync', `update${id}`
-class SingleTask {
-  running: { [key: string]: boolean } = {};
+  lock<T>(func: () => T | Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this.queue.push(async () => {
+        try {
+          resolve(await Promise.resolve(func()));
+        } catch (e) {
+          reject(e);
+        }
+      });
+      if (this.queue.length === 1) {
+        this.start();
+      }
+    });
+  }
 
-  async run(key: string, task: () => void | Promise<void>): Promise<void> {
-    if (this.running[key]) {
+  private async start(): Promise<void> {
+    if (this.queue.length === 0) {
       return;
     }
-    this.running[key] = true;
-    try {
-      await Promise.resolve(task());
-    } finally {
-      this.running[key] = false;
-    }
+    await this.queue[0]();
+    this.queue.shift();
+    this.start();
   }
 }
 
-const singleTask = new SingleTask();
-
-// #endregion Utilities
+// #endregion Mutex
 
 // #region Messages
 
@@ -72,8 +75,10 @@ backgroundPage.addEventHandler = function (type: string, handler: (args: any) =>
 
 // #region Blacklist
 
+const blacklistMutex = new Mutex();
+
 backgroundPage.setBlacklist = async function (blacklist: string): Promise<void> {
-  await lock.acquire('blacklist', async () => {
+  await blacklistMutex.lock(async () => {
     await setOptions({
       blacklist,
       timestamp: dayjs().toISOString(),
@@ -116,7 +121,7 @@ class RequestError extends Error {
 }
 
 class Client {
-  constructor(public token: string) {
+  constructor(private token: string) {
   }
 
   async request(args: RequestArgs, downloadType: 'text'): Promise<string>;
@@ -218,9 +223,15 @@ async function createFile(client: Client, filename: string): Promise<File> {
   }) as File;
 }
 
+let syncRunning: boolean = false;
+
 backgroundPage.syncBlacklist = async function (): Promise<void> {
-  await singleTask.run('sync', async () => {
-    await lock.acquire('blacklist', async () => {
+  if (syncRunning) {
+    return;
+  }
+  syncRunning = true;
+  try {
+    await blacklistMutex.lock(async () => {
       const {
         blacklist: localBlacklist, 
         timestamp: localTimestamp, 
@@ -266,17 +277,22 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
         invokeEvent('syncEnd', { result: options.syncResult });
       } catch (e) {
         invokeEvent('syncEnd', { result: errorResult(e.message) });
+        throw e;
       }
     });
-  });
+  } finally {
+    syncRunning = false;
+  }
 };
 
 // #endregion Blacklist
 
 // #region Subscriptions
 
+const subscriptionsMutex = new Mutex();
+
 backgroundPage.addSubscription = async function (subscription: Subscription): Promise<SubscriptionId> {
-  return await lock.acquire('subscriptions', async () => {
+  return await subscriptionsMutex.lock(async () => {
     const {
       subscriptions,
       nextSubscriptionId: id
@@ -291,15 +307,21 @@ backgroundPage.addSubscription = async function (subscription: Subscription): Pr
 };
 
 backgroundPage.removeSubscription = async function (id: SubscriptionId): Promise<void> {
-  await lock.acquire('subscriptions', async () => {
+  await subscriptionsMutex.lock(async () => {
     const { subscriptions } = await getOptions('subscriptions');
     delete subscriptions[id];
     await setOptions({ subscriptions });
   });
 };
 
+const updateRunning = new Set<SubscriptionId>();
+
 backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise<void> {
-  await singleTask.run(`update${id}`, async () => {
+  if (updateRunning.has(id)) {
+    return;
+  }
+  updateRunning.add(id);
+  try {
     // Use optimistic lock for 'subscriptions'.
     // Don't lock now.
     const { subscriptions: { [id]: subscription } } = await getOptions('subscriptions');
@@ -331,7 +353,7 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
         subscription.updateResult = errorResult(e.message);
       }
       // Lock now.
-      await lock.acquire('subscriptions', async () => {
+      await subscriptionsMutex.lock(async () => {
         const { subscriptions } = await getOptions('subscriptions');
         // 'subscriptions[id]' may be already removed.
         if (subscriptions[id]) {
@@ -348,8 +370,11 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
         id,
         result: errorResult(e.message),
       });
+      throw e;
     }
-  });
+  } finally {
+    updateRunning.delete(id);
+  }
 };
 
 // #endregion Subscriptions
@@ -381,7 +406,6 @@ backgroundPage.removeCachedAuthToken = function (token: string): Promise<void> {
     });
   });
 }
-
 // #else
 // For Firefox, use browser.identity.launchWebAuthFlow instead.
 // See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
@@ -443,15 +467,16 @@ async function main(): Promise<void> {
   addMessageListener('setBlacklist', async (args: SetBlacklistMessageArgs): Promise<void> => {
     await backgroundPage.setBlacklist(args.blacklist);
   });
-
   const {
     syncInterval,
     updateInterval
   } = await getOptions('syncInterval', 'updateInterval');
+  // Sync
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist()
   }, syncInterval * 60 * 1000);
+  // Update
   updateAllSubscriptions();
   setInterval(updateAllSubscriptions, updateInterval * 60 * 1000);
 }
