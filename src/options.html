@@ -14,28 +14,31 @@
       <ul class="list">
         <li class="list-item">
           <div class="field">
-            <label class="label">
+            <p>
               <span data-i18n="blacklist"></span>
-            </label>
-            <p class="control">
-              <textarea id="blacklist" class="textarea has-fixed-size" placeholder="*://*.example.com/*&#13;&#10;/example\.(net|org)/" rows="10" spellcheck="false"></textarea>
             </p>
+          </div>
+          <div class="field">
+            <div class="control">
+              <textarea id="blacklist" class="textarea has-fixed-size" placeholder="*://*.example.com/*&#13;&#10;/example\.(net|org)/" rows="10" spellcheck="false"></textarea>
+            </div>
             <p class="help has-text-grey">
               <span data-i18n="blacklistDescription"></span>
             </p>
           </div>
-          <div class="field"></div>
-          <div class="columns is-mobile is-vcentered">
-            <div class="column is-narrow">
-              <button id="importBlacklist" class="button has-text-primary">
-                <span data-i18n="importFromPersonalBlocklist"></span>
-              </button>
-            </div>
-            <div class="column"></div>
-            <div class="column is-narrow">
-              <button id="saveBlacklist" class="button is-primary" disabled>
-                <span data-i18n="save"></span>
-              </button>
+          <div class="field">
+            <div class="columns is-mobile is-vcentered">
+              <div class="column is-narrow">
+                <button id="importBlacklist" class="button has-text-primary">
+                  <span data-i18n="importFromPersonalBlocklist"></span>
+                </button>
+              </div>
+              <div class="column"></div>
+              <div class="column is-narrow">
+                <button id="saveBlacklist" class="button is-primary" disabled>
+                  <span data-i18n="save"></span>
+                </button>
+              </div>
             </div>
           </div>
         </li>
@@ -65,21 +68,21 @@
         <li class="list-item">
           <div class="columns is-mobile is-vcentered">
             <div class="column">
-              <p class="sync-false">
+              <p class="is-hidden-sync">
                 <span data-i18n="syncWithGoogleDrive"></span>
               </p>
-              <p class="sync-false has-text-grey">
+              <p class="is-hidden-sync has-text-grey">
                 <span data-i18n="enableSyncDescription"></span>
               </p>
-              <p class="sync-true is-hidden">
+              <p class="is-hidden-not-sync is-hidden">
                 <span data-i18n="syncWithGoogleDriveEnabled"></span>
               </p>
             </div>
             <div class="column is-narrow">
-              <button id="enableSync" class="sync-false button is-primary">
+              <button id="enableSync" class="button is-hidden-sync is-primary">
                 <span data-i18n="enableSync"></span>
               </button>
-              <button id="disableSync" class="sync-true is-hidden button has-text-primary">
+              <button id="disableSync" class="button is-hidden-not-sync is-hidden has-text-primary">
                 <span data-i18n="disable"></span>
               </button>
             </div>
@@ -104,31 +107,148 @@
         </li>
       </ul>
     </section>
+    <section class="section">
+      <h1 class="title">
+        <span data-i18n="subscription"></span>
+      </h1>
+      <ul class="list">
+        <li class="list-item">
+          <div class="field">
+            <div class="columns is-mobile is-vcentered">
+              <div class="column">
+                <p>
+                  <span data-i18n="subscribeToBlacklists"></span>
+                </p>
+                <p class="has-text-grey">
+                  <span data-i18n="addSubscriptionDescription"></span>
+                </p>
+              </div>
+              <div class="column is-narrow">
+                <button id="addSubscription" class="button is-primary">
+                  <span data-i18n="addSubscription"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="field"></div>
+          <div class="field">
+            <table id="subscriptions" class="table is-fullwidth">
+              <thead>
+                <tr>
+                  <th class="name-header">
+                    <span data-i18n="name"></span>
+                  </th>
+                  <th>
+                    <span data-i18n="url"></span>
+                  </th>
+                  <th class="update-result-header">
+                    <span data-i18n="lastUpdate"></span>
+                  </th>
+                  <th class="more-header"></th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div class="is-fullwidth has-text-centered">
+              <p id="noSubscriptionAdded">
+                <span data-i18n="noSubscriptionAdded"></span>
+              </p>
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-right">
+            <div class="control">
+              <button id="updateAllSubscriptions" class="button has-text-primary" disabled>
+                <span data-i18n="updateNow"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
     <div id="importBlacklistDialog" class="modal">
       <div id="importBlacklistDialog_background" class="modal-background"></div>
       <div class="modal-content box">
         <div class="field">
-          <label class="label">
+          <p>
             <span data-i18n="importFromPersonalBlocklist"></span>
-          </label>
-          <p class="control">
-            <textarea id="importBlacklistDialog_blacklist" class="textarea has-fixed-size" placeholder="example.com" rows="5" spellcheck="false"></textarea>
           </p>
+        </div>
+        <div class="field">
+          <div class="control">
+            <textarea id="importBlacklistDialog_blacklist" class="textarea has-fixed-size" placeholder="example.com" rows="5" spellcheck="false"></textarea>
+          </div>
           <p class="help has-text-grey">
             <span data-i18n="importBlacklistDescription"></span>
           </p>
         </div>
         <div class="field is-grouped is-grouped-right">
-          <p class="control">
+          <div class="control">
             <button id="importBlacklistDialog_cancel" class="button has-text-primary">
               <span data-i18n="cancel"></span>
             </button>
-          </p>
-          <p class="control">
-            <button id="importBlacklistDialog_importBlacklist" class="button is-primary">
+          </div>
+          <div class="control">
+            <button id="importBlacklistDialog_import" class="button is-primary">
               <span data-i18n="import"></span>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="addSubscriptionDialog" class="modal">
+      <div id="addSubscriptionDialog_background" class="modal-background"></div>
+      <div class="modal-content box">
+        <div class="field">
+          <p>
+            <span data-i18n="addSubscription"></span>
           </p>
+        </div>
+        <div class="field">
+          <label class="label" for="addSubscriptionDialog_name">
+            <span data-i18n="name"></span>
+          </label>
+          <div class="control">
+            <input id="addSubscriptionDialog_name" class="input" required type="text">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="addSubscriptionDialog_url">
+            <span data-i18n="url"></span>
+          </label>
+          <div class="control">
+            <input id="addSubscriptionDialog_url" class="input" pattern="^https?://.*" required type="url">
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button id="addSubscriptionDialog_cancel" class="button has-text-primary">
+              <span data-i18n="cancel"></span>
+            </button>
+          </div>
+          <div class="control">
+            <button id="addSubscriptionDialog_add" class="button is-primary" disabled>
+              <span data-i18n="add"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="showSubscriptionDialog" class="modal">
+      <div id="showSubscriptionDialog_background" class="modal-background"></div>
+      <div class="modal-content box">
+        <div class="field">
+          <p id="showSubscriptionDialog_name"></p>
+        </div>
+        <div class="field">
+          <textarea id="showSubscriptionDialog_blacklist" class="textarea has-fixed-size" readonly rows=10></textarea>
+        </div>
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button id="showSubscriptionDialog_ok" class="button is-primary">
+              <span data-i18n="ok"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

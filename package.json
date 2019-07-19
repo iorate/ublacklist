@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@mdi/svg": "^3.8.95",
     "@types/async-lock": "^1.1.1",
     "@types/chrome": "0.0.86",
     "@types/firefox-webext-browser": "^67.0.2",
@@ -9,6 +10,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
     "dayjs": "^1.8.14",
+    "dialog-polyfill": "^0.5.0",
     "file-loader": "^4.0.0",
     "ifdef-loader": "^2.1.1",
     "mini-css-extract-plugin": "^0.7.0",
@@ -16,6 +18,7 @@
     "sass-loader": "^7.1.0",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
+    "url-loader": "^2.1.0",
     "val-loader": "^1.1.1",
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",

@@ -1,3 +1,5 @@
+import { $, _, SimpleURL, BlockRules, queryTabs, loadBlockRules, saveBlockRules, deriveBlockRule } from './common';
+
 for (const element of document.querySelectorAll('[data-i18n]')) {
   element.insertAdjacentHTML('beforeend', _(element.dataset.i18n));
 }

@@ -181,7 +181,7 @@ const ENTRY_INFO = [
   },
 ];
 
-const inspectEntry = elem => {
+export const inspectEntry = elem => {
   for (const info of ENTRY_INFO) {
     if (elem.matches(info.target)) {
       let base = elem;

@@ -1,37 +1,59 @@
 $block-spacing: 1rem
 $primary: #1a73e8
+// #if BROWSER === 'chrome'
 $body-size: 13px
-
-// Section
+$body-min-width: 640px
+// #else
+$body-size: 15px
+// #endif
 $section-padding: 1.5rem
-
-// Form
 $label-weight: normal
 $help-size: 1rem
-
-// Title
 $title-size: 1.25rem
 $title-weight: normal
-
-// Switch
+$dropdown-menu-min-width: 0
 $switch-focus: none
 
 @import 'bulma'
 @import '~bulma-switch/src/sass/index.sass'
 
-// Button
 .button[disabled]
-  cursor: default !important
+  cursor: default
 
-// Modal
+.table
+  table-layout: fixed
+  td
+    vertical-align: middle
+  th
+    font-weight: normal
+
+.dropdown-item
+  font-size: 1rem
+
 .modal-content
-  width: 80% !important
+  width: 80%
 
-// Switch
 .switch-wrapper
   height: 2.25rem
   padding-top: 0.525rem
 
-// Page-specific
-body
-  min-width: 600px !important
+// #if BROWSER === 'chrome'
+.name-header
+  width: 10rem
+
+.update-result-header
+  width: 10rem
+// #else
+.name-header
+  width: 8rem
+
+.update-result-header
+  width: 8rem
+// #endif
+
+.more-header
+  width: 3.5rem
+
+.more
+  background: url('~@mdi/svg/svg/dots-vertical.svg') center no-repeat
+  width: 2.5rem

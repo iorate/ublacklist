@@ -195,6 +195,7 @@ export interface BackgroundPage extends Window {
   addSubscription(subscription: Subscription): Promise<SubscriptionId>;
   removeSubscription(id: SubscriptionId): Promise<void>;
   updateSubscription(id: SubscriptionId): Promise<void>;
+  updateAllSubscriptions(): Promise<void>;
 
   // Auth
   getAuthToken(interactive: boolean): Promise<string>;

@@ -1,3 +1,10 @@
+// #if BROWSER === 'firefox'
+import dialogPolyfill from 'dialog-polyfill'
+// #endif
+
+import { $, _, getLocalStorage, SimpleURL, BlockRule, loadBlockRules, saveBlockRules, deriveBlockRule } from './common';
+import { inspectEntry } from './inspector';
+
 class UBlacklist {
   constructor() {
     this.blockRules = null;
@@ -245,6 +252,9 @@ class UBlacklist {
     `);
 
     const blockDialog = $('ubBlockDialog');
+// #if BROWSER === 'firefox'
+    dialogPolyfill.registerDialog(blockDialog);
+// #endif
     $('ubBlockForm').addEventListener('submit', event => {
       event.preventDefault();
       const raw = $('ubBlockInput').value;
@@ -267,6 +277,9 @@ class UBlacklist {
     });
 
     const unblockDialog = $('ubUnblockDialog');
+// #if BROWSER === 'firefox'
+    dialogPolyfill.registerDialog(unblockDialog);
+// #endif
     $('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
       this.blockRules.splice(Number($('ubUnblockSelect').value), 1);

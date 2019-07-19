@@ -1,4 +1,13 @@
 {
+  "add": {
+    "message": "追加"
+  },
+  "addSubscription": {
+    "message": "購読を追加する"
+  },
+  "addSubscriptionDescription": {
+    "message": "購読を追加すると、指定した URL から定期的にブラックリストがダウンロードされ、検索結果で使用されます。"
+  },
   "blacklist": {
     "message": "Google の検索結果で表示されないようにするサイト"
   },
@@ -18,7 +27,7 @@
     "message": "同期を有効にする"
   },
   "enableSyncDescription": {
-    "message": "同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、ローカルのリストと同期されます。"
+    "message": "同期を有効にすると、Google ドライブにファイル 'uBlacklist.txt' が作成され、ユーザーのブラックリストと同期されます。"
   },
   "error": {
     "message": "エラー"
@@ -47,11 +56,35 @@
   "lastSync": {
     "message": "最後の同期"
   },
+  "lastUpdate": {
+    "message": "最後の更新"
+  },
+  "name": {
+    "message": "名前"
+  },
   "neverSynced": {
     "message": "まだ同期されていません"
   },
+  "neverUpdated": {
+    "message": "まだ更新されていません"
+  },
+  "noSubscriptionAdded": {
+    "message": "購読が追加されていません"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "remove": {
+    "message": "削除"
+  },
   "save": {
     "message": "保存"
+  },
+  "subscribeToBlacklists": {
+    "message": "ブラックリストを購読する"
+  },
+  "subscription": {
+    "message": "購読"
   },
   "sync": {
     "message": "同期"
@@ -68,6 +101,15 @@
   "syncing": {
     "message": "同期中..."
   },
+  "updateNow": {
+    "message": "今すぐ更新"
+  },
+  "updating": {
+    "message": "更新中..."
+  },
+  "url": {
+    "message": "URL"
+  },
   "permitDescription": {
     "message": "Google アカウントにログインし、Google ドライブへのアクセスを許可する必要があります"
   },
@@ -79,9 +121,6 @@
   },
   "notPermitted": {
     "message": "許可されていません"
-  },
-  "ok": {
-    "message": "OK"
   },
   "nSitesBlocked": {
     "message": "uBlacklist により $COUNT$ サイトがブロックされました",

@@ -377,6 +377,16 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
   }
 };
 
+backgroundPage.updateAllSubscriptions = async function (): Promise<void> {
+  // Don't lock now.
+  const { subscriptions } = await getOptions('subscriptions');
+  const promises: Promise<void>[] = [];
+  for (const id of Object.keys(subscriptions).map(Number)) {
+    promises.push(backgroundPage.updateSubscription(id));
+  }
+  await Promise.all(promises);
+};
+
 // #endregion Subscriptions
 
 // #region Auth
@@ -453,16 +463,6 @@ backgroundPage.removeCachedAuthToken = async function (token: string): Promise<v
 
 // #endregion Auth
 
-async function updateAllSubscriptions(): Promise<void> {
-  // Don't lock now.
-  const { subscriptions } = await getOptions('subscriptions');
-  const promises: Promise<void>[] = [];
-  for (const id of Object.keys(subscriptions).map(Number)) {
-    promises.push(backgroundPage.updateSubscription(id));
-  }
-  await Promise.all(promises);
-}
-
 async function main(): Promise<void> {
   addMessageListener('setBlacklist', async (args: SetBlacklistMessageArgs): Promise<void> => {
     await backgroundPage.setBlacklist(args.blacklist);
@@ -477,8 +477,10 @@ async function main(): Promise<void> {
     backgroundPage.syncBlacklist()
   }, syncInterval * 60 * 1000);
   // Update
-  updateAllSubscriptions();
-  setInterval(updateAllSubscriptions, updateInterval * 60 * 1000);
+  backgroundPage.updateAllSubscriptions();
+  setInterval(() => {
+    backgroundPage.updateAllSubscriptions();
+  }, updateInterval * 60 * 1000);
 }
 
 main();

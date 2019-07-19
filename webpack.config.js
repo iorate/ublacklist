@@ -16,26 +16,28 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'css/options': './sass/options.sass',
+    'css/content':   './sass/content.sass',
+    'css/options':   './sass/options.sass',
+    'css/popup':     './css/popup.css',
     'js/background': './ts/background.ts',
-    'js/options': './ts/options.ts',
+    'js/content':    './js/content.js',
+    'js/options':    './ts/options.ts',
+    'js/popup':      './js/popup.js',
     'manifest.json': './manifest.json.js',
   },
   mode: env,
   module: {
     rules: [
       {
-        test: /\.sass$/,
+        test: /\.css$/,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader', options: { sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } },
         ],
       },
       {
-        test: /\.ts$/,
+        test: /\.js$/,
         use: [
-          { loader: 'ts-loader' },
           { loader: 'ifdef-loader', options: ifdefOptions },
         ],
       },
@@ -44,6 +46,28 @@ module.exports = {
         use: [
           { loader: 'file-loader', options: { name: '[name]' } },
           { loader: 'val-loader' },
+          { loader: 'ifdef-loader', options: ifdefOptions },
+        ],
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+          { loader: 'ifdef-loader', options: ifdefOptions },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          { loader: 'url-loader' },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          { loader: 'ts-loader' },
           { loader: 'ifdef-loader', options: ifdefOptions },
         ],
       },
@@ -59,13 +83,15 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       './_locales/**/messages.json',
+      './img/*.png',
       './options.html',
+      './popup.html',
     ]),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
     new FixStyleOnlyEntriesPlugin({
-      extensions: ['sass', 'json.js'],
+      extensions: ['css', 'sass', 'json.js'],
       silent: true,
     }),
   ],

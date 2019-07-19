@@ -1,9 +1,9 @@
-const $ = s => document.getElementById(s);
+export const $ = s => document.getElementById(s);
 
-const _ = s => chrome.i18n.getMessage(s);
+export const _ = s => chrome.i18n.getMessage(s);
 
-const lines = s => s ? s.split('\n') : [];
-const unlines = ss => ss.join('\n');
+export const lines = s => s ? s.split('\n') : [];
+export const unlines = ss => ss.join('\n');
 
 /* Async APIs */
 
@@ -25,21 +25,21 @@ const removeCachedAuthToken = makeAsyncApi((details, callback) => {
   chrome.identity.removeCachedAuthToken(details, callback);
 });
 
-const getLocalStorage = makeAsyncApi((keys, callback) => {
+export const getLocalStorage = makeAsyncApi((keys, callback) => {
   chrome.storage.local.get(keys, callback);
 });
 
-const setLocalStorage = makeAsyncApi((items, callback) => {
+export const setLocalStorage = makeAsyncApi((items, callback) => {
   chrome.storage.local.set(items, callback);
 });
 
-const queryTabs = makeAsyncApi((queryInfo, callback) => {
+export const queryTabs = makeAsyncApi((queryInfo, callback) => {
   chrome.tabs.query(queryInfo, callback);
 });
 
 /* Block Rules */
 
-class SimpleURL {
+export class SimpleURL {
   constructor(href) {
     const u = new URL(href);
     this.scheme = u.protocol.slice(0, -1);
@@ -52,7 +52,7 @@ class SimpleURL {
   }
 }
 
-class BlockRule {
+export class BlockRule {
   constructor(raw) {
     this.raw = raw;
     const trimmed = raw.trim();
@@ -110,20 +110,19 @@ class BlockRule {
   }
 }
 
-const loadBlockRules = async () => {
+export const loadBlockRules = async () => {
   const {blacklist} = await getLocalStorage({blacklist: ''});
   return lines(blacklist).map(raw => new BlockRule(raw));
 };
 
-const saveBlockRules = async blockRules => {
-  await setLocalStorage({
-    blacklist: unlines(blockRules.map(rule => rule.raw)),
-    timestamp: new Date().toISOString()
+export const saveBlockRules = async blockRules => {
+  chrome.runtime.sendMessage({
+    type: 'setBlacklist',
+    args: { blacklist: unlines(blockRules.map(rule => rule.raw)) },
   });
-  chrome.runtime.sendMessage({});
 };
 
-const deriveBlockRule = url => {
+export const deriveBlockRule = url => {
   if (url.scheme == 'http' || url.scheme == 'https') {
     return `*://${url.host}/*`;
   } else if (url.scheme == 'ftp') {
