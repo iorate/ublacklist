@@ -98,7 +98,7 @@ const defaultOptions: Options = {
   timestamp: dayjs().toISOString(),
   sync: false,
   syncResult: nullResult(),
-  subscriptions: [],
+  subscriptions: {},
   nextSubscriptionId: 0,
   hideBlockLinks: false,
   syncInterval: 5,

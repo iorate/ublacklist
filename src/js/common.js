@@ -115,6 +115,23 @@ export const loadBlockRules = async () => {
   return lines(blacklist).map(raw => new BlockRule(raw));
 };
 
+/*
+ * interface BlockRulesEx {
+ *   blockRules: BlockRule[];
+ *   subscriptions: { name: string; blockRules: BlockRule[] };
+ * }
+ */
+
+const compileBlacklist = blacklist => lines(blacklist).map(raw => new BlockRule(raw));
+
+export const loadBlockRulesEx = async () => {
+  const {blacklist, subscriptions} = await getLocalStorage({blacklist: '', subscriptions: []});
+  return {
+    blockRules: compileBlacklist(blacklist),
+    subscriptions: Object.values(subscriptions).map(({name, blacklist}) => ({name, blockRules: compileBlacklist(blacklist)})),
+  };
+};
+
 export const saveBlockRules = async blockRules => {
   chrome.runtime.sendMessage({
     type: 'setBlacklist',

@@ -35,10 +35,10 @@ const manifest = {
 // #endif
   optional_permissions: ['*://*/*'],
   options_ui: {
-// #if BROWSER === 'chrome'
-    chrome_style: false,
-// #else
+// #if BROWSER === 'firefox'
     browser_style: false,
+// #else
+    chrome_style: false,
 // #endif
     page: 'options.html',
   },

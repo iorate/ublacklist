@@ -2,17 +2,18 @@
 import dialogPolyfill from 'dialog-polyfill'
 // #endif
 
-import { $, _, getLocalStorage, SimpleURL, BlockRule, loadBlockRules, saveBlockRules, deriveBlockRule } from './common';
+import { $, _, getLocalStorage, SimpleURL, BlockRule, loadBlockRulesEx, saveBlockRules, deriveBlockRule } from './common';
 import { inspectEntry } from './inspector';
 
 class UBlacklist {
   constructor() {
     this.blockRules = null;
+    this.subscriptions = null;
     this.blockedEntryCount = 0;
     this.queuedEntries = [];
 
     (async () => {
-      this.onBlockRulesLoaded(await loadBlockRules());
+      this.onBlockRulesLoaded(await loadBlockRulesEx());
     })();
 
     new MutationObserver(records => {
@@ -24,8 +25,9 @@ class UBlacklist {
     });
   }
 
-  onBlockRulesLoaded(blockRules) {
+  onBlockRulesLoaded({blockRules, subscriptions}) {
     this.blockRules = blockRules;
+    this.subscriptions = subscriptions;
     for (const entry of this.queuedEntries) {
       this.judgeEntry(entry);
     }
@@ -166,14 +168,22 @@ class UBlacklist {
           unblockSelect.removeChild(unblockSelect.firstChild);
         }
         const url = new SimpleURL(pageUrl);
-        this.blockRules.forEach((rule, index) => {
-          if (rule.test(url)) {
-            const option = document.createElement('option');
-            option.textContent = rule.raw;
-            option.value = String(index);
-            unblockSelect.appendChild(option);
-          }
-        });
+        const subscription = this.subscriptions.find(({name, blockRules}) => blockRules.some(rule => rule.test(url)));
+        if (subscription) {
+          const option = document.createElement('option');
+          option.textContent = chrome.i18n.getMessage('blockedBySubscription', subscription.name);
+          option.value = '-1';
+          unblockSelect.appendChild(option);
+        } else {
+          this.blockRules.forEach((rule, index) => {
+            if (rule.test(url)) {
+              const option = document.createElement('option');
+              option.textContent = rule.raw;
+              option.value = String(index);
+              unblockSelect.appendChild(option);
+            }
+          });
+        }
         $('ubUnblockDialog').showModal();
       }
     });
@@ -282,7 +292,12 @@ class UBlacklist {
 // #endif
     $('ubUnblockForm').addEventListener('submit', event => {
       event.preventDefault();
-      this.blockRules.splice(Number($('ubUnblockSelect').value), 1);
+      const index = Number($('ubUnblockSelect').value);
+      if (index == -1) {
+        unblockDialog.close();
+        return;
+      }
+      this.blockRules.splice(index, 1);
       this.rejudgeAllEntries();
       (async () => {
         await saveBlockRules(this.blockRules);
@@ -298,7 +313,8 @@ class UBlacklist {
 
   judgeEntry(entry) {
     const url = new SimpleURL(entry.dataset.ubPageUrl);
-    if (this.blockRules.some(rule => rule.test(url))) {
+    if (this.blockRules.some(rule => rule.test(url)) ||
+        this.subscriptions.some(({blockRules}) => blockRules.some(rule => rule.test(url)))) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
       this.updateControl();
