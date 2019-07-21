@@ -1,4 +1,4 @@
-import { $, _, SimpleURL, BlockRules, queryTabs, loadBlockRulesEx, saveBlockRules, deriveBlockRule } from './common';
+import { $, _, SimpleURL, BlockRule, queryTabs, loadBlockRulesEx, saveBlockRules, deriveBlockRule } from './common';
 
 for (const element of document.querySelectorAll('[data-i18n]')) {
   element.insertAdjacentHTML('beforeend', _(element.dataset.i18n));
@@ -36,7 +36,7 @@ for (const element of document.querySelectorAll('[data-i18n]')) {
   } else {
     if (subscription) {
       const option = document.createElement('option');
-      option.textContent = chrome.i18n.getMessage('blockedBySubscription', subscription.name);
+      option.textContent = chrome.i18n.getMessage('popup_siteBlockedBySubscription', subscription.name);
       option.value = '-1';
       $('unblockSelect').appendChild(option);
     } else {

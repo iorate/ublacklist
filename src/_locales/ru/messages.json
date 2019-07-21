@@ -1,89 +1,31 @@
 {
-  "blacklist": {
-    "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
-  },
-  "blacklistDescription": {
-    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>."
-  },
-  "cancel": {
-    "message": "Cancel"
-  },
-  "dayjsLocale": {
-    "message": "ru"
-  },
-  "disable": {
-    "message": "Disable"
-  },
-  "enableSync": {
-    "message": "Включить синхронизацию"
-  },
-  "enableSyncDescription": {
-    "message": "Если вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком."
-  },
-  "error": {
-    "message": "Error"
+  "extensionName": {
+    "message": "uBlacklist"
   },
   "extensionDescription": {
     "message": "Запрещает выбранным сайтам отображаться в поисковой выдачи Google"
   },
-  "extensionName": {
-    "message": "uBlacklist"
+  "dayjsLocale": {
+    "message": "ru"
   },
-  "general": {
-    "message": "General"
+  "error": {
+    "message": "Error: $MESSAGE$",
+    "placeholders": {
+      "message": {
+        "content": "$1"
+      }
+    }
   },
-  "hideBlockLinks": {
-    "message": "Не показывать ссылки \"Заблокировать этот сайт\""
+  "cancelButton": {
+    "message": "Cancel"
   },
-  "import": {
-    "message": "Импортировать"
-  },
-  "importBlacklistDescription": {
-    "message": "Вставьте список доменов из Personal Blocklist."
-  },
-  "importFromPersonalBlocklist": {
-    "message": "Импорт из расширения Personal Blocklist"
-  },
-  "lastSync": {
-    "message": "Last sync"
-  },
-  "neverSynced": {
-    "message": "Never synced"
-  },
-  "save": {
-    "message": "Сохранить"
-  },
-  "sync": {
-    "message": "Sync"
-  },
-  "syncNow": {
-    "message": "Sync now"
-  },
-  "syncWithGoogleDrive": {
-    "message": "Синхронизировать с Google Диском"
-  },
-  "syncWithGoogleDriveEnabled": {
-    "message": "Sync with Google Drive is enabled."
-  },
-  "syncing": {
-    "message": "Syncing..."
-  },
-  "permitDescription": {
-    "message": "Вам необходимо будет войти в свою учетную запись Google и разрешить доступ к Google Диску."
-  },
-  "permit": {
-    "message": "Разрешить доступ"
-  },
-  "permitted": {
-    "message": "Доступ разрешён"
-  },
-  "notPermitted": {
-    "message": "Отказано в доступе"
-  },
-  "ok": {
+  "OK": {
     "message": "ОК"
   },
-  "nSitesBlocked": {
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist заблокировал 1 сайт(ов)"
+  },
+  "content_multipleSitesBlocked": {
     "message": "uBlacklist заблокировал $COUNT$ сайт(ов)",
     "placeholders": {
       "count": {
@@ -91,19 +33,138 @@
       }
     }
   },
-  "show": {
+  "content_showBlockedSitesLink": {
     "message": "Показать"
   },
-  "hide": {
+  "content_hideBlockedSitesLink": {
     "message": "Скрыть"
   },
-  "blockThisSite": {
+  "content_blockSiteLink": {
     "message": "Заблокировать этот сайт"
   },
-  "unblockThisSite": {
+  "content_unblockSiteLink": {
     "message": "Разблокировать этот сайт"
   },
-  "advancedSettings": {
-    "message": "Дополнительные настройки"
+  "popup_blockSiteTitle": {
+    "message": "Заблокировать этот сайт"
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Разблокировать этот сайт"
+  },
+  "popup_siteBlockedBySubscription": {
+    "message": "Blocked by $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "options_generalTitle": {
+    "message": "General"
+  },
+  "options_blacklistLabel": {
+    "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
+  },
+  "options_blacklistHelper": {
+    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>."
+  },
+  "options_importBlacklistButton": {
+    "message": "Импорт из расширения Personal Blocklist"
+  },
+  "options_saveBlacklistButton": {
+    "message": "Сохранить"
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Импорт из расширения Personal Blocklist"
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Вставьте список доменов из Personal Blocklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Импортировать"
+  },
+  "options_hideBlockSiteLinksLabel": {
+    "message": "Не показывать ссылки \"Заблокировать этот сайт\""
+  },
+  "options_syncTitle": {
+    "message": "Sync"
+  },
+  "options_syncFeature": {
+    "message": "Синхронизировать с Google Диском"
+  },
+  "options_syncFeatureDescription": {
+    "message": "Если вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком."
+  },
+  "options_turnOnSync": {
+    "message": "Включить синхронизацию"
+  },
+  "options_syncTurnedOn": {
+    "message": "Synced with Google Drive"
+  },
+  "options_turnOffSync": {
+    "message": "Turn off"
+  },
+  "options_syncResult": {
+    "message": "Last sync"
+  },
+  "options_syncNever": {
+    "message": "Never synced"
+  },
+  "options_syncRunning": {
+    "message": "Syncing..."
+  },
+  "options_syncNowButton": {
+    "message": "Sync Now"
+  },
+  "options_subscriptionTitle": {
+    "message": "Subscription"
+  },
+  "options_subscriptionFeature": {
+    "message": "Subscribe to blacklists"
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Add subscription"
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Name"
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL"
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Last update"
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Show"
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Update now"
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Remove"
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "No subscriptions added"
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Updating..."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Update Now"
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Add a subscription"
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Name"
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL"
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Add"
   }
 }

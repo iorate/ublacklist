@@ -65,11 +65,27 @@ function invokeEvent(type: string, args: any): void {
   backgroundPage.dispatchEvent(event);
 }
 
+const eventListeners: Record<string, EventListener[]> = {};
+
 backgroundPage.addEventHandler = function (type: string, handler: (args: any) => void): void {
-  backgroundPage.addEventListener(type, e => {
+  const eventListener: EventListener = e => {
     handler((e as CustomEvent).detail);
-  });
+  };
+  backgroundPage.addEventListener(type, eventListener);
+  if (!eventListeners[type]) {
+    eventListeners[type] = [];
+  }
+  eventListeners[type].push(eventListener);
 };
+
+backgroundPage.clearEventHandlers = function (): void {
+  for (const type of Object.keys(eventListeners)) {
+    for (const eventListener of eventListeners[type]) {
+      backgroundPage.removeEventListener(type, eventListener);
+    }
+    eventListeners[type] = [];
+  }
+}
 
 // #endregion Events
 
@@ -137,7 +153,6 @@ class Client {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
-      mode: 'cors',
     };
     if (args.body != null) {
       if (typeof args.body === 'string') {
@@ -331,20 +346,9 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
     invokeEvent('updateStart', { id });
     try {
       try {
-        const init: RequestInit = {};
-        if (subscription.timestamp != null) {
-          init.headers = {
-            'If-Modified-Since': dayjs(subscription.timestamp).toString(),
-          };
-        }
-        const response = await fetch(subscription.url, init);
+        const response = await fetch(subscription.url);
         if (response.ok) {
           subscription.blacklist = await response.text();
-          if (response.headers.has('Last-Modified')) {
-            subscription.timestamp = dayjs(response.headers.get('Last-Modified')!).toISOString();
-          }
-          subscription.updateResult = successResult();
-        } else if (response.status === 304) {
           subscription.updateResult = successResult();
         } else {
           subscription.updateResult = errorResult(response.statusText);

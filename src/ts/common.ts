@@ -70,9 +70,10 @@ export interface Subscription {
   name: string;
   url: string;
   blacklist: string;
-  timestamp?: ISOString;
   updateResult: Result;
 }
+
+export type Subscriptions = { [id: number]: Subscription };
 
 // Options
 export type Minutes = number;
@@ -82,7 +83,7 @@ export interface Options {
   timestamp: ISOString;
   sync: boolean;
   syncResult: Result;
-  subscriptions: { [key: number]: Subscription };
+  subscriptions: Subscriptions;
   nextSubscriptionId: SubscriptionId;
   hideBlockLinks: boolean;
   // Hidden options
@@ -185,6 +186,7 @@ export interface BackgroundPage extends Window {
   addEventHandler(type: 'syncEnd', handler: (args: SyncEndEventArgs) => void): void;
   addEventHandler(type: 'updateStart', handler: (args: UpdateStartEventArgs) => void): void;
   addEventHandler(type: 'updateEnd', handler: (args: UpdateEndEventArgs) => void): void;
+  clearEventHandlers(): void;
 
   // Blacklist
   setBlacklist(blacklist: string): Promise<void>;

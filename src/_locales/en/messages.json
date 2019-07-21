@@ -1,110 +1,224 @@
 {
-  "blacklist": {
-    "message": "Sites blocked from appearing in Google search results"
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The extension name."
   },
-  "blacklistDescription": {
-    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>."
-  },
-  "cancel": {
-    "message": "Cancel"
+  "extensionDescription": {
+    "message": "Blocks specific sites from appearing in Google search results",
+    "description": "The extension description."
   },
   "dayjsLocale": {
     "message": "en",
-    "description": "See https://github.com/iamkun/dayjs/tree/dev/src/locale and select a proper locale."
-  },
-  "disable": {
-    "message": "Disable"
-  },
-  "enableSync": {
-    "message": "Enable sync"
-  },
-  "enableSyncDescription": {
-    "message": "If you enable sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your local blacklist."
+    "description": "The locale for 'dayjs'. See https://github.com/iamkun/dayjs/tree/dev/src/locale and select a proper locale."
   },
   "error": {
-    "message": "Error"
-  },
-  "extensionDescription": {
-    "message": "Blocks specific sites from appearing in Google search results"
-  },
-  "extensionName": {
-    "message": "uBlacklist"
-  },
-  "general": {
-    "message": "General"
-  },
-  "hideBlockLinks": {
-    "message": "Hide the \"Block this site\" links"
-  },
-  "import": {
-    "message": "Import"
-  },
-  "importBlacklistDescription": {
-    "message": "Paste a domain list exported from Personal Blocklist."
-  },
-  "importFromPersonalBlocklist": {
-    "message": "Import from Personal Blocklist"
-  },
-  "lastSync": {
-    "message": "Last sync"
-  },
-  "neverSynced": {
-    "message": "Never synced"
-  },
-  "save": {
-    "message": "Save"
-  },
-  "sync": {
-    "message": "Sync"
-  },
-  "syncNow": {
-    "message": "Sync now"
-  },
-  "syncWithGoogleDrive": {
-    "message": "Sync with Google Drive"
-  },
-  "syncWithGoogleDriveEnabled": {
-    "message": "Sync with Google Drive is enabled."
-  },
-  "syncing": {
-    "message": "Syncing..."
-  },
-  "permitDescription": {
-    "message": "You need to sign in to your Google Account and permit this extension to access your Google Drive."
-  },
-  "permit": {
-    "message": "Permit"
-  },
-  "permitted": {
-    "message": "Permitted"
-  },
-  "notPermitted": {
-    "message": "Not permitted"
-  },
-  "ok": {
-    "message": "OK"
-  },
-  "nSitesBlocked": {
-    "message": "uBlacklist has blocked $COUNT$ site(s)",
+    "message": "Error: $MESSAGE$",
+    "description": "The text that means an error occurred.",
     "placeholders": {
-      "count": {
-        "content": "$1"
+      "message": {
+        "content": "$1",
+        "example": "Failed to fetch"
       }
     }
   },
-  "show": {
-    "message": "Show"
+  "cancelButton": {
+    "message": "Cancel",
+    "description": "The text of a cancel button."
   },
-  "hide": {
-    "message": "Hide"
+  "okButton": {
+    "message": "OK",
+    "description": "The text of an OK button."
   },
-  "blockThisSite": {
-    "message": "Block this site"
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist has blocked 1 site",
+    "description": "The text that means one site has been blocked."
   },
-  "unblockThisSite": {
-    "message": "Unblock this site"
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist has blocked $COUNT$ sites",
+    "description": "The text that means multiple site have been blocked.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
   },
-  "advancedSettings": {
-    "message": "Advanced Settings"
+  "content_showBlockedSitesLink": {
+    "message": "Show",
+    "description": "The text of the link to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Hide",
+    "description": "The text of the link to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Block this site",
+    "description": "The text of a link to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Unblock this site",
+    "description": "The text of a link to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Block this site",
+    "description": "The title of a popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Unblock this site",
+    "description": "The title of a popup to unblock a site."
+  },
+  "popup_siteBlockedBySubscription": {
+    "message": "Blocked by $NAME$",
+    "description": "The text that means a site is blocked by a subscription.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Example Blacklist"
+      }
+    }
+  },
+  "options_generalTitle": {
+    "message": "General",
+    "description": "The title of the general section."
+  },
+  "options_blacklistLabel": {
+    "message": "Sites blocked from appearing in Google search results",
+    "description": "The label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>.",
+    "description": "The helper text for the blacklist textarea."
+  },
+  "options_importBlacklistButton": {
+    "message": "Import from Personal Blocklist",
+    "description": "The text of the button to import a blacklist from Personal Blocklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "Save",
+    "description": "The text of the button to save a blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Import from Personal Blocklist",
+    "description": "The title of the import-blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Paste a domain list exported from Personal Blocklist.",
+    "description": "The helper text for the textarea on the import-blacklist dialog."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Import",
+    "description": "The text of the import button on the import-blacklist dialog."
+  },
+  "options_hideBlockSiteLinksLabel": {
+    "message": "Hide the 'Block this site' links",
+    "description": "The label for the switch whether to hide the 'Block this site' links."
+  },
+  "options_syncTitle": {
+    "message": "Sync",
+    "description": "The title of the sync section."
+  },
+  "options_syncFeature": {
+    "message": "Sync with Google Drive",
+    "description": "The sync feature."
+  },
+  "options_syncFeatureDescription": {
+    "message": "If you turn on sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your blacklist.",
+    "description": "The description of the sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "Turn on sync",
+    "description": "The text of the button to turn on sync."
+  },
+  "options_syncTurnedOn": {
+    "message": "Synced with Google Drive",
+    "description": "The text that means sync is turned on."
+  },
+  "options_turnOffSync": {
+    "message": "Turn off",
+    "description": "The text of the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "Last sync",
+    "description": "The text that means the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "Never synced",
+    "description": "The text that means sync has been never performed."
+  },
+  "options_syncRunning": {
+    "message": "Syncing...",
+    "description": "The text that means sync is running right now."
+  },
+  "options_syncNowButton": {
+    "message": "Sync now",
+    "description": "The text of the button to sync now."
+  },
+  "options_subscriptionTitle": {
+    "message": "Subscription",
+    "description": "The title of the subscription section."
+  },
+  "options_subscriptionFeature": {
+    "message": "Subscribe to blacklists",
+    "description": "The subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL.",
+    "description": "The description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Add subscription",
+    "description": "The text of the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Name",
+    "description": "The header text of the name row of the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "The header text of the URL row of the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Last update",
+    "description": "The header text of the update-result row of the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "No subscriptions added",
+    "description": "The text that means no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Updating...",
+    "description": "The text that means update is running right now."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Show",
+    "description": "The text of a menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Update now",
+    "description": "The text of a menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Remove",
+    "description": "The text of a menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Update Now",
+    "description": "The text of the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Add a subscription",
+    "description": "The title of the add-subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Name",
+    "description": "The label for the name input on the add-subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "The label for the URL input on the add-subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Add",
+    "description": "The text of the add button on the add-subscription dialog."
   }
 }

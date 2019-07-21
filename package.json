@@ -1,7 +1,6 @@
 {
   "devDependencies": {
     "@mdi/svg": "^3.8.95",
-    "@types/async-lock": "^1.1.1",
     "@types/chrome": "0.0.86",
     "@types/firefox-webext-browser": "^67.0.2",
     "bulma": "^0.7.5",
@@ -13,6 +12,7 @@
     "dialog-polyfill": "^0.5.0",
     "file-loader": "^4.0.0",
     "ifdef-loader": "^2.1.1",
+    "license-checker-webpack-plugin": "0.0.9",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
@@ -26,9 +26,11 @@
   },
   "private": true,
   "scripts": {
-    "build:chrome:dev": "cross-env BROWSER=chrome NODE_ENV=development webpack",
-    "build:firefox:dev": "cross-env BROWSER=firefox NODE_ENV=development webpack",
-    "watch:chrome:dev": "cross-env BROWSER=chrome NODE_ENV=development webpack --watch",
-    "watch:firefox:dev": "cross-env BROWSER=firefox NODE_ENV=development webpack --watch"
+    "build:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack",
+    "build:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack",
+    "build:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack",
+    "build:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack",
+    "watch:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --watch",
+    "watch:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --watch"
   }
 }

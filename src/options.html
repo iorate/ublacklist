@@ -9,13 +9,13 @@
   <body>
     <section class="section">
       <h1 class="title">
-        <span data-i18n="general"></span>
+        <span data-i18n="options_generalTitle"></span>
       </h1>
       <ul class="list">
         <li class="list-item">
           <div class="field">
             <p>
-              <span data-i18n="blacklist"></span>
+              <span data-i18n="options_blacklistLabel"></span>
             </p>
           </div>
           <div class="field">
@@ -23,20 +23,20 @@
               <textarea id="blacklist" class="textarea has-fixed-size" placeholder="*://*.example.com/*&#13;&#10;/example\.(net|org)/" rows="10" spellcheck="false"></textarea>
             </div>
             <p class="help has-text-grey">
-              <span data-i18n="blacklistDescription"></span>
+              <span data-i18n="options_blacklistHelper"></span>
             </p>
           </div>
           <div class="field">
             <div class="columns is-mobile is-vcentered">
               <div class="column is-narrow">
                 <button id="importBlacklist" class="button has-text-primary">
-                  <span data-i18n="importFromPersonalBlocklist"></span>
+                  <span data-i18n="options_importBlacklistButton"></span>
                 </button>
               </div>
               <div class="column"></div>
               <div class="column is-narrow">
                 <button id="saveBlacklist" class="button is-primary" disabled>
-                  <span data-i18n="save"></span>
+                  <span data-i18n="options_saveBlacklistButton"></span>
                 </button>
               </div>
             </div>
@@ -45,45 +45,45 @@
         <li class="list-item">
           <div class="columns is-mobile is-vcentered">
             <div class="column is-narrow">
-              <label class="label" for="hideBlockLinks">
-                <span data-i18n="hideBlockLinks"></span>
+              <label class="label" for="hideBlockSiteLinks">
+                <span data-i18n="options_hideBlockSiteLinksLabel"></span>
               </label>
             </div>
             <div class="column"></div>
             <div class="column is-narrow">
               <div class="switch-wrapper">
-                <input id="hideBlockLinks" class="switch is-rounded" type="checkbox"></input>
-                <label class="label" for="hideBlockLinks"></label>
+                <input id="hideBlockSiteLinks" class="switch is-rounded" type="checkbox"></input>
+                <label class="label" for="hideBlockSiteLinks"></label>
               </div>
             </div>
           </div>
         </li>
       </ul>
     </section>
-    <section class="section">
+    <section id="syncSection" class="section">
       <h1 class="title">
-        <span data-i18n="sync"></span>
+        <span data-i18n="options_syncTitle"></span>
       </h1>
       <ul class="list">
         <li class="list-item">
           <div class="columns is-mobile is-vcentered">
             <div class="column">
-              <p class="is-hidden-sync">
-                <span data-i18n="syncWithGoogleDrive"></span>
+              <p class="is-hidden-sync-on">
+                <span data-i18n="options_syncFeature"></span>
               </p>
-              <p class="is-hidden-sync has-text-grey">
-                <span data-i18n="enableSyncDescription"></span>
+              <p class="is-hidden-sync-on has-text-grey">
+                <span data-i18n="options_syncFeatureDescription"></span>
               </p>
-              <p class="is-hidden-not-sync is-hidden">
-                <span data-i18n="syncWithGoogleDriveEnabled"></span>
+              <p class="is-hidden-sync-off is-hidden">
+                <span data-i18n="options_syncTurnedOn"></span>
               </p>
             </div>
             <div class="column is-narrow">
-              <button id="enableSync" class="button is-hidden-sync is-primary">
-                <span data-i18n="enableSync"></span>
+              <button id="turnOnSync" class="button is-hidden-sync-on is-primary">
+                <span data-i18n="options_turnOnSync"></span>
               </button>
-              <button id="disableSync" class="button is-hidden-not-sync is-hidden has-text-primary">
-                <span data-i18n="disable"></span>
+              <button id="turnOffSync" class="button is-hidden-sync-off is-hidden has-text-primary">
+                <span data-i18n="options_turnOffSync"></span>
               </button>
             </div>
           </div>
@@ -92,7 +92,7 @@
           <div class="columns is-mobile is-vcentered">
             <div class="column">
               <p>
-                <span data-i18n="lastSync"></span>
+                <span data-i18n="options_syncResult"></span>
               </p>
               <p class="has-text-grey">
                 <span id="syncResult"></span>
@@ -100,7 +100,7 @@
             </div>
             <div class="column is-narrow">
               <button id="syncNow" class="button has-text-primary" disabled>
-                <span data-i18n="syncNow"></span>
+                <span data-i18n="options_syncNowButton"></span>
               </button>
             </div>
           </div>
@@ -109,7 +109,7 @@
     </section>
     <section class="section">
       <h1 class="title">
-        <span data-i18n="subscription"></span>
+        <span data-i18n="options_subscriptionTitle"></span>
       </h1>
       <ul class="list">
         <li class="list-item">
@@ -117,15 +117,15 @@
             <div class="columns is-mobile is-vcentered">
               <div class="column">
                 <p>
-                  <span data-i18n="subscribeToBlacklists"></span>
+                  <span data-i18n="options_subscriptionFeature"></span>
                 </p>
                 <p class="has-text-grey">
-                  <span data-i18n="addSubscriptionDescription"></span>
+                  <span data-i18n="options_subscriptionFeatureDescription"></span>
                 </p>
               </div>
               <div class="column is-narrow">
                 <button id="addSubscription" class="button is-primary">
-                  <span data-i18n="addSubscription"></span>
+                  <span data-i18n="options_addSubscriptionButton"></span>
                 </button>
               </div>
             </div>
@@ -135,14 +135,14 @@
             <table id="subscriptions" class="table is-fullwidth">
               <thead>
                 <tr>
-                  <th class="name-header">
-                    <span data-i18n="name"></span>
+                  <th class="name-header has-text-grey">
+                    <span data-i18n="options_subscriptionNameHeader"></span>
                   </th>
-                  <th class="url-header">
-                    <span data-i18n="url"></span>
+                  <th class="url-header has-text-grey">
+                    <span data-i18n="options_subscriptionURLHeader"></span>
                   </th>
-                  <th class="update-result-header">
-                    <span data-i18n="lastUpdate"></span>
+                  <th class="update-result-header has-text-grey">
+                    <span data-i18n="options_subscriptionUpdateResultHeader"></span>
                   </th>
                   <th class="more-header"></th>
                 </tr>
@@ -151,15 +151,15 @@
               </tbody>
             </table>
             <div class="is-fullwidth has-text-centered">
-              <p id="noSubscriptionAdded">
-                <span data-i18n="noSubscriptionAdded"></span>
+              <p id="noSubscriptionAdded" class="has-text-grey">
+                <span data-i18n="options_noSubscriptionsAdded"></span>
               </p>
             </div>
           </div>
           <div class="field is-grouped is-grouped-right">
             <div class="control">
               <button id="updateAllSubscriptions" class="button has-text-primary" disabled>
-                <span data-i18n="updateNow"></span>
+                <span data-i18n="options_updateAllSubscriptionsNowButton"></span>
               </button>
             </div>
           </div>
@@ -170,27 +170,27 @@
       <div id="importBlacklistDialog_background" class="modal-background"></div>
       <div class="modal-content box">
         <div class="field">
-          <p>
-            <span data-i18n="importFromPersonalBlocklist"></span>
-          </p>
+          <h1 class="title">
+            <span data-i18n="options_importBlacklistDialog_title"></span>
+          </h1>
         </div>
         <div class="field">
           <div class="control">
             <textarea id="importBlacklistDialog_blacklist" class="textarea has-fixed-size" placeholder="example.com" rows="5" spellcheck="false"></textarea>
           </div>
           <p class="help has-text-grey">
-            <span data-i18n="importBlacklistDescription"></span>
+            <span data-i18n="options_importBlacklistDialog_helper"></span>
           </p>
         </div>
         <div class="field is-grouped is-grouped-right">
           <div class="control">
             <button id="importBlacklistDialog_cancel" class="button has-text-primary">
-              <span data-i18n="cancel"></span>
+              <span data-i18n="cancelButton"></span>
             </button>
           </div>
           <div class="control">
             <button id="importBlacklistDialog_import" class="button is-primary">
-              <span data-i18n="import"></span>
+              <span data-i18n="options_importBlacklistDialog_importButton"></span>
             </button>
           </div>
         </div>
@@ -200,13 +200,13 @@
       <div id="addSubscriptionDialog_background" class="modal-background"></div>
       <div class="modal-content box">
         <div class="field">
-          <p>
-            <span data-i18n="addSubscription"></span>
-          </p>
+          <h1 class="title">
+            <span data-i18n="options_addSubscriptionDialog_title"></span>
+          </h1>
         </div>
         <div class="field">
           <label class="label" for="addSubscriptionDialog_name">
-            <span data-i18n="name"></span>
+            <span data-i18n="options_addSubscriptionDialog_nameLabel"></span>
           </label>
           <div class="control">
             <input id="addSubscriptionDialog_name" class="input" required type="text">
@@ -214,7 +214,7 @@
         </div>
         <div class="field">
           <label class="label" for="addSubscriptionDialog_url">
-            <span data-i18n="url"></span>
+            <span data-i18n="options_addSubscriptionDialog_urlLabel"></span>
           </label>
           <div class="control">
             <input id="addSubscriptionDialog_url" class="input" pattern="^https?://.*" required type="url">
@@ -223,12 +223,12 @@
         <div class="field is-grouped is-grouped-right">
           <div class="control">
             <button id="addSubscriptionDialog_cancel" class="button has-text-primary">
-              <span data-i18n="cancel"></span>
+              <span data-i18n="cancelButton"></span>
             </button>
           </div>
           <div class="control">
             <button id="addSubscriptionDialog_add" class="button is-primary" disabled>
-              <span data-i18n="add"></span>
+              <span data-i18n="options_addSubscriptionDialog_addButton"></span>
             </button>
           </div>
         </div>
@@ -238,7 +238,7 @@
       <div id="showSubscriptionDialog_background" class="modal-background"></div>
       <div class="modal-content box">
         <div class="field">
-          <p id="showSubscriptionDialog_name"></p>
+          <h1 id="showSubscriptionDialog_name" class="title"></h1>
         </div>
         <div class="field">
           <textarea id="showSubscriptionDialog_blacklist" class="textarea has-fixed-size" readonly rows=10></textarea>
@@ -246,7 +246,7 @@
         <div class="field is-grouped is-grouped-right">
           <div class="control">
             <button id="showSubscriptionDialog_ok" class="button is-primary">
-              <span data-i18n="ok"></span>
+              <span data-i18n="okButton"></span>
             </button>
           </div>
         </div>

@@ -1,89 +1,31 @@
 {
-  "blacklist": {
-    "message": "Google arama sonuçlarında görünmesi engellenen siteler"
-  },
-  "blacklistDescription": {
-    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">düzenli ifadeler</a> kullanabilirsiniz."
-  },
-  "cancel": {
-    "message": "Cancel"
-  },
-  "dayjsLocale": {
-    "message": "tr"
-  },
-  "disable": {
-    "message": "Disable"
-  },
-  "enableSync": {
-    "message": "Senkronizasyonu etkinleştir"
-  },
-  "enableSyncDescription": {
-    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir. <br>Yerel kara listenizin istemeden üzerine yazılması durumunda, senkronizasyonu etkinleştirmeden önce yedeklemeniz önerilir."
-  },
-  "error": {
-    "message": "Error"
+  "extensionName": {
+    "message": "uBlacklist"
   },
   "extensionDescription": {
     "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller"
   },
-  "extensionName": {
-    "message": "uBlacklist"
+  "dayjsLocale": {
+    "message": "tr"
   },
-  "general": {
-    "message": "General"
+  "error": {
+    "message": "Error: $MESSAGE$",
+    "placeholders": {
+      "message": {
+        "content": "$1"
+      }
+    }
   },
-  "hideBlockLinks": {
-    "message": "Hide the \"Block this site\" links"
+  "cancelButton": {
+    "message": "Cancel"
   },
-  "import": {
-    "message": "İçe aktar"
-  },
-  "importBlacklistDescription": {
-    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın."
-  },
-  "importFromPersonalBlocklist": {
-    "message": "Personal Blocklist'ten içe aktar"
-  },
-  "lastSync": {
-    "message": "Last sync"
-  },
-  "neverSynced": {
-    "message": "Never synced"
-  },
-  "save": {
-    "message": "Save"
-  },
-  "sync": {
-    "message": "Sync"
-  },
-  "syncNow": {
-    "message": "Sync now"
-  },
-  "syncWithGoogleDrive": {
-    "message": "Google Drive ile senkronize et"
-  },
-  "syncWithGoogleDriveEnabled": {
-    "message": "Sync with Google Drive is enabled."
-  },
-  "syncing": {
-    "message": "Syncing..."
-  },
-  "permitDescription": {
-    "message": "Google Hesabı'nızda oturum açmanız ve bu uzantıya Google Drive'ınıza erişim izni vermeniz gerekir."
-  },
-  "permit": {
-    "message": "İzin ver"
-  },
-  "permitted": {
-    "message": "İzin verildi"
-  },
-  "notPermitted": {
-    "message": "İzin verilmedi"
-  },
-  "ok": {
+  "okButton": {
     "message": "Tamam"
   },
-  "nSitesBlocked": {
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 1 siteyi engelledi"
+  },
+  "content_multipleSitesBlocked": {
     "message": "uBlacklist $COUNT$ siteyi engelledi",
     "placeholders": {
       "count": {
@@ -91,19 +33,138 @@
       }
     }
   },
-  "show": {
+  "content_showBlockedSitesLink": {
     "message": "Göster"
   },
-  "hide": {
+  "content_hideBlockedSitesLink": {
     "message": "Gizle"
   },
-  "blockThisSite": {
+  "content_blockSiteLink": {
     "message": "Bu siteyi engelle"
   },
-  "unblockThisSite": {
+  "content_unblockSiteLink": {
     "message": "Bu sitenin engelini kaldır"
   },
-  "advancedSettings": {
-    "message": "Advanced Settings"
+  "popup_blockSiteTitle": {
+    "message": "Bu siteyi engelle"
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Bu sitenin engelini kaldır"
+  },
+  "popup_siteBlockedBySubscription": {
+    "message": "Blocked by $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "options_generalTitle": {
+    "message": "General"
+  },
+  "options_blacklistLabel": {
+    "message": "Google arama sonuçlarında görünmesi engellenen siteler"
+  },
+  "options_blacklistHelper": {
+    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">düzenli ifadeler</a> kullanabilirsiniz."
+  },
+  "options_importBlacklistButton": {
+    "message": "Personal Blocklist'ten içe aktar"
+  },
+  "options_saveBlacklistButton": {
+    "message": "Save"
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Personal Blocklist'ten içe aktar"
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "İçe aktar"
+  },
+  "options_hideBlockSiteLinksLabel": {
+    "message": "Hide the \"Block this site\" links"
+  },
+  "options_syncTitle": {
+    "message": "Sync"
+  },
+  "options_syncFeature": {
+    "message": "Google Drive ile senkronize et"
+  },
+  "options_syncFeatureDescription": {
+    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir. <br>Yerel kara listenizin istemeden üzerine yazılması durumunda, senkronizasyonu etkinleştirmeden önce yedeklemeniz önerilir."
+  },
+  "options_turnOnSync": {
+    "message": "Senkronizasyonu etkinleştir"
+  },
+  "options_syncTurnedOn": {
+    "message": "Synced with Google Drive"
+  },
+  "options_turnOffSync": {
+    "message": "Turn off"
+  },
+  "options_syncResult": {
+    "message": "Last sync"
+  },
+  "options_syncNever": {
+    "message": "Never synced"
+  },
+  "options_syncRunning": {
+    "message": "Syncing..."
+  },
+  "options_syncNowButton": {
+    "message": "Sync Now"
+  },
+  "options_subscriptionTitle": {
+    "message": "Subscription"
+  },
+  "options_subscriptionFeature": {
+    "message": "Subscribe to blacklists"
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Add subscription"
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Name"
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL"
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Last update"
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Show"
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Update now"
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Remove"
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "No subscriptions added"
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Updating..."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Update Now"
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Add a subscription"
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Name"
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL"
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Add"
   }
 }

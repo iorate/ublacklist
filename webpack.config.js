@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const browser = process.env.BROWSER || 'chrome';
@@ -16,31 +17,18 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'css/content':   './sass/content.sass',
-    'css/options':   './sass/options.sass',
-    'css/popup':     './css/popup.css',
+    'css/content': './sass/content.sass',
+    'css/options': './sass/options.sass',
+    'css/popup': './sass/popup.sass',
     'js/background': './ts/background.ts',
-    'js/content':    './js/content.js',
-    'js/options':    './ts/options.ts',
-    'js/popup':      './js/popup.js',
+    'js/content': './ts/content.ts',
+    'js/options': './ts/options.ts',
+    'js/popup': './ts/popup.ts',
     'manifest.json': './manifest.json.js',
   },
   mode: env,
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader', options: { sourceMap: true } },
-        ],
-      },
-      {
-        test: /\.js$/,
-        use: [
-          { loader: 'ifdef-loader', options: ifdefOptions },
-        ],
-      },
       {
         test: /\.json\.js$/,
         use: [
@@ -87,15 +75,22 @@ module.exports = {
       './options.html',
       './popup.html',
     ]),
+    new FixStyleOnlyEntriesPlugin({
+      extensions: [
+        'json.js',
+        'sass',
+      ],
+      silent: true,
+    }),
+    new LicenseCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
-    new FixStyleOnlyEntriesPlugin({
-      extensions: ['css', 'sass', 'json.js'],
-      silent: true,
-    }),
   ],
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: [
+      '.js',
+      '.ts',
+    ],
   },
 };

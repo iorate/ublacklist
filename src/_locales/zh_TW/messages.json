@@ -1,89 +1,31 @@
 {
-  "blacklist": {
-    "message": "在 Google 搜尋結果中被封鎖的網站"
-  },
-  "blacklistDescription": {
-    "message": "您可以使用 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表達式</a>。"
-  },
-  "cancel": {
-    "message": "Cancel"
-  },
-  "dayjsLocale": {
-    "message": "zh-tw"
-  },
-  "disable": {
-    "message": "Disable"
-  },
-  "enableSync": {
-    "message": "啟用同步"
-  },
-  "enableSyncDescription": {
-    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。<br>如果您本地端的黑名單無意中被覆蓋，建議您在啟用同步前先備份。"
-  },
-  "error": {
-    "message": "Error"
+  "extensionName": {
+    "message": "uBlacklist"
   },
   "extensionDescription": {
     "message": "封鎖來自於 Google 搜尋結果中的特定網站"
   },
-  "extensionName": {
-    "message": "uBlacklist"
+  "dayjsLocale": {
+    "message": "zh-tw"
   },
-  "general": {
-    "message": "General"
+  "error": {
+    "message": "Error: $MESSAGE$",
+    "placeholders": {
+      "message": {
+        "content": "$1"
+      }
+    }
   },
-  "hideBlockLinks": {
-    "message": "隱藏「封鎖這個網站」的連結"
+  "cancelButton": {
+    "message": "Cancel"
   },
-  "import": {
-    "message": "匯入"
-  },
-  "importBlacklistDescription": {
-    "message": "貼上從 Personal Blocklist 匯出的網域清單。"
-  },
-  "importFromPersonalBlocklist": {
-    "message": "匯入個人封鎖清單"
-  },
-  "lastSync": {
-    "message": "Last sync"
-  },
-  "neverSynced": {
-    "message": "Never synced"
-  },
-  "save": {
-    "message": "儲存"
-  },
-  "sync": {
-    "message": "Sync"
-  },
-  "syncNow": {
-    "message": "Sync now"
-  },
-  "syncWithGoogleDrive": {
-    "message": "與 Google Drive 同步"
-  },
-  "syncWithGoogleDriveEnabled": {
-    "message": "Sync with Google Drive is enabled."
-  },
-  "syncing": {
-    "message": "Syncing..."
-  },
-  "permitDescription": {
-    "message": "您必須登入 Google 帳戶，並且允許這個擴充功能可以存取您的 Google Drive。"
-  },
-  "permit": {
-    "message": "允許"
-  },
-  "permitted": {
-    "message": "已允許"
-  },
-  "notPermitted": {
-    "message": "不允許"
-  },
-  "ok": {
+  "okButton": {
     "message": "確定"
   },
-  "nSitesBlocked": {
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 已經封鎖 1 個網站"
+  },
+  "content_multipleSitesBlocked": {
     "message": "uBlacklist 已經封鎖 $COUNT$ 個網站",
     "placeholders": {
       "count": {
@@ -91,19 +33,138 @@
       }
     }
   },
-  "show": {
+  "content_showBlockedSitesLink": {
     "message": "顯示"
   },
-  "hide": {
+  "content_hideBlockedSitesLink": {
     "message": "隱藏"
   },
-  "blockThisSite": {
+  "content_blockSiteLink": {
     "message": "封鎖這個網站"
   },
-  "unblockThisSite": {
+  "content_unblockSiteLink": {
     "message": "解除封鎖這個網站"
   },
-  "advancedSettings": {
-    "message": "進階設定"
+  "popup_blockSiteTitle": {
+    "message": "封鎖這個網站"
+  },
+  "popup_unblockSiteTitle": {
+    "message": "解除封鎖這個網站"
+  },
+  "popup_siteBlockedBySubscription": {
+    "message": "Blocked by $NAME$",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "options_generalTitle": {
+    "message": "General"
+  },
+  "options_blacklistLabel": {
+    "message": "在 Google 搜尋結果中被封鎖的網站"
+  },
+  "options_blacklistHelper": {
+    "message": "您可以使用 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表達式</a>。"
+  },
+  "options_importBlacklistButton": {
+    "message": "匯入個人封鎖清單"
+  },
+  "options_saveBlacklistButton": {
+    "message": "儲存"
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "匯入個人封鎖清單"
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "貼上從 Personal Blocklist 匯出的網域清單。"
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "匯入"
+  },
+  "options_hideBlockSiteLinksLabel": {
+    "message": "隱藏「封鎖這個網站」的連結"
+  },
+  "options_syncTitle": {
+    "message": "Sync"
+  },
+  "options_syncFeature": {
+    "message": "與 Google Drive 同步"
+  },
+  "options_syncFeatureDescription": {
+    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。<br>如果您本地端的黑名單無意中被覆蓋，建議您在啟用同步前先備份。"
+  },
+  "options_turnOnSync": {
+    "message": "啟用同步"
+  },
+  "options_syncTurnedOn": {
+    "message": "Synced with Google Drive"
+  },
+  "options_turnOffSync": {
+    "message": "Turn off"
+  },
+  "options_syncResult": {
+    "message": "Last sync"
+  },
+  "options_syncNever": {
+    "message": "Never synced"
+  },
+  "options_syncRunning": {
+    "message": "Syncing..."
+  },
+  "options_syncNowButton": {
+    "message": "Sync Now"
+  },
+  "options_subscriptionTitle": {
+    "message": "Subscription"
+  },
+  "options_subscriptionFeature": {
+    "message": "Subscribe to blacklists"
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Add subscription"
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Name"
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL"
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Last update"
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Show"
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Update now"
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Remove"
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "No subscriptions added"
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Updating..."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Update Now"
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Add a subscription"
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Name"
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL"
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Add"
   }
 }

@@ -146,7 +146,7 @@ class UBlacklist {
 
     const blockButton = document.createElement('span');
     blockButton.className = 'ubBlockButton';
-    blockButton.textContent = _('blockThisSite');
+    blockButton.textContent = _('content_blockSiteLink');
     blockButton.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
@@ -158,7 +158,7 @@ class UBlacklist {
 
     const unblockButton = document.createElement('span');
     unblockButton.className = 'ubUnblockButton';
-    unblockButton.textContent = _('unblockThisSite');
+    unblockButton.textContent = _('content_unblockSiteLink');
     unblockButton.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
@@ -168,10 +168,10 @@ class UBlacklist {
           unblockSelect.removeChild(unblockSelect.firstChild);
         }
         const url = new SimpleURL(pageUrl);
-        const subscription = this.subscriptions.find(({name, blockRules}) => blockRules.some(rule => rule.test(url)));
+        const subscription = this.subscriptions.find(({blockRules}) => blockRules.some(rule => rule.test(url)));
         if (subscription) {
           const option = document.createElement('option');
-          option.textContent = chrome.i18n.getMessage('blockedBySubscription', subscription.name);
+          option.textContent = chrome.i18n.getMessage('popup_siteBlockedBySubscription', subscription.name);
           option.value = '-1';
           unblockSelect.appendChild(option);
         } else {
@@ -200,14 +200,14 @@ class UBlacklist {
 
     const showButton = document.createElement('span');
     showButton.id = 'ubShowButton';
-    showButton.textContent = _('show');
+    showButton.textContent = _('content_showBlockedSitesLink');
     showButton.addEventListener('click', () => {
       $('ubShowStyle').sheet.disabled = false;
     });
 
     const hideButton = document.createElement('span');
     hideButton.id = 'ubHideButton';
-    hideButton.textContent = _('hide');
+    hideButton.textContent = _('content_hideBlockedSitesLink');
     hideButton.addEventListener('click', () => {
       $('ubShowStyle').sheet.disabled = true;
     });
@@ -243,20 +243,20 @@ class UBlacklist {
       <dialog id="ubBlockDialog">
         <form id="ubBlockForm">
           <label>
-            ${_('blockThisSite')}:
+            ${_('popup_blockSiteTitle')}:
             <input id="ubBlockInput" type="text" spellcheck="false">
           </label>
-          <button type="submit">${_('ok')}</button>
+          <button type="submit">${_('okButton')}</button>
         </form>
       </dialog>
       <dialog id="ubUnblockDialog">
         <form id="ubUnblockForm">
           <label>
-            ${_('unblockThisSite')}:
+            ${_('popup_unblockSiteTitle')}:
             <select id="ubUnblockSelect">
             </select>
           </label>
-          <button type="submit">${_('ok')}</button>
+          <button type="submit">${_('okButton')}</button>
         </form>
       </dialog>
     `);
@@ -337,7 +337,9 @@ class UBlacklist {
     const control = $('ubControl');
     if (control) {
       if (this.blockedEntryCount) {
-        $('ubStats').textContent = chrome.i18n.getMessage('nSitesBlocked', String(this.blockedEntryCount));
+        $('ubStats').textContent = this.blockedEntryCount == 1 ?
+          chrome.i18n.getMessage('content_singleSiteBlocked') :
+          chrome.i18n.getMessage('content_multipleSitesBlocked', String(this.blockedEntryCount));
         control.style.display = 'inline';
       } else {
         control.style.display = 'none';
