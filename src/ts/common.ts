@@ -17,10 +17,6 @@ export function unlines(ss: string[]) {
 export type ISOString = string;
 
 // Result
-export interface NullResult {
-  type: 'null';
-}
-
 export interface ErrorResult {
   type: 'error';
   message: string;
@@ -31,11 +27,7 @@ export interface SuccessResult {
   timestamp: ISOString;
 }
 
-export type Result = NullResult | ErrorResult | SuccessResult;
-
-export function nullResult(): NullResult {
-  return { type: 'null' };
-}
+export type Result = ErrorResult | SuccessResult;
 
 export function errorResult(message: string): ErrorResult {
   return {
@@ -49,10 +41,6 @@ export function successResult(): SuccessResult {
     type: 'success',
     timestamp: dayjs().toISOString(),
   };
-}
-
-export function isNullResult(result: Result): result is NullResult {
-  return result.type === 'null';
 }
 
 export function isErrorResult(result: Result): result is ErrorResult {
@@ -70,10 +58,10 @@ export interface Subscription {
   name: string;
   url: string;
   blacklist: string;
-  updateResult: Result;
+  updateResult: Result | null;
 }
 
-export type Subscriptions = { [id: number]: Subscription };
+export type Subscriptions = Record<SubscriptionId, Subscription>;
 
 // Options
 export type Minutes = number;
@@ -82,7 +70,7 @@ export interface Options {
   blacklist: string;
   timestamp: ISOString;
   sync: boolean;
-  syncResult: Result;
+  syncResult: Result | null;
   subscriptions: Subscriptions;
   nextSubscriptionId: SubscriptionId;
   hideBlockLinks: boolean;
@@ -96,9 +84,9 @@ export type OptionsFor<T extends (keyof Options)[]> = { [Key in T[number]]: Opti
 
 const defaultOptions: Options = {
   blacklist: '',
-  timestamp: dayjs().toISOString(),
+  timestamp: dayjs(0).toISOString(),
   sync: false,
-  syncResult: nullResult(),
+  syncResult: null,
   subscriptions: {},
   nextSubscriptionId: 0,
   hideBlockLinks: false,
@@ -143,51 +131,49 @@ export interface SetBlacklistMessageArgs {
   blacklist: string;
 }
 
-export function sendMessage(type: 'setBlacklist', args: SetBlacklistMessageArgs): Promise<void>;
-export function sendMessage(type: string, args: any): Promise<any> {
-  return new Promise<any>((resolve, reject) => {
-    chrome.runtime.sendMessage({ type, args }, response => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(response);
-      }
-    });
+export interface SyncStartMessageArgs {
+}
+
+export interface SyncEndMessageArgs {
+  result: Result;
+}
+
+export interface UpdateStartMessageArgs {
+  id: SubscriptionId;
+}
+
+export interface UpdateEndMessageArgs {
+  id: SubscriptionId;
+  result: Result;
+}
+
+export function sendMessage(type: 'setBlacklist', args: SetBlacklistMessageArgs): void;
+export function sendMessage(type: 'syncStart', args: SyncStartMessageArgs): void;
+export function sendMessage(type: 'syncEnd', args: SyncEndMessageArgs): void;
+export function sendMessage(type: 'updateStart', args: UpdateStartMessageArgs): void;
+export function sendMessage(type: 'updateEnd', args: UpdateEndMessageArgs): void;
+export function sendMessage(type: string, args: any): void {
+  chrome.runtime.sendMessage({ type, args });
+}
+
+export function addMessageListener(type: 'setBlacklist', listener: (args: SetBlacklistMessageArgs) => void): void;
+export function addMessageListener(type: 'syncStart', listener: (args: SyncStartMessageArgs) => void): void;
+export function addMessageListener(type: 'syncEnd', listener: (args: SyncEndMessageArgs) => void): void;
+export function addMessageListener(type: 'updateStart', listener: (args: UpdateStartMessageArgs) => void): void;
+export function addMessageListener(type: 'updateEnd', listener: (args: UpdateEndMessageArgs) => void): void;
+export function addMessageListener(type: string, listener: (args: any) => void): void {
+  chrome.runtime.onMessage.addListener(message => {
+    if (message.type === type) {
+      listener(message.args);
+    }
   });
 }
 
 // #endregion Messages
 
-// #region Events
-
-export interface SyncStartEventArgs {
-}
-
-export interface SyncEndEventArgs {
-  result: Result;
-}
-
-export interface UpdateStartEventArgs {
-  id: SubscriptionId;
-}
-
-export interface UpdateEndEventArgs {
-  id: SubscriptionId;
-  result: Result;
-}
-
-// #endregion Events
-
 // #region BackgroundPage
 
 export interface BackgroundPage extends Window {
-  // Events
-  addEventHandler(type: 'syncStart', handler: (args: SyncStartEventArgs) => void): void;
-  addEventHandler(type: 'syncEnd', handler: (args: SyncEndEventArgs) => void): void;
-  addEventHandler(type: 'updateStart', handler: (args: UpdateStartEventArgs) => void): void;
-  addEventHandler(type: 'updateEnd', handler: (args: UpdateEndEventArgs) => void): void;
-  clearEventHandlers(): void;
-
   // Blacklist
   setBlacklist(blacklist: string): Promise<void>;
   setSync(sync: boolean): Promise<void>;

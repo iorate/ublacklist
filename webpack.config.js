@@ -93,4 +93,7 @@ module.exports = {
       '.ts',
     ],
   },
+  stats: {
+    children: false,
+  },
 };

@@ -93,7 +93,7 @@
     "message": "與 Google Drive 同步"
   },
   "options_syncFeatureDescription": {
-    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。<br>如果您本地端的黑名單無意中被覆蓋，建議您在啟用同步前先備份。"
+    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。"
   },
   "options_turnOnSync": {
     "message": "啟用同步"
@@ -114,7 +114,7 @@
     "message": "Syncing..."
   },
   "options_syncNowButton": {
-    "message": "Sync Now"
+    "message": "Sync now"
   },
   "options_subscriptionTitle": {
     "message": "Subscription"
@@ -153,7 +153,7 @@
     "message": "Updating..."
   },
   "options_updateAllSubscriptionsNowButton": {
-    "message": "Update Now"
+    "message": "Update now"
   },
   "options_addSubscriptionDialog_title": {
     "message": "Add a subscription"

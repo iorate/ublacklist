@@ -1,8 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import {
   ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, Options, getOptions, setOptions,
-  SetBlacklistMessageArgs,
-  SyncStartEventArgs, SyncEndEventArgs, UpdateStartEventArgs, UpdateEndEventArgs,
+  sendMessage, addMessageListener,
   BackgroundPage,
 } from './common';
 
@@ -23,71 +22,22 @@ class Mutex {
         }
       });
       if (this.queue.length === 1) {
-        this.start();
+        this.dequeue();
       }
     });
   }
 
-  private async start(): Promise<void> {
+  private async dequeue(): Promise<void> {
     if (this.queue.length === 0) {
       return;
     }
     await this.queue[0]();
     this.queue.shift();
-    this.start();
+    this.dequeue();
   }
 }
 
 // #endregion Mutex
-
-// #region Messages
-
-function addMessageListener(type: 'setBlacklist', listener: (args: SetBlacklistMessageArgs) => void | Promise<void>): void;
-function addMessageListener(type: string, listener: (args: any) => any) {
-  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-    if (message.type === type) {
-      Promise.resolve(listener(message.args)).then(sendResponse);
-      return true;
-    }
-  });
-}
-
-// #endregion Messages
-
-// #region Events
-
-function invokeEvent(type: 'syncStart', args: SyncStartEventArgs): void;
-function invokeEvent(type: 'syncEnd', args: SyncEndEventArgs): void;
-function invokeEvent(type: 'updateStart', args: UpdateStartEventArgs): void;
-function invokeEvent(type: 'updateEnd', args: UpdateEndEventArgs): void;
-function invokeEvent(type: string, args: any): void {
-  const event = new CustomEvent(type, { detail: args });
-  backgroundPage.dispatchEvent(event);
-}
-
-const eventListeners: Record<string, EventListener[]> = {};
-
-backgroundPage.addEventHandler = function (type: string, handler: (args: any) => void): void {
-  const eventListener: EventListener = e => {
-    handler((e as CustomEvent).detail);
-  };
-  backgroundPage.addEventListener(type, eventListener);
-  if (!eventListeners[type]) {
-    eventListeners[type] = [];
-  }
-  eventListeners[type].push(eventListener);
-};
-
-backgroundPage.clearEventHandlers = function (): void {
-  for (const type of Object.keys(eventListeners)) {
-    for (const eventListener of eventListeners[type]) {
-      backgroundPage.removeEventListener(type, eventListener);
-    }
-    eventListeners[type] = [];
-  }
-}
-
-// #endregion Events
 
 // #region Blacklist
 
@@ -106,9 +56,7 @@ backgroundPage.setBlacklist = async function (blacklist: string): Promise<void> 
 
 backgroundPage.setSync = async function (sync: boolean): Promise<void> {
   await setOptions({ sync });
-  if (sync) {
-    backgroundPage.syncBlacklist();
-  }
+  backgroundPage.syncBlacklist();
 };
 
 interface RequestArgs {
@@ -165,12 +113,8 @@ class Client {
     }
     const response = await fetch(input.toString(), init);
     if (!response.ok) {
-      const {
-        error: {
-          code,
-          message
-        }
-      } = await response.json() as { error: { code: number, message: string } };
+      const { error: { code, message } } =
+        await response.json() as { error: { code: number, message: string } };
       throw new RequestError(code, message);
     }
     if (downloadType === 'text') {
@@ -186,7 +130,7 @@ interface File {
   modifiedTime: ISOString;
 }
 
-async function findFile(client: Client, filename: string): Promise<File | undefined> {
+async function findFile(client: Client, filename: string): Promise<File | null> {
   const { files } = await client.request({
     method: 'GET',
     path: '/drive/v3/files',
@@ -197,7 +141,7 @@ async function findFile(client: Client, filename: string): Promise<File | undefi
       fields: 'files(id, modifiedTime)',
     },
   }) as { files: File[] };
-  return files[0];
+  return files.length ? files[0] : null;
 }
 
 async function downloadFile(client: Client, file: File): Promise<string> {
@@ -256,7 +200,7 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
       if (!sync) {
         return;
       }
-      invokeEvent('syncStart', {});
+      sendMessage('syncStart', {});
       try {
         const options: Partial<Options> = {};
         try {
@@ -289,9 +233,9 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
           options.syncResult = errorResult(e.message);
         }
         setOptions(options);
-        invokeEvent('syncEnd', { result: options.syncResult });
+        sendMessage('syncEnd', { result: options.syncResult });
       } catch (e) {
-        invokeEvent('syncEnd', { result: errorResult(e.message) });
+        sendMessage('syncEnd', { result: errorResult(e.message) });
         throw e;
       }
     });
@@ -343,7 +287,7 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
     if (!subscription) {
       return;
     }
-    invokeEvent('updateStart', { id });
+    sendMessage('updateStart', { id });
     try {
       try {
         const response = await fetch(subscription.url);
@@ -365,15 +309,9 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
           await setOptions({ subscriptions });
         }
       });
-      invokeEvent('updateEnd', {
-        id,
-        result: subscription.updateResult,
-      });
+      sendMessage('updateEnd', { id, result: subscription.updateResult });
     } catch (e) {
-      invokeEvent('updateEnd', {
-        id,
-        result: errorResult(e.message),
-      });
+      sendMessage('updateEnd', { id, result: errorResult(e.message) });
       throw e;
     }
   } finally {
@@ -384,10 +322,7 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
 backgroundPage.updateAllSubscriptions = async function (): Promise<void> {
   // Don't lock now.
   const { subscriptions } = await getOptions('subscriptions');
-  const promises: Promise<void>[] = [];
-  for (const id of Object.keys(subscriptions).map(Number)) {
-    promises.push(backgroundPage.updateSubscription(id));
-  }
+  const promises = Object.keys(subscriptions).map(id => backgroundPage.updateSubscription(Number(id)));
   await Promise.all(promises);
 };
 
@@ -423,44 +358,46 @@ backgroundPage.removeCachedAuthToken = function (token: string): Promise<void> {
 // #else
 // For Firefox, use browser.identity.launchWebAuthFlow instead.
 // See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
-// Use AuthCache to cache tokens in the background page.
+const clientId = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
+const scope = 'https://www.googleapis.com/auth/drive.file';
+
 interface AuthCache {
   token: string;
   expirationDate: Dayjs;
 }
 
-let authCache: AuthCache | undefined = undefined;
-
-const clientId = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
-const scope = 'https://www.googleapis.com/auth/drive.file';
+let authCache: AuthCache | null = null;
+const authCacheMutex = new Mutex();
 
 backgroundPage.getAuthToken = async function (interactive: boolean): Promise<string> {
-  if (authCache && dayjs().isBefore(authCache.expirationDate)) {
+  return await authCacheMutex.lock(async () => {
+    if (authCache && dayjs().isBefore(authCache.expirationDate)) {
+      return authCache.token;
+    }
+    const authURL = 'https://accounts.google.com/o/oauth2/auth'
+      + `?client_id=${clientId}`
+      + '&response_type=token'
+      + `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}`
+      + `&scope=${encodeURIComponent(scope)}`;
+    const redirectURL = await browser.identity.launchWebAuthFlow({
+      url: authURL,
+      interactive,
+    });
+    const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
+    if (params.has('error')) {
+      throw new Error(params.get('error')!);
+    }
+    authCache = {
+      token: params.get('access_token')!,
+      expirationDate: dayjs().add(Number(params.get('expires_in')!), 'second'),
+    };
     return authCache.token;
-  }
-  const authURL = 'https://accounts.google.com/o/oauth2/auth'
-    + `?client_id=${clientId}`
-    + '&response_type=token'
-    + `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}`
-    + `&scope=${encodeURIComponent(scope)}`;
-  const redirectURL = await browser.identity.launchWebAuthFlow({
-    url: authURL,
-    interactive,
   });
-  const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
-  if (params.has('error')) {
-    throw new Error(params.get('error')!);
-  }
-  authCache = {
-    token: params.get('access_token')!,
-    expirationDate: dayjs().add(Number(params.get('expires_in')!), 'second'),
-  };
-  return authCache.token;
 };
 
 backgroundPage.removeCachedAuthToken = async function (token: string): Promise<void> {
   if (authCache && token === authCache.token) {
-    authCache = undefined;
+    authCache = null;
   }
 }
 // #endif
@@ -468,19 +405,17 @@ backgroundPage.removeCachedAuthToken = async function (token: string): Promise<v
 // #endregion Auth
 
 async function main(): Promise<void> {
-  addMessageListener('setBlacklist', async (args: SetBlacklistMessageArgs): Promise<void> => {
-    await backgroundPage.setBlacklist(args.blacklist);
+  addMessageListener('setBlacklist', args => {
+    backgroundPage.setBlacklist(args.blacklist);
   });
-  const {
-    syncInterval,
-    updateInterval
-  } = await getOptions('syncInterval', 'updateInterval');
-  // Sync
+
+  const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
+
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist()
   }, syncInterval * 60 * 1000);
-  // Update
+
   backgroundPage.updateAllSubscriptions();
   setInterval(() => {
     backgroundPage.updateAllSubscriptions();

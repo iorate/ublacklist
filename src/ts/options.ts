@@ -10,7 +10,8 @@ dayjs.locale(chrome.i18n.getMessage('dayjsLocale'));
 
 import {
   lines, unlines,
-  Result, isNullResult, isErrorResult, nullResult, SubscriptionId, Subscription, Subscriptions, getOptions, setOptions,
+  Result, isErrorResult, SubscriptionId, Subscription, Subscriptions, getOptions, setOptions,
+  addMessageListener,
   BackgroundPage, getBackgroundPage,
 } from './common';
 
@@ -54,9 +55,7 @@ const $blacklist = $('blacklist');
 // #endregion Elements
 
 function resultToString(result: Result): string {
-  if (isNullResult(result)) {
-    return '';
-  } else if (isErrorResult(result)) {
+  if (isErrorResult(result)) {
     return chrome.i18n.getMessage('error', result.message);
   } else {
     return dayjs(result.timestamp).fromNow();
@@ -65,7 +64,8 @@ function resultToString(result: Result): string {
 
 async function requestSiteAccess(url: string): Promise<boolean> {
   return new Promise<boolean>((resolve, reject) => {
-    chrome.permissions.request({ origins: [url] }, granted => {
+    const u = new URL(url);
+    chrome.permissions.request({ origins: [`${u.protocol}//${u.hostname}/`] }, granted => {
       if (chrome.runtime.lastError) {
         reject(new Error(chrome.runtime.lastError.message));
       } else {
@@ -84,6 +84,7 @@ function setupGeneralSection(backgroundPage: BackgroundPage, blacklist: string, 
   });
   $('importBlacklist').addEventListener('click', () => {
     $('importBlacklistDialog').classList.add('is-active');
+    $('importBlacklistDialog_blacklist').focus();
     $('importBlacklistDialog_blacklist').value = '';
   });
   $('saveBlacklist').addEventListener('click', () => {
@@ -132,11 +133,11 @@ function onSyncChanged(sync: boolean): void {
   $('syncNow').disabled = !sync;
 }
 
-function onSyncResultChanged(syncResult: Result): void {
-  $('syncResult').textContent = resultToString(syncResult) || chrome.i18n.getMessage('options_syncNever');
+function onSyncResultChanged(syncResult: Result | null): void {
+  $('syncResult').textContent = syncResult ? resultToString(syncResult) : chrome.i18n.getMessage('options_syncNever');
 }
 
-function setupSyncSection(backgroundPage: BackgroundPage, sync: boolean, syncResult: Result) {
+function setupSyncSection(backgroundPage: BackgroundPage, sync: boolean, syncResult: Result | null) {
   onSyncChanged(sync);
   onSyncResultChanged(syncResult);
   $('turnOnSync').addEventListener('click', async () => {
@@ -162,10 +163,10 @@ function setupSyncSection(backgroundPage: BackgroundPage, sync: boolean, syncRes
     backgroundPage.syncBlacklist();
   });
 
-  backgroundPage.addEventHandler('syncStart', () => {
+  addMessageListener('syncStart', () => {
     $('syncResult').textContent = chrome.i18n.getMessage('options_syncRunning');
   });
-  backgroundPage.addEventHandler('syncEnd', ({ result }) => {
+  addMessageListener('syncEnd', ({ result }) => {
     onSyncResultChanged(result);
   });
 }
@@ -178,29 +179,29 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
   const row = $('subscriptions').tBodies[0].insertRow();
   row.id = `subscription${id}`;
   row.innerHTML = `
-    <td>
+    <td class="subscription-name">
       ${subscription.name}
     </td>
-    <td>
+    <td class="subscription-url">
       ${subscription.url}
     </td>
-    <td class="update-result">
-      ${resultToString(subscription.updateResult)}
+    <td class="subscription-update-result">
+      ${subscription.updateResult ? resultToString(subscription.updateResult) : ''}
     </td>
-    <td>
+    <td class="subscription-menu">
       <div class="dropdown is-right">
         <div class="dropdown-trigger">
-          <button class="button more is-white is-rounded"></button>
+          <button class="button subscription-menu-button is-white is-rounded"></button>
         </div>
         <div class="dropdown-menu">
           <div class="dropdown-content">
-            <a class="dropdown-item show-subscription">
+            <a class="dropdown-item subscription-menu-show">
               ${chrome.i18n.getMessage('options_showSubscriptionMenu')}
             </a>
-            <a class="dropdown-item update-subscription-now">
+            <a class="dropdown-item subscription-menu-update">
               ${chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
             </a>
-            <a class="dropdown-item remove-subscription">
+            <a class="dropdown-item subscription-menu-remove">
               ${chrome.i18n.getMessage('options_removeSubscriptionMenu')}
             </a>
           </div>
@@ -208,13 +209,13 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
       </div>
     </td>
   `;
-  row.querySelector('.more')!.addEventListener('click', () => {
+  row.querySelector('.subscription-menu-button')!.addEventListener('click', () => {
     row.querySelector('.dropdown')!.classList.toggle('is-active');
   });
-  row.querySelector('.more')!.addEventListener('blur', () => {
+  row.querySelector('.subscription-menu-button')!.addEventListener('blur', () => {
     row.querySelector('.dropdown')!.classList.remove('is-active');
   });
-  row.querySelector('.show-subscription')!.addEventListener('mousedown', async () => {
+  row.querySelector('.subscription-menu-show')!.addEventListener('mousedown', async () => {
     const { subscriptions: { [id]: subscription } } = await getOptions('subscriptions');
     if (!subscription) {
       return;
@@ -222,12 +223,13 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
     $('showSubscriptionDialog').classList.add('is-active');
     $('showSubscriptionDialog_name').textContent = subscription.name;
     $('showSubscriptionDialog_blacklist').value = subscription.blacklist;
+    $('showSubscriptionDialog_ok').focus();
   });
-  row.querySelector('.update-subscription-now')!.addEventListener('mousedown', async () => {
+  row.querySelector('.subscription-menu-update')!.addEventListener('mousedown', async () => {
     const backgroundPage = await getBackgroundPage();
     backgroundPage.updateSubscription(id);
   });
-  row.querySelector('.remove-subscription')!.addEventListener('mousedown', async () => {
+  row.querySelector('.subscription-menu-remove')!.addEventListener('mousedown', async () => {
     $('subscriptions').deleteRow(row.rowIndex);
     if (!$('subscriptions').tBodies[0].rows.length) {
       $('noSubscriptionAdded').classList.remove('is-hidden');
@@ -247,6 +249,7 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
   }
   $('addSubscription').addEventListener('click', () => {
     $('addSubscriptionDialog').classList.add('is-active');
+    $('addSubscriptionDialog_name').focus();
     $('addSubscriptionDialog_name').value = '';
     $('addSubscriptionDialog_url').value = '';
     $('addSubscriptionDialog_add').disabled = true;
@@ -276,7 +279,7 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
       name: $('addSubscriptionDialog_name').value,
       url,
       blacklist: '',
-      updateResult: nullResult(),
+      updateResult: null,
     };
     const id = await backgroundPage.addSubscription(subscription);
     onSubscriptionAdded(id, subscription);
@@ -289,19 +292,19 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
     $('showSubscriptionDialog').classList.remove('is-active');
   });
 
-  backgroundPage.addEventHandler('updateStart', ({ id }) => {
+  addMessageListener('updateStart', ({ id }) => {
     const row = document.getElementById(`subscription${id}`);
     if (!row) {
       return;
     }
-    row.querySelector('.update-result')!.textContent = chrome.i18n.getMessage('options_subscriptionUpdateRunning');
+    row.querySelector('.subscription-update-result')!.textContent = chrome.i18n.getMessage('options_subscriptionUpdateRunning');
   });
-  backgroundPage.addEventHandler('updateEnd', ({ id, result }) => {
+  addMessageListener('updateEnd', ({ id, result }) => {
     const row = document.getElementById(`subscription${id}`);
     if (!row) {
       return;
     }
-    row.querySelector('.update-result')!.textContent = resultToString(result);
+    row.querySelector('.subscription-update-result')!.textContent = resultToString(result);
   });
 }
 
@@ -327,10 +330,6 @@ async function main(): Promise<void> {
 // #endif
 
   setupSubscriptionSection(backgroundPage, subscriptions);
-
-  backgroundPage.addEventListener('unload', () => {
-    backgroundPage.clearEventHandlers();
-  });
 }
 
 main();

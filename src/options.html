@@ -27,13 +27,12 @@
             </p>
           </div>
           <div class="field">
-            <div class="columns is-mobile is-vcentered">
-              <div class="column is-narrow">
+            <div class="columns is-vcentered">
+              <div class="column">
                 <button id="importBlacklist" class="button has-text-primary">
                   <span data-i18n="options_importBlacklistButton"></span>
                 </button>
               </div>
-              <div class="column"></div>
               <div class="column is-narrow">
                 <button id="saveBlacklist" class="button is-primary" disabled>
                   <span data-i18n="options_saveBlacklistButton"></span>
@@ -43,13 +42,12 @@
           </div>
         </li>
         <li class="list-item">
-          <div class="columns is-mobile is-vcentered">
-            <div class="column is-narrow">
-              <label class="label" for="hideBlockSiteLinks">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <label for="hideBlockSiteLinks">
                 <span data-i18n="options_hideBlockSiteLinksLabel"></span>
               </label>
             </div>
-            <div class="column"></div>
             <div class="column is-narrow">
               <div class="switch-wrapper">
                 <input id="hideBlockSiteLinks" class="switch is-rounded" type="checkbox"></input>
@@ -66,7 +64,7 @@
       </h1>
       <ul class="list">
         <li class="list-item">
-          <div class="columns is-mobile is-vcentered">
+          <div class="columns is-vcentered">
             <div class="column">
               <p class="is-hidden-sync-on">
                 <span data-i18n="options_syncFeature"></span>
@@ -89,7 +87,7 @@
           </div>
         </li>
         <li class="list-item">
-          <div class="columns is-mobile is-vcentered">
+          <div class="columns is-vcentered">
             <div class="column">
               <p>
                 <span data-i18n="options_syncResult"></span>
@@ -114,7 +112,7 @@
       <ul class="list">
         <li class="list-item">
           <div class="field">
-            <div class="columns is-mobile is-vcentered">
+            <div class="columns is-vcentered">
               <div class="column">
                 <p>
                   <span data-i18n="options_subscriptionFeature"></span>
@@ -130,21 +128,20 @@
               </div>
             </div>
           </div>
-          <div class="field"></div>
           <div class="field">
             <table id="subscriptions" class="table is-fullwidth">
               <thead>
                 <tr>
-                  <th class="name-header has-text-grey">
+                  <th class="subscription-name has-text-grey">
                     <span data-i18n="options_subscriptionNameHeader"></span>
                   </th>
-                  <th class="url-header has-text-grey">
+                  <th class="subscription-url has-text-grey">
                     <span data-i18n="options_subscriptionURLHeader"></span>
                   </th>
-                  <th class="update-result-header has-text-grey">
+                  <th class="subscription-update-result has-text-grey">
                     <span data-i18n="options_subscriptionUpdateResultHeader"></span>
                   </th>
-                  <th class="more-header"></th>
+                  <th class="subscription-more"></th>
                 </tr>
               </thead>
               <tbody>

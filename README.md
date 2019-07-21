@@ -10,6 +10,11 @@ The same function is already provided by [Personal Blocklist (by Google)](https:
 
 You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) (e.g. `/example\.(net|org)/`).
 
+### Subscription
+Subscription was implemented in version 3. If you add a subscription, a blacklist will be regularly downloaded from the specified URL.
+
+To publish a blacklist as a subscription, place a blacklist file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is [an example](https://raw.githubusercontent.com/iorate/uBlacklist/master/Example.uBlacklist.txt) hosted on GitHub.
+
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
 

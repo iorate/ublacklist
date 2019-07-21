@@ -202,7 +202,7 @@
     "description": "The text of a menu item to remove a subscription."
   },
   "options_updateAllSubscriptionsNowButton": {
-    "message": "Update Now",
+    "message": "Update now",
     "description": "The text of the button to update all subscriptions now."
   },
   "options_addSubscriptionDialog_title": {

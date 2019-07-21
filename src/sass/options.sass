@@ -1,4 +1,5 @@
 $block-spacing: 1rem
+$tablet: 600px
 $primary: #1a73e8
 // #if BROWSER === 'chrome'
 $body-size: 13px
@@ -14,17 +15,28 @@ $title-weight: normal
 $dropdown-menu-min-width: 0
 $switch-focus: none
 
-@import 'bulma'
+@import '~bulma/sass/utilities/_all.sass'
+@import '~bulma/sass/base/_all.sass'
+@import '~bulma/sass/grid/columns.sass'
+@import '~bulma/sass/layout/section.sass'
+@import '~bulma/sass/form/shared.sass'
+@import '~bulma/sass/form/input-textarea.sass'
+@import '~bulma/sass/form/tools.sass'
+@import '~bulma/sass/elements/box.sass'
+@import '~bulma/sass/elements/button.sass'
+@import '~bulma/sass/elements/table.sass'
+@import '~bulma/sass/elements/title.sass'
+@import '~bulma/sass/components/dropdown.sass'
+@import '~bulma/sass/components/list.sass'
+@import '~bulma/sass/components/modal.sass'
 @import '~bulma-switch/src/sass/index.sass'
 
 .button[disabled]
   cursor: default
 
 .table
-  table-layout: fixed
   td
     vertical-align: middle
-    word-break: break-word
   th
     font-weight: normal
 
@@ -38,29 +50,21 @@ $switch-focus: none
   height: 2.25rem
   padding-top: 0.525rem
 
-// #if BROWSER === 'chrome'
-.name-header
-  width: 10rem
+.subscription-name
+  width: 20%
+  word-break: break-word
 
-.url-header
-  width: 20rem
+.subscription-url
+  width: calc(60% - 3.25rem)
+  word-break: break-all
 
-.update-result-header
-  width: 10rem
-// #else
-.name-header
-  width: 8rem
+.subscription-update-result
+  width: 20%
+  word-break: break-word
 
-.url-header
-  width: 16rem
+.subscription-menu
+  width: 3.25rem
 
-.update-result-header
-  width: 8rem
-// #endif
-
-.more-header
-  width: 3.5rem
-
-.more
+.subscription-menu-button
   background: url('~@mdi/svg/svg/dots-vertical.svg') center no-repeat
-  width: 2.5rem
+  width: 2.25rem

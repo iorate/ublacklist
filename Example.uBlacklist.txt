@@ -1,0 +1,2 @@
+*://*.example.com/*
+/example\.(net|org)/
