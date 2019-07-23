@@ -17,9 +17,9 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'css/content': './sass/content.sass',
-    'css/options': './sass/options.sass',
-    'css/popup': './sass/popup.sass',
+    'css/content': './scss/content.scss',
+    'css/options': './scss/options.scss',
+    'css/popup': './scss/popup.scss',
     'js/background': './ts/background.ts',
     'js/content': './ts/content.ts',
     'js/options': './ts/options.ts',
@@ -38,7 +38,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader', options: { sourceMap: true } },
@@ -78,7 +78,7 @@ module.exports = {
     new FixStyleOnlyEntriesPlugin({
       extensions: [
         'json.js',
-        'sass',
+        'scss',
       ],
       silent: true,
     }),

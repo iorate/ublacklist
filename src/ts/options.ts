@@ -204,13 +204,13 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
         </div>
         <div class="dropdown-menu">
           <div class="dropdown-content">
-            <a class="dropdown-item subscription-menu-show">
+            <a class="dropdown-item show-subscription-menu">
               ${chrome.i18n.getMessage('options_showSubscriptionMenu')}
             </a>
-            <a class="dropdown-item subscription-menu-update">
+            <a class="dropdown-item update-subscription-now-menu">
               ${chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
             </a>
-            <a class="dropdown-item subscription-menu-remove">
+            <a class="dropdown-item remove-subscription-menu">
               ${chrome.i18n.getMessage('options_removeSubscriptionMenu')}
             </a>
           </div>
@@ -224,7 +224,7 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
   row.querySelector('.subscription-menu-button')!.addEventListener('blur', () => {
     row.querySelector('.dropdown')!.classList.remove('is-active');
   });
-  row.querySelector('.subscription-menu-show')!.addEventListener('mousedown', async () => {
+  row.querySelector('.show-subscription-menu')!.addEventListener('mousedown', async () => {
     const {
       subscriptions: { [id]: subscription },
     } = await getOptions('subscriptions');
@@ -236,10 +236,10 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
     $('showSubscriptionDialog_blacklist').value = subscription.blacklist;
     $('showSubscriptionDialog_ok').focus();
   });
-  row.querySelector('.subscription-menu-update')!.addEventListener('mousedown', async () => {
+  row.querySelector('.update-subscription-now-menu')!.addEventListener('mousedown', async () => {
     backgroundPage.updateSubscription(id);
   });
-  row.querySelector('.subscription-menu-remove')!.addEventListener('mousedown', async () => {
+  row.querySelector('.remove-subscription-menu')!.addEventListener('mousedown', async () => {
     $('subscriptions').deleteRow(row.rowIndex);
     if (!$('subscriptions').tBodies[0].rows.length) {
       $('noSubscriptionAdded').classList.remove('is-hidden');

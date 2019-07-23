@@ -17,8 +17,10 @@
     "clean:firefox:development": "rimraf ./dist/firefox/development",
     "clean:firefox:production": "rimraf ./dist/firefox/production",
     "prettier": "run-p --print-label prettier:*",
+    "prettier:sass": "prettier --write \"./src/scss/*.scss\"",
     "prettier:typescript": "prettier --write \"./src/ts/*.ts\"",
     "lint": "run-p --print-label lint:*",
+    "lint:sass": "stylelint --color \"./src/scss/*.scss\"",
     "lint:typescript": "eslint --color \"./src/ts/*.ts\""
   },
   "devDependencies": {
@@ -45,6 +47,11 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
     "sass-loader": "^7.1.0",
+    "stylelint": "^10.1.0",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-recommended-scss": "^3.3.0",
+    "stylelint-prettier": "^1.1.1",
+    "stylelint-scss": "^3.9.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.2",
     "url-loader": "^2.1.0",
