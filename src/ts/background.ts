@@ -1,13 +1,19 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import {
-  ISOString, Result, errorResult, successResult, SubscriptionId, Subscription, Options, getOptions, setOptions,
-  sendMessage, addMessageListener,
+  ISOString,
+  errorResult,
+  successResult,
+  SubscriptionId,
+  Subscription,
+  Options,
+  getOptions,
+  setOptions,
+  sendMessage,
+  addMessageListener,
   BackgroundPage,
 } from './common';
 
 const backgroundPage = window as BackgroundPage;
-
-// #region Mutex
 
 class Mutex {
   private queue: (() => Promise<void>)[] = [];
@@ -37,24 +43,19 @@ class Mutex {
   }
 }
 
-// #endregion Mutex
-
 // #region Blacklist
 
 const blacklistMutex = new Mutex();
 
-backgroundPage.setBlacklist = async function (blacklist: string): Promise<void> {
+backgroundPage.setBlacklist = async function(blacklist: string): Promise<void> {
   await blacklistMutex.lock(async () => {
-    await setOptions({
-      blacklist,
-      timestamp: dayjs().toISOString(),
-    });
+    await setOptions({ blacklist, timestamp: dayjs().toISOString() });
   });
   // Request sync, but don't await it.
   backgroundPage.syncBlacklist();
 };
 
-backgroundPage.setSync = async function (sync: boolean): Promise<void> {
+backgroundPage.setSync = async function(sync: boolean): Promise<void> {
   await setOptions({ sync });
   backgroundPage.syncBlacklist();
 };
@@ -76,21 +77,35 @@ declare global {
 // #endif
 
 class RequestError extends Error {
-  constructor(public code: number, message: string) {
+  code: number;
+
+  constructor(code: number, message: string) {
     super(message);
-// #if BROWSER === 'chrome'
+    this.code = code;
+    // #if BROWSER === 'chrome'
     Error.captureStackTrace(this, RequestError);
-// #endif
+    // #endif
   }
 }
 
 class Client {
-  constructor(private token: string) {
+  private token: string;
+
+  constructor(token: string) {
+    this.token = token;
   }
 
-  async request(args: RequestArgs, downloadType: 'text'): Promise<string>;
-  async request(args: RequestArgs): Promise<any>;
-  async request(args: RequestArgs, downloadType?: string): Promise<any> {
+  async request<T = void>(args: RequestArgs): Promise<T> {
+    const response = await this.doRequest(args);
+    return (await response.json()) as T;
+  }
+
+  async requestText(args: RequestArgs): Promise<string> {
+    const response = await this.doRequest(args);
+    return await response.text();
+  }
+
+  private async doRequest(args: RequestArgs): Promise<Response> {
     const input = new URL('https://www.googleapis.com/');
     input.pathname = args.path;
     if (args.params) {
@@ -113,15 +128,12 @@ class Client {
     }
     const response = await fetch(input.toString(), init);
     if (!response.ok) {
-      const { error: { code, message } } =
-        await response.json() as { error: { code: number, message: string } };
+      const {
+        error: { code, message },
+      } = (await response.json()) as { error: { code: number; message: string } };
       throw new RequestError(code, message);
     }
-    if (downloadType === 'text') {
-      return await response.text();
-    } else {
-      return await response.json();
-    }
+    return response;
   }
 }
 
@@ -131,7 +143,7 @@ interface File {
 }
 
 async function findFile(client: Client, filename: string): Promise<File | null> {
-  const { files } = await client.request({
+  const { files } = await client.request<{ files: File[] }>({
     method: 'GET',
     path: '/drive/v3/files',
     params: {
@@ -140,21 +152,26 @@ async function findFile(client: Client, filename: string): Promise<File | null> 
       spaces: 'drive',
       fields: 'files(id, modifiedTime)',
     },
-  }) as { files: File[] };
+  });
   return files.length ? files[0] : null;
 }
 
 async function downloadFile(client: Client, file: File): Promise<string> {
-  return await client.request({
+  return await client.requestText({
     method: 'GET',
     path: `/drive/v3/files/${file.id}`,
     params: {
       alt: 'media',
     },
-  }, 'text');
+  });
 }
 
-async function uploadFile(client: Client, file: File, localBlacklist: string, localTimestamp: ISOString): Promise<void> {
+async function uploadFile(
+  client: Client,
+  file: File,
+  localBlacklist: string,
+  localTimestamp: ISOString,
+): Promise<void> {
   await client.request({
     method: 'PATCH',
     path: `/upload/drive/v3/files/${file.id}`,
@@ -173,18 +190,18 @@ async function uploadFile(client: Client, file: File, localBlacklist: string, lo
 }
 
 async function createFile(client: Client, filename: string): Promise<File> {
-  return await client.request({
+  return await client.request<File>({
     method: 'POST',
     path: '/drive/v3/files',
     body: {
       name: filename,
     },
-  }) as File;
+  });
 }
 
 let syncRunning: boolean = false;
 
-backgroundPage.syncBlacklist = async function (): Promise<void> {
+backgroundPage.syncBlacklist = async function(): Promise<void> {
   if (syncRunning) {
     return;
   }
@@ -192,10 +209,10 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
   try {
     await blacklistMutex.lock(async () => {
       const {
-        blacklist: localBlacklist, 
-        timestamp: localTimestamp, 
-        sync, 
-        syncFilename: filename
+        blacklist: localBlacklist,
+        timestamp: localTimestamp,
+        sync,
+        syncFilename: filename,
       } = await getOptions('blacklist', 'timestamp', 'sync', 'syncFilename');
       if (!sync) {
         return;
@@ -250,22 +267,21 @@ backgroundPage.syncBlacklist = async function (): Promise<void> {
 
 const subscriptionsMutex = new Mutex();
 
-backgroundPage.addSubscription = async function (subscription: Subscription): Promise<SubscriptionId> {
+backgroundPage.addSubscription = async function(
+  subscription: Subscription,
+): Promise<SubscriptionId> {
   return await subscriptionsMutex.lock(async () => {
-    const {
-      subscriptions,
-      nextSubscriptionId: id
-    } = await getOptions('subscriptions', 'nextSubscriptionId');
+    const { subscriptions, nextSubscriptionId: id } = await getOptions(
+      'subscriptions',
+      'nextSubscriptionId',
+    );
     subscriptions[id] = subscription;
-    await setOptions({
-      subscriptions,
-      nextSubscriptionId: id + 1,
-    });
+    await setOptions({ subscriptions, nextSubscriptionId: id + 1 });
     return id;
   });
 };
 
-backgroundPage.removeSubscription = async function (id: SubscriptionId): Promise<void> {
+backgroundPage.removeSubscription = async function(id: SubscriptionId): Promise<void> {
   await subscriptionsMutex.lock(async () => {
     const { subscriptions } = await getOptions('subscriptions');
     delete subscriptions[id];
@@ -275,7 +291,7 @@ backgroundPage.removeSubscription = async function (id: SubscriptionId): Promise
 
 const updateRunning = new Set<SubscriptionId>();
 
-backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise<void> {
+backgroundPage.updateSubscription = async function(id: SubscriptionId): Promise<void> {
   if (updateRunning.has(id)) {
     return;
   }
@@ -283,7 +299,9 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
   try {
     // Use optimistic lock for 'subscriptions'.
     // Don't lock now.
-    const { subscriptions: { [id]: subscription } } = await getOptions('subscriptions');
+    const {
+      subscriptions: { [id]: subscription },
+    } = await getOptions('subscriptions');
     if (!subscription) {
       return;
     }
@@ -319,20 +337,22 @@ backgroundPage.updateSubscription = async function (id: SubscriptionId): Promise
   }
 };
 
-backgroundPage.updateAllSubscriptions = async function (): Promise<void> {
+backgroundPage.updateAllSubscriptions = async function(): Promise<void> {
   // Don't lock now.
   const { subscriptions } = await getOptions('subscriptions');
-  const promises = Object.keys(subscriptions).map(id => backgroundPage.updateSubscription(Number(id)));
+  const promises = Object.keys(subscriptions).map(id =>
+    backgroundPage.updateSubscription(Number(id)),
+  );
   await Promise.all(promises);
 };
 
 // #endregion Subscriptions
 
 // #region Auth
- 
+
 // #if BROWSER === 'chrome'
-// For Chrome, simply use chrome.identity.getAuthToken.
-backgroundPage.getAuthToken = function (interactive: boolean): Promise<string> {
+// For Chrome, simply use 'chrome.identity.getAuthToken'.
+backgroundPage.getAuthToken = function(interactive: boolean): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     chrome.identity.getAuthToken({ interactive }, token => {
       if (chrome.runtime.lastError) {
@@ -342,9 +362,9 @@ backgroundPage.getAuthToken = function (interactive: boolean): Promise<string> {
       }
     });
   });
-}
+};
 
-backgroundPage.removeCachedAuthToken = function (token: string): Promise<void> {
+backgroundPage.removeCachedAuthToken = function(token: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     chrome.identity.removeCachedAuthToken({ token }, () => {
       if (chrome.runtime.lastError) {
@@ -354,35 +374,33 @@ backgroundPage.removeCachedAuthToken = function (token: string): Promise<void> {
       }
     });
   });
-}
+};
 // #else
-// For Firefox, use browser.identity.launchWebAuthFlow instead.
+// For Firefox, use 'browser.identity.launchWebAuthFlow' instead.
 // See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
 const clientId = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
 const scope = 'https://www.googleapis.com/auth/drive.file';
 
 interface AuthCache {
   token: string;
-  expirationDate: Dayjs;
+  expirationDate: dayjs.Dayjs;
 }
 
 let authCache: AuthCache | null = null;
 const authCacheMutex = new Mutex();
 
-backgroundPage.getAuthToken = async function (interactive: boolean): Promise<string> {
+backgroundPage.getAuthToken = async function(interactive: boolean): Promise<string> {
   return await authCacheMutex.lock(async () => {
     if (authCache && dayjs().isBefore(authCache.expirationDate)) {
       return authCache.token;
     }
-    const authURL = 'https://accounts.google.com/o/oauth2/auth'
-      + `?client_id=${clientId}`
-      + '&response_type=token'
-      + `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}`
-      + `&scope=${encodeURIComponent(scope)}`;
-    const redirectURL = await browser.identity.launchWebAuthFlow({
-      url: authURL,
-      interactive,
-    });
+    const authURL =
+      'https://accounts.google.com/o/oauth2/auth' +
+      `?client_id=${clientId}` +
+      '&response_type=token' +
+      `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}` +
+      `&scope=${encodeURIComponent(scope)}`;
+    const redirectURL = await browser.identity.launchWebAuthFlow({ url: authURL, interactive });
     const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
     if (params.has('error')) {
       throw new Error(params.get('error')!);
@@ -395,11 +413,11 @@ backgroundPage.getAuthToken = async function (interactive: boolean): Promise<str
   });
 };
 
-backgroundPage.removeCachedAuthToken = async function (token: string): Promise<void> {
+backgroundPage.removeCachedAuthToken = async function(token: string): Promise<void> {
   if (authCache && token === authCache.token) {
     authCache = null;
   }
-}
+};
 // #endif
 
 // #endregion Auth
@@ -410,12 +428,10 @@ async function main(): Promise<void> {
   });
 
   const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
-
   backgroundPage.syncBlacklist();
   setInterval(() => {
-    backgroundPage.syncBlacklist()
+    backgroundPage.syncBlacklist();
   }, syncInterval * 60 * 1000);
-
   backgroundPage.updateAllSubscriptions();
   setInterval(() => {
     backgroundPage.updateAllSubscriptions();

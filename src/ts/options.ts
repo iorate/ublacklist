@@ -5,15 +5,43 @@ import 'dayjs/locale/ja';
 import 'dayjs/locale/ru';
 import 'dayjs/locale/tr';
 import 'dayjs/locale/zh-tw';
-dayjs.extend(relativeTime);
-dayjs.locale(chrome.i18n.getMessage('dayjsLocale'));
-
 import {
-  lines, unlines,
-  Result, isErrorResult, SubscriptionId, Subscription, Subscriptions, getOptions, setOptions,
+  lines,
+  unlines,
+  Result,
+  isErrorResult,
+  SubscriptionId,
+  Subscription,
+  Subscriptions,
+  getOptions,
+  setOptions,
   addMessageListener,
-  BackgroundPage, getBackgroundPage,
+  BackgroundPage,
+  getBackgroundPage,
 } from './common';
+
+let backgroundPage: BackgroundPage;
+
+async function requestSiteAccess(url: string): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject) => {
+    const u = new URL(url);
+    chrome.permissions.request({ origins: [`${u.protocol}//${u.hostname}/`] }, granted => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve(granted);
+      }
+    });
+  });
+}
+
+function resultToString(result: Result): string {
+  if (isErrorResult(result)) {
+    return chrome.i18n.getMessage('error', result.message);
+  } else {
+    return dayjs(result.timestamp).fromNow();
+  }
+}
 
 // #region Elements
 
@@ -54,30 +82,9 @@ const $blacklist = $('blacklist');
 
 // #endregion Elements
 
-function resultToString(result: Result): string {
-  if (isErrorResult(result)) {
-    return chrome.i18n.getMessage('error', result.message);
-  } else {
-    return dayjs(result.timestamp).fromNow();
-  }
-}
-
-async function requestSiteAccess(url: string): Promise<boolean> {
-  return new Promise<boolean>((resolve, reject) => {
-    const u = new URL(url);
-    chrome.permissions.request({ origins: [`${u.protocol}//${u.hostname}/`] }, granted => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(granted);
-      }
-    });
-  });
-}
-
 // #region General
 
-function setupGeneralSection(backgroundPage: BackgroundPage, blacklist: string, hideBlockLinks: boolean): void {
+function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
   $blacklist.value = blacklist;
   $blacklist.addEventListener('input', () => {
     $('saveBlacklist').disabled = false;
@@ -134,19 +141,21 @@ function onSyncChanged(sync: boolean): void {
 }
 
 function onSyncResultChanged(syncResult: Result | null): void {
-  $('syncResult').textContent = syncResult ? resultToString(syncResult) : chrome.i18n.getMessage('options_syncNever');
+  $('syncResult').textContent = syncResult
+    ? resultToString(syncResult)
+    : chrome.i18n.getMessage('options_syncNever');
 }
 
-function setupSyncSection(backgroundPage: BackgroundPage, sync: boolean, syncResult: Result | null) {
+function setupSyncSection(sync: boolean, syncResult: Result | null): void {
   onSyncChanged(sync);
   onSyncResultChanged(syncResult);
   $('turnOnSync').addEventListener('click', async () => {
-// #if BROWSER === 'firefox'
+    // #if BROWSER === 'firefox'
     const granted = await requestSiteAccess('https://www.googleapis.com/');
     if (!granted) {
       return;
     }
-// #endif
+    // #endif
     try {
       await backgroundPage.getAuthToken(true);
     } catch (e) {
@@ -216,7 +225,9 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
     row.querySelector('.dropdown')!.classList.remove('is-active');
   });
   row.querySelector('.subscription-menu-show')!.addEventListener('mousedown', async () => {
-    const { subscriptions: { [id]: subscription } } = await getOptions('subscriptions');
+    const {
+      subscriptions: { [id]: subscription },
+    } = await getOptions('subscriptions');
     if (!subscription) {
       return;
     }
@@ -226,7 +237,6 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
     $('showSubscriptionDialog_ok').focus();
   });
   row.querySelector('.subscription-menu-update')!.addEventListener('mousedown', async () => {
-    const backgroundPage = await getBackgroundPage();
     backgroundPage.updateSubscription(id);
   });
   row.querySelector('.subscription-menu-remove')!.addEventListener('mousedown', async () => {
@@ -235,7 +245,6 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
       $('noSubscriptionAdded').classList.remove('is-hidden');
       $('updateAllSubscriptions').disabled = true;
     }
-    const backgroundPage = await getBackgroundPage();
     backgroundPage.removeSubscription(id);
   });
 
@@ -243,7 +252,7 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
   $('updateAllSubscriptions').disabled = false;
 }
 
-function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions: Subscriptions) {
+function setupSubscriptionSection(subscriptions: Subscriptions): void {
   for (const id of Object.keys(subscriptions).map(Number)) {
     onSubscriptionAdded(id, subscriptions[id]);
   }
@@ -260,7 +269,8 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
 
   $('addSubscriptionDialog').addEventListener('input', () => {
     $('addSubscriptionDialog_add').disabled =
-      !$('addSubscriptionDialog_name').checkValidity() || !$('addSubscriptionDialog_url').checkValidity();
+      !$('addSubscriptionDialog_name').checkValidity() ||
+      !$('addSubscriptionDialog_url').checkValidity();
   });
   $('addSubscriptionDialog_background').addEventListener('click', () => {
     $('addSubscriptionDialog').classList.remove('is-active');
@@ -297,7 +307,9 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
     if (!row) {
       return;
     }
-    row.querySelector('.subscription-update-result')!.textContent = chrome.i18n.getMessage('options_subscriptionUpdateRunning');
+    row.querySelector('.subscription-update-result')!.textContent = chrome.i18n.getMessage(
+      'options_subscriptionUpdateRunning',
+    );
   });
   addMessageListener('updateEnd', ({ id, result }) => {
     const row = document.getElementById(`subscription${id}`);
@@ -311,25 +323,31 @@ function setupSubscriptionSection(backgroundPage: BackgroundPage, subscriptions:
 // #endregion Subscription
 
 async function main(): Promise<void> {
+  dayjs.extend(relativeTime);
+  dayjs.locale(chrome.i18n.getMessage('dayjsLocale'));
+
+  backgroundPage = await getBackgroundPage();
+
   for (const element of document.querySelectorAll<HTMLElement>('[data-i18n]')) {
     element.innerHTML = chrome.i18n.getMessage(element.dataset.i18n!);
   }
 
-  const backgroundPage = await getBackgroundPage();
-  const { blacklist, hideBlockLinks, sync, syncResult, subscriptions } =
-    await getOptions('blacklist', 'hideBlockLinks', 'sync', 'syncResult', 'subscriptions');
-
-  setupGeneralSection(backgroundPage, blacklist, hideBlockLinks);
-
-  setupSyncSection(backgroundPage, sync, syncResult);
-// #if BROWSER === 'firefox'
+  const { blacklist, hideBlockLinks, sync, syncResult, subscriptions } = await getOptions(
+    'blacklist',
+    'hideBlockLinks',
+    'sync',
+    'syncResult',
+    'subscriptions',
+  );
+  setupGeneralSection(blacklist, hideBlockLinks);
+  setupSyncSection(sync, syncResult);
+  // #if BROWSER === 'firefox'
   const { os } = await browser.runtime.getPlatformInfo();
   if (os === 'android') {
     $('syncSection').classList.add('is-hidden');
   }
-// #endif
-
-  setupSubscriptionSection(backgroundPage, subscriptions);
+  // #endif
+  setupSubscriptionSection(subscriptions);
 }
 
 main();

@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 
 // #region Utilities
 
-export function lines(s: string) {
+export function lines(s: string): string[] {
   return s ? s.split('\n') : [];
 }
 
-export function unlines(ss: string[]) {
+export function unlines(ss: string[]): string {
   return ss.join('\n');
 }
 
@@ -97,15 +97,15 @@ const defaultOptions: Options = {
 
 export function getOptions<T extends (keyof Options)[]>(...keys: T): Promise<OptionsFor<T>> {
   return new Promise<OptionsFor<T>>((resolve, reject) => {
-    const defaultItems: { [key: string]: any } = {};
+    const defaultOptionsForKeys = {} as Record<keyof Options, unknown>;
     for (const key of keys) {
-      defaultItems[key] = defaultOptions[key];
+      defaultOptionsForKeys[key] = defaultOptions[key];
     }
-    chrome.storage.local.get(defaultItems, items => {
+    chrome.storage.local.get(defaultOptionsForKeys, optionsForKeys => {
       if (chrome.runtime.lastError) {
         reject(new Error(chrome.runtime.lastError.message));
       } else {
-        resolve(items as OptionsFor<T>);
+        resolve(optionsForKeys as OptionsFor<T>);
       }
     });
   });
@@ -131,8 +131,7 @@ export interface SetBlacklistMessageArgs {
   blacklist: string;
 }
 
-export interface SyncStartMessageArgs {
-}
+export interface SyncStartMessageArgs {}
 
 export interface SyncEndMessageArgs {
   result: Result;
@@ -152,16 +151,31 @@ export function sendMessage(type: 'syncStart', args: SyncStartMessageArgs): void
 export function sendMessage(type: 'syncEnd', args: SyncEndMessageArgs): void;
 export function sendMessage(type: 'updateStart', args: UpdateStartMessageArgs): void;
 export function sendMessage(type: 'updateEnd', args: UpdateEndMessageArgs): void;
-export function sendMessage(type: string, args: any): void {
+export function sendMessage<T>(type: string, args: T): void {
   chrome.runtime.sendMessage({ type, args });
 }
 
-export function addMessageListener(type: 'setBlacklist', listener: (args: SetBlacklistMessageArgs) => void): void;
-export function addMessageListener(type: 'syncStart', listener: (args: SyncStartMessageArgs) => void): void;
-export function addMessageListener(type: 'syncEnd', listener: (args: SyncEndMessageArgs) => void): void;
-export function addMessageListener(type: 'updateStart', listener: (args: UpdateStartMessageArgs) => void): void;
-export function addMessageListener(type: 'updateEnd', listener: (args: UpdateEndMessageArgs) => void): void;
-export function addMessageListener(type: string, listener: (args: any) => void): void {
+export function addMessageListener(
+  type: 'setBlacklist',
+  listener: (args: SetBlacklistMessageArgs) => void,
+): void;
+export function addMessageListener(
+  type: 'syncStart',
+  listener: (args: SyncStartMessageArgs) => void,
+): void;
+export function addMessageListener(
+  type: 'syncEnd',
+  listener: (args: SyncEndMessageArgs) => void,
+): void;
+export function addMessageListener(
+  type: 'updateStart',
+  listener: (args: UpdateStartMessageArgs) => void,
+): void;
+export function addMessageListener(
+  type: 'updateEnd',
+  listener: (args: UpdateEndMessageArgs) => void,
+): void;
+export function addMessageListener<T>(type: string, listener: (args: T) => void): void {
   chrome.runtime.onMessage.addListener(message => {
     if (message.type === type) {
       listener(message.args);
