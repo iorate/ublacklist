@@ -7,10 +7,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const browser = process.env.BROWSER || 'chrome';
 const env = process.env.NODE_ENV || 'development';
 
-const ifdefOptions = {
-  BROWSER: browser,
-  ENV: env,
-  'ifdef-triple-slash': false,
+const ifdefLoader = {
+  loader: 'ifdef-loader',
+  options: {
+    BROWSER: browser,
+    ENV: env,
+    'ifdef-triple-slash': false,
+  },
 };
 
 module.exports = {
@@ -32,34 +35,44 @@ module.exports = {
       {
         test: /\.json\.js$/,
         use: [
-          { loader: 'file-loader', options: { name: '[name]' } },
-          { loader: 'val-loader' },
-          { loader: 'ifdef-loader', options: ifdefOptions },
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name]',
+            },
+          },
+          'val-loader',
+          ifdefLoader,
         ],
       },
       {
         test: /\.scss$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader', options: { sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } },
-          { loader: 'ifdef-loader', options: ifdefOptions },
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          ifdefLoader,
         ],
       },
       {
         test: /\.svg$/,
-        use: [
-          { loader: 'url-loader' },
-        ],
+        use: ['url-loader'],
       },
       {
         test: /\.ts$/,
-        use: [
-          { loader: 'ts-loader' },
-          { loader: 'ifdef-loader', options: ifdefOptions },
-        ],
+        use: ['ts-loader', ifdefLoader],
       },
-    ]
+    ],
   },
   optimization: {
     minimize: false,
@@ -76,10 +89,7 @@ module.exports = {
       './popup.html',
     ]),
     new FixStyleOnlyEntriesPlugin({
-      extensions: [
-        'json.js',
-        'scss',
-      ],
+      extensions: ['json.js', 'scss'],
       silent: true,
     }),
     new LicenseCheckerWebpackPlugin(),
@@ -88,10 +98,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: [
-      '.js',
-      '.ts',
-    ],
+    extensions: ['.js', '.ts'],
   },
   stats: {
     children: false,

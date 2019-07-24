@@ -29,7 +29,7 @@ $switch-focus: none;
 @import '~bulma/sass/components/dropdown.sass';
 @import '~bulma/sass/components/list.sass';
 @import '~bulma/sass/components/modal.sass';
-@import '~bulma-switch/src/sass/index.sass';
+@import '~bulma-switch/dist/css/bulma-switch.sass';
 
 .button[disabled] {
   cursor: default;

@@ -10,13 +10,21 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json',
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['@typescript-eslint'],
   rules: {
     'require-atomic-updates': ['off'],
-    '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
-    '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'no-public' }],
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      {
+        allowExpressions: true,
+      },
+    ],
+    '@typescript-eslint/explicit-member-accessibility': [
+      'error',
+      {
+        accessibility: 'no-public',
+      },
+    ],
     '@typescript-eslint/no-empty-interface': ['off'],
     '@typescript-eslint/no-inferrable-types': ['off'],
     '@typescript-eslint/no-non-null-assertion': ['off'],

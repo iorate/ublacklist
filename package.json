@@ -16,12 +16,12 @@
     "clean:chrome:production": "rimraf ./dist/chrome/production",
     "clean:firefox:development": "rimraf ./dist/firefox/development",
     "clean:firefox:production": "rimraf ./dist/firefox/production",
-    "prettier": "run-p --print-label prettier:*",
-    "prettier:sass": "prettier --write \"./src/scss/*.scss\"",
-    "prettier:typescript": "prettier --write \"./src/ts/*.ts\"",
     "lint": "run-p --print-label lint:*",
     "lint:sass": "stylelint --color \"./src/scss/*.scss\"",
-    "lint:typescript": "eslint --color \"./src/ts/*.ts\""
+    "lint:typescript": "eslint --color \"./src/ts/*.ts\"",
+    "lintfix": "run-p --print-label lintfix:*",
+    "lintfix:sass": "stylelint --color --fix \"./src/scss/*.scss\"",
+    "lintfix:typescript": "eslint --color --fix \"./src/ts/*.ts\""
   },
   "devDependencies": {
     "@mdi/svg": "^3.8.95",
@@ -46,6 +46,7 @@
     "node-sass": "^4.12.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
     "stylelint": "^10.1.0",
     "stylelint-config-prettier": "^5.2.0",

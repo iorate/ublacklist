@@ -423,8 +423,8 @@ backgroundPage.removeCachedAuthToken = async function(token: string): Promise<vo
 // #endregion Auth
 
 async function main(): Promise<void> {
-  addMessageListener('setBlacklist', args => {
-    backgroundPage.setBlacklist(args.blacklist);
+  addMessageListener('setBlacklist', ({ blacklist }) => {
+    backgroundPage.setBlacklist(blacklist);
   });
 
   const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');

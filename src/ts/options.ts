@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/en';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/ru';
 import 'dayjs/locale/tr';
 import 'dayjs/locale/zh-tw';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import {
   lines,
   unlines,
@@ -323,8 +323,8 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
 // #endregion Subscription
 
 async function main(): Promise<void> {
-  dayjs.extend(relativeTime);
   dayjs.locale(chrome.i18n.getMessage('dayjsLocale'));
+  dayjs.extend(relativeTime);
 
   backgroundPage = await getBackgroundPage();
 

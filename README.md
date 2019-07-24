@@ -15,6 +15,20 @@ Subscription was implemented in version 3. If you add a subscription, a blacklis
 
 To publish a blacklist as a subscription, place a blacklist file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is [an example](https://raw.githubusercontent.com/iorate/uBlacklist/master/Example.uBlacklist.txt) hosted on GitHub.
 
+## Build
+To build this extension, [Node.js](https://nodejs.org/en/) is required.
+
+```shell
+git clone https://github.com/iorate/uBlacklist.git
+
+cd uBlacklist
+
+npm install
+
+# Build a production version for Firefox
+npm run build:firefox:production
+```
+
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
 
