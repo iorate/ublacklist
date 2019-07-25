@@ -65,8 +65,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.svg$/,
-        use: ['url-loader'],
+        test: /\.svg(\?.*)?$/,
+        use: ['url-loader', 'svg-transform-loader'],
       },
       {
         test: /\.ts$/,
