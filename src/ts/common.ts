@@ -201,7 +201,7 @@ export interface BackgroundPage extends Window {
 
   // Auth
   getAuthToken(interactive: boolean): Promise<string>;
-  removeCachedAuthToken(accessToken: string): Promise<void>;
+  removeCachedAuthToken(token: string): Promise<void>;
 }
 
 export function getBackgroundPage(): Promise<BackgroundPage> {

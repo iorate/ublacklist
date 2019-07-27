@@ -95,9 +95,9 @@ class Client {
     this.token = token;
   }
 
-  async request<T = void>(args: RequestArgs): Promise<T> {
+  async request(args: RequestArgs): Promise<unknown> {
     const response = await this.doRequest(args);
-    return (await response.json()) as T;
+    return await response.json();
   }
 
   async requestText(args: RequestArgs): Promise<string> {
@@ -143,7 +143,7 @@ interface File {
 }
 
 async function findFile(client: Client, filename: string): Promise<File | null> {
-  const { files } = await client.request<{ files: File[] }>({
+  const { files } = (await client.request({
     method: 'GET',
     path: '/drive/v3/files',
     params: {
@@ -152,7 +152,7 @@ async function findFile(client: Client, filename: string): Promise<File | null> 
       spaces: 'drive',
       fields: 'files(id, modifiedTime)',
     },
-  });
+  })) as { files: File[] };
   return files.length ? files[0] : null;
 }
 
@@ -190,13 +190,13 @@ async function uploadFile(
 }
 
 async function createFile(client: Client, filename: string): Promise<File> {
-  return await client.request<File>({
+  return (await client.request({
     method: 'POST',
     path: '/drive/v3/files',
     body: {
       name: filename,
     },
-  });
+  })) as File;
 }
 
 let syncRunning: boolean = false;
