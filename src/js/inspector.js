@@ -54,9 +54,19 @@ const ENTRY_INFO = [
     target:       'div#main div.xpd',
     targetDepth:  0,
     pageLink:     '> div:first-child > a',
-    pageLinkType: 'default',
+    pageLinkType: 'query',
     actionParent: '',
     actionClass:  'ubMobileAction',
+    display:      'default'
+  },
+  {
+    id:           'Search.Old',
+    target:       'div#ires > ol > div.g',
+    targetDepth:  0,
+    pageLink:     '> h3.r > a',
+    pageLinkType: 'query',
+    actionParent: '> div.s > div:first-child',
+    actionClass:  'ubDefaultAction',
     display:      'default'
   },
   {
@@ -199,6 +209,13 @@ export const inspectEntry = elem => {
           continue;
         }
         pageUrl = m[1];
+      } else if (info.pageLinkType == 'query') {
+        pageUrl = pageLink.href;
+        const parsed = new URL(pageUrl);
+        if (!parsed || (parsed.pathname !== '/url')) {
+          continue;
+        }
+        pageUrl = parsed.searchParams.get('q') || pageUrl;
       } else {
         pageUrl = pageLink.href;
       }
@@ -210,14 +227,6 @@ export const inspectEntry = elem => {
         }
       } else {
         actionParent = base;
-      }
-
-      if (info.id == 'Search.ForFirefoxMobileWebResult') {
-        const parsed = new URL(pageUrl);
-        if (!parsed || (parsed.pathname !== '/url')) {
-          continue;
-        }
-        pageUrl = parsed.searchParams.get('q') || pageUrl;
       }
 
       if (info.id == 'Search.Image') {
