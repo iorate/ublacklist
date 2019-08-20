@@ -3,13 +3,13 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "Запрещает выбранным сайтам отображаться в поисковой выдачи Google"
+    "message": "Блокирует сайты в поисковой выдачи Google"
   },
   "dayjsLocale": {
     "message": "ru"
   },
   "error": {
-    "message": "Error: $MESSAGE$",
+    "message": "Ошибка: $MESSAGE$",
     "placeholders": {
       "message": {
         "content": "$1"
@@ -17,13 +17,13 @@
     }
   },
   "cancelButton": {
-    "message": "Cancel"
+    "message": "Отмена"
   },
   "OK": {
     "message": "ОК"
   },
   "content_singleSiteBlocked": {
-    "message": "uBlacklist заблокировал 1 сайт(ов)"
+    "message": "uBlacklist заблокировал 1 сайт"
   },
   "content_multipleSitesBlocked": {
     "message": "uBlacklist заблокировал $COUNT$ сайт(ов)",
@@ -40,19 +40,19 @@
     "message": "Скрыть"
   },
   "content_blockSiteLink": {
-    "message": "Заблокировать этот сайт"
+    "message": "Заблокировать сайт"
   },
   "content_unblockSiteLink": {
-    "message": "Разблокировать этот сайт"
+    "message": "Разблокировать сайт"
   },
   "popup_blockSiteTitle": {
-    "message": "Заблокировать этот сайт"
+    "message": "Заблокировать сайт"
   },
   "popup_unblockSiteTitle": {
-    "message": "Разблокировать этот сайт"
+    "message": "Разблокировать сайт"
   },
   "popup_siteBlockedBySubscription": {
-    "message": "Blocked by $NAME$",
+    "message": "Заблокирован подпиской $NAME$",
     "placeholders": {
       "name": {
         "content": "$1"
@@ -60,7 +60,7 @@
     }
   },
   "options_generalTitle": {
-    "message": "General"
+    "message": "Общие"
   },
   "options_blacklistLabel": {
     "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
@@ -84,87 +84,87 @@
     "message": "Импортировать"
   },
   "options_hideBlockSiteLinksLabel": {
-    "message": "Не показывать ссылки \"Заблокировать этот сайт\""
+    "message": "Не показывать ссылки \"Заблокировать сайт\""
   },
   "options_syncTitle": {
-    "message": "Sync"
+    "message": "Синхронизация"
   },
   "options_syncFeature": {
     "message": "Синхронизировать с Google Диском"
   },
   "options_syncFeatureDescription": {
-    "message": "Если вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком."
+    "message": "Если Вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком."
   },
   "options_turnOnSync": {
     "message": "Включить синхронизацию"
   },
   "options_syncTurnedOn": {
-    "message": "Synced with Google Drive"
+    "message": "Синхронизирован с Google Диском"
   },
   "options_turnOffSync": {
-    "message": "Turn off"
+    "message": "Отключить"
   },
   "options_syncResult": {
-    "message": "Last sync"
+    "message": "Последняя синхронизация"
   },
   "options_syncNever": {
-    "message": "Never synced"
+    "message": "Синхронизация выключена"
   },
   "options_syncRunning": {
-    "message": "Syncing..."
+    "message": "Синхронизируем..."
   },
   "options_syncNowButton": {
-    "message": "Sync now"
+    "message": "Синхронизировать"
   },
   "options_subscriptionTitle": {
-    "message": "Subscription"
+    "message": "Подписки"
   },
   "options_subscriptionFeature": {
-    "message": "Subscribe to blacklists"
+    "message": "Подписаться на чёрные списки"
   },
   "options_subscriptionFeatureDescription": {
-    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
+    "message": "Если Вы добавите подписку, то список блокируемых сайтов будет регулярно загружаться по указанному URL."
   },
   "options_addSubscriptionButton": {
-    "message": "Add subscription"
+    "message": "Добавить подписку"
   },
   "options_subscriptionNameHeader": {
-    "message": "Name"
+    "message": "Название"
   },
   "options_subscriptionURLHeader": {
     "message": "URL"
   },
   "options_subscriptionUpdateResultHeader": {
-    "message": "Last update"
+    "message": "Последнее обновление"
   },
   "options_showSubscriptionMenu": {
-    "message": "Show"
+    "message": "Показать"
   },
   "options_updateSubscriptionNowMenu": {
-    "message": "Update now"
+    "message": "Обновить"
   },
   "options_removeSubscriptionMenu": {
-    "message": "Remove"
+    "message": "Удалить"
   },
   "options_noSubscriptionsAdded": {
-    "message": "No subscriptions added"
+    "message": "Нет подписок"
   },
   "options_subscriptionUpdateRunning": {
-    "message": "Updating..."
+    "message": "Обновляем..."
   },
   "options_updateAllSubscriptionsNowButton": {
-    "message": "Update now"
+    "message": "Обновить все подписки"
   },
   "options_addSubscriptionDialog_title": {
-    "message": "Add a subscription"
+    "message": "Добавить подписку"
   },
   "options_addSubscriptionDialog_nameLabel": {
-    "message": "Name"
+    "message": "Название"
   },
   "options_addSubscriptionDialog_urlLabel": {
     "message": "URL"
   },
   "options_addSubscriptionDialog_addButton": {
-    "message": "Add"
+    "message": "Добавить"
   }
 }
