@@ -1,0 +1,170 @@
+{
+  "extensionName": {
+    "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "禁止特定的网站显示在 Google 的搜索结果中。"
+  },
+  "dayjsLocale": {
+    "message": "zh-cn"
+  },
+  "error": {
+    "message": "出现错误: $MESSAGE$",
+    "placeholders": {
+      "message": {
+        "content": "$1"
+      }
+    }
+  },
+  "cancelButton": {
+    "message": "取消"
+  },
+  "okButton": {
+    "message": "确定"
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 已经禁止了 1 个网站"
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist 已经禁止了 $COUNT$ 个网站",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "content_showBlockedSitesLink": {
+    "message": "显示"
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "隐藏"
+  },
+  "content_blockSiteLink": {
+    "message": "加入黑名单"
+  },
+  "content_unblockSiteLink": {
+    "message": "取消禁止这个网站"
+  },
+  "popup_blockSiteTitle": {
+    "message": "将该网站加入黑名单"
+  },
+  "popup_unblockSiteTitle": {
+    "message": "取消禁止这个网站"
+  },
+  "popup_siteBlockedBySubscription": {
+    "message": "通过 $NAME$ 禁止。",
+    "placeholders": {
+      "name": {
+        "content": "$1"
+      }
+    }
+  },
+  "options_generalTitle": {
+    "message": "一般"
+  },
+  "options_blacklistLabel": {
+    "message": "以下网站将不会显示在 Google 的搜索结果中："
+  },
+  "options_blacklistHelper": {
+    "message": "你可以使用 <a href=\"https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions\">正则表达式</a>。"
+  },
+  "options_importBlacklistButton": {
+    "message": "从 Personal Blocklist 导入网站黑名单"
+  },
+  "options_saveBlacklistButton": {
+    "message": "保存"
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "从 Personal Blocklist 导入网站黑名单"
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "贴上你从 Personal Blocklist 导出的的网站黑名单"
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "导入"
+  },
+  "options_hideBlockSiteLinksLabel": {
+    "message": "不在搜索结果中显示「加入黑名单」连接"
+  },
+  "options_syncTitle": {
+    "message": "同步"
+  },
+  "options_syncFeature": {
+    "message": "使用 Google Drive 同步"
+  },
+  "options_syncFeatureDescription": {
+    "message": "如果你开启了同步功能，将会在你的 Google Drive 中创建一个「uBlacklist.txt」的文件，保存并同步你的网站黑名单列表。"
+  },
+  "options_turnOnSync": {
+    "message": "开启同步"
+  },
+  "options_syncTurnedOn": {
+    "message": "已开启使用 Google Drive 同步"
+  },
+  "options_turnOffSync": {
+    "message": "关闭同步"
+  },
+  "options_syncResult": {
+    "message": "最近同步"
+  },
+  "options_syncNever": {
+    "message": "从未同步"
+  },
+  "options_syncRunning": {
+    "message": "正在同步中..."
+  },
+  "options_syncNowButton": {
+    "message": "立即同步"
+  },
+  "options_subscriptionTitle": {
+    "message": "订阅"
+  },
+  "options_subscriptionFeature": {
+    "message": "订阅黑名单列表"
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "如果你添加了订阅，网站黑名单将会定期从指定的 URL 更新。"
+  },
+  "options_addSubscriptionButton": {
+    "message": "添加订阅"
+  },
+  "options_subscriptionNameHeader": {
+    "message": "名称"
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL地址"
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "最近更新"
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "未添加任何订阅"
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "正在更新..."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "显示黑名单"
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "立即更新"
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "移除此订阅"
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "立即更新"
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "添加订阅"
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "名称"
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL地址"
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "添加"
+  }
+}
