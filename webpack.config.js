@@ -92,7 +92,13 @@ module.exports = {
       extensions: ['json.js', 'scss'],
       silent: true,
     }),
-    new LicenseCheckerWebpackPlugin(),
+    new LicenseCheckerWebpackPlugin({
+      override: {
+        'dialog-polyfill@0.5.0': {
+          licenseName: 'BSD-3-Clause',
+        },
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),
