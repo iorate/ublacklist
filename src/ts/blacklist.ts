@@ -255,8 +255,9 @@ export class BlacklistAggregation {
 
   private applyRemoved(params: BlacklistUpdateParams, rules: CompiledRule[]): void {
     for (let i = params.removedIndices.length - 1; i >= 0; --i) {
-      this.user.rawRules[rules[i].rawRuleIndex] = null;
-      rules.splice(i, 1);
+      const removedIndex = params.removedIndices[i];
+      this.user.rawRules[rules[removedIndex].rawRuleIndex] = null;
+      rules.splice(removedIndex, 1);
     }
   }
 }
