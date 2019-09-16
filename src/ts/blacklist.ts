@@ -180,7 +180,7 @@ export class BlacklistAggregation {
 
   constructor(user: string, subscription: string[]) {
     this.user = new Blacklist(user);
-    this.subscription = new Blacklist(subscription.join('\n'));
+    this.subscription = new Blacklist(subscription.filter(s => s).join('\n'));
   }
 
   test(url: AltURL): boolean {
