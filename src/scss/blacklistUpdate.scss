@@ -1,0 +1,38 @@
+$primary: #1a73e8;
+$label-weight: normal;
+$title-size: 1.25rem;
+$title-weight: normal;
+
+@import '~bulma/sass/utilities/_all.sass';
+@import '~bulma/sass/base/_all.sass';
+@import '~bulma/sass/form/shared.sass';
+@import '~bulma/sass/form/input-textarea.sass';
+@import '~bulma/sass/form/tools.sass';
+@import '~bulma/sass/elements/button.sass';
+@import '~bulma/sass/elements/title.sass';
+
+summary {
+  cursor: pointer;
+  outline: none;
+}
+
+#body {
+  font-size: 1rem;
+  min-width: 480px;
+  padding: 0.5rem;
+}
+
+#title,
+#url,
+details,
+details[open] > summary {
+  margin-bottom: 0.75rem;
+}
+
+#url {
+  word-break: break-all;
+}
+
+.button[disabled] {
+  cursor: default;
+}

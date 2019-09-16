@@ -22,7 +22,6 @@ module.exports = {
   entry: {
     'css/content': './scss/content.scss',
     'css/options': './scss/options.scss',
-    'css/popup': './scss/popup.scss',
     'js/background': './ts/background.ts',
     'js/content': './ts/content.ts',
     'js/options': './ts/options.ts',

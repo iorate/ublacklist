@@ -51,6 +51,21 @@
   "popup_unblockSiteTitle": {
     "message": "Разблокировать сайт"
   },
+  "popup_details": {
+    "message": "Details"
+  },
+  "popup_addedRulesLabel": {
+    "message": "Rules to be added"
+  },
+  "popup_removedRulesLabel": {
+    "message": "Rules to be removed"
+  },
+  "popup_blockSiteButton": {
+    "message": "Block"
+  },
+  "popup_unblockSiteButton": {
+    "message": "Unblock"
+  },
   "popup_siteBlockedBySubscription": {
     "message": "Заблокирован подпиской $NAME$",
     "placeholders": {

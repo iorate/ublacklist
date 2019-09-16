@@ -2,29 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/popup.css">
     <title>uBlacklist Popup</title>
   </head>
   <body>
-    <div id="blockPopup">
-      <form id="blockForm">
-        <label>
-          <span data-i18n="popup_blockSiteTitle"></span>:
-          <input id="blockInput" type="text" autofocus spellcheck="false">
-        </label>
-        <button type="submit" data-i18n="okButton"></button>
-      </form>
-    </div>
-    <div id="unblockPopup">
-      <form id="unblockForm">
-        <label>
-          <span data-i18n="popup_unblockSiteTitle"></span>:
-          <select id="unblockSelect" autofocus>
-          </select>
-        </label>
-        <button type="submit" data-i18n="okButton"></button>
-      </form>
-    </div>
+    <blacklist-update></blacklist-update>
     <script src="js/popup.js"></script>
   </body>
 </html>

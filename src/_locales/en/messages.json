@@ -67,6 +67,26 @@
     "message": "Unblock this site",
     "description": "The title of a popup to unblock a site."
   },
+  "popup_details": {
+    "message": "Details",
+    "description": "The text of a disclosure widget containing details."
+  },
+  "popup_addedRulesLabel": {
+    "message": "Rules to be added",
+    "description": "The label for the textarea of rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "Rules to be removed",
+    "description": "The label for the textarea of rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "Block",
+    "description": "The text of the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "Unblock",
+    "description": "The text of the button to unblock a site."
+  },
   "popup_siteBlockedBySubscription": {
     "message": "Blocked by $NAME$",
     "description": "The text that means a site is blocked by a subscription.",
