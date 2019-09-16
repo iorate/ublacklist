@@ -1,4 +1,105 @@
 // #if BROWSER === 'firefox'
 @import '~dialog-polyfill/dialog-polyfill.css';
 // #endif
-@import '../css/content.css';
+
+#ubBlacklistUpdateDialog {
+  border: solid 1px grey;
+  padding: 0.5rem;
+}
+
+#ubImageSearchControl {
+  font-size: 12px;
+  margin-left: 16px;
+}
+
+#ubShowButton,
+#ubHideButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
+.ubDefaultAction {
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.ubMobileAction {
+  font-size: 12px;
+  margin-left: 12px;
+}
+
+.ubImageAction {
+  display: block;
+  font-size: 10px;
+}
+
+.ubNewsAction {
+  display: block;
+  font-size: 14px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubTwitterAction {
+  margin-top: 2px;
+  flex: 25 0 auto;
+  font-size: 14px;
+}
+
+.ubVideoAction {
+  display: block;
+  font-size: 13px;
+  margin: -10px 0 10px 0;
+  padding: 0 16px;
+}
+
+.ubImageSearchAction {
+  display: block;
+  font-size: 12px;
+  padding: 0 4px;
+}
+
+.ubNewsSearchAction {
+  font-size: 13px;
+  margin-left: 4px;
+}
+
+.ubBlockButton,
+.ubUnblockButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
+.ubBlockButton:hover,
+.ubUnblockButton:hover {
+  text-decoration: underline;
+}
+
+#ubBlockDialog,
+#ubUnblockDialog {
+  padding: 0;
+}
+
+#ubBlockForm,
+#ubUnblockForm {
+  padding: 20px 12px;
+  white-space: nowrap;
+}
+
+#ubBlockInput,
+#ubUnblockSelect {
+  margin: 0 6px;
+  width: 280px;
+}
+
+@media screen and (max-width: 400px) {
+  #ubBlockForm > button,
+  #ubUnblockForm > button {
+    display: block;
+    margin: 0 auto;
+  }
+  #ubBlockInput,
+  #ubUnblockSelect {
+    display: block;
+  }
+}

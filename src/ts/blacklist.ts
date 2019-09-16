@@ -269,19 +269,22 @@ export async function loadBlacklists(): Promise<BlacklistAggregation> {
   );
 }
 
-export class BlacklistUpdate extends HTMLElement {
-  blacklists: BlacklistAggregation | null = null;
-  params: BlacklistUpdateParams | null = null;
-  closeParent: (() => void) | null = null;
-  $title: HTMLHeadingElement;
-  $url: HTMLParagraphElement;
-  $added: HTMLTextAreaElement;
-  $removed: HTMLTextAreaElement;
-  $update: HTMLButtonElement;
+export class BlacklistUpdate {
+  private blacklists: BlacklistAggregation | null = null;
+  private params: BlacklistUpdateParams | null = null;
+  private onFinish: (() => void) | null = null;
 
-  constructor() {
-    super();
-    const root = this.attachShadow({ mode: 'open' });
+  private $title: HTMLHeadingElement;
+  private $url: HTMLParagraphElement;
+  private $details: HTMLDetailsElement;
+  private $added: HTMLTextAreaElement;
+  private $removed: HTMLTextAreaElement;
+  private $update: HTMLButtonElement;
+  private onClose: () => void;
+
+  constructor(host: HTMLElement, onClose: () => void) {
+    this.onClose = onClose;
+    const root = host.attachShadow({ mode: 'open' });
     root.innerHTML = `
       <style>
         ${blacklistUpdateStyle.toString()}
@@ -289,7 +292,7 @@ export class BlacklistUpdate extends HTMLElement {
       <div id="body">
         <h1 id="title" class="title"></h1>
         <p id="url"></p>
-        <details>
+        <details id="details">
           <summary>
             ${chrome.i18n.getMessage('popup_details')}
           </summary>
@@ -324,6 +327,7 @@ export class BlacklistUpdate extends HTMLElement {
     `;
     this.$title = root.getElementById('title') as HTMLHeadingElement;
     this.$url = root.getElementById('url') as HTMLParagraphElement;
+    this.$details = root.getElementById('details') as HTMLDetailsElement;
     this.$added = root.getElementById('added') as HTMLTextAreaElement;
     this.$removed = root.getElementById('removed') as HTMLTextAreaElement;
     this.$update = root.getElementById('update') as HTMLButtonElement;
@@ -333,26 +337,29 @@ export class BlacklistUpdate extends HTMLElement {
       }
     });
     root.getElementById('cancel')!.addEventListener('click', () => {
-      this.closeParent!();
+      this.onClose();
     });
     this.$update.addEventListener('click', () => {
-      if (this.params) {
-        this.params.added = this.$added.value;
-        this.blacklists!.update(this.params);
+      this.params!.added = this.$added.value;
+      this.blacklists!.update(this.params!);
+      if (this.onFinish) {
+        this.onFinish();
       }
-      this.closeParent!();
+      this.onClose();
     });
   }
 
-  initialize(blacklists: BlacklistAggregation, url: AltURL, closeParent: () => void): void {
+  start(blacklists: BlacklistAggregation, url: AltURL, onFinish?: () => void): void {
     if (/^https?|ftp$/.test(url.toString())) {
       this.blacklists = blacklists;
       this.params = blacklists.preUpdate(url);
-      this.closeParent = closeParent;
+      this.onFinish = onFinish || null;
+
       this.$title.textContent = chrome.i18n.getMessage(
         this.params!.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
       );
       this.$url.textContent = url.toString();
+      this.$details.open = false;
       this.$added.value = this.params!.added;
       this.$removed.value = this.params!.removed;
       this.$update.disabled = false;
@@ -360,9 +367,13 @@ export class BlacklistUpdate extends HTMLElement {
         this.params!.unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton',
       );
     } else {
-      this.closeParent = closeParent;
+      this.blacklists = null;
+      this.params = null;
+      this.onFinish = null;
+
       this.$title.textContent = chrome.i18n.getMessage('popup_blockSiteTitle');
       this.$url.textContent = url.toString();
+      this.$details.open = false;
       this.$added.value = '';
       this.$removed.value = '';
       this.$update.disabled = true;

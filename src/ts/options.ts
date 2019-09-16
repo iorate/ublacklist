@@ -75,8 +75,8 @@ function $(id: 'showSubscriptionDialog_background'): HTMLDivElement;
 function $(id: 'showSubscriptionDialog_name'): HTMLParagraphElement;
 function $(id: 'showSubscriptionDialog_blacklist'): HTMLTextAreaElement;
 function $(id: 'showSubscriptionDialog_ok'): HTMLButtonElement;
-function $(id: string): HTMLElement {
-  return document.getElementById(id) as HTMLElement;
+function $(id: string): Element | null {
+  return document.getElementById(id) as Element | null;
 }
 
 const $blacklist = $('blacklist');

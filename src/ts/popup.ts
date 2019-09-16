@@ -16,11 +16,9 @@ async function main(): Promise<void> {
   const blacklists = await loadBlacklists();
   const url = new AltURL(await getCurrentURL());
 
-  customElements.define('blacklist-update', BlacklistUpdate);
-  const blacklistUpdate = document.querySelector('blacklist-update') as BlacklistUpdate;
-  blacklistUpdate.initialize(blacklists, url, () => {
+  new BlacklistUpdate(document.getElementById('blacklistUpdateHost') as HTMLDivElement, () => {
     window.close();
-  });
+  }).start(blacklists, url);
 }
 
 main();

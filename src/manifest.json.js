@@ -14,6 +14,7 @@ const manifest = {
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',
+      strict_min_version: '63.0', // Shadow DOM is required.
     },
   },
   // #endif
