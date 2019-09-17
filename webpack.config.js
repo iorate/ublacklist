@@ -45,6 +45,10 @@ module.exports = {
         ],
       },
       {
+        test: /\.png/,
+        use: ['url-loader'],
+      },
+      {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,

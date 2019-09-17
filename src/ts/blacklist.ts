@@ -302,7 +302,7 @@ export class BlacklistUpdate {
               ${chrome.i18n.getMessage('popup_addedRulesLabel')}
             </label>
             <div class="control">
-              <textarea id="added" class="textarea has-fixed-size" rows="2"></textarea>
+              <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
             </div>
           </div>
           <div class="field">
@@ -310,7 +310,7 @@ export class BlacklistUpdate {
               ${chrome.i18n.getMessage('popup_removedRulesLabel')}
             </label>
             <div class="control">
-              <textarea id="removed" class="textarea has-fixed-size" readonly rows="2"></textarea>
+              <textarea id="removed" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
             </div>
           </div>
         </details>
