@@ -9,16 +9,16 @@ function $(id: 'ubShowStyle'): HTMLStyleElement | null;
 function $(id: 'ubControl'): HTMLSpanElement | null;
 function $(id: 'ubStats'): HTMLSpanElement | null;
 function $(id: 'ubBlacklistUpdateDialog'): HTMLDialogElement | null;
-function $(id: string): Element | null;
-function $(id: string): Element | null {
+function $(id: string): HTMLElement | null;
+function $(id: string): HTMLElement | null {
   return document.getElementById(id) as HTMLElement | null;
 }
 
 class Main {
   blacklists: BlacklistAggregation | null = null;
+  blacklistUpdate: BlacklistUpdate | null = null;
   blockedEntryCount: number = 0;
   queuedEntries: HTMLElement[] = [];
-  blacklistUpdate: BlacklistUpdate | null = null;
 
   constructor() {
     (async () => {
@@ -81,19 +81,19 @@ class Main {
     insertRules(
       hideStyle.sheet as CSSStyleSheet,
       String.raw`
-      #ubHideButton {
-        display: none;
-      }
-      .ubBlockedEntry[data-ub-display="default"] {
-        display: none !important;
-      }
-      .ubBlockedEntry[data-ub-display="image"] {
-        visibility: hidden;
-      }
-      .ubUnblockButton {
-        display: none;
-      }
-    `,
+        #ubHideButton {
+          display: none;
+        }
+        .ubBlockedEntry[data-ub-display="default"] {
+          display: none !important;
+        }
+        .ubBlockedEntry[data-ub-display="image"] {
+          visibility: hidden;
+        }
+        .ubUnblockButton {
+          display: none;
+        }
+      `,
     );
 
     const showStyle = document.createElement('style');
@@ -101,28 +101,28 @@ class Main {
     insertRules(
       showStyle.sheet as CSSStyleSheet,
       String.raw`
-      #ubShowButton {
-        display: none;
-      }
-      #ubHideButton {
-        display: inline;
-      }
-      .ubBlockedEntry[data-ub-display="default"] {
-        display: block !important;
-      }
-      .ubBlockedEntry[data-ub-display="image"] {
-        visibility: visible;
-      }
-      .ubBlockedEntry, .ubBlockedEntry * {
-        background-color: #ffe0e0;
-      }
-      .ubBlockedEntry .ubBlockButton {
-        display: none;
-      }
-      .ubBlockedEntry .ubUnblockButton {
-        display: inline;
-      }
-    `,
+        #ubShowButton {
+          display: none;
+        }
+        #ubHideButton {
+          display: inline;
+        }
+        .ubBlockedEntry[data-ub-display="default"] {
+          display: block !important;
+        }
+        .ubBlockedEntry[data-ub-display="image"] {
+          visibility: visible;
+        }
+        .ubBlockedEntry, .ubBlockedEntry * {
+          background-color: #ffe0e0;
+        }
+        .ubBlockedEntry .ubBlockButton {
+          display: none;
+        }
+        .ubBlockedEntry .ubUnblockButton {
+          display: inline;
+        }
+      `,
     );
     showStyle.id = 'ubShowStyle';
     showStyle.sheet!.disabled = true;
@@ -135,16 +135,16 @@ class Main {
         insertRules(
           hideBlockLinksStyle.sheet as CSSStyleSheet,
           String.raw`
-          .ubBlockButton {
-            display: none;
-          }
-          .ubBlockedEntry .ubUnblockButton {
-            display: none;
-          }
-          .ubMobileAction {
-            display: none;
-          }
-        `,
+            .ubBlockButton {
+              display: none;
+            }
+            .ubBlockedEntry .ubUnblockButton {
+              display: none;
+            }
+            .ubMobileAction {
+              display: none;
+            }
+          `,
         );
       }
     })();
@@ -213,11 +213,11 @@ class Main {
     control.appendChild(showButton);
     control.appendChild(hideButton);
 
-    const resultStats = $('resultStats') as (HTMLDivElement | null);
+    const resultStats = $('resultStats') as HTMLDivElement | null;
     if (resultStats) {
       resultStats.appendChild(control);
     } else {
-      const abCtls = $('ab_ctls') as (HTMLOListElement | null);
+      const abCtls = $('ab_ctls') as HTMLOListElement | null;
       if (abCtls) {
         const li = document.createElement('li');
         li.className = 'ab_ctl';
