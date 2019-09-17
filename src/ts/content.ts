@@ -49,16 +49,28 @@ class Main {
     for (const record of records) {
       for (const node of record.addedNodes) {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const entryInfo = inspectEntry(node as HTMLElement);
-          if (entryInfo) {
-            this.setupEntry(entryInfo);
-            if (this.blacklists) {
-              this.judgeEntry(entryInfo.base);
-            } else {
-              this.queuedEntries.push(entryInfo.base);
+          const element = node as HTMLElement;
+          this.onElementAdded(element);
+
+          // Workaround for AutoPagerize
+          if (element.matches('p.autopagerize_page_info ~ div.bkWMgd')) {
+            for (const child of element.querySelectorAll<HTMLElement>('div.g')) {
+              this.onElementAdded(child);
             }
           }
         }
+      }
+    }
+  }
+
+  onElementAdded(element: HTMLElement): void {
+    const entryInfo = inspectEntry(element);
+    if (entryInfo) {
+      this.setupEntry(entryInfo);
+      if (this.blacklists) {
+        this.judgeEntry(entryInfo.base);
+      } else {
+        this.queuedEntries.push(entryInfo.base);
       }
     }
   }
