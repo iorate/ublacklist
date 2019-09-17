@@ -238,11 +238,10 @@ export function inspectEntry(elem: HTMLElement): InspectResult | null {
       }
       let actionParent!: HTMLElement;
       if (info.actionParent) {
-        const e = base.querySelector(':scope ' + info.actionParent);
-        if (!e) {
+        actionParent = base.querySelector(':scope ' + info.actionParent) as HTMLElement;
+        if (!actionParent) {
           continue;
         }
-        actionParent = e as HTMLElement;
       } else {
         actionParent = base;
       }
