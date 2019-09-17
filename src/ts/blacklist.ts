@@ -165,6 +165,14 @@ interface BlacklistUpdateParams {
   removedIndices: number[];
 }
 
+function suggestMatchPattern(url: AltURL): string {
+  if (url.scheme === 'http' || url.scheme === 'https') {
+    return `*://${url.host}/*`;
+  } else {
+    return `${url.scheme}://${url.host}/*`;
+  }
+}
+
 function acceptsAdded(params: BlacklistUpdateParams, added: string): boolean {
   const blacklist = new Blacklist(added);
   if (params.unblock) {
@@ -213,20 +221,20 @@ export class BlacklistAggregation {
         !this.user.blocks(url) &&
         (this.subscription.unblocks(url) || !this.subscription.blocks(url))
       ) {
-        params.added = `*://${url.host}/*`;
+        params.added = suggestMatchPattern(url);
       }
     } else {
       this.initializeRemoved(params, this.user.blockRules);
       if (params.removedIndices.length) {
         params.unblock = true;
         if (!this.subscription.unblocks(url) && this.subscription.blocks(url)) {
-          params.added = `@*://${url.host}/*`;
+          params.added = `@${suggestMatchPattern(url)}`;
         }
       } else if (this.subscription.unblocks(url) || !this.subscription.blocks(url)) {
-        params.added = `*://${url.host}/*`;
+        params.added = suggestMatchPattern(url);
       } else {
         params.unblock = true;
-        params.added = `@*://${url.host}/*`;
+        params.added = `@${suggestMatchPattern(url)}`;
       }
     }
     return params;
@@ -351,7 +359,7 @@ export class BlacklistUpdate {
   }
 
   start(blacklists: BlacklistAggregation, url: AltURL, onFinish?: () => void): void {
-    if (/^https?|ftp$/.test(url.toString())) {
+    if (/^(https?|ftp)$/.test(url.scheme)) {
       this.blacklists = blacklists;
       this.params = blacklists.preUpdate(url);
       this.onFinish = onFinish || null;
