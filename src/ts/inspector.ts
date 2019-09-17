@@ -3,10 +3,10 @@ interface EntryInfo {
   target: string;
   targetDepth: number;
   pageLink: string;
-  pageLinkType: 'default' | 'image' | 'query';
+  pageLinkType: 'default' | 'imageSearch' | 'query';
   actionParent: string;
   actionClass: string;
-  display: 'default' | 'image';
+  display: 'default' | 'imageSearch';
 }
 
 const ENTRY_INFO: EntryInfo[] = [
@@ -79,17 +79,6 @@ const ENTRY_INFO: EntryInfo[] = [
     actionParent: '> div.s > div:first-child',
     actionClass: 'ubDefaultAction',
     display: 'default',
-  },
-  {
-    id: 'Search.Image',
-    target:
-      'div#iur > div.kno-ibrg > div > div.img-brk > div.birrg > div.rg_el.ivg-i > div.rg_meta.notranslate',
-    targetDepth: 1,
-    pageLink: '> div.rg_meta.notranslate',
-    pageLinkType: 'image',
-    actionParent: '',
-    actionClass: 'ubImageAction',
-    display: 'image',
   },
   {
     id: 'Search.Latest',
@@ -183,10 +172,10 @@ const ENTRY_INFO: EntryInfo[] = [
     target: 'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
     targetDepth: 0,
     pageLink: '> div.rg_meta.notranslate',
-    pageLinkType: 'image',
+    pageLinkType: 'imageSearch',
     actionParent: '',
     actionClass: 'ubImageSearchAction',
-    display: 'image',
+    display: 'imageSearch',
   },
   {
     id: 'NewsSearch.Default',
@@ -205,7 +194,7 @@ export interface InspectResult {
   pageUrl: string;
   actionParent: HTMLElement;
   actionClass: string;
-  display: 'default' | 'image';
+  display: 'default' | 'imageSearch';
 }
 
 export function inspectEntry(elem: HTMLElement): InspectResult | null {
@@ -215,12 +204,12 @@ export function inspectEntry(elem: HTMLElement): InspectResult | null {
       for (let i = 0; i < info.targetDepth; ++i) {
         base = base.parentNode as HTMLElement;
       }
-      const pageLink = base.querySelector(':scope ' + info.pageLink);
+      const pageLink = base.querySelector(':scope ' + info.pageLink) as HTMLElement;
       if (!pageLink) {
         continue;
       }
       let pageUrl!: string;
-      if (info.pageLinkType === 'image') {
+      if (info.pageLinkType === 'imageSearch') {
         const m = /"ru":"([^"]+)"/.exec(pageLink.textContent!);
         if (!m) {
           continue;
@@ -244,20 +233,6 @@ export function inspectEntry(elem: HTMLElement): InspectResult | null {
         }
       } else {
         actionParent = base;
-      }
-
-      if (info.id === 'Search.Image') {
-        const m = /([0-9]+)px/.exec(base.style.height!);
-        if (!m) {
-          continue;
-        }
-        const height = Number(m[1]);
-        base.style.height = String(height + 13) + 'px';
-        const image = base.querySelector(':scope > a.bia > g-img > img') as HTMLImageElement | null;
-        if (!image) {
-          continue;
-        }
-        image.style.height = String(height) + 'px';
       }
 
       return { base, pageUrl, actionParent, actionClass: info.actionClass, display: info.display };

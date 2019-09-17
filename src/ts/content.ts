@@ -99,7 +99,7 @@ class Main {
         .ubBlockedEntry[data-ub-display="default"] {
           display: none !important;
         }
-        .ubBlockedEntry[data-ub-display="image"] {
+        .ubBlockedEntry[data-ub-display="imageSearch"] {
           visibility: hidden;
         }
         .ubUnblockButton {
@@ -122,7 +122,7 @@ class Main {
         .ubBlockedEntry[data-ub-display="default"] {
           display: block !important;
         }
-        .ubBlockedEntry[data-ub-display="image"] {
+        .ubBlockedEntry[data-ub-display="imageSearch"] {
           visibility: visible;
         }
         .ubBlockedEntry, .ubBlockedEntry * {
