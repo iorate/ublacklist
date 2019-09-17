@@ -48,7 +48,7 @@ class Main {
     }
     for (const record of records) {
       for (const node of record.addedNodes) {
-        if (node.nodeType == Node.ELEMENT_NODE) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
           const entryInfo = inspectEntry(node as HTMLElement);
           if (entryInfo) {
             this.setupEntry(entryInfo);
@@ -278,7 +278,7 @@ class Main {
     if (control) {
       if (this.blockedEntryCount) {
         $('ubStats')!.textContent =
-          this.blockedEntryCount == 1
+          this.blockedEntryCount === 1
             ? chrome.i18n.getMessage('content_singleSiteBlocked')
             : chrome.i18n.getMessage(
                 'content_multipleSitesBlocked',
