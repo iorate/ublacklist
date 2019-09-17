@@ -16,25 +16,23 @@ summary {
   outline: none;
 }
 
-h1,
-details,
-details[open] > summary,
+summary,
+#details,
 #title,
 #url {
   margin-bottom: 0.75rem;
-}
-
-#title {
-  background: url('../img/icon-128.png') left/2rem no-repeat;
-  height: 1.625rem;
-  padding: 0.375rem 0 0 2.5rem;
-  vertical-align: middle;
 }
 
 #body {
   font-family: arial, sans-serif;
   font-size: 1rem;
   padding: 1rem;
+}
+
+#title {
+  background: url('../img/icon-128.png') left/2rem no-repeat;
+  line-height: 2rem;
+  padding-left: 2.5rem;
 }
 
 #url {
