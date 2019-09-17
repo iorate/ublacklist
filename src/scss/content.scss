@@ -5,6 +5,7 @@
 #ubBlacklistUpdateDialog {
   border: solid 1px lightgrey;
   padding: 0;
+  width: 360px;
 }
 
 #ubImageSearchControl {
@@ -86,16 +87,4 @@
 #ubUnblockSelect {
   margin: 0 6px;
   width: 280px;
-}
-
-@media screen and (max-width: 400px) {
-  #ubBlockForm > button,
-  #ubUnblockForm > button {
-    display: block;
-    margin: 0 auto;
-  }
-  #ubBlockInput,
-  #ubUnblockSelect {
-    display: block;
-  }
 }
