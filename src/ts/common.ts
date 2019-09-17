@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 // #region Utilities
 
 export function lines(s: string): string[] {
@@ -39,7 +37,7 @@ export function errorResult(message: string): ErrorResult {
 export function successResult(): SuccessResult {
   return {
     type: 'success',
-    timestamp: dayjs().toISOString(),
+    timestamp: new Date().toISOString(),
   };
 }
 
@@ -84,7 +82,7 @@ export type OptionsFor<T extends (keyof Options)[]> = { [Key in T[number]]: Opti
 
 const defaultOptions: Options = {
   blacklist: '',
-  timestamp: dayjs(0).toISOString(),
+  timestamp: new Date(0).toISOString(),
   sync: false,
   syncResult: null,
   subscriptions: {},
