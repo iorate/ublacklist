@@ -29,7 +29,7 @@ const enum HostMatch {
 }
 const enum PathMatch {
   Any,
-  Exact,
+  PartialOrExact,
 }
 
 class MatchPattern {
@@ -59,7 +59,7 @@ class MatchPattern {
     if (path === '/*') {
       this.pathMatch = PathMatch.Any;
     } else {
-      this.pathMatch = PathMatch.Exact;
+      this.pathMatch = PathMatch.PartialOrExact;
       this.path = new RegExp(
         `^${path.replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*')}$`,
       );
@@ -85,7 +85,7 @@ class MatchPattern {
         return false;
       }
     }
-    if (this.pathMatch === PathMatch.Exact) {
+    if (this.pathMatch === PathMatch.PartialOrExact) {
       if (!this.path!.test(url.path)) {
         return false;
       }
@@ -281,10 +281,8 @@ export class BlacklistUpdate {
   private $added: HTMLTextAreaElement;
   private $removed: HTMLTextAreaElement;
   private $update: HTMLButtonElement;
-  private onClose: () => void;
 
-  constructor(host: HTMLElement, onClose: () => void) {
-    this.onClose = onClose;
+  constructor(host: HTMLElement, closeParent: () => void) {
     const root = host.attachShadow({ mode: 'open' });
     root.innerHTML = `
       <style>
@@ -326,19 +324,21 @@ export class BlacklistUpdate {
         </div>
       </div>
     `;
+
     this.$title = root.getElementById('title') as HTMLHeadingElement;
     this.$url = root.getElementById('url') as HTMLParagraphElement;
     this.$details = root.getElementById('details') as HTMLDetailsElement;
     this.$added = root.getElementById('added') as HTMLTextAreaElement;
     this.$removed = root.getElementById('removed') as HTMLTextAreaElement;
     this.$update = root.getElementById('update') as HTMLButtonElement;
+
     this.$added.addEventListener('input', () => {
       if (this.params) {
         this.$update.disabled = !acceptsAdded(this.params, this.$added.value);
       }
     });
     root.getElementById('cancel')!.addEventListener('click', () => {
-      this.onClose();
+      closeParent();
     });
     this.$update.addEventListener('click', () => {
       this.params!.added = this.$added.value;
@@ -346,7 +346,7 @@ export class BlacklistUpdate {
       if (this.onFinish) {
         this.onFinish();
       }
-      this.onClose();
+      closeParent();
     });
   }
 
