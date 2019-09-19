@@ -14,6 +14,7 @@ const manifest = {
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',
+      strict_min_version: '63.0', // Shadow DOM is required.
     },
   },
   // #endif
@@ -47,7 +48,7 @@ const manifest = {
     page: 'options.html',
   },
   permissions: ['activeTab', 'identity', 'storage'],
-  version: '3.0.2',
+  version: '3.1.0',
   content_scripts: [
     {
       css: ['css/content.css'],

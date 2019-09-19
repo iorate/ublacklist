@@ -22,7 +22,6 @@ module.exports = {
   entry: {
     'css/content': './scss/content.scss',
     'css/options': './scss/options.scss',
-    'css/popup': './scss/popup.scss',
     'js/background': './ts/background.ts',
     'js/content': './ts/content.ts',
     'js/options': './ts/options.ts',
@@ -44,6 +43,10 @@ module.exports = {
           'val-loader',
           ifdefLoader,
         ],
+      },
+      {
+        test: /\.png/,
+        use: ['url-loader'],
       },
       {
         test: /\.scss$/,
@@ -92,7 +95,13 @@ module.exports = {
       extensions: ['json.js', 'scss'],
       silent: true,
     }),
-    new LicenseCheckerWebpackPlugin(),
+    new LicenseCheckerWebpackPlugin({
+      override: {
+        'dialog-polyfill@0.5.0': {
+          licenseName: 'BSD-3-Clause',
+        },
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
     }),

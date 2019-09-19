@@ -51,6 +51,21 @@
   "popup_unblockSiteTitle": {
     "message": "このサイトのブロックを解除する"
   },
+  "popup_details": {
+    "message": "詳細"
+  },
+  "popup_addedRulesLabel": {
+    "message": "追加されるルール"
+  },
+  "popup_removedRulesLabel": {
+    "message": "削除されるルール"
+  },
+  "popup_blockSiteButton": {
+    "message": "ブロック"
+  },
+  "popup_unblockSiteButton": {
+    "message": "ブロックを解除"
+  },
   "popup_siteBlockedBySubscription": {
     "message": "$NAME$ によりブロックされています",
     "placeholders": {

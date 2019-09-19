@@ -3,6 +3,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/ru';
 import 'dayjs/locale/tr';
+import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/zh-tw';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {
@@ -74,8 +75,8 @@ function $(id: 'showSubscriptionDialog_background'): HTMLDivElement;
 function $(id: 'showSubscriptionDialog_name'): HTMLParagraphElement;
 function $(id: 'showSubscriptionDialog_blacklist'): HTMLTextAreaElement;
 function $(id: 'showSubscriptionDialog_ok'): HTMLButtonElement;
-function $(id: string): HTMLElement {
-  return document.getElementById(id) as HTMLElement;
+function $(id: string): Element | null {
+  return document.getElementById(id) as Element | null;
 }
 
 const $blacklist = $('blacklist');
