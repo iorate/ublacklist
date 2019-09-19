@@ -54,6 +54,9 @@
   "popup_details": {
     "message": "詳細"
   },
+  "popup_pageURLLabel": {
+    "message": "ページの URL"
+  },
   "popup_addedRulesLabel": {
     "message": "追加されるルール"
   },
@@ -81,7 +84,7 @@
     "message": "Google の検索結果で表示されないようにするサイト"
   },
   "options_blacklistHelper": {
-    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\">正規表現</a>が使用できます。"
+    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">正規表現</a>が使用できます。"
   },
   "options_importBlacklistButton": {
     "message": "Personal Blocklist からインポートする"

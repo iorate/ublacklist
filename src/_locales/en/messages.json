@@ -69,15 +69,19 @@
   },
   "popup_details": {
     "message": "Details",
-    "description": "The text of a disclosure widget containing details."
+    "description": "The title of the disclosure widget that contains the details."
+  },
+  "popup_pageURLLabel": {
+    "message": "Page URL",
+    "description": "The label for the input that shows a page URL."
   },
   "popup_addedRulesLabel": {
     "message": "Rules to be added",
-    "description": "The label for the textarea of rules to be added."
+    "description": "The label for the textarea that shows rules to be added."
   },
   "popup_removedRulesLabel": {
     "message": "Rules to be removed",
-    "description": "The label for the textarea of rules to be removed."
+    "description": "The label for the textarea that shows rules to be removed."
   },
   "popup_blockSiteButton": {
     "message": "Block",
@@ -106,7 +110,7 @@
     "description": "The label for the blacklist textarea."
   },
   "options_blacklistHelper": {
-    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">regular expressions</a>.",
+    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">regular expressions</a>.",
     "description": "The helper text for the blacklist textarea."
   },
   "options_importBlacklistButton": {

@@ -54,6 +54,9 @@
   "popup_details": {
     "message": "Details"
   },
+  "popup_pageURLLabel": {
+    "message": "Page URL"
+  },
   "popup_addedRulesLabel": {
     "message": "Rules to be added"
   },
@@ -81,7 +84,7 @@
     "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
   },
   "options_blacklistHelper": {
-    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\">регулярные выражения</a>."
+    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярные выражения</a>."
   },
   "options_importBlacklistButton": {
     "message": "Импорт из расширения Personal Blocklist"
