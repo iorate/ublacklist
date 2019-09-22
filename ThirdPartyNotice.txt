@@ -3,7 +3,7 @@ Do Not Translate or Localize
 
 
 --------------------------------------------------------------------------------
-@mdi/svg v3.8.95 - Austin Andrews
+@mdi/svg v4.4.95 - Austin Andrews
 git+https://github.com/Templarian/MaterialDesign-SVG.git
 --------------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ For more information:
 https://github.com/Templarian/MaterialDesign/blob/master/LICENSE
 
 --------------------------------------------------------------------------------
-@types/chrome v0.0.86
+@types/chrome v0.0.88
 git+https://github.com/DefinitelyTyped/DefinitelyTyped.git
 --------------------------------------------------------------------------------
 
@@ -265,7 +265,7 @@ SOFTWARE
 
 
 --------------------------------------------------------------------------------
-@types/node v12.6.8
+@types/node v12.7.5
 git+https://github.com/DefinitelyTyped/DefinitelyTyped.git
 --------------------------------------------------------------------------------
 
@@ -433,7 +433,7 @@ SOFTWARE.
 
 
 --------------------------------------------------------------------------------
-css-loader v3.0.0 - Tobias Koppers @sokra
+css-loader v3.2.0 - Tobias Koppers @sokra
 git+https://github.com/webpack-contrib/css-loader.git
 --------------------------------------------------------------------------------
 
@@ -460,7 +460,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 --------------------------------------------------------------------------------
-dayjs v1.8.14 - iamkun
+dayjs v1.8.16 - iamkun
 git+https://github.com/iamkun/dayjs.git
 --------------------------------------------------------------------------------
 
@@ -522,7 +522,7 @@ git+https://github.com/GoogleChrome/dialog-polyfill.git
 
 
 --------------------------------------------------------------------------------
-typescript v3.5.2 - Microsoft Corp.
+typescript v3.6.3 - Microsoft Corp.
 git+https://github.com/Microsoft/TypeScript.git
 --------------------------------------------------------------------------------
 

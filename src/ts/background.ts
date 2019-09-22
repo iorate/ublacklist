@@ -13,7 +13,7 @@ import {
   BackgroundPage,
 } from './common';
 
-const backgroundPage = window as BackgroundPage;
+const backgroundPage = window as Window as BackgroundPage;
 
 class Mutex {
   private queue: (() => Promise<void>)[] = [];
