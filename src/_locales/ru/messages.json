@@ -52,22 +52,22 @@
     "message": "Разблокировать сайт"
   },
   "popup_details": {
-    "message": "Details"
+    "message": "Подробности"
   },
   "popup_pageURLLabel": {
-    "message": "Page URL"
+    "message": "URL страницы"
   },
   "popup_addedRulesLabel": {
-    "message": "Rules to be added"
+    "message": "Правила, которые будут добавлены"
   },
   "popup_removedRulesLabel": {
-    "message": "Rules to be removed"
+    "message": "Правила, которые будут удалены"
   },
   "popup_blockSiteButton": {
-    "message": "Block"
+    "message": "Заблокировать"
   },
   "popup_unblockSiteButton": {
-    "message": "Unblock"
+    "message": "Разблокировать"
   },
   "popup_siteBlockedBySubscription": {
     "message": "Заблокирован подпиской $NAME$",
@@ -84,7 +84,7 @@
     "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
   },
   "options_blacklistHelper": {
-    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">шаблоны</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярные выражения</a>."
+    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">шаблоны совпадения</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярные выражения</a>."
   },
   "options_importBlacklistButton": {
     "message": "Импорт из расширения Personal Blocklist"
