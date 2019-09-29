@@ -52,22 +52,22 @@
     "message": "取消禁止这个网站"
   },
   "popup_details": {
-    "message": "Details"
+    "message": "详情"
   },
   "popup_pageURLLabel": {
-    "message": "Page URL"
+    "message": "页面 URL"
   },
   "popup_addedRulesLabel": {
-    "message": "Rules to be added"
+    "message": "要添加的规则"
   },
   "popup_removedRulesLabel": {
-    "message": "Rules to be removed"
+    "message": "要移除的规则"
   },
   "popup_blockSiteButton": {
-    "message": "Block"
+    "message": "确定"
   },
   "popup_unblockSiteButton": {
-    "message": "Unblock"
+    "message": "移除"
   },
   "popup_siteBlockedBySubscription": {
     "message": "通过 $NAME$ 禁止。",
