@@ -22,45 +22,35 @@ class Main {
 
   constructor() {
     (async () => {
-      this.onBlacklistsLoaded(await loadBlacklists());
+      this.blacklists = await loadBlacklists();
+      for (const entry of this.queuedEntries) {
+        this.judgeEntry(entry);
+      }
+      this.queuedEntries.length = 0;
     })();
 
     new MutationObserver(records => {
-      this.onDOMContentMutated(records);
-    }).observe(document.documentElement, { childList: true, subtree: true });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      this.onDOMContentLoaded();
-    });
-  }
-
-  onBlacklistsLoaded(blacklists: BlacklistAggregation): void {
-    this.blacklists = blacklists;
-    for (const entry of this.queuedEntries) {
-      this.judgeEntry(entry);
-    }
-    this.queuedEntries.length = 0;
-  }
-
-  onDOMContentMutated(records: MutationRecord[]): void {
-    if (!$('ubShowStyle') && document.head) {
-      this.setupStyleSheets();
-    }
-    for (const record of records) {
-      for (const node of record.addedNodes) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const element = node as HTMLElement;
-          this.onElementAdded(element);
-
-          // Workaround for AutoPagerize
-          if (element.matches('p.autopagerize_page_info ~ div.bkWMgd')) {
-            for (const child of element.querySelectorAll<HTMLElement>('div.g')) {
-              this.onElementAdded(child);
-            }
+      if (!$('ubShowStyle') && document.head) {
+        this.setupStyleSheets();
+      }
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            this.onElementAdded(node as HTMLElement);
           }
         }
       }
-    }
+    }).observe(document.documentElement, { childList: true, subtree: true });
+    document.addEventListener('AutoPagerize_DOMNodeInserted', e => {
+      for (const element of (e.target as HTMLElement).querySelectorAll<HTMLElement>('.g')) {
+        this.onElementAdded(element);
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      this.setupControl();
+      this.setupBlacklistUpdateDialog();
+    });
   }
 
   onElementAdded(element: HTMLElement): void {
@@ -73,11 +63,6 @@ class Main {
         this.queuedEntries.push(entryInfo.base);
       }
     }
-  }
-
-  onDOMContentLoaded(): void {
-    this.setupControl();
-    this.setupBlockDialogs();
   }
 
   setupStyleSheets(): void {
@@ -244,7 +229,7 @@ class Main {
     this.updateControl();
   }
 
-  setupBlockDialogs(): void {
+  setupBlacklistUpdateDialog(): void {
     const blacklistUpdateDialog = document.createElement('dialog');
     // #if BROWSER === 'firefox'
     dialogPolyfill.registerDialog(blacklistUpdateDialog);

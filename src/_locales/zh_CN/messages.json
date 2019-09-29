@@ -54,6 +54,9 @@
   "popup_details": {
     "message": "Details"
   },
+  "popup_pageURLLabel": {
+    "message": "Page URL"
+  },
   "popup_addedRulesLabel": {
     "message": "Rules to be added"
   },
@@ -81,7 +84,7 @@
     "message": "以下网站将不会显示在 Google 的搜索结果中："
   },
   "options_blacklistHelper": {
-    "message": "你可以使用 <a href=\"https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions\">正则表达式</a>。"
+    "message": "你可以使用 <a href=\"https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">正则表达式</a>。"
   },
   "options_importBlacklistButton": {
     "message": "从 Personal Blocklist 导入网站黑名单"

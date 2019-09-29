@@ -54,6 +54,9 @@
   "popup_details": {
     "message": "Details"
   },
+  "popup_pageURLLabel": {
+    "message": "Page URL"
+  },
   "popup_addedRulesLabel": {
     "message": "Rules to be added"
   },
@@ -81,7 +84,7 @@
     "message": "Google arama sonuçlarında görünmesi engellenen siteler"
   },
   "options_blacklistHelper": {
-    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\">düzenli ifadeler</a> kullanabilirsiniz."
+    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">düzenli ifadeler</a> kullanabilirsiniz."
   },
   "options_importBlacklistButton": {
     "message": "Personal Blocklist'ten içe aktar"

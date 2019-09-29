@@ -11,20 +11,9 @@ $title-weight: normal;
 @import '~bulma/sass/elements/button.sass';
 @import '~bulma/sass/elements/title.sass';
 
-summary {
-  cursor: pointer;
-  outline: none;
-}
-
-summary,
-#details,
-#title,
-#url {
-  margin-bottom: 0.75rem;
-}
-
 #body {
-  font-family: arial, sans-serif;
+  color: $body-color;
+  font-family: $body-family;
   font-size: 1rem;
   padding: 1rem;
 }
@@ -32,12 +21,24 @@ summary,
 #title {
   background: url('../img/icon-128.png') left/2rem no-repeat;
   line-height: 2rem;
+  margin-bottom: 0.75rem;
   padding-left: 2.5rem;
 }
 
-#url {
-  font-size: 1.125rem;
+#origin {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
   word-break: break-all;
+}
+
+#details {
+  margin-bottom: 0.75rem;
+}
+
+summary {
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  outline: none;
 }
 
 .button[disabled] {

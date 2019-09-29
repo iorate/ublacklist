@@ -279,30 +279,46 @@ export async function loadBlacklists(): Promise<BlacklistAggregation> {
 }
 
 export class BlacklistUpdate {
+  private root: ShadowRoot;
+
+  private $(id: 'title'): HTMLHeadingElement;
+  private $(id: 'origin'): HTMLParagraphElement;
+  private $(id: 'details'): HTMLDetailsElement;
+  private $(id: 'url'): HTMLInputElement;
+  private $(id: 'added'): HTMLTextAreaElement;
+  private $(id: 'addedHelper'): HTMLParagraphElement;
+  private $(id: 'removed'): HTMLTextAreaElement;
+  private $(id: 'cancel'): HTMLButtonElement;
+  private $(id: 'update'): HTMLButtonElement;
+  private $(id: string): HTMLElement {
+    return this.root.getElementById(id) as HTMLElement;
+  }
+
   private blacklists: BlacklistAggregation | null = null;
   private params: BlacklistUpdateParams | null = null;
   private onFinish: (() => void) | null = null;
 
-  private $title: HTMLHeadingElement;
-  private $url: HTMLParagraphElement;
-  private $details: HTMLDetailsElement;
-  private $added: HTMLTextAreaElement;
-  private $removed: HTMLTextAreaElement;
-  private $update: HTMLButtonElement;
-
   constructor(host: HTMLElement, closeParent: () => void) {
-    const root = host.attachShadow({ mode: 'open' });
-    root.innerHTML = `
+    this.root = host.attachShadow({ mode: 'open' });
+    this.root.innerHTML = `
       <style>
         ${blacklistUpdateStyle.toString()}
       </style>
       <div id="body">
         <h1 id="title" class="title"></h1>
-        <p id="url"></p>
+        <p id="origin"></p>
         <details id="details">
           <summary>
             ${chrome.i18n.getMessage('popup_details')}
           </summary>
+          <div class="field">
+            <label class="label" for="url">
+              ${chrome.i18n.getMessage('popup_pageURLLabel')}
+            </label>
+            <div class="control">
+              <input id="url" class="input" readonly>
+            </div>
+          </div>
           <div class="field">
             <label class="label" for="added">
               ${chrome.i18n.getMessage('popup_addedRulesLabel')}
@@ -310,6 +326,9 @@ export class BlacklistUpdate {
             <div class="control">
               <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
             </div>
+            <p id="addedHelper" class="help has-text-grey">
+              ${chrome.i18n.getMessage('options_blacklistHelper')}
+            </p>
           </div>
           <div class="field">
             <label class="label" for="removed">
@@ -332,24 +351,19 @@ export class BlacklistUpdate {
         </div>
       </div>
     `;
-
-    this.$title = root.getElementById('title') as HTMLHeadingElement;
-    this.$url = root.getElementById('url') as HTMLParagraphElement;
-    this.$details = root.getElementById('details') as HTMLDetailsElement;
-    this.$added = root.getElementById('added') as HTMLTextAreaElement;
-    this.$removed = root.getElementById('removed') as HTMLTextAreaElement;
-    this.$update = root.getElementById('update') as HTMLButtonElement;
-
-    this.$added.addEventListener('input', () => {
-      if (this.params) {
-        this.$update.disabled = !acceptsAdded(this.params, this.$added.value);
+    this.$('details').addEventListener('toggle', () => {
+      if (this.$('details').open && this.params && !this.params.unblock) {
+        this.$('added').focus();
       }
     });
-    root.getElementById('cancel')!.addEventListener('click', () => {
+    this.$('added').addEventListener('input', () => {
+      this.$('update').disabled = !acceptsAdded(this.params!, this.$('added').value);
+    });
+    this.$('cancel').addEventListener('click', () => {
       closeParent();
     });
-    this.$update.addEventListener('click', () => {
-      this.params!.added = this.$added.value;
+    this.$('update').addEventListener('click', () => {
+      this.params!.added = this.$('added').value;
       this.blacklists!.update(this.params!);
       if (this.onFinish) {
         this.onFinish();
@@ -359,20 +373,24 @@ export class BlacklistUpdate {
   }
 
   start(blacklists: BlacklistAggregation, url: AltURL, onFinish?: () => void): void {
+    this.$('origin').textContent = `${url.scheme}://${url.host}`;
+    this.$('details').open = false;
+    this.$('url').value = url.toString();
+
     if (/^(https?|ftp)$/.test(url.scheme)) {
       this.blacklists = blacklists;
       this.params = blacklists.preUpdate(url);
       this.onFinish = onFinish || null;
 
-      this.$title.textContent = chrome.i18n.getMessage(
+      this.$('title').textContent = chrome.i18n.getMessage(
         this.params!.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
       );
-      this.$url.textContent = url.toString();
-      this.$details.open = false;
-      this.$added.value = this.params!.added;
-      this.$removed.value = this.params!.removed;
-      this.$update.disabled = false;
-      this.$update.textContent = chrome.i18n.getMessage(
+      this.$('added').readOnly = this.params!.unblock;
+      this.$('added').value = this.params!.added;
+      this.$('addedHelper').classList.toggle('is-hidden', this.params!.unblock);
+      this.$('removed').value = this.params!.removed;
+      this.$('update').disabled = false;
+      this.$('update').textContent = chrome.i18n.getMessage(
         this.params!.unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton',
       );
     } else {
@@ -380,13 +398,13 @@ export class BlacklistUpdate {
       this.params = null;
       this.onFinish = null;
 
-      this.$title.textContent = chrome.i18n.getMessage('popup_blockSiteTitle');
-      this.$url.textContent = url.toString();
-      this.$details.open = false;
-      this.$added.value = '';
-      this.$removed.value = '';
-      this.$update.disabled = true;
-      this.$update.textContent = chrome.i18n.getMessage('popup_blockSiteButton');
+      this.$('title').textContent = chrome.i18n.getMessage('popup_blockSiteTitle');
+      this.$('added').readOnly = true;
+      this.$('added').value = '';
+      this.$('addedHelper').classList.add('is-hidden');
+      this.$('removed').value = '';
+      this.$('update').disabled = true;
+      this.$('update').textContent = chrome.i18n.getMessage('popup_blockSiteButton');
     }
   }
 }
