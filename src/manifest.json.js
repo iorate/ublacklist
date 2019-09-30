@@ -31,12 +31,6 @@ const manifest = {
   // #endif
   manifest_version: 2,
   name: '__MSG_extensionName__',
-  // #if BROWSER === 'chrome'
-  oauth2: {
-    client_id: '304167046827-ordtvt68qt83fabg1k7blqeagicu68du.apps.googleusercontent.com',
-    scopes: ['https://www.googleapis.com/auth/drive.file'],
-  },
-  // #endif
   optional_permissions: ['*://*/*'],
   options_ui: {
     // #if BROWSER === 'firefox'

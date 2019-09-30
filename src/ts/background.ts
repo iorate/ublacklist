@@ -13,7 +13,7 @@ import {
   BackgroundPage,
 } from './common';
 
-const backgroundPage = window as Window as BackgroundPage;
+const backgroundPage = (window as Window) as BackgroundPage;
 
 class Mutex {
   private queue: (() => Promise<void>)[] = [];
@@ -350,36 +350,16 @@ backgroundPage.updateAllSubscriptions = async function(): Promise<void> {
 
 // #region Auth
 
-// #if BROWSER === 'chrome'
-// For Chrome, simply use 'chrome.identity.getAuthToken'.
-backgroundPage.getAuthToken = function(interactive: boolean): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    chrome.identity.getAuthToken({ interactive }, token => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(token);
-      }
-    });
-  });
-};
-
-backgroundPage.removeCachedAuthToken = function(token: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    chrome.identity.removeCachedAuthToken({ token }, () => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve();
-      }
-    });
-  });
-};
-// #else
-// For Firefox, use 'browser.identity.launchWebAuthFlow' instead.
+// 'chrome.identity.getAuthToken' seems unsupported by Chromium-based browsers other than Chrome.
+// Always use 'chrome.identity.launchWebAuthFlow'.
 // See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
-const clientId = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
-const scope = 'https://www.googleapis.com/auth/drive.file';
+
+// #if BROWSER === 'chrome'
+const OAUTH2_CLIENT_ID = '304167046827-aqukv3fe891j0f9cu94i5aljhsecgpen.apps.googleusercontent.com';
+// #elif BROWSER === 'firefox'
+const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
+// #endif
+const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
 interface AuthCache {
   token: string;
@@ -396,11 +376,19 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
     }
     const authURL =
       'https://accounts.google.com/o/oauth2/auth' +
-      `?client_id=${clientId}` +
+      `?client_id=${OAUTH2_CLIENT_ID}` +
       '&response_type=token' +
-      `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}` +
-      `&scope=${encodeURIComponent(scope)}`;
-    const redirectURL = await browser.identity.launchWebAuthFlow({ url: authURL, interactive });
+      `&redirect_uri=${encodeURIComponent(chrome.identity.getRedirectURL())}` +
+      `&scope=${encodeURIComponent(OAUTH2_SCOPE)}`;
+    const redirectURL = await new Promise<string>((resolve, reject) => {
+      chrome.identity.launchWebAuthFlow({ url: authURL, interactive }, redirectURL => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(redirectURL);
+        }
+      });
+    });
     const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
     if (params.has('error')) {
       throw new Error(params.get('error')!);
@@ -418,7 +406,6 @@ backgroundPage.removeCachedAuthToken = async function(token: string): Promise<vo
     authCache = null;
   }
 };
-// #endif
 
 // #endregion Auth
 
