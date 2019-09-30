@@ -1,4 +1,7 @@
 import dayjs from 'dayjs';
+// #if BROWSER === 'chrome'
+import { UAParser } from 'ua-parser-js';
+// #endif
 import {
   ISOString,
   errorResult,
@@ -350,16 +353,16 @@ backgroundPage.updateAllSubscriptions = async function(): Promise<void> {
 
 // #region Auth
 
-// 'chrome.identity.getAuthToken' seems unsupported by Chromium-based browsers other than Chrome.
-// Always use 'chrome.identity.launchWebAuthFlow'.
-// See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
-
 // #if BROWSER === 'chrome'
 const OAUTH2_CLIENT_ID = '304167046827-aqukv3fe891j0f9cu94i5aljhsecgpen.apps.googleusercontent.com';
 // #elif BROWSER === 'firefox'
 const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
 // #endif
 const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
+
+// #if BROWSER === 'chrome'
+const isChrome = new UAParser(navigator.userAgent).getBrowser().name === 'Chrome';
+// #endif
 
 interface AuthCache {
   token: string;
@@ -370,6 +373,19 @@ let authCache: AuthCache | null = null;
 const authCacheMutex = new Mutex();
 
 backgroundPage.getAuthToken = async function(interactive: boolean): Promise<string> {
+  // #if BROWSER === 'chrome'
+  if (isChrome) {
+    return new Promise<string>((resolve, reject) => {
+      chrome.identity.getAuthToken({ interactive }, token => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(token);
+        }
+      });
+    });
+  }
+  // #endif
   return await authCacheMutex.lock(async () => {
     if (authCache && dayjs().isBefore(authCache.expirationDate)) {
       return authCache.token;
@@ -402,6 +418,19 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
 };
 
 backgroundPage.removeCachedAuthToken = async function(token: string): Promise<void> {
+  // #if BROWSER === 'chrome'
+  if (isChrome) {
+    return new Promise<void>((resolve, reject) => {
+      chrome.identity.removeCachedAuthToken({ token }, () => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+  // #endif
   if (authCache && token === authCache.token) {
     authCache = null;
   }
