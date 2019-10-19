@@ -184,5 +184,18 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "Add"
+  },
+  "options_extraSiteSupportTitle": {
+    "message": "支援額外的網站"
+  },
+  "options_extraSiteSupportDescription": {
+    "message": "你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站"
+  },
+  "options_enableSite": {
+    "message": "啟用",
+    "description": "The text of enable extra site support"
+  },
+  "options_enabled": {
+    "message": "已啟用"
   }
 }
