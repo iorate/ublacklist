@@ -9,7 +9,7 @@
     "message": "zh-tw"
   },
   "error": {
-    "message": "Error: $MESSAGE$",
+    "message": "錯誤: $MESSAGE$",
     "placeholders": {
       "message": {
         "content": "$1"
@@ -17,7 +17,7 @@
     }
   },
   "cancelButton": {
-    "message": "Cancel"
+    "message": "取消"
   },
   "okButton": {
     "message": "確定"
@@ -52,25 +52,25 @@
     "message": "解除封鎖這個網站"
   },
   "popup_details": {
-    "message": "Details"
+    "message": "詳細"
   },
   "popup_pageURLLabel": {
-    "message": "Page URL"
+    "message": "網頁 URL"
   },
   "popup_addedRulesLabel": {
-    "message": "Rules to be added"
+    "message": "要加入的規則"
   },
   "popup_removedRulesLabel": {
-    "message": "Rules to be removed"
+    "message": "要刪除的規則"
   },
   "popup_blockSiteButton": {
-    "message": "Block"
+    "message": "封鎖"
   },
   "popup_unblockSiteButton": {
-    "message": "Unblock"
+    "message": "解除封鎖"
   },
   "popup_siteBlockedBySubscription": {
-    "message": "Blocked by $NAME$",
+    "message": "被 $NAME$ 封鎖",
     "placeholders": {
       "name": {
         "content": "$1"
@@ -78,7 +78,7 @@
     }
   },
   "options_generalTitle": {
-    "message": "General"
+    "message": "一般"
   },
   "options_blacklistLabel": {
     "message": "在 Google 搜尋結果中被封鎖的網站"
@@ -105,7 +105,7 @@
     "message": "隱藏「封鎖這個網站」的連結"
   },
   "options_syncTitle": {
-    "message": "Sync"
+    "message": "同步"
   },
   "options_syncFeature": {
     "message": "與 Google Drive 同步"
@@ -117,72 +117,72 @@
     "message": "啟用同步"
   },
   "options_syncTurnedOn": {
-    "message": "Synced with Google Drive"
+    "message": "已與 Google Drive 同步"
   },
   "options_turnOffSync": {
-    "message": "Turn off"
+    "message": "關閉"
   },
   "options_syncResult": {
-    "message": "Last sync"
+    "message": "最近同步"
   },
   "options_syncNever": {
-    "message": "Never synced"
+    "message": "從未同步"
   },
   "options_syncRunning": {
-    "message": "Syncing..."
+    "message": "同步中..."
   },
   "options_syncNowButton": {
-    "message": "Sync now"
+    "message": "立即同步"
   },
   "options_subscriptionTitle": {
-    "message": "Subscription"
+    "message": "訂閱"
   },
   "options_subscriptionFeature": {
-    "message": "Subscribe to blacklists"
+    "message": "訂閱黑名單"
   },
   "options_subscriptionFeatureDescription": {
-    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
+    "message": "如果您加入訂閱，將從指定的 URL 定期下載黑名單。"
   },
   "options_addSubscriptionButton": {
-    "message": "Add subscription"
+    "message": "加入訂閱"
   },
   "options_subscriptionNameHeader": {
-    "message": "Name"
+    "message": "名稱"
   },
   "options_subscriptionURLHeader": {
-    "message": "URL"
+    "message": "URL 網址"
   },
   "options_subscriptionUpdateResultHeader": {
-    "message": "Last update"
+    "message": "最近更新"
   },
   "options_showSubscriptionMenu": {
-    "message": "Show"
+    "message": "顯示"
   },
   "options_updateSubscriptionNowMenu": {
-    "message": "Update now"
+    "message": "立即更新"
   },
   "options_removeSubscriptionMenu": {
-    "message": "Remove"
+    "message": "移除"
   },
   "options_noSubscriptionsAdded": {
-    "message": "No subscriptions added"
+    "message": "沒有加入訂閱"
   },
   "options_subscriptionUpdateRunning": {
-    "message": "Updating..."
+    "message": "更新中..."
   },
   "options_updateAllSubscriptionsNowButton": {
-    "message": "Update now"
+    "message": "立即更新"
   },
   "options_addSubscriptionDialog_title": {
-    "message": "Add a subscription"
+    "message": "加入一個訂閱"
   },
   "options_addSubscriptionDialog_nameLabel": {
-    "message": "Name"
+    "message": "名稱"
   },
   "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL"
+    "message": "URL 網址"
   },
   "options_addSubscriptionDialog_addButton": {
-    "message": "Add"
+    "message": "加入"
   }
 }
