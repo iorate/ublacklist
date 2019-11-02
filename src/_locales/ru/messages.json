@@ -3,7 +3,7 @@
     "message": "uBlacklist"
   },
   "extensionDescription": {
-    "message": "Блокирует сайты в поисковой выдачи Google"
+    "message": "Блокирует сайты в поисковой выдаче Google"
   },
   "dayjsLocale": {
     "message": "ru"
@@ -81,7 +81,7 @@
     "message": "Общие"
   },
   "options_blacklistLabel": {
-    "message": "Выбранные сайты не будут отображаться в поисковой выдачи Google"
+    "message": "Выбранные сайты не будут отображаться в поисковой выдаче Google"
   },
   "options_blacklistHelper": {
     "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">шаблоны совпадения</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярные выражения</a>."
