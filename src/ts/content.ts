@@ -14,6 +14,60 @@ function $(id: string): HTMLElement | null {
   return document.getElementById(id) as HTMLElement | null;
 }
 
+const CONTROL_INFO = [
+  {
+    site: /^www.google/,
+    insert: [
+      (control: HTMLElement): boolean => {
+        const resultStats = $('resultStats') as HTMLDivElement | null;
+        if (!resultStats) {
+          return false;
+        }
+        resultStats.appendChild(control);
+        return true;
+      },
+      (control: HTMLElement): boolean => {
+        const abCtls = $('ab_ctls') as HTMLOListElement | null;
+        if (!abCtls) {
+          return false;
+        }
+        const li = document.createElement('li');
+        li.className = 'ab_ctl';
+        li.id = 'ubImageSearchControl';
+        li.appendChild(control);
+        abCtls.appendChild(li);
+        return true;
+      },
+    ],
+  },
+  {
+    site: /^www.startpage/,
+    insert: [
+      (control: HTMLElement): boolean => {
+        const searchFilter = document.querySelector('.search-filters-toolbar__container');
+        if (!searchFilter) {
+          return false;
+        }
+        const div = document.createElement('div');
+        div.className = 'search-filters-toolbar__advanced';
+        div.appendChild(control);
+        searchFilter.appendChild(div);
+        return true;
+      },
+      (control: HTMLElement): boolean => {
+        const imageFilter = document.querySelector('.images-filters-toolbar__container');
+        if (!imageFilter) {
+          return false;
+        }
+        const div = document.createElement('div');
+        div.appendChild(control);
+        imageFilter.appendChild(div);
+        return true;
+      },
+    ],
+  },
+];
+
 class Main {
   blacklists: BlacklistAggregation | null = null;
   blacklistUpdate: BlacklistUpdate | null = null;
@@ -210,22 +264,13 @@ class Main {
     control.appendChild(showButton);
     control.appendChild(hideButton);
 
-    const resultStats = $('resultStats') as HTMLDivElement | null;
-    if (resultStats) {
-      resultStats.appendChild(control);
-    } else {
-      const abCtls = $('ab_ctls') as HTMLOListElement | null;
-      if (abCtls) {
-        const li = document.createElement('li');
-        li.className = 'ab_ctl';
-        li.id = 'ubImageSearchControl';
-        li.appendChild(control);
-        abCtls.appendChild(li);
-      } else {
-        return;
+    for (const info of CONTROL_INFO) {
+      if (info.site.exec(window.location.hostname)) {
+        if (!info.insert.some((insert): boolean => insert(control))) {
+          return;
+        }
       }
     }
-
     this.updateControl();
   }
 

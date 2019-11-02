@@ -14,6 +14,7 @@ import {
   sendMessage,
   addMessageListener,
   BackgroundPage,
+  SiteID,
 } from './common';
 
 const backgroundPage = (window as Window) as BackgroundPage;
@@ -438,12 +439,128 @@ backgroundPage.removeCachedAuthToken = async function(token: string): Promise<vo
 
 // #endregion Auth
 
+// #region Extra Site
+
+interface SiteInfo {
+  baseUrl: string;
+  matches: string[];
+  registration?: browser.contentScripts.RegisteredContentScript;
+}
+
+interface ExtraSiteInfo {
+  startpage: SiteInfo;
+}
+
+const EXTRA_SITE_INFO: ExtraSiteInfo = {
+  startpage: {
+    baseUrl: 'https://www.startpage.com',
+    matches: [
+      'https://www.startpage.com/do/search',
+      'https://www.startpage.com/rvd/search',
+      'https://www.startpage.com/sp/search',
+    ],
+  },
+};
+
+async function wasPreviouslyLoaded(tabId: number, loadCheck: string): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject): void => {
+    chrome.tabs.executeScript(
+      tabId,
+      { code: loadCheck, runAt: 'document_start' },
+      (result): void => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+          return;
+        }
+
+        resolve(result && result[0]);
+      },
+    );
+  });
+}
+
+function checkSiteAccess(url: string, request = false): Promise<boolean> {
+  const method = request ? 'request' : 'contains';
+  return new Promise<boolean>((resolve, reject) => {
+    const u = new URL(url);
+    chrome.permissions[method]({ origins: [`${u.protocol}//${u.hostname}/*`] }, granted => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve(granted);
+      }
+    });
+  });
+}
+
+// #if BROWSER === 'chrome'
+chrome.tabs.onUpdated.addListener((tabId, { status }): void => {
+  if (status !== 'loading') {
+    return;
+  }
+
+  chrome.tabs.get(
+    tabId,
+    async (tab): Promise<void> => {
+      const loadCheck = `window['__UBLACKLIST_CONTENT_SCRIPT_DYNAMIC_INJECTED__']`;
+
+      if (!tab.url || !(await checkSiteAccess(tab.url)) || !wasPreviouslyLoaded(tabId, loadCheck)) {
+        return;
+      }
+      for (const { matches } of Object.values(EXTRA_SITE_INFO)) {
+        for (const url of matches) {
+          if (tab.url.startsWith(url)) {
+            chrome.tabs.insertCSS({ file: 'css/content.css', runAt: 'document_start' });
+            chrome.tabs.executeScript({ file: 'js/content.js', runAt: 'document_start' });
+            chrome.tabs.executeScript({ code: `${loadCheck}=true`, runAt: 'document_start' });
+          }
+        }
+      }
+    },
+  );
+});
+// #endif
+
+backgroundPage.hasSiteEnable = function(site: SiteID): Promise<boolean> {
+  return checkSiteAccess(EXTRA_SITE_INFO[site].baseUrl);
+};
+
+backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
+  // #if BROWSER === 'firefox'
+  const info = EXTRA_SITE_INFO[site];
+  if (info.registration) {
+    await info.registration.unregister();
+  }
+
+  EXTRA_SITE_INFO[site].registration = await chrome.contentScripts.register({
+    css: [{ file: 'css/content.css' }],
+    js: [{ file: 'js/content.js' }],
+    runAt: 'document_start',
+    matches: EXTRA_SITE_INFO[site].matches,
+  });
+  // #endif
+};
+
+backgroundPage.requestEnableSite = function(site: SiteID): Promise<boolean> {
+  return checkSiteAccess(EXTRA_SITE_INFO[site].baseUrl, true).then(async granted => {
+    if (granted) {
+      await backgroundPage.enableSite(site);
+    }
+    return granted;
+  });
+};
+
+// #endregion Extra Site
+
 async function main(): Promise<void> {
   addMessageListener('setBlacklist', ({ blacklist }) => {
     backgroundPage.setBlacklist(blacklist);
   });
 
   const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
+  if (await backgroundPage.hasSiteEnable('startpage')) {
+    await backgroundPage.enableSite('startpage');
+  }
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist();
