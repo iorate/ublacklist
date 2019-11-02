@@ -469,7 +469,7 @@ async function wasPreviouslyLoaded(tabId: number, loadCheck: string): Promise<bo
       { code: loadCheck, runAt: 'document_start' },
       (result): void => {
         if (chrome.runtime.lastError) {
-          reject(chrome.runtime.lastError);
+          reject(new Error(chrome.runtime.lastError.message));
           return;
         }
 
@@ -494,31 +494,30 @@ function checkSiteAccess(url: string, request = false): Promise<boolean> {
 }
 
 // #if BROWSER === 'chrome'
-chrome.tabs.onUpdated.addListener((tabId, { status }): void => {
-  if (status !== 'loading') {
+async function onTabUpdated(
+  tabId: number,
+  changeInfo: chrome.tabs.TabChangeInfo,
+  tab: chrome.tabs.Tab,
+): Promise<void> {
+  if (changeInfo.status !== 'loading') {
     return;
   }
 
-  chrome.tabs.get(
-    tabId,
-    async (tab): Promise<void> => {
-      const loadCheck = `window['__UBLACKLIST_CONTENT_SCRIPT_DYNAMIC_INJECTED__']`;
+  const loadCheck = `window['__UBLACKLIST_CONTENT_SCRIPT_DYNAMIC_INJECTED__']`;
 
-      if (!tab.url || !(await checkSiteAccess(tab.url)) || !wasPreviouslyLoaded(tabId, loadCheck)) {
-        return;
+  if (!tab.url || (await wasPreviouslyLoaded(tabId, loadCheck))) {
+    return;
+  }
+  for (const { matches } of Object.values(EXTRA_SITE_INFO)) {
+    for (const url of matches) {
+      if (tab.url.startsWith(url)) {
+        chrome.tabs.insertCSS({ file: 'css/content.css', runAt: 'document_start' });
+        chrome.tabs.executeScript({ file: 'js/content.js', runAt: 'document_start' });
+        chrome.tabs.executeScript({ code: `${loadCheck}=true`, runAt: 'document_start' });
       }
-      for (const { matches } of Object.values(EXTRA_SITE_INFO)) {
-        for (const url of matches) {
-          if (tab.url.startsWith(url)) {
-            chrome.tabs.insertCSS({ file: 'css/content.css', runAt: 'document_start' });
-            chrome.tabs.executeScript({ file: 'js/content.js', runAt: 'document_start' });
-            chrome.tabs.executeScript({ code: `${loadCheck}=true`, runAt: 'document_start' });
-          }
-        }
-      }
-    },
-  );
-});
+    }
+  }
+}
 // #endif
 
 backgroundPage.hasSiteEnable = function(site: SiteID): Promise<boolean> {
@@ -526,7 +525,11 @@ backgroundPage.hasSiteEnable = function(site: SiteID): Promise<boolean> {
 };
 
 backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
-  // #if BROWSER === 'firefox'
+  // #if BROWSER === 'chrome'
+  if (!chrome.tabs.onUpdated.hasListener(onTabUpdated)) {
+    chrome.tabs.onUpdated.addListener(onTabUpdated);
+  }
+  // #elif BROWSER === 'firefox'
   const info = EXTRA_SITE_INFO[site];
   if (info.registration) {
     await info.registration.unregister();
@@ -539,15 +542,6 @@ backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
     matches: EXTRA_SITE_INFO[site].matches,
   });
   // #endif
-};
-
-backgroundPage.requestEnableSite = function(site: SiteID): Promise<boolean> {
-  return checkSiteAccess(EXTRA_SITE_INFO[site].baseUrl, true).then(async granted => {
-    if (granted) {
-      await backgroundPage.enableSite(site);
-    }
-    return granted;
-  });
 };
 
 // #endregion Extra Site

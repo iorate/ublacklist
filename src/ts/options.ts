@@ -138,8 +138,9 @@ async function bindSiteSupportEvent(
   site: SiteID,
   $grantButton: HTMLButtonElement,
   $grantedButton: HTMLButtonElement,
+  origin: string,
 ): Promise<void> {
-  async function turnOn(): Promise<void> {
+  function turnOn(): void {
     $grantedButton.classList.remove('is-hidden');
     $grantButton.classList.add('is-hidden');
   }
@@ -151,21 +152,30 @@ async function bindSiteSupportEvent(
   $grantButton.addEventListener(
     'click',
     async (): Promise<void> => {
-      try {
-        chrome.permissions.request({ origins: ['https://www.startpage.com/*'] }, granted => {
-          if (granted) {
-            turnOn();
+      return new Promise<void>((resolve, reject) => {
+        chrome.permissions.request({ origins: [origin] }, granted => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            if (granted) {
+              backgroundPage.enableSite(site);
+              turnOn();
+            }
+            resolve();
           }
         });
-      } catch {
-        // ignore
-      }
+      });
     },
   );
 }
 
 function setupExtraSiteSupport(): void {
-  bindSiteSupportEvent('startpage', $('startpageSupport'), $('startpageSupportOn'));
+  bindSiteSupportEvent(
+    'startpage',
+    $('startpageSupport'),
+    $('startpageSupportOn'),
+    'https://www.startpage.com/*',
+  );
 }
 
 // #endregion ExtraSiteSupport

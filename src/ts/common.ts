@@ -201,7 +201,6 @@ export interface BackgroundPage extends Window {
 
   // Extra Site
   hasSiteEnable(site: SiteID): Promise<boolean>;
-  requestEnableSite(site: SiteID): Promise<boolean>;
   enableSite(site: SiteID): Promise<void>;
 
   // Auth
