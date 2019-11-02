@@ -187,6 +187,26 @@ const ENTRY_INFO: EntryInfo[] = [
     actionClass: 'ubNewsSearchAction',
     display: 'default',
   },
+  {
+    id: 'StartPage.Search.Default',
+    target: '.w-gl__result',
+    targetDepth: 0,
+    pageLink: '> .w-gl__result-title',
+    pageLinkType: 'default',
+    actionParent: '',
+    actionClass: 'ubDefaultAction',
+    display: 'default',
+  },
+  {
+    id: 'StartPage.Search.Image',
+    target: '.ig-gl__list .image-container',
+    targetDepth: 0,
+    pageLink: 'span.site',
+    pageLinkType: 'default',
+    actionParent: '',
+    actionClass: 'ubImageSearchAction',
+    display: 'imageSearch',
+  },
 ];
 
 export interface InspectResult {
@@ -223,7 +243,7 @@ export function inspectEntry(elem: HTMLElement): InspectResult | null {
         }
         pageUrl = parsed.searchParams.get('q') || pageUrl;
       } else {
-        pageUrl = (pageLink as HTMLAnchorElement).href;
+        pageUrl = pageLink.getAttribute('href') as string;
       }
       let actionParent!: HTMLElement;
       if (info.actionParent) {

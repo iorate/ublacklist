@@ -185,6 +185,8 @@ export function addMessageListener<T>(type: string, listener: (args: T) => void)
 
 // #region BackgroundPage
 
+export type SiteID = 'startpage';
+
 export interface BackgroundPage extends Window {
   // Blacklist
   setBlacklist(blacklist: string): Promise<void>;
@@ -196,6 +198,10 @@ export interface BackgroundPage extends Window {
   removeSubscription(id: SubscriptionId): Promise<void>;
   updateSubscription(id: SubscriptionId): Promise<void>;
   updateAllSubscriptions(): Promise<void>;
+
+  // Extra Site
+  hasSiteEnable(site: SiteID): Promise<boolean>;
+  enableSite(site: SiteID): Promise<void>;
 
   // Auth
   getAuthToken(interactive: boolean): Promise<string>;
