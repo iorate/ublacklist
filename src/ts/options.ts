@@ -22,7 +22,6 @@ import {
   unlines,
 } from './common';
 
-
 let backgroundPage: BackgroundPage;
 
 async function requestSiteAccess(url: string): Promise<boolean> {
