@@ -532,7 +532,7 @@ backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
     await info.registration.unregister();
   }
 
-  EXTRA_SITE_INFO[site].registration = await chrome.contentScripts.register({
+  EXTRA_SITE_INFO[site].registration = await browser.contentScripts.register({
     css: [{ file: 'css/content.css' }],
     js: [{ file: 'js/content.js' }],
     runAt: 'document_start',
