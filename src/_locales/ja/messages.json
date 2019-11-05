@@ -101,6 +101,18 @@
   "options_importBlacklistDialog_importButton": {
     "message": "インポート"
   },
+  "options_otherSearchEngines": {
+    "message": "その他の検索エンジン"
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Google 以外の検索エンジンでもこの拡張機能を使用できるようにします。"
+  },
+  "options_enableOnSearchEngine": {
+    "message": "有効にする"
+  },
+  "options_enabledOnSearchEngine": {
+    "message": "有効"
+  },
   "options_hideBlockSiteLinksLabel": {
     "message": "「このサイトをブロックする」リンクを表示しない"
   },

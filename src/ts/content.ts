@@ -49,7 +49,7 @@ const CONTROL_INFO = [
           return false;
         }
         const div = document.createElement('div');
-        div.className = 'search-filters-toolbar__advanced';
+        div.id = 'ubStartpageControl';
         div.appendChild(control);
         searchFilter.appendChild(div);
         return true;
@@ -60,6 +60,7 @@ const CONTROL_INFO = [
           return false;
         }
         const div = document.createElement('div');
+        div.id = 'ubStartpageImageSearchControl';
         div.appendChild(control);
         imageFilter.appendChild(div);
         return true;

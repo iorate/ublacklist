@@ -42,6 +42,33 @@
           </div>
         </li>
         <li class="list-item">
+          <p>
+            <span data-i18n="options_otherSearchEngines"></span>
+          </p>
+          <p class="has-text-grey">
+            <span data-i18n="options_otherSearchEnginesDescription"></span>
+          </p>
+          <ul class="list is-inner">
+            <li class="list-item">
+              <div class="columns is-vcentered">
+                <div class="column">
+                  <label for="startpageSupport">
+                    <span>Startpage.com</span>
+                  </label>
+                </div>
+                <div class="column is-narrow">
+                  <button id="startpageSupport" class="button is-primary">
+                    <span data-i18n="options_enableOnSearchEngine"></span>
+                  </button>
+                  <button id="startpageSupportOn" disabled class="button has-text-primary is-disabled is-hidden">
+                    <span data-i18n="options_enabledOnSearchEngine"></span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="list-item">
           <div class="columns is-vcentered">
             <div class="column">
               <label for="hideBlockSiteLinks">
@@ -53,35 +80,6 @@
                 <input id="hideBlockSiteLinks" class="switch is-rounded" type="checkbox"></input>
                 <label class="label" for="hideBlockSiteLinks"></label>
               </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </section>
-    <section id="extraSiteSupport" class="section">
-      <h1 class="title">
-        <span data-i18n="options_extraSiteSupportTitle"></span>
-      </h1>
-      <ul class="list">
-        <li class="list-item">
-          <p class="has-text-grey">
-            <span data-i18n="options_extraSiteSupportDescription"></span>
-          </p>
-        </li>
-        <li class="list-item">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <label for="startpageSupport">
-                <span>startpage.com</span>
-              </label>
-            </div>
-            <div class="column is-narrow">
-              <button id="startpageSupport" class="button has-text-primary">
-                <span data-i18n="options_enableSite"></span>
-              </button>
-              <button id="startpageSupportOn" disabled class="button is-hidden is-success is-disabled">
-                <span data-i18n="options_enabled"></span>
-              </button>
             </div>
           </div>
         </li>

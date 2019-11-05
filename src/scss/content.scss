@@ -13,6 +13,17 @@
   margin-left: 16px;
 }
 
+#ubStartpageControl {
+  color: #7f869f;
+  font-size: 14px;
+  margin-left: 14px;
+}
+
+#ubStartpageImageSearchControl {
+  color: #7f869f;
+  font-size: 14px;
+}
+
 #ubShowButton,
 #ubHideButton {
   color: #1a0dab;
@@ -59,6 +70,20 @@
 .ubNewsSearchAction {
   font-size: 13px;
   margin-left: 4px;
+}
+
+.ubStartpageDefaultAction {
+  font-size: 13px;
+}
+
+.ubStartpageImageSearchAction {
+  display: block;
+  font-size: 12px;
+  height: 18px;
+}
+
+.ig-gl .details {
+  bottom: 18px !important;
 }
 
 .ubBlockButton,

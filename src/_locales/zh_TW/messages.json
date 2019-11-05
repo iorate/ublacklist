@@ -101,6 +101,18 @@
   "options_importBlacklistDialog_importButton": {
     "message": "匯入"
   },
+  "options_otherSearchEngines": {
+    "message": "支援額外的網站"
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站"
+  },
+  "options_enableOnSearchEngine": {
+    "message": "啟用"
+  },
+  "options_enabledOnSearchEngine": {
+    "message": "已啟用"
+  },
   "options_hideBlockSiteLinksLabel": {
     "message": "隱藏「封鎖這個網站」的連結"
   },
@@ -184,17 +196,5 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "加入"
-  },
-  "options_extraSiteSupportTitle": {
-    "message": "支援額外的網站"
-  },
-  "options_extraSiteSupportDescription": {
-    "message": "你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站"
-  },
-  "options_enableSite": {
-    "message": "啟用"
-  },
-  "options_enabled": {
-    "message": "已啟用"
   }
 }

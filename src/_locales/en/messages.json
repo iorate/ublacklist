@@ -133,6 +133,22 @@
     "message": "Import",
     "description": "The text of the import button on the import-blacklist dialog."
   },
+  "options_otherSearchEngines": {
+    "message": "Other search engines",
+    "description": "Other search engines support."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "You can use this extension on the below search engines.",
+    "description": "The details for other search engines support."
+  },
+  "options_enableOnSearchEngine": {
+    "message": "Enable",
+    "description": "The text of the button to enable this extension on a search engine."
+  },
+  "options_enabledOnSearchEngine": {
+    "message": "Enabled",
+    "description": "The text of the button to indicate that this extension is enabled on a search engine."
+  },
   "options_hideBlockSiteLinksLabel": {
     "message": "Hide the 'Block this site' links",
     "description": "The label for the switch whether to hide the 'Block this site' links."
@@ -244,21 +260,5 @@
   "options_addSubscriptionDialog_addButton": {
     "message": "Add",
     "description": "The text of the add button on the add-subscription dialog."
-  },
-  "options_extraSiteSupportTitle": {
-    "message": "Extra site support",
-    "description": "The title of the extra-site-support section."
-  },
-  "options_extraSiteSupportDescription": {
-    "message": "You can enable these site supporting below. Please notice this will require the user permission to access the site you enabled",
-    "description": "The title of the extra-site-support section."
-  },
-  "options_enableSite": {
-    "message": "Enable",
-    "description": "The text of enable extra site support"
-  },
-  "options_enabled": {
-    "message": "Enabled",
-    "description": "The text for site already enabled"
   }
 }
