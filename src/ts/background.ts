@@ -1,4 +1,7 @@
 import dayjs from 'dayjs';
+// #if BROWSER === 'chrome'
+import { UAParser } from 'ua-parser-js';
+// #endif
 import {
   ISOString,
   errorResult,
@@ -11,9 +14,10 @@ import {
   sendMessage,
   addMessageListener,
   BackgroundPage,
+  SiteID,
 } from './common';
 
-const backgroundPage = window as BackgroundPage;
+const backgroundPage = (window as Window) as BackgroundPage;
 
 class Mutex {
   private queue: (() => Promise<void>)[] = [];
@@ -351,35 +355,15 @@ backgroundPage.updateAllSubscriptions = async function(): Promise<void> {
 // #region Auth
 
 // #if BROWSER === 'chrome'
-// For Chrome, simply use 'chrome.identity.getAuthToken'.
-backgroundPage.getAuthToken = function(interactive: boolean): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    chrome.identity.getAuthToken({ interactive }, token => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(token);
-      }
-    });
-  });
-};
+const OAUTH2_CLIENT_ID = '304167046827-aqukv3fe891j0f9cu94i5aljhsecgpen.apps.googleusercontent.com';
+// #elif BROWSER === 'firefox'
+const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
+// #endif
+const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
-backgroundPage.removeCachedAuthToken = function(token: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    chrome.identity.removeCachedAuthToken({ token }, () => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve();
-      }
-    });
-  });
-};
-// #else
-// For Firefox, use 'browser.identity.launchWebAuthFlow' instead.
-// See https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/identity/launchWebAuthFlow
-const clientId = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
-const scope = 'https://www.googleapis.com/auth/drive.file';
+// #if BROWSER === 'chrome'
+const isChrome = new UAParser(navigator.userAgent).getBrowser().name === 'Chrome';
+// #endif
 
 interface AuthCache {
   token: string;
@@ -390,17 +374,38 @@ let authCache: AuthCache | null = null;
 const authCacheMutex = new Mutex();
 
 backgroundPage.getAuthToken = async function(interactive: boolean): Promise<string> {
+  // #if BROWSER === 'chrome'
+  if (isChrome) {
+    return new Promise<string>((resolve, reject) => {
+      chrome.identity.getAuthToken({ interactive }, token => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(token);
+        }
+      });
+    });
+  }
+  // #endif
   return await authCacheMutex.lock(async () => {
     if (authCache && dayjs().isBefore(authCache.expirationDate)) {
       return authCache.token;
     }
     const authURL =
       'https://accounts.google.com/o/oauth2/auth' +
-      `?client_id=${clientId}` +
+      `?client_id=${OAUTH2_CLIENT_ID}` +
       '&response_type=token' +
-      `&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}` +
-      `&scope=${encodeURIComponent(scope)}`;
-    const redirectURL = await browser.identity.launchWebAuthFlow({ url: authURL, interactive });
+      `&redirect_uri=${encodeURIComponent(chrome.identity.getRedirectURL())}` +
+      `&scope=${encodeURIComponent(OAUTH2_SCOPE)}`;
+    const redirectURL = await new Promise<string>((resolve, reject) => {
+      chrome.identity.launchWebAuthFlow({ url: authURL, interactive }, redirectURL => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(redirectURL);
+        }
+      });
+    });
     const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
     if (params.has('error')) {
       throw new Error(params.get('error')!);
@@ -414,13 +419,132 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
 };
 
 backgroundPage.removeCachedAuthToken = async function(token: string): Promise<void> {
+  // #if BROWSER === 'chrome'
+  if (isChrome) {
+    return new Promise<void>((resolve, reject) => {
+      chrome.identity.removeCachedAuthToken({ token }, () => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+  // #endif
   if (authCache && token === authCache.token) {
     authCache = null;
   }
 };
-// #endif
 
 // #endregion Auth
+
+// #region Extra Site
+
+interface SiteInfo {
+  baseUrl: string;
+  matches: string[];
+  registration?: browser.contentScripts.RegisteredContentScript;
+}
+
+interface ExtraSiteInfo {
+  startpage: SiteInfo;
+}
+
+const EXTRA_SITE_INFO: ExtraSiteInfo = {
+  startpage: {
+    baseUrl: 'https://www.startpage.com',
+    matches: [
+      'https://www.startpage.com/do/search',
+      'https://www.startpage.com/rvd/search',
+      'https://www.startpage.com/sp/search',
+    ],
+  },
+};
+
+async function wasPreviouslyLoaded(tabId: number, loadCheck: string): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject): void => {
+    chrome.tabs.executeScript(
+      tabId,
+      { code: loadCheck, runAt: 'document_start' },
+      (result): void => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+          return;
+        }
+
+        resolve(result && result[0]);
+      },
+    );
+  });
+}
+
+function checkSiteAccess(url: string, request = false): Promise<boolean> {
+  const method = request ? 'request' : 'contains';
+  return new Promise<boolean>((resolve, reject) => {
+    const u = new URL(url);
+    chrome.permissions[method]({ origins: [`${u.protocol}//${u.hostname}/*`] }, granted => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve(granted);
+      }
+    });
+  });
+}
+
+// #if BROWSER === 'chrome'
+async function onTabUpdated(
+  tabId: number,
+  changeInfo: chrome.tabs.TabChangeInfo,
+  tab: chrome.tabs.Tab,
+): Promise<void> {
+  if (changeInfo.status !== 'loading') {
+    return;
+  }
+
+  const loadCheck = `window['__UBLACKLIST_CONTENT_SCRIPT_DYNAMIC_INJECTED__']`;
+
+  if (!tab.url || (await wasPreviouslyLoaded(tabId, loadCheck))) {
+    return;
+  }
+  for (const { matches } of Object.values(EXTRA_SITE_INFO)) {
+    for (const url of matches) {
+      if (tab.url.startsWith(url)) {
+        chrome.tabs.insertCSS({ file: 'css/content.css', runAt: 'document_start' });
+        chrome.tabs.executeScript({ file: 'js/content.js', runAt: 'document_start' });
+        chrome.tabs.executeScript({ code: `${loadCheck}=true`, runAt: 'document_start' });
+      }
+    }
+  }
+}
+// #endif
+
+backgroundPage.hasSiteEnable = function(site: SiteID): Promise<boolean> {
+  return checkSiteAccess(EXTRA_SITE_INFO[site].baseUrl);
+};
+
+backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
+  // #if BROWSER === 'chrome'
+  if (!chrome.tabs.onUpdated.hasListener(onTabUpdated)) {
+    chrome.tabs.onUpdated.addListener(onTabUpdated);
+  }
+  // #elif BROWSER === 'firefox'
+  const info = EXTRA_SITE_INFO[site];
+  if (info.registration) {
+    await info.registration.unregister();
+  }
+
+  EXTRA_SITE_INFO[site].registration = await browser.contentScripts.register({
+    css: [{ file: 'css/content.css' }],
+    js: [{ file: 'js/content.js' }],
+    runAt: 'document_start',
+    matches: EXTRA_SITE_INFO[site].matches,
+  });
+  // #endif
+};
+
+// #endregion Extra Site
 
 async function main(): Promise<void> {
   addMessageListener('setBlacklist', ({ blacklist }) => {
@@ -428,6 +552,9 @@ async function main(): Promise<void> {
   });
 
   const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
+  if (await backgroundPage.hasSiteEnable('startpage')) {
+    await backgroundPage.enableSite('startpage');
+  }
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist();
