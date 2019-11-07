@@ -101,6 +101,18 @@
   "options_importBlacklistDialog_importButton": {
     "message": "导入"
   },
+  "options_otherSearchEngines": {
+    "message": "其他搜索引擎"
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "当前还支持以下搜索引擎（需要手动开启，并同意读取和更改网页数据）"
+  },
+  "options_enableOnSearchEngine": {
+    "message": "启用"
+  },
+  "options_enabledOnSearchEngine": {
+    "message": "已启用"
+  },
   "options_hideBlockSiteLinksLabel": {
     "message": "不在搜索结果中显示「加入黑名单」连接"
   },
