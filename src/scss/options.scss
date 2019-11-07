@@ -49,6 +49,13 @@ $switch-focus: none;
   font-size: 1rem;
 }
 
+.list.is-inner {
+  box-shadow: none;
+  .list-item {
+    padding-right: 0;
+  }
+}
+
 .modal-content {
   width: 80%;
 }

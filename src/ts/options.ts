@@ -1,24 +1,25 @@
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/en';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/ru';
 import 'dayjs/locale/tr';
 import 'dayjs/locale/zh-cn';
 import 'dayjs/locale/zh-tw';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import {
-  lines,
-  unlines,
-  Result,
-  isErrorResult,
-  SubscriptionId,
-  Subscription,
-  Subscriptions,
-  getOptions,
-  setOptions,
-  addMessageListener,
   BackgroundPage,
+  Result,
+  SiteID,
+  Subscription,
+  SubscriptionId,
+  Subscriptions,
+  addMessageListener,
   getBackgroundPage,
+  getOptions,
+  isErrorResult,
+  lines,
+  setOptions,
+  unlines,
 } from './common';
 
 let backgroundPage: BackgroundPage;
@@ -75,6 +76,8 @@ function $(id: 'showSubscriptionDialog_background'): HTMLDivElement;
 function $(id: 'showSubscriptionDialog_name'): HTMLParagraphElement;
 function $(id: 'showSubscriptionDialog_blacklist'): HTMLTextAreaElement;
 function $(id: 'showSubscriptionDialog_ok'): HTMLButtonElement;
+function $(id: 'startpageSupport'): HTMLButtonElement;
+function $(id: 'startpageSupportOn'): HTMLButtonElement;
 function $(id: string): Element | null {
   return document.getElementById(id) as Element | null;
 }
@@ -128,6 +131,54 @@ function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
 }
 
 // #endregion General
+
+// #region  ExtraSiteSupport
+
+async function bindSiteSupportEvent(
+  site: SiteID,
+  $grantButton: HTMLButtonElement,
+  $grantedButton: HTMLButtonElement,
+  origin: string,
+): Promise<void> {
+  function turnOn(): void {
+    $grantedButton.classList.remove('is-hidden');
+    $grantButton.classList.add('is-hidden');
+  }
+
+  if (await backgroundPage.hasSiteEnable(site)) {
+    turnOn();
+    return;
+  }
+  $grantButton.addEventListener(
+    'click',
+    async (): Promise<void> => {
+      return new Promise<void>((resolve, reject) => {
+        chrome.permissions.request({ origins: [origin] }, granted => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            if (granted) {
+              backgroundPage.enableSite(site);
+              turnOn();
+            }
+            resolve();
+          }
+        });
+      });
+    },
+  );
+}
+
+function setupExtraSiteSupport(): void {
+  bindSiteSupportEvent(
+    'startpage',
+    $('startpageSupport'),
+    $('startpageSupportOn'),
+    'https://www.startpage.com/*',
+  );
+}
+
+// #endregion ExtraSiteSupport
 
 // #region Sync
 
@@ -341,6 +392,7 @@ async function main(): Promise<void> {
     'subscriptions',
   );
   setupGeneralSection(blacklist, hideBlockLinks);
+  setupExtraSiteSupport();
   setupSyncSection(sync, syncResult);
   // #if BROWSER === 'firefox'
   const { os } = await browser.runtime.getPlatformInfo();
