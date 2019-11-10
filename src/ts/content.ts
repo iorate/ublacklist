@@ -33,9 +33,20 @@ const CONTROL_INFO = [
         }
         const li = document.createElement('li');
         li.className = 'ab_ctl';
-        li.id = 'ubImageSearchControl';
+        li.id = 'ubImageSearchControl1';
         li.appendChild(control);
         abCtls.appendChild(li);
+        return true;
+      },
+      (control: HTMLElement): boolean => {
+        const controlParent = document.querySelector('.cj2HCb');
+        if (!controlParent) {
+          return false;
+        }
+        const div = document.createElement('div');
+        div.id = 'ubImageSearchControl';
+        div.appendChild(control);
+        controlParent.appendChild(div);
         return true;
       },
     ],
@@ -139,8 +150,11 @@ class Main {
         .ubBlockedEntry[data-ub-display="default"] {
           display: none !important;
         }
-        .ubBlockedEntry[data-ub-display="imageSearch"] {
+        .ubBlockedEntry[data-ub-display="imageSearch1"] {
           visibility: hidden;
+        }
+        .ubBlockedEntry[data-ub-display="imageSearch"] {
+          display: none !important;
         }
         .ubUnblockButton {
           display: none;
@@ -162,8 +176,11 @@ class Main {
         .ubBlockedEntry[data-ub-display="default"] {
           display: block !important;
         }
-        .ubBlockedEntry[data-ub-display="imageSearch"] {
+        .ubBlockedEntry[data-ub-display="imageSearch1"] {
           visibility: visible;
+        }
+        .ubBlockedEntry[data-ub-display="imageSearch"] {
+          display: inline-block !important;
         }
         .ubBlockedEntry, .ubBlockedEntry * {
           background-color: #ffe0e0;

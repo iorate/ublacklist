@@ -3,10 +3,10 @@ interface EntryInfo {
   target: string;
   targetDepth: number;
   pageLink: string;
-  pageLinkType: 'default' | 'imageSearch' | 'query';
+  pageLinkType: 'default' | 'imageSearch1' | 'query';
   actionParent: string;
   actionClass: string;
-  display: 'default' | 'imageSearch';
+  display: 'default' | 'imageSearch1' | 'imageSearch';
 }
 
 const ENTRY_INFO: EntryInfo[] = [
@@ -157,6 +157,16 @@ const ENTRY_INFO: EntryInfo[] = [
     display: 'default',
   },
   {
+    id: 'Search.TwitterSearch',
+    target: 'div#rso > div > div > div.g',
+    targetDepth: 0,
+    pageLink: '> g-section-with-header > div > div > h3.r > g-link > a',
+    pageLinkType: 'default',
+    actionParent: '> g-section-with-header > div > div > div',
+    actionClass: 'ubTwitterSearchAction',
+    display: 'default',
+  },
+  {
     id: 'Search.Video',
     target:
       'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
@@ -168,11 +178,21 @@ const ENTRY_INFO: EntryInfo[] = [
     display: 'default',
   },
   {
-    id: 'ImageSearch.Default',
+    id: 'ImageSearch.Default.1',
     target: 'div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i',
     targetDepth: 0,
     pageLink: '> div.rg_meta.notranslate',
-    pageLinkType: 'imageSearch',
+    pageLinkType: 'imageSearch1',
+    actionParent: '',
+    actionClass: 'ubImageSearchAction',
+    display: 'imageSearch1',
+  },
+  {
+    id: 'ImageSearch.Default',
+    target: 'div#islrg > div.islrc > div.isv-r',
+    targetDepth: 0,
+    pageLink: '> a:nth-child(2)',
+    pageLinkType: 'default',
     actionParent: '',
     actionClass: 'ubImageSearchAction',
     display: 'imageSearch',
@@ -214,7 +234,7 @@ export interface InspectResult {
   pageUrl: string;
   actionParent: HTMLElement;
   actionClass: string;
-  display: 'default' | 'imageSearch';
+  display: 'default' | 'imageSearch1' | 'imageSearch';
 }
 
 export function inspectEntry(elem: HTMLElement): InspectResult | null {
@@ -229,7 +249,7 @@ export function inspectEntry(elem: HTMLElement): InspectResult | null {
         continue;
       }
       let pageUrl!: string;
-      if (info.pageLinkType === 'imageSearch') {
+      if (info.pageLinkType === 'imageSearch1') {
         const m = /"ru":"([^"]+)"/.exec(pageLink.textContent!);
         if (!m) {
           continue;

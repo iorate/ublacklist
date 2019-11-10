@@ -8,9 +8,18 @@
   width: 360px;
 }
 
-#ubImageSearchControl {
+#ubImageSearchControl1 {
   font-size: 12px;
   margin-left: 16px;
+}
+
+#ubImageSearchControl {
+  color: rgba(0,0,0,0.54);
+  display: inline-block;
+  font-size: 13px;
+  margin-left: -13px;
+  margin-right: 29px;
+  padding-top: 20px;
 }
 
 #ubStartpageControl {
@@ -51,6 +60,13 @@
   flex: 25 0 auto;
   font-size: 16px;
   line-height: 24px;
+  padding-top: 1px;
+}
+
+.ubTwitterSearchAction {
+  flex: 25 0 auto;
+  font-size: 16px;
+  line-height: 20px;
   padding-top: 1px;
 }
 
