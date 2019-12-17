@@ -4,6 +4,8 @@ const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const ENGINE_IDS = ['startpage'];
+
 const browser = process.env.BROWSER || 'chrome';
 const env = process.env.NODE_ENV || 'development';
 
@@ -16,17 +18,19 @@ const ifdefLoader = {
   },
 };
 
-module.exports = {
+const config = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'css/content': './scss/content.scss',
-    'css/options': './scss/options.scss',
-    'js/background': './ts/background.ts',
-    'js/content': './ts/content.ts',
-    'js/options': './ts/options.ts',
-    'js/popup': './ts/popup.ts',
     'manifest.json': './manifest.json.js',
+    'scripts/background': './scripts/background.ts',
+    'scripts/engines/google': './scripts/engines/google.ts',
+    'scripts/content': './scripts/content.ts',
+    'scripts/options': './scripts/options.ts',
+    'scripts/popup': './scripts/popup.ts',
+    'styles/content': './styles/content.scss',
+    'styles/engines/google': './styles/engines/google.scss',
+    'styles/options': './styles/options.scss',
   },
   mode: env,
   module: {
@@ -86,8 +90,8 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      './_locales/**/messages.json',
-      './img/*.png',
+      './_locales/**/*',
+      './images/**/*',
       './options.html',
       './popup.html',
     ]),
@@ -113,3 +117,10 @@ module.exports = {
     children: false,
   },
 };
+
+for (const engineId of ENGINE_IDS) {
+  config.entry[`scripts/engines/${engineId}`] = `./scripts/engines/${engineId}.ts`;
+  config.entry[`styles/engines/${engineId}`] = `./styles/engines/${engineId}.scss`;
+}
+
+module.exports = config;

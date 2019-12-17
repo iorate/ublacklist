@@ -1,21 +1,21 @@
+import 'content-scripts-register-polyfill';
 import dayjs from 'dayjs';
-// #if BROWSER === 'chrome'
-import { UAParser } from 'ua-parser-js';
-// #endif
 import {
-  ISOString,
-  errorResult,
-  successResult,
-  SubscriptionId,
-  Subscription,
-  Options,
-  getOptions,
-  setOptions,
-  sendMessage,
-  addMessageListener,
   BackgroundPage,
-  SiteID,
+  Engine,
+  ISOString,
+  Options,
+  Subscription,
+  SubscriptionId,
+  addMessageListener,
+  containsHostPermissions,
+  errorResult,
+  getOptions,
+  sendMessage,
+  setOptions,
+  successResult,
 } from './common';
+import { ENGINES } from './engines';
 
 const backgroundPage = (window as Window) as BackgroundPage;
 
@@ -361,10 +361,6 @@ const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.goo
 // #endif
 const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
-// #if BROWSER === 'chrome'
-const isChrome = new UAParser(navigator.userAgent).getBrowser().name === 'Chrome';
-// #endif
-
 interface AuthCache {
   token: string;
   expirationDate: dayjs.Dayjs;
@@ -375,11 +371,46 @@ const authCacheMutex = new Mutex();
 
 backgroundPage.getAuthToken = async function(interactive: boolean): Promise<string> {
   // #if BROWSER === 'chrome'
-  if (isChrome) {
-    return new Promise<string>((resolve, reject) => {
+  try {
+    // #endif
+    return await authCacheMutex.lock(async () => {
+      if (authCache && dayjs().isBefore(authCache.expirationDate)) {
+        return authCache.token;
+      }
+      const authURL =
+        'https://accounts.google.com/o/oauth2/auth' +
+        `?client_id=${OAUTH2_CLIENT_ID}` +
+        '&response_type=token' +
+        `&redirect_uri=${encodeURIComponent(chrome.identity.getRedirectURL())}` +
+        `&scope=${encodeURIComponent(OAUTH2_SCOPE)}`;
+      const redirectURL = await new Promise<string>((resolve, reject) => {
+        chrome.identity.launchWebAuthFlow({ url: authURL, interactive }, redirectURL => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(redirectURL);
+          }
+        });
+      });
+      const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
+      if (params.has('error')) {
+        throw new Error(params.get('error')!);
+      }
+      authCache = {
+        token: params.get('access_token')!,
+        expirationDate: dayjs().add(Number(params.get('expires_in')!), 'second'),
+      };
+      return authCache.token;
+    });
+    // #if BROWSER === 'chrome'
+  } catch (e) {
+    if (interactive) {
+      throw e;
+    }
+    return await new Promise<string>((resolve, reject) => {
       chrome.identity.getAuthToken({ interactive }, token => {
         if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
+          reject(e);
         } else {
           resolve(token);
         }
@@ -387,51 +418,9 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
     });
   }
   // #endif
-  return await authCacheMutex.lock(async () => {
-    if (authCache && dayjs().isBefore(authCache.expirationDate)) {
-      return authCache.token;
-    }
-    const authURL =
-      'https://accounts.google.com/o/oauth2/auth' +
-      `?client_id=${OAUTH2_CLIENT_ID}` +
-      '&response_type=token' +
-      `&redirect_uri=${encodeURIComponent(chrome.identity.getRedirectURL())}` +
-      `&scope=${encodeURIComponent(OAUTH2_SCOPE)}`;
-    const redirectURL = await new Promise<string>((resolve, reject) => {
-      chrome.identity.launchWebAuthFlow({ url: authURL, interactive }, redirectURL => {
-        if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
-        } else {
-          resolve(redirectURL);
-        }
-      });
-    });
-    const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
-    if (params.has('error')) {
-      throw new Error(params.get('error')!);
-    }
-    authCache = {
-      token: params.get('access_token')!,
-      expirationDate: dayjs().add(Number(params.get('expires_in')!), 'second'),
-    };
-    return authCache.token;
-  });
 };
 
 backgroundPage.removeCachedAuthToken = async function(token: string): Promise<void> {
-  // #if BROWSER === 'chrome'
-  if (isChrome) {
-    return new Promise<void>((resolve, reject) => {
-      chrome.identity.removeCachedAuthToken({ token }, () => {
-        if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
-        } else {
-          resolve();
-        }
-      });
-    });
-  }
-  // #endif
   if (authCache && token === authCache.token) {
     authCache = null;
   }
@@ -439,122 +428,38 @@ backgroundPage.removeCachedAuthToken = async function(token: string): Promise<vo
 
 // #endregion Auth
 
-// #region Extra Site
+// #region Engines
 
-interface SiteInfo {
-  baseUrl: string;
-  matches: string[];
-  registration?: browser.contentScripts.RegisteredContentScript;
-}
-
-interface ExtraSiteInfo {
-  startpage: SiteInfo;
-}
-
-const EXTRA_SITE_INFO: ExtraSiteInfo = {
-  startpage: {
-    baseUrl: 'https://www.startpage.com',
-    matches: [
-      'https://www.startpage.com/do/search',
-      'https://www.startpage.com/rvd/search',
-      'https://www.startpage.com/sp/search',
-    ],
-  },
+backgroundPage.enableEngine = async function(engine: Engine): Promise<void> {
+  for (const match of engine.matches) {
+    const options = {
+      css: [{ file: `/styles/engines/${engine.id}.css` }, { file: '/styles/content.css' }],
+      js: [{ file: `/scripts/engines/${engine.id}.js` }, { file: '/scripts/content.js' }],
+      matches: [match],
+      runAt: 'document_start' as const,
+    };
+    // #if BROWSER === 'chrome'
+    await chrome.contentScripts.register(options);
+    // #else
+    await browser.contentScripts.register(options);
+    // #endif
+  }
 };
 
-async function wasPreviouslyLoaded(tabId: number, loadCheck: string): Promise<boolean> {
-  return new Promise<boolean>((resolve, reject): void => {
-    chrome.tabs.executeScript(
-      tabId,
-      { code: loadCheck, runAt: 'document_start' },
-      (result): void => {
-        if (chrome.runtime.lastError) {
-          reject(new Error(chrome.runtime.lastError.message));
-          return;
-        }
-
-        resolve(result && result[0]);
-      },
-    );
-  });
-}
-
-function checkSiteAccess(url: string, request = false): Promise<boolean> {
-  const method = request ? 'request' : 'contains';
-  return new Promise<boolean>((resolve, reject) => {
-    const u = new URL(url);
-    chrome.permissions[method]({ origins: [`${u.protocol}//${u.hostname}/*`] }, granted => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(granted);
-      }
-    });
-  });
-}
-
-// #if BROWSER === 'chrome'
-async function onTabUpdated(
-  tabId: number,
-  changeInfo: chrome.tabs.TabChangeInfo,
-  tab: chrome.tabs.Tab,
-): Promise<void> {
-  if (changeInfo.status !== 'loading') {
-    return;
-  }
-
-  const loadCheck = `window['__UBLACKLIST_CONTENT_SCRIPT_DYNAMIC_INJECTED__']`;
-
-  if (!tab.url || (await wasPreviouslyLoaded(tabId, loadCheck))) {
-    return;
-  }
-  for (const { matches } of Object.values(EXTRA_SITE_INFO)) {
-    for (const url of matches) {
-      if (tab.url.startsWith(url)) {
-        chrome.tabs.insertCSS({ file: 'css/content.css', runAt: 'document_start' });
-        chrome.tabs.executeScript({ file: 'js/content.js', runAt: 'document_start' });
-        chrome.tabs.executeScript({ code: `${loadCheck}=true`, runAt: 'document_start' });
-      }
-    }
-  }
-}
-// #endif
-
-backgroundPage.hasSiteEnable = function(site: SiteID): Promise<boolean> {
-  return checkSiteAccess(EXTRA_SITE_INFO[site].baseUrl);
-};
-
-backgroundPage.enableSite = async function(site: SiteID): Promise<void> {
-  // #if BROWSER === 'chrome'
-  if (!chrome.tabs.onUpdated.hasListener(onTabUpdated)) {
-    chrome.tabs.onUpdated.addListener(onTabUpdated);
-  }
-  // #elif BROWSER === 'firefox'
-  const info = EXTRA_SITE_INFO[site];
-  if (info.registration) {
-    await info.registration.unregister();
-  }
-
-  EXTRA_SITE_INFO[site].registration = await browser.contentScripts.register({
-    css: [{ file: 'css/content.css' }],
-    js: [{ file: 'js/content.js' }],
-    runAt: 'document_start',
-    matches: EXTRA_SITE_INFO[site].matches,
-  });
-  // #endif
-};
-
-// #endregion Extra Site
+// #endregion Engines
 
 async function main(): Promise<void> {
   addMessageListener('setBlacklist', ({ blacklist }) => {
     backgroundPage.setBlacklist(blacklist);
   });
 
-  const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
-  if (await backgroundPage.hasSiteEnable('startpage')) {
-    await backgroundPage.enableSite('startpage');
+  for (const engine of ENGINES) {
+    if (await containsHostPermissions(engine.matches)) {
+      await backgroundPage.enableEngine(engine);
+    }
   }
+
+  const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist();

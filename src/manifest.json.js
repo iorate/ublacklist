@@ -1,12 +1,12 @@
 const manifest = {
   background: {
     persistent: true,
-    scripts: ['js/background.js'],
+    scripts: ['scripts/background.js'],
   },
   browser_action: {
     default_icon: {
-      19: 'img/icon-grey-19.png',
-      38: 'img/icon-grey-38.png',
+      19: 'images/icon-grey-19.png',
+      38: 'images/icon-grey-38.png',
     },
     default_popup: 'popup.html',
   },
@@ -21,9 +21,9 @@ const manifest = {
   default_locale: 'en',
   description: '__MSG_extensionDescription__',
   icons: {
-    16: 'img/icon-16.png',
-    48: 'img/icon-48.png',
-    128: 'img/icon-128.png',
+    16: 'images/icon-16.png',
+    48: 'images/icon-48.png',
+    128: 'images/icon-128.png',
   },
   // #if BROWSER === 'chrome'
   key:
@@ -51,8 +51,8 @@ const manifest = {
   version: '3.2.2',
   content_scripts: [
     {
-      css: ['css/content.css'],
-      js: ['js/content.js'],
+      css: ['styles/engines/google.css', 'styles/content.css'],
+      js: ['scripts/engines/google.js', 'scripts/content.js'],
       run_at: 'document_start',
       matches: [
         'https://www.google.com/search?*',

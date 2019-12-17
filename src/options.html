@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>uBlacklist Options</title>
-    <link href="css/options.css" rel="stylesheet">
-    <script defer src="js/options.js"></script>
+    <link href="styles/options.css" rel="stylesheet">
+    <script defer src="scripts/options.js"></script>
   </head>
   <body>
     <section class="section">
@@ -48,24 +48,7 @@
           <p class="has-text-grey">
             <span data-i18n="options_otherSearchEnginesDescription"></span>
           </p>
-          <ul class="list is-inner">
-            <li class="list-item">
-              <div class="columns is-vcentered">
-                <div class="column">
-                  <label for="startpageSupport">
-                    <span>Startpage.com</span>
-                  </label>
-                </div>
-                <div class="column is-narrow">
-                  <button id="startpageSupport" class="button is-primary">
-                    <span data-i18n="options_enableOnSearchEngine"></span>
-                  </button>
-                  <button id="startpageSupportOn" disabled class="button has-text-primary is-disabled is-hidden">
-                    <span data-i18n="options_enabledOnSearchEngine"></span>
-                  </button>
-                </div>
-              </div>
-            </li>
+          <ul id="engines" class="list is-inner">
           </ul>
         </li>
         <li class="list-item">

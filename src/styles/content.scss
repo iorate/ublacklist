@@ -1,0 +1,26 @@
+// #if BROWSER === 'firefox'
+@import '~dialog-polyfill/dialog-polyfill.css';
+// #endif
+
+#ubBlacklistUpdateDialog {
+  border: solid 1px lightgrey;
+  padding: 0;
+  width: 360px;
+}
+
+#ubShowButton,
+#ubHideButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
+.ubBlockButton,
+.ubUnblockButton {
+  color: #1a0dab;
+  cursor: pointer;
+}
+
+.ubBlockButton:hover,
+.ubUnblockButton:hover {
+  text-decoration: underline;
+}

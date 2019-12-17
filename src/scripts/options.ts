@@ -1,26 +1,24 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/en';
-import 'dayjs/locale/ja';
-import 'dayjs/locale/ru';
-import 'dayjs/locale/tr';
-import 'dayjs/locale/zh-cn';
-import 'dayjs/locale/zh-tw';
+import './dayjs-locales';
 import {
   BackgroundPage,
+  Engine,
   Result,
-  SiteID,
   Subscription,
   SubscriptionId,
   Subscriptions,
   addMessageListener,
+  containsHostPermissions,
   getBackgroundPage,
   getOptions,
   isErrorResult,
   lines,
+  requestHostPermissions,
   setOptions,
   unlines,
 } from './common';
+import { ENGINES } from './engines';
 
 let backgroundPage: BackgroundPage;
 
@@ -50,6 +48,7 @@ function resultToString(result: Result): string {
 function $(id: 'blacklist'): HTMLTextAreaElement;
 function $(id: 'importBlacklist'): HTMLButtonElement;
 function $(id: 'saveBlacklist'): HTMLButtonElement;
+function $(id: 'engines'): HTMLUListElement;
 function $(id: 'hideBlockSiteLinks'): HTMLInputElement;
 function $(id: 'syncSection'): HTMLElement;
 function $(id: 'turnOnSync'): HTMLButtonElement;
@@ -76,10 +75,9 @@ function $(id: 'showSubscriptionDialog_background'): HTMLDivElement;
 function $(id: 'showSubscriptionDialog_name'): HTMLParagraphElement;
 function $(id: 'showSubscriptionDialog_blacklist'): HTMLTextAreaElement;
 function $(id: 'showSubscriptionDialog_ok'): HTMLButtonElement;
-function $(id: 'startpageSupport'): HTMLButtonElement;
-function $(id: 'startpageSupportOn'): HTMLButtonElement;
-function $(id: string): Element | null {
-  return document.getElementById(id) as Element | null;
+function $(id: string): HTMLElement | null;
+function $(id: string): HTMLElement | null {
+  return document.getElementById(id) as HTMLElement | null;
 }
 
 const $blacklist = $('blacklist');
@@ -132,53 +130,50 @@ function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
 
 // #endregion General
 
-// #region  ExtraSiteSupport
+// #region Engines
 
-async function bindSiteSupportEvent(
-  site: SiteID,
-  $grantButton: HTMLButtonElement,
-  $grantedButton: HTMLButtonElement,
-  origin: string,
-): Promise<void> {
-  function turnOn(): void {
-    $grantedButton.classList.remove('is-hidden');
-    $grantButton.classList.add('is-hidden');
-  }
-
-  if (await backgroundPage.hasSiteEnable(site)) {
-    turnOn();
-    return;
-  }
-  $grantButton.addEventListener(
-    'click',
-    async (): Promise<void> => {
-      return new Promise<void>((resolve, reject) => {
-        chrome.permissions.request({ origins: [origin] }, granted => {
-          if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else {
-            if (granted) {
-              backgroundPage.enableSite(site);
-              turnOn();
-            }
-            resolve();
-          }
-        });
-      });
-    },
-  );
+function onEngineEnabled(engine: Engine): void {
+  $(`enable${engine.id}`)!.classList.add('is-hidden');
+  $(`is${engine.id}Enabled`)!.classList.remove('is-hidden');
 }
 
-function setupExtraSiteSupport(): void {
-  bindSiteSupportEvent(
-    'startpage',
-    $('startpageSupport'),
-    $('startpageSupportOn'),
-    'https://www.startpage.com/*',
-  );
+async function setupEnginesSection(): Promise<void> {
+  for (const engine of ENGINES) {
+    $('engines').insertAdjacentHTML(
+      'beforeend',
+      `<li class="list-item">
+  <div class="columns is-vcentered">
+    <div class="column">
+      <label for="enable${engine.id}">
+        <span>${engine.name}</span>
+      </label>
+    </div>
+    <div class="column is-narrow">
+      <button id="enable${engine.id}" class="button is-primary">
+        <span>${chrome.i18n.getMessage('options_enableOnSearchEngine')}</span>
+      </button>
+      <button id="is${
+        engine.id
+      }Enabled" disabled class="button has-text-primary is-disabled is-hidden">
+        <span>${chrome.i18n.getMessage('options_enabledOnSearchEngine')}</span>
+      </button>
+    </div>
+  </div>
+</li>`,
+    );
+    if (await containsHostPermissions(engine.matches)) {
+      onEngineEnabled(engine);
+    }
+    $(`enable${engine.id}`)!.addEventListener('click', async () => {
+      if (await requestHostPermissions(engine.matches)) {
+        onEngineEnabled(engine);
+        backgroundPage.enableEngine(engine);
+      }
+    });
+  }
 }
 
-// #endregion ExtraSiteSupport
+// #endregion Engines
 
 // #region Sync
 
@@ -239,37 +234,35 @@ function setupSyncSection(sync: boolean, syncResult: Result | null): void {
 function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): void {
   const row = $('subscriptions').tBodies[0].insertRow();
   row.id = `subscription${id}`;
-  row.innerHTML = `
-    <td class="subscription-name">
-      ${subscription.name}
-    </td>
-    <td class="subscription-url">
-      ${subscription.url}
-    </td>
-    <td class="subscription-update-result">
-      ${subscription.updateResult ? resultToString(subscription.updateResult) : ''}
-    </td>
-    <td class="subscription-menu">
-      <div class="dropdown is-right">
-        <div class="dropdown-trigger">
-          <button class="button subscription-menu-button is-white is-rounded"></button>
-        </div>
-        <div class="dropdown-menu">
-          <div class="dropdown-content">
-            <a class="dropdown-item show-subscription-menu">
-              ${chrome.i18n.getMessage('options_showSubscriptionMenu')}
-            </a>
-            <a class="dropdown-item update-subscription-now-menu">
-              ${chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
-            </a>
-            <a class="dropdown-item remove-subscription-menu">
-              ${chrome.i18n.getMessage('options_removeSubscriptionMenu')}
-            </a>
-          </div>
-        </div>
+  row.innerHTML = `<td class="subscription-name">
+  ${subscription.name}
+</td>
+<td class="subscription-url">
+  ${subscription.url}
+</td>
+<td class="subscription-update-result">
+  ${subscription.updateResult ? resultToString(subscription.updateResult) : ''}
+</td>
+<td class="subscription-menu">
+  <div class="dropdown is-right">
+    <div class="dropdown-trigger">
+      <button class="button subscription-menu-button is-white is-rounded"></button>
+    </div>
+    <div class="dropdown-menu">
+      <div class="dropdown-content">
+        <a class="dropdown-item show-subscription-menu">
+          ${chrome.i18n.getMessage('options_showSubscriptionMenu')}
+        </a>
+        <a class="dropdown-item update-subscription-now-menu">
+          ${chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
+        </a>
+        <a class="dropdown-item remove-subscription-menu">
+          ${chrome.i18n.getMessage('options_removeSubscriptionMenu')}
+        </a>
       </div>
-    </td>
-  `;
+    </div>
+  </div>
+</td>`;
   row.querySelector('.subscription-menu-button')!.addEventListener('click', () => {
     row.querySelector('.dropdown')!.classList.toggle('is-active');
   });
@@ -392,7 +385,7 @@ async function main(): Promise<void> {
     'subscriptions',
   );
   setupGeneralSection(blacklist, hideBlockLinks);
-  setupExtraSiteSupport();
+  await setupEnginesSection();
   setupSyncSection(sync, syncResult);
   // #if BROWSER === 'firefox'
   const { os } = await browser.runtime.getPlatformInfo();

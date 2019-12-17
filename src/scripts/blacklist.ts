@@ -1,5 +1,5 @@
-import { lines, unlines, getOptions, sendMessage } from './common';
-import blacklistUpdateStyle from '!!css-loader!sass-loader!../scss/blacklistUpdate.scss';
+import { getOptions, lines, sendMessage, unlines } from './common';
+import blacklistUpdateStyle from '!!css-loader!sass-loader!../styles/blacklistUpdate.scss';
 
 export class AltURL {
   scheme: string;

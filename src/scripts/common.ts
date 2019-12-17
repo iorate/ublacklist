@@ -183,9 +183,41 @@ export function addMessageListener<T>(type: string, listener: (args: T) => void)
 
 // #endregion Messages
 
-// #region BackgroundPage
+// #region Engines
 
-export type SiteID = 'startpage';
+export interface Engine {
+  id: string;
+  name: string;
+  matches: string[];
+}
+
+export function containsHostPermissions(origins: string[]): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.permissions.contains({ origins }, granted => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve(granted);
+      }
+    });
+  });
+}
+
+export function requestHostPermissions(origins: string[]): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject) => {
+    chrome.permissions.request({ origins }, granted => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      } else {
+        resolve(granted);
+      }
+    });
+  });
+}
+
+// #endregion Engines
+
+// #region BackgroundPage
 
 export interface BackgroundPage extends Window {
   // Blacklist
@@ -199,9 +231,8 @@ export interface BackgroundPage extends Window {
   updateSubscription(id: SubscriptionId): Promise<void>;
   updateAllSubscriptions(): Promise<void>;
 
-  // Extra Site
-  hasSiteEnable(site: SiteID): Promise<boolean>;
-  enableSite(site: SiteID): Promise<void>;
+  // Engines
+  enableEngine(engine: Engine): Promise<void>;
 
   // Auth
   getAuthToken(interactive: boolean): Promise<string>;

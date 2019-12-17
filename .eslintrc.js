@@ -13,6 +13,12 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'require-atomic-updates': ['off'],
+    'sort-imports': [
+      'error',
+      {
+        ignoreDeclarationSort: true,
+      },
+    ],
     '@typescript-eslint/explicit-function-return-type': [
       'error',
       {
