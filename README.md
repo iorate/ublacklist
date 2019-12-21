@@ -38,8 +38,8 @@ To add support for a search engine other than Google,
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/_locales/en/messages.json` to `src/_locales/${languageCode}/messages.json` and translate `message`s.
-1. If necessary, open `src/scripts/dayjs-locales.ts` and import a `dayjs` locale.
+1. Copy `src/_locales/en/messages.json` to `src/_locales/${languageCode}/messages.json` and translate `message` entries.
+1. If necessary, open `src/scripts/dayjs-locales.ts` and import a dayjs locale.
 
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
