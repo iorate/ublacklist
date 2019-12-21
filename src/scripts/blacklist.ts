@@ -300,59 +300,57 @@ export class BlacklistUpdate {
 
   constructor(host: HTMLElement, closeParent: () => void) {
     this.root = host.attachShadow({ mode: 'open' });
-    this.root.innerHTML = `
-      <style>
-        ${blacklistUpdateStyle.toString()}
-      </style>
-      <div id="body">
-        <h1 id="title" class="title"></h1>
-        <p id="origin"></p>
-        <details id="details">
-          <summary>
-            ${chrome.i18n.getMessage('popup_details')}
-          </summary>
-          <div class="field">
-            <label class="label" for="url">
-              ${chrome.i18n.getMessage('popup_pageURLLabel')}
-            </label>
-            <div class="control">
-              <input id="url" class="input" readonly>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label" for="added">
-              ${chrome.i18n.getMessage('popup_addedRulesLabel')}
-            </label>
-            <div class="control">
-              <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
-            </div>
-            <p id="addedHelper" class="help has-text-grey">
-              ${chrome.i18n.getMessage('options_blacklistHelper')}
-            </p>
-          </div>
-          <div class="field">
-            <label class="label" for="removed">
-              ${chrome.i18n.getMessage('popup_removedRulesLabel')}
-            </label>
-            <div class="control">
-              <textarea id="removed" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
-            </div>
-          </div>
-        </details>
-        <div class="field is-grouped is-grouped-right">
-          <div class="control">
-            <button id="cancel" class="button has-text-primary">
-              ${chrome.i18n.getMessage('cancelButton')}
-            </button>
-          </div>
-          <div class="control">
-            <button id="update" class="button is-primary"></button>
-          </div>
-        </div>
+    this.root.innerHTML = `<style>
+  ${blacklistUpdateStyle.toString()}
+</style>
+<div id="body">
+  <h1 id="title" class="title"></h1>
+  <p id="origin"></p>
+  <details id="details">
+    <summary>
+      ${chrome.i18n.getMessage('popup_details')}
+    </summary>
+    <div class="field">
+      <label class="label" for="url">
+        ${chrome.i18n.getMessage('popup_pageURLLabel')}
+      </label>
+      <div class="control">
+        <input id="url" class="input" readonly>
       </div>
-    `;
+    </div>
+    <div class="field">
+      <label class="label" for="added">
+        ${chrome.i18n.getMessage('popup_addedRulesLabel')}
+      </label>
+      <div class="control">
+        <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
+      </div>
+      <p id="addedHelper" class="help has-text-grey">
+        ${chrome.i18n.getMessage('options_blacklistHelper')}
+      </p>
+    </div>
+    <div class="field">
+      <label class="label" for="removed">
+        ${chrome.i18n.getMessage('popup_removedRulesLabel')}
+      </label>
+      <div class="control">
+        <textarea id="removed" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
+      </div>
+    </div>
+  </details>
+  <div class="field is-grouped is-grouped-right">
+    <div class="control">
+      <button id="cancel" class="button has-text-primary">
+        ${chrome.i18n.getMessage('cancelButton')}
+      </button>
+    </div>
+    <div class="control">
+      <button id="update" class="button is-primary"></button>
+    </div>
+  </div>
+</div>`;
     this.$('details').addEventListener('toggle', () => {
-      if (this.$('details').open && this.params && !this.params.unblock) {
+      if (this.$('details').open && this.params) {
         this.$('added').focus();
       }
     });
@@ -385,9 +383,8 @@ export class BlacklistUpdate {
       this.$('title').textContent = chrome.i18n.getMessage(
         this.params!.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
       );
-      this.$('added').readOnly = this.params!.unblock;
+      this.$('added').readOnly = false;
       this.$('added').value = this.params!.added;
-      this.$('addedHelper').classList.toggle('is-hidden', this.params!.unblock);
       this.$('removed').value = this.params!.removed;
       this.$('update').disabled = false;
       this.$('update').textContent = chrome.i18n.getMessage(
@@ -401,7 +398,6 @@ export class BlacklistUpdate {
       this.$('title').textContent = chrome.i18n.getMessage('popup_blockSiteTitle');
       this.$('added').readOnly = true;
       this.$('added').value = '';
-      this.$('addedHelper').classList.add('is-hidden');
       this.$('removed').value = '';
       this.$('update').disabled = true;
       this.$('update').textContent = chrome.i18n.getMessage('popup_blockSiteButton');
