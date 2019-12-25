@@ -136,7 +136,7 @@ class Main {
           'beforeend',
           `<style>
   .ub-action {
-    display: none;
+    display: none !important;
   }
 </style>`,
         );
