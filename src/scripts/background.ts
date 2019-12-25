@@ -1,4 +1,3 @@
-import 'content-scripts-register-polyfill';
 import dayjs from 'dayjs';
 import {
   BackgroundPage,
@@ -15,6 +14,7 @@ import {
   setOptions,
   successResult,
 } from './common';
+import { AltURL, MatchPattern } from './utilities';
 import { ENGINES } from './engines';
 
 const backgroundPage = (window as Window) as BackgroundPage;
@@ -430,21 +430,71 @@ backgroundPage.removeCachedAuthToken = async function(token: string): Promise<vo
 
 // #region Engines
 
-backgroundPage.enableEngine = async function(engine: Engine): Promise<void> {
-  for (const match of engine.matches) {
-    const options = {
-      css: [{ file: `/styles/engines/${engine.id}.css` }, { file: '/styles/content.css' }],
-      js: [{ file: `/scripts/engines/${engine.id}.js` }, { file: '/scripts/content.js' }],
-      matches: [match],
-      runAt: 'document_start' as const,
-    };
-    // #if BROWSER === 'chrome'
-    await chrome.contentScripts.register(options);
-    // #else
-    await browser.contentScripts.register(options);
-    // #endif
+// #if BROWSER === 'chrome'
+interface ContentScript {
+  css: string[];
+  js: string[];
+  matches: MatchPattern[];
+}
+
+const contentScripts: ContentScript[] = ENGINES.map(engine => ({
+  css: [`/styles/engines/${engine.id}.css`, '/styles/content.css'],
+  js: [`/scripts/engines/${engine.id}.js`, '/scripts/content.js'],
+  matches: engine.matches.map(match => new MatchPattern(match)),
+}));
+
+function onTabUpdated(tabId: number, changeInfo: chrome.tabs.TabChangeInfo): void {
+  if (changeInfo.status !== 'loading') {
+    return;
   }
+  chrome.tabs.get(tabId, tab => {
+    if (tab.url == null) {
+      return;
+    }
+    const url = new AltURL(tab.url);
+    for (const contentScript of contentScripts) {
+      if (contentScript.matches.some(match => match.test(url))) {
+        chrome.tabs.executeScript(
+          tabId,
+          {
+            file: '/scripts/has-content-handlers.js',
+            runAt: 'document_start',
+          },
+          result => {
+            if (!result || result[0]) {
+              return;
+            }
+            for (const css of contentScript.css) {
+              chrome.tabs.insertCSS(tabId, {
+                file: css,
+                runAt: 'document_start',
+              });
+            }
+            for (const js of contentScript.js) {
+              chrome.tabs.executeScript(tabId, {
+                file: js,
+                runAt: 'document_start',
+              });
+            }
+          },
+        );
+        return;
+      }
+    }
+  });
+}
+// #endif
+
+// #if BROWSER === 'firefox'
+backgroundPage.enableEngine = async function(engine: Engine): Promise<void> {
+  await browser.contentScripts.register({
+    css: [{ file: `/styles/engines/${engine.id}.css` }, { file: '/styles/content.css' }],
+    js: [{ file: `/scripts/engines/${engine.id}.js` }, { file: '/scripts/content.js' }],
+    matches: engine.matches,
+    runAt: 'document_start',
+  });
 };
+// #endif
 
 // #endregion Engines
 
@@ -453,11 +503,16 @@ async function main(): Promise<void> {
     backgroundPage.setBlacklist(blacklist);
   });
 
+  // #if BROWSER === 'chrome'
+  chrome.tabs.onUpdated.addListener(onTabUpdated);
+  // #endif
+  // #if BROWSER === 'firefox'
   for (const engine of ENGINES) {
     if (await containsHostPermissions(engine.matches)) {
       await backgroundPage.enableEngine(engine);
     }
   }
+  // #endif
 
   const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
   backgroundPage.syncBlacklist();

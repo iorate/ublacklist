@@ -232,7 +232,9 @@ export interface BackgroundPage extends Window {
   updateAllSubscriptions(): Promise<void>;
 
   // Engines
+  // #if BROWSER === 'firefox'
   enableEngine(engine: Engine): Promise<void>;
+  // #endif
 
   // Auth
   getAuthToken(interactive: boolean): Promise<string>;

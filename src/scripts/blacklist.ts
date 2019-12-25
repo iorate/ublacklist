@@ -1,103 +1,18 @@
 import { getOptions, lines, sendMessage, unlines } from './common';
+import { AltURL, MatchPattern } from './utilities';
 import blacklistUpdateStyle from '!!css-loader!sass-loader!../styles/blacklistUpdate.scss';
-
-export class AltURL {
-  scheme: string;
-  host: string;
-  path: string;
-
-  constructor(url: string) {
-    const u = new URL(url);
-    this.scheme = u.protocol.slice(0, -1);
-    this.host = u.hostname;
-    this.path = `${u.pathname}${u.search}`;
-  }
-
-  toString(): string {
-    return `${this.scheme}://${this.host}${this.path}`;
-  }
-}
-
-const enum SchemeMatch {
-  Any,
-  Exact,
-}
-const enum HostMatch {
-  Any,
-  Partial,
-  Exact,
-}
-const enum PathMatch {
-  Any,
-  PartialOrExact,
-}
-
-class MatchPattern {
-  schemeMatch: SchemeMatch;
-  scheme?: string;
-  hostMatch: HostMatch;
-  host?: string;
-  pathMatch: PathMatch;
-  path?: RegExp;
-
-  constructor(scheme: string, host: string, path: string) {
-    if (scheme === '*') {
-      this.schemeMatch = SchemeMatch.Any;
-    } else {
-      this.schemeMatch = SchemeMatch.Exact;
-      this.scheme = scheme;
-    }
-    if (host === '*') {
-      this.hostMatch = HostMatch.Any;
-    } else if (host.startsWith('*.')) {
-      this.hostMatch = HostMatch.Partial;
-      this.host = host.slice(2);
-    } else {
-      this.hostMatch = HostMatch.Exact;
-      this.host = host;
-    }
-    if (path === '/*') {
-      this.pathMatch = PathMatch.Any;
-    } else {
-      this.pathMatch = PathMatch.PartialOrExact;
-      this.path = new RegExp(
-        `^${path.replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*')}$`,
-      );
-    }
-  }
-
-  test(url: AltURL): boolean {
-    if (this.hostMatch === HostMatch.Partial) {
-      if (url.host !== this.host! && !url.host.endsWith(`.${this.host!}`)) {
-        return false;
-      }
-    } else if (this.hostMatch === HostMatch.Exact) {
-      if (url.host !== this.host!) {
-        return false;
-      }
-    }
-    if (this.schemeMatch === SchemeMatch.Any) {
-      if (url.scheme !== 'http' && url.scheme !== 'https') {
-        return false;
-      }
-    } else {
-      if (url.scheme !== this.scheme!) {
-        return false;
-      }
-    }
-    if (this.pathMatch === PathMatch.PartialOrExact) {
-      if (!this.path!.test(url.path)) {
-        return false;
-      }
-    }
-    return true;
-  }
-}
 
 class RegularExpression {
   regExp: RegExp;
 
-  constructor(pattern: string, flags: string) {
+  constructor(re: string) {
+    const m = /^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/.exec(
+      re,
+    );
+    if (!m) {
+      throw new Error('Invalid regular expression');
+    }
+    const [, pattern, flags] = m;
     this.regExp = new RegExp(pattern, flags);
     if (this.regExp.global || this.regExp.sticky) {
       this.regExp = new RegExp(this.regExp, flags.replace(/[gy]/g, ''));
@@ -124,23 +39,28 @@ class Blacklist {
   }
 
   add(blacklist: string): void {
-    for (const rawRule of lines(blacklist)) {
+    for (let rawRule of lines(blacklist)) {
       this.rawRules.push(rawRule);
-      const m = /^(@?)(?:((\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*))|(\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)))$/.exec(
-        rawRule.trim(),
-      );
-      if (!m) {
-        continue;
+      rawRule = rawRule.trim();
+      let unblock = false;
+      if (rawRule[0] === '@') {
+        rawRule = rawRule.slice(1).trimStart();
+        unblock = true;
       }
+      let tester!: MatchPattern | RegularExpression;
       try {
-        (m[1] ? this.unblockRules : this.blockRules).push({
-          // 'new RegularExpression()' may throw.
-          tester: m[2] ? new MatchPattern(m[3], m[4], m[5]) : new RegularExpression(m[7], m[8]),
-          rawRuleIndex: this.rawRules.length - 1,
-        });
-      } catch (e) {
-        continue;
+        tester = new MatchPattern(rawRule);
+      } catch {
+        try {
+          tester = new RegularExpression(rawRule);
+        } catch {
+          continue;
+        }
       }
+      (unblock ? this.unblockRules : this.blockRules).push({
+        tester,
+        rawRuleIndex: this.rawRules.length - 1,
+      });
     }
   }
 

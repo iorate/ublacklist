@@ -1,4 +1,5 @@
-import { AltURL, BlacklistUpdate, loadBlacklists } from './blacklist';
+import { AltURL } from './utilities';
+import { BlacklistUpdate, loadBlacklists } from './blacklist';
 
 function getCurrentURL(): Promise<string> {
   return new Promise<string>((resolve, reject) => {

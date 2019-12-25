@@ -91,6 +91,7 @@ const config = {
   plugins: [
     new CopyPlugin([
       './_locales/**/*',
+      './scripts/*.js',
       './images/**/*',
       './options.html',
       './popup.html',

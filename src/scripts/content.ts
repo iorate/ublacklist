@@ -2,7 +2,8 @@
 import dialogPolyfill from 'dialog-polyfill';
 // #endif
 import { getOptions } from './common';
-import { AltURL, BlacklistAggregation, BlacklistUpdate, loadBlacklists } from './blacklist';
+import { AltURL } from './utilities';
+import { BlacklistAggregation, BlacklistUpdate, loadBlacklists } from './blacklist';
 import './content-handlers';
 
 function $(id: 'ubHideStyle'): HTMLStyleElement | null;

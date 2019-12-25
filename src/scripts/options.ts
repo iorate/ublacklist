@@ -167,7 +167,9 @@ async function setupEnginesSection(): Promise<void> {
     $(`enable${engine.id}`)!.addEventListener('click', async () => {
       if (await requestHostPermissions(engine.matches)) {
         onEngineEnabled(engine);
+        // #if BROWSER === 'firefox'
         backgroundPage.enableEngine(engine);
+        // #endif
       }
     });
   }
