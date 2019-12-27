@@ -66,6 +66,7 @@ class Main {
 
   onElementAdded(element: HTMLElement): void {
     for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
+      let entryFound = false;
       for (const entryCandidate of entryHandler.getEntryCandidates(element)) {
         if (entryCandidate.hasAttribute('data-ub-page-url')) {
           continue;
@@ -79,17 +80,20 @@ class Main {
           continue;
         }
         const entry = entryCandidate;
+        entryFound = true;
+
         if (entryHandler.modifyEntry) {
           entryHandler.modifyEntry(entry);
         }
-
         this.setupEntry(entry, url, action);
         if (this.blacklists) {
           this.judgeEntry(entry);
         } else {
           this.queuedEntries.push(entry);
         }
-        return;
+      }
+      if (entryFound) {
+        break;
       }
     }
   }

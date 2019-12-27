@@ -26,6 +26,17 @@ function getURLFromQuery(selector: string): (entryCandidate: HTMLElement) => str
   };
 }
 
+function createActionForRecipes(entryCandidate: HTMLElement): HTMLElement | null {
+  const site = entryCandidate.querySelector('.g6wEbd');
+  if (!site) {
+    return null;
+  }
+  const action = document.createElement('div');
+  action.className = 'ub-action-all-recipes';
+  site.parentElement!.insertBefore(action, site.nextSibling);
+  return action;
+}
+
 const device = new UAParser(window.navigator.userAgent).getDevice().type ?? '';
 const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
 switch (`${device}/${tbm}`) {
@@ -65,6 +76,21 @@ switch (`${device}/${tbm}`) {
           ),
           getURL: getURLDefault('> g-inner-card > a'),
           createAction: createActionDefault('> g-inner-card', 'ub-action-all-latest'),
+        },
+        // Recipes
+        {
+          getEntryCandidates: getEntryCandidatesDefault('.YwonT'),
+          getURL: getURLDefault('> g-inner-card > g-link > a'),
+          createAction: createActionForRecipes,
+        },
+        {
+          getEntryCandidates: (addedElement: HTMLElement): HTMLElement[] => {
+            return addedElement.matches('.yl > div')
+              ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
+              : [];
+          },
+          getURL: getURLDefault('> div > g-inner-card > g-link > a'),
+          createAction: createActionForRecipes,
         },
         // Top Stories (Horizontal)
         {
@@ -123,6 +149,14 @@ switch (`${device}/${tbm}`) {
           ),
         },
         // Twitter
+        {
+          getEntryCandidates: getEntryCandidatesDefault('#rso > .bkWMgd > div > .g'),
+          getURL: getURLDefault('> .s > .DOqJne > .zTpPx > g-link > a'),
+          createAction: createActionDefault(
+            '> .s > .DOqJne > .qdrjAc.Dwsemf',
+            'ub-action-all-twitter',
+          ),
+        },
         {
           getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div > div.g'),
           getURL: getURLDefault('> g-section-with-header > div > div > div > div > g-link > a'),
