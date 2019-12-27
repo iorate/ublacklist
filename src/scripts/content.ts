@@ -68,7 +68,7 @@ class Main {
     for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
       let entryFound = false;
       for (const entryCandidate of entryHandler.getEntryCandidates(element)) {
-        if (entryCandidate.hasAttribute('data-ub-page-url')) {
+        if (entryCandidate.hasAttribute('data-ub-url')) {
           continue;
         }
         const url = entryHandler.getURL(entryCandidate);
@@ -82,10 +82,12 @@ class Main {
         const entry = entryCandidate;
         entryFound = true;
 
+        entry.setAttribute('data-ub-url', url);
+        this.setupAction(action, url);
         if (entryHandler.modifyEntry) {
           entryHandler.modifyEntry(entry);
         }
-        this.setupEntry(entry, url, action);
+
         if (this.blacklists) {
           this.judgeEntry(entry);
         } else {
@@ -146,8 +148,7 @@ class Main {
     })();
   }
 
-  setupEntry(entry: HTMLElement, url: string, action: HTMLElement): void {
-    entry.setAttribute('data-ub-page-url', url);
+  setupAction(action: HTMLElement, url: string): void {
     action.classList.add('ub-action');
 
     const onButtonClicked = (e: MouseEvent): void => {
@@ -232,7 +233,7 @@ class Main {
   }
 
   judgeEntry(entry: HTMLElement): void {
-    const url = new AltURL(entry.dataset.ubPageUrl!);
+    const url = new AltURL(entry.dataset.ubUrl!);
     if (this.blacklists!.test(url)) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
@@ -243,7 +244,7 @@ class Main {
   rejudgeAllEntries(): void {
     this.blockedEntryCount = 0;
     this.updateControl();
-    for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-page-url]')) {
+    for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
       entry.classList.remove('ubBlockedEntry');
       this.judgeEntry(entry);
     }
