@@ -50,11 +50,7 @@ class Main {
     if (window.ubContentHandlers!.autoPagerizeHandlers) {
       document.addEventListener('AutoPagerize_DOMNodeInserted', e => {
         for (const autoPagerizeHandler of window.ubContentHandlers!.autoPagerizeHandlers!) {
-          const elements = autoPagerizeHandler.getAddedElements(e.target as HTMLElement);
-          if (!elements) {
-            continue;
-          }
-          for (const element of elements) {
+          for (const element of autoPagerizeHandler.getAddedElements(e.target as HTMLElement)) {
             this.onElementAdded(element);
           }
           break;
@@ -70,29 +66,31 @@ class Main {
 
   onElementAdded(element: HTMLElement): void {
     for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
-      const base = entryHandler.getBase(element);
-      if (!base || base.hasAttribute('data-ub-page-url')) {
-        continue;
+      for (const entryCandidate of entryHandler.getEntryCandidates(element)) {
+        if (entryCandidate.hasAttribute('data-ub-page-url')) {
+          continue;
+        }
+        const url = entryHandler.getURL(entryCandidate);
+        if (url == null) {
+          continue;
+        }
+        const action = entryHandler.createAction(entryCandidate);
+        if (!action) {
+          continue;
+        }
+        const entry = entryCandidate;
+        if (entryHandler.modifyEntry) {
+          entryHandler.modifyEntry(entry);
+        }
+
+        this.setupEntry(entry, url, action);
+        if (this.blacklists) {
+          this.judgeEntry(entry);
+        } else {
+          this.queuedEntries.push(entry);
+        }
+        return;
       }
-      const url = entryHandler.getURL(base);
-      if (!url) {
-        continue;
-      }
-      const action = entryHandler.createAction(base);
-      if (!action) {
-        continue;
-      }
-      action.classList.add('ub-action');
-      if (entryHandler.modifyDOM) {
-        entryHandler.modifyDOM(base);
-      }
-      this.setupEntry(base, url, action);
-      if (this.blacklists) {
-        this.judgeEntry(base);
-      } else {
-        this.queuedEntries.push(base);
-      }
-      break;
     }
   }
 
@@ -144,8 +142,9 @@ class Main {
     })();
   }
 
-  setupEntry(base: HTMLElement, url: string, action: HTMLElement): void {
-    base.setAttribute('data-ub-page-url', url);
+  setupEntry(entry: HTMLElement, url: string, action: HTMLElement): void {
+    entry.setAttribute('data-ub-page-url', url);
+    action.classList.add('ub-action');
 
     const onButtonClicked = (e: MouseEvent): void => {
       e.preventDefault();

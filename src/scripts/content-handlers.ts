@@ -15,14 +15,14 @@ export interface ControlHandler {
 }
 
 export interface EntryHandler {
-  getBase: (addedElement: HTMLElement) => HTMLElement | null;
-  getURL: (base: HTMLElement) => string | null;
-  createAction: (base: HTMLElement) => HTMLElement | null;
-  modifyDOM?: (base: HTMLElement) => void;
+  getEntryCandidates: (addedElement: HTMLElement) => HTMLElement[];
+  getURL: (entryCandidate: HTMLElement) => string | null;
+  createAction: (entryCandidate: HTMLElement) => HTMLElement | null;
+  modifyEntry?: (entry: HTMLElement) => void;
 }
 
 export interface AutoPagerizeHandler {
-  getAddedElements: (autoPagerizedElement: HTMLElement) => HTMLElement[] | null;
+  getAddedElements: (autoPagerizedElement: HTMLElement) => HTMLElement[];
 }
 
 export function createControlDefault(
@@ -41,38 +41,37 @@ export function createControlDefault(
   };
 }
 
-export function getBaseDefault(
+export function getEntryCandidatesDefault(
   selector: string,
   depth: number = 0,
-): (addedElement: HTMLElement) => HTMLElement | null {
-  return (addedElement: HTMLElement): HTMLElement | null => {
+): (addedElement: HTMLElement) => HTMLElement[] {
+  return (addedElement: HTMLElement): HTMLElement[] => {
     if (!addedElement.matches(selector)) {
-      return null;
+      return [];
     }
-    let base: HTMLElement | null = addedElement;
-    for (let i = 0; i < depth && base; ++i) {
-      base = base.parentElement;
+    let entryCandidate: HTMLElement | null = addedElement;
+    for (let i = 0; i < depth && entryCandidate; ++i) {
+      entryCandidate = entryCandidate.parentElement;
     }
-    return base;
+    return entryCandidate ? [entryCandidate] : [];
   };
 }
 
-export function getURLDefault(selector: string): (base: HTMLElement) => string | null {
-  return (base: HTMLElement): string | null => {
-    const a = selector ? base.querySelector(`:scope ${selector}`) : base;
-    if (!a) {
-      return null;
-    }
-    return a.getAttribute('href');
+export function getURLDefault(selector: string): (entryCandidate: HTMLElement) => string | null {
+  return (entryCandidate: HTMLElement): string | null => {
+    const a = selector ? entryCandidate.querySelector(`:scope ${selector}`) : entryCandidate;
+    return a?.getAttribute('href') ?? null;
   };
 }
 
 export function createActionDefault(
   parentSelector: string,
   className: string,
-): (base: HTMLElement) => HTMLElement | null {
-  return (base: HTMLElement): HTMLElement | null => {
-    const parent = parentSelector ? base.querySelector(`:scope ${parentSelector}`) : base;
+): (entryCandidate: HTMLElement) => HTMLElement | null {
+  return (entryCandidate: HTMLElement): HTMLElement | null => {
+    const parent = parentSelector
+      ? entryCandidate.querySelector(`:scope ${parentSelector}`)
+      : entryCandidate;
     if (!parent) {
       return null;
     }
@@ -85,7 +84,7 @@ export function createActionDefault(
 
 export function getAddedElementsDefault(
   selector: string,
-): (autoPagerizedElement: HTMLElement) => HTMLElement[] | null {
-  return (autoPagerizedElement: HTMLElement): HTMLElement[] | null =>
+): (autoPagerizedElement: HTMLElement) => HTMLElement[] {
+  return (autoPagerizedElement: HTMLElement): HTMLElement[] =>
     Array.from<HTMLElement>(autoPagerizedElement.querySelectorAll(selector));
 }
