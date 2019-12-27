@@ -48,7 +48,7 @@ const manifest = {
     page: 'options.html',
   },
   permissions: ['activeTab', 'identity', 'storage'],
-  version: '3.2.3',
+  version: '3.2.4',
   content_scripts: [
     {
       css: ['styles/engines/google.css', 'styles/content.css'],
