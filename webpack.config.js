@@ -31,6 +31,7 @@ const config = {
     'styles/content': './styles/content.scss',
     'styles/engines/google': './styles/engines/google.scss',
     'styles/options': './styles/options.scss',
+    'styles/popup': './styles/popup.scss',
   },
   mode: env,
   module: {

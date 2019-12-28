@@ -11,6 +11,10 @@ $title-weight: normal;
 @import '~bulma/sass/elements/button.sass';
 @import '~bulma/sass/elements/title.sass';
 
+:host {
+  width: 25rem;
+}
+
 #body {
   color: $body-color;
   font-family: $body-family;
