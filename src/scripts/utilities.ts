@@ -32,12 +32,12 @@ const enum PathMatch {
 }
 
 export class MatchPattern {
-  schemeMatch: SchemeMatch;
-  scheme?: string;
-  hostMatch: HostMatch;
-  host?: string;
-  pathMatch: PathMatch;
-  path?: RegExp;
+  private schemeMatch: SchemeMatch;
+  private scheme?: string;
+  private hostMatch: HostMatch;
+  private host?: string;
+  private pathMatch: PathMatch;
+  private path?: RegExp;
 
   constructor(mp: string) {
     const m = /^(\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*)$/.exec(mp);
@@ -95,5 +95,33 @@ export class MatchPattern {
       }
     }
     return true;
+  }
+}
+
+export class Mutex {
+  private queue: (() => Promise<void>)[] = [];
+
+  lock<T>(func: () => T | Promise<T>): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      this.queue.push(async () => {
+        try {
+          resolve(await Promise.resolve(func()));
+        } catch (e) {
+          reject(e);
+        }
+      });
+      if (this.queue.length === 1) {
+        this.dequeue();
+      }
+    });
+  }
+
+  private async dequeue(): Promise<void> {
+    if (this.queue.length === 0) {
+      return;
+    }
+    await this.queue[0]();
+    this.queue.shift();
+    this.dequeue();
   }
 }

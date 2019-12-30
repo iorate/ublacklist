@@ -15,38 +15,10 @@ import {
   successResult,
 } from './common';
 import { apis } from './apis';
-import { AltURL, MatchPattern } from './utilities';
+import { AltURL, MatchPattern, Mutex } from './utilities';
 import { ENGINES } from './engines';
 
 const backgroundPage = (window as Window) as BackgroundPage;
-
-class Mutex {
-  private queue: (() => Promise<void>)[] = [];
-
-  lock<T>(func: () => T | Promise<T>): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
-      this.queue.push(async () => {
-        try {
-          resolve(await Promise.resolve(func()));
-        } catch (e) {
-          reject(e);
-        }
-      });
-      if (this.queue.length === 1) {
-        this.dequeue();
-      }
-    });
-  }
-
-  private async dequeue(): Promise<void> {
-    if (this.queue.length === 0) {
-      return;
-    }
-    await this.queue[0]();
-    this.queue.shift();
-    this.dequeue();
-  }
-}
 
 // #region Blacklist
 
