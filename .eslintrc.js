@@ -15,6 +15,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {
+    'no-inner-declarations': ['off'],
     'require-atomic-updates': ['off'],
     'sort-imports': [
       'error',
@@ -36,6 +37,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-empty-interface': ['off'],
     '@typescript-eslint/no-inferrable-types': ['off'],
+    '@typescript-eslint/no-namespace': ['off'],
     '@typescript-eslint/no-non-null-assertion': ['off'],
     '@typescript-eslint/no-object-literal-type-assertion': ['off'],
   },

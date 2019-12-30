@@ -14,6 +14,7 @@ import {
   setOptions,
   successResult,
 } from './common';
+import { apis } from './apis';
 import { AltURL, MatchPattern } from './utilities';
 import { ENGINES } from './engines';
 
@@ -381,17 +382,9 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
         'https://accounts.google.com/o/oauth2/auth' +
         `?client_id=${OAUTH2_CLIENT_ID}` +
         '&response_type=token' +
-        `&redirect_uri=${encodeURIComponent(chrome.identity.getRedirectURL())}` +
+        `&redirect_uri=${encodeURIComponent(apis.identity.getRedirectURL())}` +
         `&scope=${encodeURIComponent(OAUTH2_SCOPE)}`;
-      const redirectURL = await new Promise<string>((resolve, reject) => {
-        chrome.identity.launchWebAuthFlow({ url: authURL, interactive }, redirectURL => {
-          if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else {
-            resolve(redirectURL);
-          }
-        });
-      });
+      const redirectURL = await apis.identity.launchWebAuthFlow({ interactive, url: authURL });
       const params = new URLSearchParams(new URL(redirectURL).hash.slice(1));
       if (params.has('error')) {
         throw new Error(params.get('error')!);
@@ -407,15 +400,7 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
     if (interactive) {
       throw e;
     }
-    return await new Promise<string>((resolve, reject) => {
-      chrome.identity.getAuthToken({ interactive }, token => {
-        if (chrome.runtime.lastError) {
-          reject(e);
-        } else {
-          resolve(token);
-        }
-      });
-    });
+    return await apis.identity.getAuthToken({ interactive: false });
   }
   // #endif
 };
@@ -443,45 +428,40 @@ const contentScripts: ContentScript[] = ENGINES.map(engine => ({
   matches: engine.matches.map(match => new MatchPattern(match)),
 }));
 
-function onTabUpdated(tabId: number, changeInfo: chrome.tabs.TabChangeInfo): void {
+async function onTabUpdated(tabId: number, changeInfo: apis.tabs.TabChangeInfo): Promise<void> {
   if (changeInfo.status !== 'loading') {
     return;
   }
-  chrome.tabs.get(tabId, tab => {
-    if (tab.url == null) {
-      return;
-    }
-    const url = new AltURL(tab.url);
-    for (const contentScript of contentScripts) {
-      if (contentScript.matches.some(match => match.test(url))) {
-        chrome.tabs.executeScript(
-          tabId,
-          {
-            file: '/scripts/has-content-handlers.js',
-            runAt: 'document_start',
-          },
-          result => {
-            if (!result || result[0]) {
-              return;
-            }
-            for (const css of contentScript.css) {
-              chrome.tabs.insertCSS(tabId, {
-                file: css,
-                runAt: 'document_start',
-              });
-            }
-            for (const js of contentScript.js) {
-              chrome.tabs.executeScript(tabId, {
-                file: js,
-                runAt: 'document_start',
-              });
-            }
-          },
-        );
-        return;
-      }
-    }
+  const url = changeInfo.url ?? (await apis.tabs.get(tabId)).url;
+  if (url == undefined) {
+    return;
+  }
+  const altURL = new AltURL(url);
+  const contentScript = contentScripts.find(contentScript =>
+    contentScript.matches.some(match => match.test(altURL)),
+  );
+  if (!contentScript) {
+    return;
+  }
+  const result = await apis.tabs.executeScript(tabId, {
+    file: '/scripts/has-content-handlers.js',
+    runAt: 'document_start',
   });
+  if (!result || result[0]) {
+    return;
+  }
+  for (const css of contentScript.css) {
+    apis.tabs.insertCSS(tabId, {
+      file: css,
+      runAt: 'document_start',
+    });
+  }
+  for (const js of contentScript.js) {
+    apis.tabs.executeScript(tabId, {
+      file: js,
+      runAt: 'document_start',
+    });
+  }
 }
 // #endif
 
@@ -504,7 +484,7 @@ async function main(): Promise<void> {
   });
 
   // #if BROWSER === 'chrome'
-  chrome.tabs.onUpdated.addListener(onTabUpdated);
+  apis.tabs.onUpdated.addListener(onTabUpdated);
   // #endif
   // #if BROWSER === 'firefox'
   for (const engine of ENGINES) {
