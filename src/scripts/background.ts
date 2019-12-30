@@ -1,21 +1,9 @@
 import dayjs from 'dayjs';
-import {
-  BackgroundPage,
-  Engine,
-  ISOString,
-  Options,
-  Subscription,
-  SubscriptionId,
-  addMessageListener,
-  containsHostPermissions,
-  errorResult,
-  getOptions,
-  sendMessage,
-  setOptions,
-  successResult,
-} from './common';
+import { BackgroundPage, addMessageListener, sendMessage } from './common';
 import { apis } from './apis';
-import { AltURL, MatchPattern, Mutex } from './utilities';
+import * as LocalStorage from './local-storage';
+import { Engine, ISOString, Subscription, SubscriptionId } from './types';
+import { AltURL, MatchPattern, Mutex, errorResult, successResult } from './utilities';
 import { ENGINES } from './engines';
 
 const backgroundPage = (window as Window) as BackgroundPage;
@@ -26,14 +14,14 @@ const blacklistMutex = new Mutex();
 
 backgroundPage.setBlacklist = async function(blacklist: string): Promise<void> {
   await blacklistMutex.lock(async () => {
-    await setOptions({ blacklist, timestamp: dayjs().toISOString() });
+    await LocalStorage.store({ blacklist, timestamp: dayjs().toISOString() });
   });
   // Request sync, but don't await it.
   backgroundPage.syncBlacklist();
 };
 
 backgroundPage.setSync = async function(sync: boolean): Promise<void> {
-  await setOptions({ sync });
+  await LocalStorage.store({ sync });
   backgroundPage.syncBlacklist();
 };
 
@@ -178,6 +166,8 @@ async function createFile(client: Client, filename: string): Promise<File> {
 
 let syncRunning: boolean = false;
 
+const SYNC_FILENAME = 'uBlacklist.txt';
+
 backgroundPage.syncBlacklist = async function(): Promise<void> {
   if (syncRunning) {
     return;
@@ -189,48 +179,42 @@ backgroundPage.syncBlacklist = async function(): Promise<void> {
         blacklist: localBlacklist,
         timestamp: localTimestamp,
         sync,
-        syncFilename: filename,
-      } = await getOptions('blacklist', 'timestamp', 'sync', 'syncFilename');
+      } = await LocalStorage.load('blacklist', 'timestamp', 'sync');
       if (!sync) {
         return;
       }
       sendMessage('syncStart', {});
       try {
-        const options: Partial<Options> = {};
+        const items: Partial<LocalStorage.Items> = {};
         try {
           const token = await backgroundPage.getAuthToken(false);
-          try {
-            const client = new Client(token);
-            const file = await findFile(client, filename);
-            if (file) {
-              const cloudTimestamp = file.modifiedTime;
-              const timestampDiff = dayjs(localTimestamp).diff(cloudTimestamp, 'millisecond');
-              if (timestampDiff < 0) {
-                const cloudBlacklist = await downloadFile(client, file);
-                options.blacklist = cloudBlacklist;
-                options.timestamp = cloudTimestamp;
-              } else if (timestampDiff > 0) {
-                await uploadFile(client, file, localBlacklist, localTimestamp);
-              }
-            } else {
-              const newFile = await createFile(client, filename);
-              await uploadFile(client, newFile, localBlacklist, localTimestamp);
+          const client = new Client(token);
+          const file = await findFile(client, SYNC_FILENAME);
+          if (file) {
+            const cloudTimestamp = file.modifiedTime;
+            const timestampDiff = dayjs(localTimestamp).diff(cloudTimestamp, 'millisecond');
+            if (timestampDiff < 0) {
+              const cloudBlacklist = await downloadFile(client, file);
+              items.blacklist = cloudBlacklist;
+              items.timestamp = cloudTimestamp;
+            } else if (timestampDiff > 0) {
+              await uploadFile(client, file, localBlacklist, localTimestamp);
             }
-            options.syncResult = successResult();
-          } catch (e) {
-            if (e instanceof RequestError && e.code === 401) {
-              await backgroundPage.removeCachedAuthToken(token);
-            }
-            throw e;
+          } else {
+            const newFile = await createFile(client, SYNC_FILENAME);
+            await uploadFile(client, newFile, localBlacklist, localTimestamp);
           }
+          items.syncResult = successResult();
         } catch (e) {
-          options.syncResult = errorResult(e.message);
+          if (e instanceof RequestError && e.code === 401) {
+            await backgroundPage.removeCachedAuthToken();
+          }
+          items.syncResult = errorResult(e.message);
         }
-        setOptions(options);
-        sendMessage('syncEnd', { result: options.syncResult });
+        LocalStorage.store(items);
+        sendMessage('syncEnd', { result: items.syncResult });
       } catch (e) {
         sendMessage('syncEnd', { result: errorResult(e.message) });
-        throw e;
       }
     });
   } finally {
@@ -248,21 +232,21 @@ backgroundPage.addSubscription = async function(
   subscription: Subscription,
 ): Promise<SubscriptionId> {
   return await subscriptionsMutex.lock(async () => {
-    const { subscriptions, nextSubscriptionId: id } = await getOptions(
+    const { subscriptions, nextSubscriptionId: id } = await LocalStorage.load(
       'subscriptions',
       'nextSubscriptionId',
     );
     subscriptions[id] = subscription;
-    await setOptions({ subscriptions, nextSubscriptionId: id + 1 });
+    await LocalStorage.store({ subscriptions, nextSubscriptionId: id + 1 });
     return id;
   });
 };
 
 backgroundPage.removeSubscription = async function(id: SubscriptionId): Promise<void> {
   await subscriptionsMutex.lock(async () => {
-    const { subscriptions } = await getOptions('subscriptions');
+    const { subscriptions } = await LocalStorage.load('subscriptions');
     delete subscriptions[id];
-    await setOptions({ subscriptions });
+    await LocalStorage.store({ subscriptions });
   });
 };
 
@@ -278,7 +262,7 @@ backgroundPage.updateSubscription = async function(id: SubscriptionId): Promise<
     // Don't lock now.
     const {
       subscriptions: { [id]: subscription },
-    } = await getOptions('subscriptions');
+    } = await LocalStorage.load('subscriptions');
     if (!subscription) {
       return;
     }
@@ -297,11 +281,11 @@ backgroundPage.updateSubscription = async function(id: SubscriptionId): Promise<
       }
       // Lock now.
       await subscriptionsMutex.lock(async () => {
-        const { subscriptions } = await getOptions('subscriptions');
+        const { subscriptions } = await LocalStorage.load('subscriptions');
         // 'subscriptions[id]' may be already removed.
         if (subscriptions[id]) {
           subscriptions[id] = subscription;
-          await setOptions({ subscriptions });
+          await LocalStorage.store({ subscriptions });
         }
       });
       sendMessage('updateEnd', { id, result: subscription.updateResult });
@@ -316,7 +300,7 @@ backgroundPage.updateSubscription = async function(id: SubscriptionId): Promise<
 
 backgroundPage.updateAllSubscriptions = async function(): Promise<void> {
   // Don't lock now.
-  const { subscriptions } = await getOptions('subscriptions');
+  const { subscriptions } = await LocalStorage.load('subscriptions');
   const promises = Object.keys(subscriptions).map(id =>
     backgroundPage.updateSubscription(Number(id)),
   );
@@ -334,21 +318,16 @@ const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.goo
 // #endif
 const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
-interface AuthCache {
-  token: string;
-  expirationDate: dayjs.Dayjs;
-}
-
-let authCache: AuthCache | null = null;
-const authCacheMutex = new Mutex();
+const tokenCacheMutex = new Mutex();
 
 backgroundPage.getAuthToken = async function(interactive: boolean): Promise<string> {
   // #if BROWSER === 'chrome'
   try {
     // #endif
-    return await authCacheMutex.lock(async () => {
-      if (authCache && dayjs().isBefore(authCache.expirationDate)) {
-        return authCache.token;
+    return await tokenCacheMutex.lock(async () => {
+      const { tokenCache } = await LocalStorage.load('tokenCache');
+      if (tokenCache && dayjs().isBefore(dayjs(tokenCache.expirationDate))) {
+        return tokenCache.token;
       }
       const authURL =
         'https://accounts.google.com/o/oauth2/auth' +
@@ -361,11 +340,12 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
       if (params.has('error')) {
         throw new Error(params.get('error')!);
       }
-      authCache = {
-        token: params.get('access_token')!,
-        expirationDate: dayjs().add(Number(params.get('expires_in')!), 'second'),
-      };
-      return authCache.token;
+      const token = params.get('access_token')!;
+      const expirationDate = dayjs()
+        .add(Number(params.get('expires_in')!), 'second')
+        .toISOString();
+      await LocalStorage.store({ tokenCache: { token, expirationDate } });
+      return token;
     });
     // #if BROWSER === 'chrome'
   } catch (e) {
@@ -377,10 +357,10 @@ backgroundPage.getAuthToken = async function(interactive: boolean): Promise<stri
   // #endif
 };
 
-backgroundPage.removeCachedAuthToken = async function(token: string): Promise<void> {
-  if (authCache && token === authCache.token) {
-    authCache = null;
-  }
+backgroundPage.removeCachedAuthToken = async function(): Promise<void> {
+  await tokenCacheMutex.lock(async () => {
+    await LocalStorage.store({ tokenCache: null });
+  });
 };
 
 // #endregion Auth
@@ -460,13 +440,16 @@ async function main(): Promise<void> {
   // #endif
   // #if BROWSER === 'firefox'
   for (const engine of ENGINES) {
-    if (await containsHostPermissions(engine.matches)) {
+    if (await apis.permissions.contains({ origins: engine.matches })) {
       await backgroundPage.enableEngine(engine);
     }
   }
   // #endif
 
-  const { syncInterval, updateInterval } = await getOptions('syncInterval', 'updateInterval');
+  const { syncInterval, updateInterval } = await LocalStorage.load(
+    'syncInterval',
+    'updateInterval',
+  );
   backgroundPage.syncBlacklist();
   setInterval(() => {
     backgroundPage.syncBlacklist();

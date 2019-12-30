@@ -1,7 +1,7 @@
 // #if BROWSER === 'firefox'
 import dialogPolyfill from 'dialog-polyfill';
 // #endif
-import { getOptions } from './common';
+import * as LocalStorage from './local-storage';
 import { AltURL } from './utilities';
 import { BlacklistAggregation, BlacklistUpdate, loadBlacklists } from './blacklist';
 import './content-handlers';
@@ -134,7 +134,7 @@ class Main {
     );
 
     (async () => {
-      const { hideBlockLinks } = await getOptions('hideBlockLinks');
+      const { hideBlockLinks } = await LocalStorage.load('hideBlockLinks');
       if (hideBlockLinks) {
         document.head.insertAdjacentHTML(
           'beforeend',

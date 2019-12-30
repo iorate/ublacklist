@@ -1,39 +1,14 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { apis } from './apis';
+import { BackgroundPage, addMessageListener, getBackgroundPage } from './common';
 import './dayjs-locales';
-import {
-  BackgroundPage,
-  Engine,
-  Result,
-  Subscription,
-  SubscriptionId,
-  Subscriptions,
-  addMessageListener,
-  containsHostPermissions,
-  getBackgroundPage,
-  getOptions,
-  isErrorResult,
-  lines,
-  requestHostPermissions,
-  setOptions,
-  unlines,
-} from './common';
 import { ENGINES } from './engines';
+import * as LocalStorage from './local-storage';
+import { Engine, Result, Subscription, SubscriptionId, Subscriptions } from './types';
+import { AltURL, isErrorResult, lines, unlines } from './utilities';
 
 let backgroundPage: BackgroundPage;
-
-async function requestSiteAccess(url: string): Promise<boolean> {
-  return new Promise<boolean>((resolve, reject) => {
-    const u = new URL(url);
-    chrome.permissions.request({ origins: [`${u.protocol}//${u.hostname}/`] }, granted => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(granted);
-      }
-    });
-  });
-}
 
 function resultToString(result: Result): string {
   if (isErrorResult(result)) {
@@ -124,7 +99,7 @@ function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
 
   $('hideBlockSiteLinks').checked = hideBlockLinks;
   $('hideBlockSiteLinks').addEventListener('change', () => {
-    setOptions({ hideBlockLinks: $('hideBlockSiteLinks').checked });
+    LocalStorage.store({ hideBlockLinks: $('hideBlockSiteLinks').checked });
   });
 }
 
@@ -161,11 +136,11 @@ async function setupEnginesSection(): Promise<void> {
   </div>
 </li>`,
     );
-    if (await containsHostPermissions(engine.matches)) {
+    if (await apis.permissions.contains({ origins: engine.matches })) {
       onEngineEnabled(engine);
     }
     $(`enable${engine.id}`)!.addEventListener('click', async () => {
-      if (await requestHostPermissions(engine.matches)) {
+      if (await apis.permissions.request({ origins: engine.matches })) {
         onEngineEnabled(engine);
         // #if BROWSER === 'firefox'
         backgroundPage.enableEngine(engine);
@@ -200,7 +175,7 @@ function setupSyncSection(sync: boolean, syncResult: Result | null): void {
   onSyncResultChanged(syncResult);
   $('turnOnSync').addEventListener('click', async () => {
     // #if BROWSER === 'firefox'
-    const granted = await requestSiteAccess('https://www.googleapis.com/');
+    const granted = await apis.permissions.request({ origins: ['https://www.googleapis.com/*'] });
     if (!granted) {
       return;
     }
@@ -274,7 +249,7 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
   row.querySelector('.show-subscription-menu')!.addEventListener('mousedown', async () => {
     const {
       subscriptions: { [id]: subscription },
-    } = await getOptions('subscriptions');
+    } = await LocalStorage.load('subscriptions');
     if (!subscription) {
       return;
     }
@@ -327,7 +302,7 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
   });
   $('addSubscriptionDialog_add').addEventListener('click', async () => {
     const url = $('addSubscriptionDialog_url').value;
-    const granted = await requestSiteAccess(url);
+    const granted = await apis.permissions.request({ origins: [new AltURL(url).toString()] });
     if (!granted) {
       return;
     }
@@ -379,7 +354,7 @@ async function main(): Promise<void> {
     element.innerHTML = chrome.i18n.getMessage(element.dataset.i18n!);
   }
 
-  const { blacklist, hideBlockLinks, sync, syncResult, subscriptions } = await getOptions(
+  const { blacklist, hideBlockLinks, sync, syncResult, subscriptions } = await LocalStorage.load(
     'blacklist',
     'hideBlockLinks',
     'sync',

@@ -1,3 +1,5 @@
+import { ErrorResult, Result, SuccessResult } from './types';
+
 export class AltURL {
   scheme: string;
   host: string;
@@ -15,6 +17,7 @@ export class AltURL {
   }
 }
 
+// #region MatchPattern
 const enum SchemeMatch {
   Any,
   Exact,
@@ -97,6 +100,7 @@ export class MatchPattern {
     return true;
   }
 }
+// #endregion MatchPattern
 
 export class Mutex {
   private queue: (() => Promise<void>)[] = [];
@@ -125,3 +129,37 @@ export class Mutex {
     this.dequeue();
   }
 }
+
+// #region Result
+export function isErrorResult(result: Result): result is ErrorResult {
+  return result.type === 'error';
+}
+
+export function isSuccessResult(result: Result): result is SuccessResult {
+  return result.type === 'success';
+}
+
+export function errorResult(message: string): ErrorResult {
+  return {
+    type: 'error',
+    message,
+  };
+}
+
+export function successResult(): SuccessResult {
+  return {
+    type: 'success',
+    timestamp: new Date().toISOString(),
+  };
+}
+// #endregion Result
+
+// #region string
+export function lines(s: string): string[] {
+  return s ? s.split('\n') : [];
+}
+
+export function unlines(ss: string[]): string {
+  return ss.join('\n');
+}
+// #endregion string

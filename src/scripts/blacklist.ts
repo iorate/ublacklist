@@ -1,5 +1,6 @@
-import { getOptions, lines, sendMessage, unlines } from './common';
-import { AltURL, MatchPattern } from './utilities';
+import { sendMessage } from './common';
+import * as LocalStorage from './local-storage';
+import { AltURL, MatchPattern, lines, unlines } from './utilities';
 import blacklistUpdateStyle from '!!css-loader!sass-loader!../styles/blacklistUpdate.scss';
 
 class RegularExpression {
@@ -191,7 +192,7 @@ export class BlacklistAggregation {
 }
 
 export async function loadBlacklists(): Promise<BlacklistAggregation> {
-  const { blacklist, subscriptions } = await getOptions('blacklist', 'subscriptions');
+  const { blacklist, subscriptions } = await LocalStorage.load('blacklist', 'subscriptions');
   return new BlacklistAggregation(
     blacklist,
     Object.keys(subscriptions).map(id => subscriptions[Number(id)].blacklist),

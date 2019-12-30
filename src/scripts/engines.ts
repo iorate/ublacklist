@@ -1,8 +1,9 @@
-import { Engine } from './common';
+import { Engine } from './types';
 
 export const ENGINES: Engine[] = [
   {
     id: 'startpage',
+    name: 'Startpage.com',
     matches: [
       'https://www.startpage.com/do/dsearch?*',
       'https://www.startpage.com/do/metasearch.pl?*',
@@ -12,6 +13,5 @@ export const ENGINES: Engine[] = [
       'https://www.startpage.com/sp/search',
       'https://www.startpage.com/sp/search?*',
     ],
-    name: 'Startpage.com',
   },
 ];
