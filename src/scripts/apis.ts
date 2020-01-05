@@ -1,5 +1,20 @@
 // #if BROWSER === 'chrome'
 export namespace apis {
+  export namespace alarms {
+    export type Alarm = chrome.alarms.Alarm;
+    export type AlarmCreateInfo = chrome.alarms.AlarmCreateInfo;
+
+    export function create(name: string, alarmInfo: AlarmCreateInfo): void {
+      chrome.alarms.create(name, alarmInfo);
+    }
+
+    export const onAlarm = {
+      addListener(callback: (alarm: Alarm) => void): void {
+        chrome.alarms.onAlarm.addListener(callback);
+      },
+    };
+  }
+
   export namespace i18n {
     export function getMessage(messageName: string, substitutions?: unknown): string {
       return chrome.i18n.getMessage(messageName, substitutions);
@@ -69,6 +84,7 @@ export namespace apis {
   }
 
   export namespace runtime {
+    export type InstalledDetails = chrome.runtime.InstalledDetails;
     export type MessageSender = chrome.runtime.MessageSender;
 
     export function sendMessage(message: unknown): Promise<unknown> {
@@ -83,15 +99,27 @@ export namespace apis {
       });
     }
 
+    export const onInstalled = {
+      addListener(callback: (details: InstalledDetails) => void): void {
+        chrome.runtime.onInstalled.addListener(callback);
+      },
+    };
+
     export const onMessage = {
       addListener(
         callback: (
           message: unknown,
           sender: MessageSender,
-          sendResponse: (response: unknown) => void,
+          sendResponse: (response: unknown) => void | boolean,
         ) => void,
       ): void {
         chrome.runtime.onMessage.addListener(callback);
+      },
+    };
+
+    export const onStartup = {
+      addListener(callback: () => void): void {
+        chrome.runtime.onStartup.addListener(callback);
       },
     };
   }

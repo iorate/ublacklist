@@ -1,7 +1,9 @@
 const manifest = {
   version: '3.2.5',
   background: {
-    persistent: true,
+    // #if BROWSER === 'chrome'
+    persistent: false,
+    // #endif
     scripts: ['scripts/background.js'],
   },
   browser_action: {
@@ -42,13 +44,12 @@ const manifest = {
   options_ui: {
     // #if BROWSER === 'firefox'
     browser_style: false,
-    // #endif
-    // #if BROWSER === 'chrome'
+    // #else
     chrome_style: false,
     // #endif
     page: 'options.html',
   },
-  permissions: ['activeTab', 'identity', 'storage'],
+  permissions: ['activeTab', 'alarms', 'identity', 'storage'],
   content_scripts: [
     {
       css: ['styles/engines/google.css', 'styles/content.css'],

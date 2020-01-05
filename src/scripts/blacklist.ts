@@ -1,5 +1,5 @@
-import { sendMessage } from './common';
 import * as LocalStorage from './local-storage';
+import { sendMessage } from './messages';
 import { AltURL, MatchPattern, lines, unlines } from './utilities';
 import blacklistUpdateStyle from '!!css-loader!sass-loader!../styles/blacklistUpdate.scss';
 
@@ -168,7 +168,7 @@ export class BlacklistAggregation {
       this.applyRemoved(params, this.user.unblockRules);
     }
     this.user.add(params.added);
-    sendMessage('setBlacklist', { blacklist: this.user.toString() });
+    sendMessage('set-blacklist', this.user.toString());
   }
 
   private initializeRemoved(params: BlacklistUpdateParams, rules: CompiledRule[]): void {

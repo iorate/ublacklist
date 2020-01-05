@@ -1,22 +1,11 @@
+import { apis } from './apis';
 import { AltURL } from './utilities';
 import { BlacklistUpdate, loadBlacklists } from './blacklist';
 
-function getCurrentURL(): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([{ url }]) => {
-      if (chrome.runtime.lastError) {
-        reject(new Error(chrome.runtime.lastError.message));
-      } else {
-        resolve(url);
-      }
-    });
-  });
-}
-
 async function main(): Promise<void> {
   const blacklists = await loadBlacklists();
-  const url = new AltURL(await getCurrentURL());
-
+  const activeTab = (await apis.tabs.query({ active: true, currentWindow: true }))[0];
+  const url = new AltURL(activeTab.url!);
   new BlacklistUpdate(document.getElementById('blacklistUpdateHost') as HTMLDivElement, () => {
     window.close();
   }).start(blacklists, url);

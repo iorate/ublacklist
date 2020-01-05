@@ -1,14 +1,12 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { apis } from './apis';
-import { BackgroundPage, addMessageListener, getBackgroundPage } from './common';
 import './dayjs-locales';
 import { ENGINES } from './engines';
 import * as LocalStorage from './local-storage';
+import { addMessageListeners, sendMessage } from './messages';
 import { Engine, Result, Subscription, SubscriptionId, Subscriptions } from './types';
 import { AltURL, isErrorResult, lines, unlines } from './utilities';
-
-let backgroundPage: BackgroundPage;
 
 function resultToString(result: Result): string {
   if (isErrorResult(result)) {
@@ -73,7 +71,7 @@ function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
   });
   $('saveBlacklist').addEventListener('click', () => {
     $('saveBlacklist').disabled = true;
-    backgroundPage.setBlacklist($blacklist.value);
+    sendMessage('set-blacklist', $blacklist.value);
   });
 
   $('importBlacklistDialog_background').addEventListener('click', () => {
@@ -116,7 +114,8 @@ async function setupEnginesSection(): Promise<void> {
   for (const engine of ENGINES) {
     $('engines').insertAdjacentHTML(
       'beforeend',
-      `<li class="list-item">
+      `
+<li class="list-item">
   <div class="columns is-vcentered">
     <div class="column">
       <label for="enable${engine.id}">
@@ -142,9 +141,7 @@ async function setupEnginesSection(): Promise<void> {
     $(`enable${engine.id}`)!.addEventListener('click', async () => {
       if (await apis.permissions.request({ origins: engine.matches })) {
         onEngineEnabled(engine);
-        // #if BROWSER === 'firefox'
-        backgroundPage.enableEngine(engine);
-        // #endif
+        sendMessage('enable-on-engine', engine);
       }
     });
   }
@@ -180,27 +177,29 @@ function setupSyncSection(sync: boolean, syncResult: Result | null): void {
       return;
     }
     // #endif
-    try {
-      await backgroundPage.getAuthToken(true);
-    } catch (e) {
+    const authed = await sendMessage('auth-to-sync-blacklist');
+    if (!authed) {
       return;
     }
     onSyncChanged(true);
-    backgroundPage.setSync(true);
+    await LocalStorage.store({ sync: true });
+    sendMessage('sync-blacklist');
   });
-  $('turnOffSync').addEventListener('click', () => {
+  $('turnOffSync').addEventListener('click', async () => {
     onSyncChanged(false);
-    backgroundPage.setSync(false);
+    await LocalStorage.store({ sync: false });
   });
   $('syncNow').addEventListener('click', () => {
-    backgroundPage.syncBlacklist();
+    sendMessage('sync-blacklist');
   });
 
-  addMessageListener('syncStart', () => {
-    $('syncResult').textContent = chrome.i18n.getMessage('options_syncRunning');
-  });
-  addMessageListener('syncEnd', ({ result }) => {
-    onSyncResultChanged(result);
+  addMessageListeners({
+    'blacklist-syncing': () => {
+      $('syncResult').textContent = chrome.i18n.getMessage('options_syncRunning');
+    },
+    'blacklist-synced': result => {
+      onSyncResultChanged(result);
+    },
   });
 }
 
@@ -211,7 +210,8 @@ function setupSyncSection(sync: boolean, syncResult: Result | null): void {
 function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): void {
   const row = $('subscriptions').tBodies[0].insertRow();
   row.id = `subscription${id}`;
-  row.innerHTML = `<td class="subscription-name">
+  row.innerHTML = `
+<td class="subscription-name">
   ${subscription.name}
 </td>
 <td class="subscription-url">
@@ -259,7 +259,7 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
     $('showSubscriptionDialog_ok').focus();
   });
   row.querySelector('.update-subscription-now-menu')!.addEventListener('mousedown', async () => {
-    backgroundPage.updateSubscription(id);
+    sendMessage('update-subscription', id);
   });
   row.querySelector('.remove-subscription-menu')!.addEventListener('mousedown', async () => {
     $('subscriptions').deleteRow(row.rowIndex);
@@ -267,7 +267,7 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
       $('noSubscriptionAdded').classList.remove('is-hidden');
       $('updateAllSubscriptions').disabled = true;
     }
-    backgroundPage.removeSubscription(id);
+    sendMessage('remove-subscription', id);
   });
 
   $('noSubscriptionAdded').classList.add('is-hidden');
@@ -286,7 +286,7 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
     $('addSubscriptionDialog_add').disabled = true;
   });
   $('updateAllSubscriptions').addEventListener('click', () => {
-    backgroundPage.updateAllSubscriptions();
+    sendMessage('update-subscriptions');
   });
 
   $('addSubscriptionDialog').addEventListener('input', () => {
@@ -313,9 +313,9 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
       blacklist: '',
       updateResult: null,
     };
-    const id = await backgroundPage.addSubscription(subscription);
+    const id = await sendMessage('add-subscription', subscription);
     onSubscriptionAdded(id, subscription);
-    backgroundPage.updateSubscription(id);
+    sendMessage('update-subscriptions');
   });
   $('showSubscriptionDialog_background').addEventListener('click', () => {
     $('showSubscriptionDialog').classList.remove('is-active');
@@ -324,21 +324,23 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
     $('showSubscriptionDialog').classList.remove('is-active');
   });
 
-  addMessageListener('updateStart', ({ id }) => {
-    const row = document.getElementById(`subscription${id}`);
-    if (!row) {
-      return;
-    }
-    row.querySelector('.subscription-update-result')!.textContent = chrome.i18n.getMessage(
-      'options_subscriptionUpdateRunning',
-    );
-  });
-  addMessageListener('updateEnd', ({ id, result }) => {
-    const row = document.getElementById(`subscription${id}`);
-    if (!row) {
-      return;
-    }
-    row.querySelector('.subscription-update-result')!.textContent = resultToString(result);
+  addMessageListeners({
+    'subscription-updating': id => {
+      const row = document.getElementById(`subscription${id}`);
+      if (!row) {
+        return;
+      }
+      row.querySelector('.subscription-update-result')!.textContent = chrome.i18n.getMessage(
+        'options_subscriptionUpdateRunning',
+      );
+    },
+    'subscription-updated': (id, result) => {
+      const row = document.getElementById(`subscription${id}`);
+      if (!row) {
+        return;
+      }
+      row.querySelector('.subscription-update-result')!.textContent = resultToString(result);
+    },
   });
 }
 
@@ -347,8 +349,6 @@ function setupSubscriptionSection(subscriptions: Subscriptions): void {
 async function main(): Promise<void> {
   dayjs.locale(chrome.i18n.getMessage('dayjsLocale'));
   dayjs.extend(relativeTime);
-
-  backgroundPage = await getBackgroundPage();
 
   for (const element of document.querySelectorAll<HTMLElement>('[data-i18n]')) {
     element.innerHTML = chrome.i18n.getMessage(element.dataset.i18n!);
