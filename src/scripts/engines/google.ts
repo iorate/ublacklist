@@ -80,7 +80,7 @@ switch (`${device}/${tbm}`) {
         // Recipes
         {
           getEntryCandidates: getEntryCandidatesDefault('.YwonT'),
-          getURL: getURLDefault('> g-inner-card > g-link > a'),
+          getURL: getURLDefault('a'),
           createAction: createActionForRecipes,
         },
         {
@@ -89,7 +89,7 @@ switch (`${device}/${tbm}`) {
               ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
               : [];
           },
-          getURL: getURLDefault('> div > g-inner-card > g-link > a'),
+          getURL: getURLDefault('a'),
           createAction: createActionForRecipes,
         },
         // Top Stories (Horizontal)
