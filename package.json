@@ -24,12 +24,14 @@
     "lintfix:styles": "stylelint --color --fix \"./src/styles/**/*\"",
     "publish": "run-p --print-label publish:*",
     "publish:chrome": "shipit chrome ./dist/chrome/production",
-    "publish:firefox": "shipit firefox ./dist/firefox/production"
+    "publish:firefox": "shipit firefox ./dist/firefox/production",
+    "test": "jest"
   },
   "devDependencies": {
     "@mdi/svg": "^4.7.95",
     "@types/chrome": "0.0.91",
     "@types/firefox-webext-browser": "^70.0.1",
+    "@types/jest": "^24.0.25",
     "@types/ua-parser-js": "^0.7.33",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
@@ -46,6 +48,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "file-loader": "^5.0.2",
     "ifdef-loader": "^2.1.4",
+    "jest": "^24.9.0",
     "license-checker-webpack-plugin": "0.1.4",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.13.0",
@@ -59,6 +62,7 @@
     "stylelint-prettier": "^1.1.2",
     "stylelint-scss": "^3.13.0",
     "svg-transform-loader": "^2.0.8",
+    "ts-jest": "^24.3.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.3",
     "ua-parser-js": "^0.7.20",
