@@ -1,23 +1,25 @@
 // #if BROWSER === 'firefox'
 import dialogPolyfill from 'dialog-polyfill';
 // #endif
-import * as LocalStorage from './local-storage';
-import { AltURL } from './utilities';
-import { BlacklistAggregation, BlacklistUpdate, loadBlacklists } from './blacklist';
+import { Blacklist } from './blacklist';
 import './content-handlers';
+import * as LocalStorage from './local-storage';
+import { sendMessage } from './messages';
+import { PatchBlacklistForm } from './patch-blacklist-form';
+import { AltURL } from './utilities';
 
 function $(id: 'ubHideStyle'): HTMLStyleElement | null;
 function $(id: 'ubControl'): HTMLSpanElement | null;
 function $(id: 'ubStats'): HTMLSpanElement | null;
-function $(id: 'ubBlacklistUpdateDialog'): HTMLDialogElement | null;
+function $(id: 'ubPatchBlacklistDialog'): HTMLDialogElement | null;
 function $(id: string): HTMLElement | null;
 function $(id: string): HTMLElement | null {
   return document.getElementById(id) as HTMLElement | null;
 }
 
 class Main {
-  blacklists: BlacklistAggregation | null = null;
-  blacklistUpdate: BlacklistUpdate | null = null;
+  blacklist: Blacklist | null = null;
+  patchBlacklistForm: PatchBlacklistForm | null = null;
   blockedEntryCount: number = 0;
   queuedEntries: HTMLElement[] = [];
 
@@ -27,7 +29,14 @@ class Main {
     }
 
     (async () => {
-      this.blacklists = await loadBlacklists();
+      const { blacklist: userBlacklist, subscriptions } = await LocalStorage.load(
+        'blacklist',
+        'subscriptions',
+      );
+      this.blacklist = new Blacklist(
+        userBlacklist,
+        Object.values(subscriptions).map(subscription => subscription.blacklist),
+      );
       for (const entry of this.queuedEntries) {
         this.judgeEntry(entry);
       }
@@ -60,7 +69,7 @@ class Main {
 
     document.addEventListener('DOMContentLoaded', () => {
       this.setupControl();
-      this.setupBlacklistUpdateDialog();
+      this.setupPatchBlacklistDialog();
     });
   }
 
@@ -88,7 +97,7 @@ class Main {
           entryHandler.modifyEntry(entry);
         }
 
-        if (this.blacklists) {
+        if (this.blacklist) {
           this.judgeEntry(entry);
         } else {
           this.queuedEntries.push(entry);
@@ -103,7 +112,8 @@ class Main {
   setupStyleSheets(): void {
     document.head.insertAdjacentHTML(
       'beforeend',
-      `<style>
+      `
+<style>
   #ubShowButton {
     display: none;
   }
@@ -138,7 +148,8 @@ class Main {
       if (hideBlockLinks) {
         document.head.insertAdjacentHTML(
           'beforeend',
-          `<style>
+          `
+<style>
   .ub-action {
     display: none !important;
   }
@@ -154,11 +165,12 @@ class Main {
     const onButtonClicked = (e: MouseEvent): void => {
       e.preventDefault();
       e.stopPropagation();
-      if (this.blacklists) {
-        this.blacklistUpdate!.start(this.blacklists, new AltURL(url), () => {
+      if (this.blacklist) {
+        this.patchBlacklistForm!.initialize(this.blacklist, new AltURL(url), () => {
+          sendMessage('set-blacklist', this.blacklist!.toString());
           this.rejudgeAllEntries();
         });
-        $('ubBlacklistUpdateDialog')!.showModal();
+        $('ubPatchBlacklistDialog')!.showModal();
       }
     };
 
@@ -212,29 +224,29 @@ class Main {
     }
   }
 
-  setupBlacklistUpdateDialog(): void {
-    const blacklistUpdateDialog = document.createElement('dialog');
+  setupPatchBlacklistDialog(): void {
+    const dialog = document.createElement('dialog');
     // #if BROWSER === 'firefox'
-    dialogPolyfill.registerDialog(blacklistUpdateDialog);
+    dialogPolyfill.registerDialog(dialog);
     // #endif
-    blacklistUpdateDialog.id = 'ubBlacklistUpdateDialog';
-    blacklistUpdateDialog.addEventListener('click', e => {
-      if (e.target === blacklistUpdateDialog) {
-        blacklistUpdateDialog.close();
+    dialog.id = 'ubPatchBlacklistDialog';
+    dialog.addEventListener('click', e => {
+      if (e.target === dialog) {
+        dialog.close();
       }
     });
-    document.body.appendChild(blacklistUpdateDialog);
+    document.body.appendChild(dialog);
 
-    const blacklistUpdateHost = document.createElement('div');
-    this.blacklistUpdate = new BlacklistUpdate(blacklistUpdateHost, () => {
-      blacklistUpdateDialog.close();
+    const host = document.createElement('div');
+    this.patchBlacklistForm = new PatchBlacklistForm(host, () => {
+      dialog.close();
     });
-    blacklistUpdateDialog.appendChild(blacklistUpdateHost);
+    dialog.appendChild(host);
   }
 
   judgeEntry(entry: HTMLElement): void {
     const url = new AltURL(entry.dataset.ubUrl!);
-    if (this.blacklists!.test(url)) {
+    if (this.blacklist!.test(url)) {
       entry.classList.add('ubBlockedEntry');
       ++this.blockedEntryCount;
       this.updateControl();

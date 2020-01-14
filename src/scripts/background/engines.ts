@@ -24,15 +24,11 @@ export async function enableOnEngine(engine: Engine): Promise<void> {
 
 export async function enableOnEngines(): Promise<void> {
   // #if BROWSER === 'chrome'
-  apis.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-    if (changeInfo.status !== 'loading') {
+  apis.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+    if (changeInfo.status !== 'loading' || tab.url == null) {
       return;
     }
-    const url = changeInfo.url ?? (await apis.tabs.get(tabId)).url;
-    if (url == undefined) {
-      return;
-    }
-    const altURL = new AltURL(url);
+    const altURL = new AltURL(tab.url);
     const contentScript = contentScripts.find(contentScript =>
       contentScript.matches.some(match => match.test(altURL)),
     );
