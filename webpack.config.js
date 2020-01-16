@@ -66,6 +66,9 @@ const config = {
           {
             loader: 'sass-loader',
             options: {
+              sassOptions: {
+                outputStyle: 'expanded',
+              },
               sourceMap: true,
             },
           },
