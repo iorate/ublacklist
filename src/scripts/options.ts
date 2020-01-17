@@ -6,7 +6,7 @@ import { ENGINES } from './engines';
 import * as LocalStorage from './local-storage';
 import { addMessageListeners, sendMessage } from './messages';
 import { Engine, Result, Subscription, SubscriptionId, Subscriptions } from './types';
-import { AltURL, isErrorResult, lines, unlines } from './utilities';
+import { AltURL, escapeHTML, isErrorResult, lines, unlines } from './utilities';
 
 function resultToString(result: Result): string {
   if (isErrorResult(result)) {
@@ -212,10 +212,10 @@ function onSubscriptionAdded(id: SubscriptionId, subscription: Subscription): vo
   row.id = `subscription${id}`;
   row.innerHTML = `
 <td class="subscription-name">
-  ${subscription.name}
+  ${escapeHTML(subscription.name)}
 </td>
 <td class="subscription-url">
-  ${subscription.url}
+  ${escapeHTML(subscription.url)}
 </td>
 <td class="subscription-update-result">
   ${subscription.updateResult ? resultToString(subscription.updateResult) : ''}

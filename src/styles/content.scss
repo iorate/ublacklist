@@ -2,25 +2,44 @@
 @import '~dialog-polyfill/dialog-polyfill.css';
 // #endif
 
-#ubPatchBlacklistDialog {
+.ub-control--hidden {
+  display: none !important;
+}
+
+.ub-control__show-button {
+  display: none;
+}
+
+.ub-entry__unblock-button {
+  display: none;
+}
+
+.ub-control__show-button,
+.ub-control__hide-button,
+.ub-entry__block-button,
+.ub-entry__unblock-button {
+  color: #1a0dab;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.ub-entry--blocked {
+  &,
+  * {
+    background-color: #ffe0e0;
+  }
+  .ub-entry__block-button {
+    display: none;
+  }
+  .ub-entry__unblock-button {
+    display: inline;
+  }
+}
+
+.ub-block-dialog {
   border: solid 1px lightgrey;
   box-sizing: content-box;
   padding: 0;
-}
-
-#ubShowButton,
-#ubHideButton {
-  color: #1a0dab;
-  cursor: pointer;
-}
-
-.ubBlockButton,
-.ubUnblockButton {
-  color: #1a0dab;
-  cursor: pointer;
-}
-
-.ubBlockButton:hover,
-.ubUnblockButton:hover {
-  text-decoration: underline;
 }

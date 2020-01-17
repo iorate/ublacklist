@@ -1,7 +1,7 @@
 import {
   createActionDefault,
   createControlDefault,
-  getEntryCandidatesDefault,
+  getEntriesDefault,
   getURLDefault,
 } from '../content-handlers';
 
@@ -19,18 +19,18 @@ window.ubContentHandlers = {
   ],
   entryHandlers: [
     {
-      getEntryCandidates: getEntryCandidatesDefault('.w-gl__result'),
+      getEntries: getEntriesDefault('.w-gl__result'),
       getURL: getURLDefault('> .w-gl__result-title'),
       createAction: createActionDefault('', 'ub-action-web'),
     },
     {
-      getEntryCandidates: getEntryCandidatesDefault('.ig-gl__list .image-container'),
-      getURL: (entryCandidate: HTMLElement): string | null => {
-        if (!entryCandidate.dataset.imgMetadata) {
+      getEntries: getEntriesDefault('.ig-gl__list .image-container'),
+      getURL: (entry: HTMLElement): string | null => {
+        if (!entry.dataset.imgMetadata) {
           return null;
         }
         try {
-          const metadata = JSON.parse(entryCandidate.dataset.imgMetadata);
+          const metadata = JSON.parse(entry.dataset.imgMetadata);
           return metadata.displayUrl ?? null;
         } catch {
           return null;

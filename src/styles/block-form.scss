@@ -15,36 +15,38 @@ $title-weight: normal;
   width: 25rem;
 }
 
-#body {
+.block-form {
   color: $body-color;
   font-family: $body-family;
   font-size: 1rem;
   padding: 1rem;
 }
 
-#title {
+.block-form__title {
   background: url('../images/icon-128.png') left/2rem no-repeat;
   line-height: 2rem;
-  margin-bottom: 0.75rem;
   padding-left: 2.5rem;
+  &:not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
 }
 
-#origin {
+.block-form__origin {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   word-break: break-all;
 }
 
-#details {
+.block-form__details {
   margin-bottom: 0.75rem;
 }
 
-summary {
+.block-form__details-title {
   cursor: pointer;
   margin-bottom: 0.75rem;
   outline: none;
 }
 
-.button[disabled] {
+.block-form__block-button[disabled] {
   cursor: default;
 }

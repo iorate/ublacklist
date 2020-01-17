@@ -3,13 +3,13 @@ import {
   createActionDefault,
   createControlDefault,
   getAddedElementsDefault,
-  getEntryCandidatesDefault,
+  getEntriesDefault,
   getURLDefault,
 } from '../content-handlers';
 
-function getURLFromQuery(selector: string): (entryCandidate: HTMLElement) => string | null {
-  return (entryCandidate: HTMLElement): string | null => {
-    const a = selector ? entryCandidate.querySelector(`:scope ${selector}`) : entryCandidate;
+function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
+  return (entry: HTMLElement): string | null => {
+    const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
     const url = a?.getAttribute('href');
     if (!url) {
       return null;
@@ -26,8 +26,8 @@ function getURLFromQuery(selector: string): (entryCandidate: HTMLElement) => str
   };
 }
 
-function createActionForRecipes(entryCandidate: HTMLElement): HTMLElement | null {
-  const site = entryCandidate.querySelector('.g6wEbd');
+function createActionForRecipes(entry: HTMLElement): HTMLElement | null {
+  const site = entry.querySelector('.g6wEbd');
   if (!site) {
     return null;
   }
@@ -50,13 +50,13 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.srg > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.srg > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-all'),
         },
         // Featured Snippet
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div.g.mnr-c.g-blk > div.kp-blk > div.xpdopen > div > div > div.g',
             5,
           ),
@@ -70,7 +70,7 @@ switch (`${device}/${tbm}`) {
         },
         // Latest
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
             1,
           ),
@@ -79,12 +79,12 @@ switch (`${device}/${tbm}`) {
         },
         // Recipes
         {
-          getEntryCandidates: getEntryCandidatesDefault('.YwonT'),
+          getEntries: getEntriesDefault('.YwonT'),
           getURL: getURLDefault('a'),
           createAction: createActionForRecipes,
         },
         {
-          getEntryCandidates: (addedElement: HTMLElement): HTMLElement[] => {
+          getEntries: (addedElement: HTMLElement): HTMLElement[] => {
             return addedElement.matches('.yl > div')
               ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
               : [];
@@ -94,7 +94,7 @@ switch (`${device}/${tbm}`) {
         },
         // Top Stories (Horizontal)
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(-n+3) > g-inner-card > div:nth-child(2)',
             2,
           ),
@@ -105,7 +105,7 @@ switch (`${device}/${tbm}`) {
           ),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > div > g-scrolling-carousel > div > div > div > div:nth-child(n+4) > g-inner-card',
             1,
           ),
@@ -117,7 +117,7 @@ switch (`${device}/${tbm}`) {
         },
         // Top Stories (Vertical)
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > div > div > div > div > div > lazy-load-item > div.dbsr > a > div > div:last-child > div:nth-child(2)',
             8,
           ),
@@ -128,7 +128,7 @@ switch (`${device}/${tbm}`) {
           ),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > div > div > div > div > div.dbsr > a > div > div > div:nth-child(2)',
             6,
           ),
@@ -139,7 +139,7 @@ switch (`${device}/${tbm}`) {
           ),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > div > g-inner-card',
           ),
           getURL: getURLDefault('> div.dbsr.kno-fb-ctx > g-card-section > a'),
@@ -150,7 +150,7 @@ switch (`${device}/${tbm}`) {
         },
         // Twitter
         {
-          getEntryCandidates: getEntryCandidatesDefault('#rso > .bkWMgd > div > .g'),
+          getEntries: getEntriesDefault('#rso > .bkWMgd > div > .g'),
           getURL: getURLDefault('> .s > .DOqJne > .zTpPx > g-link > a'),
           createAction: createActionDefault(
             '> .s > .DOqJne > .qdrjAc.Dwsemf',
@@ -158,7 +158,7 @@ switch (`${device}/${tbm}`) {
           ),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div > div.g'),
           getURL: getURLDefault('> g-section-with-header > div > div > div > div > g-link > a'),
           createAction: createActionDefault(
             '> g-section-with-header > div > div > div > div:nth-child(3)',
@@ -166,7 +166,7 @@ switch (`${device}/${tbm}`) {
           ),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div > div.g'),
           getURL: getURLDefault('> g-section-with-header > div > div > h3.r > g-link > a'),
           createAction: createActionDefault(
             '> g-section-with-header > div > div > div',
@@ -175,7 +175,7 @@ switch (`${device}/${tbm}`) {
         },
         // Videos
         {
-          getEntryCandidates: getEntryCandidatesDefault(
+          getEntries: getEntriesDefault(
             'div#rso > div > div > g-section-with-header > div > g-scrolling-carousel > div > div > div > div > g-inner-card',
             1,
           ),
@@ -184,13 +184,13 @@ switch (`${device}/${tbm}`) {
         },
         // Web Result
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-all'),
         },
         // Web Result with Site Links
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.g'),
           getURL: getURLDefault('> div > div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div > div.rc > div.r', 'ub-action-all'),
         },
@@ -213,18 +213,18 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('.Yr5TG'),
+          getEntries: getEntriesDefault('.Yr5TG'),
           getURL: getURLDefault('> .bHexk > a'),
           createAction: createActionDefault('> .bHexk > a', 'ub-action-books'),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.srg > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.srg > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-books'),
         },
         // All
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-books'),
         },
@@ -259,9 +259,9 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i'),
-          getURL(entryCandidate: HTMLElement): string | null {
-            const div = entryCandidate.querySelector(':scope > div.rg_meta.notranslate');
+          getEntries: getEntriesDefault('div#rg_s > div.rg_bx.rg_di.rg_el.ivg-i'),
+          getURL(entry: HTMLElement): string | null {
+            const div = entry.querySelector(':scope > div.rg_meta.notranslate');
             if (!div) {
               return null;
             }
@@ -270,7 +270,7 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('', 'ub-action-images'),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#islrg > div.islrc > div.isv-r'),
+          getEntries: getEntriesDefault('div#islrg > div.islrc > div.isv-r'),
           getURL: getURLDefault('> a:nth-child(2)'),
           createAction: createActionDefault('', 'ub-action-images'),
         },
@@ -288,15 +288,15 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('g-card'),
+          getEntries: getEntriesDefault('g-card'),
           getURL: getURLDefault('.dbsr > a'),
           createAction: createActionDefault('.pDavDe', 'ub-action-news'),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('.g > .ts > .gG0TJc'),
+          getEntries: getEntriesDefault('.g > .ts > .gG0TJc'),
           getURL: getURLDefault('> h3.r > a.l'),
           createAction: createActionDefault('> .slp', 'ub-action-news-1'),
-          modifyEntry(entry: HTMLElement): void {
+          adjustEntry(entry: HTMLElement): void {
             const image = entry.previousElementSibling;
             if (image && !image.querySelector('.f')) {
               entry.insertBefore(image, entry.firstChild);
@@ -304,10 +304,10 @@ switch (`${device}/${tbm}`) {
           },
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('.g > .ts > .card-section'),
+          getEntries: getEntriesDefault('.g > .ts > .card-section'),
           getURL: getURLDefault('> a'),
           createAction: createActionDefault('', 'ub-action-news-1'),
-          modifyEntry(entry: HTMLElement): void {
+          adjustEntry(entry: HTMLElement): void {
             const viewAll = entry.querySelector('.cWEW3c');
             if (viewAll) {
               const parent = entry.parentElement!;
@@ -321,7 +321,7 @@ switch (`${device}/${tbm}`) {
           },
         },
         {
-          getEntryCandidates: (addedElement: HTMLElement): HTMLElement[] => {
+          getEntries: (addedElement: HTMLElement): HTMLElement[] => {
             return addedElement.matches('.g > .ts > a.top') && addedElement.querySelector('.f')
               ? [addedElement]
               : [];
@@ -348,7 +348,7 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso > div > div.srg > div.g'),
+          getEntries: getEntriesDefault('div#rso > div > div.srg > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-videos'),
         },
@@ -372,17 +372,17 @@ switch (`${device}/${tbm}`) {
       controlHandlers: [],
       entryHandlers: [
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#rso div.xpd'),
+          getEntries: getEntriesDefault('div#rso div.xpd'),
           getURL: getURLDefault('> div:first-child a'),
           createAction: createActionDefault('> div:last-child', 'ub-action-mobile-all'),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#main div.xpd'),
+          getEntries: getEntriesDefault('div#main div.xpd'),
           getURL: getURLFromQuery('> div:first-child > a'),
           createAction: createActionDefault('', 'ub-action-mobile-all'),
         },
         {
-          getEntryCandidates: getEntryCandidatesDefault('div#ires > ol > div.g'),
+          getEntries: getEntriesDefault('div#ires > ol > div.g'),
           getURL: getURLFromQuery('> h3.r > a'),
           createAction: createActionDefault('> div.s > div:first-child', 'ub-action-all'),
         },

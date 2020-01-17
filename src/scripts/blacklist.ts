@@ -135,7 +135,7 @@ export class Blacklist {
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
   createPatch(url: AltURL): BlacklistPatch {
-    const patch = { url } as InternalPatch;
+    const internalPatch = { url } as InternalPatch;
     const unblockPatternIndices: number[] = [];
     this.unblockPatterns.forEach(({ pattern }, index) => {
       if (pattern.test(url)) {
@@ -144,26 +144,26 @@ export class Blacklist {
     });
     if (unblockPatternIndices.length) {
       // Unblocked by a user rule. Block it.
-      patch.unblock = false;
+      internalPatch.unblock = false;
       if (this.blockPatterns.some(({ pattern }) => pattern.test(url))) {
         // Already blocked by a user rule. No need to add one to block it.
-        patch.requireRulesToAdd = false;
-        patch.rulesToAdd = '';
+        internalPatch.requireRulesToAdd = false;
+        internalPatch.rulesToAdd = '';
       } else if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
         // Unblocked by a subscription rule. Add a user rule to block it.
-        patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(url, false);
+        internalPatch.requireRulesToAdd = true;
+        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
       } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
         // Already blocked by a subscription rule. No need to add a user rule to block it.
-        patch.requireRulesToAdd = false;
-        patch.rulesToAdd = '';
+        internalPatch.requireRulesToAdd = false;
+        internalPatch.rulesToAdd = '';
       } else {
         // Not yet blocked. Add a user rule to block it.
-        patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(url, false);
+        internalPatch.requireRulesToAdd = true;
+        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
       }
-      patch.patternIndicesToRemove = unblockPatternIndices;
-      patch.rulesToRemove = unlines(
+      internalPatch.patternIndicesToRemove = unblockPatternIndices;
+      internalPatch.rulesToRemove = unlines(
         unblockPatternIndices.map(index => this.rules[this.unblockPatterns[index].ruleIndex]!),
       );
     } else {
@@ -175,49 +175,49 @@ export class Blacklist {
       });
       if (blockPatternIndices.length) {
         // Blocked by a user rule. Unblock it.
-        patch.unblock = true;
+        internalPatch.unblock = true;
         if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
           // Unblocked by a subscription rule. No need to add a user rule to unblock it.
-          patch.requireRulesToAdd = false;
-          patch.rulesToAdd = '';
+          internalPatch.requireRulesToAdd = false;
+          internalPatch.rulesToAdd = '';
         } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
           // Blocked by a subscription rule. Add a user rule to unblock it.
-          patch.requireRulesToAdd = true;
-          patch.rulesToAdd = suggestMatchPattern(url, true);
+          internalPatch.requireRulesToAdd = true;
+          internalPatch.rulesToAdd = suggestMatchPattern(url, true);
         } else {
           // Not blocked by a subscription rule. No need to add a user rule to unblock it.
-          patch.requireRulesToAdd = false;
-          patch.rulesToAdd = '';
+          internalPatch.requireRulesToAdd = false;
+          internalPatch.rulesToAdd = '';
         }
-        patch.patternIndicesToRemove = blockPatternIndices;
-        patch.rulesToRemove = unlines(
+        internalPatch.patternIndicesToRemove = blockPatternIndices;
+        internalPatch.rulesToRemove = unlines(
           blockPatternIndices.map(index => this.rules[this.blockPatterns[index].ruleIndex]!),
         );
       } else if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
         // Unblocked by a subscription rule. Add a user rule to block it.
-        patch.unblock = false;
-        patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.patternIndicesToRemove = [];
-        patch.rulesToRemove = '';
+        internalPatch.unblock = false;
+        internalPatch.requireRulesToAdd = true;
+        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
+        internalPatch.patternIndicesToRemove = [];
+        internalPatch.rulesToRemove = '';
       } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
         // Blocked by a subscription rule. Add a user rule to unblock it.
-        patch.unblock = true;
-        patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(url, true);
-        patch.patternIndicesToRemove = [];
-        patch.rulesToRemove = '';
+        internalPatch.unblock = true;
+        internalPatch.requireRulesToAdd = true;
+        internalPatch.rulesToAdd = suggestMatchPattern(url, true);
+        internalPatch.patternIndicesToRemove = [];
+        internalPatch.rulesToRemove = '';
       } else {
         // Neither blocked nor unblocked. Add a user rule to block it.
-        patch.unblock = false;
-        patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.patternIndicesToRemove = [];
-        patch.rulesToRemove = '';
+        internalPatch.unblock = false;
+        internalPatch.requireRulesToAdd = true;
+        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
+        internalPatch.patternIndicesToRemove = [];
+        internalPatch.rulesToRemove = '';
       }
     }
-    this.internalPatch = patch;
-    return patch as BlacklistPatch;
+    this.internalPatch = internalPatch;
+    return internalPatch as BlacklistPatch;
   }
 
   // Modify a created patch.

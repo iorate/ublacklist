@@ -15,10 +15,10 @@ export interface ControlHandler {
 }
 
 export interface EntryHandler {
-  getEntryCandidates: (addedElement: HTMLElement) => HTMLElement[];
-  getURL: (entryCandidate: HTMLElement) => string | null;
-  createAction: (entryCandidate: HTMLElement) => HTMLElement | null;
-  modifyEntry?: (entry: HTMLElement) => void;
+  getEntries: (addedElement: HTMLElement) => HTMLElement[];
+  getURL: (entry: HTMLElement) => string | null;
+  createAction: (entry: HTMLElement) => HTMLElement | null;
+  adjustEntry?: (entry: HTMLElement) => void;
 }
 
 export interface AutoPagerizeHandler {
@@ -41,7 +41,7 @@ export function createControlDefault(
   };
 }
 
-export function getEntryCandidatesDefault(
+export function getEntriesDefault(
   selector: string,
   depth: number = 0,
 ): (addedElement: HTMLElement) => HTMLElement[] {
@@ -49,17 +49,17 @@ export function getEntryCandidatesDefault(
     if (!addedElement.matches(selector)) {
       return [];
     }
-    let entryCandidate: HTMLElement | null = addedElement;
-    for (let i = 0; i < depth && entryCandidate; ++i) {
-      entryCandidate = entryCandidate.parentElement;
+    let entry: HTMLElement | null = addedElement;
+    for (let i = 0; i < depth && entry; ++i) {
+      entry = entry.parentElement;
     }
-    return entryCandidate ? [entryCandidate] : [];
+    return entry ? [entry] : [];
   };
 }
 
-export function getURLDefault(selector: string): (entryCandidate: HTMLElement) => string | null {
-  return (entryCandidate: HTMLElement): string | null => {
-    const a = selector ? entryCandidate.querySelector(`:scope ${selector}`) : entryCandidate;
+export function getURLDefault(selector: string): (entry: HTMLElement) => string | null {
+  return (entry: HTMLElement): string | null => {
+    const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
     return a?.getAttribute('href') ?? null;
   };
 }
@@ -67,11 +67,9 @@ export function getURLDefault(selector: string): (entryCandidate: HTMLElement) =
 export function createActionDefault(
   parentSelector: string,
   className: string,
-): (entryCandidate: HTMLElement) => HTMLElement | null {
-  return (entryCandidate: HTMLElement): HTMLElement | null => {
-    const parent = parentSelector
-      ? entryCandidate.querySelector(`:scope ${parentSelector}`)
-      : entryCandidate;
+): (entry: HTMLElement) => HTMLElement | null {
+  return (entry: HTMLElement): HTMLElement | null => {
+    const parent = parentSelector ? entry.querySelector(`:scope ${parentSelector}`) : entry;
     if (!parent) {
       return null;
     }

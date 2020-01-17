@@ -1,9 +1,9 @@
 import { apis } from './apis';
 import { Blacklist, BlacklistPatch } from './blacklist';
 import { AltURL } from './utilities';
-import style from '!!css-loader!sass-loader!../styles/patch-blacklist-form.scss';
+import style from '!!css-loader!sass-loader!../styles/block-form.scss';
 
-export class PatchBlacklistForm {
+export class BlockForm {
   private root: ShadowRoot;
   private blacklist: Blacklist | null = null;
   private blacklistPatch: BlacklistPatch | null = null;
@@ -12,55 +12,55 @@ export class PatchBlacklistForm {
   constructor(host: HTMLElement, onClose: () => void) {
     this.root = host.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
-<style>
-  ${style.toString()}
-</style>
-<div id="body">
-  <h1 id="title" class="title"></h1>
-  <p id="origin"></p>
-  <details id="details">
-    <summary>
-      ${apis.i18n.getMessage('popup_details')}
-    </summary>
-    <div class="field">
-      <label class="label" for="url">
-        ${apis.i18n.getMessage('popup_pageURLLabel')}
-      </label>
-      <div class="control">
-        <input id="url" class="input" readonly>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label" for="added">
-        ${apis.i18n.getMessage('popup_addedRulesLabel')}
-      </label>
-      <div class="control">
-        <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
-      </div>
-      <p id="addedHelper" class="help has-text-grey">
-        ${apis.i18n.getMessage('options_blacklistHelper')}
-      </p>
-    </div>
-    <div class="field">
-      <label class="label" for="removed">
-        ${apis.i18n.getMessage('popup_removedRulesLabel')}
-      </label>
-      <div class="control">
-        <textarea id="removed" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
-      </div>
-    </div>
-  </details>
-  <div class="field is-grouped is-grouped-right">
-    <div class="control">
-      <button id="cancel" class="button has-text-primary">
-        ${apis.i18n.getMessage('cancelButton')}
-      </button>
-    </div>
-    <div class="control">
-      <button id="update" class="button is-primary"></button>
-    </div>
-  </div>
-</div>`;
+      <style>
+        ${style.toString()}
+      </style>
+      <div class="block-form">
+        <h1 id="title" class="title block-form__title"></h1>
+        <p id="origin" class="block-form__origin"></p>
+        <details id="details" class="block-form__details">
+          <summary class="block-form__details-title">
+            ${apis.i18n.getMessage('popup_details')}
+          </summary>
+          <div class="field">
+            <label class="label" for="url">
+              ${apis.i18n.getMessage('popup_pageURLLabel')}
+            </label>
+            <div class="control">
+              <input id="url" class="input" readonly>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="added">
+              ${apis.i18n.getMessage('popup_addedRulesLabel')}
+            </label>
+            <div class="control">
+              <textarea id="added" class="textarea has-fixed-size" rows="2" spellcheck="false"></textarea>
+            </div>
+            <p id="addedHelper" class="help has-text-grey">
+              ${apis.i18n.getMessage('options_blacklistHelper')}
+            </p>
+          </div>
+          <div class="field">
+            <label class="label" for="removed">
+              ${apis.i18n.getMessage('popup_removedRulesLabel')}
+            </label>
+            <div class="control">
+              <textarea id="removed" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
+            </div>
+          </div>
+        </details>
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button id="cancel" class="button has-text-primary">
+              ${apis.i18n.getMessage('cancelButton')}
+            </button>
+          </div>
+          <div class="control">
+            <button id="update" class="button is-primary block-form__block-button"></button>
+          </div>
+        </div>
+      </div>`;
     this.$('details').addEventListener('toggle', () => {
       if (this.$('details').open && this.blacklistPatch) {
         this.$('added').focus();

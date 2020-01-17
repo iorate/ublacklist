@@ -155,6 +155,14 @@ export function successResult(): SuccessResult {
 // #endregion Result
 
 // #region string
+export function escapeHTML(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export function lines(s: string): string[] {
   return s ? s.split('\n') : [];
 }
