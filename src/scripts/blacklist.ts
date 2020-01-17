@@ -226,30 +226,31 @@ export class Blacklist {
     if (!this.internalPatch) {
       throw new Error('Patch not created');
     }
-    let modified!: boolean;
+    let rulesAddable!: boolean;
     if (this.internalPatch.unblock) {
       // Unblock the URL.
       if (this.internalPatch.requireRulesToAdd) {
         // Need to add a user rule to unblock it.
-        modified = testUnblock(patch.rulesToAdd, this.internalPatch.url);
+        rulesAddable = testUnblock(patch.rulesToAdd, this.internalPatch.url);
       } else {
         // No need to add a user rule to unblock it, but do not add one to block it.
-        modified = !testBlock(patch.rulesToAdd, this.internalPatch.url);
+        rulesAddable = !testBlock(patch.rulesToAdd, this.internalPatch.url);
       }
     } else {
       // Block the URL.
       if (this.internalPatch.requireRulesToAdd) {
         // Need to add a user rule to block it.
-        modified = testBlock(patch.rulesToAdd, this.internalPatch.url);
+        rulesAddable = testBlock(patch.rulesToAdd, this.internalPatch.url);
       } else {
         // No need to add a user rule to block it, but do not add one to unblock it.
-        modified = !testUnblock(patch.rulesToAdd, this.internalPatch.url);
+        rulesAddable = !testUnblock(patch.rulesToAdd, this.internalPatch.url);
       }
     }
-    if (modified) {
-      this.internalPatch.rulesToAdd = patch.rulesToAdd;
+    if (!rulesAddable) {
+      return null;
     }
-    return modified ? (this.internalPatch as BlacklistPatch) : null;
+    this.internalPatch.rulesToAdd = patch.rulesToAdd;
+    return this.internalPatch as BlacklistPatch;
   }
 
   applyPatch(): void {
