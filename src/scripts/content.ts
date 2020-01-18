@@ -198,7 +198,7 @@ function main(): void {
   const hideStyle = `
     <style id="ub-hide-style">
       .ub-control__show-button {
-        display: inline;
+        display: inline !important;
       }
       .ub-control__hide-button {
         display: none;
