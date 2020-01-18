@@ -86,4 +86,11 @@ https://*.example.edu/`);
 # But unblock 'example.net'
 @*://example.net/*
 @ftp://example.org/*`);
+
+  b123.createPatch(new AltURL('http://www.example.edu/foo/bar'));
+  const p123f = b123.modifyPatch({
+    rulesToAdd: String.raw`*://www.example.edu
+@/edu/`,
+  });
+  expect(p123f).toBe(null);
 });

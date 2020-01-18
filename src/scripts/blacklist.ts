@@ -71,20 +71,6 @@ function suggestMatchPattern(url: AltURL, unblock: boolean): string {
   }
 }
 
-function testBlock(rules: string, url: AltURL): boolean {
-  return lines(rules).some(rule => {
-    const pu = compileRule(rule);
-    return pu && !pu.unblock && pu.pattern.test(url);
-  });
-}
-
-function testUnblock(rules: string, url: AltURL): boolean {
-  return lines(rules).some(rule => {
-    const pu = compileRule(rule);
-    return pu && pu.unblock && pu.pattern.test(url);
-  });
-}
-
 export class Blacklist {
   private rules: (string | null)[] = [];
   private blockPatterns: PatternAndRuleIndex[] = [];
@@ -226,24 +212,34 @@ export class Blacklist {
     if (!this.internalPatch) {
       throw new Error('Patch not created');
     }
+    const blockPatterns: Pattern[] = [];
+    const unblockPatterns: Pattern[] = [];
+    for (const rule of lines(patch.rulesToAdd)) {
+      const pu = compileRule(rule);
+      if (pu) {
+        (pu.unblock ? unblockPatterns : blockPatterns).push(pu.pattern);
+      }
+    }
     let rulesAddable!: boolean;
     if (this.internalPatch.unblock) {
-      // Unblock the URL.
       if (this.internalPatch.requireRulesToAdd) {
-        // Need to add a user rule to unblock it.
-        rulesAddable = testUnblock(patch.rulesToAdd, this.internalPatch.url);
+        // Unblock.
+        rulesAddable = unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
       } else {
-        // No need to add a user rule to unblock it, but do not add one to block it.
-        rulesAddable = !testBlock(patch.rulesToAdd, this.internalPatch.url);
+        // Do not block.
+        rulesAddable =
+          !blockPatterns.some(pattern => pattern.test(this.internalPatch!.url)) ||
+          unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
       }
     } else {
-      // Block the URL.
       if (this.internalPatch.requireRulesToAdd) {
-        // Need to add a user rule to block it.
-        rulesAddable = testBlock(patch.rulesToAdd, this.internalPatch.url);
+        // Block.
+        rulesAddable =
+          blockPatterns.some(pattern => pattern.test(this.internalPatch!.url)) &&
+          !unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
       } else {
-        // No need to add a user rule to block it, but do not add one to unblock it.
-        rulesAddable = !testUnblock(patch.rulesToAdd, this.internalPatch.url);
+        // Do not unblock.
+        rulesAddable = !unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
       }
     }
     if (!rulesAddable) {
