@@ -29,38 +29,69 @@ class RegularExpression {
 
 type Pattern = MatchPattern | RegularExpression;
 
-interface PatternAndRuleIndex {
-  pattern: Pattern;
-  ruleIndex: number;
-}
-
-type InternalPatch = BlacklistPatch & {
-  requireRulesToAdd: boolean;
-  patternIndicesToRemove: number[];
-};
-
-interface PatternAndUnblock {
-  pattern: Pattern;
+interface CookedRule {
+  rawRuleIndex: number;
   unblock: boolean;
+  pattern: Pattern;
 }
 
-function compileRule(rule: string): PatternAndUnblock | null {
-  rule = rule.trim();
-  const unblock = rule.startsWith('@');
-  if (unblock) {
-    rule = rule.slice(1).trimStart();
+class Part {
+  rawRules: (string | null)[] = [];
+  blockRules: CookedRule[] = [];
+  unblockRules: CookedRule[] = [];
+
+  constructor(blacklist: string) {
+    this.add(blacklist);
   }
-  let pattern!: Pattern | null;
-  try {
-    pattern = new MatchPattern(rule);
-  } catch {
-    try {
-      pattern = new RegularExpression(rule);
-    } catch {
-      pattern = null;
+
+  add(blacklist: string): void {
+    for (let rawRule of lines(blacklist)) {
+      this.rawRules.push(rawRule);
+      rawRule = rawRule.trim();
+      const unblock = rawRule.startsWith('@');
+      if (unblock) {
+        rawRule = rawRule.slice(1).trimStart();
+      }
+      let pattern!: Pattern;
+      try {
+        pattern = new MatchPattern(rawRule);
+      } catch {
+        try {
+          pattern = new RegularExpression(rawRule);
+        } catch {
+          continue;
+        }
+      }
+      (unblock ? this.unblockRules : this.blockRules).push({
+        rawRuleIndex: this.rawRules.length - 1,
+        unblock,
+        pattern,
+      });
     }
   }
-  return pattern ? { pattern, unblock } : null;
+
+  blocks(url: AltURL): boolean {
+    return this.blockRules.some(blockRule => blockRule.pattern.test(url));
+  }
+
+  unblocks(url: AltURL): boolean {
+    return this.unblockRules.some(unblockRule => unblockRule.pattern.test(url));
+  }
+}
+
+type Patch = BlacklistPatch & {
+  requireRulesToAdd: boolean;
+  cookedRuleIndicesToRemove: number[];
+};
+
+function findIndices<T>(array: T[], predicate: (element: T) => boolean): number[] {
+  const indices: number[] = [];
+  array.forEach((element, index) => {
+    if (predicate(element)) {
+      indices.push(index);
+    }
+  });
+  return indices;
 }
 
 function suggestMatchPattern(url: AltURL, unblock: boolean): string {
@@ -72,48 +103,29 @@ function suggestMatchPattern(url: AltURL, unblock: boolean): string {
 }
 
 export class Blacklist {
-  private rules: (string | null)[] = [];
-  private blockPatterns: PatternAndRuleIndex[] = [];
-  private unblockPatterns: PatternAndRuleIndex[] = [];
-  private subscriptionBlockPatterns: Pattern[] = [];
-  private subscriptionUnblockPatterns: Pattern[] = [];
-  private internalPatch: InternalPatch | null = null;
+  private userPart: Part;
+  private subscriptionParts: Part[];
+  private patch: Patch | null = null;
 
   constructor(blacklist: string, subscriptionBlacklists: string[]) {
-    this.add(blacklist);
-    for (const subscriptionBlacklist of subscriptionBlacklists) {
-      for (const rule of lines(subscriptionBlacklist)) {
-        const pu = compileRule(rule);
-        if (pu) {
-          const { pattern, unblock } = pu;
-          const patterns = unblock
-            ? this.subscriptionUnblockPatterns
-            : this.subscriptionBlockPatterns;
-          patterns.push(pattern);
-        }
-      }
-    }
+    this.userPart = new Part(blacklist);
+    this.subscriptionParts = subscriptionBlacklists.map(blacklist => new Part(blacklist));
   }
 
   toString(): string {
-    return unlines(this.rules.filter(rule => rule != null) as string[]);
+    return unlines(this.userPart.rawRules.filter(rawRule => rawRule != null) as string[]);
   }
 
   test(url: AltURL): boolean {
-    if (this.unblockPatterns.some(({ pattern }) => pattern.test(url))) {
-      // Unblocked by a user rule.
+    if (this.userPart.unblocks(url)) {
       return false;
-    } else if (this.blockPatterns.some(({ pattern }) => pattern.test(url))) {
-      // Blocked by a user rule.
+    } else if (this.userPart.blocks(url)) {
       return true;
-    } else if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
-      // Unblocked by a subscription rule.
+    } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
       return false;
-    } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
-      // Blocked by a subscription rule.
+    } else if (this.subscriptionParts.some(part => part.blocks(url))) {
       return true;
     } else {
-      // Neither blocked nor unblocked.
       return false;
     }
   }
@@ -121,163 +133,134 @@ export class Blacklist {
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
   createPatch(url: AltURL): BlacklistPatch {
-    const internalPatch = { url } as InternalPatch;
-    const unblockPatternIndices: number[] = [];
-    this.unblockPatterns.forEach(({ pattern }, index) => {
-      if (pattern.test(url)) {
-        unblockPatternIndices.push(index);
-      }
-    });
-    if (unblockPatternIndices.length) {
-      // Unblocked by a user rule. Block it.
-      internalPatch.unblock = false;
-      if (this.blockPatterns.some(({ pattern }) => pattern.test(url))) {
-        // Already blocked by a user rule. No need to add one to block it.
-        internalPatch.requireRulesToAdd = false;
-        internalPatch.rulesToAdd = '';
-      } else if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
-        // Unblocked by a subscription rule. Add a user rule to block it.
-        internalPatch.requireRulesToAdd = true;
-        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
-      } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
-        // Already blocked by a subscription rule. No need to add a user rule to block it.
-        internalPatch.requireRulesToAdd = false;
-        internalPatch.rulesToAdd = '';
+    const patch = { url } as Patch;
+    const unblockRuleIndices = findIndices(this.userPart.unblockRules, unblockRule =>
+      unblockRule.pattern.test(url),
+    );
+    if (unblockRuleIndices.length) {
+      // The URL is blocked by a user rule. Unblock it.
+      patch.unblock = false;
+      if (this.userPart.blocks(url)) {
+        // No need to add a user rule to block it.
+        patch.requireRulesToAdd = false;
+        patch.rulesToAdd = '';
+      } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
+        // Add a user rule to block it.
+        patch.requireRulesToAdd = true;
+        patch.rulesToAdd = suggestMatchPattern(url, false);
+      } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+        // No need to add a user rule to block it.
+        patch.requireRulesToAdd = false;
+        patch.rulesToAdd = '';
       } else {
-        // Not yet blocked. Add a user rule to block it.
-        internalPatch.requireRulesToAdd = true;
-        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
+        // Add a user rule to block it.
+        patch.requireRulesToAdd = true;
+        patch.rulesToAdd = suggestMatchPattern(url, false);
       }
-      internalPatch.patternIndicesToRemove = unblockPatternIndices;
-      internalPatch.rulesToRemove = unlines(
-        unblockPatternIndices.map(index => this.rules[this.unblockPatterns[index].ruleIndex]!),
+      patch.cookedRuleIndicesToRemove = unblockRuleIndices;
+      patch.rulesToRemove = unlines(
+        unblockRuleIndices.map(
+          index => this.userPart.rawRules[this.userPart.unblockRules[index].rawRuleIndex]!,
+        ),
       );
     } else {
-      const blockPatternIndices: number[] = [];
-      this.blockPatterns.forEach(({ pattern }, index) => {
-        if (pattern.test(url)) {
-          blockPatternIndices.push(index);
-        }
-      });
-      if (blockPatternIndices.length) {
-        // Blocked by a user rule. Unblock it.
-        internalPatch.unblock = true;
-        if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
-          // Unblocked by a subscription rule. No need to add a user rule to unblock it.
-          internalPatch.requireRulesToAdd = false;
-          internalPatch.rulesToAdd = '';
-        } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
-          // Blocked by a subscription rule. Add a user rule to unblock it.
-          internalPatch.requireRulesToAdd = true;
-          internalPatch.rulesToAdd = suggestMatchPattern(url, true);
+      const blockRuleIndices = findIndices(this.userPart.blockRules, blockRule =>
+        blockRule.pattern.test(url),
+      );
+      if (blockRuleIndices.length) {
+        // The URL is blocked by a user rule. Unblock it.
+        patch.unblock = true;
+        if (this.subscriptionParts.some(part => part.unblocks(url))) {
+          // No need to add a user rule to unblock it.
+          patch.requireRulesToAdd = false;
+          patch.rulesToAdd = '';
+        } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+          // Add a user rule to unblock it.
+          patch.requireRulesToAdd = true;
+          patch.rulesToAdd = suggestMatchPattern(url, true);
         } else {
-          // Not blocked by a subscription rule. No need to add a user rule to unblock it.
-          internalPatch.requireRulesToAdd = false;
-          internalPatch.rulesToAdd = '';
+          // No need to add a user rule to unblock it.
+          patch.requireRulesToAdd = false;
+          patch.rulesToAdd = '';
         }
-        internalPatch.patternIndicesToRemove = blockPatternIndices;
-        internalPatch.rulesToRemove = unlines(
-          blockPatternIndices.map(index => this.rules[this.blockPatterns[index].ruleIndex]!),
+        patch.cookedRuleIndicesToRemove = blockRuleIndices;
+        patch.rulesToRemove = unlines(
+          blockRuleIndices.map(
+            index => this.userPart.rawRules[this.userPart.blockRules[index].rawRuleIndex]!,
+          ),
         );
-      } else if (this.subscriptionUnblockPatterns.some(pattern => pattern.test(url))) {
-        // Unblocked by a subscription rule. Add a user rule to block it.
-        internalPatch.unblock = false;
-        internalPatch.requireRulesToAdd = true;
-        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
-        internalPatch.patternIndicesToRemove = [];
-        internalPatch.rulesToRemove = '';
-      } else if (this.subscriptionBlockPatterns.some(pattern => pattern.test(url))) {
-        // Blocked by a subscription rule. Add a user rule to unblock it.
-        internalPatch.unblock = true;
-        internalPatch.requireRulesToAdd = true;
-        internalPatch.rulesToAdd = suggestMatchPattern(url, true);
-        internalPatch.patternIndicesToRemove = [];
-        internalPatch.rulesToRemove = '';
+      } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
+        // The URL is unblocked by a subscription rule. Block it.
+        // Add a user rule to block it.
+        patch.unblock = false;
+        patch.requireRulesToAdd = true;
+        patch.rulesToAdd = suggestMatchPattern(url, false);
+        patch.cookedRuleIndicesToRemove = [];
+        patch.rulesToRemove = '';
+      } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+        // The URL is blocked by a subscription rule. Unblock it.
+        // Add a user rule to unblock it.
+        patch.unblock = true;
+        patch.requireRulesToAdd = true;
+        patch.rulesToAdd = suggestMatchPattern(url, true);
+        patch.cookedRuleIndicesToRemove = [];
+        patch.rulesToRemove = '';
       } else {
-        // Neither blocked nor unblocked. Add a user rule to block it.
-        internalPatch.unblock = false;
-        internalPatch.requireRulesToAdd = true;
-        internalPatch.rulesToAdd = suggestMatchPattern(url, false);
-        internalPatch.patternIndicesToRemove = [];
-        internalPatch.rulesToRemove = '';
+        // The URL is neither blocked nor unblocked. Block it.
+        // Add a user rule to block it.
+        patch.unblock = false;
+        patch.requireRulesToAdd = true;
+        patch.rulesToAdd = suggestMatchPattern(url, false);
+        patch.cookedRuleIndicesToRemove = [];
+        patch.rulesToRemove = '';
       }
     }
-    this.internalPatch = internalPatch;
-    return internalPatch as BlacklistPatch;
+    this.patch = patch;
+    return patch as BlacklistPatch;
   }
 
   // Modify a created patch.
   // Only 'rulesToAdd' can be modified.
   modifyPatch(patch: Pick<BlacklistPatch, 'rulesToAdd'>): BlacklistPatch | null {
-    if (!this.internalPatch) {
+    if (!this.patch) {
       throw new Error('Patch not created');
     }
-    const blockPatterns: Pattern[] = [];
-    const unblockPatterns: Pattern[] = [];
-    for (const rule of lines(patch.rulesToAdd)) {
-      const pu = compileRule(rule);
-      if (pu) {
-        (pu.unblock ? unblockPatterns : blockPatterns).push(pu.pattern);
-      }
-    }
+    const partToAdd = new Part(patch.rulesToAdd);
     let rulesAddable!: boolean;
-    if (this.internalPatch.unblock) {
-      if (this.internalPatch.requireRulesToAdd) {
-        // Unblock.
-        rulesAddable = unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
+    if (this.patch.unblock) {
+      if (this.patch.requireRulesToAdd) {
+        rulesAddable = partToAdd.unblocks(this.patch.url);
       } else {
-        // Do not block.
-        rulesAddable =
-          !blockPatterns.some(pattern => pattern.test(this.internalPatch!.url)) ||
-          unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
+        rulesAddable = !partToAdd.blocks(this.patch.url) || partToAdd.unblocks(this.patch.url);
       }
     } else {
-      if (this.internalPatch.requireRulesToAdd) {
-        // Block.
-        rulesAddable =
-          blockPatterns.some(pattern => pattern.test(this.internalPatch!.url)) &&
-          !unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
+      if (this.patch.requireRulesToAdd) {
+        rulesAddable = partToAdd.blocks(this.patch.url) && !partToAdd.unblocks(this.patch.url);
       } else {
-        // Do not unblock.
-        rulesAddable = !unblockPatterns.some(pattern => pattern.test(this.internalPatch!.url));
+        rulesAddable = !partToAdd.unblocks(this.patch.url);
       }
     }
     if (!rulesAddable) {
       return null;
     }
-    this.internalPatch.rulesToAdd = patch.rulesToAdd;
-    return this.internalPatch as BlacklistPatch;
+    this.patch.rulesToAdd = patch.rulesToAdd;
+    return this.patch as BlacklistPatch;
   }
 
   applyPatch(): void {
-    if (!this.internalPatch) {
+    if (!this.patch) {
       throw new Error('Patch not created');
     }
-    // Add rules.
-    this.add(this.internalPatch.rulesToAdd);
-    // Remove rules.
-    // If unblocking a url, remove from block patterns. Otherwise, remove from unblock patterns.
-    const patterns = this.internalPatch.unblock ? this.blockPatterns : this.unblockPatterns;
-    for (const index of this.internalPatch.patternIndicesToRemove.reverse()) {
-      this.rules[patterns[index].ruleIndex] = null;
-      patterns.splice(index, 1);
+    const cookedRules = this.patch.unblock ? this.userPart.blockRules : this.userPart.unblockRules;
+    for (const index of this.patch.cookedRuleIndicesToRemove.reverse()) {
+      this.userPart.rawRules[cookedRules[index].rawRuleIndex] = null;
+      cookedRules.splice(index, 1);
     }
-    this.internalPatch = null;
+    this.userPart.add(this.patch.rulesToAdd);
+    this.patch = null;
   }
 
   deletePatch(): void {
-    this.internalPatch = null;
-  }
-
-  private add(rules: string): void {
-    for (const rule of lines(rules)) {
-      this.rules.push(rule);
-      const pu = compileRule(rule);
-      if (pu) {
-        const { pattern, unblock } = pu;
-        const patterns = unblock ? this.unblockPatterns : this.blockPatterns;
-        patterns.push({ pattern, ruleIndex: this.rules.length - 1 });
-      }
-    }
+    this.patch = null;
   }
 }
