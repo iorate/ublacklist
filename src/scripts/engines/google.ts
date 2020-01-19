@@ -50,6 +50,11 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
+          getEntries: getEntriesDefault('.g'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all-202001'),
+        },
+        {
           getEntries: getEntriesDefault('div#rso > div > div.srg > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-all'),
@@ -212,6 +217,11 @@ switch (`${device}/${tbm}`) {
         },
       ],
       entryHandlers: [
+        {
+          getEntries: getEntriesDefault('.g'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all-202001'),
+        },
         {
           getEntries: getEntriesDefault('.Yr5TG'),
           getURL: getURLDefault('> .bHexk > a'),
