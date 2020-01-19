@@ -26,17 +26,6 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
   };
 }
 
-function createActionForRecipes(entry: HTMLElement): HTMLElement | null {
-  const site = entry.querySelector('.g6wEbd');
-  if (!site) {
-    return null;
-  }
-  const action = document.createElement('div');
-  action.className = 'ub-action-all-recipes';
-  site.parentElement!.insertBefore(action, site.nextSibling);
-  return action;
-}
-
 const device = new UAParser(window.navigator.userAgent).getDevice().type ?? '';
 const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
 switch (`${device}/${tbm}`) {
@@ -91,7 +80,7 @@ switch (`${device}/${tbm}`) {
         {
           getEntries: getEntriesDefault('.YwonT'),
           getURL: getURLDefault('a'),
-          createAction: createActionForRecipes,
+          createAction: createActionDefault('a', 'ub-action-all__recipes'),
         },
         {
           getEntries: (addedElement: HTMLElement): HTMLElement[] => {
@@ -100,7 +89,7 @@ switch (`${device}/${tbm}`) {
               : [];
           },
           getURL: getURLDefault('a'),
-          createAction: createActionForRecipes,
+          createAction: createActionDefault('a', 'ub-action-all__recipes'),
         },
         // Top Stories (Horizontal)
         {
