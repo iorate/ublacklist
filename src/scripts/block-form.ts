@@ -7,9 +7,9 @@ export class BlockForm {
   private root: ShadowRoot;
   private blacklist: Blacklist | null = null;
   private blacklistPatch: BlacklistPatch | null = null;
-  private onUpdated: (() => void) | null = null;
+  private onBlocked: (() => void) | null = null;
 
-  constructor(host: HTMLElement, onClose: () => void) {
+  constructor(host: HTMLElement, close: () => void) {
     this.root = host.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
       <style>
@@ -74,18 +74,18 @@ export class BlockForm {
       this.$('update').disabled = !modifiedPatch;
     });
     this.$('cancel').addEventListener('click', () => {
-      onClose();
+      close();
     });
     this.$('update').addEventListener('click', () => {
       this.blacklist!.applyPatch();
-      if (this.onUpdated) {
-        this.onUpdated();
+      if (this.onBlocked) {
+        this.onBlocked();
       }
-      onClose();
+      close();
     });
   }
 
-  initialize(blacklist: Blacklist, url: AltURL, onUpdated: () => void): void {
+  initialize(blacklist: Blacklist, url: AltURL, onBlocked: () => void): void {
     this.$('origin').textContent = `${url.scheme}://${url.host}`;
     this.$('details').open = false;
     this.$('url').value = url.toString();
@@ -93,7 +93,7 @@ export class BlockForm {
     if (/^(https?|ftp)$/.test(url.scheme)) {
       this.blacklist = blacklist;
       this.blacklistPatch = blacklist.createPatch(url);
-      this.onUpdated = onUpdated;
+      this.onBlocked = onBlocked;
 
       this.$('title').textContent = apis.i18n.getMessage(
         this.blacklistPatch.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
@@ -108,7 +108,7 @@ export class BlockForm {
     } else {
       this.blacklist = null;
       this.blacklistPatch = null;
-      this.onUpdated = null;
+      this.onBlocked = null;
 
       this.$('title').textContent = apis.i18n.getMessage('popup_blockSiteTitle');
       this.$('added').readOnly = true;
