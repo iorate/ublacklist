@@ -4,12 +4,15 @@
   display: inline;
 }
 
-.ub-action-all-202001 {
+.ub-action-all--202001 {
   display: inline-block;
   font-size: 14px;
   margin-left: 4px;
   white-space: nowrap;
   width: 0;
+  span + & {
+    margin-left: 0;
+  }
 }
 
 .ub-action-all {
@@ -44,6 +47,21 @@
   margin-left: 4px;
 }
 
+.ub-action-all__twitter--202001 {
+  display: block;
+  flex: 25 0 auto;
+  font-size: 14px;
+  padding-top: 1px;
+}
+
+.ub-action-all__twitter-search--202001 {
+  display: block;
+  flex: 25 0 auto;
+  font-size: 14px;
+  line-height: 20px;
+  padding-top: 1px;
+}
+
 .ub-action-all-twitter {
   display: inline;
   flex: 25 0 auto;
@@ -71,6 +89,10 @@
 
 .ub-control-books {
   display: inline;
+}
+
+.ub-action-books--202001 {
+  @extend .ub-action-all--202001;
 }
 
 .ub-action-books {

@@ -50,9 +50,9 @@ switch (`${device}/${tbm}`) {
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.g'),
+          getEntries: getEntriesDefault('.srg > .g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.yWc32e', 'ub-action-all-202001'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all--202001'),
         },
         {
           getEntries: getEntriesDefault('div#rso > div > div.srg > div.g'),
@@ -60,6 +60,11 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-all'),
         },
         // Featured Snippet
+        {
+          getEntries: getEntriesDefault('.g.mnr-c.g-blk'),
+          getURL: getURLDefault('.r > a'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all--202001'),
+        },
         {
           getEntries: getEntriesDefault(
             'div#rso > div > div.g.mnr-c.g-blk > div.kp-blk > div.xpdopen > div > div > div.g',
@@ -155,12 +160,23 @@ switch (`${device}/${tbm}`) {
         },
         // Twitter
         {
+          getEntries: getEntriesDefault('.g'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('.qdrjAc.Dwsemf', 'ub-action-all__twitter--202001'),
+        },
+        {
           getEntries: getEntriesDefault('#rso > .bkWMgd > div > .g'),
           getURL: getURLDefault('> .s > .DOqJne > .zTpPx > g-link > a'),
           createAction: createActionDefault(
             '> .s > .DOqJne > .qdrjAc.Dwsemf',
             'ub-action-all-twitter',
           ),
+        },
+        // Twitter Search
+        {
+          getEntries: getEntriesDefault('.g'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('.otisdd > .Dwsemf', 'ub-action-all__twitter-search--202001'),
         },
         {
           getEntries: getEntriesDefault('div#rso > div > div > div.g'),
@@ -189,11 +205,21 @@ switch (`${device}/${tbm}`) {
         },
         // Web Result
         {
+          getEntries: getEntriesDefault('.bkWMgd > .g:not(.mnr-c)'),
+          getURL: getURLDefault('> * > .rc > .r > a'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all--202001'),
+        },
+        {
           getEntries: getEntriesDefault('div#rso > div > div.g'),
           getURL: getURLDefault('> div > div.rc > div.r > a'),
           createAction: createActionDefault('> div > div.rc > div.r', 'ub-action-all'),
         },
         // Web Result with Site Links
+        {
+          getEntries: getEntriesDefault('.bkWMgd > .g:not(.mnr-c)'),
+          getURL: getURLDefault('> * > * > .rc > .r > a'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-all--202001'),
+        },
         {
           getEntries: getEntriesDefault('div#rso > div > div.g'),
           getURL: getURLDefault('> div > div > div.rc > div.r > a'),
@@ -220,7 +246,12 @@ switch (`${device}/${tbm}`) {
         {
           getEntries: getEntriesDefault('.g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.yWc32e', 'ub-action-all-202001'),
+          createAction: createActionDefault('.yWc32e', 'ub-action-books--202001'),
+        },
+        {
+          getEntries: getEntriesDefault('.Yr5TG'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('.TbwUpd', 'ub-action-books--202001'),
         },
         {
           getEntries: getEntriesDefault('.Yr5TG'),
