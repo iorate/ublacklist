@@ -165,7 +165,10 @@ switch (`${device}/${tbm}`) {
         {
           getEntries: getEntriesDefault('.g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.otisdd > .Dwsemf', 'ub-action-all__twitter-search--202001'),
+          createAction: createActionDefault(
+            '.otisdd > .Dwsemf',
+            'ub-action-all__twitter-search--202001',
+          ),
         },
         {
           getEntries: getEntriesDefault('div#rso > div > div > div.g'),
