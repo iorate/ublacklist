@@ -89,7 +89,7 @@ https://*.example.edu/`);
 
   b123.createPatch(new AltURL('http://www.example.edu/foo/bar'));
   const p123f = b123.modifyPatch({
-    rulesToAdd: String.raw`*://www.example.edu
+    rulesToAdd: String.raw`*://www.example.edu/*
 @/edu/`,
   });
   expect(p123f).toBe(null);
