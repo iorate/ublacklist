@@ -44,7 +44,11 @@ export async function requestToken(interactive: boolean): Promise<string> {
     if (interactive) {
       throw e;
     }
-    return await apis.identity.getAuthToken({ interactive: false });
+    try {
+      return await apis.identity.getAuthToken({ interactive: false });
+    } catch {
+      throw e;
+    }
   }
   // #endif
 }
