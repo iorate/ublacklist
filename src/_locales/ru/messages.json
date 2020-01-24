@@ -19,7 +19,7 @@
   "cancelButton": {
     "message": "Отмена"
   },
-  "OK": {
+  "okButton": {
     "message": "ОК"
   },
   "content_singleSiteBlocked": {
@@ -101,6 +101,18 @@
   "options_importBlacklistDialog_importButton": {
     "message": "Импортировать"
   },
+  "options_otherSearchEngines": {
+    "message": "Поисковые системы"
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Вы можете использовать расширение с другими поисковыми системами."
+  },
+  "options_enableOnSearchEngine": {
+    "message": "Включить"
+  },
+  "options_enabledOnSearchEngine": {
+    "message": "Включено"
+  },
   "options_hideBlockSiteLinksLabel": {
     "message": "Не показывать ссылки \"Заблокировать сайт\""
   },
@@ -155,6 +167,12 @@
   "options_subscriptionUpdateResultHeader": {
     "message": "Последнее обновление"
   },
+  "options_noSubscriptionsAdded": {
+    "message": "Нет подписок"
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Обновляем..."
+  },
   "options_showSubscriptionMenu": {
     "message": "Показать"
   },
@@ -163,12 +181,6 @@
   },
   "options_removeSubscriptionMenu": {
     "message": "Удалить"
-  },
-  "options_noSubscriptionsAdded": {
-    "message": "Нет подписок"
-  },
-  "options_subscriptionUpdateRunning": {
-    "message": "Обновляем..."
   },
   "options_updateAllSubscriptionsNowButton": {
     "message": "Обновить все подписки"
