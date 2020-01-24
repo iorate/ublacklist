@@ -1,5 +1,5 @@
 const manifest = {
-  version: '3.3.0',
+  version: '3.3.1',
   background: {
     // #if BROWSER === 'chrome'
     persistent: false,
