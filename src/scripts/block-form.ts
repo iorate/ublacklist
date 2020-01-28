@@ -83,7 +83,7 @@ export class BlockForm {
     });
     this.$('depth').addEventListener('input', () => {
       const depth = parseInt(this.$('depth').value, 10);
-      const modifiedPatch = this.blacklist!.modifyPatchDepth(this.$('url').value, false, depth);
+      const modifiedPatch = this.blacklist!.modifyPatchDepth(depth);
       if (modifiedPatch) {
         this.blacklistPatch = modifiedPatch;
         this.$('added').value = modifiedPatch.rulesToAdd;

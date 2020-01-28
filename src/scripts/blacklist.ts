@@ -261,12 +261,11 @@ export class Blacklist {
     return this.patch as BlacklistPatch;
   }
 
-  modifyPatchDepth(urlString: string, unblock: boolean, depth: number): BlacklistPatch | null {
-    if (this.patch?.unblock) {
+  modifyPatchDepth(depth: number): BlacklistPatch | null {
+    if (!this.patch || this.patch.unblock || depth < 0) {
       return null;
     }
-    const url = new AltURL(urlString);
-    const newUrl = appendDepthToMatchPattern(url, unblock, depth);
+    const newUrl = appendDepthToMatchPattern(this.patch.url, false, depth);
     return this.modifyPatch({ rulesToAdd: newUrl });
   }
 
