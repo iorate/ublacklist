@@ -102,6 +102,20 @@ function suggestMatchPattern(url: AltURL, unblock: boolean): string {
   }
 }
 
+function appendDepthToMatchPattern(url: AltURL, unblock: boolean, depth: number): string {
+  if (url.scheme === 'http' || url.scheme === 'https') {
+    return `${unblock ? '@' : ''}*://${url.host}${url.path
+      .split('/')
+      .slice(0, 1 + depth)
+      .join('/')}/*`;
+  } else {
+    return `${unblock ? '@' : ''}${url.scheme}://${url.host}${url.path
+      .split('/')
+      .slice(0, 1 + depth)
+      .join('/')}/*`;
+  }
+}
+
 export class Blacklist {
   private userPart: Part;
   private subscriptionParts: Part[];
@@ -245,6 +259,15 @@ export class Blacklist {
     }
     this.patch.rulesToAdd = patch.rulesToAdd;
     return this.patch as BlacklistPatch;
+  }
+
+  modifyPatchDepth(urlString: string, unblock: boolean, depth: number): BlacklistPatch | null {
+    if (this.patch?.unblock) {
+      return null;
+    }
+    const url = new AltURL(urlString);
+    const newUrl = appendDepthToMatchPattern(url, unblock, depth);
+    return this.modifyPatch({ rulesToAdd: newUrl });
   }
 
   applyPatch(): void {

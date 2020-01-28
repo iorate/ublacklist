@@ -31,6 +31,14 @@ export class BlockForm {
             </div>
           </div>
           <div class="field">
+            <label class="label" for="depth">
+              Depth
+            </label>
+            <div class="control">
+              <input id="depth" class="input" type="number" value="0" min="0">
+            </div>
+          </div>
+          <div class="field">
             <label class="label" for="added">
               ${apis.i18n.getMessage('popup_addedRulesLabel')}
             </label>
@@ -72,6 +80,15 @@ export class BlockForm {
         this.blacklistPatch = modifiedPatch;
       }
       this.$('update').disabled = !modifiedPatch;
+    });
+    this.$('depth').addEventListener('input', () => {
+      const depth = parseInt(this.$('depth').value, 10);
+      const modifiedPatch = this.blacklist!.modifyPatchDepth(this.$('url').value, false, depth);
+      if (modifiedPatch) {
+        this.blacklistPatch = modifiedPatch;
+        this.$('added').value = modifiedPatch.rulesToAdd;
+        this.$('update').disabled = false;
+      }
     });
     this.$('cancel').addEventListener('click', () => {
       close();
@@ -125,6 +142,7 @@ export class BlockForm {
   private $(id: 'url'): HTMLInputElement;
   private $(id: 'added'): HTMLTextAreaElement;
   private $(id: 'addedHelper'): HTMLParagraphElement;
+  private $(id: 'depth'): HTMLInputElement;
   private $(id: 'removed'): HTMLTextAreaElement;
   private $(id: 'cancel'): HTMLButtonElement;
   private $(id: 'update'): HTMLButtonElement;
