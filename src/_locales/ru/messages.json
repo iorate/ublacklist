@@ -57,6 +57,9 @@
   "popup_pageURLLabel": {
     "message": "URL страницы"
   },
+  "popup_pathDepth": {
+    "message": "глубина"
+  },
   "popup_addedRulesLabel": {
     "message": "Правила, которые будут добавлены"
   },

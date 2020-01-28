@@ -32,7 +32,7 @@ export class BlockForm {
           </div>
           <div class="field">
             <label class="label" for="depth">
-              Depth
+              ${apis.i18n.getMessage('popup_pathDepth')}
             </label>
             <div class="control">
               <input id="depth" class="input" type="number" value="0" min="0">
