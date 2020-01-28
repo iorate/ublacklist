@@ -35,7 +35,7 @@ export class BlockForm {
               ${apis.i18n.getMessage('popup_pathDepth')}
             </label>
             <div class="control">
-              <input id="depth" class="input" type="number" value="0" min="0">
+              <input id="depth" class="input" type="number" value="0" min="0" max="0">
             </div>
           </div>
           <div class="field">
@@ -106,7 +106,6 @@ export class BlockForm {
     this.$('origin').textContent = `${url.scheme}://${url.host}`;
     this.$('details').open = false;
     this.$('url').value = url.toString();
-    this.$('depth').max = String((url.path.match(/\//g)?.length || 1) - 1);
 
     if (/^(https?|ftp)$/.test(url.scheme)) {
       this.blacklist = blacklist;
@@ -115,6 +114,15 @@ export class BlockForm {
 
       this.$('title').textContent = apis.i18n.getMessage(
         this.blacklistPatch.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
+      );
+      this.$('depth').readOnly = false;
+      this.$('depth').max = String(
+        this.blacklistPatch.unblock
+          ? 0
+          : (url.path
+              .split(/[?#]/)
+              .shift()
+              ?.match(/\//g)?.length || 1) - 1,
       );
       this.$('added').readOnly = false;
       this.$('added').value = this.blacklistPatch.rulesToAdd;
@@ -129,6 +137,8 @@ export class BlockForm {
       this.onBlocked = null;
 
       this.$('title').textContent = apis.i18n.getMessage('popup_blockSiteTitle');
+      this.$('depth').readOnly = true;
+      this.$('depth').value = '0';
       this.$('added').readOnly = true;
       this.$('added').value = '';
       this.$('removed').value = '';
