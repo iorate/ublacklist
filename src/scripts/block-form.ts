@@ -106,6 +106,7 @@ export class BlockForm {
     this.$('origin').textContent = `${url.scheme}://${url.host}`;
     this.$('details').open = false;
     this.$('url').value = url.toString();
+    this.$('depth').max = String((url.path.match(/\//g)?.length || 1) - 1);
 
     if (/^(https?|ftp)$/.test(url.scheme)) {
       this.blacklist = blacklist;
