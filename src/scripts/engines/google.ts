@@ -34,6 +34,9 @@ switch (`${device}/${tbm}`) {
     window.ubContentHandlers = {
       controlHandlers: [
         {
+          createControl: createControlDefault('#mBMHK', 'ub-control-all'),
+        },
+        {
           createControl: createControlDefault('#resultStats', 'ub-control-all'),
         },
       ],
@@ -231,6 +234,9 @@ switch (`${device}/${tbm}`) {
     window.ubContentHandlers = {
       controlHandlers: [
         {
+          createControl: createControlDefault('#mBMHK', 'ub-control-all'),
+        },
+        {
           createControl: createControlDefault('#resultStats', 'ub-control-books'),
         },
       ],
@@ -316,6 +322,9 @@ switch (`${device}/${tbm}`) {
     window.ubContentHandlers = {
       controlHandlers: [
         {
+          createControl: createControlDefault('#mBMHK', 'ub-control-all'),
+        },
+        {
           createControl: createControlDefault('#resultStats', 'ub-control-news'),
         },
       ],
@@ -375,6 +384,9 @@ switch (`${device}/${tbm}`) {
   case '/vid':
     window.ubContentHandlers = {
       controlHandlers: [
+        {
+          createControl: createControlDefault('#mBMHK', 'ub-control-all'),
+        },
         {
           createControl: createControlDefault('#resultStats', 'ub-control-videos'),
         },
