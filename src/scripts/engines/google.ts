@@ -43,17 +43,17 @@ switch (`${device}/${tbm}`) {
       entryHandlers: [
         // Default, Web Result
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
           createAction: createActionDefault('.eFM0qc', 'ub-action_all_default_v1'),
         },
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
           createAction: createActionDefault('.yWc32e', 'ub-action_all_default_v1'),
         },
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
           // Fall back to the bottom.
           createAction: createActionDefault('', 'ub-action_all_default_v1'),
