@@ -60,7 +60,10 @@ export function getEntriesDefault(
 export function getURLDefault(selector: string): (entry: HTMLElement) => string | null {
   return (entry: HTMLElement): string | null => {
     const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
-    return a?.getAttribute('href') ?? null;
+    if (!a || a.tagName !== 'A') {
+      return null;
+    }
+    return (a as HTMLAnchorElement).href;
   };
 }
 

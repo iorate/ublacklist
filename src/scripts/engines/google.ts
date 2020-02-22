@@ -10,10 +10,10 @@ import {
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return (entry: HTMLElement): string | null => {
     const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
-    const url = a?.getAttribute('href');
-    if (!url) {
+    if (!a || a.tagName !== 'A') {
       return null;
     }
+    const url = (a as HTMLAnchorElement).href;
     try {
       const u = new URL(url, window.location.href);
       if (u.pathname !== '/url') {
