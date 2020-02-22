@@ -7,6 +7,11 @@
 }
 
 .ub-action_all {
+  &_default_v2 {
+    display: block;
+    font-size: 14px;
+  }
+
   &_default_v1 {
     display: inline-block;
     font-size: 14px;

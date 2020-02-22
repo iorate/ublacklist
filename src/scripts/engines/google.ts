@@ -56,7 +56,7 @@ switch (`${device}/${tbm}`) {
           getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
           // Fall back to the bottom.
-          createAction: createActionDefault('', 'ub-action_all_default_v1'),
+          createAction: createActionDefault('', 'ub-action_all_default_v2'),
         },
         // Featured Snippet
         {
