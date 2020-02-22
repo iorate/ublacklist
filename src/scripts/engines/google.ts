@@ -83,8 +83,8 @@ switch (`${device}/${tbm}`) {
         // Recipes
         {
           getEntries: getEntriesDefault('.YwonT'),
-          getURL: getURLDefault('a'),
-          createAction: createActionDefault('a', 'ub-action_all_recipes_v1'),
+          getURL: getURLDefault('.a-no-hover-decoration'),
+          createAction: createActionDefault('.a-no-hover-decoration', 'ub-action_all_recipes_v1'),
         },
         {
           getEntries: (addedElement: HTMLElement): HTMLElement[] => {
@@ -92,8 +92,8 @@ switch (`${device}/${tbm}`) {
               ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
               : [];
           },
-          getURL: getURLDefault('a'),
-          createAction: createActionDefault('a', 'ub-action_all_recipes_v1'),
+          getURL: getURLDefault('.a-no-hover-decoration'),
+          createAction: createActionDefault('.a-no-hover-decoration', 'ub-action_all_recipes_v1'),
         },
         // Top Stories (Vertical)
         {
