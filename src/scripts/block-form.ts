@@ -27,7 +27,7 @@ export class BlockForm {
               ${apis.i18n.getMessage('popup_pageURLLabel')}
             </label>
             <div class="control">
-              <input id="url" class="input" readonly>
+              <textarea id="url" class="textarea has-fixed-size" readonly rows="2" spellcheck="false"></textarea>
             </div>
           </div>
           <div class="field">
@@ -122,7 +122,7 @@ export class BlockForm {
   private $(id: 'title'): HTMLHeadingElement;
   private $(id: 'origin'): HTMLParagraphElement;
   private $(id: 'details'): HTMLDetailsElement;
-  private $(id: 'url'): HTMLInputElement;
+  private $(id: 'url'): HTMLTextAreaElement;
   private $(id: 'added'): HTMLTextAreaElement;
   private $(id: 'addedHelper'): HTMLParagraphElement;
   private $(id: 'removed'): HTMLTextAreaElement;

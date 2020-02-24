@@ -51,3 +51,7 @@ $title-weight: normal;
 .block-form__block-button[disabled] {
   cursor: default;
 }
+
+.textarea {
+  word-break: break-all;
+}
