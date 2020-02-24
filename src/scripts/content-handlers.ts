@@ -7,7 +7,7 @@ declare global {
 export interface ContentHandlers {
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
-  autoPagerizeHandlers?: AutoPagerizeHandler[];
+  pageHandlers?: PageHandler[];
 }
 
 export interface ControlHandler {
@@ -21,15 +21,15 @@ export interface EntryHandler {
   adjustEntry?: (entry: HTMLElement) => void;
 }
 
-export interface AutoPagerizeHandler {
-  getAddedElements: (autoPagerizedElement: HTMLElement) => HTMLElement[];
+export interface PageHandler {
+  getAddedElements: (page: HTMLElement) => HTMLElement[];
 }
 
 export function createControlDefault(
   parentSelector: string,
   className: string,
 ): () => HTMLElement | null {
-  return (): HTMLElement | null => {
+  return () => {
     const parent = document.querySelector(parentSelector);
     if (!parent) {
       return null;
@@ -45,7 +45,7 @@ export function getEntriesDefault(
   selector: string,
   depth: number = 0,
 ): (addedElement: HTMLElement) => HTMLElement[] {
-  return (addedElement: HTMLElement): HTMLElement[] => {
+  return addedElement => {
     if (!addedElement.matches(selector)) {
       return [];
     }
@@ -58,7 +58,7 @@ export function getEntriesDefault(
 }
 
 export function getURLDefault(selector: string): (entry: HTMLElement) => string | null {
-  return (entry: HTMLElement): string | null => {
+  return entry => {
     const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
@@ -71,7 +71,7 @@ export function createActionDefault(
   parentSelector: string,
   className: string,
 ): (entry: HTMLElement) => HTMLElement | null {
-  return (entry: HTMLElement): HTMLElement | null => {
+  return entry => {
     const parent = parentSelector ? entry.querySelector(`:scope ${parentSelector}`) : entry;
     if (!parent) {
       return null;
@@ -84,8 +84,13 @@ export function createActionDefault(
 }
 
 export function getAddedElementsDefault(
+  pageSelector: string,
   selector: string,
-): (autoPagerizedElement: HTMLElement) => HTMLElement[] {
-  return (autoPagerizedElement: HTMLElement): HTMLElement[] =>
-    Array.from<HTMLElement>(autoPagerizedElement.querySelectorAll(selector));
+): (page: HTMLElement) => HTMLElement[] {
+  return page => {
+    if (!page.matches(pageSelector)) {
+      return [];
+    }
+    return Array.from<HTMLElement>(page.querySelectorAll(selector));
+  };
 }

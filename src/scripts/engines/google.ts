@@ -142,9 +142,9 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('.ZTH1s', 'ub-action_all_video_v1'),
         },
       ],
-      autoPagerizeHandlers: [
+      pageHandlers: [
         {
-          getAddedElements: getAddedElementsDefault('.g'),
+          getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
         },
       ],
     };
@@ -178,9 +178,9 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('.yWc32e', 'ub-action_books_default_v1'),
         },
       ],
-      autoPagerizeHandlers: [
+      pageHandlers: [
         {
-          getAddedElements: getAddedElementsDefault('.g'),
+          getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
         },
       ],
     };
@@ -283,9 +283,12 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('', 'ub-action_news_image_v1'),
         },
       ],
-      autoPagerizeHandlers: [
+      pageHandlers: [
         {
-          getAddedElements: getAddedElementsDefault('.nChh6e, .gG0TJc, .YiHbdc, .ErI7Gd, .top'),
+          getAddedElements: getAddedElementsDefault(
+            '.autopagerize_page_info + .bkWMgd',
+            '.nChh6e, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
+          ),
         },
       ],
     };
@@ -309,9 +312,9 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('.r', 'ub-action_videos_default_v1'),
         },
       ],
-      autoPagerizeHandlers: [
+      pageHandlers: [
         {
-          getAddedElements: getAddedElementsDefault('.g'),
+          getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
         },
       ],
     };
@@ -324,7 +327,7 @@ switch (`${device}/${tbm}`) {
       controlHandlers: [],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.srg > div > .xpd, #rso > div > .xpd'),
+          getEntries: getEntriesDefault('.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd'),
           getURL: getURLDefault('a'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
@@ -332,6 +335,11 @@ switch (`${device}/${tbm}`) {
           getEntries: getEntriesDefault('#main > div > .xpd'),
           getURL: getURLFromQuery('a'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
+        },
+      ],
+      pageHandlers: [
+        {
+          getAddedElements: getAddedElementsDefault('.WtZO4e > div > div', '.xpd'),
         },
       ],
     };

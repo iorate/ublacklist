@@ -131,7 +131,16 @@ function onElementAdded(addedElement: HTMLElement): void {
       return true;
     });
     if (entries.length) {
-      break;
+      return;
+    }
+  }
+  if (window.ubContentHandlers!.pageHandlers) {
+    for (const pageHandler of window.ubContentHandlers!.pageHandlers) {
+      const addedElements = pageHandler.getAddedElements(addedElement);
+      addedElements.map(onElementAdded);
+      if (addedElements.length) {
+        return;
+      }
     }
   }
 }
@@ -228,19 +237,6 @@ function main(): void {
       }
     }
   }).observe(document.documentElement, { childList: true, subtree: true });
-  if (window.ubContentHandlers.autoPagerizeHandlers) {
-    document.addEventListener('AutoPagerize_DOMNodeInserted', e => {
-      for (const autoPagerizeHandler of window.ubContentHandlers!.autoPagerizeHandlers!) {
-        const addedElements = autoPagerizeHandler.getAddedElements(e.target as HTMLElement);
-        for (const addedElement of addedElements) {
-          onElementAdded(addedElement);
-        }
-        if (addedElements.length) {
-          break;
-        }
-      }
-    });
-  }
   document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
 }
 
