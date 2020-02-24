@@ -26,7 +26,7 @@
   &_latest_v1 {
     display: block;
     font-size: 14px;
-    margin: -10px 0 10px 0;
+    margin: -10px 0 10px;
     padding: 0 16px;
   }
 
@@ -63,7 +63,7 @@
   &_video_v1 {
     display: block;
     font-size: 12px;
-    margin: -10px 0 10px 0;
+    margin: -10px 0 10px;
     padding: 0 16px;
   }
 }
@@ -72,17 +72,13 @@
 
 .ub-control_books {
   &_v1 {
-    display: inline;
+    @extend .ub-control_all_v1;
   }
 }
 
 .ub-action_books {
   &_default_v1 {
-    display: inline-block;
-    font-size: 14px;
-    margin-left: 4px;
-    white-space: nowrap;
-    width: 0;
+    @extend .ub-action_all_default_v1;
   }
 }
 
@@ -111,7 +107,6 @@
     font-size: 12px;
     padding: 0 4px;
     white-space: nowrap;
-    width: 0;
   }
 }
 
@@ -119,7 +114,7 @@
 
 .ub-control_news {
   &_v1 {
-    display: inline;
+    @extend .ub-control_all_v1;
   }
 }
 
@@ -139,8 +134,9 @@
   &_image_v1 {
     display: block;
     font-size: 10px;
+    text-align: center;
     white-space: nowrap;
-    width: 0;
+    width: 90px;
   }
 }
 
@@ -148,7 +144,7 @@
 
 .ub-control_videos {
   &_v1 {
-    display: inline;
+    @extend .ub-control_all_v1;
   }
 }
 
