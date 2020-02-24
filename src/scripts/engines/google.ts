@@ -358,7 +358,7 @@ switch (`${device}/${tbm}`) {
       entryHandlers: [
         {
           getEntries: getEntriesDefault(
-            '.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd'
+            '.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd',
           ),
           getURL: getURLDefault('.C8nzq'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
