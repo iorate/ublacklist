@@ -17,7 +17,7 @@ export class BlockForm {
       </style>
       <div class="block-form">
         <h1 id="title" class="title block-form__title"></h1>
-        <p id="origin" class="block-form__origin"></p>
+        <p id="url-host" class="block-form__url-host"></p>
         <details id="details" class="block-form__details">
           <summary class="block-form__details-title">
             ${apis.i18n.getMessage('popup_details')}
@@ -86,7 +86,7 @@ export class BlockForm {
   }
 
   initialize(blacklist: Blacklist, url: AltURL, onBlocked: () => void): void {
-    this.$('origin').textContent = `${url.scheme}://${url.host}`;
+    this.$('url-host').textContent = url.host;
     this.$('details').open = false;
     this.$('url').value = url.toString();
 
@@ -120,7 +120,7 @@ export class BlockForm {
   }
 
   private $(id: 'title'): HTMLHeadingElement;
-  private $(id: 'origin'): HTMLParagraphElement;
+  private $(id: 'url-host'): HTMLParagraphElement;
   private $(id: 'details'): HTMLDetailsElement;
   private $(id: 'url'): HTMLTextAreaElement;
   private $(id: 'added'): HTMLTextAreaElement;
