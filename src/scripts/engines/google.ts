@@ -399,6 +399,24 @@ switch (`${device}/${tbm}`) {
     };
     break;
 
+  case 'mobile/isch':
+  case 'tablet/isch':
+    window.ubContentHandlers = {
+      controlHandlers: [
+        {
+          createControl: createControlBefore('#islrg', 'ZINbbc ub-control_mobile-images_v1'),
+        },
+      ],
+      entryHandlers: [
+        {
+          getEntries: getEntriesDefault('.islrtb'),
+          getURL: getURLFromQuery('.iKjWAf'),
+          createAction: createActionDefault('', 'ub-action_mobile-images_default_v1'),
+        },
+      ],
+    };
+    break;
+
   // Mobile News
   case 'mobile/nws':
   case 'tablet/nws':

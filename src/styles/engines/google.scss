@@ -202,6 +202,38 @@
   }
 }
 
+// Mobile Images
+
+.ub-control_mobile-images {
+  &_v1 {
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    display: block;
+    margin: 0 8px 12px;
+    padding: 11px 16px;
+    .ub-stats {
+      color: rgba(0, 0, 0, 0.54);
+    }
+    .ub-show-button,
+    .ub-hide-button {
+      color: #1967d2;
+    }
+  }
+}
+
+.ub-action_mobile-images {
+  &_default_v1 {
+    display: block;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 0 4px;
+    .ub-block-button,
+    .ub-unblock-button {
+      color: #1967d2;
+    }
+  }
+}
+
 // Mobile News
 
 .ub-control_mobile-news {
