@@ -99,7 +99,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist', browser, env),
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false,
+    }),
     new CopyPlugin([
       './_locales/**/*',
       './scripts/*.js',

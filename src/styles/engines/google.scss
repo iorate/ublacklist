@@ -99,6 +99,7 @@
   }
 
   &_v1 {
+    display: block;
     font-size: 12px;
     margin-left: 16px;
   }
@@ -162,15 +163,15 @@
   }
 }
 
-// Mobile/All, Mobile/News, Mobile/Videos, Tablet/All, Tablet/News, Tablet/Videos
+// Mobile/All, Tablet/All
 
-.ub-action-all {
-  display: inline;
-  font-size: 16px;
-  margin-left: 4px;
-}
-
-.ub-action-mobile-all {
-  font-size: 12px;
-  margin-left: 12px;
+.ub-action_mobile-all {
+  &_default_v1 {
+    display: block;
+    font-size: 14px;
+    padding: 0 16px 12px;
+    .ub-action__block-button, .ub-action__unblock-button {
+      color: #1967d2;
+    }
+  }
 }

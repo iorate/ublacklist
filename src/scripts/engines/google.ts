@@ -317,30 +317,21 @@ switch (`${device}/${tbm}`) {
     };
     break;
 
-  // Mobile/All, Mobile/News, Mobile/Videos, Tablet/All, Tablet/News, Tablet/Videos
+  // Mobile/All, Tablet/All
   case 'mobile/':
-  case 'mobile/nws':
-  case 'mobile/vid':
   case 'tablet/':
-  case 'tablet/nws':
-  case 'tablet/vid':
     window.ubContentHandlers = {
       controlHandlers: [],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('div#rso div.xpd'),
-          getURL: getURLDefault('> div:first-child a'),
-          createAction: createActionDefault('> div:last-child', 'ub-action-mobile-all'),
+          getEntries: getEntriesDefault('.srg > div > .xpd, #rso > div > .xpd'),
+          getURL: getURLDefault('a'),
+          createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
         {
-          getEntries: getEntriesDefault('div#main div.xpd'),
-          getURL: getURLFromQuery('> div:first-child > a'),
-          createAction: createActionDefault('', 'ub-action-mobile-all'),
-        },
-        {
-          getEntries: getEntriesDefault('div#ires > ol > div.g'),
-          getURL: getURLFromQuery('> h3.r > a'),
-          createAction: createActionDefault('> div.s > div:first-child', 'ub-action-all'),
+          getEntries: getEntriesDefault('#main > div > .xpd'),
+          getURL: getURLFromQuery('a'),
+          createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
       ],
     };
