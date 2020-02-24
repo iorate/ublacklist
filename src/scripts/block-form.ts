@@ -61,11 +61,6 @@ export class BlockForm {
           </div>
         </div>
       </div>`;
-    this.$('details').addEventListener('toggle', () => {
-      if (this.$('details').open && this.blacklistPatch) {
-        this.$('added').focus();
-      }
-    });
     this.$('added').addEventListener('input', () => {
       const modifiedPatch = this.blacklist!.modifyPatch({ rulesToAdd: this.$('added').value });
       if (modifiedPatch) {
