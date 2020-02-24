@@ -87,7 +87,7 @@ switch (`${device}/${tbm}`) {
           createAction: createActionDefault('.a-no-hover-decoration', 'ub-action_all_recipes_v1'),
         },
         {
-          getEntries: (addedElement: HTMLElement): HTMLElement[] => {
+          getEntries: addedElement => {
             return addedElement.matches('.yl > div')
               ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
               : [];
@@ -119,7 +119,7 @@ switch (`${device}/${tbm}`) {
         {
           getEntries: getEntriesDefault('.bkWMgd > div > .g'),
           getURL: getURLDefault('a'),
-          createAction: (entry: HTMLElement): HTMLElement | null => {
+          createAction: entry => {
             const nextSibling = entry.querySelector('.r');
             if (!nextSibling) {
               return null;
@@ -194,7 +194,7 @@ switch (`${device}/${tbm}`) {
           createControl: createControlDefault('.cj2HCb', 'ub-control_images_v2'),
         },
         {
-          createControl(): HTMLElement | null {
+          createControl: () => {
             const parent = document.getElementById('ab_ctls') as HTMLElement | null;
             if (!parent) {
               return null;
@@ -214,7 +214,7 @@ switch (`${device}/${tbm}`) {
         },
         {
           getEntries: getEntriesDefault('.rg_bx'),
-          getURL(entry: HTMLElement): string | null {
+          getURL: entry => {
             const div = entry.querySelector('.rg_meta');
             if (!div) {
               return null;
@@ -248,7 +248,7 @@ switch (`${device}/${tbm}`) {
           getEntries: getEntriesDefault('.gG0TJc'),
           getURL: getURLDefault('.l'),
           createAction: createActionDefault('.slp', 'ub-action_news_default_v1'),
-          adjustEntry(entry: HTMLElement): void {
+          adjustEntry: entry => {
             const image = entry.previousElementSibling;
             if (image && !image.querySelector('.Y6GIfb')) {
               entry.insertBefore(image, entry.firstChild);
@@ -259,7 +259,7 @@ switch (`${device}/${tbm}`) {
           getEntries: getEntriesDefault('.YiHbdc, .ErI7Gd'),
           getURL: getURLDefault('a'),
           createAction: createActionDefault('', 'ub-action_news_default_v1'),
-          adjustEntry(entry: HTMLElement): void {
+          adjustEntry: entry => {
             const viewAll = entry.querySelector('.cWEW3c');
             if (!viewAll) {
               return;
@@ -274,7 +274,7 @@ switch (`${device}/${tbm}`) {
           },
         },
         {
-          getEntries: (addedElement: HTMLElement): HTMLElement[] => {
+          getEntries: addedElement => {
             return addedElement.matches('.top') && addedElement.querySelector('.Y6GIfb')
               ? [addedElement]
               : [];
@@ -324,16 +324,41 @@ switch (`${device}/${tbm}`) {
   case 'mobile/':
   case 'tablet/':
     window.ubContentHandlers = {
-      controlHandlers: [],
+      controlHandlers: [
+        {
+          createControl: () => {
+            const nextSibling = document.querySelector('#center_col > #main');
+            if (!nextSibling) {
+              return null;
+            }
+            const control = document.createElement('div');
+            control.className = 'mnr-c ub-control_mobile-all_v1';
+            nextSibling.parentElement!.insertBefore(control, nextSibling);
+            return control;
+          },
+        },
+        {
+          createControl: () => {
+            const nextSibling = document.querySelector('body > #main > div:nth-child(4)');
+            if (!nextSibling) {
+              return null;
+            }
+            const control = document.createElement('div');
+            control.className = 'ZINbbc ub-control_mobile-all_v1';
+            nextSibling.parentElement!.insertBefore(control, nextSibling);
+            return control;
+          },
+        },
+      ],
       entryHandlers: [
         {
           getEntries: getEntriesDefault('.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd'),
-          getURL: getURLDefault('a'),
+          getURL: getURLDefault('.C8nzq'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
         {
           getEntries: getEntriesDefault('#main > div > .xpd'),
-          getURL: getURLFromQuery('a'),
+          getURL: getURLFromQuery('.kCrYT > a'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
       ],

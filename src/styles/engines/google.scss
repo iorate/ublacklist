@@ -165,6 +165,20 @@
 
 // Mobile/All, Tablet/All
 
+.ub-control_mobile-all {
+  &_v1 {
+    display: block;
+    font-size: 12px;
+    padding: 11px 16px;
+    .ub-stats {
+      color: rgba(0, 0, 0, 0.54);
+    }
+    .ub-show-button, .ub-hide-button {
+      color: #1967d2;
+    }
+  }
+}
+
 .ub-action_mobile-all {
   &_default_v1 {
     display: block;
