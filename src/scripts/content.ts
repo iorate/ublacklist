@@ -31,18 +31,18 @@ function judgeEntry(entry: HTMLElement): void {
 }
 
 function updateControl(): void {
-  const $control = $('ub-control');
-  if (!$control) {
+  const control = $('ub-control');
+  if (!control) {
     return;
   }
   if (blockedEntryCount) {
-    $control.classList.remove('ub-is-hidden');
-    $control.querySelector('.ub-stats')!.textContent =
+    control.classList.remove('ub-is-hidden');
+    control.querySelector('.ub-stats')!.textContent =
       blockedEntryCount === 1
         ? apis.i18n.getMessage('content_singleSiteBlocked')
         : apis.i18n.getMessage('content_multipleSitesBlocked', String(blockedEntryCount));
   } else {
-    $control.classList.add('ub-is-hidden');
+    control.classList.add('ub-is-hidden');
   }
 }
 
@@ -143,12 +143,12 @@ function onElementAdded(addedElement: HTMLElement): void {
 
 function onDOMContentLoaded(): void {
   for (const controlHandler of window.ubContentHandlers!.controlHandlers) {
-    const $control = controlHandler.createControl();
-    if (!$control) {
+    const control = controlHandler.createControl();
+    if (!control) {
       continue;
     }
-    $control.id = 'ub-control';
-    $control.innerHTML = `
+    control.id = 'ub-control';
+    control.innerHTML = `
       <span class="ub-stats"></span>
       <span class="ub-show-button">
         ${apis.i18n.getMessage('content_showBlockedSitesLink')}
@@ -157,12 +157,15 @@ function onDOMContentLoaded(): void {
         ${apis.i18n.getMessage('content_hideBlockedSitesLink')}
       </span>
     `;
-    $control.querySelector('.ub-show-button')!.addEventListener('click', () => {
+    control.querySelector('.ub-show-button')!.addEventListener('click', () => {
       $('ub-hide-style')!.sheet!.disabled = true;
     });
-    $control.querySelector('.ub-hide-button')!.addEventListener('click', () => {
+    control.querySelector('.ub-hide-button')!.addEventListener('click', () => {
       $('ub-hide-style')!.sheet!.disabled = false;
     });
+    if (controlHandler.adjustControl) {
+      controlHandler.adjustControl(control);
+    }
     updateControl();
     break;
   }
@@ -174,17 +177,17 @@ function onDOMContentLoaded(): void {
       </dialog>
     `,
   );
-  const $blockDialog = $('ub-block-dialog')!;
+  const blockDialog = $('ub-block-dialog')!;
   // #if BROWSER === 'firefox'
-  dialogPolyfill.registerDialog($blockDialog);
+  dialogPolyfill.registerDialog(blockDialog);
   // #endif
-  $blockDialog.addEventListener('click', e => {
-    if (e.target === $blockDialog) {
-      $blockDialog.close();
+  blockDialog.addEventListener('click', e => {
+    if (e.target === blockDialog) {
+      blockDialog.close();
     }
   });
   blockForm = new BlockForm($('ub-block-form')!, () => {
-    $blockDialog.close();
+    blockDialog.close();
   });
 }
 

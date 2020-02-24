@@ -12,6 +12,7 @@ export interface ContentHandlers {
 
 export interface ControlHandler {
   createControl: () => HTMLElement | null;
+  adjustControl?: (control: HTMLElement) => void;
 }
 
 export interface EntryHandler {
