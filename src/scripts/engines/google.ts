@@ -26,8 +26,25 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
   };
 }
 
+function createControlBefore(
+  nextSiblingSelector: string,
+  className: string,
+): () => HTMLElement | null {
+  return () => {
+    const nextSibling = document.querySelector(nextSiblingSelector);
+    if (!nextSibling) {
+      return null;
+    }
+    const control = document.createElement('div');
+    control.className = className;
+    nextSibling.parentElement!.insertBefore(control, nextSibling);
+    return control;
+  };
+}
+
 const device = new UAParser(window.navigator.userAgent).getDevice().type ?? '';
 const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
+
 switch (`${device}/${tbm}`) {
   // All
   case '/':
@@ -320,39 +337,29 @@ switch (`${device}/${tbm}`) {
     };
     break;
 
-  // Mobile/All, Tablet/All
+  // Mobile All
   case 'mobile/':
   case 'tablet/':
     window.ubContentHandlers = {
       controlHandlers: [
         {
-          createControl: () => {
-            const nextSibling = document.querySelector('#center_col > #main');
-            if (!nextSibling) {
-              return null;
-            }
-            const control = document.createElement('div');
-            control.className = 'mnr-c ub-control_mobile-all_v1';
-            nextSibling.parentElement!.insertBefore(control, nextSibling);
-            return control;
-          },
+          createControl: createControlBefore(
+            '#center_col > #main',
+            'mnr-c ub-control_mobile-all_v1',
+          ),
         },
         {
-          createControl: () => {
-            const nextSibling = document.querySelector('body > #main > div:nth-child(4)');
-            if (!nextSibling) {
-              return null;
-            }
-            const control = document.createElement('div');
-            control.className = 'ZINbbc ub-control_mobile-all_v1';
-            nextSibling.parentElement!.insertBefore(control, nextSibling);
-            return control;
-          },
+          createControl: createControlBefore(
+            'body > #main > div:nth-child(4)',
+            'ZINbbc ub-control_mobile-all_v1',
+          ),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd'),
+          getEntries: getEntriesDefault(
+            '.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd'
+          ),
           getURL: getURLDefault('.C8nzq'),
           createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
         },
@@ -365,6 +372,72 @@ switch (`${device}/${tbm}`) {
       pageHandlers: [
         {
           getAddedElements: getAddedElementsDefault('.WtZO4e > div > div', '.xpd'),
+        },
+      ],
+    };
+    break;
+
+  // Mobile Books
+  case 'mobile/bks':
+  case 'tablet/bks':
+    window.ubContentHandlers = {
+      controlHandlers: [
+        {
+          createControl: createControlBefore(
+            'body > #main > div:nth-child(4)',
+            'ZINbbc ub-control_mobile-books_v1',
+          ),
+        },
+      ],
+      entryHandlers: [
+        {
+          getEntries: getEntriesDefault('#main > div > .xpd'),
+          getURL: getURLDefault('.kCrYT > a'),
+          createAction: createActionDefault('', 'ub-action_mobile-books_default_v1'),
+        },
+      ],
+    };
+    break;
+
+  // Mobile News
+  case 'mobile/nws':
+  case 'tablet/nws':
+    window.ubContentHandlers = {
+      controlHandlers: [
+        {
+          createControl: createControlBefore(
+            'body > #main > div:nth-child(4)',
+            'ZINbbc ub-control_mobile-news_v1',
+          ),
+        },
+      ],
+      entryHandlers: [
+        {
+          getEntries: getEntriesDefault('#main > div > .xpd'),
+          getURL: getURLFromQuery('.kCrYT > a'),
+          createAction: createActionDefault('', 'ub-action_mobile-news_default_v1'),
+        },
+      ],
+    };
+    break;
+
+  // Mobile Videos
+  case 'mobile/vid':
+  case 'tablet/vid':
+    window.ubContentHandlers = {
+      controlHandlers: [
+        {
+          createControl: createControlBefore(
+            'body > #main > div:nth-child(4)',
+            'ZINbbc ub-control_mobile-videos_v1',
+          ),
+        },
+      ],
+      entryHandlers: [
+        {
+          getEntries: getEntriesDefault('#main > div > .xpd'),
+          getURL: getURLFromQuery('.kCrYT > a'),
+          createAction: createActionDefault('', 'ub-action_mobile-videos_default_v1'),
         },
       ],
     };

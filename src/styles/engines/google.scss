@@ -163,7 +163,7 @@
   }
 }
 
-// Mobile/All, Tablet/All
+// Mobile All
 
 .ub-control_mobile-all {
   &_v1 {
@@ -187,5 +187,47 @@
     .ub-block-button, .ub-unblock-button {
       color: #1967d2;
     }
+  }
+}
+
+// Mobile Books
+
+.ub-control_mobile-books {
+  &_v1 {
+    @extend .ub-control_mobile-all_v1;
+  }
+}
+
+.ub-action_mobile-books {
+  &_default_v1 {
+    @extend .ub-action_mobile-all_default_v1;
+  }
+}
+
+// Mobile News
+
+.ub-control_mobile-news {
+  &_v1 {
+    @extend .ub-control_mobile-all_v1;
+  }
+}
+
+.ub-action_mobile-news {
+  &_default_v1 {
+    @extend .ub-action_mobile-all_default_v1;
+  }
+}
+
+// Mobile Videos
+
+.ub-control_mobile-videos {
+  &_v1 {
+    @extend .ub-control_mobile-all_v1;
+  }
+}
+
+.ub-action_mobile-videos {
+  &_default_v1 {
+    @extend .ub-action_mobile-all_default_v1;
   }
 }
