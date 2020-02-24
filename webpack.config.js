@@ -1,4 +1,5 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
@@ -8,7 +9,6 @@ const ENGINE_IDS = ['startpage'];
 
 const browser = process.env.BROWSER || 'chrome';
 const env = process.env.NODE_ENV || 'development';
-
 const ifdefLoader = {
   loader: 'ifdef-loader',
   options: {
@@ -18,7 +18,7 @@ const ifdefLoader = {
   },
 };
 
-const config = {
+module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
@@ -32,6 +32,12 @@ const config = {
     'styles/engines/google': './styles/engines/google.scss',
     'styles/options': './styles/options.scss',
     'styles/popup': './styles/popup.scss',
+    ...Object.fromEntries(
+      ENGINE_IDS.flatMap(engineId => [
+        [`scripts/engines/${engineId}`, `./scripts/engines/${engineId}.ts`],
+        [`styles/engines/${engineId}`, `./styles/engines/${engineId}.scss`],
+      ]),
+    ),
   },
   mode: env,
   module: {
@@ -93,6 +99,7 @@ const config = {
     path: path.resolve(__dirname, 'dist', browser, env),
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyPlugin([
       './_locales/**/*',
       './scripts/*.js',
@@ -122,10 +129,3 @@ const config = {
     children: false,
   },
 };
-
-for (const engineId of ENGINE_IDS) {
-  config.entry[`scripts/engines/${engineId}`] = `./scripts/engines/${engineId}.ts`;
-  config.entry[`styles/engines/${engineId}`] = `./styles/engines/${engineId}.scss`;
-}
-
-module.exports = config;
