@@ -2,22 +2,22 @@
 @import '~dialog-polyfill/dialog-polyfill.css';
 // #endif
 
-.ub-control--hidden {
+.ub-is-hidden {
   display: none !important;
 }
 
-.ub-control__show-button {
+.ub-show-button {
   display: none;
 }
 
-.ub-entry__unblock-button {
+.ub-unblock-button {
   display: none;
 }
 
-.ub-control__show-button,
-.ub-control__hide-button,
-.ub-entry__block-button,
-.ub-entry__unblock-button {
+.ub-show-button,
+.ub-hide-button,
+.ub-block-button,
+.ub-unblock-button {
   color: #1a0dab;
   cursor: pointer;
   &:hover {
@@ -25,15 +25,15 @@
   }
 }
 
-.ub-entry--blocked {
+.ub-is-blocked {
   &,
   * {
     background-color: #ffe0e0;
   }
-  .ub-entry__block-button {
+  .ub-block-button {
     display: none;
   }
-  .ub-entry__unblock-button {
+  .ub-unblock-button {
     display: inline;
   }
 }

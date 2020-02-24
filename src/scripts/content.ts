@@ -25,7 +25,7 @@ function $(id: string): HTMLElement | null {
 
 function judgeEntry(entry: HTMLElement): void {
   if (blacklist!.test(new AltURL(entry.dataset.ubUrl!))) {
-    entry.classList.add('ub-entry--blocked');
+    entry.classList.add('ub-is-blocked');
     ++blockedEntryCount;
   }
 }
@@ -36,13 +36,13 @@ function updateControl(): void {
     return;
   }
   if (blockedEntryCount) {
-    $control.classList.remove('ub-control--hidden');
-    $control.querySelector('.ub-control__stats')!.textContent =
+    $control.classList.remove('ub-is-hidden');
+    $control.querySelector('.ub-stats')!.textContent =
       blockedEntryCount === 1
         ? apis.i18n.getMessage('content_singleSiteBlocked')
         : apis.i18n.getMessage('content_multipleSitesBlocked', String(blockedEntryCount));
   } else {
-    $control.classList.add('ub-control--hidden');
+    $control.classList.add('ub-is-hidden');
   }
 }
 
@@ -59,7 +59,7 @@ function onItemsLoaded(b: string, subscriptions: Subscriptions, hideBlockLinks: 
   if (hideBlockLinks) {
     const style = `
       <style>
-        .ub-entry__action {
+        .ub-action {
           display: none !important;
         }
       </style>
@@ -87,12 +87,12 @@ function onElementAdded(addedElement: HTMLElement): void {
         return false;
       }
       entry.setAttribute('data-ub-url', url);
-      action.classList.add('ub-entry__action');
+      action.classList.add('ub-action');
       action.innerHTML = `
-        <span class="ub-entry__block-button">
+        <span class="ub-block-button">
           ${apis.i18n.getMessage('content_blockSiteLink')}
         </span>
-        <span class="ub-entry__unblock-button">
+        <span class="ub-unblock-button">
           ${apis.i18n.getMessage('content_unblockSiteLink')}
         </span>
       `;
@@ -103,7 +103,7 @@ function onElementAdded(addedElement: HTMLElement): void {
           sendMessage('set-blacklist', blacklist!.toString());
           blockedEntryCount = 0;
           for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
-            entry.classList.remove('ub-entry--blocked');
+            entry.classList.remove('ub-is-blocked');
             judgeEntry(entry);
           }
           updateControl();
@@ -113,12 +113,8 @@ function onElementAdded(addedElement: HTMLElement): void {
         });
         $('ub-block-dialog')!.showModal();
       };
-      action
-        .querySelector('.ub-entry__block-button')!
-        .addEventListener('click', onBlockButtonClicked);
-      action
-        .querySelector('.ub-entry__unblock-button')!
-        .addEventListener('click', onBlockButtonClicked);
+      action.querySelector('.ub-block-button')!.addEventListener('click', onBlockButtonClicked);
+      action.querySelector('.ub-unblock-button')!.addEventListener('click', onBlockButtonClicked);
       if (entryHandler.adjustEntry) {
         entryHandler.adjustEntry(entry);
       }
@@ -153,18 +149,18 @@ function onDOMContentLoaded(): void {
     }
     $control.id = 'ub-control';
     $control.innerHTML = `
-      <span class="ub-control__stats"></span>
-      <span class="ub-control__show-button">
+      <span class="ub-stats"></span>
+      <span class="ub-show-button">
         ${apis.i18n.getMessage('content_showBlockedSitesLink')}
       </span>
-      <span class="ub-control__hide-button">
+      <span class="ub-hide-button">
         ${apis.i18n.getMessage('content_hideBlockedSitesLink')}
       </span>
     `;
-    $control.querySelector('.ub-control__show-button')!.addEventListener('click', () => {
+    $control.querySelector('.ub-show-button')!.addEventListener('click', () => {
       $('ub-hide-style')!.sheet!.disabled = true;
     });
-    $control.querySelector('.ub-control__hide-button')!.addEventListener('click', () => {
+    $control.querySelector('.ub-hide-button')!.addEventListener('click', () => {
       $('ub-hide-style')!.sheet!.disabled = false;
     });
     updateControl();
@@ -206,13 +202,13 @@ function main(): void {
   })();
   const hideStyle = `
     <style id="ub-hide-style">
-      .ub-control__show-button {
+      .ub-show-button {
         display: inline !important;
       }
-      .ub-control__hide-button {
+      .ub-hide-button {
         display: none;
       }
-      .ub-entry--blocked {
+      .ub-is-blocked {
         display: none !important;
       }
     </style>
