@@ -51,12 +51,6 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
         controlHandlers: [
           {
             createControl: createControlBefore(
-              '#center_col > #main',
-              'mnr-c ub-control_mobile-all_v1',
-            ),
-          },
-          {
-            createControl: createControlBefore(
               'body > #main > div:nth-child(4)',
               'ZINbbc ub-control_mobile-all_v1',
             ),
@@ -64,21 +58,9 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
         ],
         entryHandlers: [
           {
-            getEntries: getEntriesDefault(
-              '.srg > div > .xpd, #rso > div > .xpd, .WtZO4e > div > div > div > .xpd',
-            ),
-            getURL: getURLDefault('.C8nzq'),
-            createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
-          },
-          {
-            getEntries: getEntriesDefault('#main > div > .xpd'),
+            getEntries: getEntriesDefault('.xpd'),
             getURL: getURLFromQuery('.kCrYT > a'),
             createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
-          },
-        ],
-        pageHandlers: [
-          {
-            getAddedElements: getAddedElementsDefault('.WtZO4e > div > div', '.xpd'),
           },
         ],
       },
