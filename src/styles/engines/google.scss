@@ -1,67 +1,74 @@
-// All
+// #region PC
 
-.ub-control_all {
-  &_v1 {
-    display: inline;
+%pc-control-default {
+  display: inline;
+}
+
+%pc-action-default {
+  display: inline-block;
+  font-size: 14px;
+  margin-left: 4px;
+  white-space: nowrap;
+  width: 0;
+  span + & {
+    margin-left: 0;
   }
 }
 
-.ub-action_all {
-  &_default_v2 {
+// All
+.ub-pc-all {
+  &-control {
+    @extend %pc-control-default;
+  }
+
+  &-general-action {
+    @extend %pc-action-default;
+  }
+
+  &-general-action-fallback {
     display: block;
     font-size: 14px;
   }
 
-  &_default_v1 {
-    display: inline-block;
-    font-size: 14px;
-    margin-left: 4px;
-    white-space: nowrap;
-    width: 0;
-    span + & {
-      margin-left: 0;
-    }
-  }
-
-  &_latest_v1 {
+  &-latest-action {
     display: block;
     font-size: 14px;
     margin: -10px 0 10px;
     padding: 0 16px;
   }
 
-  &_recipes_v1 {
+  &-recipe-action {
     display: block;
     font-size: 12px;
   }
 
-  &_top-stories-vertical_v1 {
+  &-top-story-action {
     display: inline;
     font-size: 14px;
   }
 
-  &_twitter_v1 {
+  &-twitter-action {
     flex: 25 0 auto;
     font-size: 14px;
-    line-height: 1.3;
+    line-height: 18.2px;
     padding-top: 1px;
   }
 
-  &_twitter-search_v2 {
+  &-twitter-search-action {
     display: inline;
     font-size: 14px;
     margin-left: 4px;
     padding-top: 1px;
   }
 
-  &_twitter-search_v1 {
+  &-twitter-search-action-previous {
     flex: 25 0 auto;
     font-size: 14px;
     line-height: 20px;
     padding-top: 1px;
   }
 
-  &_video_v1 {
+  &-video-action {
     display: block;
     font-size: 12px;
     margin: -10px 0 10px;
@@ -70,23 +77,19 @@
 }
 
 // Books
-
-.ub-control_books {
-  &_v1 {
-    @extend .ub-control_all_v1;
+.ub-pc-books {
+  &-control {
+    @extend %pc-control-default;
   }
-}
 
-.ub-action_books {
-  &_default_v1 {
-    @extend .ub-action_all_default_v1;
+  &-general-action {
+    @extend %pc-action-default;
   }
 }
 
 // Images
-
-.ub-control_images {
-  &_v2 {
+.ub-pc-images {
+  &-control {
     color: rgba(0, 0, 0, 0.54);
     display: inline-block;
     font-size: 13px;
@@ -95,15 +98,13 @@
     padding-top: 20px;
   }
 
-  &_v1 {
+  &-control-previous {
     display: block;
     font-size: 12px;
     margin-left: 16px;
   }
-}
 
-.ub-action_images {
-  &_default_v1 {
+  &-general-action {
     display: block;
     font-size: 12px;
     padding: 0 4px;
@@ -112,27 +113,24 @@
 }
 
 // News
-
-.ub-control_news {
-  &_v1 {
-    @extend .ub-control_all_v1;
+.ub-pc-news {
+  &-control {
+    @extend %pc-control-default;
   }
-}
 
-.ub-action_news {
-  &_default_v2 {
+  &-general-action {
     display: inline;
     font-size: 12px;
     margin-left: 4px;
   }
 
-  &_default_v1 {
+  &-general-action-japanese {
     display: inline;
     font-size: 13px;
     margin-left: 4px;
   }
 
-  &_image_v1 {
+  &-image-action-japanese {
     display: block;
     font-size: 10px;
     text-align: center;
@@ -142,15 +140,12 @@
 }
 
 // Videos
-
-.ub-control_videos {
-  &_v1 {
-    @extend .ub-control_all_v1;
+.ub-pc-videos {
+  &-control {
+    @extend %pc-control-default;
   }
-}
 
-.ub-action_videos {
-  &_default_v1 {
+  &-general-action {
     display: inline;
     font-size: 14px;
     margin-left: 4px;
@@ -160,105 +155,109 @@
   }
 }
 
-// Mobile All
+// #endregion PC
 
-.ub-control_mobile-all {
-  &_v1 {
-    display: block;
-    font-size: 14px;
-    padding: 11px 16px;
-    .ub-stats {
-      color: rgba(0, 0, 0, 0.54);
-    }
-    .ub-show-button,
-    .ub-hide-button {
-      color: #1967d2;
-    }
+// #region Mobile
+
+%mobile-control-base {
+  .ub-stats {
+    color: rgba(0, 0, 0, 0.54);
+  }
+  .ub-show-button,
+  .ub-hide-button {
+    color: #1967d2;
   }
 }
 
-.ub-action_mobile-all {
-  &_default_v1 {
-    display: block;
-    font-size: 14px;
-    padding: 0 16px 12px;
-    .ub-block-button,
-    .ub-unblock-button {
-      color: #1967d2;
-    }
+%mobile-control-default {
+  @extend %mobile-control-base;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding: 11px 16px;
+}
+
+%mobile-action-base {
+  .ub-block-button,
+  .ub-unblock-button {
+    color: #1967d2;
   }
 }
 
-// Mobile Books
+%mobile-action-default {
+  @extend %mobile-action-base;
+  display: block;
+  font-size: 14px;
+  padding: 0 16px 12px;
+}
 
-.ub-control_mobile-books {
-  &_v1 {
-    @extend .ub-control_mobile-all_v1;
+// All
+.ub-mobile-all {
+  &-control {
+    @extend %mobile-control-default;
+  }
+
+  &-general-action {
+    @extend %mobile-action-default;
   }
 }
 
-.ub-action_mobile-books {
-  &_default_v1 {
-    @extend .ub-action_mobile-all_default_v1;
+// Books
+.ub-mobile-books {
+  &-control {
+    @extend %mobile-control-default;
+  }
+
+  &-general-action {
+    @extend %mobile-action-default;
   }
 }
 
-// Mobile Images
-
-.ub-control_mobile-images {
-  &_v1 {
+// Images
+.ub-mobile-images {
+  &-control {
+    @extend %mobile-control-base;
     border-radius: 8px;
-    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
     display: block;
-    margin: 0 8px 12px;
+    margin: 0 16px 10px;
     padding: 11px 16px;
-    .ub-stats {
-      color: rgba(0, 0, 0, 0.54);
-    }
-    .ub-show-button,
-    .ub-hide-button {
-      color: #1967d2;
-    }
   }
-}
 
-.ub-action_mobile-images {
-  &_default_v1 {
+  &-general-action {
+    @extend %mobile-action-base;
     display: block;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 14px;
+    margin: -8px 0 8px;
     padding: 0 4px;
-    .ub-block-button,
-    .ub-unblock-button {
-      color: #1967d2;
-    }
+    position: relative;
+    z-index: 1;
   }
 }
 
-// Mobile News
+// News
+.ub-mobile-news {
+  &-control {
+    @extend %mobile-control-default;
+  }
 
-.ub-control_mobile-news {
-  &_v1 {
-    @extend .ub-control_mobile-all_v1;
+  &-general-action {
+    @extend %mobile-action-default;
   }
 }
 
-.ub-action_mobile-news {
-  &_default_v1 {
-    @extend .ub-action_mobile-all_default_v1;
+// Videos
+.ub-mobile-videos {
+  &-control {
+    @extend %mobile-control-default;
+  }
+
+  &-general-action {
+    @extend %mobile-action-default;
   }
 }
 
-// Mobile Videos
-
-.ub-control_mobile-videos {
-  &_v1 {
-    @extend .ub-control_mobile-all_v1;
-  }
-}
-
-.ub-action_mobile-videos {
-  &_default_v1 {
-    @extend .ub-action_mobile-all_default_v1;
-  }
-}
+// #endregion Mobile

@@ -44,124 +44,35 @@ function createControlBefore(
 }
 
 const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
-const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
-  ? {
-      // Mobile All
-      '': {
-        controlHandlers: [
-          {
-            createControl: createControlBefore(
-              'body > #main > div:nth-child(4)',
-              'ZINbbc ub-control_mobile-all_v1',
-            ),
-          },
-        ],
-        entryHandlers: [
-          {
-            getEntries: getEntriesDefault('.xpd'),
-            getURL: getURLFromQuery('.kCrYT > a'),
-            createAction: createActionDefault('', 'ub-action_mobile-all_default_v1'),
-          },
-        ],
-      },
-      // Mobile Books
-      bks: {
-        controlHandlers: [
-          {
-            createControl: createControlBefore(
-              'body > #main > div:nth-child(4)',
-              'ZINbbc ub-control_mobile-books_v1',
-            ),
-          },
-        ],
-        entryHandlers: [
-          {
-            getEntries: getEntriesDefault('#main > div > .xpd'),
-            getURL: getURLDefault('.kCrYT > a'),
-            createAction: createActionDefault('', 'ub-action_mobile-books_default_v1'),
-          },
-        ],
-      },
-      // Mobile Images
-      isch: {
-        controlHandlers: [
-          {
-            createControl: createControlBefore('#islrg', 'ZINbbc ub-control_mobile-images_v1'),
-          },
-        ],
-        entryHandlers: [
-          {
-            getEntries: getEntriesDefault('.islrtb'),
-            getURL: getURLFromQuery('.iKjWAf'),
-            createAction: createActionDefault('', 'ub-action_mobile-images_default_v1'),
-          },
-        ],
-      },
-      // Mobile News
-      nws: {
-        controlHandlers: [
-          {
-            createControl: createControlBefore(
-              'body > #main > div:nth-child(4)',
-              'ZINbbc ub-control_mobile-news_v1',
-            ),
-          },
-        ],
-        entryHandlers: [
-          {
-            getEntries: getEntriesDefault('#main > div > .xpd'),
-            getURL: getURLFromQuery('.kCrYT > a'),
-            createAction: createActionDefault('', 'ub-action_mobile-news_default_v1'),
-          },
-        ],
-      },
-      // Mobile Videos
-      vid: {
-        controlHandlers: [
-          {
-            createControl: createControlBefore(
-              'body > #main > div:nth-child(4)',
-              'ZINbbc ub-control_mobile-videos_v1',
-            ),
-          },
-        ],
-        entryHandlers: [
-          {
-            getEntries: getEntriesDefault('#main > div > .xpd'),
-            getURL: getURLFromQuery('.kCrYT > a'),
-            createAction: createActionDefault('', 'ub-action_mobile-videos_default_v1'),
-          },
-        ],
-      },
-    }
-  : {
+const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: true })
+  ? // #region PC
+    {
       // All
       '': {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-control_all_v1'),
+            createControl: createControlDefault('#mBMHK', 'ub-pc-all-control'),
           },
           {
-            createControl: createControlDefault('#resultStats', 'ub-control_all_v1'),
+            createControl: createControlDefault('#resultStats', 'ub-pc-all-control'),
           },
         ],
         entryHandlers: [
-          // Default, Web Result
+          // General, Web Result
           {
             getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.eFM0qc', 'ub-action_all_default_v1'),
+            createAction: createActionDefault('.eFM0qc', 'ub-pc-all-general-action'),
           },
           {
             getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.yWc32e', 'ub-action_all_default_v1'),
+            createAction: createActionDefault('.yWc32e', 'ub-pc-all-general-action'),
           },
           {
             getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
             getURL: getURLDefault('a'),
-            // Fall back to the bottom.
-            createAction: createActionDefault('', 'ub-action_all_default_v2'),
+            createAction: createActionDefault('', 'ub-pc-all-general-action-fallback'),
           },
           // Featured Snippet
           {
@@ -170,29 +81,29 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
               5,
             ),
             getURL: getURLDefault('.r > a'),
-            createAction: createActionDefault('.eFM0qc', 'ub-action_all_default_v1'),
+            createAction: createActionDefault('.eFM0qc', 'ub-pc-all-general-action'),
           },
           {
             getEntries: getEntriesDefault('.bkWMgd > .g.mnr-c'),
             getURL: getURLDefault('.r > a'),
-            createAction: createActionDefault('.yWc32e', 'ub-action_all_default_v1'),
+            createAction: createActionDefault('.yWc32e', 'ub-pc-all-general-action'),
           },
-          // Latest, Top Stories (Horizontal)
+          // Latest, Top Story
           {
             getEntries: getEntriesDefault('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
             getURL: getURLDefault('.VlJC0'),
-            createAction: createActionDefault('.ttfMne', 'ub-action_all_latest_v1'),
+            createAction: createActionDefault('.ttfMne', 'ub-pc-all-latest-action'),
           },
           {
             getEntries: getEntriesDefault('.So9e7d:nth-child(n+4) > .ttfMne', 1),
             getURL: getURLDefault('.VlJC0'),
-            createAction: createActionDefault('.ttfMne', 'ub-action_all_latest_v1'),
+            createAction: createActionDefault('.ttfMne', 'ub-pc-all-latest-action'),
           },
-          // Recipes
+          // Recipe
           {
             getEntries: getEntriesDefault('.YwonT'),
             getURL: getURLDefault('.a-no-hover-decoration'),
-            createAction: createActionDefault('.a-no-hover-decoration', 'ub-action_all_recipes_v1'),
+            createAction: createActionDefault('.a-no-hover-decoration', 'ub-pc-all-recipe-action'),
           },
           {
             getEntries: addedElement => {
@@ -201,27 +112,27 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
                 : [];
             },
             getURL: getURLDefault('.a-no-hover-decoration'),
-            createAction: createActionDefault('.a-no-hover-decoration', 'ub-action_all_recipes_v1'),
+            createAction: createActionDefault('.a-no-hover-decoration', 'ub-pc-all-recipe-action'),
           },
-          // Top Stories (Vertical)
+          // Top Story
           {
             getEntries: getEntriesDefault(
               'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
               8,
             ),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.tYlW7b', 'ub-action_all_top-stories-vertical_v1'),
+            createAction: createActionDefault('.tYlW7b', 'ub-pc-all-top-story-action'),
           },
           {
             getEntries: getEntriesDefault('div > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.tYlW7b', 'ub-action_all_top-stories-vertical_v1'),
+            createAction: createActionDefault('.tYlW7b', 'ub-pc-all-top-story-action'),
           },
           // Twitter
           {
             getEntries: getEntriesDefault('.bkWMgd > div > .g'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.qdrjAc', 'ub-action_all_twitter_v1'),
+            createAction: createActionDefault('.qdrjAc', 'ub-pc-all-twitter-action'),
           },
           // Twitter Search
           {
@@ -233,7 +144,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
                 return null;
               }
               const action = document.createElement('div');
-              action.className = 'ub-action_all_twitter-search_v2';
+              action.className = 'ub-pc-all-twitter-search-action';
               nextSibling.parentElement!.insertBefore(action, nextSibling);
               return action;
             },
@@ -241,13 +152,16 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
           {
             getEntries: getEntriesDefault('.bkWMgd > div > .g'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.Dwsemf', 'ub-action_all_twitter-search_v1'),
+            createAction: createActionDefault(
+              '.Dwsemf',
+              'ub-pc-all-twitter-search-action-previous',
+            ),
           },
-          // Videos
+          // Video
           {
             getEntries: getEntriesDefault('.P94G9b > .ZTH1s', 1),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.ZTH1s', 'ub-action_all_video_v1'),
+            createAction: createActionDefault('.ZTH1s', 'ub-pc-all-video-action'),
           },
         ],
         pageHandlers: [
@@ -260,27 +174,27 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
       bks: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-control_books_v1'),
+            createControl: createControlDefault('#mBMHK', 'ub-pc-books-control'),
           },
           {
-            createControl: createControlDefault('#resultStats', 'ub-control_books_v1'),
+            createControl: createControlDefault('#resultStats', 'ub-pc-books-control'),
           },
         ],
         entryHandlers: [
           {
             getEntries: getEntriesDefault('.Yr5TG'),
             getURL: getURLDefault('.bHexk > a'),
-            createAction: createActionDefault('.eFM0qc', 'ub-action_books_default_v1'),
+            createAction: createActionDefault('.eFM0qc', 'ub-pc-books-general-action'),
           },
           {
             getEntries: getEntriesDefault('.g'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.eFM0qc', 'ub-action_books_default_v1'),
+            createAction: createActionDefault('.eFM0qc', 'ub-pc-books-general-action'),
           },
           {
             getEntries: getEntriesDefault('.g'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.yWc32e', 'ub-action_books_default_v1'),
+            createAction: createActionDefault('.yWc32e', 'ub-pc-books-general-action'),
           },
         ],
         pageHandlers: [
@@ -293,7 +207,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
       isch: {
         controlHandlers: [
           {
-            createControl: createControlDefault('.cj2HCb', 'ub-control_images_v2'),
+            createControl: createControlDefault('.cj2HCb', 'ub-pc-images-control'),
           },
           {
             createControl: () => {
@@ -302,7 +216,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
                 return null;
               }
               const control = document.createElement('li');
-              control.className = 'ab_ctl ub-control_images_v1';
+              control.className = 'ub-pc-images-control-previous ab_ctl';
               parent.appendChild(control);
               return control;
             },
@@ -312,7 +226,10 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
           {
             getEntries: getEntriesDefault('.isv-r'),
             getURL: getURLDefault('.VFACy'),
-            createAction: createActionDefault('', 'ub-action_images_default_v1'),
+            createAction: createActionDefault('', 'ub-pc-images-general-action'),
+            adjustEntry: entry => {
+              entry.querySelector<HTMLElement>('.VFACy')!.style.verticalAlign = 'bottom';
+            },
           },
           {
             getEntries: getEntriesDefault('.rg_bx'),
@@ -323,7 +240,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
               }
               return /"ru":"([^"]+)"/.exec(div.textContent!)?.[1] ?? null;
             },
-            createAction: createActionDefault('', 'ub-action_images_default_v1'),
+            createAction: createActionDefault('', 'ub-pc-images-general-action'),
           },
         ],
       },
@@ -331,22 +248,22 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
       nws: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-control_news_v1'),
+            createControl: createControlDefault('#mBMHK', 'ub-pc-news-control'),
           },
           {
-            createControl: createControlDefault('#resultStats', 'ub-control_news_v1'),
+            createControl: createControlDefault('#resultStats', 'ub-pc-news-control'),
           },
         ],
         entryHandlers: [
           {
             getEntries: getEntriesDefault('.nChh6e'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.pDavDe', 'ub-action_news_default_v2'),
+            createAction: createActionDefault('.pDavDe', 'ub-pc-news-general-action'),
           },
           {
             getEntries: getEntriesDefault('.gG0TJc'),
             getURL: getURLDefault('.l'),
-            createAction: createActionDefault('.slp', 'ub-action_news_default_v1'),
+            createAction: createActionDefault('.slp', 'ub-pc-news-general-action-japanese'),
             adjustEntry: entry => {
               const image = entry.previousElementSibling;
               if (image && !image.querySelector('.Y6GIfb')) {
@@ -357,7 +274,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
           {
             getEntries: getEntriesDefault('.YiHbdc, .ErI7Gd'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('', 'ub-action_news_default_v1'),
+            createAction: createActionDefault('', 'ub-pc-news-general-action-japanese'),
             adjustEntry: entry => {
               const viewAll = entry.querySelector('.cWEW3c');
               if (!viewAll) {
@@ -379,7 +296,7 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
                 : [];
             },
             getURL: getURLDefault(''),
-            createAction: createActionDefault('', 'ub-action_news_image_v1'),
+            createAction: createActionDefault('', 'ub-pc-news-image-action-japanese'),
           },
         ],
         pageHandlers: [
@@ -395,17 +312,17 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
       vid: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-control_videos_v1'),
+            createControl: createControlDefault('#mBMHK', 'ub-pc-videos-control'),
           },
           {
-            createControl: createControlDefault('#resultStats', 'ub-control_videos_v1'),
+            createControl: createControlDefault('#resultStats', 'ub-pc-videos-control'),
           },
         ],
         entryHandlers: [
           {
             getEntries: getEntriesDefault('.g'),
             getURL: getURLDefault('a'),
-            createAction: createActionDefault('.r', 'ub-action_videos_default_v1'),
+            createAction: createActionDefault('.r', 'ub-pc-videos-general-action'),
           },
         ],
         pageHandlers: [
@@ -414,5 +331,95 @@ const tbmHandlersMap: Record<string, ContentHandlers> = mobile({ tablet: true })
           },
         ],
       },
+    }
+  : // #endreion PC
+
+    // #region Mobile
+    {
+      // All
+      '': {
+        controlHandlers: [
+          {
+            createControl: createControlBefore('#main > div:nth-child(4)', 'ub-mobile-all-control'),
+          },
+        ],
+        entryHandlers: [
+          {
+            getEntries: getEntriesDefault('.xpd'),
+            getURL: getURLFromQuery('.kCrYT > a'),
+            createAction: createActionDefault('', 'ub-mobile-all-general-action'),
+          },
+        ],
+      },
+      // Mobile Books
+      bks: {
+        controlHandlers: [
+          {
+            createControl: createControlBefore(
+              '#main > div:nth-child(4)',
+              'ub-mobile-books-control',
+            ),
+          },
+        ],
+        entryHandlers: [
+          {
+            getEntries: getEntriesDefault('.xpd'),
+            getURL: getURLDefault('.kCrYT > a'),
+            createAction: createActionDefault('', 'ub-mobile-books-general-action'),
+          },
+        ],
+      },
+      // Mobile Images
+      isch: {
+        controlHandlers: [
+          {
+            createControl: createControlBefore('#islrg', 'ub-mobile-images-control'),
+          },
+        ],
+        entryHandlers: [
+          {
+            getEntries: getEntriesDefault('.islrtb'),
+            getURL: getURLFromQuery('.iKjWAf'),
+            createAction: createActionDefault('', 'ub-mobile-images-general-action'),
+          },
+        ],
+      },
+      // Mobile News
+      nws: {
+        controlHandlers: [
+          {
+            createControl: createControlBefore(
+              '#main > div:nth-child(4)',
+              'ub-mobile-news-control',
+            ),
+          },
+        ],
+        entryHandlers: [
+          {
+            getEntries: getEntriesDefault('.xpd'),
+            getURL: getURLFromQuery('.kCrYT > a'),
+            createAction: createActionDefault('', 'ub-mobile-news-general-action'),
+          },
+        ],
+      },
+      // Mobile Videos
+      vid: {
+        controlHandlers: [
+          {
+            createControl: createControlBefore(
+              '#main > div:nth-child(4)',
+              'ub-mobile-videos-control',
+            ),
+          },
+        ],
+        entryHandlers: [
+          {
+            getEntries: getEntriesDefault('.xpd'),
+            getURL: getURLFromQuery('.kCrYT > a'),
+            createAction: createActionDefault('', 'ub-mobile-videos-general-action'),
+          },
+        ],
+      },
     };
-window.ubContentHandlers = tbmHandlersMap[tbm] ?? null;
+// #endregion Mobile
+window.ubContentHandlers = tbmToContentHandlers[tbm] ?? null;
