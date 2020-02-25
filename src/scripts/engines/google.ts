@@ -191,15 +191,13 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
             getURL: getURLDefault('a'),
             createAction: createActionDefault('.eFM0qc', 'ub-pc-books-general-action'),
           },
-          {
-            getEntries: getEntriesDefault('.g'),
-            getURL: getURLDefault('a'),
-            createAction: createActionDefault('.yWc32e', 'ub-pc-books-general-action'),
-          },
         ],
         pageHandlers: [
           {
-            getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
+            getAddedElements: getAddedElementsDefault(
+              '.autopagerize_page_info + .bkWMgd',
+              '.Yr5TG, .g'
+            ),
           },
         ],
       },
