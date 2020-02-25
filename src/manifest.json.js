@@ -1,5 +1,4 @@
 const manifest = {
-  version: '3.3.4',
   background: {
     // #if BROWSER === 'chrome'
     persistent: false,
@@ -50,6 +49,7 @@ const manifest = {
     page: 'options.html',
   },
   permissions: ['activeTab', 'alarms', 'identity', 'storage'],
+  version: '3.4.0',
   content_scripts: [
     {
       css: ['styles/engines/google.css', 'styles/content.css'],
