@@ -79,7 +79,7 @@ class Part {
   }
 }
 
-type Patch = BlacklistPatch & {
+interface Patch extends BlacklistPatch {
   requireRulesToAdd: boolean;
   cookedRuleIndicesToRemove: number[];
 };
@@ -138,7 +138,7 @@ export class Blacklist {
       unblockRule.pattern.test(url),
     );
     if (unblockRuleIndices.length) {
-      // The URL is blocked by a user rule. Unblock it.
+      // The URL is unblocked by a user rule. Block it.
       patch.unblock = false;
       if (this.userPart.blocks(url)) {
         // No need to add a user rule to block it.
