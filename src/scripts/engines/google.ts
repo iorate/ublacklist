@@ -342,14 +342,44 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           },
         ],
         entryHandlers: [
+          // General, Featured Snippet, Twitter, Video
           {
             getEntries: getEntriesDefault('.xpd'),
-            getURL: getURLFromQuery('.kCrYT > a'),
+            getURL: getURLFromQuery('> div > a'),
             createAction: createActionDefault('', 'ub-mobile-all-general-action'),
+          },
+          // Latest
+          {
+            getEntries: addedElement => {
+              if (!addedElement.matches('.BVG0Nb')) {
+                return [];
+              }
+              if (!addedElement.querySelector('.S7Jdze:last-child')) {
+                return [];
+              }
+              return [addedElement];
+            },
+            getURL: getURLFromQuery(''),
+            createAction: createActionDefault('', 'ub-mobile-all-latest-action'),
+          },
+          // Top Story, Twitter Search
+          {
+            getEntries: addedElement => {
+              if (!addedElement.matches('.BVG0Nb')) {
+                return [];
+              }
+              if (addedElement.querySelector(':scope > div > div > .RWuggc:first-child')) {
+                // Twitter
+                return [];
+              }
+              return [addedElement];
+            },
+            getURL: getURLFromQuery(''),
+            createAction: createActionDefault('', 'ub-mobile-all-top-story-action'),
           },
         ],
       },
-      // Mobile Books
+      // Books
       bks: {
         controlHandlers: [
           {
@@ -367,7 +397,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           },
         ],
       },
-      // Mobile Images
+      // Images
       isch: {
         controlHandlers: [
           {
@@ -382,7 +412,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           },
         ],
       },
-      // Mobile News
+      // News
       nws: {
         controlHandlers: [
           {
@@ -400,7 +430,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           },
         ],
       },
-      // Mobile Videos
+      // Videos
       vid: {
         controlHandlers: [
           {

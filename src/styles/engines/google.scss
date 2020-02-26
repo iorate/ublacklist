@@ -173,8 +173,6 @@
   @extend %mobile-control-base;
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
-  display: block;
-  font-size: 14px;
   margin-bottom: 10px;
   padding: 11px 16px;
 }
@@ -188,8 +186,6 @@
 
 %mobile-action-default {
   @extend %mobile-action-base;
-  display: block;
-  font-size: 14px;
   padding: 0 16px 12px;
 }
 
@@ -201,6 +197,20 @@
 
   &-general-action {
     @extend %mobile-action-default;
+  }
+
+  &-latest-action {
+    @extend %mobile-action-base;
+    padding: 12px 16px;
+    white-space: nowrap;
+    width: 0;
+  }
+
+  &-top-story-action {
+    @extend %mobile-action-base;
+    padding: 0 16px 12px;
+    white-space: nowrap;
+    width: 0;
   }
 }
 
@@ -221,20 +231,15 @@
     @extend %mobile-control-base;
     border-radius: 8px;
     box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
-    display: block;
-    margin: 0 16px 10px;
+    margin: 0 8px 10px;
     padding: 11px 16px;
   }
 
   &-general-action {
     @extend %mobile-action-base;
-    display: block;
     font-size: 11px;
     line-height: 14px;
-    margin: -8px 0 8px;
-    padding: 0 4px;
-    position: relative;
-    z-index: 1;
+    padding: 0 4px 8px;
   }
 }
 
