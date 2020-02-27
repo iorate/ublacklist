@@ -146,12 +146,7 @@
   }
 
   &-general-action {
-    display: inline;
-    font-size: 14px;
-    margin-left: 4px;
-    span + & {
-      margin-left: 0;
-    }
+    @extend %pc-action-default;
   }
 }
 
