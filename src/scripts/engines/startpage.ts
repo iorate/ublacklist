@@ -20,7 +20,7 @@ window.ubContentHandlers = {
   entryHandlers: [
     {
       getEntries: getEntriesDefault('.w-gl__result'),
-      getURL: getURLDefault('> .w-gl__result-title'),
+      getURL: getURLDefault(':scope > .w-gl__result-title'),
       createAction: createActionDefault('', 'ub-action-web'),
     },
     {

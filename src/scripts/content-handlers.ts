@@ -60,7 +60,7 @@ export function getEntriesDefault(
 
 export function getURLDefault(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
-    const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
+    const a = selector ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
     }
@@ -73,7 +73,7 @@ export function createActionDefault(
   className: string,
 ): (entry: HTMLElement) => HTMLElement | null {
   return entry => {
-    const parent = parentSelector ? entry.querySelector(`:scope ${parentSelector}`) : entry;
+    const parent = parentSelector ? entry.querySelector(parentSelector) : entry;
     if (!parent) {
       return null;
     }

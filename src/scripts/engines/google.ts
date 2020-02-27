@@ -10,7 +10,7 @@ import {
 
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return (entry: HTMLElement): string | null => {
-    const a = selector ? entry.querySelector(`:scope ${selector}`) : entry;
+    const a = selector ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
     }
@@ -345,7 +345,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           // General, Featured Snippet, Twitter, Video
           {
             getEntries: getEntriesDefault('.xpd'),
-            getURL: getURLFromQuery('> div > a'),
+            getURL: getURLFromQuery(':scope > div > a'),
             createAction: createActionDefault('', 'ub-mobile-all-general-action'),
           },
           // Latest
