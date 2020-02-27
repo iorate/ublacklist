@@ -205,7 +205,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       isch: {
         controlHandlers: [
           {
-            createControl: createControlDefault('.cj2HCb', 'ub-pc-images-control'),
+            createControl: createControlBefore('.ymoOte', 'ub-pc-images-control'),
           },
           {
             createControl: () => {
@@ -401,7 +401,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       isch: {
         controlHandlers: [
           {
-            createControl: createControlBefore('#islrg', 'ub-mobile-images-control'),
+            createControl: createControlBefore('.dmFHw', 'ub-mobile-images-control'),
           },
         ],
         entryHandlers: [
