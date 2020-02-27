@@ -82,7 +82,7 @@ class Part {
 interface Patch extends BlacklistPatch {
   requireRulesToAdd: boolean;
   cookedRuleIndicesToRemove: number[];
-};
+}
 
 function findIndices<T>(array: T[], predicate: (element: T) => boolean): number[] {
   const indices: number[] = [];
