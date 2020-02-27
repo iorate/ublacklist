@@ -203,6 +203,10 @@
     white-space: nowrap;
     width: 0;
   }
+
+  &-twitter-action {
+    @extend %mobile-action-default;
+  }
 }
 
 // Books

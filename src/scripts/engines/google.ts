@@ -342,10 +342,10 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           },
         ],
         entryHandlers: [
-          // General, Featured Snippet, Twitter, Video
+          // General, Featured Snippet, Video
           {
             getEntries: getEntriesDefault('.xpd'),
-            getURL: getURLFromQuery(':scope > div > a'),
+            getURL: getURLFromQuery(':scope > .kCrYT > a'),
             createAction: createActionDefault('', 'ub-mobile-all-general-action'),
           },
           // Latest
@@ -376,6 +376,20 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
             },
             getURL: getURLFromQuery(''),
             createAction: createActionDefault('', 'ub-mobile-all-top-story-action'),
+          },
+          // Twitter
+          {
+            getEntries: addedElement => {
+              if (!addedElement.matches('.xpd')) {
+                return [];
+              }
+              if (!addedElement.querySelector(':scope > div > a > .kCrYT')) {
+                return [];
+              }
+              return [addedElement];
+            },
+            getURL: getURLFromQuery('a'),
+            createAction: createActionDefault('', 'ub-mobile-all-twitter-action'),
           },
         ],
       },
