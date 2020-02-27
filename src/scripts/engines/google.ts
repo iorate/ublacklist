@@ -51,10 +51,10 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       '': {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-pc-all-control'),
-          },
-          {
-            createControl: createControlDefault('#resultStats', 'ub-pc-all-control'),
+            createControl: createControlDefault(
+              '#result-stats, #mBMHK, #resultStats',
+              'ub-pc-all-control',
+            ),
           },
         ],
         entryHandlers: [
@@ -174,10 +174,10 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       bks: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-pc-books-control'),
-          },
-          {
-            createControl: createControlDefault('#resultStats', 'ub-pc-books-control'),
+            createControl: createControlDefault(
+              '#result-stats, #mBMHK, #resultStats',
+              'ub-pc-all-control',
+            ),
           },
         ],
         entryHandlers: [
@@ -246,10 +246,10 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       nws: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-pc-news-control'),
-          },
-          {
-            createControl: createControlDefault('#resultStats', 'ub-pc-news-control'),
+            createControl: createControlDefault(
+              '#result-stats, #mBMHK, #resultStats',
+              'ub-pc-all-control',
+            ),
           },
         ],
         entryHandlers: [
@@ -310,10 +310,10 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
       vid: {
         controlHandlers: [
           {
-            createControl: createControlDefault('#mBMHK', 'ub-pc-videos-control'),
-          },
-          {
-            createControl: createControlDefault('#resultStats', 'ub-pc-videos-control'),
+            createControl: createControlDefault(
+              '#result-stats, #mBMHK, #resultStats',
+              'ub-pc-all-control',
+            ),
           },
         ],
         entryHandlers: [
