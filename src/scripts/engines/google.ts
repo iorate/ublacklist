@@ -254,8 +254,8 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
         ],
         entryHandlers: [
           {
-            getEntries: getEntriesDefault('.nChh6e'),
-            getURL: getURLDefault('a'),
+            getEntries: getEntriesDefault('.bkWMgd'),
+            getURL: getURLDefault('.dbsr > a'),
             createAction: createActionDefault('.pDavDe', 'ub-pc-news-general-action'),
           },
           {
@@ -301,7 +301,7 @@ const tbmToContentHandlers: Record<string, ContentHandlers> = !mobile({ tablet: 
           {
             getAddedElements: getAddedElementsDefault(
               '.autopagerize_page_info + .bkWMgd',
-              '.nChh6e, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
+              '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
             ),
           },
         ],
