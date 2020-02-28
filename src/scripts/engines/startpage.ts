@@ -1,31 +1,31 @@
 import {
   createActionDefault,
   createControlDefault,
-  getEntriesDefault,
+  getEntryDefault,
   getURLDefault,
 } from '../content-handlers';
 
 window.ubContentHandlers = {
   controlHandlers: [
     {
-      createControl: createControlDefault('.search-filters-toolbar__container', 'ub-control-web'),
+      createControl: createControlDefault('ub-control-web', '.search-filters-toolbar__container'),
     },
     {
       createControl: createControlDefault(
-        '.images-filters-toolbar__container',
         'ub-control-images',
+        '.images-filters-toolbar__container',
       ),
     },
   ],
   entryHandlers: [
     {
-      getEntries: getEntriesDefault('.w-gl__result'),
+      getEntry: getEntryDefault('.w-gl__result'),
       getURL: getURLDefault(':scope > .w-gl__result-title'),
-      createAction: createActionDefault('', 'ub-action-web'),
+      createAction: createActionDefault('ub-action-web'),
     },
     {
-      getEntries: getEntriesDefault('.ig-gl__list .image-container'),
-      getURL: (entry: HTMLElement): string | null => {
+      getEntry: getEntryDefault('.ig-gl__list .image-container'),
+      getURL: entry => {
         if (!entry.dataset.imgMetadata) {
           return null;
         }
@@ -36,7 +36,7 @@ window.ubContentHandlers = {
           return null;
         }
       },
-      createAction: createActionDefault('', 'ub-action-images'),
+      createAction: createActionDefault('ub-action-images'),
     },
   ],
 };

@@ -2,15 +2,17 @@ import mobile from 'is-mobile';
 import {
   ContentHandlers,
   createActionDefault,
+  createControlBefore,
   createControlDefault,
   getAddedElementsDefault,
-  getEntriesDefault,
+  getContainerDefault,
+  getEntryDefault,
   getURLDefault,
 } from '../content-handlers';
 
-function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
-  return (entry: HTMLElement): string | null => {
-    const a = selector ? entry.querySelector(selector) : entry;
+function getURLFromQuery(selector?: string): (entry: HTMLElement) => string | null {
+  return entry => {
+    const a = selector != null ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
     }
@@ -27,24 +29,8 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
   };
 }
 
-function createControlBefore(
-  nextSiblingSelector: string,
-  className: string,
-): () => HTMLElement | null {
-  return () => {
-    const nextSibling = document.querySelector(nextSiblingSelector);
-    if (!nextSibling) {
-      return null;
-    }
-    const control = document.createElement('div');
-    control.className = className;
-    nextSibling.parentElement!.insertBefore(control, nextSibling);
-    return control;
-  };
-}
-
 const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
-let tbmToContentHandlers!: Record<string, ContentHandlers>;
+let tbmToContentHandlers!: Record<string, ContentHandlers | undefined>;
 if (!mobile({ tablet: true })) {
   // #region PC
   tbmToContentHandlers = {
@@ -53,88 +39,79 @@ if (!mobile({ tablet: true })) {
       controlHandlers: [
         {
           createControl: createControlDefault(
-            '#result-stats, #mBMHK, #resultStats',
             'ub-pc-all-control',
+            '#result-stats, #mBMHK, #resultStats',
           ),
         },
       ],
       entryHandlers: [
         // General, Web Result
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
+          getEntry: getEntryDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.eFM0qc', 'ub-pc-all-general-action'),
+          createAction: createActionDefault('ub-pc-all-general-action', '.eFM0qc'),
         },
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
+          getEntry: getEntryDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.yWc32e', 'ub-pc-all-general-action'),
+          createAction: createActionDefault('ub-pc-all-general-action', '.yWc32e'),
         },
         {
-          getEntries: getEntriesDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
+          getEntry: getEntryDefault('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('', 'ub-pc-all-general-action-fallback'),
+          createAction: createActionDefault('ub-pc-all-general-action-fallback'),
         },
         // Featured Snippet
         {
-          getEntries: getEntriesDefault('.bkWMgd > .g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
+          getEntry: getEntryDefault('.bkWMgd > .g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
           getURL: getURLDefault('.r > a'),
-          createAction: createActionDefault('.eFM0qc', 'ub-pc-all-general-action'),
+          createAction: createActionDefault('ub-pc-all-general-action', '.eFM0qc'),
         },
         {
-          getEntries: getEntriesDefault('.bkWMgd > .g.mnr-c'),
+          getEntry: getEntryDefault('.bkWMgd > .g.mnr-c'),
           getURL: getURLDefault('.r > a'),
-          createAction: createActionDefault('.yWc32e', 'ub-pc-all-general-action'),
+          createAction: createActionDefault('ub-pc-all-general-action', '.yWc32e'),
         },
         // Latest, Top Story
         {
-          getEntries: getEntriesDefault('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
+          getEntry: getEntryDefault('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
           getURL: getURLDefault('.VlJC0'),
-          createAction: createActionDefault('.ttfMne', 'ub-pc-all-latest-action'),
+          createAction: createActionDefault('ub-pc-all-latest-action', '.ttfMne'),
         },
         {
-          getEntries: getEntriesDefault('.So9e7d:nth-child(n+4) > .ttfMne', 1),
+          getEntry: getEntryDefault('.So9e7d:nth-child(n+4) > .ttfMne', 1),
           getURL: getURLDefault('.VlJC0'),
-          createAction: createActionDefault('.ttfMne', 'ub-pc-all-latest-action'),
+          createAction: createActionDefault('ub-pc-all-latest-action', '.ttfMne'),
         },
         // Recipe
         {
-          getEntries: getEntriesDefault('.YwonT'),
+          getEntry: getEntryDefault('.YwonT'),
           getURL: getURLDefault('.a-no-hover-decoration'),
-          createAction: createActionDefault('.a-no-hover-decoration', 'ub-pc-all-recipe-action'),
-        },
-        {
-          getEntries: addedElement => {
-            return addedElement.matches('.yl > div')
-              ? Array.from<HTMLElement>(addedElement.querySelectorAll('.YwonT'))
-              : [];
-          },
-          getURL: getURLDefault('.a-no-hover-decoration'),
-          createAction: createActionDefault('.a-no-hover-decoration', 'ub-pc-all-recipe-action'),
+          createAction: createActionDefault('ub-pc-all-recipe-action', '.a-no-hover-decoration'),
         },
         // Top Story
         {
-          getEntries: getEntriesDefault(
+          getEntry: getEntryDefault(
             'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
             8,
           ),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.tYlW7b', 'ub-pc-all-top-story-action'),
+          createAction: createActionDefault('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
         {
-          getEntries: getEntriesDefault('div > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
+          getEntry: getEntryDefault('div > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.tYlW7b', 'ub-pc-all-top-story-action'),
+          createAction: createActionDefault('ub-pc-all-top-story-action', '.tYlW7b'),
         },
         // Twitter
         {
-          getEntries: getEntriesDefault('.bkWMgd > div > .g'),
+          getEntry: getEntryDefault('.bkWMgd > div > .g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.qdrjAc', 'ub-pc-all-twitter-action'),
+          createAction: createActionDefault('ub-pc-all-twitter-action', '.qdrjAc'),
         },
         // Twitter Search
         {
-          getEntries: getEntriesDefault('.bkWMgd > div > .g'),
+          getEntry: getEntryDefault('.bkWMgd > div > .g'),
           getURL: getURLDefault('a'),
           createAction: entry => {
             const nextSibling = entry.querySelector('.r');
@@ -148,20 +125,27 @@ if (!mobile({ tablet: true })) {
           },
         },
         {
-          getEntries: getEntriesDefault('.bkWMgd > div > .g'),
+          getEntry: getEntryDefault('.bkWMgd > div > .g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.Dwsemf', 'ub-pc-all-twitter-search-action-previous'),
+          createAction: createActionDefault('ub-pc-all-twitter-search-action-previous', '.Dwsemf'),
         },
         // Video
         {
-          getEntries: getEntriesDefault('.P94G9b > .ZTH1s', 1),
+          getEntry: getEntryDefault('.P94G9b > .ZTH1s', 1),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.ZTH1s', 'ub-pc-all-video-action'),
+          createAction: createActionDefault('ub-pc-all-video-action', '.ZTH1s'),
         },
       ],
-      pageHandlers: [
+      containerHandlers: [
+        // Recipe
         {
-          getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
+          getContainer: getContainerDefault('.yl > div'),
+          getAddedElements: getAddedElementsDefault('.YwonT'),
+        },
+        // AutoPagerize
+        {
+          getContainer: getContainerDefault('.autopagerize_page_info + .bkWMgd'),
+          getAddedElements: getAddedElementsDefault('.g'),
         },
       ],
     },
@@ -170,29 +154,27 @@ if (!mobile({ tablet: true })) {
       controlHandlers: [
         {
           createControl: createControlDefault(
+            'ub-pc-books-control',
             '#result-stats, #mBMHK, #resultStats',
-            'ub-pc-all-control',
           ),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.Yr5TG'),
+          getEntry: getEntryDefault('.Yr5TG'),
           getURL: getURLDefault('.bHexk > a'),
-          createAction: createActionDefault('.eFM0qc', 'ub-pc-books-general-action'),
+          createAction: createActionDefault('ub-pc-books-general-action', '.eFM0qc'),
         },
         {
-          getEntries: getEntriesDefault('.g'),
+          getEntry: getEntryDefault('.g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.eFM0qc', 'ub-pc-books-general-action'),
+          createAction: createActionDefault('ub-pc-books-general-action', '.eFM0qc'),
         },
       ],
-      pageHandlers: [
+      containerHandlers: [
         {
-          getAddedElements: getAddedElementsDefault(
-            '.autopagerize_page_info + .bkWMgd',
-            '.Yr5TG, .g',
-          ),
+          getContainer: getContainerDefault('.autopagerize_page_info + .bkWMgd'),
+          getAddedElements: getAddedElementsDefault('.Yr5TG, .g'),
         },
       ],
     },
@@ -200,7 +182,7 @@ if (!mobile({ tablet: true })) {
     isch: {
       controlHandlers: [
         {
-          createControl: createControlBefore('.ymoOte', 'ub-pc-images-control'),
+          createControl: createControlBefore('ub-pc-images-control', '.ymoOte'),
         },
         {
           createControl: () => {
@@ -217,15 +199,15 @@ if (!mobile({ tablet: true })) {
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.isv-r'),
+          getEntry: getEntryDefault('.isv-r'),
           getURL: getURLDefault('.VFACy'),
-          createAction: createActionDefault('', 'ub-pc-images-general-action'),
+          createAction: createActionDefault('ub-pc-images-general-action'),
           adjustEntry: entry => {
             entry.querySelector<HTMLElement>('.VFACy')!.style.verticalAlign = 'bottom';
           },
         },
         {
-          getEntries: getEntriesDefault('.rg_bx'),
+          getEntry: getEntryDefault('.rg_bx'),
           getURL: entry => {
             const div = entry.querySelector('.rg_meta');
             if (!div) {
@@ -233,7 +215,7 @@ if (!mobile({ tablet: true })) {
             }
             return /"ru":"([^"]+)"/.exec(div.textContent!)?.[1] ?? null;
           },
-          createAction: createActionDefault('', 'ub-pc-images-general-action'),
+          createAction: createActionDefault('ub-pc-images-general-action'),
         },
       ],
     },
@@ -242,39 +224,44 @@ if (!mobile({ tablet: true })) {
       controlHandlers: [
         {
           createControl: createControlDefault(
+            'ub-pc-news-control',
             '#result-stats, #mBMHK, #resultStats',
-            'ub-pc-all-control',
           ),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.bkWMgd'),
+          getEntry: getEntryDefault('.bkWMgd'),
           getURL: getURLDefault('.dbsr > a'),
-          createAction: createActionDefault('.pDavDe', 'ub-pc-news-general-action'),
+          createAction: createActionDefault('ub-pc-news-general-action', '.pDavDe'),
         },
         {
-          getEntries: getEntriesDefault('.gG0TJc'),
+          getEntry: getEntryDefault('.gG0TJc'),
           getURL: getURLDefault('.l'),
-          createAction: createActionDefault('.slp', 'ub-pc-news-general-action-japanese'),
+          createAction: createActionDefault('ub-pc-news-general-action-japanese', '.slp'),
           adjustEntry: entry => {
-            const image = entry.previousElementSibling;
-            if (image && !image.querySelector('.Y6GIfb')) {
-              entry.insertBefore(image, entry.firstChild);
+            const previousSibling = entry.previousElementSibling;
+            if (
+              !previousSibling ||
+              !previousSibling.matches('.top') ||
+              previousSibling.querySelector('.Y6GIfb')
+            ) {
+              return;
             }
+            entry.insertBefore(previousSibling, entry.firstChild);
           },
         },
         {
-          getEntries: getEntriesDefault('.YiHbdc, .ErI7Gd'),
+          getEntry: getEntryDefault('.YiHbdc, .ErI7Gd'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('', 'ub-pc-news-general-action-japanese'),
+          createAction: createActionDefault('ub-pc-news-general-action-japanese'),
           adjustEntry: entry => {
             const viewAll = entry.querySelector('.cWEW3c');
             if (!viewAll) {
               return;
             }
             const parent = entry.parentElement!;
-            const nextSibling = entry.nextSibling;
+            const nextSibling = entry.nextElementSibling;
             const div = document.createElement('div');
             div.style.display = 'inline-block';
             div.appendChild(entry);
@@ -283,21 +270,20 @@ if (!mobile({ tablet: true })) {
           },
         },
         {
-          getEntries: addedElement => {
-            return addedElement.matches('.top') && addedElement.querySelector('.Y6GIfb')
-              ? [addedElement]
-              : [];
+          getEntry: addedElement => {
+            if (!addedElement.matches('.top') || !addedElement.querySelector('.Y6GIfb')) {
+              return null;
+            }
+            return addedElement;
           },
-          getURL: getURLDefault(''),
-          createAction: createActionDefault('', 'ub-pc-news-image-action-japanese'),
+          getURL: getURLDefault(),
+          createAction: createActionDefault('ub-pc-news-image-action-japanese'),
         },
       ],
-      pageHandlers: [
+      containerHandlers: [
         {
-          getAddedElements: getAddedElementsDefault(
-            '.autopagerize_page_info + .bkWMgd',
-            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
-          ),
+          getContainer: getContainerDefault('.autopagerize_page_info + .bkWMgd'),
+          getAddedElements: getAddedElementsDefault('.gG0TJc, .YiHbdc, .ErI7Gd, .top'),
         },
       ],
     },
@@ -306,21 +292,22 @@ if (!mobile({ tablet: true })) {
       controlHandlers: [
         {
           createControl: createControlDefault(
+            'ub-pc-videos-control',
             '#result-stats, #mBMHK, #resultStats',
-            'ub-pc-all-control',
           ),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.g'),
+          getEntry: getEntryDefault('.g'),
           getURL: getURLDefault('a'),
-          createAction: createActionDefault('.r', 'ub-pc-videos-general-action'),
+          createAction: createActionDefault('ub-pc-videos-general-action', '.r'),
         },
       ],
-      pageHandlers: [
+      containerHandlers: [
         {
-          getAddedElements: getAddedElementsDefault('.autopagerize_page_info + .bkWMgd', '.g'),
+          getContainer: getContainerDefault('.autopagerize_page_info + .bkWMgd'),
+          getAddedElements: getAddedElementsDefault('.g'),
         },
       ],
     },
@@ -332,58 +319,58 @@ if (!mobile({ tablet: true })) {
     '': {
       controlHandlers: [
         {
-          createControl: createControlBefore('#main > div:nth-child(4)', 'ub-mobile-all-control'),
+          createControl: createControlBefore('ub-mobile-all-control', '#main > div:nth-child(4)'),
         },
       ],
       entryHandlers: [
         // General, Featured Snippet, Video
         {
-          getEntries: getEntriesDefault('.xpd'),
+          getEntry: getEntryDefault('.xpd'),
           getURL: getURLFromQuery(':scope > .kCrYT > a'),
-          createAction: createActionDefault('', 'ub-mobile-all-general-action'),
+          createAction: createActionDefault('ub-mobile-all-general-action'),
         },
         // Latest
         {
-          getEntries: addedElement => {
-            if (!addedElement.matches('.BVG0Nb')) {
-              return [];
+          getEntry: addedElement => {
+            if (
+              !addedElement.matches('.BVG0Nb') ||
+              !addedElement.querySelector('.S7Jdze:last-child')
+            ) {
+              return null;
             }
-            if (!addedElement.querySelector('.S7Jdze:last-child')) {
-              return [];
-            }
-            return [addedElement];
+            return addedElement;
           },
-          getURL: getURLFromQuery(''),
-          createAction: createActionDefault('', 'ub-mobile-all-latest-action'),
+          getURL: getURLFromQuery(),
+          createAction: createActionDefault('ub-mobile-all-latest-action'),
         },
         // Top Story, Twitter Search
         {
-          getEntries: addedElement => {
-            if (!addedElement.matches('.BVG0Nb')) {
-              return [];
-            }
-            if (addedElement.querySelector(':scope > div > div > .RWuggc:first-child')) {
+          getEntry: addedElement => {
+            if (
+              !addedElement.matches('.BVG0Nb') ||
               // Twitter
-              return [];
+              addedElement.querySelector(':scope > div > div > .RWuggc:first-child')
+            ) {
+              return null;
             }
-            return [addedElement];
+            return addedElement;
           },
-          getURL: getURLFromQuery(''),
-          createAction: createActionDefault('', 'ub-mobile-all-top-story-action'),
+          getURL: getURLFromQuery(),
+          createAction: createActionDefault('ub-mobile-all-top-story-action'),
         },
         // Twitter
         {
-          getEntries: addedElement => {
-            if (!addedElement.matches('.xpd')) {
-              return [];
+          getEntry: addedElement => {
+            if (
+              !addedElement.matches('.xpd') ||
+              !addedElement.querySelector(':scope > div > a > .kCrYT')
+            ) {
+              return null;
             }
-            if (!addedElement.querySelector(':scope > div > a > .kCrYT')) {
-              return [];
-            }
-            return [addedElement];
+            return addedElement;
           },
           getURL: getURLFromQuery('a'),
-          createAction: createActionDefault('', 'ub-mobile-all-twitter-action'),
+          createAction: createActionDefault('ub-mobile-all-twitter-action'),
         },
       ],
     },
@@ -391,14 +378,14 @@ if (!mobile({ tablet: true })) {
     bks: {
       controlHandlers: [
         {
-          createControl: createControlBefore('#main > div:nth-child(4)', 'ub-mobile-books-control'),
+          createControl: createControlBefore('ub-mobile-books-control', '#main > div:nth-child(4)'),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.xpd'),
+          getEntry: getEntryDefault('.xpd'),
           getURL: getURLDefault('.kCrYT > a'),
-          createAction: createActionDefault('', 'ub-mobile-books-general-action'),
+          createAction: createActionDefault('ub-mobile-books-general-action'),
         },
       ],
     },
@@ -406,14 +393,14 @@ if (!mobile({ tablet: true })) {
     isch: {
       controlHandlers: [
         {
-          createControl: createControlBefore('.dmFHw', 'ub-mobile-images-control'),
+          createControl: createControlBefore('ub-mobile-images-control', '.dmFHw'),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.islrtb'),
+          getEntry: getEntryDefault('.islrtb'),
           getURL: getURLFromQuery('.iKjWAf'),
-          createAction: createActionDefault('', 'ub-mobile-images-general-action'),
+          createAction: createActionDefault('ub-mobile-images-general-action'),
         },
       ],
     },
@@ -421,14 +408,14 @@ if (!mobile({ tablet: true })) {
     nws: {
       controlHandlers: [
         {
-          createControl: createControlBefore('#main > div:nth-child(4)', 'ub-mobile-news-control'),
+          createControl: createControlBefore('ub-mobile-news-control', '#main > div:nth-child(4)'),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.xpd'),
+          getEntry: getEntryDefault('.xpd'),
           getURL: getURLFromQuery('.kCrYT > a'),
-          createAction: createActionDefault('', 'ub-mobile-news-general-action'),
+          createAction: createActionDefault('ub-mobile-news-general-action'),
         },
       ],
     },
@@ -437,16 +424,16 @@ if (!mobile({ tablet: true })) {
       controlHandlers: [
         {
           createControl: createControlBefore(
-            '#main > div:nth-child(4)',
             'ub-mobile-videos-control',
+            '#main > div:nth-child(4)',
           ),
         },
       ],
       entryHandlers: [
         {
-          getEntries: getEntriesDefault('.xpd'),
+          getEntry: getEntryDefault('.xpd'),
           getURL: getURLFromQuery('.kCrYT > a'),
-          createAction: createActionDefault('', 'ub-mobile-videos-general-action'),
+          createAction: createActionDefault('ub-mobile-videos-general-action'),
         },
       ],
     },

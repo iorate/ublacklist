@@ -74,69 +74,70 @@ function onItemsLoaded(b: string, subscriptions: Subscriptions, hideBlockLinks: 
 
 function onElementAdded(addedElement: HTMLElement): void {
   for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
-    const entries = entryHandler.getEntries(addedElement).filter(entry => {
-      if (entry.hasAttribute('data-ub-url')) {
-        return false;
-      }
-      const url = entryHandler.getURL(entry);
-      if (url == null) {
-        return false;
-      }
-      const action = entryHandler.createAction(entry);
-      if (!action) {
-        return false;
-      }
-      entry.setAttribute('data-ub-url', url);
-      action.classList.add('ub-action');
-      action.innerHTML = `
-        <span class="ub-block-button">
-          ${apis.i18n.getMessage('content_blockSiteLink')}
-        </span>
-        <span class="ub-unblock-button">
-          ${apis.i18n.getMessage('content_unblockSiteLink')}
-        </span>
-      `;
-      const onBlockButtonClicked = (e: Event): void => {
-        e.preventDefault();
-        e.stopPropagation();
-        blockForm!.initialize(blacklist!, new AltURL(url), () => {
-          sendMessage('set-blacklist', blacklist!.toString());
-          blockedEntryCount = 0;
-          for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
-            entry.classList.remove('ub-is-blocked');
-            judgeEntry(entry);
-          }
-          updateControl();
-          if (!blockedEntryCount) {
-            $('ub-hide-style')!.sheet!.disabled = false;
-          }
-        });
-        $('ub-block-dialog')!.showModal();
-      };
-      action.querySelector('.ub-block-button')!.addEventListener('click', onBlockButtonClicked);
-      action.querySelector('.ub-unblock-button')!.addEventListener('click', onBlockButtonClicked);
-      if (entryHandler.adjustEntry) {
-        entryHandler.adjustEntry(entry);
-      }
-      if (blacklist) {
-        judgeEntry(entry);
-        updateControl();
-      } else {
-        queuedEntries.push(entry);
-      }
-      return true;
-    });
-    if (entries.length) {
-      return;
+    const entry = entryHandler.getEntry(addedElement);
+    if (!entry || entry.hasAttribute('data-ub-url')) {
+      continue;
     }
+    const url = entryHandler.getURL(entry);
+    if (url == null) {
+      continue;
+    }
+    const action = entryHandler.createAction(entry);
+    if (!action) {
+      continue;
+    }
+    entry.setAttribute('data-ub-url', url);
+    action.classList.add('ub-action');
+    action.innerHTML = `
+      <span class="ub-block-button">
+        ${apis.i18n.getMessage('content_blockSiteLink')}
+      </span>
+      <span class="ub-unblock-button">
+        ${apis.i18n.getMessage('content_unblockSiteLink')}
+      </span>
+    `;
+    const onBlockButtonClicked = (e: Event): void => {
+      e.preventDefault();
+      e.stopPropagation();
+      blockForm!.initialize(blacklist!, new AltURL(url), () => {
+        sendMessage('set-blacklist', blacklist!.toString());
+        blockedEntryCount = 0;
+        for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
+          entry.classList.remove('ub-is-blocked');
+          judgeEntry(entry);
+        }
+        updateControl();
+        if (!blockedEntryCount) {
+          $('ub-hide-style')!.sheet!.disabled = false;
+        }
+      });
+      $('ub-block-dialog')!.showModal();
+    };
+    action.querySelector('.ub-block-button')!.addEventListener('click', onBlockButtonClicked);
+    action.querySelector('.ub-unblock-button')!.addEventListener('click', onBlockButtonClicked);
+    if (entryHandler.adjustEntry) {
+      entryHandler.adjustEntry(entry);
+    }
+    if (blacklist) {
+      judgeEntry(entry);
+      updateControl();
+    } else {
+      queuedEntries.push(entry);
+    }
+    break;
   }
-  if (window.ubContentHandlers!.pageHandlers) {
-    for (const pageHandler of window.ubContentHandlers!.pageHandlers) {
-      const addedElements = pageHandler.getAddedElements(addedElement);
-      addedElements.map(onElementAdded);
-      if (addedElements.length) {
-        return;
+  if (window.ubContentHandlers!.containerHandlers) {
+    for (const containerHandler of window.ubContentHandlers!.containerHandlers) {
+      const container = containerHandler.getContainer(addedElement);
+      if (!container) {
+        continue;
       }
+      const addedElements = containerHandler.getAddedElements(container);
+      if (!addedElements) {
+        continue;
+      }
+      addedElements.forEach(onElementAdded);
+      break;
     }
   }
 }
