@@ -8,23 +8,23 @@ import {
 window.ubContentHandlers = {
   controlHandlers: [
     {
-      createControl: createControlDefault('ub-control-web', '.search-filters-toolbar__container'),
+      createControl: createControlDefault('ub-web-control', '.layout-web__inline-nav-container'),
     },
     {
       createControl: createControlDefault(
-        'ub-control-images',
-        '.images-filters-toolbar__container',
+        'ub-images-control',
+        '.layout-images__inline-nav-container',
       ),
     },
   ],
   entryHandlers: [
     {
       getEntry: getEntryDefault('.w-gl__result'),
-      getURL: getURLDefault(':scope > .w-gl__result-title'),
-      createAction: createActionDefault('ub-action-web'),
+      getURL: getURLDefault('.w-gl__result-title'),
+      createAction: createActionDefault('ub-web-action'),
     },
     {
-      getEntry: getEntryDefault('.ig-gl__list .image-container'),
+      getEntry: getEntryDefault('.ig-gl__list > .image-container'),
       getURL: entry => {
         if (!entry.dataset.imgMetadata) {
           return null;
@@ -36,7 +36,14 @@ window.ubContentHandlers = {
           return null;
         }
       },
-      createAction: createActionDefault('ub-action-images'),
+      createAction: createActionDefault('ub-images-action'),
+      adjustEntry: entry => {
+        const details = entry.querySelector<HTMLElement>('.details');
+        if (!details) {
+          return;
+        }
+        details.style.bottom = '34px';
+      },
     },
   ],
 };

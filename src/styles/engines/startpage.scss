@@ -1,26 +1,52 @@
-.ub-control-web {
-  color: #7f869f;
-  display: block;
-  font-size: 14px;
-  margin-left: 14px;
+%control-base {
+  .ub-show-button,
+  .ub-hide-button {
+    color: #6573ff;
+  }
 }
 
-.ub-action-web {
-  font-size: 13px;
+%action-base {
+  .ub-block-button,
+  .ub-unblock-button {
+    color: #6573ff;
+  }
 }
 
-.ub-control-images {
-  color: #7f869f;
-  display: block;
-  font-size: 14px;
+.ub-web {
+  &-control {
+    @extend %control-base;
+    color: #7f869f;
+    font-size: 14px;
+    margin: 8px 16px 0;
+    @media (min-width: 990px) {
+      margin: 8px 0 0;
+    }
+  }
+
+  &-action {
+    @extend %action-base;
+    font-size: 14px;
+    margin-top: 4px;
+  }
 }
 
-.ub-action-images {
-  display: block;
-  font-size: 12px;
-  height: 18px;
-}
+.ub-images {
+  &-control {
+    @extend %control-base;
+    color: #7f869f;
+    font-size: 14px;
+    margin: 8px 13px 0;
+    @media (min-width: 990px) {
+      margin: 8px 0 0;
+    }
+  }
 
-.ig-gl .details {
-  bottom: 18px !important;
+  &-action {
+    @extend %action-base;
+    font-size: 12px;
+    height: 18px;
+    margin: 8px 0;
+    white-space: nowrap;
+    width: 0;
+  }
 }
