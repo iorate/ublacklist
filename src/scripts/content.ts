@@ -133,16 +133,15 @@ function onElementAdded(addedElement: HTMLElement): void {
     } else {
       queuedEntries.push(entry);
     }
-    break;
+    return;
   }
-  if (window.ubContentHandlers!.dynamicContainerHandlers) {
-    for (const dynamicContainerHandler of window.ubContentHandlers!.dynamicContainerHandlers) {
-      const dynamicContainer = dynamicContainerHandler.getDynamicContainer(addedElement);
-      if (!dynamicContainer) {
+  if (window.ubContentHandlers!.dynamicElementHandlers) {
+    for (const dynamicElementHandler of window.ubContentHandlers!.dynamicElementHandlers) {
+      const dynamicElements = dynamicElementHandler.getDynamicElements(addedElement);
+      if (!dynamicElements) {
         continue;
       }
-      const addedElements = dynamicContainerHandler.getAddedElements(dynamicContainer);
-      addedElements.forEach(onElementAdded);
+      dynamicElements.forEach(onElementAdded);
       break;
     }
   }
@@ -218,14 +217,9 @@ function main(): void {
   } else {
     queuedStyles.push(hideStyle);
   }
-  if (window.ubContentHandlers!.staticContainerHandlers) {
-    for (const staticContainerHandler of window.ubContentHandlers!.staticContainerHandlers) {
-      const staticContainers = staticContainerHandler.getStaticContainers();
-      for (const staticContainer of staticContainers) {
-        const addedElements = staticContainerHandler.getAddedElements(staticContainer);
-        addedElements.forEach(onElementAdded);
-      }
-    }
+  if (window.ubContentHandlers!.staticElementHandler) {
+    const staticElements = window.ubContentHandlers!.staticElementHandler.getStaticElements();
+    staticElements.forEach(onElementAdded);
   }
   new MutationObserver(records => {
     if (document.head) {

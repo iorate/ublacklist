@@ -1,9 +1,8 @@
 import {
   createActionUnder,
   createControlUnder,
-  getAddedElements,
   getEntry,
-  getStaticContainers,
+  getStaticElements,
   getURL,
 } from '../content-handlers';
 
@@ -72,26 +71,7 @@ window.ubContentHandlers = {
       createAction: createActionUnder('ub-videos-action', '.vo-sp__details'),
     },
   ],
-  staticContainerHandlers: [
-    // Web
-    {
-      getStaticContainers: getStaticContainers('.w-gl'),
-      getAddedElements: getAddedElements('.w-gl__result'),
-    },
-    // Images
-    {
-      getStaticContainers: getStaticContainers('.ig-gl'),
-      getAddedElements: getAddedElements('.image-container'),
-    },
-    // News
-    {
-      getStaticContainers: getStaticContainers('.cn-bg'),
-      getAddedElements: getAddedElements('.article'),
-    },
-    // Videos
-    {
-      getStaticContainers: getStaticContainers('.vo-sp'),
-      getAddedElements: getAddedElements('.vo-sp__link'),
-    },
-  ],
+  staticElementHandler: {
+    getStaticElements: getStaticElements('.w-gl__result, .image-container, .article, .vo-sp__link'),
+  },
 };

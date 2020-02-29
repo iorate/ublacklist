@@ -4,8 +4,7 @@ import {
   createActionUnder,
   createControlBefore,
   createControlUnder,
-  getAddedElements,
-  getDynamicContainer,
+  getDynamicElements,
   getEntry,
   getURL,
 } from '../content-handlers';
@@ -136,16 +135,14 @@ if (!mobile({ tablet: true })) {
           createAction: createActionUnder('ub-pc-all-video-action', '.ZTH1s'),
         },
       ],
-      dynamicContainerHandlers: [
+      dynamicElementHandlers: [
         // Recipe
         {
-          getDynamicContainer: getDynamicContainer('.yl > div'),
-          getAddedElements: getAddedElements('.YwonT'),
+          getDynamicElements: getDynamicElements('.yl > div', '.YwonT'),
         },
         // AutoPagerize
         {
-          getDynamicContainer: getDynamicContainer('.autopagerize_page_info + .bkWMgd'),
-          getAddedElements: getAddedElements('.g'),
+          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.g'),
         },
       ],
     },
@@ -160,6 +157,7 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
+        // General
         {
           getEntry: getEntry('.Yr5TG'),
           getURL: getURL('.bHexk > a'),
@@ -171,11 +169,10 @@ if (!mobile({ tablet: true })) {
           createAction: createActionUnder('ub-pc-books-general-action', '.eFM0qc'),
         },
       ],
-      dynamicContainerHandlers: [
+      dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicContainer: getDynamicContainer('.autopagerize_page_info + .bkWMgd'),
-          getAddedElements: getAddedElements('.Yr5TG, .g'),
+          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.Yr5TG, .g'),
         },
       ],
     },
@@ -199,6 +196,7 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
+        // General
         {
           getEntry: getEntry('.isv-r'),
           getURL: getURL('.VFACy'),
@@ -231,6 +229,7 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
+        // General
         {
           getEntry: getEntry('.bkWMgd'),
           getURL: getURL('.dbsr > a'),
@@ -282,10 +281,12 @@ if (!mobile({ tablet: true })) {
         },
       ],
       // AutoPagerize
-      dynamicContainerHandlers: [
+      dynamicElementHandlers: [
         {
-          getDynamicContainer: getDynamicContainer('.autopagerize_page_info + .bkWMgd'),
-          getAddedElements: getAddedElements('.gG0TJc, .YiHbdc, .ErI7Gd, .top'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + .bkWMgd',
+            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
+          ),
         },
       ],
     },
@@ -300,17 +301,17 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
+        // General
         {
           getEntry: getEntry('.g'),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-videos-general-action', '.r'),
         },
       ],
-      dynamicContainerHandlers: [
+      dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicContainer: getDynamicContainer('.autopagerize_page_info + .bkWMgd'),
-          getAddedElements: getAddedElements('.g'),
+          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.g'),
         },
       ],
     },

@@ -8,11 +8,11 @@ declare global {
 export interface ContentHandlers {
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
-  staticContainerHandlers?: StaticContainerHandler[];
-  dynamicContainerHandlers?: DynamicContainerHandler[];
+  staticElementHandler?: StaticElementHandler;
+  dynamicElementHandlers?: DynamicElementHandler[];
 }
 
-// 'Control' means an element which includes the number of blocked sites and show/hide buttons.
+// A 'Control' means an element which includes the number of blocked sites and show/hide buttons.
 // It is typically located before search results.
 export interface ControlHandler {
   createControl: () => HTMLElement | null;
@@ -21,7 +21,7 @@ export interface ControlHandler {
   adjustControl?: (control: HTMLElement) => void;
 }
 
-// 'Entry' means an element which represents an item of search results.
+// An 'Entry' means an element which represents an item of search results.
 export interface EntryHandler {
   // `getEntry(addedElement)` extracts an entry from an added element.
   // An added element is detected by `MutationObserver`.
@@ -36,27 +36,23 @@ export interface EntryHandler {
   adjustEntry?: (entry: HTMLElement) => void;
 }
 
-// 'Container' means an element which prevents its inner entries from being detected
-// by `MutationObserver`.
-// There are two types of containers named 'Static Container' and 'Dynamic Container'.
+// A 'Static Element' means an element which already exists when a content script is injected.
+// Entries in static elements are not detected by `MutationObserver`,
+// so should be 'salvaged' by `StaticElementHandler`.
 //
-// 'Static Container' means a container which already exists before a content script is injected.
-// A static container exists when
+// Static elements exist when
 // - the browser is Chrome,
 // - the search engine is other than Google,
 // - and the background page is sleeping.
-export interface StaticContainerHandler {
-  getStaticContainers: () => HTMLElement[];
-
-  getAddedElements: (staticContainer: HTMLElement) => HTMLElement[];
+export interface StaticElementHandler {
+  getStaticElements: () => HTMLElement[];
 }
 
-// 'Dynamic Container' means a container which is dynamically added by JavaScript.
-// A dynamic container itself is detected by `MutationObserver`.
-export interface DynamicContainerHandler {
-  getDynamicContainer: (addedElement: HTMLElement) => HTMLElement | null;
-
-  getAddedElements: (container: HTMLElement) => HTMLElement[];
+// A 'Dynamic Element' means an element which is dynamically added by JavaScript.
+// Entries in dynamic elements are not detected by `MutationObserver`,
+// so should be salvaged by `DynamicElementHandler`.
+export interface DynamicElementHandler {
+  getDynamicElements: (addedElement: HTMLElement) => HTMLElement[] | null;
 }
 
 // `createControlBefore(className, nextSiblingSelector)` creates an element of a class `className`
@@ -170,21 +166,18 @@ export function createActionUnder(
   };
 }
 
-export function getStaticContainers(selector: string): () => HTMLElement[] {
-  return () => Array.from(document.querySelectorAll<HTMLElement>(selector));
+export function getStaticElements(staticElementSelector: string): () => HTMLElement[] {
+  return () => Array.from(document.querySelectorAll<HTMLElement>(staticElementSelector));
 }
 
-export function getDynamicContainer(
-  selector: string,
-): (addedElement: HTMLElement) => HTMLElement | null {
+export function getDynamicElements(
+  addedElementSelector: string,
+  dynamicElementSelector: string,
+): (addedElement: HTMLElement) => HTMLElement[] | null {
   return addedElement => {
-    if (!addedElement.matches(selector)) {
+    if (!addedElement.matches(addedElementSelector)) {
       return null;
     }
-    return addedElement;
+    return Array.from(addedElement.querySelectorAll<HTMLElement>(dynamicElementSelector));
   };
-}
-
-export function getAddedElements(selector: string): (container: HTMLElement) => HTMLElement[] {
-  return container => Array.from(container.querySelectorAll<HTMLElement>(selector));
 }
