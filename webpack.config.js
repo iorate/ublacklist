@@ -1,5 +1,4 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
@@ -99,9 +98,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist', browser, env),
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false,
-    }),
     new CopyPlugin([
       './_locales/**/*',
       './scripts/*.js',
