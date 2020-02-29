@@ -119,7 +119,7 @@ export function getEntry(
 
 // `getURL(selector)` extracts a URL from a descendant element of an entry designated by `selector`
 // (`''` designates an entry itself).
-export function getURL(selector?: string): (entry: HTMLElement) => string | null {
+export function getURL(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
     const a = selector ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {

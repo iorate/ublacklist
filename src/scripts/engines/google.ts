@@ -276,7 +276,7 @@ if (!mobile({ tablet: true })) {
             }
             return addedElement;
           },
-          getURL: getURL(),
+          getURL: getURL(''),
           createAction: createActionUnder('ub-pc-news-image-action-japanese', ''),
         },
       ],
