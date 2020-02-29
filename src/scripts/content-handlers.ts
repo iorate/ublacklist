@@ -134,7 +134,7 @@ export function getURL(selector?: string): (entry: HTMLElement) => string | null
 }
 
 // `createActionBefore(className, nextSiblingSelector)` creates an element of a class `className`
-// and insert it before a descendant element of an entry designated by `nextSiblingSelector`
+// and insert it before a descendant element of an entry designated by `nextSiblingSelector`.
 export function createActionBefore(
   className: string,
   nextSiblingSelector: string,
