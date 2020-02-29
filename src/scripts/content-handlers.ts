@@ -36,11 +36,11 @@ export interface EntryHandler {
   adjustEntry?: (entry: HTMLElement) => void;
 }
 
-// A 'Static Element' means an element which already exists when a content script is injected.
-// Entries in static elements are not detected by `MutationObserver`,
+// A 'Static Element' means an element already added when a content script is injected.
+// A static element is not detected by `MutationObserver`,
 // so should be 'salvaged' by `StaticElementHandler`.
 //
-// Static elements exist when
+// A static element exists when
 // - the browser is Chrome,
 // - the search engine is other than Google,
 // - and (typically) the background page is sleeping.
@@ -48,8 +48,8 @@ export interface StaticElementHandler {
   getStaticElements: () => HTMLElement[];
 }
 
-// A 'Dynamic Element' means an element which is dynamically added by JavaScript.
-// Entries in dynamic elements are not detected by `MutationObserver`,
+// A 'Dynamic Element' means a descendant element of an element dynamically added by JavaScript.
+// A dynamic element is not detected by `MutationObserver`,
 // so should be salvaged by `DynamicElementHandler`.
 export interface DynamicElementHandler {
   getDynamicElements: (addedElement: HTMLElement) => HTMLElement[] | null;
