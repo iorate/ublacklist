@@ -1,17 +1,19 @@
 import {
-  createActionDefault,
-  createControlDefault,
-  getEntryDefault,
-  getURLDefault,
+  createActionUnder,
+  createControlUnder,
+  getAddedElements,
+  getEntry,
+  getStaticContainers,
+  getURL,
 } from '../content-handlers';
 
 window.ubContentHandlers = {
   controlHandlers: [
     {
-      createControl: createControlDefault('ub-web-control', '.layout-web__inline-nav-container'),
+      createControl: createControlUnder('ub-web-control', '.layout-web__inline-nav-container'),
     },
     {
-      createControl: createControlDefault(
+      createControl: createControlUnder(
         'ub-images-control',
         '.layout-images__inline-nav-container',
       ),
@@ -19,12 +21,12 @@ window.ubContentHandlers = {
   ],
   entryHandlers: [
     {
-      getEntry: getEntryDefault('.w-gl__result'),
-      getURL: getURLDefault('.w-gl__result-title'),
-      createAction: createActionDefault('ub-web-action'),
+      getEntry: getEntry('.w-gl__result'),
+      getURL: getURL('.w-gl__result-title'),
+      createAction: createActionUnder('ub-web-action', ''),
     },
     {
-      getEntry: getEntryDefault('.ig-gl__list > .image-container'),
+      getEntry: getEntry('.image-container'),
       getURL: entry => {
         if (!entry.dataset.imgMetadata) {
           return null;
@@ -36,7 +38,7 @@ window.ubContentHandlers = {
           return null;
         }
       },
-      createAction: createActionDefault('ub-images-action'),
+      createAction: createActionUnder('ub-images-action', ''),
       adjustEntry: entry => {
         const details = entry.querySelector<HTMLElement>('.details');
         if (!details) {
@@ -44,6 +46,16 @@ window.ubContentHandlers = {
         }
         details.style.bottom = '34px';
       },
+    },
+  ],
+  staticContainerHandlers: [
+    {
+      getStaticContainers: getStaticContainers('.w-gl'),
+      getAddedElements: getAddedElements('.w-gl__result'),
+    },
+    {
+      getStaticContainers: getStaticContainers('.ig-gl'),
+      getAddedElements: getAddedElements('.image-container'),
     },
   ],
 };

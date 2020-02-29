@@ -8,7 +8,8 @@ declare global {
 export interface ContentHandlers {
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
-  containerHandlers?: ContainerHandler[];
+  staticContainerHandlers?: StaticContainerHandler[];
+  dynamicContainerHandlers?: DynamicContainerHandler[];
 }
 
 // 'Control' means an element which includes the number of blocked sites and show/hide buttons.
@@ -35,34 +36,31 @@ export interface EntryHandler {
   adjustEntry?: (entry: HTMLElement) => void;
 }
 
-// 'Container' means an element which includes entries.
-// When a container is dynamically added by JavaScript, its entries may not be detected
-// by 'MutationObserver', so will not be handled by `EntryHandler`.
-// In such a case, you can 'salvage' entries from a control using `ControlHandler`.
-export interface ContainerHandler {
-  getContainer: (addedElement: HTMLElement) => HTMLElement | null;
+// 'Container' means an element which prevents its inner entries from being detected
+// by `MutationObserver`.
+// There are two types of containers named 'Static Container' and 'Dynamic Container'.
+//
+// 'Static Container' means a container which already exists before a content script is injected.
+// A static container exists when
+// - the browser is Chrome,
+// - the search engine is other than Google,
+// - and the background page is sleeping.
+export interface StaticContainerHandler {
+  getStaticContainers: () => HTMLElement[];
 
-  getAddedElements: (container: HTMLElement) => HTMLElement[] | null;
+  getAddedElements: (staticContainer: HTMLElement) => HTMLElement[];
 }
 
-// `createControlDefault(className, parentSelector)` creates an element of a class `className`
-// and append it to an element designated by `parentSelector`.
-export function createControlDefault(
-  className: string,
-  parentSelector: string,
-): () => HTMLElement | null {
-  return () => {
-    const parent = document.querySelector(parentSelector);
-    if (!parent) {
-      return null;
-    }
-    const control = document.createElement('div');
-    control.className = className;
-    parent.appendChild(control);
-    return control;
-  };
+// 'Dynamic Container' means a container which is dynamically added by JavaScript.
+// A dynamic container itself is detected by `MutationObserver`.
+export interface DynamicContainerHandler {
+  getDynamicContainer: (addedElement: HTMLElement) => HTMLElement | null;
+
+  getAddedElements: (container: HTMLElement) => HTMLElement[];
 }
 
+// `createControlBefore(className, nextSiblingSelector)` creates an element of a class `className`
+// and insert it before an element designated by `nextSiblingSelector`.
 export function createControlBefore(
   className: string,
   nextSiblingSelector: string,
@@ -79,14 +77,32 @@ export function createControlBefore(
   };
 }
 
-// `getEntryDefault(selector)` returns an added element if it matches `selector`, `null` otherwise.
+// `createControlUnder(className, parentSelector)` creates an element of a class `className`
+// and append it to an element designated by `parentSelector`.
+export function createControlUnder(
+  className: string,
+  parentSelector: string,
+): () => HTMLElement | null {
+  return () => {
+    const parent = document.querySelector(parentSelector);
+    if (!parent) {
+      return null;
+    }
+    const control = document.createElement('div');
+    control.className = className;
+    parent.appendChild(control);
+    return control;
+  };
+}
+
+// `getEntry(selector)` returns an added element if it matches `selector`, `null` otherwise.
 //
 // Just after an entry is added to a DOM tree, it may not contain an element which has its URL
 // or an element to which its action will be added.
 // In such a case, you can 'wait' for a descendant element of an entry to be added to a DOM tree
 // using `getEntryDefault(selector, depth)`.
 // It takes a selector and a depth from an entry of a descendant element.
-export function getEntryDefault(
+export function getEntry(
   selector: string,
   depth: number = 0,
 ): (addedElement: HTMLElement) => HTMLElement | null {
@@ -105,11 +121,11 @@ export function getEntryDefault(
   };
 }
 
-// `getURLDefault([selector])` extracts a URL from a descendant element of an entry
-// if it is designated by `selector`, from an entry itself otherwise.
-export function getURLDefault(selector?: string): (entry: HTMLElement) => string | null {
+// `getURL(selector)` extracts a URL from a descendant element of an entry designated by `selector`
+// (`''` designates an entry itself).
+export function getURL(selector?: string): (entry: HTMLElement) => string | null {
   return entry => {
-    const a = selector != null ? entry.querySelector(selector) : entry;
+    const a = selector ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
     }
@@ -117,15 +133,33 @@ export function getURLDefault(selector?: string): (entry: HTMLElement) => string
   };
 }
 
-// `createActionDefault(className[, parentSelector])` creates an element of a class `className`
-// and append it to a descendant element of an entry if it is designated by `parentSelector`,
-// to an entry itself otherwise.
-export function createActionDefault(
+// `createActionBefore(className, nextSiblingSelector)` creates an element of a class `className`
+// and insert it before a descendant element of an entry designated by `nextSiblingSelector`
+export function createActionBefore(
   className: string,
-  parentSelector?: string,
+  nextSiblingSelector: string,
 ): (entry: HTMLElement) => HTMLElement | null {
   return entry => {
-    const parent = parentSelector != null ? entry.querySelector(parentSelector) : entry;
+    const nextSibling = entry.querySelector(nextSiblingSelector);
+    if (!nextSibling) {
+      return null;
+    }
+    const action = document.createElement('div');
+    action.className = className;
+    nextSibling.parentElement!.insertBefore(action, nextSibling);
+    return action;
+  };
+}
+
+// `createActionUnder(className, parentSelector)` creates an element of a class `className`
+// and append it to a descendant element of an entry designated by `parentSelector`
+// (`''` designates an entry itself).
+export function createActionUnder(
+  className: string,
+  parentSelector: string,
+): (entry: HTMLElement) => HTMLElement | null {
+  return entry => {
+    const parent = parentSelector ? entry.querySelector(parentSelector) : entry;
     if (!parent) {
       return null;
     }
@@ -136,7 +170,11 @@ export function createActionDefault(
   };
 }
 
-export function getContainerDefault(
+export function getStaticContainers(selector: string): () => HTMLElement[] {
+  return () => Array.from(document.querySelectorAll<HTMLElement>(selector));
+}
+
+export function getDynamicContainer(
   selector: string,
 ): (addedElement: HTMLElement) => HTMLElement | null {
   return addedElement => {
@@ -147,8 +185,6 @@ export function getContainerDefault(
   };
 }
 
-export function getAddedElementsDefault(
-  selector: string,
-): (container: HTMLElement) => HTMLElement[] {
-  return container => Array.from<HTMLElement>(container.querySelectorAll(selector));
+export function getAddedElements(selector: string): (container: HTMLElement) => HTMLElement[] {
+  return container => Array.from(container.querySelectorAll<HTMLElement>(selector));
 }

@@ -126,13 +126,13 @@ function onElementAdded(addedElement: HTMLElement): void {
     }
     break;
   }
-  if (window.ubContentHandlers!.containerHandlers) {
-    for (const containerHandler of window.ubContentHandlers!.containerHandlers) {
-      const container = containerHandler.getContainer(addedElement);
-      if (!container) {
+  if (window.ubContentHandlers!.dynamicContainerHandlers) {
+    for (const dynamicContainerHandler of window.ubContentHandlers!.dynamicContainerHandlers) {
+      const dynamicContainer = dynamicContainerHandler.getDynamicContainer(addedElement);
+      if (!dynamicContainer) {
         continue;
       }
-      const addedElements = containerHandler.getAddedElements(container);
+      const addedElements = dynamicContainerHandler.getAddedElements(dynamicContainer);
       if (!addedElements) {
         continue;
       }
@@ -196,6 +196,7 @@ function main(): void {
   if (!window.ubContentHandlers) {
     return;
   }
+
   (async () => {
     const { blacklist: b, subscriptions, hideBlockLinks } = await LocalStorage.load(
       'blacklist',
@@ -204,6 +205,7 @@ function main(): void {
     );
     onItemsLoaded(b, subscriptions, hideBlockLinks);
   })();
+
   const hideStyle = `
     <style id="ub-hide-style">
       .ub-show-button {
@@ -222,6 +224,15 @@ function main(): void {
   } else {
     queuedStyles.push(hideStyle);
   }
+  if (window.ubContentHandlers!.staticContainerHandlers) {
+    for (const staticContainerHandler of window.ubContentHandlers!.staticContainerHandlers) {
+      const staticContainers = staticContainerHandler.getStaticContainers();
+      for (const staticContainer of staticContainers) {
+        const addedElements = staticContainerHandler.getAddedElements(staticContainer);
+        addedElements.forEach(onElementAdded);
+      }
+    }
+  }
   new MutationObserver(records => {
     if (document.head) {
       for (const style of queuedStyles) {
@@ -237,7 +248,12 @@ function main(): void {
       }
     }
   }).observe(document.documentElement, { childList: true, subtree: true });
-  document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+
+  if (document.readyState !== 'loading') {
+    onDOMContentLoaded();
+  } else {
+    document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+  }
 }
 
 main();
