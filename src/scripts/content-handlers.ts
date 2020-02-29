@@ -43,7 +43,7 @@ export interface EntryHandler {
 // Static elements exist when
 // - the browser is Chrome,
 // - the search engine is other than Google,
-// - and the background page is sleeping.
+// - and (typically) the background page is sleeping.
 export interface StaticElementHandler {
   getStaticElements: () => HTMLElement[];
 }
@@ -166,8 +166,8 @@ export function createActionUnder(
   };
 }
 
-export function getStaticElements(staticElementSelector: string): () => HTMLElement[] {
-  return () => Array.from(document.querySelectorAll<HTMLElement>(staticElementSelector));
+export function getStaticElements(selector: string): () => HTMLElement[] {
+  return () => Array.from(document.querySelectorAll<HTMLElement>(selector));
 }
 
 export function getDynamicElements(
