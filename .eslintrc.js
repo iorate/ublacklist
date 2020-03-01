@@ -1,4 +1,7 @@
 module.exports = {
+  env: {
+    browser: true,
+  },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -6,9 +9,6 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier/@typescript-eslint',
   ],
-  globals: {
-    window: true,
-  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.eslint.json',
@@ -35,7 +35,12 @@ module.exports = {
         accessibility: 'no-public',
       },
     ],
-    '@typescript-eslint/no-inferrable-types': ['off'],
+    '@typescript-eslint/no-inferrable-types': [
+      'error',
+      {
+        ignoreParameters: true,
+      },
+    ],
     '@typescript-eslint/no-namespace': ['off'],
     '@typescript-eslint/no-non-null-assertion': ['off'],
     '@typescript-eslint/no-use-before-define': [
