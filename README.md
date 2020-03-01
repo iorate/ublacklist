@@ -22,6 +22,8 @@ git clone https://github.com/iorate/uBlacklist.git
 cd uBlacklist
 
 npm install
+# To Prevent Puppeteer from downloading Chromium,
+# PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install
 
 npm run build:firefox:production
 ```
@@ -29,7 +31,7 @@ npm run build:firefox:production
 ### Engine
 To add support for a search engine other than Google,
 
-1. Create `src/scripts/engines/${engineId}.ts` and define `window.ubContentHandlers` referring to `src/scripts/engines/google.ts`.
+1. Create `src/scripts/engines/${engineId}.ts` and define `window.ubContentHandlers` referring to `src/scripts/content-handlers.ts`.
 1. Create `src/styles/engines/${engineId}.scss` and define styles.
 1. Open `src/scripts/engines.ts` and update `ENGINES`.
 1. Open `webpack.config.js` and update `ENGINE_IDS`.
