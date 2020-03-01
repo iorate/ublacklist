@@ -12,46 +12,50 @@ export interface ContentHandlers {
   dynamicElementHandlers?: DynamicElementHandler[];
 }
 
-// A 'Control' means an element which includes the number of blocked sites and show/hide buttons.
+// A 'Control' means an element which contains stats and show/hide buttons.
 // It is typically located before search results.
 export interface ControlHandler {
+  // `createControl()` creates a control.
   createControl: () => HTMLElement | null;
 
-  // `adjustControl(control)` is called after a control is set up.
+  // `adjustControl(control)` is called after `control` is set up.
   adjustControl?: (control: HTMLElement) => void;
 }
 
 // An 'Entry' means an element which represents an item of search results.
 export interface EntryHandler {
-  // `getEntry(addedElement)` extracts an entry from an added element.
-  // An added element is detected by `MutationObserver`.
+  // `getEntry(addedElement)` extracts an entry from `addedElement`.
+  // Added elements are detected by `MutationObserver`.
   getEntry: (addedElement: HTMLElement) => HTMLElement | null;
 
+  // `getURL(entry)` extracts a URL from `entry`.
   getURL: (entry: HTMLElement) => string | null;
 
-  // 'Action' means an element which includes block/unblock buttons.
+  // An 'Action' means an element which contains block/unblock buttons.
+  // `createAction(entry)` creates an action of `entry`.
   createAction: (entry: HTMLElement) => HTMLElement | null;
 
-  // `adjustEntry(entry)` is called after an entry is set up.
+  // `adjustEntry(entry)` is called after `entry` is set up.
   adjustEntry?: (entry: HTMLElement) => void;
 }
 
-// A 'Static Element' means an element already added when a content script is injected.
-// A static element is not detected by `MutationObserver`,
-// so should be 'salvaged' by `StaticElementHandler`.
+// A 'Static Element' means an element already added when the content script is injected.
+// Static elements are not detected by `MutationObserver`, so should be 'salvaged'.
 //
-// A static element exists when
+// Static elements exist when
 // - the browser is Chrome,
 // - the search engine is other than Google,
 // - and (typically) the background page is sleeping.
 export interface StaticElementHandler {
+  // `getStaticElements()` extracts static elements which should be passed to `getEntry`.
   getStaticElements: () => HTMLElement[];
 }
 
 // A 'Dynamic Element' means a descendant element of an element dynamically added by JavaScript.
-// A dynamic element is not detected by `MutationObserver`,
-// so should be salvaged by `DynamicElementHandler`.
+// Dynamic elements are not detected by `MutationObserver`, so should be 'salvaged'.
 export interface DynamicElementHandler {
+  // `getDynamicElements(addedElement)` extracts dynamic elements from `addedElement`
+  // which should be passed to `getEntry`.
   getDynamicElements: (addedElement: HTMLElement) => HTMLElement[] | null;
 }
 
@@ -74,7 +78,7 @@ export function createControlBefore(
 }
 
 // `createControlUnder(className, parentSelector)` creates an element of a class `className`
-// and append it to an element designated by `parentSelector`.
+// and append it to children of an element designated by `parentSelector`.
 export function createControlUnder(
   className: string,
   parentSelector: string,
@@ -91,13 +95,13 @@ export function createControlUnder(
   };
 }
 
-// `getEntry(selector)` returns an added element if it matches `selector`, `null` otherwise.
+// `getEntry(selector)` returns the added element if it matches `selector`, `null` otherwise.
 //
-// Just after an entry is added to a DOM tree, it may not contain an element which has its URL
-// or an element to which its action will be added.
-// In such a case, you can 'wait' for a descendant element of an entry to be added to a DOM tree
-// using `getEntryDefault(selector, depth)`.
-// It takes a selector and a depth from an entry of a descendant element.
+// Just after an entry is added to the DOM tree, it may not contain an element which has its URL
+// or an element to which its action is added.
+// In such a case, you can 'wait' for a descendant element of the entry to be added to the DOM tree
+// using `getEntry(selector, depth)`.
+// `selector` designates a descendant element, and `depth` designates its depth from the entry.
 export function getEntry(
   selector: string,
   depth: number = 0,
@@ -117,8 +121,8 @@ export function getEntry(
   };
 }
 
-// `getURL(selector)` extracts a URL from a descendant element of an entry designated by `selector`
-// (`''` designates an entry itself).
+// `getURL(selector)` extracts a URL from a descendant element of the entry designated by `selector`
+// (an empty string designates the entry itself).
 export function getURL(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
     const a = selector ? entry.querySelector(selector) : entry;
@@ -130,7 +134,7 @@ export function getURL(selector: string): (entry: HTMLElement) => string | null 
 }
 
 // `createActionBefore(className, nextSiblingSelector)` creates an element of a class `className`
-// and insert it before a descendant element of an entry designated by `nextSiblingSelector`.
+// and insert it before a descendant element of the entry designated by `nextSiblingSelector`.
 export function createActionBefore(
   className: string,
   nextSiblingSelector: string,
@@ -148,8 +152,8 @@ export function createActionBefore(
 }
 
 // `createActionUnder(className, parentSelector)` creates an element of a class `className`
-// and append it to a descendant element of an entry designated by `parentSelector`
-// (`''` designates an entry itself).
+// and append it to children of a descendant element of the entry designated by `parentSelector`
+// (an empty string designates the entry itself).
 export function createActionUnder(
   className: string,
   parentSelector: string,
@@ -166,10 +170,15 @@ export function createActionUnder(
   };
 }
 
+// `getStaticElements(selector)` returns a list of elements which matches `selector`.
 export function getStaticElements(selector: string): () => HTMLElement[] {
   return () => Array.from(document.querySelectorAll<HTMLElement>(selector));
 }
 
+// `getDynamicElements(addedElementSelector, dynamicElementSelector)` returns
+// a list of descendant elements of the added element which match `dynamicElementSelector`
+// if the added element matches `addedElementSelector`,
+// `null` otherwise.
 export function getDynamicElements(
   addedElementSelector: string,
   dynamicElementSelector: string,
