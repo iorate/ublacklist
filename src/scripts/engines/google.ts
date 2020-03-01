@@ -1,6 +1,7 @@
 import mobile from 'is-mobile';
 import {
   ContentHandlers,
+  createActionBefore,
   createActionUnder,
   createControlBefore,
   createControlUnder,
@@ -46,23 +47,23 @@ if (!mobile({ tablet: true })) {
       entryHandlers: [
         // General, Web Result
         {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
-          getURL: getURL('a'),
+          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
         },
         {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
-          getURL: getURL('a'),
+          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.yWc32e'),
         },
         {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c):not(.knavi)'),
-          getURL: getURL('a'),
+          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action-fallback', ''),
         },
         // Featured Snippet
         {
-          getEntry: getEntry('.bkWMgd > .g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
+          getEntry: getEntry('.bkWMgd > .g.mnr-c > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
           getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
         },
@@ -112,21 +113,7 @@ if (!mobile({ tablet: true })) {
         {
           getEntry: getEntry('.bkWMgd > div > .g'),
           getURL: getURL('a'),
-          createAction: entry => {
-            const nextSibling = entry.querySelector('.r');
-            if (!nextSibling) {
-              return null;
-            }
-            const action = document.createElement('div');
-            action.className = 'ub-pc-all-twitter-search-action';
-            nextSibling.parentElement!.insertBefore(action, nextSibling);
-            return action;
-          },
-        },
-        {
-          getEntry: getEntry('.bkWMgd > div > .g'),
-          getURL: getURL('a'),
-          createAction: createActionUnder('ub-pc-all-twitter-search-action-previous', '.Dwsemf'),
+          createAction: createActionBefore('ub-pc-all-twitter-search-action', '.r'),
         },
         // Video
         {
@@ -182,18 +169,6 @@ if (!mobile({ tablet: true })) {
         {
           createControl: createControlBefore('ub-pc-images-control', '.ymoOte'),
         },
-        {
-          createControl: () => {
-            const parent = document.getElementById('ab_ctls') as HTMLElement | null;
-            if (!parent) {
-              return null;
-            }
-            const control = document.createElement('li');
-            control.className = 'ub-pc-images-control-previous ab_ctl';
-            parent.appendChild(control);
-            return control;
-          },
-        },
       ],
       entryHandlers: [
         // General
@@ -204,17 +179,6 @@ if (!mobile({ tablet: true })) {
           adjustEntry: entry => {
             entry.querySelector<HTMLElement>('.VFACy')!.style.verticalAlign = 'bottom';
           },
-        },
-        {
-          getEntry: getEntry('.rg_bx'),
-          getURL: entry => {
-            const div = entry.querySelector('.rg_meta');
-            if (!div) {
-              return null;
-            }
-            return /"ru":"([^"]+)"/.exec(div.textContent!)?.[1] ?? null;
-          },
-          createAction: createActionUnder('ub-pc-images-general-action', ''),
         },
       ],
     },
@@ -240,15 +204,11 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.l'),
           createAction: createActionUnder('ub-pc-news-general-action-japanese', '.slp'),
           adjustEntry: entry => {
-            const previousSibling = entry.previousElementSibling;
-            if (
-              !previousSibling ||
-              !previousSibling.matches('.top') ||
-              previousSibling.querySelector('.Y6GIfb')
-            ) {
+            const image = entry.parentElement!.querySelector('.top');
+            if (!image || image.querySelector('.Y6GIfb')) {
               return;
             }
-            entry.insertBefore(previousSibling, entry.firstChild);
+            entry.insertBefore(image, entry.firstChild);
           },
         },
         {
@@ -261,7 +221,7 @@ if (!mobile({ tablet: true })) {
               return;
             }
             const parent = entry.parentElement!;
-            const nextSibling = entry.nextElementSibling;
+            const nextSibling = entry.nextSibling;
             const div = document.createElement('div');
             div.style.display = 'inline-block';
             div.appendChild(entry);
