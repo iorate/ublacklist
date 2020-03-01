@@ -26,25 +26,23 @@
   }
 
   &-general-action-fallback {
-    display: block;
     font-size: 14px;
   }
 
   &-latest-action {
-    display: block;
     font-size: 14px;
     margin: -10px 0 10px;
     padding: 0 16px;
   }
 
   &-recipe-action {
-    display: block;
     font-size: 12px;
   }
 
   &-top-story-action-vertical {
-    display: inline;
+    display: inline-block;
     font-size: 14px;
+    margin-left: 4px;
   }
 
   &-twitter-action {
@@ -62,7 +60,6 @@
   }
 
   &-video-action {
-    display: block;
     font-size: 12px;
     margin: -10px 0 10px;
     padding: 0 16px;
@@ -195,6 +192,11 @@
     padding: 0 16px 12px;
     white-space: nowrap;
     width: 0;
+  }
+
+  &-top-story-action-vertical {
+    @extend %mobile-action-base;
+    padding-top: 12px;
   }
 
   &-twitter-action {

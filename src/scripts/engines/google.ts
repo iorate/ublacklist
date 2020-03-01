@@ -72,7 +72,7 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.yWc32e'),
         },
-        // Latest, Top Story
+        // Latest, Top Story (Horizontal)
         {
           getEntry: getEntry('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
           getURL: getURL('.VlJC0'),
@@ -89,7 +89,7 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.a-no-hover-decoration'),
           createAction: createActionUnder('ub-pc-all-recipe-action', '.a-no-hover-decoration'),
         },
-        // Top Story
+        // Top Story (Vertical)
         {
           getEntry: getEntry(
             'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
@@ -101,7 +101,7 @@ if (!mobile({ tablet: true })) {
         {
           getEntry: getEntry('div > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
           getURL: getURL('a'),
-          createAction: createActionUnder('ub-pc-all-top-story-action', '.tYlW7b'),
+          createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
         // Twitter
         {
@@ -199,6 +199,7 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.dbsr > a'),
           createAction: createActionUnder('ub-pc-news-general-action', '.pDavDe'),
         },
+        // General (Japanese)
         {
           getEntry: getEntry('.gG0TJc'),
           getURL: getURL('.l'),
@@ -307,7 +308,7 @@ if (!mobile({ tablet: true })) {
           getURL: getURLFromQuery(''),
           createAction: createActionUnder('ub-mobile-all-latest-action', ''),
         },
-        // Top Story, Twitter Search
+        // Top Story (Horizontal), Twitter Search
         {
           getEntry: addedElement => {
             if (
@@ -321,6 +322,12 @@ if (!mobile({ tablet: true })) {
           },
           getURL: getURLFromQuery(''),
           createAction: createActionUnder('ub-mobile-all-top-story-action', ''),
+        },
+        // Top Story (Vertical)
+        {
+          getEntry: getEntry('.X7NTVe'),
+          getURL: getURLFromQuery('.tHmfQe'),
+          createAction: createActionUnder('ub-mobile-all-top-story-action-vertical', '.tHmfQe'),
         },
         // Twitter
         {
