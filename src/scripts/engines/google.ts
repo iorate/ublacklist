@@ -129,7 +129,7 @@ if (!mobile({ tablet: true })) {
         },
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.g'),
+          getDynamicElements: getDynamicElements('.autopagerize_page_info ~ .bkWMgd', '.g'),
         },
       ],
     },
