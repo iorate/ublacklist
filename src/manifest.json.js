@@ -49,7 +49,7 @@ const manifest = {
     page: 'options.html',
   },
   permissions: ['activeTab', 'alarms', 'identity', 'storage'],
-  version: '3.4.4',
+  version: '3.4.5',
   content_scripts: [
     {
       css: ['styles/engines/google.css', 'styles/content.css'],
