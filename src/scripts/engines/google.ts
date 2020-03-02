@@ -99,7 +99,7 @@ if (!mobile({ tablet: true })) {
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
         {
-          getEntry: getEntry('div > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
+          getEntry: getEntry('div > div > .dbsr > a > div > div > .tYlW7b', 6),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
