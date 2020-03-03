@@ -1,3 +1,11 @@
+.ub-button {
+  color: #1a0dab;
+}
+
+.ub-is-blocked g-inner-card {
+  background-color: transparent;
+}
+
 // #region PC
 
 %pc-control-default {
@@ -37,6 +45,7 @@
 
   &-recipe-action {
     font-size: 12px;
+    white-space: nowrap;
   }
 
   &-top-story-action-vertical {
@@ -139,33 +148,31 @@
 
 // #region Mobile
 
-%mobile-control-base {
+%mobile-control-colored {
   .ub-stats {
     color: rgba(0, 0, 0, 0.54);
   }
-  .ub-show-button,
-  .ub-hide-button {
+  .ub-button {
+    color: #1967d2;
+  }
+}
+
+%mobile-action-colored {
+  .ub-button {
     color: #1967d2;
   }
 }
 
 %mobile-control-default {
-  @extend %mobile-control-base;
+  @extend %mobile-control-colored;
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
   margin-bottom: 10px;
   padding: 11px 16px;
 }
 
-%mobile-action-base {
-  .ub-block-button,
-  .ub-unblock-button {
-    color: #1967d2;
-  }
-}
-
 %mobile-action-default {
-  @extend %mobile-action-base;
+  @extend %mobile-action-colored;
   padding: 0 16px 12px;
 }
 
@@ -180,21 +187,21 @@
   }
 
   &-latest-action {
-    @extend %mobile-action-base;
+    @extend %mobile-action-colored;
     padding: 12px 16px;
     white-space: nowrap;
     width: 0;
   }
 
   &-top-story-action {
-    @extend %mobile-action-base;
+    @extend %mobile-action-colored;
     padding: 0 16px 12px;
     white-space: nowrap;
     width: 0;
   }
 
   &-top-story-action-vertical {
-    @extend %mobile-action-base;
+    @extend %mobile-action-colored;
     padding-top: 12px;
   }
 
@@ -217,7 +224,7 @@
 // Images
 .ub-mobile-images {
   &-control {
-    @extend %mobile-control-base;
+    @extend %mobile-control-colored;
     border-radius: 8px;
     box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
     margin: 0 8px 10px;
@@ -225,7 +232,7 @@
   }
 
   &-general-action {
-    @extend %mobile-action-base;
+    @extend %mobile-action-colored;
     font-size: 11px;
     line-height: 14px;
     padding: 0 4px 8px;

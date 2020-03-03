@@ -1,20 +1,12 @@
-%control-base {
-  .ub-show-button,
-  .ub-hide-button {
-    color: #6573ff;
-  }
+.ub-stats {
+  color: #7f869f;
 }
 
-%action-base {
-  .ub-block-button,
-  .ub-unblock-button {
-    color: #6573ff;
-  }
+.ub-button {
+  color: #6573ff;
 }
 
 %control-default {
-  @extend %control-base;
-  color: #7f869f;
   font-size: 14px;
   margin: 8px 16px 0;
   @media (min-width: 990px) {
@@ -23,11 +15,11 @@
 }
 
 %action-default {
-  @extend %action-base;
   font-size: 14px;
   margin-top: 4px;
 }
 
+// Web
 .ub-web {
   &-control {
     @extend %control-default;
@@ -38,9 +30,10 @@
   }
 }
 
+// Images
 .ub-images {
   &-control {
-    @extend %control-default;
+    font-size: 14px;
     margin: 8px 13px 0;
     @media (min-width: 990px) {
       margin: 8px 0 0;
@@ -48,7 +41,6 @@
   }
 
   &-action {
-    @extend %action-base;
     font-size: 12px;
     height: 18px;
     margin: 8px 0;
@@ -57,17 +49,7 @@
   }
 }
 
-.ub-videos {
-  &-control {
-    @extend %control-default;
-  }
-
-  &-action {
-    @extend %action-default;
-    margin-top: 0;
-  }
-}
-
+// News
 .ub-news {
   &-control {
     @extend %control-default;
@@ -75,5 +57,17 @@
 
   &-action {
     @extend %action-default;
+  }
+}
+
+// Videos
+.ub-videos {
+  &-control {
+    @extend %control-default;
+  }
+
+  &-action {
+    font-size: 14px;
+    margin-top: 0;
   }
 }

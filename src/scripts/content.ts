@@ -13,9 +13,7 @@ let blacklist: Blacklist | null = null;
 let blockForm: BlockForm | null = null;
 let blockedEntryCount = 0;
 const queuedEntries: HTMLElement[] = [];
-const queuedStyles: string[] = [];
 
-function $(id: 'ub-hide-style'): HTMLStyleElement | null;
 function $(id: 'ub-control'): HTMLElement | null;
 function $(id: 'ub-block-dialog'): HTMLDialogElement | null;
 function $(id: 'ub-block-form'): HTMLDivElement | null;
@@ -40,17 +38,17 @@ function onDOMContentLoaded(): void {
     control.classList.add('ub-control');
     control.innerHTML = `
 <span class="ub-stats"></span>
-<span class="ub-show-button">
+<button type="button" class="ub-button ub-show-button">
   ${apis.i18n.getMessage('content_showBlockedSitesLink')}
-</span>
-<span class="ub-hide-button">
+</button>
+<button type="button" class="ub-button ub-hide-button">
   ${apis.i18n.getMessage('content_hideBlockedSitesLink')}
-</span>`;
+</button>`;
     control.querySelector('.ub-show-button')!.addEventListener('click', () => {
-      $('ub-hide-style')!.sheet!.disabled = true;
+      document.documentElement.classList.remove('ub-hide');
     });
     control.querySelector('.ub-hide-button')!.addEventListener('click', () => {
-      $('ub-hide-style')!.sheet!.disabled = false;
+      document.documentElement.classList.add('ub-hide');
     });
     if (controlHandler.adjustControl) {
       controlHandler.adjustControl(control);
@@ -80,6 +78,9 @@ function onDOMContentLoaded(): void {
 }
 
 function onElementAdded(addedElement: HTMLElement): void {
+  // #if ENV === 'development'
+  console.log(addedElement.cloneNode(true));
+  // #endif
   for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
     const entry = entryHandler.getEntry(addedElement);
     if (!entry || entry.hasAttribute('data-ub-url')) {
@@ -96,12 +97,12 @@ function onElementAdded(addedElement: HTMLElement): void {
     entry.setAttribute('data-ub-url', url);
     action.classList.add('ub-action');
     action.innerHTML = `
-<span class="ub-block-button">
+<button type="button" class="ub-button ub-block-button">
   ${apis.i18n.getMessage('content_blockSiteLink')}
-</span>
-<span class="ub-unblock-button">
+</button>
+<button type="button" class="ub-button ub-unblock-button">
   ${apis.i18n.getMessage('content_unblockSiteLink')}
-</span>`;
+</button>`;
     const onClick = (e: Event): void => {
       e.preventDefault();
       e.stopPropagation();
@@ -116,7 +117,7 @@ function onElementAdded(addedElement: HTMLElement): void {
           judgeEntry(entry);
         }
         if (!blockedEntryCount) {
-          $('ub-hide-style')!.sheet!.disabled = false;
+          document.documentElement.classList.add('ub-hide');
         }
         updateControl();
       });
@@ -160,17 +161,7 @@ function onOptionsLoaded(
   queuedEntries.length = 0;
   updateControl();
   if (options.hideBlockLinks) {
-    const style = `
-<style>
-  .ub-action {
-    display: none !important;
-  }
-</style>`;
-    if (document.head) {
-      document.head.insertAdjacentHTML('beforeend', style);
-    } else {
-      queuedStyles.push(style);
-    }
+    document.documentElement.classList.add('ub-hide-actions');
   }
 }
 
@@ -200,34 +191,12 @@ function main(): void {
     onOptionsLoaded(options);
   })();
 
-  const hideStyle = `
-<style id="ub-hide-style">
-  .ub-show-button {
-    display: inline !important;
-  }
-  .ub-hide-button {
-    display: none;
-  }
-  .ub-is-blocked {
-    display: none !important;
-  }
-</style>`;
-  if (document.head) {
-    document.head.insertAdjacentHTML('beforeend', hideStyle);
-  } else {
-    queuedStyles.push(hideStyle);
-  }
+  document.documentElement.classList.add('ub-hide');
   if (window.ubContentHandlers!.staticElementHandler) {
     const staticElements = window.ubContentHandlers!.staticElementHandler.getStaticElements();
     staticElements.forEach(onElementAdded);
   }
   new MutationObserver(records => {
-    if (document.head) {
-      for (const style of queuedStyles) {
-        document.head.insertAdjacentHTML('beforeend', style);
-      }
-      queuedStyles.length = 0;
-    }
     for (const record of records) {
       for (const addedNode of record.addedNodes) {
         if (addedNode.nodeType === Node.ELEMENT_NODE) {

@@ -2,40 +2,64 @@
 @import '~dialog-polyfill/dialog-polyfill.css';
 // #endif
 
-.ub-is-hidden {
-  display: none !important;
-}
-
-.ub-show-button {
-  display: none;
-}
-
-.ub-unblock-button {
-  display: none;
-}
-
-.ub-show-button,
-.ub-hide-button,
-.ub-block-button,
-.ub-unblock-button {
-  color: #1a0dab;
+.ub-button {
+  background: transparent;
+  border: 0;
   cursor: pointer;
+  display: inline;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   &:hover {
     text-decoration: underline;
   }
 }
 
+.ub-control.ub-is-hidden {
+  display: none !important;
+}
+
+.ub-show-button {
+  display: none !important;
+}
+
+.ub-unblock-button {
+  display: none !important;
+}
+
 .ub-is-blocked {
-  &,
-  * {
-    background-color: #ffe0e0;
-  }
+  background-color: rgba(255, 192, 192, 0.5) !important;
+
   .ub-block-button {
-    display: none;
+    display: none !important;
   }
+
   .ub-unblock-button {
-    display: inline;
+    display: inline !important;
   }
+}
+
+.ub-hide {
+  .ub-show-button {
+    display: inline !important;
+  }
+
+  .ub-hide-button {
+    display: none !important;
+  }
+
+  .ub-is-blocked {
+    display: none !important;
+  }
+}
+
+.ub-hide-actions .ub-action {
+  display: none !important;
 }
 
 .ub-block-dialog {

@@ -45,7 +45,9 @@ $title-weight: normal;
 .block-form__details-title {
   cursor: pointer;
   margin-bottom: 0.75rem;
-  outline: none;
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 .block-form__block-button[disabled] {
