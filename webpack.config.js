@@ -5,6 +5,7 @@ const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const ENGINE_IDS = [
+  'duckduckgo',
   'startpage',
 ];
 
