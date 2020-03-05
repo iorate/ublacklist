@@ -3,13 +3,7 @@
 // #endif
 
 .ub-button {
-  background: transparent;
-  border: 0;
   cursor: pointer;
-  display: inline;
-  font: inherit;
-  padding: 0;
-  text-align: left;
   white-space: nowrap;
   &:hover {
     text-decoration: underline;
@@ -64,5 +58,6 @@
   border: solid 1px lightgrey;
   box-sizing: content-box;
   max-width: 100%;
+  outline: none;
   padding: 0;
 }
