@@ -59,7 +59,7 @@ function onDOMContentLoaded(): void {
   document.body.insertAdjacentHTML(
     'beforeend',
     `
-<dialog id="ub-block-dialog" class="ub-block-dialog">
+<dialog id="ub-block-dialog" class="ub-block-dialog" tabindex="-1">
   <div id="ub-block-form"></div>
 </dialog>`,
   );
@@ -121,7 +121,9 @@ function onElementAdded(addedElement: HTMLElement): void {
         }
         updateControl();
       });
-      $('ub-block-dialog')!.showModal();
+      const blockDialog = $('ub-block-dialog')!;
+      blockDialog.showModal();
+      blockDialog.focus();
     };
     action.querySelector('.ub-block-button')!.addEventListener('click', onClick);
     action.querySelector('.ub-unblock-button')!.addEventListener('click', onClick);
