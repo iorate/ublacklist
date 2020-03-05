@@ -38,16 +38,21 @@ function onDOMContentLoaded(): void {
     control.classList.add('ub-control');
     control.innerHTML = `
 <span class="ub-stats"></span>
-<button type="button" class="ub-button ub-show-button">
+<span class="ub-show-button">
   ${apis.i18n.getMessage('content_showBlockedSitesLink')}
-</button>
-<button type="button" class="ub-button ub-hide-button">
+</span>
+<span class="ub-hide-button">
   ${apis.i18n.getMessage('content_hideBlockedSitesLink')}
-</button>`;
-    control.querySelector('.ub-show-button')!.addEventListener('click', () => {
+</span>`;
+    const showButton = control.querySelector<HTMLElement>('.ub-show-button')!;
+    const hideButton = control.querySelector<HTMLElement>('.ub-hide-button')!;
+    for (const button of [showButton, hideButton]) {
+      registerButton(button);
+    }
+    showButton.addEventListener('click', () => {
       document.documentElement.classList.remove('ub-hide');
     });
-    control.querySelector('.ub-hide-button')!.addEventListener('click', () => {
+    hideButton.addEventListener('click', () => {
       document.documentElement.classList.add('ub-hide');
     });
     if (controlHandler.adjustControl) {
@@ -97,36 +102,39 @@ function onElementAdded(addedElement: HTMLElement): void {
     entry.setAttribute('data-ub-url', url);
     action.classList.add('ub-action');
     action.innerHTML = `
-<button type="button" class="ub-button ub-block-button">
+<span class="ub-block-button">
   ${apis.i18n.getMessage('content_blockSiteLink')}
-</button>
-<button type="button" class="ub-button ub-unblock-button">
+</span>
+<span class="ub-unblock-button">
   ${apis.i18n.getMessage('content_unblockSiteLink')}
-</button>`;
-    const onClick = (e: Event): void => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!blacklist) {
-        return;
-      }
-      blockForm!.initialize(blacklist!, new AltURL(url), () => {
-        sendMessage('set-blacklist', blacklist!.toString());
-        blockedEntryCount = 0;
-        for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
-          entry.classList.remove('ub-is-blocked');
-          judgeEntry(entry);
+</span>`;
+    const blockButton = action.querySelector<HTMLElement>('.ub-block-button')!;
+    const unblockButton = action.querySelector<HTMLElement>('.ub-unblock-button')!;
+    for (const button of [blockButton, unblockButton]) {
+      registerButton(button);
+      button.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!blacklist) {
+          return;
         }
-        if (!blockedEntryCount) {
-          document.documentElement.classList.add('ub-hide');
-        }
-        updateControl();
+        blockForm!.initialize(blacklist!, new AltURL(url), () => {
+          sendMessage('set-blacklist', blacklist!.toString());
+          blockedEntryCount = 0;
+          for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
+            entry.classList.remove('ub-is-blocked');
+            judgeEntry(entry);
+          }
+          if (!blockedEntryCount) {
+            document.documentElement.classList.add('ub-hide');
+          }
+          updateControl();
+        });
+        const blockDialog = $('ub-block-dialog')!;
+        blockDialog.showModal();
+        blockDialog.focus();
       });
-      const blockDialog = $('ub-block-dialog')!;
-      blockDialog.showModal();
-      blockDialog.focus();
-    };
-    action.querySelector('.ub-block-button')!.addEventListener('click', onClick);
-    action.querySelector('.ub-unblock-button')!.addEventListener('click', onClick);
+    }
     if (entryHandler.adjustEntry) {
       entryHandler.adjustEntry(entry);
     }
@@ -165,6 +173,17 @@ function onOptionsLoaded(
   if (options.hideBlockLinks) {
     document.documentElement.classList.add('ub-hide-actions');
   }
+}
+
+function registerButton(button: HTMLElement): void {
+  button.classList.add('ub-button');
+  button.tabIndex = 0;
+  button.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      button.click();
+    }
+  });
 }
 
 function updateControl(): void {
