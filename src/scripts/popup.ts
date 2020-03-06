@@ -6,15 +6,19 @@ import { sendMessage } from './messages';
 import { AltURL } from './utilities';
 
 async function main(): Promise<void> {
-  const { blacklist: b, subscriptions } = await LocalStorage.load('blacklist', 'subscriptions');
+  const options = await LocalStorage.load('blacklist', 'subscriptions', 'enablePathDepth');
   const blacklist = new Blacklist(
-    b,
-    Object.values(subscriptions).map(subscription => subscription.blacklist),
+    options.blacklist,
+    Object.values(options.subscriptions).map(subscription => subscription.blacklist),
   );
   const url = new AltURL((await apis.tabs.query({ active: true, currentWindow: true }))[0].url!);
-  new BlockForm(document.getElementById('block-form') as HTMLDivElement, () => {
+  const blockForm = new BlockForm(document.getElementById('block-form') as HTMLDivElement, () => {
     window.close();
-  }).initialize(blacklist, url, () => {
+  });
+  if (options.enablePathDepth) {
+    blockForm.enablePathDepth();
+  }
+  blockForm.initialize(blacklist, url, () => {
     sendMessage('set-blacklist', blacklist.toString());
   });
 }

@@ -79,7 +79,7 @@ class Part {
   }
 }
 
-interface Patch extends BlacklistPatch {
+interface BlacklistPatchInternal extends BlacklistPatch {
   requireRulesToAdd: boolean;
   cookedRuleIndicesToRemove: number[];
 }
@@ -95,17 +95,17 @@ function findIndices<T>(array: T[], predicate: (element: T) => boolean): number[
 }
 
 function suggestMatchPattern(url: AltURL, unblock: boolean): string {
-  if (url.scheme === 'http' || url.scheme === 'https') {
-    return `${unblock ? '@' : ''}*://${url.host}/*`;
-  } else {
-    return `${unblock ? '@' : ''}${url.scheme}://${url.host}/*`;
-  }
+  const at = unblock ? '@' : '';
+  const scheme = url.scheme === 'http' || url.scheme === 'https' ? '*' : url.scheme;
+  const host = url.host;
+  const path = '/*';
+  return `${at}${scheme}://${host}${path}`;
 }
 
 export class Blacklist {
   private userPart: Part;
   private subscriptionParts: Part[];
-  private patch: Patch | null = null;
+  private patch: BlacklistPatchInternal | null = null;
 
   constructor(blacklist: string, subscriptionBlacklists: string[]) {
     this.userPart = new Part(blacklist);
@@ -133,7 +133,7 @@ export class Blacklist {
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
   createPatch(url: AltURL): BlacklistPatch {
-    const patch = { url } as Patch;
+    const patch = { url } as BlacklistPatchInternal;
     const unblockRuleIndices = findIndices(this.userPart.unblockRules, unblockRule =>
       unblockRule.pattern.test(url),
     );

@@ -57,6 +57,9 @@
   "popup_pageURLLabel": {
     "message": "页面 URL"
   },
+  "popup_pathDepth": {
+    "message": "深度"
+  },
   "popup_addedRulesLabel": {
     "message": "要添加的规则"
   },
