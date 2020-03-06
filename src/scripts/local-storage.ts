@@ -4,6 +4,7 @@ import { ISOString, Minutes, Result, SubscriptionId, Subscriptions, TokenCache }
 
 export interface Items {
   blacklist: string;
+  enablePathDepth: boolean;
   hideBlockLinks: boolean;
   nextSubscriptionId: SubscriptionId;
   subscriptions: Subscriptions;
@@ -17,6 +18,7 @@ export interface Items {
 
 const defaultItems: Items = {
   blacklist: '',
+  enablePathDepth: false,
   hideBlockLinks: false,
   nextSubscriptionId: 0,
   subscriptions: {},

@@ -93,20 +93,4 @@ https://*.example.edu/`);
 @/edu/`,
   });
   expect(p123f).toBe(null);
-
-  b123.createPatch(new AltURL('http://www.example.com/foo/bar/baz'));
-  const p123g = b123.modifyPatchDepth(1);
-  expect(p123g?.rulesToAdd).toBe('*://www.example.com/foo/*');
-
-  const p123h = b123.modifyPatchDepth(2);
-  expect(p123h?.rulesToAdd).toBe('*://www.example.com/foo/bar/*');
-
-  const p123i = b123.modifyPatchDepth(3);
-  expect(p123i).toBe(null);
-
-  const p123j = b123.modifyPatchDepth(0);
-  expect(p123j?.rulesToAdd).toBe('*://www.example.com/*');
-
-  const p123k = b123.modifyPatchDepth(-1);
-  expect(p123k).toBe(null);
 });

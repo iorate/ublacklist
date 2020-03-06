@@ -13,6 +13,7 @@ let blacklist: Blacklist | null = null;
 let blockForm: BlockForm | null = null;
 let blockedEntryCount = 0;
 const queuedEntries: HTMLElement[] = [];
+let shouldEnablePathDepth = false;
 
 function $(id: 'ub-control'): HTMLElement | null;
 function $(id: 'ub-block-dialog'): HTMLDialogElement | null;
@@ -80,6 +81,10 @@ function onDOMContentLoaded(): void {
   blockForm = new BlockForm($('ub-block-form')!, () => {
     blockDialog.close();
   });
+  if (shouldEnablePathDepth) {
+    blockForm.enablePathDepth();
+    shouldEnablePathDepth = false;
+  }
 }
 
 function onElementAdded(addedElement: HTMLElement): void {
@@ -159,7 +164,10 @@ function onElementAdded(addedElement: HTMLElement): void {
 }
 
 function onOptionsLoaded(
-  options: Pick<LocalStorage.Items, 'blacklist' | 'subscriptions' | 'hideBlockLinks'>,
+  options: Pick<
+    LocalStorage.Items,
+    'blacklist' | 'subscriptions' | 'hideBlockLinks' | 'enablePathDepth'
+  >,
 ): void {
   blacklist = new Blacklist(
     options.blacklist,
@@ -172,6 +180,13 @@ function onOptionsLoaded(
   updateControl();
   if (options.hideBlockLinks) {
     document.documentElement.classList.add('ub-hide-actions');
+  }
+  if (options.enablePathDepth) {
+    if (blockForm) {
+      blockForm.enablePathDepth();
+    } else {
+      shouldEnablePathDepth = true;
+    }
   }
 }
 
@@ -208,7 +223,12 @@ function main(): void {
   }
 
   (async () => {
-    const options = await LocalStorage.load('blacklist', 'subscriptions', 'hideBlockLinks');
+    const options = await LocalStorage.load(
+      'blacklist',
+      'subscriptions',
+      'hideBlockLinks',
+      'enablePathDepth',
+    );
     onOptionsLoaded(options);
   })();
 
