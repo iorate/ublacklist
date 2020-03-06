@@ -166,7 +166,7 @@ function onElementAdded(addedElement: HTMLElement): void {
 function onOptionsLoaded(
   options: Pick<
     LocalStorage.Items,
-    'blacklist' | 'subscriptions' | 'hideBlockLinks' | 'enablePathDepth'
+    'blacklist' | 'subscriptions' | 'hideControl' | 'hideBlockLinks' | 'enablePathDepth'
   >,
 ): void {
   blacklist = new Blacklist(
@@ -178,6 +178,9 @@ function onOptionsLoaded(
   }
   queuedEntries.length = 0;
   updateControl();
+  if (options.hideControl) {
+    document.documentElement.classList.add('ub-hide-control');
+  }
   if (options.hideBlockLinks) {
     document.documentElement.classList.add('ub-hide-actions');
   }
@@ -226,6 +229,7 @@ function main(): void {
     const options = await LocalStorage.load(
       'blacklist',
       'subscriptions',
+      'hideControl',
       'hideBlockLinks',
       'enablePathDepth',
     );

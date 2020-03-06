@@ -6,6 +6,7 @@ export interface Items {
   blacklist: string;
   enablePathDepth: boolean;
   hideBlockLinks: boolean;
+  hideControl: boolean;
   nextSubscriptionId: SubscriptionId;
   subscriptions: Subscriptions;
   sync: boolean;
@@ -20,6 +21,7 @@ const defaultItems: Items = {
   blacklist: '',
   enablePathDepth: false,
   hideBlockLinks: false,
+  hideControl: false,
   nextSubscriptionId: 0,
   subscriptions: {},
   sync: false,
