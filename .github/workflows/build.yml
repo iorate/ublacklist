@@ -20,7 +20,7 @@ jobs:
         version: 13.x
     
     - name: Install dependencies
-      run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD npm install
+      run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install
 
     - name: Lint
       run: npm run lint
