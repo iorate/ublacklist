@@ -1,10 +1,4 @@
-import {
-  createActionUnder,
-  createControlBefore,
-  getEntry,
-  getStaticElements,
-  getURL,
-} from '../content-handlers';
+import { createActionUnder, getEntry, getStaticElements, getURL } from '../content-handlers';
 
 window.ubContentHandlers = {
   controlHandlers: [
