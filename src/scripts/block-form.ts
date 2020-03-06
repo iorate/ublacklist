@@ -31,6 +31,14 @@ export class BlockForm {
             </div>
           </div>
           <div class="field">
+            <label class="label" for="depth">
+              ${apis.i18n.getMessage('popup_pathDepth')}
+            </label>
+            <div class="control">
+              <input id="depth" class="input" type="number" value="0" min="0" max="0">
+            </div>
+          </div>
+          <div class="field">
             <label class="label" for="added">
               ${apis.i18n.getMessage('popup_addedRulesLabel')}
             </label>
@@ -68,6 +76,15 @@ export class BlockForm {
       }
       this.$('update').disabled = !modifiedPatch;
     });
+    this.$('depth').addEventListener('input', () => {
+      const depth = parseInt(this.$('depth').value, 10);
+      const modifiedPatch = this.blacklist!.modifyPatchDepth(depth);
+      if (modifiedPatch) {
+        this.blacklistPatch = modifiedPatch;
+        this.$('added').value = modifiedPatch.rulesToAdd;
+        this.$('update').disabled = false;
+      }
+    });
     this.$('cancel').addEventListener('click', () => {
       close();
     });
@@ -93,6 +110,15 @@ export class BlockForm {
       this.$('title').textContent = apis.i18n.getMessage(
         this.blacklistPatch.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle',
       );
+      this.$('depth').readOnly = false;
+      this.$('depth').max = String(
+        this.blacklistPatch.unblock
+          ? 0
+          : (url.path
+              .split(/[?#]/)
+              .shift()
+              ?.match(/\//g)?.length || 1) - 1,
+      );
       this.$('added').readOnly = false;
       this.$('added').value = this.blacklistPatch.rulesToAdd;
       this.$('removed').value = this.blacklistPatch.rulesToRemove;
@@ -106,6 +132,8 @@ export class BlockForm {
       this.onBlocked = null;
 
       this.$('title').textContent = apis.i18n.getMessage('popup_blockSiteTitle');
+      this.$('depth').readOnly = true;
+      this.$('depth').value = '0';
       this.$('added').readOnly = true;
       this.$('added').value = '';
       this.$('removed').value = '';
@@ -120,6 +148,7 @@ export class BlockForm {
   private $(id: 'url'): HTMLTextAreaElement;
   private $(id: 'added'): HTMLTextAreaElement;
   private $(id: 'addedHelper'): HTMLParagraphElement;
+  private $(id: 'depth'): HTMLInputElement;
   private $(id: 'removed'): HTMLTextAreaElement;
   private $(id: 'cancel'): HTMLButtonElement;
   private $(id: 'update'): HTMLButtonElement;

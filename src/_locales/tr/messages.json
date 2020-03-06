@@ -57,6 +57,9 @@
   "popup_pageURLLabel": {
     "message": "Page URL"
   },
+  "popup_pathDepth": {
+    "message": "Depth"
+  },
   "popup_addedRulesLabel": {
     "message": "Rules to be added"
   },

@@ -75,6 +75,10 @@
     "message": "Page URL",
     "description": "The label for the input that shows a page URL."
   },
+  "popup_pathDepth": {
+    "message": "Depth",
+    "description": "The label for the input that shows a path depth of rules to be added."
+  },
   "popup_addedRulesLabel": {
     "message": "Rules to be added",
     "description": "The label for the textarea that shows rules to be added."
