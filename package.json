@@ -53,6 +53,7 @@
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
     "semantic-release": "^17.0.4",
+    "semantic-release-chrome": "^1.1.3",
     "stylelint": "^13.2.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-recommended-scss": "^4.2.0",
