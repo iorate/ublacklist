@@ -22,8 +22,6 @@ git clone https://github.com/iorate/uBlacklist.git
 cd uBlacklist
 
 npm install
-# To prevent Puppeteer from downloading Chromium,
-# PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install
 
 npm run build:firefox:production
 ```
