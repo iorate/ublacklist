@@ -1,4 +1,11 @@
 const manifest = {
+  // #if BROWSER === 'firefox' && ENV === 'development'
+  applications: {
+    gecko: {
+      id: '@ublacklist',
+    },
+  },
+  // #endif
   background: {
     // #if BROWSER === 'chrome'
     persistent: false,
@@ -12,14 +19,6 @@ const manifest = {
     },
     default_popup: 'popup.html',
   },
-  // #if BROWSER === 'firefox'
-  applications: {
-    gecko: {
-      id: '@ublacklist',
-      strict_min_version: '63.0', // Shadow DOM is required.
-    },
-  },
-  // #endif
   default_locale: 'en',
   description: '__MSG_extensionDescription__',
   icons: {
