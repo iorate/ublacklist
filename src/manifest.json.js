@@ -13,7 +13,7 @@ const manifest = {
     default_popup: 'popup.html',
   },
   // #if BROWSER === 'firefox'
-  browser_specific_settings: {
+  applications: {
     gecko: {
       id: '@ublacklist',
       strict_min_version: '63.0', // Shadow DOM is required.
