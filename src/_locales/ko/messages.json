@@ -57,6 +57,9 @@
   "popup_pageURLLabel": {
     "message": "페이지 URL"
   },
+  "popup_pathDepth": {
+    "message": "계층"
+  },
   "popup_addedRulesLabel": {
     "message": "추가할 규칙"
   },
@@ -115,6 +118,9 @@
   },
   "options_hideBlockSiteLinksLabel": {
     "message": "'이 사이트 차단하기' 링크 숨기기"
+  },
+  "options_hideControl": {
+    "message": "차단한 사이트 수와 '보기' 링크 숨기기"
   },
   "options_syncTitle": {
     "message": "동기화"
