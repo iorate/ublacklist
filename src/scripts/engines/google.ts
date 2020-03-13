@@ -122,7 +122,10 @@ if (!mobile({ tablet: true })) {
         },
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info ~ .bkWMgd', '.g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info ~ .bkWMgd',
+            '.g',
+          ),
         },
       ],
     },
@@ -150,7 +153,10 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.Yr5TG, .g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '.Yr5TG, .g',
+          ),
         },
       ],
     },
@@ -233,8 +239,8 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         {
           getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + .bkWMgd',
-            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '#rso > div, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
           ),
         },
       ],
@@ -257,7 +263,10 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '.g',
+          ),
         },
       ],
     },
