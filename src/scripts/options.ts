@@ -23,6 +23,7 @@ function $(id: 'importBlacklist'): HTMLButtonElement;
 function $(id: 'saveBlacklist'): HTMLButtonElement;
 function $(id: 'engines'): HTMLUListElement;
 function $(id: 'hideBlockSiteLinks'): HTMLInputElement;
+function $(id: 'hideControl'): HTMLInputElement;
 function $(id: 'syncSection'): HTMLElement;
 function $(id: 'turnOnSync'): HTMLButtonElement;
 function $(id: 'turnOffSync'): HTMLButtonElement;
@@ -59,7 +60,11 @@ const $blacklist = $('blacklist');
 
 // #region General
 
-function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
+function setupGeneralSection(
+  blacklist: string,
+  hideBlockLinks: boolean,
+  hideControl: boolean,
+): void {
   $blacklist.value = blacklist;
   $blacklist.addEventListener('input', () => {
     $('saveBlacklist').disabled = false;
@@ -98,6 +103,11 @@ function setupGeneralSection(blacklist: string, hideBlockLinks: boolean): void {
   $('hideBlockSiteLinks').checked = hideBlockLinks;
   $('hideBlockSiteLinks').addEventListener('change', () => {
     LocalStorage.store({ hideBlockLinks: $('hideBlockSiteLinks').checked });
+  });
+
+  $('hideControl').checked = hideControl;
+  $('hideControl').addEventListener('change', () => {
+    LocalStorage.store({ hideControl: $('hideControl').checked });
   });
 }
 
@@ -354,14 +364,22 @@ async function main(): Promise<void> {
     element.innerHTML = chrome.i18n.getMessage(element.dataset.i18n!);
   }
 
-  const { blacklist, hideBlockLinks, sync, syncResult, subscriptions } = await LocalStorage.load(
+  const {
+    blacklist,
+    hideBlockLinks,
+    hideControl,
+    sync,
+    syncResult,
+    subscriptions,
+  } = await LocalStorage.load(
     'blacklist',
     'hideBlockLinks',
+    'hideControl',
     'sync',
     'syncResult',
     'subscriptions',
   );
-  setupGeneralSection(blacklist, hideBlockLinks);
+  setupGeneralSection(blacklist, hideBlockLinks, hideControl);
   await setupEnginesSection();
   setupSyncSection(sync, syncResult);
   // #if BROWSER === 'firefox'

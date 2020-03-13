@@ -157,6 +157,10 @@
     "message": "Hide the 'Block this site' links",
     "description": "The label for the switch whether to hide the 'Block this site' links."
   },
+  "options_hideControl": {
+    "message": "Hide the number of blocked sites and the 'Show' link",
+    "description": "The label for the switch whether to hide the number of blocked sites and the 'Show' link."
+  },
   "options_syncTitle": {
     "message": "Sync",
     "description": "The title of the sync section."

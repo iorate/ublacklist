@@ -38,39 +38,32 @@ if (!mobile({ tablet: true })) {
     '': {
       controlHandlers: [
         {
-          createControl: createControlUnder(
-            'ub-pc-all-control',
-            '#result-stats, #mBMHK, #resultStats',
-          ),
+          createControl: createControlUnder('ub-pc-all-control', '#result-stats'),
         },
       ],
       entryHandlers: [
         // General, Web Result
         {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
+          getEntry: getEntry('.srg > .g, #rso > .g:not(.mnr-c), .bkWMgd > .g:not(.mnr-c)'),
           getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
-        },
-        {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
-          getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action', '.yWc32e'),
-        },
-        {
-          getEntry: getEntry('.srg > .g, .bkWMgd > .g:not(.mnr-c)'),
-          getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action-fallback', ''),
+          createAction: entry => {
+            const parent = entry.querySelector('.eFM0qc');
+            const action = document.createElement('div');
+            if (parent) {
+              action.className = 'ub-pc-all-general-action';
+              parent.appendChild(action);
+            } else {
+              action.className = 'ub-pc-all-general-action-fallback';
+              entry.appendChild(action);
+            }
+            return action;
+          },
         },
         // Featured Snippet
         {
-          getEntry: getEntry('.bkWMgd > .g.mnr-c > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
+          getEntry: getEntry('.g.mnr-c > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
           getURL: getURL('.r > a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
-        },
-        {
-          getEntry: getEntry('.bkWMgd > .g.mnr-c'),
-          getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action', '.yWc32e'),
         },
         // Latest, Top Story (Horizontal)
         {
@@ -105,13 +98,13 @@ if (!mobile({ tablet: true })) {
         },
         // Twitter
         {
-          getEntry: getEntry('.bkWMgd > div > .g'),
+          getEntry: getEntry('#rso > div > .g, .bkWMgd > div > .g'),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-twitter-action', '.qdrjAc'),
         },
         // Twitter Search
         {
-          getEntry: getEntry('.bkWMgd > div > .g'),
+          getEntry: getEntry('#rso > div > .g, .bkWMgd > div > .g'),
           getURL: getURL('a'),
           createAction: createActionBefore('ub-pc-all-twitter-search-action', '.r'),
         },
@@ -129,7 +122,10 @@ if (!mobile({ tablet: true })) {
         },
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info ~ .bkWMgd', '.g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info ~ .bkWMgd',
+            '.g',
+          ),
         },
       ],
     },
@@ -137,10 +133,7 @@ if (!mobile({ tablet: true })) {
     bks: {
       controlHandlers: [
         {
-          createControl: createControlUnder(
-            'ub-pc-books-control',
-            '#result-stats, #mBMHK, #resultStats',
-          ),
+          createControl: createControlUnder('ub-pc-books-control', '#result-stats'),
         },
       ],
       entryHandlers: [
@@ -150,6 +143,7 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.bHexk > a'),
           createAction: createActionUnder('ub-pc-books-general-action', '.eFM0qc'),
         },
+        // General (Japanese)
         {
           getEntry: getEntry('.g'),
           getURL: getURL('a'),
@@ -159,7 +153,10 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.Yr5TG, .g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '.Yr5TG, .g',
+          ),
         },
       ],
     },
@@ -186,16 +183,13 @@ if (!mobile({ tablet: true })) {
     nws: {
       controlHandlers: [
         {
-          createControl: createControlUnder(
-            'ub-pc-news-control',
-            '#result-stats, #mBMHK, #resultStats',
-          ),
+          createControl: createControlUnder('ub-pc-news-control', '#result-stats'),
         },
       ],
       entryHandlers: [
         // General
         {
-          getEntry: getEntry('.bkWMgd'),
+          getEntry: getEntry('#rso > div, .bkWMgd'),
           getURL: getURL('.dbsr > a'),
           createAction: createActionUnder('ub-pc-news-general-action', '.pDavDe'),
         },
@@ -245,8 +239,8 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         {
           getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + .bkWMgd',
-            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '#rso > div, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
           ),
         },
       ],
@@ -255,10 +249,7 @@ if (!mobile({ tablet: true })) {
     vid: {
       controlHandlers: [
         {
-          createControl: createControlUnder(
-            'ub-pc-videos-control',
-            '#result-stats, #mBMHK, #resultStats',
-          ),
+          createControl: createControlUnder('ub-pc-videos-control', '#result-stats'),
         },
       ],
       entryHandlers: [
@@ -272,7 +263,10 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         // AutoPagerize
         {
-          getDynamicElements: getDynamicElements('.autopagerize_page_info + .bkWMgd', '.g'),
+          getDynamicElements: getDynamicElements(
+            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
+            '.g',
+          ),
         },
       ],
     },

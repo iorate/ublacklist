@@ -1,0 +1,8 @@
+This Chrome extension prevents blacklisted sites from appearing in Google search results.
+
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by match patterns (e.g. *://*.example.com/*) or by regular expressions (e.g. /example\.(net|org)/).
+
+You can sync blacklists between your devices by Google Drive, and can also subscribe to public blacklists.
+
+Changelog:
+https://github.com/iorate/uBlacklist/releases
