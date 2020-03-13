@@ -119,6 +119,9 @@
   "options_hideBlockSiteLinksLabel": {
     "message": "「このサイトをブロックする」リンクを表示しない"
   },
+  "options_hideControl": {
+    "message": "ブロックしたサイトの数と「表示する」リンクを表示しない"
+  },
   "options_syncTitle": {
     "message": "同期"
   },
