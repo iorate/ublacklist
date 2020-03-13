@@ -46,12 +46,18 @@ if (!mobile({ tablet: true })) {
         {
           getEntry: getEntry('.srg > .g, #rso > .g:not(.mnr-c), .bkWMgd > .g:not(.mnr-c)'),
           getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
-        },
-        {
-          getEntry: getEntry('.srg > .g, #rso > .g:not(.mnr-c), .bkWMgd > .g:not(.mnr-c)'),
-          getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action-fallback', ''),
+          createAction: entry => {
+            const parent = entry.querySelector('.eFM0qc');
+            const action = document.createElement('div');
+            if (parent) {
+              action.className = 'ub-pc-all-general-action';
+              parent.appendChild(action);
+            } else {
+              action.className = 'ub-pc-all-general-action-fallback';
+              entry.appendChild(action);
+            }
+            return action;
+          },
         },
         // Featured Snippet
         {
