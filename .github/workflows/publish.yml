@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 13.x
 
-      - run: npm install
+      - run: npm ci
 
       - run: npm run lint
 

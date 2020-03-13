@@ -21,7 +21,7 @@ git clone https://github.com/iorate/uBlacklist.git
 
 cd uBlacklist
 
-npm install
+npm ci
 
 npm run build:firefox:production
 ```
