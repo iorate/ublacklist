@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: 13.x
 
+      - uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-
+
       - run: npm ci
 
       - run: npm run lint
