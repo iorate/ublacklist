@@ -5,12 +5,15 @@ export const ENGINES: Engine[] = [
     id: 'duckduckgo',
     name: 'DuckDuckGo',
     matches: [
-      '*://duckduckgo.com/?*',
+      '*://duckduckgo.com/',
       '*://duckduckgo.com//',
-      '*://safe.duckduckgo.com/?*',
+      '*://duckduckgo.com/?*',
+      '*://safe.duckduckgo.com/',
       '*://safe.duckduckgo.com//',
-      '*://start.duckduckgo.com/?*',
+      '*://safe.duckduckgo.com/?*',
+      '*://start.duckduckgo.com/',
       '*://start.duckduckgo.com//',
+      '*://start.duckduckgo.com/?*',
     ],
   },
   {
