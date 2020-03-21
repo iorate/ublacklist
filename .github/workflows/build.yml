@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - production
   pull_request:
     branches:
       - master
@@ -34,7 +35,7 @@ jobs:
 
       - run: npm test
 
-      - if: github.event_name == 'push'
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/production'
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
