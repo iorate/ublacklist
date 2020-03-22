@@ -8,10 +8,7 @@ export class PathDepth {
   constructor(url: AltURL) {
     this.scheme = url.scheme;
     this.host = url.host;
-    this.dirs = url.path
-      .split('?', 1)[0]
-      .split('/')
-      .slice(1, -1);
+    this.dirs = url.path.split('?', 1)[0].split('/').slice(1, -1);
   }
 
   maxDepth(): number {
