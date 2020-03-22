@@ -271,6 +271,7 @@ if (!mobile({ tablet: true })) {
       ],
     },
   };
+  // #endregion PC
 } else {
   // #region Mobile
   tbmToContentHandlers = {
