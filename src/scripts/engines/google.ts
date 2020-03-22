@@ -120,13 +120,6 @@ if (!mobile({ tablet: true })) {
         {
           getDynamicElements: getDynamicElements('.yl > div', '.YwonT'),
         },
-        // AutoPagerize
-        {
-          getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + #res, .autopagerize_page_info ~ .bkWMgd',
-            '.g',
-          ),
-        },
       ],
     },
     // Books
@@ -148,15 +141,6 @@ if (!mobile({ tablet: true })) {
           getEntry: getEntry('.g'),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-books-general-action', '.eFM0qc'),
-        },
-      ],
-      dynamicElementHandlers: [
-        // AutoPagerize
-        {
-          getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
-            '.Yr5TG, .g',
-          ),
         },
       ],
     },
@@ -197,7 +181,7 @@ if (!mobile({ tablet: true })) {
         {
           getEntry: getEntry('.gG0TJc'),
           getURL: getURL('.l'),
-          createAction: createActionUnder('ub-pc-news-general-action-japanese', '.slp'),
+          createAction: createActionUnder('ub-pc-news-general-action-japanese', '.dhIWPd, .slp'),
           adjustEntry: entry => {
             const image = entry.parentElement!.querySelector('.top');
             if (!image || image.querySelector('.Y6GIfb')) {
@@ -239,8 +223,8 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         {
           getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
-            '#rso > div, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
+            '.autopagerize_page_info ~ .g',
+            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
           ),
         },
       ],
@@ -258,15 +242,6 @@ if (!mobile({ tablet: true })) {
           getEntry: getEntry('.g'),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-videos-general-action', '.r'),
-        },
-      ],
-      dynamicElementHandlers: [
-        // AutoPagerize
-        {
-          getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info + #res, .autopagerize_page_info + .bkWMgd',
-            '.g',
-          ),
         },
       ],
     },
