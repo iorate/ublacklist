@@ -44,7 +44,9 @@ if (!mobile({ tablet: true })) {
       entryHandlers: [
         // General, Web Result
         {
-          getEntry: getEntry('.srg > .g, #rso > .g:not(.mnr-c), .bkWMgd > .g:not(.mnr-c)'),
+          getEntry: getEntry(
+            '.srg > .g, #rso > .g:not(.mnr-c), .bkWMgd > .g:not(.mnr-c), .autopagerize_page_info ~ .g',
+          ),
           getURL: getURL('.r > a'),
           createAction: entry => {
             const parent = entry.querySelector('.eFM0qc');
@@ -99,13 +101,13 @@ if (!mobile({ tablet: true })) {
         // Twitter
         {
           getEntry: getEntry('#rso > div > .g, .bkWMgd > div > .g'),
-          getURL: getURL('a'),
+          getURL: getURL('g-link > a'),
           createAction: createActionUnder('ub-pc-all-twitter-action', '.qdrjAc'),
         },
         // Twitter Search
         {
           getEntry: getEntry('#rso > div > .g, .bkWMgd > div > .g'),
-          getURL: getURL('a'),
+          getURL: getURL('g-link > a'),
           createAction: createActionBefore('ub-pc-all-twitter-search-action', '.r'),
         },
         // Video
