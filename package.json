@@ -1,4 +1,9 @@
 {
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
   "private": true,
   "scripts": {
     "build": "run-p --print-label build:**",
@@ -7,18 +12,19 @@
     "build:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color",
     "build:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color",
     "clean": "rimraf ./dist",
-    "watch": "run-p --print-label watch:**",
-    "watch:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --color --watch",
-    "watch:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack --color --watch",
-    "watch:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color --watch",
-    "watch:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color --watch",
+    "commit": "git-cz",
     "lint": "run-p --print-label lint:*",
     "lint:scripts": "eslint --color \"./src/scripts/**/*\"",
     "lint:styles": "stylelint --color \"./src/styles/**/*\"",
     "lintfix": "run-p --print-label lintfix:*",
     "lintfix:scripts": "eslint --color --fix \"./src/scripts/**/*\"",
     "lintfix:styles": "stylelint --color --fix \"./src/styles/**/*\"",
-    "test": "jest"
+    "test": "jest",
+    "watch": "run-p --print-label watch:**",
+    "watch:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --color --watch",
+    "watch:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack --color --watch",
+    "watch:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color --watch",
+    "watch:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color --watch"
   },
   "devDependencies": {
     "@mdi/svg": "^4.9.95",
@@ -29,9 +35,11 @@
     "@typescript-eslint/parser": "^2.21.0",
     "bulma": "^0.8.0",
     "bulma-switch": "^2.0.0",
+    "commitizen": "^4.0.3",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
+    "cz-conventional-changelog": "^3.1.0",
     "dayjs": "^1.8.21",
     "dialog-polyfill": "^0.5.0",
     "eslint": "^6.8.0",
