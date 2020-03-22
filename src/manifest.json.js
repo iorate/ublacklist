@@ -1,11 +1,4 @@
 const manifest = {
-  // #if BROWSER === 'firefox' && ENV === 'development'
-  applications: {
-    gecko: {
-      id: '@ublacklist',
-    },
-  },
-  // #endif
   background: {
     // #if BROWSER === 'chrome'
     persistent: false,
