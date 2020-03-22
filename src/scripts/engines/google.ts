@@ -304,7 +304,7 @@ if (!mobile({ tablet: true })) {
           getEntry: addedElement => {
             if (
               !addedElement.matches('.xpd') ||
-              !addedElement.querySelector(':scope > div > a > .kCrYT')
+              !addedElement.querySelector(':scope > div:first-child > a > .kCrYT')
             ) {
               return null;
             }
