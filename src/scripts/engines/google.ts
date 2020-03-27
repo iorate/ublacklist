@@ -148,7 +148,10 @@ if (!mobile({ tablet: true })) {
     isch: {
       controlHandlers: [
         {
-          createControl: createControlBefore('ub-pc-images-control', '.ymoOte'),
+          createControl: createControlBefore('ub-pc-images-control', '.FAZ4xe'),
+        },
+        {
+          createControl: createControlBefore('ub-pc-images-control-sensitive', '.mJxzWe'),
         },
       ],
       entryHandlers: [

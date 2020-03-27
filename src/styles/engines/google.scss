@@ -70,7 +70,7 @@
   }
 
   &-video-action {
-    font-size: 12px;
+    font-size: 14px;
     margin: -10px 0 10px;
     padding: 0 16px;
   }
@@ -91,11 +91,18 @@
 .ub-pc-images {
   &-control {
     color: #70757a;
-    margin: 0 0 8px 165px;
+    padding: 0 0 6px 165px;
+  }
+
+  &-control-sensitive {
+    border-top: 1px solid #dfe1e5;
+    color: #70757a;
+    padding: 11px 0 11px 165px;
   }
 
   &-general-action {
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 16px;
     padding: 0 4px;
   }
 }
@@ -133,7 +140,7 @@
 
   &-general-action {
     @extend %pc-action-inline;
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 6px;
     span + & {
       margin-left: 0;
