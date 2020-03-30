@@ -119,6 +119,9 @@
   "options_hideBlockSiteLinksLabel": {
     "message": "Не показывать ссылки \"Заблокировать сайт\""
   },
+  "options_hideControl": {
+    "message": "Скрывать количество заблокированных сайтов и ссылку \"Показать\""
+  },
   "options_syncTitle": {
     "message": "Синхронизация"
   },
@@ -141,7 +144,7 @@
     "message": "Последняя синхронизация"
   },
   "options_syncNever": {
-    "message": "Синхронизация выключена"
+    "message": "Синхронизация отключена"
   },
   "options_syncRunning": {
     "message": "Синхронизируем..."
