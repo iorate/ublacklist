@@ -1,4 +1,4 @@
-This Chrome extension prevents blacklisted sites from appearing in Google search results.
+This extension prevents sites you specify from appearing in Google search results.
 
 You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by match patterns (e.g. *://*.example.com/*) or by regular expressions (e.g. /example\.(net|org)/).
 

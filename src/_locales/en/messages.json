@@ -4,7 +4,7 @@
     "description": "The extension name."
   },
   "extensionDescription": {
-    "message": "Blocks specific sites from appearing in Google search results",
+    "message": "Blocks sites you specify from appearing in Google search results",
     "description": "The extension description."
   },
   "dayjsLocale": {
