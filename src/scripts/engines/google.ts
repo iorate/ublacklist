@@ -1,7 +1,6 @@
 import mobile from 'is-mobile';
 import {
   ContentHandlers,
-  createActionBefore,
   createActionUnder,
   createControlBefore,
   createControlUnder,
@@ -42,9 +41,21 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
-        // General, Web Result
+        // General, Web Result, Featured Snippet
         {
-          getEntry: getEntry('.srg > .g, #rso > .g:not(.mnr-c), .autopagerize_page_info ~ .g'),
+          getEntry: addedElement => {
+            if (!addedElement.matches('.g')) {
+              return null;
+            }
+            if (addedElement.querySelector('.g')) {
+              return null;
+            }
+            const featuredSnippet = addedElement.parentElement!.closest('.g') as HTMLElement | null;
+            if (featuredSnippet) {
+              return featuredSnippet;
+            }
+            return addedElement;
+          },
           getURL: getURL('.r > a'),
           createAction: entry => {
             const parent = entry.querySelector('.eFM0qc');
@@ -59,13 +70,7 @@ if (!mobile({ tablet: true })) {
             return action;
           },
         },
-        // Featured Snippet
-        {
-          getEntry: getEntry('.g.mnr-c > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
-          getURL: getURL('.r > a'),
-          createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
-        },
-        // Latest, Top Story (Horizontal)
+        // Latest, Map (COVID-19)
         {
           getEntry: getEntry('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
           getURL: getURL('.VlJC0'),
@@ -76,23 +81,53 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('.VlJC0'),
           createAction: createActionUnder('ub-pc-all-latest-action', '.ttfMne'),
         },
+        // News (COVID-19)
+        {
+          getEntry: getEntry('.XBBQi + .dbsr, .AxkxJb + .dbsr', 1),
+          getURL: getURL('.dbsr > a'),
+          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
+        },
+        {
+          getEntry: getEntry('div + .dbsr', 4),
+          getURL: getURL('.dbsr > a'),
+          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
+        },
+        {
+          getEntry: getEntry('.F9rcV'),
+          getURL: getURL('.Tsx23b'),
+          createAction: createActionUnder('ub-pc-all-pasf-action-covid-19', '.Tsx23b'),
+        },
+        // Quote
+        {
+          getEntry: getEntry('.nHArSb', 1),
+          getURL: getURL('.r7Cfx'),
+          createAction: createActionUnder('ub-pc-all-quote-action', '.Uehmsf'),
+        },
         // Recipe
         {
           getEntry: getEntry('.YwonT'),
           getURL: getURL('.a-no-hover-decoration'),
           createAction: createActionUnder('ub-pc-all-recipe-action', '.a-no-hover-decoration'),
         },
+        // Top Story (Horizontal)
+        {
+          getEntry: getEntry('.kno-fb-ctx', 1),
+          getURL: getURL('a'),
+          createAction: createActionUnder('ub-pc-all-top-story-action-horizontal', '.kno-fb-ctx'),
+        },
         // Top Story (Vertical)
         {
-          getEntry: getEntry(
-            'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
-            8,
-          ),
+          getEntry: getEntry('.cv2VAd > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
         {
-          getEntry: getEntry('div > div > .dbsr > a > div > div > .tYlW7b', 6),
+          getEntry: getEntry('lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 8),
+          getURL: getURL('a'),
+          createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
+        },
+        {
+          getEntry: getEntry('div > .dbsr > a > div > div > .tYlW7b', 6),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
@@ -106,7 +141,23 @@ if (!mobile({ tablet: true })) {
         {
           getEntry: getEntry('#rso > div > .g'),
           getURL: getURL('g-link > a'),
-          createAction: createActionBefore('ub-pc-all-twitter-search-action', '.r'),
+          createAction: entry => {
+            const r = entry.querySelector('.ellip + .r');
+            if (r) {
+              const action = document.createElement('div');
+              action.className = 'ub-pc-all-twitter-search-action';
+              r.parentElement!.insertBefore(action, r);
+              return action;
+            }
+            const dwsemf = entry.querySelector('.Dwsemf');
+            if (dwsemf) {
+              const action = document.createElement('div');
+              action.className = 'ub-pc-all-twitter-search-action-favicon';
+              dwsemf.appendChild(action);
+              return action;
+            }
+            return null;
+          },
         },
         // Video
         {
@@ -116,9 +167,12 @@ if (!mobile({ tablet: true })) {
         },
       ],
       dynamicElementHandlers: [
-        // Recipe
+        // COVID-19, Recipe
         {
-          getDynamicElements: getDynamicElements('.yl > div', '.YwonT'),
+          getDynamicElements: getDynamicElements(
+            '.yl > div',
+            '.g, .Pd7qJe, .ttfMne, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .YwonT',
+          ),
         },
       ],
     },
@@ -176,9 +230,20 @@ if (!mobile({ tablet: true })) {
       entryHandlers: [
         // General
         {
-          getEntry: getEntry('#rso > div'),
+          getEntry: getEntry('.XBBQi + .dbsr, .AxkxJb + .dbsr', 1),
           getURL: getURL('.dbsr > a'),
-          createAction: createActionUnder('ub-pc-news-general-action', '.pDavDe'),
+          createAction: createActionUnder('ub-pc-news-general-action', '.XTjFC'),
+        },
+        {
+          getEntry: getEntry('.dbsr', 4),
+          getURL: getURL('.dbsr > a'),
+          createAction: createActionUnder('ub-pc-news-general-action', '.XTjFC'),
+        },
+        // PASF
+        {
+          getEntry: getEntry('.F9rcV'),
+          getURL: getURL('.Tsx23b'),
+          createAction: createActionUnder('ub-pc-news-pasf-action', '.Tsx23b'),
         },
         // General (Japanese)
         {
@@ -226,8 +291,8 @@ if (!mobile({ tablet: true })) {
       dynamicElementHandlers: [
         {
           getDynamicElements: getDynamicElements(
-            '.autopagerize_page_info ~ .g',
-            '.gG0TJc, .YiHbdc, .ErI7Gd, .top',
+            '.autopagerize_page_info ~ div',
+            '.dbsr, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
           ),
         },
       ],

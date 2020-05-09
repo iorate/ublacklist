@@ -46,8 +46,32 @@
     padding: 0 16px;
   }
 
+  &-news-action-covid-19 {
+    @extend %pc-action-inline;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  &-pasf-action-covid-19 {
+    font-size: 12px;
+    margin: -12px 0 12px;
+    padding: 0 16px;
+  }
+
+  &-quote-action {
+    font-size: 14px;
+  }
+
   &-recipe-action {
     font-size: 12px;
+  }
+
+  &-top-story-action-horizontal {
+    font-size: 12px;
+    margin: -10px 0 10px;
+    padding: 0 16px;
+    position: relative;
+    z-index: 1;
   }
 
   &-top-story-action-vertical {
@@ -66,6 +90,13 @@
     @extend %pc-action-inline;
     font-size: 14px;
     margin-left: 6px;
+    padding-top: 1px;
+  }
+
+  &-twitter-search-action-favicon {
+    flex: 40 0 auto;
+    font-size: 14px;
+    line-height: 20px;
     padding-top: 1px;
   }
 
@@ -95,9 +126,8 @@
   }
 
   &-control-sensitive {
-    border-top: 1px solid #dfe1e5;
     color: #70757a;
-    padding: 11px 0 11px 165px;
+    padding: 0 0 11px 165px;
   }
 
   &-general-action {
@@ -117,6 +147,12 @@
     @extend %pc-action-inline;
     font-size: 12px;
     margin-left: 6px;
+  }
+
+  &-pasf-action {
+    font-size: 12px;
+    margin: -12px 0 12px;
+    padding: 0 16px;
   }
 
   &-general-action-japanese {
