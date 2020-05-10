@@ -161,6 +161,10 @@
     "message": "Hide the number of blocked sites and the 'Show' link",
     "description": "The label for the switch whether to hide the number of blocked sites and the 'Show' link."
   },
+  "options_skipBlockDialog": {
+    "message": "Skip the \"Block this site\" dialog",
+    "description": "The label for the switch whether to skip the 'Block this site' dialog"
+  },
   "options_syncTitle": {
     "message": "Sync",
     "description": "The title of the sync section."

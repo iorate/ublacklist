@@ -122,6 +122,9 @@
   "options_hideControl": {
     "message": "ブロックしたサイトの数と「表示する」リンクを表示しない"
   },
+  "options_skipBlockDialog": {
+    "message": "「このサイトをブロックする」ダイアログを使用しない"
+  },
   "options_syncTitle": {
     "message": "同期"
   },

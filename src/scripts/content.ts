@@ -14,6 +14,7 @@ let blockForm: BlockForm | null = null;
 let blockedEntryCount = 0;
 const queuedEntries: HTMLElement[] = [];
 let shouldEnablePathDepth = false;
+let skipBlockDialog = false;
 
 function $(id: 'ub-control'): HTMLElement | null;
 function $(id: 'ub-block-dialog'): HTMLDialogElement | null;
@@ -27,6 +28,19 @@ function judgeEntry(entry: HTMLElement): void {
     ++blockedEntryCount;
     entry.classList.add('ub-is-blocked');
   }
+}
+
+function onBlacklistUpdated(): void {
+  sendMessage('set-blacklist', blacklist!.toString());
+  blockedEntryCount = 0;
+  for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
+    entry.classList.remove('ub-is-blocked');
+    judgeEntry(entry);
+  }
+  if (!blockedEntryCount) {
+    document.documentElement.classList.add('ub-hide');
+  }
+  updateControl();
 }
 
 function onDOMContentLoaded(): void {
@@ -123,21 +137,16 @@ function onElementAdded(addedElement: HTMLElement): void {
         if (!blacklist) {
           return;
         }
-        blockForm!.initialize(blacklist!, new AltURL(url), () => {
-          sendMessage('set-blacklist', blacklist!.toString());
-          blockedEntryCount = 0;
-          for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
-            entry.classList.remove('ub-is-blocked');
-            judgeEntry(entry);
-          }
-          if (!blockedEntryCount) {
-            document.documentElement.classList.add('ub-hide');
-          }
-          updateControl();
-        });
-        const blockDialog = $('ub-block-dialog')!;
-        blockDialog.showModal();
-        blockDialog.focus();
+        if (skipBlockDialog) {
+          blacklist.createPatch(new AltURL(url));
+          blacklist.applyPatch();
+          onBlacklistUpdated();
+        } else {
+          blockForm!.initialize(blacklist, new AltURL(url), onBlacklistUpdated);
+          const blockDialog = $('ub-block-dialog')!;
+          blockDialog.showModal();
+          blockDialog.focus();
+        }
       });
     }
     if (entryHandler.adjustEntry) {
@@ -166,7 +175,12 @@ function onElementAdded(addedElement: HTMLElement): void {
 function onOptionsLoaded(
   options: Pick<
     LocalStorage.Items,
-    'blacklist' | 'subscriptions' | 'hideControl' | 'hideBlockLinks' | 'enablePathDepth'
+    | 'blacklist'
+    | 'subscriptions'
+    | 'hideControl'
+    | 'hideBlockLinks'
+    | 'skipBlockDialog'
+    | 'enablePathDepth'
   >,
 ): void {
   blacklist = new Blacklist(
@@ -184,6 +198,7 @@ function onOptionsLoaded(
   if (options.hideBlockLinks) {
     document.documentElement.classList.add('ub-hide-actions');
   }
+  skipBlockDialog = options.skipBlockDialog;
   if (options.enablePathDepth) {
     if (blockForm) {
       blockForm.enablePathDepth();
@@ -231,6 +246,7 @@ function main(): void {
       'subscriptions',
       'hideControl',
       'hideBlockLinks',
+      'skipBlockDialog',
       'enablePathDepth',
     );
     onOptionsLoaded(options);

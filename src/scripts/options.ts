@@ -24,6 +24,7 @@ function $(id: 'saveBlacklist'): HTMLButtonElement;
 function $(id: 'engines'): HTMLUListElement;
 function $(id: 'hideBlockSiteLinks'): HTMLInputElement;
 function $(id: 'hideControl'): HTMLInputElement;
+function $(id: 'skipBlockDialog'): HTMLInputElement;
 function $(id: 'syncSection'): HTMLElement;
 function $(id: 'turnOnSync'): HTMLButtonElement;
 function $(id: 'turnOffSync'): HTMLButtonElement;
@@ -64,6 +65,7 @@ function setupGeneralSection(
   blacklist: string,
   hideBlockLinks: boolean,
   hideControl: boolean,
+  skipBlockDialog: boolean,
 ): void {
   $blacklist.value = blacklist;
   $blacklist.addEventListener('input', () => {
@@ -108,6 +110,11 @@ function setupGeneralSection(
   $('hideControl').checked = hideControl;
   $('hideControl').addEventListener('change', () => {
     LocalStorage.store({ hideControl: $('hideControl').checked });
+  });
+
+  $('skipBlockDialog').checked = skipBlockDialog;
+  $('skipBlockDialog').addEventListener('change', () => {
+    LocalStorage.store({ skipBlockDialog: $('skipBlockDialog').checked });
   });
 }
 
@@ -368,6 +375,7 @@ async function main(): Promise<void> {
     blacklist,
     hideBlockLinks,
     hideControl,
+    skipBlockDialog,
     sync,
     syncResult,
     subscriptions,
@@ -375,11 +383,12 @@ async function main(): Promise<void> {
     'blacklist',
     'hideBlockLinks',
     'hideControl',
+    'skipBlockDialog',
     'sync',
     'syncResult',
     'subscriptions',
   );
-  setupGeneralSection(blacklist, hideBlockLinks, hideControl);
+  setupGeneralSection(blacklist, hideBlockLinks, hideControl, skipBlockDialog);
   await setupEnginesSection();
   setupSyncSection(sync, syncResult);
   // #if BROWSER === 'firefox'

@@ -7,6 +7,7 @@ export interface Items {
   enablePathDepth: boolean;
   hideBlockLinks: boolean;
   hideControl: boolean;
+  skipBlockDialog: boolean;
   nextSubscriptionId: SubscriptionId;
   subscriptions: Subscriptions;
   sync: boolean;
@@ -22,6 +23,7 @@ const defaultItems: Items = {
   enablePathDepth: false,
   hideBlockLinks: false,
   hideControl: false,
+  skipBlockDialog: false,
   nextSubscriptionId: 0,
   subscriptions: {},
   sync: false,
