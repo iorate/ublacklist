@@ -44,17 +44,15 @@ if (!mobile({ tablet: true })) {
         // General, Web Result, Featured Snippet
         {
           getEntry: addedElement => {
-            if (!addedElement.matches('.g')) {
+            if (!addedElement.matches('.s')) {
               return null;
             }
-            if (addedElement.querySelector('.g')) {
+            const g = addedElement.closest('.g') as HTMLElement | null;
+            if (!g) {
               return null;
             }
-            const featuredSnippet = addedElement.parentElement!.closest('.g') as HTMLElement | null;
-            if (featuredSnippet) {
-              return featuredSnippet;
-            }
-            return addedElement;
+            const featuredSnippet = g.parentElement!.closest('.g') as HTMLElement | null;
+            return featuredSnippet ?? g;
           },
           getURL: getURL('.r > a'),
           createAction: entry => {
@@ -171,8 +169,12 @@ if (!mobile({ tablet: true })) {
         {
           getDynamicElements: getDynamicElements(
             '.yl > div',
-            '.g, .Pd7qJe, .ttfMne, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .YwonT',
+            '.s, .Pd7qJe, .ttfMne, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .YwonT',
           ),
+        },
+        // AutoPagerize
+        {
+          getDynamicElements: getDynamicElements('.autopagerize_page_info ~ .g', '.s'),
         },
       ],
     },
