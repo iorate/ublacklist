@@ -66,7 +66,7 @@
     "stylelint-scss": "^3.17.2",
     "svg-transform-loader": "^2.0.13",
     "ts-jest": "^25.5.1",
-    "ts-loader": "^7.0.3",
+    "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
     "val-loader": "^2.1.1",
