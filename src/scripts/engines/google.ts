@@ -68,14 +68,14 @@ if (!mobile({ tablet: true })) {
             return action;
           },
         },
-        // Latest, Map (COVID-19)
+        // Latest
         {
-          getEntry: getEntry('.So9e7d:nth-child(-n+3) > .ttfMne > .Pd7qJe', 2),
-          getURL: getURL('.VlJC0'),
-          createAction: createActionUnder('ub-pc-all-latest-action', '.ttfMne'),
-        },
-        {
-          getEntry: getEntry('.So9e7d:nth-child(n+4) > .ttfMne', 1),
+          getEntry: addedElement => {
+            if (!addedElement.matches('.ttfMne') || addedElement.closest('.UDZeY')) {
+              return null;
+            }
+            return addedElement.parentElement as HTMLElement;
+          },
           getURL: getURL('.VlJC0'),
           createAction: createActionUnder('ub-pc-all-latest-action', '.ttfMne'),
         },
