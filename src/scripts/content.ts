@@ -102,9 +102,6 @@ function onDOMContentLoaded(): void {
 }
 
 function onElementAdded(addedElement: HTMLElement): void {
-  // #if ENV === 'development'
-  console.log(addedElement.cloneNode(true));
-  // #endif
   for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
     const entry = entryHandler.getEntry(addedElement);
     if (!entry || entry.hasAttribute('data-ub-url')) {
@@ -261,6 +258,9 @@ function main(): void {
     for (const record of records) {
       for (const addedNode of record.addedNodes) {
         if (addedNode.nodeType === Node.ELEMENT_NODE) {
+          // #if ENV === 'development'
+          console.debug(addedNode.cloneNode(true));
+          // #endif
           onElementAdded(addedNode as HTMLElement);
         }
       }
