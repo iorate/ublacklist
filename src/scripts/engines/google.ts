@@ -9,6 +9,17 @@ import {
   getURL,
 } from '../content-handlers';
 
+function ancestor(element: HTMLElement, n: number): HTMLElement | null {
+  let result: HTMLElement | null = element;
+  for (let i = 0; i < n; ++i) {
+    result = result.parentElement as HTMLElement | null;
+    if (!result) {
+      break;
+    }
+  }
+  return result;
+}
+
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
     const a = selector ? entry.querySelector(selector) : entry;
@@ -41,18 +52,18 @@ if (!mobile({ tablet: true })) {
         },
       ],
       entryHandlers: [
-        // General, Web Result, Featured Snippet
+        // General, Web Result
         {
           getEntry: addedElement => {
-            if (!addedElement.matches('.s')) {
+            if (!addedElement.matches('.g .s')) {
               return null;
             }
-            const g = addedElement.closest('.g') as HTMLElement | null;
-            if (!g) {
+            const entry = addedElement.closest('.g') as HTMLElement;
+            if (entry.matches('.g *')) {
+              // Featured Snippet, People Also Ask, ...?
               return null;
             }
-            const featuredSnippet = g.parentElement!.closest('.g') as HTMLElement | null;
-            return featuredSnippet ?? g;
+            return entry;
           },
           getURL: getURL('.r > a'),
           createAction: entry => {
@@ -68,36 +79,56 @@ if (!mobile({ tablet: true })) {
             return action;
           },
         },
+        // Featured Snippet
+        {
+          getEntry: getEntry('.g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
+          getURL: getURL('.r > a'),
+          createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
+        },
+        {
+          getEntry: getEntry('.ifM9O > div > .NFQFxe'),
+          getURL: getURL('.r > a'),
+          createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
+        },
         // Latest
         {
           getEntry: addedElement => {
-            if (!addedElement.matches('.ttfMne') || addedElement.closest('.UDZeY')) {
+            if (!addedElement.matches('.So9e7d > .ttfMne')) {
               return null;
             }
-            return addedElement.parentElement as HTMLElement;
+            const entry = ancestor(addedElement, 1)!;
+            if (entry.matches('.UDZeY *')) {
+              // Map from the Web (COVID-19)
+              return null;
+            }
+            return entry;
           },
           getURL: getURL('.VlJC0'),
           createAction: createActionUnder('ub-pc-all-latest-action', '.ttfMne'),
         },
-        // News (COVID-19)
+        // People Also Ask
         {
-          getEntry: getEntry('.XBBQi + .dbsr, .AxkxJb + .dbsr', 1),
-          getURL: getURL('.dbsr > a'),
-          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
+          getEntry: addedElement => {
+            if (
+              !addedElement.matches(
+                '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
+              )
+            ) {
+              return null;
+            }
+            const entry = ancestor(addedElement, 5)!;
+            if (entry.matches('.UDZeY *')) {
+              // Common Question (COVID-19)
+              return null;
+            }
+            return entry;
+          },
+          getURL: getURL('.r > a'),
+          createAction: createActionUnder('ub-pc-all-paa-action', '.eFM0qc'),
         },
+        // Quote in the News
         {
-          getEntry: getEntry('div + .dbsr', 4),
-          getURL: getURL('.dbsr > a'),
-          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
-        },
-        {
-          getEntry: getEntry('.F9rcV'),
-          getURL: getURL('.Tsx23b'),
-          createAction: createActionUnder('ub-pc-all-pasf-action-covid-19', '.Tsx23b'),
-        },
-        // Quote
-        {
-          getEntry: getEntry('.nHArSb', 1),
+          getEntry: getEntry('.byt6U > .nHArSb', 1),
           getURL: getURL('.r7Cfx'),
           createAction: createActionUnder('ub-pc-all-quote-action', '.Uehmsf'),
         },
@@ -109,23 +140,21 @@ if (!mobile({ tablet: true })) {
         },
         // Top Story (Horizontal)
         {
-          getEntry: getEntry('.kno-fb-ctx', 1),
+          getEntry: getEntry('.JJZKK > .kno-fb-ctx', 1),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-horizontal', '.kno-fb-ctx'),
         },
         // Top Story (Vertical)
         {
-          getEntry: getEntry('.cv2VAd > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 6),
+          getEntry: getEntry(
+            'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
+            8,
+          ),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
         {
-          getEntry: getEntry('lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 8),
-          getURL: getURL('a'),
-          createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
-        },
-        {
-          getEntry: getEntry('div > .dbsr > a > div > div > .tYlW7b', 6),
+          getEntry: getEntry('div > div > .dbsr > a > div > div > .tYlW7b', 6),
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
         },
@@ -163,13 +192,43 @@ if (!mobile({ tablet: true })) {
           getURL: getURL('a'),
           createAction: createActionUnder('ub-pc-all-video-action', '.ZTH1s'),
         },
+        // News (COVID-19)
+        {
+          getEntry: getEntry('div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr', 1),
+          getURL: getURL('.dbsr > a'),
+          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
+        },
+        {
+          getEntry: getEntry('div > .nChh6e > div > div > div + .dbsr', 4),
+          getURL: getURL('.dbsr > a'),
+          createAction: createActionUnder('ub-pc-all-news-action-covid-19', '.XTjFC'),
+        },
+        // People Also Search For (COVID-19)
+        {
+          getEntry: getEntry('.F9rcV'),
+          getURL: getURL('.Tsx23b'),
+          createAction: createActionUnder('ub-pc-all-pasf-action-covid-19', '.Tsx23b'),
+        },
+        // Top Story (Vertical, COVID-19)
+        {
+          getEntry: getEntry(
+            '.bh13Qc > .cv2VAd > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
+            7,
+          ),
+          getURL: getURL('a'),
+          createAction: createActionUnder('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
+        },
       ],
       dynamicElementHandlers: [
-        // COVID-19, Recipe
+        // People Also Ask
+        {
+          getDynamicElements: getDynamicElements('.related-question-pair', '.g'),
+        },
+        // Recipe, General (COVID-19), Web Result (COVID-19), ...
         {
           getDynamicElements: getDynamicElements(
             '.yl > div',
-            '.s, .Pd7qJe, .ttfMne, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .YwonT',
+            '.YwonT, .s, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
           ),
         },
         // AutoPagerize
@@ -232,16 +291,16 @@ if (!mobile({ tablet: true })) {
       entryHandlers: [
         // General
         {
-          getEntry: getEntry('.XBBQi + .dbsr, .AxkxJb + .dbsr', 1),
+          getEntry: getEntry('div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr', 1),
           getURL: getURL('.dbsr > a'),
           createAction: createActionUnder('ub-pc-news-general-action', '.XTjFC'),
         },
         {
-          getEntry: getEntry('.dbsr', 4),
+          getEntry: getEntry('div > .nChh6e > div > div > .dbsr', 4),
           getURL: getURL('.dbsr > a'),
           createAction: createActionUnder('ub-pc-news-general-action', '.XTjFC'),
         },
-        // PASF
+        // People Also Search For
         {
           getEntry: getEntry('.F9rcV'),
           getURL: getURL('.Tsx23b'),
@@ -278,9 +337,10 @@ if (!mobile({ tablet: true })) {
             parent.insertBefore(div, nextSibling);
           },
         },
+        // Image (Japanese)
         {
           getEntry: addedElement => {
-            if (!addedElement.matches('.top') || !addedElement.querySelector('.Y6GIfb')) {
+            if (!addedElement.matches('.top') || !addedElement.querySelector(':scope > .Y6GIfb')) {
               return null;
             }
             return addedElement;

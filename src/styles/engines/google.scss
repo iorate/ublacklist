@@ -46,16 +46,10 @@
     padding: 0 16px;
   }
 
-  &-news-action-covid-19 {
-    @extend %pc-action-inline;
-    font-size: 12px;
-    margin-left: 6px;
-  }
-
-  &-pasf-action-covid-19 {
-    font-size: 12px;
-    margin: -12px 0 12px;
-    padding: 0 16px;
+  &-paa-action {
+    @extend %pc-action-default;
+    position: relative;
+    top: -3px;
   }
 
   &-quote-action {
@@ -103,6 +97,18 @@
   &-video-action {
     font-size: 14px;
     margin: -10px 0 10px;
+    padding: 0 16px;
+  }
+
+  &-news-action-covid-19 {
+    @extend %pc-action-inline;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  &-pasf-action-covid-19 {
+    font-size: 12px;
+    margin: -12px 0 12px;
     padding: 0 16px;
   }
 }
