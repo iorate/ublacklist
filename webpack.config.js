@@ -111,7 +111,7 @@ module.exports = {
     }),
     new LicenseCheckerWebpackPlugin({
       override: {
-        'dialog-polyfill@0.5.0': {
+        'dialog-polyfill@^0.5.1': {
           licenseName: 'BSD-3-Clause',
         },
       },
