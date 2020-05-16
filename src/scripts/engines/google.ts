@@ -160,27 +160,31 @@ if (!mobile({ tablet: true })) {
         },
         // Twitter
         {
-          getEntry: getEntry('#rso > div > .g'),
-          getURL: getURL('g-link > a'),
-          createAction: createActionUnder('ub-pc-all-twitter-action', '.qdrjAc'),
-        },
-        // Twitter Search
-        {
-          getEntry: getEntry('#rso > div > .g'),
-          getURL: getURL('g-link > a'),
+          getEntry: getEntry('.g'),
+          getURL: getURL('.zTpPx > g-link > a'),
           createAction: entry => {
+            const q = entry.querySelector('.qdrjAc');
+            if (q) {
+              // Twitter
+              const action = document.createElement('div');
+              action.className = 'ub-pc-all-twitter-action';
+              q.appendChild(action);
+              return action;
+            }
             const r = entry.querySelector('.ellip + .r');
             if (r) {
+              // Twitter Search
               const action = document.createElement('div');
               action.className = 'ub-pc-all-twitter-search-action';
               r.parentElement!.insertBefore(action, r);
               return action;
             }
-            const dwsemf = entry.querySelector('.Dwsemf');
-            if (dwsemf) {
+            const d = entry.querySelector('.Dwsemf');
+            if (d) {
+              // Twitter Search (Favicon)
               const action = document.createElement('div');
               action.className = 'ub-pc-all-twitter-search-action-favicon';
-              dwsemf.appendChild(action);
+              d.appendChild(action);
               return action;
             }
             return null;
