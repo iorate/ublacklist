@@ -98,13 +98,15 @@ module.exports = {
     path: path.resolve(__dirname, 'dist', browser, env),
   },
   plugins: [
-    new CopyPlugin([
-      './_locales/**/*',
-      './scripts/*.js',
-      './images/**/*',
-      './options.html',
-      './popup.html',
-    ]),
+    new CopyPlugin({
+      patterns: [
+        './_locales/**/*',
+        './images/**/*',
+        './options.html',
+        './popup.html',
+        './scripts/has-content-handlers.js',
+      ],
+    }),
     new FixStyleOnlyEntriesPlugin({
       extensions: ['json.js', 'scss'],
       silent: true,
