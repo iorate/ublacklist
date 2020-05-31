@@ -29,11 +29,12 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run lint
-
       - run: npm run build
 
       - run: npm test
+
+      - if: github.event_name == 'push'
+        run: npm run lint
 
       - if: github.event_name == 'push' && github.ref == 'refs/heads/production'
         env:
