@@ -1,7 +1,7 @@
 $block-spacing: 1rem;
 $tablet: 600px;
 $primary: #1a73e8;
-// #if BROWSER === 'chrome'
+// #if CHROMIUM
 $body-size: 13px;
 $body-min-width: 640px;
 // #else

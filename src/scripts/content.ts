@@ -1,5 +1,10 @@
-// #if BROWSER === 'firefox'
+// #if CHROMIUM
+/*
+// #else
 import dialogPolyfill from 'dialog-polyfill';
+// #endif
+// #if CHROMIUM
+*/
 // #endif
 import { apis } from './apis';
 import { Blacklist } from './blacklist';
@@ -84,8 +89,13 @@ function onDOMContentLoaded(): void {
 </dialog>`,
   );
   const blockDialog = $('ub-block-dialog')!;
-  // #if BROWSER === 'firefox'
+  // #if CHROMIUM
+  /*
+  // #else
   dialogPolyfill.registerDialog(blockDialog);
+  // #endif
+  // #if CHROMIUM
+  */
   // #endif
   blockDialog.addEventListener('click', e => {
     if (e.target === blockDialog) {
@@ -258,7 +268,7 @@ function main(): void {
     for (const record of records) {
       for (const addedNode of record.addedNodes) {
         if (addedNode.nodeType === Node.ELEMENT_NODE) {
-          // #if ENV === 'development'
+          // #if DEBUG
           console.debug(addedNode.cloneNode(true));
           // #endif
           onElementAdded(addedNode as HTMLElement);

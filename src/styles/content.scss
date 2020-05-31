@@ -1,5 +1,10 @@
-// #if BROWSER === 'firefox'
+// #if CHROMIUM
+/*
+// #else
 @import '~dialog-polyfill/dialog-polyfill.css';
+// #endif
+// #if CHROMIUM
+*/
 // #endif
 
 .ub-button {

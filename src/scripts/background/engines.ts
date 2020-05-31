@@ -3,7 +3,7 @@ import { ENGINES } from '../engines';
 import { Engine } from '../types';
 import { AltURL, MatchPattern } from '../utilities';
 
-// #if BROWSER === 'chrome'
+// #if CHROMIUM
 const contentScripts = ENGINES.map(engine => ({
   css: [`/styles/engines/${engine.id}.css`, '/styles/content.css'],
   js: [`/scripts/engines/${engine.id}.js`, '/scripts/content.js'],
@@ -11,8 +11,11 @@ const contentScripts = ENGINES.map(engine => ({
 }));
 // #endif
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function enableOnEngine(engine: Engine): Promise<void> {
-  // #if BROWSER === 'firefox'
+  // #if CHROMIUM
+  /*
+  // #else
   await browser.contentScripts.register({
     css: [{ file: `/styles/engines/${engine.id}.css` }, { file: '/styles/content.css' }],
     js: [{ file: `/scripts/engines/${engine.id}.js` }, { file: '/scripts/content.js' }],
@@ -20,10 +23,13 @@ export async function enableOnEngine(engine: Engine): Promise<void> {
     runAt: 'document_start',
   });
   // #endif
+  // #if CHROMIUM
+  */
+  // #endif
 }
 
 export async function enableOnEngines(): Promise<void> {
-  // #if BROWSER === 'chrome'
+  // #if CHROMIUM
   apis.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status !== 'loading' || tab.url == null) {
       return;
@@ -55,11 +61,15 @@ export async function enableOnEngines(): Promise<void> {
       });
     }
   });
+  /*
   // #else
   for (const engine of ENGINES) {
     if (await apis.permissions.contains({ origins: engine.matches })) {
       await enableOnEngine(engine);
     }
   }
+  // #endif
+  // #if CHROMIUM
+  */
   // #endif
 }

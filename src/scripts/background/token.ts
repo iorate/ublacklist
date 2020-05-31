@@ -3,17 +3,21 @@ import { apis } from '../apis';
 import * as LocalStorage from '../local-storage';
 import { Mutex } from '../utilities';
 
-// #if BROWSER === 'chrome'
+// #if CHROMIUM
 const OAUTH2_CLIENT_ID = '304167046827-aqukv3fe891j0f9cu94i5aljhsecgpen.apps.googleusercontent.com';
+/*
 // #else
 const OAUTH2_CLIENT_ID = '304167046827-a53p7d9jopn9nvbo7e183t966rfcp9d1.apps.googleusercontent.com';
+// #endif
+// #if CHROMIUM
+*/
 // #endif
 const OAUTH2_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 
 const mutex = new Mutex();
 
 export async function requestToken(interactive: boolean): Promise<string> {
-  // #if BROWSER === 'chrome'
+  // #if CHROMIUM
   try {
     // #endif
     return await mutex.lock(async () => {
@@ -39,7 +43,7 @@ export async function requestToken(interactive: boolean): Promise<string> {
       await LocalStorage.store({ tokenCache: { token, expirationDate } });
       return token;
     });
-    // #if BROWSER === 'chrome'
+    // #if CHROMIUM
   } catch (e) {
     if (interactive) {
       throw e;

@@ -1,6 +1,6 @@
 const manifest = {
   background: {
-    // #if BROWSER === 'chrome'
+    // #if CHROMIUM
     persistent: false,
     // #endif
     scripts: ['scripts/background.js'],
@@ -19,13 +19,13 @@ const manifest = {
     48: 'images/icon-48.png',
     128: 'images/icon-128.png',
   },
-  // #if BROWSER === 'chrome'
+  // #if CHROMIUM
   key:
     'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm+2y1Q2VH/S9rGxa/2kzRRspyxcA8R5QBa49JK/wca2kqyfpI/traqNnNY8SfRzOugtVP+8/WbyOY44wgr427VYws6thZ//cV2NDadEMqUF5dba9LR26QHXPFUWdbUyCtNHNVP4keG/OeGJ6thOrKUlxYorK9JAmdG1szucyOKt8+k8HNVfZFTi2UHGLn1ANLAsu6f4ykb6Z0QNNCysWuNHqtFEy4j0B4T+h5VZ+Il2l3yf8uGk/zAbJE7x0C7SIscBrWQ9jcliS/e25C6mEr5lrMhQ+VpVVsRVGg7PwY7xLywKHZM8z1nzLdpMs7egEqV25HiA/PEcaQRWwDKDqwQIDAQAB',
   // #endif
   manifest_version: 2,
   name: '__MSG_extensionName__',
-  // #if BROWSER === 'chrome'
+  // #if CHROMIUM
   oauth2: {
     client_id: '304167046827-ordtvt68qt83fabg1k7blqeagicu68du.apps.googleusercontent.com',
     scopes: ['https://www.googleapis.com/auth/drive.file'],
@@ -33,9 +33,13 @@ const manifest = {
   // #endif
   optional_permissions: ['*://*/*'],
   options_ui: {
-    // #if BROWSER === 'firefox'
-    browser_style: false,
+    // #if CHROMIUM
+    /*
     // #else
+    browser_style: false,
+    // #endif
+    // #if CHROMIUM
+    */
     chrome_style: false,
     // #endif
     page: 'options.html',

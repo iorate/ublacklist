@@ -188,11 +188,16 @@ function setupSyncSection(sync: boolean, syncResult: Result | null): void {
   onSyncChanged(sync);
   onSyncResultChanged(syncResult);
   $('turnOnSync').addEventListener('click', async () => {
-    // #if BROWSER === 'firefox'
+    // #if CHROMIUM
+    /*
+    // #else
     const granted = await apis.permissions.request({ origins: ['https://www.googleapis.com/*'] });
     if (!granted) {
       return;
     }
+    // #endif
+    // #if CHROMIUM
+    */
     // #endif
     const authed = await sendMessage('auth-to-sync-blacklist');
     if (!authed) {
@@ -391,11 +396,16 @@ async function main(): Promise<void> {
   setupGeneralSection(blacklist, hideBlockLinks, hideControl, skipBlockDialog);
   await setupEnginesSection();
   setupSyncSection(sync, syncResult);
-  // #if BROWSER === 'firefox'
+  // #if CHROMIUM
+  /*
+  // #else
   const { os } = await browser.runtime.getPlatformInfo();
   if (os === 'android') {
     $('syncSection').classList.add('is-hidden');
   }
+  // #endif
+  // #if CHROMIUM
+  */
   // #endif
   setupSubscriptionSection(subscriptions);
 }

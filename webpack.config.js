@@ -11,8 +11,8 @@ const env = process.env.NODE_ENV || 'development';
 const ifdefLoader = {
   loader: 'ifdef-loader',
   options: {
-    BROWSER: browser,
-    ENV: env,
+    CHROMIUM: browser === 'chrome',
+    DEBUG: env === 'development',
     'ifdef-triple-slash': false,
   },
 };
