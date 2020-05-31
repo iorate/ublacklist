@@ -1,53 +1,30 @@
 module.exports = {
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   env: {
-    browser: true,
+    node: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'prettier/@typescript-eslint',
-  ],
-  parser: '@typescript-eslint/parser',
+  ignorePatterns: ['!/*.js', '/dist/*'],
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    ecmaVersion: 2018,
   },
-  plugins: ['@typescript-eslint'],
-  rules: {
-    'no-inner-declarations': ['off'],
-    'require-atomic-updates': ['off'],
-    'sort-imports': [
-      'error',
-      {
-        ignoreDeclarationSort: true,
+  overrides: [
+    {
+      files: ['src/scripts/has-content-handlers.js'],
+      env: {
+        browser: true,
       },
-    ],
-    '@typescript-eslint/explicit-function-return-type': [
-      'error',
-      {
-        allowExpressions: true,
+    },
+    {
+      files: ['src/**/*.ts'],
+      extends: ['plugin:@typescript-eslint/recommended', 'prettier/@typescript-eslint'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.eslint.json',
       },
-    ],
-    '@typescript-eslint/explicit-member-accessibility': [
-      'error',
-      {
-        accessibility: 'no-public',
+      plugins: ['@typescript-eslint'],
+      rules: {
+        '@typescript-eslint/no-non-null-assertion': ['off'],
       },
-    ],
-    '@typescript-eslint/no-inferrable-types': [
-      'error',
-      {
-        ignoreParameters: true,
-      },
-    ],
-    '@typescript-eslint/no-namespace': ['off'],
-    '@typescript-eslint/no-non-null-assertion': ['off'],
-    '@typescript-eslint/no-use-before-define': [
-      'error',
-      {
-        functions: false,
-      },
-    ],
-  },
+    },
+  ],
 };

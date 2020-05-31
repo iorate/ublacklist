@@ -51,7 +51,7 @@ export type MessageListeners = {
 };
 
 function invokeListener(
-  listener: Function,
+  listener: (...args: unknown[]) => unknown,
   args: unknown[],
   sendResponse: (response: unknown) => void,
 ): void | boolean {
@@ -70,7 +70,7 @@ export function addMessageListeners(listeners: MessageListeners): void {
   apis.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
     if (listeners[type]) {
-      return invokeListener(listeners[type]!, args, sendResponse);
+      return invokeListener(listeners[type] as (...args: unknown[]) => unknown, args, sendResponse);
     }
   });
 }

@@ -61,11 +61,8 @@ export interface DynamicElementHandler {
 
 // `createControlBefore(className, nextSiblingSelector)` creates an element of a class `className`
 // and insert it before an element designated by `nextSiblingSelector`.
-export function createControlBefore(
-  className: string,
-  nextSiblingSelector: string,
-): () => HTMLElement | null {
-  return () => {
+export function createControlBefore(className: string, nextSiblingSelector: string) {
+  return (): HTMLElement | null => {
     const nextSibling = document.querySelector(nextSiblingSelector);
     if (!nextSibling) {
       return null;
@@ -79,11 +76,8 @@ export function createControlBefore(
 
 // `createControlUnder(className, parentSelector)` creates an element of a class `className`
 // and append it to children of an element designated by `parentSelector`.
-export function createControlUnder(
-  className: string,
-  parentSelector: string,
-): () => HTMLElement | null {
-  return () => {
+export function createControlUnder(className: string, parentSelector: string) {
+  return (): HTMLElement | null => {
     const parent = document.querySelector(parentSelector);
     if (!parent) {
       return null;
@@ -102,11 +96,8 @@ export function createControlUnder(
 // In such a case, you can 'wait' for a descendant element of the entry to be added to the DOM tree
 // using `getEntry(selector, depth)`.
 // `selector` designates a descendant element, and `depth` designates its depth from the entry.
-export function getEntry(
-  selector: string,
-  depth: number = 0,
-): (addedElement: HTMLElement) => HTMLElement | null {
-  return addedElement => {
+export function getEntry(selector: string, depth = 0) {
+  return (addedElement: HTMLElement): HTMLElement | null => {
     if (!addedElement.matches(selector)) {
       return null;
     }
@@ -123,8 +114,8 @@ export function getEntry(
 
 // `getURL(selector)` extracts a URL from a descendant element of the entry designated by `selector`
 // (an empty string designates the entry itself).
-export function getURL(selector: string): (entry: HTMLElement) => string | null {
-  return entry => {
+export function getURL(selector: string) {
+  return (entry: HTMLElement): string | null => {
     const a = selector ? entry.querySelector(selector) : entry;
     if (!a || a.tagName !== 'A') {
       return null;
@@ -135,11 +126,8 @@ export function getURL(selector: string): (entry: HTMLElement) => string | null 
 
 // `createActionBefore(className, nextSiblingSelector)` creates an element of a class `className`
 // and insert it before a descendant element of the entry designated by `nextSiblingSelector`.
-export function createActionBefore(
-  className: string,
-  nextSiblingSelector: string,
-): (entry: HTMLElement) => HTMLElement | null {
-  return entry => {
+export function createActionBefore(className: string, nextSiblingSelector: string) {
+  return (entry: HTMLElement): HTMLElement | null => {
     const nextSibling = entry.querySelector(nextSiblingSelector);
     if (!nextSibling) {
       return null;
@@ -154,11 +142,8 @@ export function createActionBefore(
 // `createActionUnder(className, parentSelector)` creates an element of a class `className`
 // and append it to children of a descendant element of the entry designated by `parentSelector`
 // (an empty string designates the entry itself).
-export function createActionUnder(
-  className: string,
-  parentSelector: string,
-): (entry: HTMLElement) => HTMLElement | null {
-  return entry => {
+export function createActionUnder(className: string, parentSelector: string) {
+  return (entry: HTMLElement): HTMLElement | null => {
     const parent = parentSelector ? entry.querySelector(parentSelector) : entry;
     if (!parent) {
       return null;
@@ -171,19 +156,16 @@ export function createActionUnder(
 }
 
 // `getStaticElements(selector)` returns a list of elements which matches `selector`.
-export function getStaticElements(selector: string): () => HTMLElement[] {
-  return () => Array.from(document.querySelectorAll<HTMLElement>(selector));
+export function getStaticElements(selector: string) {
+  return (): HTMLElement[] => Array.from(document.querySelectorAll<HTMLElement>(selector));
 }
 
 // `getDynamicElements(addedElementSelector, dynamicElementSelector)` returns
 // a list of descendant elements of the added element which match `dynamicElementSelector`
 // if the added element matches `addedElementSelector`,
 // `null` otherwise.
-export function getDynamicElements(
-  addedElementSelector: string,
-  dynamicElementSelector: string,
-): (addedElement: HTMLElement) => HTMLElement[] | null {
-  return addedElement => {
+export function getDynamicElements(addedElementSelector: string, dynamicElementSelector: string) {
+  return (addedElement: HTMLElement): HTMLElement[] | null => {
     if (!addedElement.matches(addedElementSelector)) {
       return null;
     }

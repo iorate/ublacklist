@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-namespace */
+
 // #if CHROMIUM
 export namespace apis {
   export namespace alarms {
@@ -126,7 +128,9 @@ export namespace apis {
 
   export namespace storage {
     export const local = {
-      get(keys: string | string[] | object | null): Promise<Record<string, unknown>> {
+      get(
+        keys: string | string[] | Record<string, unknown> | null,
+      ): Promise<Record<string, unknown>> {
         return new Promise<Record<string, unknown>>((resolve, reject) => {
           chrome.storage.local.get(keys, items => {
             if (chrome.runtime.lastError) {
@@ -138,7 +142,7 @@ export namespace apis {
         });
       },
 
-      set(items: object): Promise<void> {
+      set(items: Record<string, unknown>): Promise<void> {
         return new Promise<void>((resolve, reject) => {
           chrome.storage.local.set(items, () => {
             if (chrome.runtime.lastError) {

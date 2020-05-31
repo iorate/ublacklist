@@ -30,7 +30,7 @@ interface RequestArgs {
   path: string;
   headers?: Record<string, string>;
   params?: Record<string, string>;
-  body?: string | object;
+  body?: string | Record<string, unknown>;
 }
 
 class RequestError extends Error {
