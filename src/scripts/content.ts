@@ -180,14 +180,15 @@ function onElementAdded(addedElement: HTMLElement): void {
 }
 
 function onOptionsLoaded(
-  options: Pick<
-    LocalStorage.Items,
-    | 'blacklist'
-    | 'subscriptions'
-    | 'hideControl'
-    | 'hideBlockLinks'
-    | 'skipBlockDialog'
-    | 'enablePathDepth'
+  options: LocalStorage.ItemsFor<
+    [
+      'blacklist',
+      'subscriptions',
+      'hideControl',
+      'hideBlockLinks',
+      'skipBlockDialog',
+      'enablePathDepth',
+    ]
   >,
 ): void {
   blacklist = new Blacklist(
