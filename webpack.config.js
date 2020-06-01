@@ -99,13 +99,7 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [
-        './_locales/**/*',
-        './images/**/*',
-        './options.html',
-        './popup.html',
-        './scripts/has-content-handlers.js',
-      ],
+      patterns: ['./_locales/**/*', './images/**/*', './scripts/**/*.js', './**/*.html'],
     }),
     new FixStyleOnlyEntriesPlugin({
       extensions: ['json.js', 'scss'],
