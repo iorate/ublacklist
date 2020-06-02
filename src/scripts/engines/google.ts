@@ -65,7 +65,7 @@ if (!mobile({ tablet: true })) {
             }
             return entry;
           },
-          getURL: getURL('.r > a'),
+          getURL: getURL('.rc a'),
           createAction: entry => {
             const parent = entry.querySelector('.eFM0qc');
             const action = document.createElement('div');
