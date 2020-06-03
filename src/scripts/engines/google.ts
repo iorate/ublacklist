@@ -82,12 +82,12 @@ if (!mobile({ tablet: true })) {
         // Featured Snippet
         {
           getEntry: getEntry('.g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
-          getURL: getURL('.r > a'),
+          getURL: getURL('.rc a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
         },
         {
           getEntry: getEntry('.ifM9O > div > .NFQFxe'),
-          getURL: getURL('.r > a'),
+          getURL: getURL('.rc a'),
           createAction: createActionUnder('ub-pc-all-general-action', '.eFM0qc'),
         },
         // Latest
@@ -123,7 +123,7 @@ if (!mobile({ tablet: true })) {
             }
             return entry;
           },
-          getURL: getURL('.r > a'),
+          getURL: getURL('.rc a'),
           createAction: createActionUnder('ub-pc-all-paa-action', '.eFM0qc'),
         },
         // Quote in the News
