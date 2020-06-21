@@ -122,6 +122,9 @@
   "options_hideControl": {
     "message": "차단한 사이트 수와 '보기' 링크 숨기기"
   },
+  "options_skipBlockDialog": {
+    "message": "'이 사이트 차단하기' 다이얼로그 표시하지 않기"
+  },
   "options_syncTitle": {
     "message": "동기화"
   },
