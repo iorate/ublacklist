@@ -18,8 +18,8 @@ async function main(): Promise<void> {
   if (options.enablePathDepth) {
     blockForm.enablePathDepth();
   }
-  blockForm.initialize(blacklist, url, () => {
-    sendMessage('set-blacklist', blacklist.toString());
+  blockForm.initialize(blacklist, url, async () => {
+    await sendMessage('set-blacklist', blacklist.toString());
   });
 }
 

@@ -7,7 +7,7 @@ import style from '!!css-loader!sass-loader!../styles/block-form.scss';
 export class BlockForm {
   private blacklist: Blacklist | null = null;
   private blacklistPatch: BlacklistPatch | null = null;
-  private onBlocked: (() => void) | null = null;
+  private onBlocked: (() => void | Promise<void>) | null = null;
   private pathDepth: PathDepth | null = null;
   private root: ShadowRoot;
 
@@ -95,10 +95,10 @@ export class BlockForm {
     this.$('cancel').addEventListener('click', () => {
       close();
     });
-    this.$('update').addEventListener('click', () => {
+    this.$('update').addEventListener('click', async () => {
       this.blacklist!.applyPatch();
       if (this.onBlocked) {
-        this.onBlocked();
+        await Promise.resolve(this.onBlocked());
       }
       close();
     });
