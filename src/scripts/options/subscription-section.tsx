@@ -5,7 +5,7 @@ import { apis } from '../apis';
 import * as LocalStorage from '../local-storage';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { isErrorResult } from '../utilities';
+import { AltURL, isErrorResult } from '../utilities';
 import { Dialog, DialogProps } from './dialog';
 import { FromNow } from './from-now';
 import { InitialItems } from './initial-items';
@@ -87,10 +87,11 @@ const AddSubscriptionDialog: React.FC<Readonly<AddSubscriptionDialogProps>> = pr
             className="ub-button button is-primary"
             disabled={!nameValid || !urlValid}
             onClick={async () => {
-              if (!(await apis.permissions.request({ origins: [url] }))) {
+              const normalizedURL = new AltURL(url).toString();
+              if (!(await apis.permissions.request({ origins: [normalizedURL] }))) {
                 return;
               }
-              const subscription = { name, url, blacklist: '', updateResult: null };
+              const subscription = { name, url: normalizedURL, blacklist: '', updateResult: null };
               const id = await sendMessage('add-subscription', subscription);
               props.setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
               props.setOpen(false);
