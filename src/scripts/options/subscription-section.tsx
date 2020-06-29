@@ -306,7 +306,7 @@ export const ManageSubscriptions: React.FC = () => {
       <div className="field is-grouped is-grouped-right">
         <div className="control">
           <button
-            className="button has-text-primary"
+            className="ub-button button has-text-primary"
             disabled={!Object.keys(subscriptions).length}
             onClick={() => {
               sendMessage('update-all-subscriptions');
