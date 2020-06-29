@@ -285,16 +285,20 @@ export const ManageSubscriptions: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(subscriptions).map(([id, subscription]) => (
-              <ManageSubscription
-                key={id}
-                id={Number(id)}
-                subscription={subscription}
-                setSubscriptions={setSubscriptions}
-                setShowDialogOpen={setShowSubscriptionDialogOpen}
-                setShowDialogSubscription={setShowSubscriptionDialogSubscription}
-              />
-            ))}
+            {Object.entries(subscriptions)
+              .sort(([id1, { name: name1 }], [id2, { name: name2 }]) =>
+                name1 < name2 ? -1 : name1 > name2 ? 1 : Number(id1) - Number(id2),
+              )
+              .map(([id, subscription]) => (
+                <ManageSubscription
+                  key={id}
+                  id={Number(id)}
+                  subscription={subscription}
+                  setSubscriptions={setSubscriptions}
+                  setShowDialogOpen={setShowSubscriptionDialogOpen}
+                  setShowDialogSubscription={setShowSubscriptionDialogSubscription}
+                />
+              ))}
           </tbody>
         </table>
         {!Object.keys(subscriptions).length && (
