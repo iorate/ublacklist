@@ -47,22 +47,3 @@ export async function load<T extends (keyof Items)[]>(keys: T): Promise<ItemsFor
 export async function store<T extends Partial<Items>>(items: T): Promise<void> {
   await apis.storage.local.set(items);
 }
-
-export function addChangeListeners(
-  listeners: { readonly [Key in keyof Items]?: (newItem: Items[Key]) => void },
-): () => void {
-  const listener = (changes: Record<string, apis.storage.StorageChange>, areaName: string) => {
-    if (areaName !== 'local') {
-      return;
-    }
-    for (const key of Object.keys(changes) as (keyof Items)[]) {
-      if (listeners[key]) {
-        (listeners[key] as (newItem: unknown) => void)(changes[key].newValue);
-      }
-    }
-  };
-  apis.storage.onChanged.addListener(listener);
-  return () => {
-    apis.storage.onChanged.removeListener(listener);
-  };
-}

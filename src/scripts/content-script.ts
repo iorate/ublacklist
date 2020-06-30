@@ -38,7 +38,7 @@ function judgeEntry(entry: HTMLElement): void {
 }
 
 function onBlacklistUpdated(): void {
-  sendMessage('set-blacklist', blacklist!.toString());
+  sendMessage('set-blacklist', blacklist!.toString(), 'content-script');
   blockedEntryCount = 0;
   for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
     entry.classList.remove('ub-is-blocked');

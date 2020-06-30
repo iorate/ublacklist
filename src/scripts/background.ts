@@ -3,14 +3,14 @@ import * as Blacklist from './background/blacklist';
 import * as Clouds from './background/clouds';
 import * as SearchEngines from './background/search-engines';
 import * as Subscriptions from './background/subscriptions';
-import { addMessageListeners } from './messages';
+import { SetBlacklistSource, addMessageListeners } from './messages';
 import { CloudId, Subscription, SubscriptionId } from './types';
 
 const SYNC_BLACKLIST_ALARM_NAME = 'sync-blacklist';
 const UPDATE_ALL_SUBSCRIPTIONS_ALARM_NAME = 'update-all-subscriptions';
 
-async function setBlacklist(blacklist: string): Promise<void> {
-  await Blacklist.set(blacklist);
+async function setBlacklist(blacklist: string, source: SetBlacklistSource): Promise<void> {
+  await Blacklist.set(blacklist, source);
   syncBlacklist();
 }
 

@@ -1,9 +1,11 @@
 import { apis } from './apis';
 import { CloudId, SearchEngine, Result, Subscription, SubscriptionId } from './types';
 
+export type SetBlacklistSource = 'content-script' | 'popup' | 'options' | 'background';
+
 type MessageSignatures = {
-  // content-script/options/popup -> background
-  'set-blacklist': (blacklist: string) => void;
+  // content-script/popup/options -> background
+  'set-blacklist': (blacklist: string, source: SetBlacklistSource) => void;
   'sync-blacklist': () => void;
   'connect-to-cloud': (id: CloudId) => boolean;
   'disconnect-from-cloud': () => void;
@@ -13,6 +15,7 @@ type MessageSignatures = {
   'update-subscription': (id: SubscriptionId) => void;
   'update-all-subscriptions': () => void;
   // background -> options
+  'blacklist-set': (blacklist: string, source: SetBlacklistSource) => void;
   'blacklist-syncing': () => void;
   'blacklist-synced': (result: Result) => void;
   'subscription-updating': (id: SubscriptionId) => void;

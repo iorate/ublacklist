@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { apis } from '../apis';
-import * as LocalStorage from '../local-storage';
-import { sendMessage } from '../messages';
+import { addMessageListeners, sendMessage } from '../messages';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
 import { lines } from '../utilities';
@@ -87,17 +86,16 @@ const ImportBlacklistDialog: React.FC<Readonly<ImportBlacklistDialogProps>> = pr
 
 const SetBlacklist: React.FC = () => {
   const { blacklist: initialBlacklist } = React.useContext(InitialItems);
-  const [storedBlacklist, setStoredBlacklist] = React.useState(initialBlacklist);
-  const [explicitlyStoredBlacklist, setExplicitlyStoredBlacklist] = React.useState(
-    initialBlacklist,
-  );
   const [blacklist, setBlacklist] = React.useState(initialBlacklist);
   const [blacklistDirty, setBlacklistDirty] = React.useState(false);
+  const [latestBlacklist, setLatestBlacklist] = React.useState<string | null>(null);
   const [importBlacklistDialogOpen, setImportBlacklistDialogOpen] = React.useState(false);
   React.useEffect(() => {
-    return LocalStorage.addChangeListeners({
-      blacklist: newBlacklist => {
-        setStoredBlacklist(newBlacklist);
+    return addMessageListeners({
+      'blacklist-set': (latestBlacklist, source) => {
+        if (source !== 'options') {
+          setLatestBlacklist(latestBlacklist);
+        }
       },
     });
   }, []);
@@ -131,7 +129,7 @@ const SetBlacklist: React.FC = () => {
         </div>
       </div>
       <div className="field is-grouped is-grouped-multiline is-grouped-right">
-        {storedBlacklist !== explicitlyStoredBlacklist && (
+        {latestBlacklist != null && (
           <div className="control is-expanded">
             <p className="has-text-grey">
               {apis.i18n.getMessage('options_blacklistUpdated')}
@@ -139,10 +137,10 @@ const SetBlacklist: React.FC = () => {
               <span
                 className="ub-link-button"
                 tabIndex={0}
-                onClick={() => {
-                  setExplicitlyStoredBlacklist(storedBlacklist);
-                  setBlacklist(storedBlacklist);
+                onClick={async () => {
+                  setBlacklist(latestBlacklist);
                   setBlacklistDirty(false);
+                  setLatestBlacklist(null);
                 }}
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
@@ -172,10 +170,9 @@ const SetBlacklist: React.FC = () => {
               className="ub-button button is-primary"
               disabled={!blacklistDirty}
               onClick={() => {
-                sendMessage('set-blacklist', blacklist);
-                setStoredBlacklist(blacklist);
-                setExplicitlyStoredBlacklist(blacklist);
+                sendMessage('set-blacklist', blacklist, 'options');
                 setBlacklistDirty(false);
+                setLatestBlacklist(null);
               }}
             >
               {apis.i18n.getMessage('options_saveBlacklistButton')}

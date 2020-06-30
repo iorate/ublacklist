@@ -152,20 +152,6 @@ export namespace apis {
         });
       },
     };
-
-    export const onChanged = {
-      addListener(
-        listener: (changes: Record<string, StorageChange>, areaName: string) => void,
-      ): void {
-        chrome.storage.onChanged.addListener(listener);
-      },
-
-      removeListener(
-        listener: (changes: Record<string, StorageChange>, areaName: string) => void,
-      ): void {
-        chrome.storage.onChanged.removeListener(listener);
-      },
-    };
   }
 
   export namespace tabs {

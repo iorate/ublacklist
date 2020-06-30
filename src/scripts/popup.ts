@@ -22,7 +22,7 @@ async function main(): Promise<void> {
     blockForm.enablePathDepth();
   }
   blockForm.initialize(blacklist, url, async () => {
-    await sendMessage('set-blacklist', blacklist.toString());
+    await sendMessage('set-blacklist', blacklist.toString(), 'popup');
   });
 }
 

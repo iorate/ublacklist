@@ -1,14 +1,15 @@
 import dayjs from 'dayjs';
 import * as LocalStorage from '../local-storage';
-import { postMessage } from '../messages';
+import { SetBlacklistSource, postMessage } from '../messages';
 import { Mutex, errorResult, successResult } from '../utilities';
 import { syncFile } from './clouds';
 
 const mutex = new Mutex();
 
-export async function set(blacklist: string): Promise<void> {
+export async function set(blacklist: string, source: SetBlacklistSource): Promise<void> {
   await mutex.lock(async () => {
     await LocalStorage.store({ blacklist, timestamp: dayjs().toISOString() });
+    postMessage('blacklist-set', blacklist, source);
   });
 }
 
@@ -33,6 +34,7 @@ export async function sync(): Promise<{ interval: number | null }> {
           timestamp: cloudFile.modifiedTime.toISOString(),
           syncResult: result,
         });
+        postMessage('blacklist-set', cloudFile.content, 'background');
       } else {
         await LocalStorage.store({ syncResult: result });
       }
