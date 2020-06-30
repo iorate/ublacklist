@@ -2,14 +2,15 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2015", "es2019.string", "dom", "dom.iterable"],
-    "module": "es2015",
+    "jsx": "react",
+    "lib": ["ES2015", "ES2019.Object", "ES2019.String", "DOM", "DOM.Iterable"],
+    "module": "ES2015",
     "moduleResolution": "node",
     "newLine": "LF",
     "sourceMap": true,
     "strict": true,
-    "target": "es2015"
+    "target": "ES2015"
   },
   "exclude": ["dist", "node_modules", "src/**/*.test.ts"],
-  "include": ["src/**/*"]
+  "include": ["src"]
 }

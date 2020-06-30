@@ -1,41 +1,92 @@
-export interface Engine {
-  id: string;
-  name: string;
-  matches: string[];
-}
-
-export type ISOString = string;
-
-export type Minutes = number;
+import type dayjs from 'dayjs';
 
 // #region Result
-export interface ErrorResult {
+export type ErrorResult = {
   type: 'error';
   message: string;
-}
+};
 
-export interface SuccessResult {
+export type SuccessResult = {
   type: 'success';
-  timestamp: ISOString;
-}
+  timestamp: string;
+};
 
 export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
-// #region Subscription
-export interface Subscription {
+// #region Clouds
+export type CloudId = 'googleDrive' | 'dropbox';
+
+export type Cloud = {
+  hostPermissions: string[];
+  messageNames: { sync: string; syncDescription: string; syncTurnedOn: string };
+  modifiedTimePrecision: 'millisecond' | 'second';
+
+  authorize(): Promise<{ authorizationCode: string }>;
+  getAccessToken(
+    authorizationCode: string,
+  ): Promise<{ accessToken: string; expiresIn: number; refreshToken: string }>;
+  refreshAccessToken(refreshToken: string): Promise<{ accessToken: string; expiresIn: number }>;
+
+  createFile(accessToken: string, content: string, modifiedTime: dayjs.Dayjs): Promise<void>;
+  findFile(accessToken: string): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  readFile(accessToken: string, id: string): Promise<{ content: string }>;
+  writeFile(
+    accessToken: string,
+    id: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+};
+
+export type Clouds = Record<CloudId, Cloud>;
+
+export type CloudToken = {
+  accessToken: string;
+  expiresAt: string;
+  refreshToken: string;
+};
+// #endregion Clouds
+
+// #region SearchEngines
+export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage';
+
+export type ControlHandler = {
+  createControl(): HTMLElement | null;
+  adjustControl?: (control: HTMLElement) => void;
+};
+
+export type EntryHandler = {
+  getEntry(addedElement: HTMLElement): HTMLElement | null;
+  getURL(entry: HTMLElement): string | null;
+  createAction(entry: HTMLElement): HTMLElement | null;
+  adjustEntry?(entry: HTMLElement): void;
+};
+
+export type SearchEngine = {
+  matches: string[];
+  messageNames: { name: string };
+
+  controlHandlers: ControlHandler[];
+  entryHandlers: EntryHandler[];
+  getAddedElements(): HTMLElement[];
+  getSilentlyAddedElements(addedElement: HTMLElement): HTMLElement[];
+
+  style: string;
+};
+
+export type SearchEngines = Record<SearchEngineId, SearchEngine>;
+// #endregion SearchEngines
+
+// #region Subscriptions
+export type SubscriptionId = number;
+
+export type Subscription = {
   name: string;
   url: string;
   blacklist: string;
   updateResult: Result | null;
-}
-
-export type SubscriptionId = number;
+};
 
 export type Subscriptions = Record<SubscriptionId, Subscription>;
-// #endregion Subscription
-
-export interface TokenCache {
-  token: string;
-  expirationDate: ISOString;
-}
+// #endregion Subscriptions

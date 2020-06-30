@@ -72,14 +72,6 @@
   "popup_unblockSiteButton": {
     "message": "Разблокировать"
   },
-  "popup_siteBlockedBySubscription": {
-    "message": "Заблокирован подпиской $NAME$",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    }
-  },
   "options_generalTitle": {
     "message": "Общие"
   },
@@ -87,7 +79,8 @@
     "message": "Выбранные сайты не будут отображаться в поисковой выдаче Google"
   },
   "options_blacklistHelper": {
-    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">шаблоны совпадения</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">регулярные выражения</a>."
+    "message": "Вы можете использовать <a href=\"https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">шаблоны совпадения</a> или <a href=\"https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">регулярные выражения</a>."
+
   },
   "options_importBlacklistButton": {
     "message": "Импорт из расширения Personal Blocklist"
@@ -110,32 +103,23 @@
   "options_otherSearchEnginesDescription": {
     "message": "Вы можете использовать расширение с другими поисковыми системами."
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "Включить"
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "Включено"
   },
-  "options_hideBlockSiteLinksLabel": {
+  "options_hideBlockLinksLabel": {
     "message": "Не показывать ссылки \"Заблокировать сайт\""
   },
-  "options_hideControl": {
+  "options_hideControlLabel": {
     "message": "Скрывать количество заблокированных сайтов и ссылку \"Показать\""
   },
   "options_syncTitle": {
     "message": "Синхронизация"
   },
-  "options_syncFeature": {
-    "message": "Синхронизировать с Google Диском"
-  },
-  "options_syncFeatureDescription": {
-    "message": "Если Вы включите синхронизацию, то файл 'uBlacklist.txt' будет создан на вашем Google Диске и синхронизирован с локальным списком."
-  },
   "options_turnOnSync": {
     "message": "Включить синхронизацию"
-  },
-  "options_syncTurnedOn": {
-    "message": "Синхронизирован с Google Диском"
   },
   "options_turnOffSync": {
     "message": "Отключить"
@@ -202,5 +186,17 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "Добавить"
+  },
+  "clouds_googleDriveSync": {
+    "message": "Синхронизировать с Google Диском"
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Синхронизирован с Google Диском"
+  },
+  "clouds_dropboxSync": {
+    "message": "Синхронизировать с Dropbox"
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Синхронизирован с Dropbox"
   }
 }

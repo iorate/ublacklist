@@ -9,10 +9,12 @@ import dialogPolyfill from 'dialog-polyfill';
 import { apis } from './apis';
 import { Blacklist } from './blacklist';
 import { BlockForm } from './block-form';
-import './content-handlers';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
-import { AltURL } from './utilities';
+import { supportedSearchEngines } from './supported-search-engines';
+import { AltURL, MatchPattern } from './utilities';
+import { SearchEngine, SearchEngineId } from './types';
+import contentScriptStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/content-script.scss';
 
 let blacklist: Blacklist | null = null;
 let blockForm: BlockForm | null = null;
@@ -48,8 +50,8 @@ function onBlacklistUpdated(): void {
   updateControl();
 }
 
-function onDOMContentLoaded(): void {
-  for (const controlHandler of window.ubContentHandlers!.controlHandlers) {
+function onDOMContentLoaded(searchEngine: SearchEngine): void {
+  for (const controlHandler of searchEngine.controlHandlers) {
     const control = controlHandler.createControl();
     if (!control) {
       continue;
@@ -111,8 +113,8 @@ function onDOMContentLoaded(): void {
   }
 }
 
-function onElementAdded(addedElement: HTMLElement): void {
-  for (const entryHandler of window.ubContentHandlers!.entryHandlers) {
+function onElementAdded(searchEngine: SearchEngine, addedElement: HTMLElement): void {
+  for (const entryHandler of searchEngine.entryHandlers) {
     const entry = entryHandler.getEntry(addedElement);
     if (!entry || entry.hasAttribute('data-ub-url')) {
       continue;
@@ -166,16 +168,6 @@ function onElementAdded(addedElement: HTMLElement): void {
       queuedEntries.push(entry);
     }
     return;
-  }
-  if (window.ubContentHandlers!.dynamicElementHandlers) {
-    for (const dynamicElementHandler of window.ubContentHandlers!.dynamicElementHandlers) {
-      const dynamicElements = dynamicElementHandler.getDynamicElements(addedElement);
-      if (!dynamicElements) {
-        continue;
-      }
-      dynamicElements.forEach(onElementAdded);
-      break;
-    }
   }
 }
 
@@ -244,44 +236,70 @@ function updateControl(): void {
 }
 
 function main(): void {
-  if (!window.ubContentHandlers) {
-    return;
-  }
-
   (async () => {
-    const options = await LocalStorage.load(
+    const options = await LocalStorage.load([
       'blacklist',
       'subscriptions',
       'hideControl',
       'hideBlockLinks',
       'skipBlockDialog',
       'enablePathDepth',
-    );
+    ]);
     onOptionsLoaded(options);
   })();
 
+  let searchEngine: SearchEngine | null = null;
+  const url = new AltURL(window.location.href);
+  for (const id of Object.keys(supportedSearchEngines) as SearchEngineId[]) {
+    if (supportedSearchEngines[id].matches.some(match => new MatchPattern(match).test(url))) {
+      searchEngine = supportedSearchEngines[id];
+    }
+  }
+  if (!searchEngine) {
+    return;
+  }
+
   document.documentElement.classList.add('ub-hide');
-  if (window.ubContentHandlers!.staticElementHandler) {
-    const staticElements = window.ubContentHandlers!.staticElementHandler.getStaticElements();
-    staticElements.forEach(onElementAdded);
+
+  let stylesInserted = false;
+  const insertStyles = () => {
+    if (!stylesInserted && document.head) {
+      document.head.insertAdjacentHTML(
+        'beforeend',
+        `<style>${contentScriptStyle}</style><style>${searchEngine!.style}</style>`,
+      );
+      stylesInserted = true;
+    }
+  };
+  insertStyles();
+
+  for (const addedElement of searchEngine.getAddedElements()) {
+    onElementAdded(searchEngine, addedElement);
   }
   new MutationObserver(records => {
+    insertStyles();
+
     for (const record of records) {
       for (const addedNode of record.addedNodes) {
-        if (addedNode.nodeType === Node.ELEMENT_NODE) {
+        if (addedNode instanceof HTMLElement) {
           // #if DEBUG
           console.debug(addedNode.cloneNode(true));
           // #endif
-          onElementAdded(addedNode as HTMLElement);
+          onElementAdded(searchEngine!, addedNode);
+          for (const silentlyAddedElement of searchEngine!.getSilentlyAddedElements(addedNode)) {
+            onElementAdded(searchEngine!, silentlyAddedElement);
+          }
         }
       }
     }
   }).observe(document.documentElement, { childList: true, subtree: true });
 
-  if (document.readyState !== 'loading') {
-    onDOMContentLoaded();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      onDOMContentLoaded(searchEngine!);
+    });
   } else {
-    document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+    onDOMContentLoaded(searchEngine);
   }
 }
 

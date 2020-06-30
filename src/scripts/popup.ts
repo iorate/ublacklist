@@ -4,9 +4,12 @@ import { BlockForm } from './block-form';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { AltURL } from './utilities';
+import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/popup.scss';
 
 async function main(): Promise<void> {
-  const options = await LocalStorage.load('blacklist', 'subscriptions', 'enablePathDepth');
+  document.head.insertAdjacentHTML('beforeend', `<style>${style}</style>`);
+
+  const options = await LocalStorage.load(['blacklist', 'subscriptions', 'enablePathDepth']);
   const blacklist = new Blacklist(
     options.blacklist,
     Object.values(options.subscriptions).map(subscription => subscription.blacklist),

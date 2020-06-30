@@ -1,22 +1,23 @@
 import { apis } from './apis';
-import { Engine, Result, Subscription, SubscriptionId } from './types';
+import { CloudId, SearchEngine, Result, Subscription, SubscriptionId } from './types';
 
-interface MessageSignatures {
-  // Options/Popup -> Background
-  'auth-to-sync-blacklist': () => boolean;
+type MessageSignatures = {
+  // content-script/options/popup -> background
   'set-blacklist': (blacklist: string) => void;
   'sync-blacklist': () => void;
+  'connect-to-cloud': (id: CloudId) => boolean;
+  'disconnect-from-cloud': () => void;
+  'register-search-engine': (searchEngine: SearchEngine) => void;
   'add-subscription': (subscription: Subscription) => SubscriptionId;
   'remove-subscription': (id: SubscriptionId) => void;
   'update-subscription': (id: SubscriptionId) => void;
-  'update-subscriptions': () => void;
-  'enable-on-engine': (engine: Engine) => void;
-  // Background -> Options
+  'update-all-subscriptions': () => void;
+  // background -> options
   'blacklist-syncing': () => void;
   'blacklist-synced': (result: Result) => void;
   'subscription-updating': (id: SubscriptionId) => void;
   'subscription-updated': (id: SubscriptionId, result: Result) => void;
-}
+};
 
 export type MessageTypes = keyof MessageSignatures;
 export type MessageParameters<Type extends MessageTypes> = Parameters<MessageSignatures[Type]>;
@@ -30,7 +31,9 @@ export function postMessage<Type extends MessageTypes>(
     try {
       await apis.runtime.sendMessage({ type, args });
     } catch (e) {
-      if (e.message !== 'Could not establish connection. Receiving end does not exist.') {
+      if (e.message === 'Could not establish connection. Receiving end does not exist.') {
+        return;
+      } else {
         throw e;
       }
     }
@@ -66,11 +69,19 @@ function invokeListener(
   }
 }
 
-export function addMessageListeners(listeners: MessageListeners): void {
-  apis.runtime.onMessage.addListener((message, sender, sendResponse) => {
+export function addMessageListeners(listeners: Readonly<MessageListeners>): () => void {
+  const listener = (
+    message: unknown,
+    sender: apis.runtime.MessageSender,
+    sendResponse: (response: unknown) => void | boolean,
+  ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
     if (listeners[type]) {
       return invokeListener(listeners[type] as (...args: unknown[]) => unknown, args, sendResponse);
     }
-  });
+  };
+  apis.runtime.onMessage.addListener(listener);
+  return () => {
+    apis.runtime.onMessage.removeListener(listener);
+  };
 }

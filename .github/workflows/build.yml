@@ -18,23 +18,23 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: 13.x
+          node-version: 14.x
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.cache/yarn
+          key: node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             node-
 
-      - run: npm ci
+      - run: yarn install --frozen-lockfile
 
-      - run: npm run build
+      - run: yarn build
 
-      - run: npm test
+      - run: yarn test
 
       - if: github.event_name == 'push'
-        run: npm run lint
+        run: yarn lint
 
       - if: github.event_name == 'push' && github.ref == 'refs/heads/production'
         env:
@@ -44,4 +44,4 @@ jobs:
           FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           FIREFOX_SECRET_KEY: ${{ secrets.FIREFOX_SECRET_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: yarn semantic-release

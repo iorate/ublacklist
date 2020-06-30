@@ -72,14 +72,6 @@
   "popup_unblockSiteButton": {
     "message": "차단 해제"
   },
-  "popup_siteBlockedBySubscription": {
-    "message": "$NAME$에 의해 차단되었습니다.",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    }
-  },
   "options_generalTitle": {
     "message": "일반"
   },
@@ -87,7 +79,8 @@
     "message": "Google 검색 결과에서 차단한 사이트"
   },
   "options_blacklistHelper": {
-    "message": "<a href=\"https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">매치 패턴</a> 또는 <a href=\"https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">정규 표현식</a>을 사용할 수 있습니다."
+    "message": "<a href=\"https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">매치 패턴</a> 또는 <a href=\"https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">정규 표현식</a>을 사용할 수 있습니다."
+
   },
   "options_importBlacklistButton": {
     "message": "내 차단 목록에서 가져오기"
@@ -110,35 +103,26 @@
   "options_otherSearchEnginesDescription": {
     "message": "아래 검색 엔진에서도 차단 기능을 사용할 수 있습니다."
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "활성화"
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "활성화 됨"
   },
-  "options_hideBlockSiteLinksLabel": {
+  "options_skipBlockDialogLabel": {
+    "message": "'이 사이트 차단하기' 다이얼로그 표시하지 않기"
+  },
+  "options_hideBlockLinksLabel": {
     "message": "'이 사이트 차단하기' 링크 숨기기"
   },
-  "options_hideControl": {
+  "options_hideControlLabel": {
     "message": "차단한 사이트 수와 '보기' 링크 숨기기"
-  },
-  "options_skipBlockDialog": {
-    "message": "'이 사이트 차단하기' 다이얼로그 표시하지 않기"
   },
   "options_syncTitle": {
     "message": "동기화"
   },
-  "options_syncFeature": {
-    "message": "Google Drive와 동기화"
-  },
-  "options_syncFeatureDescription": {
-    "message": "Google Drive에 'uBlacklist.txt' 파일이 생성되고 차단 목록이 동기화 됩니다."
-  },
   "options_turnOnSync": {
     "message": "동기화 하기"
-  },
-  "options_syncTurnedOn": {
-    "message": "Google Drive와 동기화 되었습니다."
   },
   "options_turnOffSync": {
     "message": "동기화 멈추기"
@@ -205,5 +189,17 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "추가"
+  },
+  "clouds_googleDriveSync": {
+    "message": "Google Drive와 동기화."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Google Drive와 동기화 되었습니다."
+  },
+  "clouds_dropboxSync": {
+    "message": "Dropbox와 동기화."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Dropbox와 동기화 되었습니다."
   }
 }

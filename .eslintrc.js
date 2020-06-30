@@ -9,22 +9,34 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/scripts/has-content-handlers.js'],
+      files: ['src/**/*.js'],
       env: {
         browser: true,
       },
     },
     {
-      files: ['src/**/*.ts'],
-      extends: ['plugin:@typescript-eslint/recommended', 'prettier/@typescript-eslint'],
+      files: ['src/**/*.{ts,tsx}'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+        'prettier/@typescript-eslint',
+        'prettier/react',
+      ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: './tsconfig.eslint.json',
       },
       plugins: ['@typescript-eslint'],
       rules: {
+        'react/prop-types': ['off'],
         '@typescript-eslint/no-non-null-assertion': ['off'],
       },
     },
   ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };

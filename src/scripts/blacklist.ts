@@ -1,14 +1,14 @@
 import { AltURL, MatchPattern, lines, unlines } from './utilities';
 
-export interface BlacklistPatch {
+export type BlacklistPatch = {
   unblock: boolean;
   url: AltURL;
   rulesToAdd: string;
   rulesToRemove: string;
-}
+};
 
 class RegularExpression {
-  regExp: RegExp;
+  private readonly regExp: RegExp;
 
   constructor(re: string) {
     const m = /^\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/.exec(
@@ -29,16 +29,16 @@ class RegularExpression {
 
 type Pattern = MatchPattern | RegularExpression;
 
-interface CookedRule {
+type CompiledRule = {
   rawRuleIndex: number;
   unblock: boolean;
   pattern: Pattern;
-}
+};
 
-class Part {
+class BlacklistFragment {
   rawRules: (string | null)[] = [];
-  blockRules: CookedRule[] = [];
-  unblockRules: CookedRule[] = [];
+  blockRules: CompiledRule[] = [];
+  unblockRules: CompiledRule[] = [];
 
   constructor(blacklist: string) {
     this.add(blacklist);
@@ -48,6 +48,9 @@ class Part {
     for (let rawRule of lines(blacklist)) {
       this.rawRules.push(rawRule);
       rawRule = rawRule.trim();
+      if (!rawRule || rawRule.startsWith('#')) {
+        continue;
+      }
       const unblock = rawRule.startsWith('@');
       if (unblock) {
         rawRule = rawRule.slice(1).trimStart();
@@ -79,12 +82,12 @@ class Part {
   }
 }
 
-interface BlacklistPatchInternal extends BlacklistPatch {
+type BlacklistPatchInternal = BlacklistPatch & {
   requireRulesToAdd: boolean;
-  cookedRuleIndicesToRemove: number[];
-}
+  compiledRuleIndicesToRemove: number[];
+};
 
-function findIndices<T>(array: T[], predicate: (element: T) => boolean): number[] {
+function findIndices<T>(array: readonly T[], predicate: (element: T) => boolean): number[] {
   const indices: number[] = [];
   array.forEach((element, index) => {
     if (predicate(element)) {
@@ -103,27 +106,29 @@ function suggestMatchPattern(url: AltURL, unblock: boolean): string {
 }
 
 export class Blacklist {
-  private userPart: Part;
-  private subscriptionParts: Part[];
+  private userFragment: BlacklistFragment;
+  private subscriptionFragments: BlacklistFragment[];
   private patch: BlacklistPatchInternal | null = null;
 
-  constructor(blacklist: string, subscriptionBlacklists: string[]) {
-    this.userPart = new Part(blacklist);
-    this.subscriptionParts = subscriptionBlacklists.map(blacklist => new Part(blacklist));
+  constructor(blacklist: string, subscriptionBlacklists: readonly string[]) {
+    this.userFragment = new BlacklistFragment(blacklist);
+    this.subscriptionFragments = subscriptionBlacklists.map(
+      blacklist => new BlacklistFragment(blacklist),
+    );
   }
 
   toString(): string {
-    return unlines(this.userPart.rawRules.filter(rawRule => rawRule != null) as string[]);
+    return unlines(this.userFragment.rawRules.filter(rawRule => rawRule != null) as string[]);
   }
 
   test(url: AltURL): boolean {
-    if (this.userPart.unblocks(url)) {
+    if (this.userFragment.unblocks(url)) {
       return false;
-    } else if (this.userPart.blocks(url)) {
+    } else if (this.userFragment.blocks(url)) {
       return true;
-    } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
+    } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
       return false;
-    } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+    } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
       return true;
     } else {
       return false;
@@ -134,21 +139,21 @@ export class Blacklist {
   // If a patch is already created, it will be deleted.
   createPatch(url: AltURL): BlacklistPatch {
     const patch = { url } as BlacklistPatchInternal;
-    const unblockRuleIndices = findIndices(this.userPart.unblockRules, unblockRule =>
+    const unblockRuleIndices = findIndices(this.userFragment.unblockRules, unblockRule =>
       unblockRule.pattern.test(url),
     );
     if (unblockRuleIndices.length) {
       // The URL is unblocked by a user rule. Block it.
       patch.unblock = false;
-      if (this.userPart.blocks(url)) {
+      if (this.userFragment.blocks(url)) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
-      } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(part => part.unblocks(url))) {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-      } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+      } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
@@ -157,24 +162,24 @@ export class Blacklist {
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
       }
-      patch.cookedRuleIndicesToRemove = unblockRuleIndices;
+      patch.compiledRuleIndicesToRemove = unblockRuleIndices;
       patch.rulesToRemove = unlines(
         unblockRuleIndices.map(
-          index => this.userPart.rawRules[this.userPart.unblockRules[index].rawRuleIndex]!,
+          index => this.userFragment.rawRules[this.userFragment.unblockRules[index].rawRuleIndex]!,
         ),
       );
     } else {
-      const blockRuleIndices = findIndices(this.userPart.blockRules, blockRule =>
+      const blockRuleIndices = findIndices(this.userFragment.blockRules, blockRule =>
         blockRule.pattern.test(url),
       );
       if (blockRuleIndices.length) {
         // The URL is blocked by a user rule. Unblock it.
         patch.unblock = true;
-        if (this.subscriptionParts.some(part => part.unblocks(url))) {
+        if (this.subscriptionFragments.some(part => part.unblocks(url))) {
           // No need to add a user rule to unblock it.
           patch.requireRulesToAdd = false;
           patch.rulesToAdd = '';
-        } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+        } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
           // Add a user rule to unblock it.
           patch.requireRulesToAdd = true;
           patch.rulesToAdd = suggestMatchPattern(url, true);
@@ -183,27 +188,27 @@ export class Blacklist {
           patch.requireRulesToAdd = false;
           patch.rulesToAdd = '';
         }
-        patch.cookedRuleIndicesToRemove = blockRuleIndices;
+        patch.compiledRuleIndicesToRemove = blockRuleIndices;
         patch.rulesToRemove = unlines(
           blockRuleIndices.map(
-            index => this.userPart.rawRules[this.userPart.blockRules[index].rawRuleIndex]!,
+            index => this.userFragment.rawRules[this.userFragment.blockRules[index].rawRuleIndex]!,
           ),
         );
-      } else if (this.subscriptionParts.some(part => part.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(part => part.unblocks(url))) {
         // The URL is unblocked by a subscription rule. Block it.
         // Add a user rule to block it.
         patch.unblock = false;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.cookedRuleIndicesToRemove = [];
+        patch.compiledRuleIndicesToRemove = [];
         patch.rulesToRemove = '';
-      } else if (this.subscriptionParts.some(part => part.blocks(url))) {
+      } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
         // The URL is blocked by a subscription rule. Unblock it.
         // Add a user rule to unblock it.
         patch.unblock = true;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, true);
-        patch.cookedRuleIndicesToRemove = [];
+        patch.compiledRuleIndicesToRemove = [];
         patch.rulesToRemove = '';
       } else {
         // The URL is neither blocked nor unblocked. Block it.
@@ -211,7 +216,7 @@ export class Blacklist {
         patch.unblock = false;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.cookedRuleIndicesToRemove = [];
+        patch.compiledRuleIndicesToRemove = [];
         patch.rulesToRemove = '';
       }
     }
@@ -221,11 +226,11 @@ export class Blacklist {
 
   // Modify a created patch.
   // Only 'rulesToAdd' can be modified.
-  modifyPatch(patch: Pick<BlacklistPatch, 'rulesToAdd'>): BlacklistPatch | null {
+  modifyPatch(patch: Readonly<Pick<BlacklistPatch, 'rulesToAdd'>>): BlacklistPatch | null {
     if (!this.patch) {
       throw new Error('Patch not created');
     }
-    const partToAdd = new Part(patch.rulesToAdd);
+    const partToAdd = new BlacklistFragment(patch.rulesToAdd);
     let rulesAddable!: boolean;
     if (this.patch.unblock) {
       if (this.patch.requireRulesToAdd) {
@@ -251,12 +256,14 @@ export class Blacklist {
     if (!this.patch) {
       throw new Error('Patch not created');
     }
-    const cookedRules = this.patch.unblock ? this.userPart.blockRules : this.userPart.unblockRules;
-    for (const index of this.patch.cookedRuleIndicesToRemove.reverse()) {
-      this.userPart.rawRules[cookedRules[index].rawRuleIndex] = null;
-      cookedRules.splice(index, 1);
+    const compiledRules = this.patch.unblock
+      ? this.userFragment.blockRules
+      : this.userFragment.unblockRules;
+    for (const index of this.patch.compiledRuleIndicesToRemove.reverse()) {
+      this.userFragment.rawRules[compiledRules[index].rawRuleIndex] = null;
+      compiledRules.splice(index, 1);
     }
-    this.userPart.add(this.patch.rulesToAdd);
+    this.userFragment.add(this.patch.rulesToAdd);
     this.patch = null;
   }
 

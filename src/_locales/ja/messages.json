@@ -1,9 +1,9 @@
 {
-  "extensionDescription": {
-    "message": "指定したサイトが Google の検索結果で表示されないようにします"
-  },
   "extensionName": {
     "message": "uBlacklist"
+  },
+  "extensionDescription": {
+    "message": "指定したサイトが Google の検索結果で表示されないようにします"
   },
   "dayjsLocale": {
     "message": "ja"
@@ -15,6 +15,9 @@
         "content": "$1"
       }
     }
+  },
+  "unauthorizedError": {
+    "message": "認証が解除されています。同期をオフにして、再度有効にして下さい。"
   },
   "cancelButton": {
     "message": "キャンセル"
@@ -72,14 +75,6 @@
   "popup_unblockSiteButton": {
     "message": "ブロックを解除"
   },
-  "popup_siteBlockedBySubscription": {
-    "message": "$NAME$ によりブロックされています",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    }
-  },
   "options_generalTitle": {
     "message": "一般"
   },
@@ -87,7 +82,21 @@
     "message": "Google の検索結果で表示されないようにするサイト"
   },
   "options_blacklistHelper": {
-    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">正規表現</a>が使用できます。"
+    "message": "<a href=\"https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">マッチパターン</a>か<a href=\"https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">正規表現</a>が使用できます。"
+  },
+  "options_blacklistExample": {
+    "message": "例: $EXAMPLE$",
+    "placeholders": {
+      "example": {
+        "content": "$1"
+      }
+    }
+  },
+  "options_blacklistUpdated": {
+    "message": "更新されています"
+  },
+  "options_reloadBlacklistButton": {
+    "message": "再読み込み"
   },
   "options_importBlacklistButton": {
     "message": "Personal Blocklist からインポートする"
@@ -110,35 +119,38 @@
   "options_otherSearchEnginesDescription": {
     "message": "Google 以外の検索エンジンでもこの拡張機能を使用できるようにします。"
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "有効にする"
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "有効"
   },
-  "options_hideBlockSiteLinksLabel": {
+  "options_skipBlockDialogLabel": {
+    "message": "「このサイトをブロックする」ダイアログを使用しない"
+  },
+  "options_hideBlockLinksLabel": {
     "message": "「このサイトをブロックする」リンクを表示しない"
   },
-  "options_hideControl": {
+  "options_hideControlLabel": {
     "message": "ブロックしたサイトの数と「表示する」リンクを表示しない"
-  },
-  "options_skipBlockDialog": {
-    "message": "「このサイトをブロックする」ダイアログを使用しない"
   },
   "options_syncTitle": {
     "message": "同期"
   },
   "options_syncFeature": {
-    "message": "Google ドライブと同期する"
+    "message": "クラウドと同期する"
   },
   "options_syncFeatureDescription": {
-    "message": "同期を有効にすると、ユーザーの Google ドライブにファイル 'uBlacklist.txt' が作成され、ユーザーのブラックリストと同期されます。"
+    "message": "クラウドを通して、複数の端末でブラックリストを同期することができます。"
   },
   "options_turnOnSync": {
     "message": "同期を有効にする"
   },
-  "options_syncTurnedOn": {
-    "message": "Google ドライブと同期しています"
+  "options_turnOnSyncDialog_title": {
+    "message": "同期を有効にする"
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "有効にする"
   },
   "options_turnOffSync": {
     "message": "オフにする"
@@ -154,6 +166,9 @@
   },
   "options_syncNowButton": {
     "message": "今すぐ同期"
+  },
+  "options_syncInterval": {
+    "message": "同期の間隔"
   },
   "options_subscriptionTitle": {
     "message": "購読"
@@ -205,5 +220,26 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "追加"
+  },
+  "options_updateInterval": {
+    "message": "更新の間隔"
+  },
+  "clouds_googleDriveSync": {
+    "message": "Google ドライブと同期する"
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "非表示のアプリデータフォルダにファイルが作成されます。"
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Google ドライブと同期しています"
+  },
+  "clouds_dropboxSync": {
+    "message": "Dropbox と同期する"
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "フォルダ \"/アプリ/uBlacklist/\" にファイルが作成されます。"
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Dropbox と同期しています"
   }
 }

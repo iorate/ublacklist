@@ -21,6 +21,10 @@
       }
     }
   },
+  "unauthorizedError": {
+    "message": "Unauthorized. Please turn sync off and on again.",
+    "description": "The error message shown when unauthorized to access a cloud."
+  },
   "cancelButton": {
     "message": "Cancel",
     "description": "The text of a cancel button."
@@ -35,7 +39,7 @@
   },
   "content_multipleSitesBlocked": {
     "message": "uBlacklist has blocked $COUNT$ sites",
-    "description": "The text that means multiple site have been blocked.",
+    "description": "The text that means multiple sites have been blocked.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -95,16 +99,6 @@
     "message": "Unblock",
     "description": "The text of the button to unblock a site."
   },
-  "popup_siteBlockedBySubscription": {
-    "message": "Blocked by $NAME$",
-    "description": "The text that means a site is blocked by a subscription.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Example Blacklist"
-      }
-    }
-  },
   "options_generalTitle": {
     "message": "General",
     "description": "The title of the general section."
@@ -114,8 +108,26 @@
     "description": "The label for the blacklist textarea."
   },
   "options_blacklistHelper": {
-    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">regular expressions</a>.",
+    "message": "You can use <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">match patterns</a> or <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">regular expressions</a>.",
     "description": "The helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "Example: $EXAMPLE$",
+    "description": "The helper text to show an example rule.",
+    "placeholders": {
+      "example": {
+        "content": "$1",
+        "example": "*://*.example.com/*"
+      }
+    }
+  },
+  "options_blacklistUpdated": {
+    "message": "Updated",
+    "description": "The text indicating that the blacklist is update outside the options page."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "Reload",
+    "description": "The text of the button to reload the blacklist."
   },
   "options_importBlacklistButton": {
     "message": "Import from Personal Blocklist",
@@ -145,45 +157,49 @@
     "message": "You can use this extension on the below search engines.",
     "description": "The details for other search engines support."
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "Enable",
     "description": "The text of the button to enable this extension on a search engine."
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "Enabled",
     "description": "The text of the button to indicate that this extension is enabled on a search engine."
   },
-  "options_hideBlockSiteLinksLabel": {
-    "message": "Hide the 'Block this site' links",
-    "description": "The label for the switch whether to hide the 'Block this site' links."
-  },
-  "options_hideControl": {
-    "message": "Hide the number of blocked sites and the 'Show' link",
-    "description": "The label for the switch whether to hide the number of blocked sites and the 'Show' link."
-  },
-  "options_skipBlockDialog": {
+  "options_skipBlockDialogLabel": {
     "message": "Skip the \"Block this site\" dialog",
     "description": "The label for the switch whether to skip the 'Block this site' dialog"
+  },
+  "options_hideBlockLinksLabel": {
+    "message": "Hide the \"Block this site\" links",
+    "description": "The label for the switch whether to hide the 'Block this site' links."
+  },
+  "options_hideControlLabel": {
+    "message": "Hide the number of blocked sites and the \"Show\" link",
+    "description": "The label for the switch whether to hide the number of blocked sites and the 'Show' link."
   },
   "options_syncTitle": {
     "message": "Sync",
     "description": "The title of the sync section."
   },
   "options_syncFeature": {
-    "message": "Sync with Google Drive",
+    "message": "Sync with a cloud",
     "description": "The sync feature."
   },
   "options_syncFeatureDescription": {
-    "message": "If you turn on sync, a file named 'uBlacklist.txt' will be created on your Google Drive and synchronized with your blacklist.",
+    "message": "You can synchronize blacklists across your devices through a cloud.",
     "description": "The description of the sync feature."
   },
   "options_turnOnSync": {
     "message": "Turn on sync",
     "description": "The text of the button to turn on sync."
   },
-  "options_syncTurnedOn": {
-    "message": "Synced with Google Drive",
-    "description": "The text that means sync is turned on."
+  "options_turnOnSyncDialog_title": {
+    "message": "Turn on sync",
+    "description": "The title of the dialog to turn on sync."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Turn on",
+    "description": "The text of the button to turn on sync."
   },
   "options_turnOffSync": {
     "message": "Turn off",
@@ -205,6 +221,10 @@
     "message": "Sync now",
     "description": "The text of the button to sync now."
   },
+  "options_syncInterval": {
+    "message": "Sync interval",
+    "description": "The label of the select to select a sync interval."
+  },
   "options_subscriptionTitle": {
     "message": "Subscription",
     "description": "The title of the subscription section."
@@ -214,7 +234,7 @@
     "description": "The subscription feature."
   },
   "options_subscriptionFeatureDescription": {
-    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL.",
+    "message": "If you add a subscription, blacklists will be regularly downloaded from the specified URL.",
     "description": "The description of the subscription feature."
   },
   "options_addSubscriptionButton": {
@@ -272,5 +292,41 @@
   "options_addSubscriptionDialog_addButton": {
     "message": "Add",
     "description": "The text of the add button on the add-subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "Update interval",
+    "description": "The label of the select to select an update interval."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Sync with Google Drive",
+    "description": "The label of the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "A file will be created within the application data folder hidden from the user.",
+    "description": "The text to describe the behavior of sync with Google Drive."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Synced with Google Drive",
+    "description": "The text indicating that sync with Google Drive is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Sync with Dropbox",
+    "description": "The text indicating syncing with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "A file will be created within \"/Apps/uBlacklist/\".",
+    "description": "The text to describe the behavior of sync with Dropbox."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Synced with Dropbox",
+    "description": "The label of the radio button to sync with Dropbox."
+  },
+  "searchEngines_duckduckgoName": {
+    "message": "DuckDuckGo",
+    "description": "The localized name of DuckDuckGo"
+  },
+  "searchEngines_startpageName": {
+    "message": "Startpage.com",
+    "description": "The localized name of Startpage.com"
   }
 }

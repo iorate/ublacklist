@@ -8,17 +8,6 @@
   "dayjsLocale": {
     "message": "tr"
   },
-  "error": {
-    "message": "Error: $MESSAGE$",
-    "placeholders": {
-      "message": {
-        "content": "$1"
-      }
-    }
-  },
-  "cancelButton": {
-    "message": "Cancel"
-  },
   "okButton": {
     "message": "Tamam"
   },
@@ -51,49 +40,14 @@
   "popup_unblockSiteTitle": {
     "message": "Bu sitenin engelini kaldır"
   },
-  "popup_details": {
-    "message": "Details"
-  },
-  "popup_pageURLLabel": {
-    "message": "Page URL"
-  },
-  "popup_pathDepth": {
-    "message": "Depth"
-  },
-  "popup_addedRulesLabel": {
-    "message": "Rules to be added"
-  },
-  "popup_removedRulesLabel": {
-    "message": "Rules to be removed"
-  },
-  "popup_blockSiteButton": {
-    "message": "Block"
-  },
-  "popup_unblockSiteButton": {
-    "message": "Unblock"
-  },
-  "popup_siteBlockedBySubscription": {
-    "message": "Blocked by $NAME$",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    }
-  },
-  "options_generalTitle": {
-    "message": "General"
-  },
   "options_blacklistLabel": {
     "message": "Google arama sonuçlarında görünmesi engellenen siteler"
   },
   "options_blacklistHelper": {
-    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">düzenli ifadeler</a> kullanabilirsiniz."
+    "message": "<a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">Eşleşme desenleri</a> veya <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">düzenli ifadeler</a> kullanabilirsiniz."
   },
   "options_importBlacklistButton": {
     "message": "Personal Blocklist'ten içe aktar"
-  },
-  "options_saveBlacklistButton": {
-    "message": "Save"
   },
   "options_importBlacklistDialog_title": {
     "message": "Personal Blocklist'ten içe aktar"
@@ -104,88 +58,13 @@
   "options_importBlacklistDialog_importButton": {
     "message": "İçe aktar"
   },
-  "options_hideBlockSiteLinksLabel": {
-    "message": "Hide the \"Block this site\" links"
-  },
-  "options_syncTitle": {
-    "message": "Sync"
-  },
-  "options_syncFeature": {
-    "message": "Google Drive ile senkronize et"
-  },
-  "options_syncFeatureDescription": {
-    "message": "Senkronizasyonu etkinleştirirseniz, Google Drive'ınızda 'uBlacklist.txt' adlı bir dosya oluşturulur ve yerel kara listenizle senkronize edilir."
-  },
   "options_turnOnSync": {
     "message": "Senkronizasyonu etkinleştir"
   },
-  "options_syncTurnedOn": {
-    "message": "Synced with Google Drive"
+  "clouds_googleDriveSync": {
+    "message": "Google Drive ile senkronize et"
   },
-  "options_turnOffSync": {
-    "message": "Turn off"
-  },
-  "options_syncResult": {
-    "message": "Last sync"
-  },
-  "options_syncNever": {
-    "message": "Never synced"
-  },
-  "options_syncRunning": {
-    "message": "Syncing..."
-  },
-  "options_syncNowButton": {
-    "message": "Sync now"
-  },
-  "options_subscriptionTitle": {
-    "message": "Subscription"
-  },
-  "options_subscriptionFeature": {
-    "message": "Subscribe to blacklists"
-  },
-  "options_subscriptionFeatureDescription": {
-    "message": "If you add a subscription, a blacklist will be regularly downloaded from the specified URL."
-  },
-  "options_addSubscriptionButton": {
-    "message": "Add subscription"
-  },
-  "options_subscriptionNameHeader": {
-    "message": "Name"
-  },
-  "options_subscriptionURLHeader": {
-    "message": "URL"
-  },
-  "options_subscriptionUpdateResultHeader": {
-    "message": "Last update"
-  },
-  "options_showSubscriptionMenu": {
-    "message": "Show"
-  },
-  "options_updateSubscriptionNowMenu": {
-    "message": "Update now"
-  },
-  "options_removeSubscriptionMenu": {
-    "message": "Remove"
-  },
-  "options_noSubscriptionsAdded": {
-    "message": "No subscriptions added"
-  },
-  "options_subscriptionUpdateRunning": {
-    "message": "Updating..."
-  },
-  "options_updateAllSubscriptionsNowButton": {
-    "message": "Update now"
-  },
-  "options_addSubscriptionDialog_title": {
-    "message": "Add a subscription"
-  },
-  "options_addSubscriptionDialog_nameLabel": {
-    "message": "Name"
-  },
-  "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL"
-  },
-  "options_addSubscriptionDialog_addButton": {
-    "message": "Add"
+  "clouds_dropboxSync": {
+    "message": "Dropbox ile senkronize et"
   }
 }

@@ -2,12 +2,10 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const ENGINE_IDS = ['duckduckgo', 'startpage'];
 
 const browser = process.env.BROWSER || 'chrome';
 const env = process.env.NODE_ENV || 'development';
+
 const ifdefLoader = {
   loader: 'ifdef-loader',
   options: {
@@ -23,20 +21,9 @@ module.exports = {
   entry: {
     'manifest.json': './manifest.json.js',
     'scripts/background': './scripts/background.ts',
-    'scripts/engines/google': './scripts/engines/google.ts',
-    'scripts/content': './scripts/content.ts',
+    'scripts/content-script': './scripts/content-script.ts',
     'scripts/options': './scripts/options.ts',
     'scripts/popup': './scripts/popup.ts',
-    'styles/content': './styles/content.scss',
-    'styles/engines/google': './styles/engines/google.scss',
-    'styles/options': './styles/options.scss',
-    'styles/popup': './styles/popup.scss',
-    ...Object.fromEntries(
-      ENGINE_IDS.flatMap(engineId => [
-        [`scripts/engines/${engineId}`, `./scripts/engines/${engineId}.ts`],
-        [`styles/engines/${engineId}`, `./styles/engines/${engineId}.scss`],
-      ]),
-    ),
   },
   mode: env,
   module: {
@@ -59,39 +46,14 @@ module.exports = {
         use: ['url-loader'],
       },
       {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                outputStyle: 'expanded',
-              },
-              sourceMap: true,
-            },
-          },
-          ifdefLoader,
-        ],
-      },
-      {
         test: /\.svg(\?.*)?$/,
         use: ['url-loader', 'svg-transform-loader'],
       },
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         use: ['ts-loader', ifdefLoader],
       },
     ],
-  },
-  optimization: {
-    minimize: false,
   },
   output: {
     filename: '[name].js',
@@ -102,7 +64,7 @@ module.exports = {
       patterns: ['./_locales/**/*', './images/**/*', './scripts/**/*.js', './**/*.html'],
     }),
     new FixStyleOnlyEntriesPlugin({
-      extensions: ['json.js', 'scss'],
+      extensions: ['json.js'],
       silent: true,
     }),
     new LicenseCheckerWebpackPlugin({
@@ -112,12 +74,9 @@ module.exports = {
         },
       },
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-    }),
   ],
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   stats: {
     children: false,

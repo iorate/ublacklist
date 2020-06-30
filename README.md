@@ -14,32 +14,33 @@ To publish a blacklist as a subscription, place a blacklist file encoded in UTF-
 ## For developers
 
 ### Build
-To build this extension, [Node.js](https://nodejs.org/en/) is required.
+To build this extension, [Node.js](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/en/) are required.
 
 ```shell
 git clone https://github.com/iorate/uBlacklist.git
 
 cd uBlacklist
 
-npm ci
+yarn
 
-npm run build:firefox:production
+yarn build:firefox:production
 ```
 
 ### Engine
 To add support for a search engine other than Google,
 
-1. Create `src/scripts/engines/${engineId}.ts` and define `window.ubContentHandlers` referring to `src/scripts/content-handlers.ts`.
-1. Create `src/styles/engines/${engineId}.scss` and define styles.
-1. Open `src/scripts/engines.ts` and update `ENGINES`.
-1. Open `webpack.config.js` and update `ENGINE_IDS`.
+1. Determine a search engine ID.
+1. Create `src/scripts/search-engines/${searchEngineId}.ts` and export an object of type `SearchEngine`.
+1. Open `src/scripts/types.ts` and update `SearchEngineId`.
+1. Open `src/scripts/supported-search-engine.ts` and update `supportedSearchEngines`.
 
 ### Locale
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/_locales/en/messages.json` to `src/_locales/${languageCode}/messages.json` and translate `message` entries.
-1. If necessary, open `src/scripts/dayjs-locales.ts` and import a dayjs locale.
+1. Copy `src/_locales/en/messages.json` to `src/_locales/${languageCode}/messages.json` and translate entries.
+1. If you translated `dayjsLocale`, open `src/scripts/dayjs-locales.ts` and update imports.
+1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files.
 
 ## Author
 [iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))

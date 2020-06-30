@@ -1,9 +1,10 @@
+import dayjs from 'dayjs';
 import { ErrorResult, Result, SuccessResult } from './types';
 
 export class AltURL {
-  scheme: string;
-  host: string;
-  path: string;
+  readonly scheme: string;
+  readonly host: string;
+  readonly path: string;
 
   constructor(url: string) {
     const u = new URL(url);
@@ -17,30 +18,30 @@ export class AltURL {
   }
 }
 
+export class HTTPError extends Error {
+  constructor(readonly status: number, readonly statusText: string) {
+    super(`${status}${statusText ? ' ' : ''}${statusText}`);
+  }
+}
+
 // #region MatchPattern
-const enum SchemeMatch {
-  Any,
-  Exact,
-}
+type SchemePattern = { type: 'any' } | { type: 'exact'; exact: string };
 
-const enum HostMatch {
-  Any,
-  Partial,
-  Exact,
-}
+type HostPattern =
+  | { type: 'any' }
+  | { type: 'domain'; domain: string }
+  | { type: 'exact'; exact: string };
 
-const enum PathMatch {
-  Any,
-  PartialOrExact,
-}
+type PathPattern =
+  | { type: 'any' }
+  | { type: 'prefix'; prefix: string }
+  | { type: 'exact'; exact: string }
+  | { type: 'regExp'; regExp: RegExp };
 
 export class MatchPattern {
-  private schemeMatch: SchemeMatch;
-  private scheme?: string;
-  private hostMatch: HostMatch;
-  private host?: string;
-  private pathMatch: PathMatch;
-  private path?: RegExp;
+  private readonly schemePattern: SchemePattern;
+  private readonly hostPattern: HostPattern;
+  private readonly pathPattern: PathPattern;
 
   constructor(mp: string) {
     const m = /^(\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*)$/.exec(mp);
@@ -49,51 +50,68 @@ export class MatchPattern {
     }
     const [, scheme, host, path] = m;
     if (scheme === '*') {
-      this.schemeMatch = SchemeMatch.Any;
+      this.schemePattern = { type: 'any' };
     } else {
-      this.schemeMatch = SchemeMatch.Exact;
-      this.scheme = scheme;
+      this.schemePattern = { type: 'exact', exact: scheme };
     }
     if (host === '*') {
-      this.hostMatch = HostMatch.Any;
+      this.hostPattern = { type: 'any' };
     } else if (host.startsWith('*.')) {
-      this.hostMatch = HostMatch.Partial;
-      this.host = host.slice(2);
+      this.hostPattern = { type: 'domain', domain: host.slice(2) };
     } else {
-      this.hostMatch = HostMatch.Exact;
-      this.host = host;
+      this.hostPattern = { type: 'exact', exact: host };
     }
     if (path === '/*') {
-      this.pathMatch = PathMatch.Any;
+      this.pathPattern = { type: 'any' };
     } else {
-      this.pathMatch = PathMatch.PartialOrExact;
-      this.path = new RegExp(
-        `^${path.replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*')}$`,
-      );
+      const wildcardIndex = path.indexOf('*');
+      if (wildcardIndex === path.length - 1) {
+        this.pathPattern = { type: 'prefix', prefix: path.slice(0, -1) };
+      } else if (wildcardIndex === -1) {
+        this.pathPattern = { type: 'exact', exact: path };
+      } else {
+        this.pathPattern = {
+          type: 'regExp',
+          regExp: new RegExp(
+            `^${path.replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*?')}$`,
+          ),
+        };
+      }
     }
   }
 
   test(url: AltURL): boolean {
-    if (this.hostMatch === HostMatch.Partial) {
-      if (url.host !== this.host! && !url.host.endsWith(`.${this.host!}`)) {
+    if (this.hostPattern.type === 'domain') {
+      if (
+        url.host !== this.hostPattern.domain &&
+        !url.host.endsWith(`.${this.hostPattern.domain}`)
+      ) {
         return false;
       }
-    } else if (this.hostMatch === HostMatch.Exact) {
-      if (url.host !== this.host!) {
+    } else if (this.hostPattern.type === 'exact') {
+      if (url.host !== this.hostPattern.exact) {
         return false;
       }
     }
-    if (this.schemeMatch === SchemeMatch.Any) {
+    if (this.schemePattern.type === 'any') {
       if (url.scheme !== 'http' && url.scheme !== 'https') {
         return false;
       }
     } else {
-      if (url.scheme !== this.scheme!) {
+      if (url.scheme !== this.schemePattern.exact) {
         return false;
       }
     }
-    if (this.pathMatch === PathMatch.PartialOrExact) {
-      if (!this.path!.test(url.path)) {
+    if (this.pathPattern.type === 'prefix') {
+      if (!url.path.startsWith(this.pathPattern.prefix)) {
+        return false;
+      }
+    } else if (this.pathPattern.type === 'exact') {
+      if (url.path !== this.pathPattern.exact) {
+        return false;
+      }
+    } else if (this.pathPattern.type === 'regExp') {
+      if (!this.pathPattern.regExp.test(url.path)) {
         return false;
       }
     }
@@ -121,7 +139,7 @@ export class Mutex {
   }
 
   private async dequeue(): Promise<void> {
-    if (this.queue.length === 0) {
+    if (!this.queue.length) {
       return;
     }
     await this.queue[0]();
@@ -149,20 +167,12 @@ export function errorResult(message: string): ErrorResult {
 export function successResult(): SuccessResult {
   return {
     type: 'success',
-    timestamp: new Date().toISOString(),
+    timestamp: dayjs().toISOString(),
   };
 }
 // #endregion Result
 
 // #region string
-export function escapeHTML(s: string): string {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
 export function lines(s: string): string[] {
   return s ? s.split('\n') : [];
 }

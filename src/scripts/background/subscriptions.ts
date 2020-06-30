@@ -1,33 +1,34 @@
-import { apis } from '../apis';
 import * as LocalStorage from '../local-storage';
 import { postMessage } from '../messages';
 import { Subscription, SubscriptionId } from '../types';
-import { Mutex, errorResult, successResult } from '../utilities';
+import { HTTPError, Mutex, errorResult, successResult } from '../utilities';
 
 const mutex = new Mutex();
 const updating = new Set<SubscriptionId>();
 
-export async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {
+export async function add(
+  subscription: Subscription,
+): Promise<{ id: SubscriptionId; single: boolean }> {
   return await mutex.lock(async () => {
-    const { subscriptions, nextSubscriptionId: id } = await LocalStorage.load(
+    const { subscriptions, nextSubscriptionId: id } = await LocalStorage.load([
       'subscriptions',
       'nextSubscriptionId',
-    );
+    ]);
     subscriptions[id] = subscription;
     await LocalStorage.store({ subscriptions, nextSubscriptionId: id + 1 });
-    return id;
+    return { id, single: Object.keys(subscriptions).length === 1 };
   });
 }
 
-export async function removeSubscription(id: SubscriptionId): Promise<void> {
+export async function remove(id: SubscriptionId): Promise<void> {
   await mutex.lock(async () => {
-    const { subscriptions } = await LocalStorage.load('subscriptions');
+    const { subscriptions } = await LocalStorage.load(['subscriptions']);
     delete subscriptions[id];
     await LocalStorage.store({ subscriptions });
   });
 }
 
-export async function updateSubscription(id: SubscriptionId): Promise<void> {
+export async function update(id: SubscriptionId): Promise<void> {
   if (updating.has(id)) {
     return;
   }
@@ -37,7 +38,7 @@ export async function updateSubscription(id: SubscriptionId): Promise<void> {
     // Don't lock now.
     const {
       subscriptions: { [id]: subscription },
-    } = await LocalStorage.load('subscriptions');
+    } = await LocalStorage.load(['subscriptions']);
     if (!subscription) {
       return;
     }
@@ -48,14 +49,16 @@ export async function updateSubscription(id: SubscriptionId): Promise<void> {
         subscription.blacklist = await response.text();
         subscription.updateResult = successResult();
       } else {
-        subscription.updateResult = errorResult(response.statusText);
+        subscription.updateResult = errorResult(
+          new HTTPError(response.status, response.statusText).message,
+        );
       }
     } catch (e) {
       subscription.updateResult = errorResult(e.message);
     }
     // Lock now.
     await mutex.lock(async () => {
-      const { subscriptions } = await LocalStorage.load('subscriptions');
+      const { subscriptions } = await LocalStorage.load(['subscriptions']);
       // 'subscriptions[id]' may be already removed.
       if (subscriptions[id]) {
         subscriptions[id] = subscription;
@@ -68,15 +71,13 @@ export async function updateSubscription(id: SubscriptionId): Promise<void> {
   }
 }
 
-export async function updateSubscriptions(): Promise<void> {
+export async function updateAll(): Promise<{ interval: number | null }> {
   // Don't lock now.
-  const { subscriptions, updateInterval } = await LocalStorage.load(
+  const { subscriptions, updateInterval } = await LocalStorage.load([
     'subscriptions',
     'updateInterval',
-  );
+  ]);
   const ids = Object.keys(subscriptions).map(Number);
-  await Promise.all(ids.map(updateSubscription));
-  if (ids.length) {
-    apis.alarms.create('update-subscriptions', { delayInMinutes: updateInterval });
-  }
+  await Promise.all(ids.map(update));
+  return { interval: ids.length ? updateInterval : null };
 }

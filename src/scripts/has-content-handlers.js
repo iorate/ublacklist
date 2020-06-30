@@ -1,1 +1,0 @@
-window.ubContentHandlers !== undefined;

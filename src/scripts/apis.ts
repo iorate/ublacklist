@@ -24,21 +24,7 @@ export namespace apis {
   }
 
   export namespace identity {
-    export type TokenDetails = chrome.identity.TokenDetails;
     export type WebAuthFlowOptions = chrome.identity.WebAuthFlowOptions;
-
-    // NOTE: Chromium-based browsers other than Chrome may not implement 'chrome.i18n.getAuthToken'.
-    export function getAuthToken(details: TokenDetails): Promise<string> {
-      return new Promise<string>((resolve, reject) => {
-        chrome.identity.getAuthToken(details, token => {
-          if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else {
-            resolve(token);
-          }
-        });
-      });
-    }
 
     export function getRedirectURL(path?: string): string {
       return chrome.identity.getRedirectURL(path);
@@ -117,6 +103,16 @@ export namespace apis {
       ): void {
         chrome.runtime.onMessage.addListener(callback);
       },
+
+      removeListener(
+        callback: (
+          message: unknown,
+          sender: MessageSender,
+          sendResponse: (response: unknown) => void | boolean,
+        ) => void,
+      ): void {
+        chrome.runtime.onMessage.removeListener(callback);
+      },
     };
 
     export const onStartup = {
@@ -127,6 +123,8 @@ export namespace apis {
   }
 
   export namespace storage {
+    export type StorageChange = chrome.storage.StorageChange;
+
     export const local = {
       get(
         keys: string | string[] | Record<string, unknown> | null,
@@ -152,6 +150,20 @@ export namespace apis {
             }
           });
         });
+      },
+    };
+
+    export const onChanged = {
+      addListener(
+        listener: (changes: Record<string, StorageChange>, areaName: string) => void,
+      ): void {
+        chrome.storage.onChanged.addListener(listener);
+      },
+
+      removeListener(
+        listener: (changes: Record<string, StorageChange>, areaName: string) => void,
+      ): void {
+        chrome.storage.onChanged.removeListener(listener);
       },
     };
   }

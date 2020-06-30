@@ -72,14 +72,6 @@
   "popup_unblockSiteButton": {
     "message": "移除"
   },
-  "popup_siteBlockedBySubscription": {
-    "message": "通过 $NAME$ 禁止。",
-    "placeholders": {
-      "name": {
-        "content": "$1"
-      }
-    }
-  },
   "options_generalTitle": {
     "message": "一般"
   },
@@ -87,7 +79,7 @@
     "message": "以下网站将不会显示在 Google 的搜索结果中："
   },
   "options_blacklistHelper": {
-    "message": "你可以使用 <a href=\"https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">正则表达式</a>。"
+    "message": "你可以使用 <a href=\"https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">正则表达式</a>。"
   },
   "options_importBlacklistButton": {
     "message": "从 Personal Blocklist 导入网站黑名单"
@@ -110,29 +102,20 @@
   "options_otherSearchEnginesDescription": {
     "message": "当前还支持以下搜索引擎（需要手动开启，并同意读取和更改网页数据）"
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "启用"
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "已启用"
   },
-  "options_hideBlockSiteLinksLabel": {
+  "options_hideBlockLinksLabel": {
     "message": "不在搜索结果中显示「加入黑名单」连接"
   },
   "options_syncTitle": {
     "message": "同步"
   },
-  "options_syncFeature": {
-    "message": "使用 Google Drive 同步"
-  },
-  "options_syncFeatureDescription": {
-    "message": "如果你开启了同步功能，将会在你的 Google Drive 中创建一个「uBlacklist.txt」的文件，保存并同步你的网站黑名单列表。"
-  },
   "options_turnOnSync": {
     "message": "开启同步"
-  },
-  "options_syncTurnedOn": {
-    "message": "已开启使用 Google Drive 同步"
   },
   "options_turnOffSync": {
     "message": "关闭同步"
@@ -199,5 +182,17 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "添加"
+  },
+  "clouds_googleDriveSync": {
+    "message": "使用 Google Drive 同步"
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "已开启使用 Google Drive 同步"
+  },
+  "clouds_dropboxSync": {
+    "message": "使用 Dropbox 同步"
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "已开启使用 Dropbox 同步"
   }
 }

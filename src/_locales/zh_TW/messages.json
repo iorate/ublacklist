@@ -87,7 +87,7 @@
     "message": "在 Google 搜尋結果中被封鎖的網站"
   },
   "options_blacklistHelper": {
-    "message": "您可以使用 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" target=\"_blank\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" target=\"_blank\">正規表達式</a>。"
+    "message": "您可以使用 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns\" noopener noreferrer target=\"_blank\">匹配模式</a> 或 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions\" noopener noreferrer target=\"_blank\">正規表達式</a>。"
   },
   "options_importBlacklistButton": {
     "message": "匯入個人封鎖清單"
@@ -110,29 +110,20 @@
   "options_otherSearchEnginesDescription": {
     "message": "你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站"
   },
-  "options_enableOnSearchEngine": {
+  "options_registerSearchEngine": {
     "message": "啟用"
   },
-  "options_enabledOnSearchEngine": {
+  "options_searchEngineRegistered": {
     "message": "已啟用"
   },
-  "options_hideBlockSiteLinksLabel": {
+  "options_hideBlockLinksLabel": {
     "message": "隱藏「封鎖這個網站」的連結"
   },
   "options_syncTitle": {
     "message": "同步"
   },
-  "options_syncFeature": {
-    "message": "與 Google Drive 同步"
-  },
-  "options_syncFeatureDescription": {
-    "message": "如果您啟用同步，將在您的 Google Drive 建立名為「uBlacklist.txt」的檔案，並與您本地端的黑名單同步。"
-  },
   "options_turnOnSync": {
     "message": "啟用同步"
-  },
-  "options_syncTurnedOn": {
-    "message": "已與 Google Drive 同步"
   },
   "options_turnOffSync": {
     "message": "關閉"
@@ -199,5 +190,17 @@
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "加入"
+  },
+  "clouds_googleDriveSync": {
+    "message": "與 Google Drive 同步"
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "已與 Google Drive 同步"
+  },
+  "clouds_dropboxSync": {
+    "message": "與 Dropbox 同步"
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "已與 Dropbox 同步"
   }
 }

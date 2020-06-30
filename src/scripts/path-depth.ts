@@ -1,9 +1,9 @@
 import { AltURL } from './utilities';
 
 export class PathDepth {
-  private scheme: string;
-  private host: string;
-  private dirs: string[];
+  private readonly scheme: string;
+  private readonly host: string;
+  private readonly dirs: string[];
 
   constructor(url: AltURL) {
     this.scheme = url.scheme;

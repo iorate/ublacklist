@@ -2,7 +2,7 @@ import { apis } from './apis';
 import { Blacklist, BlacklistPatch } from './blacklist';
 import { PathDepth } from './path-depth';
 import { AltURL } from './utilities';
-import style from '!!css-loader!sass-loader!../styles/block-form.scss';
+import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/block-form.scss';
 
 export class BlockForm {
   private blacklist: Blacklist | null = null;
@@ -15,7 +15,7 @@ export class BlockForm {
     this.root = host.attachShadow({ mode: 'open' });
     this.root.innerHTML = `
 <style>
-  ${style.toString()}
+  ${style}
 </style>
 <div class="block-form">
   <h1 id="title" class="title block-form__title"></h1>
