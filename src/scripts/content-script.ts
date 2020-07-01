@@ -6,6 +6,7 @@ import dialogPolyfill from 'dialog-polyfill';
 // #if CHROMIUM
 */
 // #endif
+import mobile from 'is-mobile';
 import { apis } from './apis';
 import { Blacklist } from './blacklist';
 import { BlockForm } from './block-form';
@@ -13,7 +14,7 @@ import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
 import { AltURL, MatchPattern } from './utilities';
-import { SearchEngine, SearchEngineId } from './types';
+import { SearchEngineHandlers } from './types';
 import contentScriptStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/content-script.scss';
 
 let blacklist: Blacklist | null = null;
@@ -50,8 +51,8 @@ function onBlacklistUpdated(): void {
   updateControl();
 }
 
-function onDOMContentLoaded(searchEngine: SearchEngine): void {
-  for (const controlHandler of searchEngine.controlHandlers) {
+function onDOMContentLoaded(handlers: SearchEngineHandlers): void {
+  for (const controlHandler of handlers.controlHandlers) {
     const control = controlHandler.createControl();
     if (!control) {
       continue;
@@ -113,8 +114,8 @@ function onDOMContentLoaded(searchEngine: SearchEngine): void {
   }
 }
 
-function onElementAdded(searchEngine: SearchEngine, addedElement: HTMLElement): void {
-  for (const entryHandler of searchEngine.entryHandlers) {
+function onElementAdded(addedElement: HTMLElement, handlers: SearchEngineHandlers): void {
+  for (const entryHandler of handlers.entryHandlers) {
     const entry = entryHandler.getEntry(addedElement);
     if (!entry || entry.hasAttribute('data-ub-url')) {
       continue;
@@ -248,14 +249,18 @@ function main(): void {
     onOptionsLoaded(options);
   })();
 
-  let searchEngine: SearchEngine | null = null;
   const url = new AltURL(window.location.href);
-  for (const id of Object.keys(supportedSearchEngines) as SearchEngineId[]) {
-    if (supportedSearchEngines[id].matches.some(match => new MatchPattern(match).test(url))) {
-      searchEngine = supportedSearchEngines[id];
-    }
-  }
+  const searchEngine = Object.values(supportedSearchEngines).find(searchEngine =>
+    searchEngine.matches.some(match => new MatchPattern(match).test(url)),
+  );
   if (!searchEngine) {
+    return;
+  }
+  const handlers = searchEngine.getHandlers(
+    window.location.href,
+    mobile({ ua: window.navigator.userAgent, tablet: true }),
+  );
+  if (!handlers) {
     return;
   }
 
@@ -273,8 +278,10 @@ function main(): void {
   };
   insertStyles();
 
-  for (const addedElement of searchEngine.getAddedElements()) {
-    onElementAdded(searchEngine, addedElement);
+  if (handlers.getAddedElements) {
+    for (const addedElement of handlers.getAddedElements()) {
+      onElementAdded(addedElement, handlers);
+    }
   }
   new MutationObserver(records => {
     insertStyles();
@@ -285,9 +292,11 @@ function main(): void {
           // #if DEBUG
           console.debug(addedNode.cloneNode(true));
           // #endif
-          onElementAdded(searchEngine!, addedNode);
-          for (const silentlyAddedElement of searchEngine!.getSilentlyAddedElements(addedNode)) {
-            onElementAdded(searchEngine!, silentlyAddedElement);
+          onElementAdded(addedNode, handlers);
+          if (handlers.getSilentlyAddedElements) {
+            for (const silentlyAddedElement of handlers.getSilentlyAddedElements(addedNode)) {
+              onElementAdded(silentlyAddedElement, handlers);
+            }
           }
         }
       }
@@ -296,10 +305,10 @@ function main(): void {
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      onDOMContentLoaded(searchEngine!);
+      onDOMContentLoaded(handlers);
     });
   } else {
-    onDOMContentLoaded(searchEngine);
+    onDOMContentLoaded(handlers);
   }
 }
 

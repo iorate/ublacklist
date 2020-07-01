@@ -63,16 +63,18 @@ export type EntryHandler = {
   adjustEntry?(entry: HTMLElement): void;
 };
 
+export type SearchEngineHandlers = {
+  controlHandlers: ControlHandler[];
+  entryHandlers: EntryHandler[];
+  getAddedElements?(): HTMLElement[];
+  getSilentlyAddedElements?(addedElement: HTMLElement): HTMLElement[];
+};
+
 export type SearchEngine = {
   matches: string[];
   messageNames: { name: string };
-
-  controlHandlers: ControlHandler[];
-  entryHandlers: EntryHandler[];
-  getAddedElements(): HTMLElement[];
-  getSilentlyAddedElements(addedElement: HTMLElement): HTMLElement[];
-
   style: string;
+  getHandlers(url: string, mobile: boolean): SearchEngineHandlers | null;
 };
 
 export type SearchEngines = Record<SearchEngineId, SearchEngine>;

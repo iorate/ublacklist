@@ -20,39 +20,35 @@ export const duckduckgo: SearchEngine = {
     '*://start.duckduckgo.com//',
     '*://start.duckduckgo.com/?*',
   ],
-
   messageNames: {
     name: 'searchEngines_duckduckgoName',
   },
-
-  controlHandlers: [
-    {
-      createControl: (): HTMLElement | null => {
-        const message = document.getElementById('message');
-        if (!message) {
-          return null;
-        }
-        const control = document.createElement('div');
-        control.className = 'ub-web-control msg';
-        message.insertBefore(control, message.firstChild);
-        return control;
-      },
-      adjustControl: adjustButtons,
-    },
-  ],
-
-  entryHandlers: [
-    {
-      getEntry: getEntry('.result:not(.result--ad):not(.result--news)'),
-      getURL: getURL('.result__a'),
-      createAction: createAction('ub-web-general-action', '.result__body'),
-      adjustEntry: adjustButtons,
-    },
-  ],
-
-  getAddedElements: getAddedElements('.result'),
-
-  getSilentlyAddedElements: () => [],
-
   style: duckduckgoStyle,
+
+  getHandlers: () => ({
+    controlHandlers: [
+      {
+        createControl: (): HTMLElement | null => {
+          const message = document.getElementById('message');
+          if (!message) {
+            return null;
+          }
+          const control = document.createElement('div');
+          control.className = 'ub-web-control msg';
+          message.insertBefore(control, message.firstChild);
+          return control;
+        },
+        adjustControl: adjustButtons,
+      },
+    ],
+    entryHandlers: [
+      {
+        getEntry: getEntry('.result:not(.result--ad):not(.result--news)'),
+        getURL: getURL('.result__a'),
+        createAction: createAction('ub-web-general-action', '.result__body'),
+        adjustEntry: adjustButtons,
+      },
+    ],
+    getAddedElements: getAddedElements('.result'),
+  }),
 };
