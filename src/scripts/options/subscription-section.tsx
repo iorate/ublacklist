@@ -145,8 +145,8 @@ type ManageSubscriptionProps = {
   id: SubscriptionId;
   subscription: Subscription;
   setSubscriptions(update: (subscriptions: Subscriptions) => Subscriptions): void;
-  setShowDialogOpen(open: boolean): void;
-  setShowDialogSubscription(subscription: Subscription | null): void;
+  setShowSubscriptionDialogOpen(open: boolean): void;
+  setShowSubscriptionDialogSubscription(subscription: Subscription | null): void;
 };
 
 const ManageSubscription: React.FC<Readonly<ManageSubscriptionProps>> = props => {
@@ -205,8 +205,8 @@ const ManageSubscription: React.FC<Readonly<ManageSubscriptionProps>> = props =>
                   if (!subscriptions[props.id]) {
                     return;
                   }
-                  props.setShowDialogOpen(true);
-                  props.setShowDialogSubscription(subscriptions[props.id]);
+                  props.setShowSubscriptionDialogOpen(true);
+                  props.setShowSubscriptionDialogSubscription(subscriptions[props.id]);
                 }}
               >
                 {chrome.i18n.getMessage('options_showSubscriptionMenu')}
@@ -296,8 +296,8 @@ export const ManageSubscriptions: React.FC = () => {
                   id={Number(id)}
                   subscription={subscription}
                   setSubscriptions={setSubscriptions}
-                  setShowDialogOpen={setShowSubscriptionDialogOpen}
-                  setShowDialogSubscription={setShowSubscriptionDialogSubscription}
+                  setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
+                  setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
                 />
               ))}
           </tbody>
