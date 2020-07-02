@@ -88,8 +88,16 @@ export namespace apis {
       });
     }
 
-    export function openOptionsPage(): void {
-      chrome.runtime.openOptionsPage();
+    export function openOptionsPage(): Promise<void> {
+      return new Promise<void>((resolve, reject) => {
+        chrome.runtime.openOptionsPage(() => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve();
+          }
+        });
+      });
     }
 
     export function sendMessage(message: unknown): Promise<unknown> {
