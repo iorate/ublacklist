@@ -46,13 +46,17 @@ async function updateAllSubscriptions(): Promise<void> {
 }
 
 function main() {
-  apis.runtime.onInstalled.addListener(async () => {
+  apis.runtime.onInstalled.addListener(details => {
     syncBlacklist();
     updateAllSubscriptions();
-    // When sync was turned on in version <= 3, notify that sync has been updated.
-    const { sync } = await LocalStorage.load(['sync']);
-    if (sync) {
-      apis.runtime.openOptionsPage();
+    if (details.reason === 'update') {
+      // When sync was turned on in version <= 3, notify that sync has been updated.
+      (async () => {
+        const { sync } = await LocalStorage.load(['sync']);
+        if (sync) {
+          await apis.runtime.openOptionsPage();
+        }
+      })();
     }
   });
 
