@@ -45,39 +45,43 @@ async function updateAllSubscriptions(): Promise<void> {
   }
 }
 
-apis.runtime.onInstalled.addListener(async () => {
-  syncBlacklist();
-  updateAllSubscriptions();
-  // When sync was turned on in version <= 3, notify that sync has been updated.
-  const { sync } = await LocalStorage.load(['sync']);
-  if (sync) {
-    apis.runtime.openOptionsPage();
-  }
-});
-
-apis.runtime.onStartup.addListener(() => {
-  syncBlacklist();
-  updateAllSubscriptions();
-});
-
-apis.alarms.onAlarm.addListener(alarm => {
-  if (alarm.name === SYNC_BLACKLIST_ALARM_NAME) {
+function main() {
+  apis.runtime.onInstalled.addListener(async () => {
     syncBlacklist();
-  } else if (alarm.name === UPDATE_ALL_SUBSCRIPTIONS_ALARM_NAME) {
     updateAllSubscriptions();
-  }
-});
+    // When sync was turned on in version <= 3, notify that sync has been updated.
+    const { sync } = await LocalStorage.load(['sync']);
+    if (sync) {
+      apis.runtime.openOptionsPage();
+    }
+  });
 
-SearchEngines.registerAll();
+  apis.runtime.onStartup.addListener(() => {
+    syncBlacklist();
+    updateAllSubscriptions();
+  });
 
-addMessageListeners({
-  'set-blacklist': setBlacklist,
-  'sync-blacklist': syncBlacklist,
-  'connect-to-cloud': connectToCloud,
-  'disconnect-from-cloud': Clouds.disconnect,
-  'add-subscription': addSubscription,
-  'register-search-engine': SearchEngines.register,
-  'remove-subscription': Subscriptions.remove,
-  'update-subscription': Subscriptions.update,
-  'update-all-subscriptions': updateAllSubscriptions,
-});
+  apis.alarms.onAlarm.addListener(alarm => {
+    if (alarm.name === SYNC_BLACKLIST_ALARM_NAME) {
+      syncBlacklist();
+    } else if (alarm.name === UPDATE_ALL_SUBSCRIPTIONS_ALARM_NAME) {
+      updateAllSubscriptions();
+    }
+  });
+
+  addMessageListeners({
+    'set-blacklist': setBlacklist,
+    'sync-blacklist': syncBlacklist,
+    'connect-to-cloud': connectToCloud,
+    'disconnect-from-cloud': Clouds.disconnect,
+    'add-subscription': addSubscription,
+    'register-search-engine': SearchEngines.register,
+    'remove-subscription': Subscriptions.remove,
+    'update-subscription': Subscriptions.update,
+    'update-all-subscriptions': updateAllSubscriptions,
+  });
+
+  SearchEngines.registerAll();
+}
+
+main();
