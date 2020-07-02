@@ -10,6 +10,7 @@ export type Items = {
   nextSubscriptionId: SubscriptionId;
   skipBlockDialog: boolean;
   subscriptions: Subscriptions;
+  sync: boolean; // sync was turned on in version <= 3
   syncCloudId: CloudId | null;
   syncCloudToken: CloudToken | null;
   syncInterval: number;
@@ -26,6 +27,7 @@ const defaultItems: Items = {
   nextSubscriptionId: 0,
   skipBlockDialog: false,
   subscriptions: {},
+  sync: false,
   syncCloudId: null,
   syncCloudToken: null,
   syncInterval: 15,
@@ -42,6 +44,10 @@ export async function load<T extends (keyof Items)[]>(keys: T): Promise<ItemsFor
     defaultItemsForKeys[key] = defaultItems[key];
   }
   return (await apis.storage.local.get(defaultItemsForKeys)) as ItemsFor<T>;
+}
+
+export async function loadAll(): Promise<Items> {
+  return (await apis.storage.local.get(defaultItems)) as Items;
 }
 
 export async function store<T extends Partial<Items>>(items: T): Promise<void> {

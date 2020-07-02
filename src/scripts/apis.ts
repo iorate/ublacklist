@@ -74,6 +74,23 @@ export namespace apis {
   export namespace runtime {
     export type InstalledDetails = chrome.runtime.InstalledDetails;
     export type MessageSender = chrome.runtime.MessageSender;
+    export type PlatformInfo = chrome.runtime.PlatformInfo;
+
+    export function getPlatformInfo(): Promise<PlatformInfo> {
+      return new Promise<PlatformInfo>((resolve, reject) => {
+        chrome.runtime.getPlatformInfo(platformInfo => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(platformInfo);
+          }
+        });
+      });
+    }
+
+    export function openOptionsPage(): void {
+      chrome.runtime.openOptionsPage();
+    }
 
     export function sendMessage(message: unknown): Promise<unknown> {
       return new Promise<unknown>((resolve, reject) => {

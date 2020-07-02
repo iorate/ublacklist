@@ -181,6 +181,10 @@
     "message": "Sync",
     "description": "The title of the sync section."
   },
+  "options_syncFeatureUpdated": {
+    "message": "The sync feature has been updated. To continue using sync, press the \"Turn on sync\" button.",
+    "description": "The text to indicate that the sync feature has been updated (version 3 -> 4)."
+  },
   "options_syncFeature": {
     "message": "Sync with a cloud",
     "description": "The sync feature."

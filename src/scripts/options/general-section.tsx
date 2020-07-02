@@ -5,9 +5,9 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
 import { lines } from '../utilities';
+import { Context } from './context';
 import { Dialog, DialogProps } from './dialog';
-import { InitialItems } from './initial-items';
-import { Section } from './section';
+import { Section, SectionItem } from './section';
 import { SetBooleanItem } from './set-boolean-item';
 
 type ImportBlacklistDialogProps = DialogProps & {
@@ -85,7 +85,7 @@ const ImportBlacklistDialog: React.FC<Readonly<ImportBlacklistDialogProps>> = pr
 };
 
 const SetBlacklist: React.FC = () => {
-  const { blacklist: initialBlacklist } = React.useContext(InitialItems);
+  const { blacklist: initialBlacklist } = React.useContext(Context).initialItems;
   const [blacklist, setBlacklist] = React.useState(initialBlacklist);
   const [blacklistDirty, setBlacklistDirty] = React.useState(false);
   const [latestBlacklist, setLatestBlacklist] = React.useState<string | null>(null);
@@ -100,7 +100,7 @@ const SetBlacklist: React.FC = () => {
     });
   }, []);
   return (
-    <>
+    <SectionItem>
       <div className="ub-row field">
         <p>{apis.i18n.getMessage('options_blacklistLabel')}</p>
         <p
@@ -189,7 +189,7 @@ const SetBlacklist: React.FC = () => {
         />,
         document.getElementById('importBlacklistDialogRoot')!,
       )}
-    </>
+    </SectionItem>
   );
 };
 
@@ -238,7 +238,7 @@ const RegisterSearchEngine: React.FC<Readonly<RegisterSearchEngineProps>> = prop
 
 const RegisterSearchEngines: React.FC = () => {
   return (
-    <>
+    <SectionItem>
       <div className="field">
         <p>{apis.i18n.getMessage('options_otherSearchEngines')}</p>
         <p className="has-text-grey">
@@ -257,7 +257,7 @@ const RegisterSearchEngines: React.FC = () => {
           )}
         </ul>
       </div>
-    </>
+    </SectionItem>
   );
 };
 

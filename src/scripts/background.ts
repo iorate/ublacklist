@@ -3,6 +3,7 @@ import * as Blacklist from './background/blacklist';
 import * as Clouds from './background/clouds';
 import * as SearchEngines from './background/search-engines';
 import * as Subscriptions from './background/subscriptions';
+import * as LocalStorage from './local-storage';
 import { SetBlacklistSource, addMessageListeners } from './messages';
 import { CloudId, Subscription, SubscriptionId } from './types';
 
@@ -44,14 +45,21 @@ async function updateAllSubscriptions(): Promise<void> {
   }
 }
 
-apis.runtime.onInstalled.addListener(() => {
+apis.runtime.onInstalled.addListener(async () => {
   syncBlacklist();
   updateAllSubscriptions();
+  // When sync was turned on in version <= 3, notify that sync has been updated.
+  const { sync } = await LocalStorage.load(['sync']);
+  if (sync) {
+    apis.runtime.openOptionsPage();
+  }
 });
+
 apis.runtime.onStartup.addListener(() => {
   syncBlacklist();
   updateAllSubscriptions();
 });
+
 apis.alarms.onAlarm.addListener(alarm => {
   if (alarm.name === SYNC_BLACKLIST_ALARM_NAME) {
     syncBlacklist();

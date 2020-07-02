@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ContextProvider } from './context';
 import { GeneralSection } from './general-section';
-import { InitialItemsProvider } from './initial-items';
 import { SubscriptionSection } from './subscription-section';
 import { SyncSection } from './sync-section';
 import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/options.scss';
 
 const Main: React.FC = () => (
-  <InitialItemsProvider>
+  <ContextProvider>
     <div className="ub-main">
       <GeneralSection />
       <SyncSection />
       <SubscriptionSection />
     </div>
-  </InitialItemsProvider>
+  </ContextProvider>
 );
 
 export function main(): void {

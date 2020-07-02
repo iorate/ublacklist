@@ -97,6 +97,13 @@ $title-weight: normal;
   vertical-align: middle;
 }
 
+// Sync
+.ub-notify-sync-updated-icon {
+  background: url('~@mdi/svg/svg/alert.svg?fill=%237a7a7a') center no-repeat;
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
 // Subscription
 .ub-subscription-name {
   width: 20%;

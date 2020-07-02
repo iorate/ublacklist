@@ -137,6 +137,9 @@
   "options_syncTitle": {
     "message": "同期"
   },
+  "options_syncFeatureUpdated": {
+    "message": "同期機能がアップデートされました。引き続き同期を使用するには、「同期を有効にする」ボタンを押して下さい。"
+  },
   "options_syncFeature": {
     "message": "クラウドと同期する"
   },

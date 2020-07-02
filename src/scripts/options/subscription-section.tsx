@@ -6,10 +6,10 @@ import * as LocalStorage from '../local-storage';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { AltURL, isErrorResult } from '../utilities';
+import { Context } from './context';
 import { Dialog, DialogProps } from './dialog';
 import { FromNow } from './from-now';
-import { InitialItems } from './initial-items';
-import { Section } from './section';
+import { Section, SectionItem } from './section';
 import { SetIntervalItem } from './set-interval-item';
 
 type AddSubscriptionDialogProps = DialogProps & {
@@ -241,7 +241,7 @@ const ManageSubscription: React.FC<Readonly<ManageSubscriptionProps>> = props =>
 };
 
 export const ManageSubscriptions: React.FC = () => {
-  const { subscriptions: initialSubscriptions } = React.useContext(InitialItems);
+  const { subscriptions: initialSubscriptions } = React.useContext(Context).initialItems;
   const [subscriptions, setSubscriptions] = React.useState(initialSubscriptions);
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = React.useState(false);
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = React.useState(false);
@@ -250,7 +250,7 @@ export const ManageSubscriptions: React.FC = () => {
     setShowSubscriptionDialogSubscription,
   ] = React.useState<Subscription | null>(null);
   return (
-    <>
+    <SectionItem>
       <div className="ub-row field is-grouped">
         <div className="control is-expanded">
           <p>{apis.i18n.getMessage('options_subscriptionFeature')}</p>
@@ -337,7 +337,7 @@ export const ManageSubscriptions: React.FC = () => {
         />,
         document.getElementById('showSubscriptionDialogRoot')!,
       )}
-    </>
+    </SectionItem>
   );
 };
 
