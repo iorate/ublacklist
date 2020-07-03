@@ -50,7 +50,7 @@ function main() {
     syncBlacklist();
     updateAllSubscriptions();
     if (details.reason === 'update') {
-      // When sync was turned on in version <= 3, notify that sync has been updated.
+      // If sync was turned on in version <= 3.8.4, notify that the sync feature has been updated.
       (async () => {
         const { sync } = await LocalStorage.load(['sync']);
         if (sync) {
