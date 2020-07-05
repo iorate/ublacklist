@@ -27,11 +27,9 @@
     "watch:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color --watch"
   },
   "devDependencies": {
-    "@hapi/joi": "^17.1.1",
     "@mdi/svg": "^5.3.45",
     "@types/chrome": "0.0.117",
     "@types/firefox-webext-browser": "^78.0.0",
-    "@types/hapi__joi": "^17.1.2",
     "@types/jest": "^26.0.0",
     "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
@@ -59,6 +57,7 @@
     "license-checker-webpack-plugin": "0.1.5",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
+    "poi-ts": "^0.1.0",
     "prettier": "^2.0.5",
     "raw-loader": "^4.0.1",
     "react": "^16.13.1",

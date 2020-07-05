@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import * as Poi from 'poi-ts';
 import dayjs from 'dayjs';
 import dayjsUTC from 'dayjs/plugin/utc';
 import { Cloud } from '../types';
@@ -91,17 +91,17 @@ export const dropbox: Cloud = {
     });
     if (response.ok) {
       const responseBody = await response.json();
-      Helpers.validate<{ id: string; client_modified: string }>(
-        responseBody,
-        Joi.object({ id: Joi.string().required(), client_modified: Joi.date().iso().required() }),
-      );
+      Poi.validate(responseBody, Poi.object({ id: Poi.string(), client_modified: Poi.string() }));
       return { id: responseBody.id, modifiedTime: dayjs(responseBody.client_modified) };
     } else if (response.status === 409) {
       const responseBody = await response.json();
-      Helpers.validate<{ error: { '.tag': 'path'; path: { '.tag': string } } }>(
+      Poi.validate(
         responseBody,
-        Joi.object({
-          error: Joi.object({ '.tag': Joi.string().valid('path'), path: { '.tag': Joi.string() } }),
+        Poi.object({
+          error: Poi.object({
+            '.tag': Poi.literal('path'),
+            path: Poi.object({ '.tag': Poi.string() }),
+          }),
         }),
       );
       if (responseBody.error.path['.tag'] === 'not_found') {

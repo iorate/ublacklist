@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import * as Poi from 'poi-ts';
 import dayjs from 'dayjs';
 import { Cloud } from '../types';
 import { HTTPError } from '../utilities';
@@ -96,17 +96,15 @@ ${content}\r
     const response = await fetch(requestURL.toString());
     if (response.ok) {
       const responseBody = await response.json();
-      Helpers.validate<{ files: { id: string; modifiedTime: string }[] }>(
+      Poi.validate(
         responseBody,
-        Joi.object({
-          files: Joi.array()
-            .items(
-              Joi.object({
-                id: Joi.string().required(),
-                modifiedTime: Joi.date().iso().required(),
-              }),
-            )
-            .required(),
+        Poi.object({
+          files: Poi.array(
+            Poi.object({
+              id: Poi.string(),
+              modifiedTime: Poi.string(),
+            }),
+          ),
         }),
       );
       if (!responseBody.files.length) {

@@ -1,13 +1,6 @@
-import Joi from '@hapi/joi';
+import * as Poi from 'poi-ts';
 import { apis } from '../apis';
 import { HTTPError } from '../utilities';
-
-export function validate<T>(value: unknown, schema: Joi.Schema): asserts value is T {
-  const result = schema.validate(value, { allowUnknown: true });
-  if (result.error) {
-    throw result.error;
-  }
-}
 
 export type AuthorizeParams = {
   client_id: string;
@@ -31,10 +24,10 @@ export function authorize(
     });
     const redirectParams = Object.fromEntries(new URL(redirectURL).searchParams.entries());
     try {
-      validate<{ code: string }>(redirectParams, Joi.object({ code: Joi.string() }));
+      Poi.validate(redirectParams, Poi.object({ code: Poi.string() }));
       return { authorizationCode: redirectParams.code };
     } catch {
-      validate<{ error: string }>(redirectParams, Joi.object({ error: Joi.string() }));
+      Poi.validate(redirectParams, Poi.object({ error: Poi.string() }));
       throw new Error(redirectParams.error);
     }
   };
@@ -64,12 +57,12 @@ export function getAccessToken(
     });
     if (response.ok) {
       const responseBody = await response.json();
-      validate<{ access_token: string; expires_in: number; refresh_token: string }>(
+      Poi.validate(
         responseBody,
-        Joi.object({
-          access_token: Joi.string().required(),
-          expires_in: Joi.number().required(),
-          refresh_token: Joi.string().required(),
+        Poi.object({
+          access_token: Poi.string(),
+          expires_in: Poi.number(),
+          refresh_token: Poi.string(),
         }),
       );
       return {
@@ -104,9 +97,9 @@ export function refreshAccessToken(
     });
     if (response.ok) {
       const responseBody = await response.json();
-      validate<{ access_token: string; expires_in: number }>(
+      Poi.validate(
         responseBody,
-        Joi.object({ access_token: Joi.string().required(), expires_in: Joi.number().required() }),
+        Poi.object({ access_token: Poi.string(), expires_in: Poi.number() }),
       );
       return { accessToken: responseBody.access_token, expiresIn: responseBody.expires_in };
     } else {
