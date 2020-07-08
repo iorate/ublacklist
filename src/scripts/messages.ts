@@ -1,5 +1,5 @@
 import { apis } from './apis';
-import { CloudId, SearchEngine, Result, Subscription, SubscriptionId } from './types';
+import { CloudId, SearchEngineId, Result, Subscription, SubscriptionId } from './types';
 
 export type SetBlacklistSource = 'content-script' | 'popup' | 'options' | 'background';
 
@@ -9,7 +9,7 @@ type MessageSignatures = {
   'sync-blacklist': () => void;
   'connect-to-cloud': (id: CloudId) => boolean;
   'disconnect-from-cloud': () => void;
-  'register-search-engine': (searchEngine: SearchEngine) => void;
+  'register-search-engine': (id: SearchEngineId) => void;
   'add-subscription': (subscription: Subscription) => SubscriptionId;
   'remove-subscription': (id: SubscriptionId) => void;
   'update-subscription': (id: SubscriptionId) => void;

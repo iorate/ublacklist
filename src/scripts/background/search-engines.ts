@@ -1,18 +1,18 @@
 import { apis } from '../apis';
 import { supportedSearchEngines } from '../supported-search-engines';
-import { SearchEngine, SearchEngineId } from '../types';
+import { SearchEngineId } from '../types';
 // #if CHROMIUM
 import { AltURL, MatchPattern } from '../utilities';
 // #endif
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function register(searchEngine: SearchEngine): Promise<void> {
+export async function register(id: SearchEngineId): Promise<void> {
   // #if CHROMIUM
   /*
   // #else
   await browser.contentScripts.register({
     js: [{ file: '/scripts/content-script.js' }],
-    matches: searchEngine.matches,
+    matches: supportedSearchEngines[id].matches,
     runAt: 'document_start',
   });
   // #endif
@@ -50,14 +50,16 @@ export async function registerAll(): Promise<void> {
   });
   /*
   // #else
-  for (const id of Object.keys(supportedSearchEngines) as SearchEngineId[]) {
-    if (id === 'google') {
-      continue;
-    }
-    if (await apis.permissions.contains({ origins: supportedSearchEngines[id].matches })) {
-      await register(supportedSearchEngines[id]);
-    }
-  }
+  await Promise.all(
+    (Object.keys(supportedSearchEngines) as SearchEngineId[]).map(async id => {
+      if (id === 'google') {
+        return;
+      }
+      if (await apis.permissions.contains({ origins: supportedSearchEngines[id].matches })) {
+        await register(id);
+      }
+    }),
+  );
   // #endif
   // #if CHROMIUM
   */

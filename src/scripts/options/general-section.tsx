@@ -194,6 +194,7 @@ const SetBlacklist: React.FC = () => {
 };
 
 type RegisterSearchEngineProps = {
+  id: SearchEngineId;
   searchEngine: SearchEngine;
 };
 
@@ -223,7 +224,7 @@ const RegisterSearchEngine: React.FC<Readonly<RegisterSearchEngineProps>> = prop
                 origins: props.searchEngine.matches,
               });
               if (registered) {
-                sendMessage('register-search-engine', props.searchEngine);
+                sendMessage('register-search-engine', props.id);
               }
               setRegistered(registered);
             }}
@@ -251,7 +252,7 @@ const RegisterSearchEngines: React.FC = () => {
             id =>
               id !== 'google' && (
                 <li className="ub-list-item" key={id}>
-                  <RegisterSearchEngine searchEngine={supportedSearchEngines[id]} />
+                  <RegisterSearchEngine id={id} searchEngine={supportedSearchEngines[id]} />
                 </li>
               ),
           )}
