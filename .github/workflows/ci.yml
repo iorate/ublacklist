@@ -11,7 +11,7 @@ on:
     inputs:
       release:
         required: true
-        description: Please type ${{ github.repository }} to release.
+        description: Please type iorate/uBlacklist to release.
 
 jobs:
   ci:
@@ -40,7 +40,7 @@ jobs:
 
       - run: yarn test
 
-      - if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == github.repository
+      - if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'iorate/uBlacklist'
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
