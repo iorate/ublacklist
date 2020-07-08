@@ -51,6 +51,17 @@ $title-weight: normal;
   }
 }
 
+.block-form__open-options-link {
+  color: $link;
+  cursor: pointer;
+  &:hover {
+    color: $link-hover;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
 .block-form__block-button[disabled] {
   cursor: default;
 }

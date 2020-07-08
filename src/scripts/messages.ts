@@ -14,6 +14,7 @@ type MessageSignatures = {
   'remove-subscription': (id: SubscriptionId) => void;
   'update-subscription': (id: SubscriptionId) => void;
   'update-all-subscriptions': () => void;
+  'open-options-page': () => void;
   // background -> options
   'blacklist-set': (blacklist: string, source: SetBlacklistSource) => void;
   'blacklist-syncing': () => void;

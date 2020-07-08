@@ -99,6 +99,10 @@
     "message": "Unblock",
     "description": "The text of the button to unblock a site."
   },
+  "popup_openOptionsLink": {
+    "message": "Options",
+    "description": "The text of the link to the options page."
+  },
   "options_generalTitle": {
     "message": "General",
     "description": "The title of the general section."

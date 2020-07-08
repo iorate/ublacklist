@@ -1,5 +1,6 @@
 import { apis } from './apis';
 import { Blacklist, BlacklistPatch } from './blacklist';
+import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL } from './utilities';
 import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/block-form.scss';
@@ -60,7 +61,12 @@ export class BlockForm {
       </div>
     </div>
   </details>
-  <div class="field is-grouped is-grouped-right">
+  <div class="field is-grouped is-grouped-right" style="align-items:center;">
+    <div class="control is-expanded">
+      <span id="openOptions" class="block-form__open-options-link" tabindex="0">
+        ${apis.i18n.getMessage('popup_openOptionsLink')}
+      </span>
+    </div>
     <div class="control">
       <button id="cancel" class="button has-text-primary">
         ${apis.i18n.getMessage('cancelButton')}
@@ -91,6 +97,15 @@ export class BlockForm {
         this.$('added').value = modifiedPatch.rulesToAdd;
       }
       this.$('update').disabled = !modifiedPatch;
+    });
+    this.$('openOptions').addEventListener('click', () => {
+      sendMessage('open-options-page');
+    });
+    this.$('openOptions').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.$('openOptions').click();
+      }
     });
     this.$('cancel').addEventListener('click', () => {
       close();
@@ -158,6 +173,7 @@ export class BlockForm {
   private $(id: 'path-depth-field'): HTMLDivElement;
   private $(id: 'depth'): HTMLInputElement;
   private $(id: 'removed'): HTMLTextAreaElement;
+  private $(id: 'openOptions'): HTMLSpanElement;
   private $(id: 'cancel'): HTMLButtonElement;
   private $(id: 'update'): HTMLButtonElement;
   private $(id: string): Element | null {

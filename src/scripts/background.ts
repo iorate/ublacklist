@@ -83,6 +83,7 @@ function main() {
     'remove-subscription': Subscriptions.remove,
     'update-subscription': Subscriptions.update,
     'update-all-subscriptions': updateAllSubscriptions,
+    'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
   });
 
   SearchEngines.registerAll();
