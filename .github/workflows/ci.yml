@@ -1,16 +1,20 @@
-name: build
+name: ci
 
 on:
   push:
     branches:
       - master
-      - production
   pull_request:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      release:
+        required: true
+        description: Please type ${{ github.repository }} to release.
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,25 +22,25 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: '14'
 
       - uses: actions/cache@v2
         with:
           path: ~/.cache/yarn
-          key: node-${{ hashFiles('**/yarn.lock') }}
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            node-
+            yarn-
 
       - run: yarn install --frozen-lockfile
 
       - run: yarn build
 
-      - run: yarn test
-
-      - if: github.event_name == 'push'
+      - if: github.event_name != 'pull_request'
         run: yarn lint
 
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/production'
+      - run: yarn test
+
+      - if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == github.repository
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
