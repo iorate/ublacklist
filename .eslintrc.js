@@ -3,13 +3,13 @@ module.exports = {
   env: {
     node: true,
   },
-  ignorePatterns: ['!/*.js', '/dist/*'],
+  ignorePatterns: ['/dist/*'],
   parserOptions: {
     ecmaVersion: 2018,
   },
   overrides: [
     {
-      files: ['src/**/*.js'],
+      files: ['src/scripts/**/*.js'],
       env: {
         browser: true,
       },
@@ -29,14 +29,20 @@ module.exports = {
       },
       plugins: ['@typescript-eslint'],
       rules: {
+        'react/no-unknown-property': [
+          'error',
+          {
+            ignore: ['class', 'for', 'spellcheck'],
+          },
+        ],
         'react/prop-types': ['off'],
-        '@typescript-eslint/no-non-null-assertion': ['off'],
       },
     },
   ],
   settings: {
     react: {
-      version: 'detect',
+      pragma: 'h',
+      version: '16.0',
     },
   },
 };

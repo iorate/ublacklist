@@ -21,9 +21,9 @@ module.exports = {
   entry: {
     'manifest.json': './manifest.json.js',
     'scripts/background': './scripts/background.ts',
-    'scripts/content-script': './scripts/content-script.ts',
-    'scripts/options': './scripts/options.ts',
-    'scripts/popup': './scripts/popup.ts',
+    'scripts/content-script': './scripts/content-script.tsx',
+    'scripts/options': './scripts/options.tsx',
+    'scripts/popup': './scripts/popup.tsx',
   },
   mode: env,
   module: {
@@ -67,13 +67,7 @@ module.exports = {
       extensions: ['json.js'],
       silent: true,
     }),
-    new LicenseCheckerWebpackPlugin({
-      override: {
-        'dialog-polyfill@^0.5.1': {
-          licenseName: 'BSD-3-Clause',
-        },
-      },
-    }),
+    new LicenseCheckerWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],

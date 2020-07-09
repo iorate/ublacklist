@@ -53,7 +53,7 @@ export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage';
 
 export type ControlHandler = {
   createControl(): HTMLElement | null;
-  adjustControl?: (control: HTMLElement) => void;
+  adjustControl?(control: HTMLElement): void;
 };
 
 export type EntryHandler = {

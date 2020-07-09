@@ -1,13 +1,4 @@
-// #if CHROMIUM
-/*
-// #else
-@import '~dialog-polyfill/dialog-polyfill.css';
-// #endif
-// #if CHROMIUM
-*/
-// #endif
-
-.ub-button {
+.ub-link-button {
   cursor: pointer;
   white-space: nowrap;
   &:hover {
@@ -16,10 +7,6 @@
   &:focus:not(:focus-visible) {
     outline: none;
   }
-}
-
-.ub-control.ub-is-hidden {
-  display: none !important;
 }
 
 .ub-show-button {
@@ -43,7 +30,7 @@
   }
 }
 
-.ub-hide {
+.ub-hide-blocked-entries {
   .ub-show-button {
     display: inline !important;
   }
@@ -61,12 +48,4 @@
 
 .ub-hide-actions .ub-action {
   display: none !important;
-}
-
-.ub-block-dialog {
-  border: solid 1px lightgrey;
-  box-sizing: content-box;
-  max-width: 100%;
-  outline: none;
-  padding: 0;
 }

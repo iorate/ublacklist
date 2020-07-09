@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import { FunctionComponent, h } from 'preact';
+import { useContext, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import '../dayjs-locales';
 import * as LocalStorage from '../local-storage';
@@ -12,24 +13,24 @@ export type SetIntervalItemProps = {
   valueOptions: number[];
 };
 
-export const SetIntervalItem: React.FC<Readonly<SetIntervalItemProps>> = props => {
-  const { [props.itemKey]: initialItem } = React.useContext(Context).initialItems;
-  const [item, setItem] = React.useState(initialItem);
+export const SetIntervalItem: FunctionComponent<Readonly<SetIntervalItemProps>> = props => {
+  const { [props.itemKey]: initialItem } = useContext(Context).initialItems;
+  const [item, setItem] = useState(initialItem);
   return (
     <SectionItem>
-      <div className="ub-row field is-grouped">
-        <div className="control is-expanded">
-          <label htmlFor={props.itemKey}>{props.label}</label>
+      <div class="ub-row field is-grouped">
+        <div class="control is-expanded">
+          <label for={props.itemKey}>{props.label}</label>
         </div>
-        <div className="control">
-          <div className="select">
+        <div class="control">
+          <div class="select">
             <select
               id={props.itemKey}
               value={item}
-              onChange={e => {
+              onInput={e => {
                 const value = Number(e.currentTarget.value);
-                setItem(value);
                 LocalStorage.store({ [props.itemKey]: value });
+                setItem(value);
               }}
             >
               {props.valueOptions.map(value => (

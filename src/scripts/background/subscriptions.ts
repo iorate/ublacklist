@@ -60,12 +60,13 @@ export async function update(id: SubscriptionId): Promise<void> {
     await mutex.lock(async () => {
       const { subscriptions } = await LocalStorage.load(['subscriptions']);
       // 'subscriptions[id]' may be already removed.
-      if (subscriptions[id]) {
-        subscriptions[id] = subscription;
-        await LocalStorage.store({ subscriptions });
+      if (!subscriptions[id]) {
+        return;
       }
+      subscriptions[id] = subscription;
+      await LocalStorage.store({ subscriptions });
+      postMessage('subscription-updated', id, subscription);
     });
-    postMessage('subscription-updated', id, subscription.updateResult);
   } finally {
     updating.delete(id);
   }

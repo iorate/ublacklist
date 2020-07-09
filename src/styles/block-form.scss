@@ -1,71 +1,36 @@
-$primary: #1a73e8;
-$label-weight: normal;
-$title-size: 1.25rem;
-$title-weight: normal;
+$modal-z: 100000;
 
-@import '~bulma/sass/utilities/_all.sass';
-@import '~bulma/sass/base/_all.sass';
-@import '~bulma/sass/helpers/_all.sass';
-@import '~bulma/sass/form/shared.sass';
-@import '~bulma/sass/form/input-textarea.sass';
-@import '~bulma/sass/form/tools.sass';
-@import '~bulma/sass/elements/button.sass';
-@import '~bulma/sass/elements/title.sass';
+@import './shared.scss';
 
-:host {
-  max-width: 100%;
-  width: 25rem;
+.ub-dialog.modal-content {
+  color: $body-color;
+  max-width: 25rem;
+  width: 100%;
 }
 
-.block-form {
+.ub-host {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  word-break: break-all;
+}
+
+.ub-icon {
+  background: url('../images/icon-128.png') center/contain no-repeat;
+  height: 2rem;
+  width: 2rem;
+}
+
+.ub-main {
   color: $body-color;
   font-family: $body-family;
   font-size: 1rem;
   padding: 1rem;
 }
 
-.block-form__title {
-  background: url('../images/icon-128.png') left/2rem no-repeat;
-  line-height: 2rem;
-  padding-left: 2.5rem;
-  &:not(:last-child) {
-    margin-bottom: 0.75rem;
-  }
-}
-
-.block-form__url-host {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  word-break: break-all;
-}
-
-.block-form__details {
-  margin-bottom: 0.75rem;
-}
-
-.block-form__details-title {
+.ub-summary {
   cursor: pointer;
   margin-bottom: 0.75rem;
   &:focus:not(:focus-visible) {
     outline: none;
   }
-}
-
-.block-form__open-options-link {
-  color: $link;
-  cursor: pointer;
-  &:hover {
-    color: $link-hover;
-  }
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-}
-
-.block-form__block-button[disabled] {
-  cursor: default;
-}
-
-.textarea {
-  word-break: break-all;
 }

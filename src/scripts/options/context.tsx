@@ -1,4 +1,5 @@
-import React from 'react';
+import { FunctionComponent, createContext, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import * as LocalStorage from '../local-storage';
 import { apis } from '../apis';
 
@@ -7,11 +8,11 @@ export type ContextValue = {
   platformInfo: apis.runtime.PlatformInfo;
 };
 
-export const Context = React.createContext({} as Readonly<ContextValue>);
+export const Context = createContext({} as Readonly<ContextValue>);
 
-export const ContextProvider: React.FC = props => {
-  const [value, setValue] = React.useState<ContextValue | null>(null);
-  React.useEffect(() => {
+export const ContextProvider: FunctionComponent = props => {
+  const [value, setValue] = useState<ContextValue | null>(null);
+  useEffect(() => {
     (async () => {
       const [initialItems, platformInfo] = await Promise.all([
         LocalStorage.loadAll(),

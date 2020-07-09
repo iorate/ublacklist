@@ -30,6 +30,7 @@ class RegularExpression {
 type Pattern = MatchPattern | RegularExpression;
 
 type CompiledRule = {
+  rawRule: string;
   rawRuleIndex: number;
   unblock: boolean;
   pattern: Pattern;
@@ -45,9 +46,9 @@ class BlacklistFragment {
   }
 
   add(blacklist: string): void {
-    for (let rawRule of lines(blacklist)) {
-      this.rawRules.push(rawRule);
-      rawRule = rawRule.trim();
+    for (const originalRawRule of lines(blacklist)) {
+      this.rawRules.push(originalRawRule);
+      let rawRule = originalRawRule.trim();
       if (!rawRule || rawRule.startsWith('#')) {
         continue;
       }
@@ -55,7 +56,7 @@ class BlacklistFragment {
       if (unblock) {
         rawRule = rawRule.slice(1).trimStart();
       }
-      let pattern!: Pattern;
+      let pattern: Pattern;
       try {
         pattern = new MatchPattern(rawRule);
       } catch {
@@ -66,6 +67,7 @@ class BlacklistFragment {
         }
       }
       (unblock ? this.unblockRules : this.blockRules).push({
+        rawRule: originalRawRule,
         rawRuleIndex: this.rawRules.length - 1,
         unblock,
         pattern,
@@ -164,9 +166,7 @@ export class Blacklist {
       }
       patch.compiledRuleIndicesToRemove = unblockRuleIndices;
       patch.rulesToRemove = unlines(
-        unblockRuleIndices.map(
-          index => this.userFragment.rawRules[this.userFragment.unblockRules[index].rawRuleIndex]!,
-        ),
+        unblockRuleIndices.map(index => this.userFragment.unblockRules[index].rawRule),
       );
     } else {
       const blockRuleIndices = findIndices(this.userFragment.blockRules, blockRule =>
@@ -190,9 +190,7 @@ export class Blacklist {
         }
         patch.compiledRuleIndicesToRemove = blockRuleIndices;
         patch.rulesToRemove = unlines(
-          blockRuleIndices.map(
-            index => this.userFragment.rawRules[this.userFragment.blockRules[index].rawRuleIndex]!,
-          ),
+          blockRuleIndices.map(index => this.userFragment.blockRules[index].rawRule),
         );
       } else if (this.subscriptionFragments.some(part => part.unblocks(url))) {
         // The URL is unblocked by a subscription rule. Block it.

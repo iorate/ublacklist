@@ -16,13 +16,13 @@ export function createControlBefore(
   nextSiblingSelector: string,
 ): () => HTMLElement | null {
   return () => {
-    const nextSibling = document.querySelector(nextSiblingSelector);
+    const nextSibling = document.querySelector<HTMLElement>(nextSiblingSelector);
     if (!nextSibling) {
       return null;
     }
     const control = document.createElement('div');
     control.className = className;
-    nextSibling.parentElement!.insertBefore(control, nextSibling);
+    getParent(nextSibling).insertBefore(control, nextSibling);
     return control;
   };
 }
@@ -49,10 +49,10 @@ export function getEntry(
 export function getURL(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
     const a = selector ? entry.querySelector(selector) : entry;
-    if (!a || a.tagName !== 'A') {
+    if (!(a instanceof HTMLAnchorElement)) {
       return null;
     }
-    return (a as HTMLAnchorElement).href;
+    return a.href;
   };
 }
 
@@ -77,13 +77,13 @@ export function createActionBefore(
   nextSiblingSelector: string,
 ): (entry: HTMLElement) => HTMLElement | null {
   return entry => {
-    const nextSibling = entry.querySelector(nextSiblingSelector);
+    const nextSibling = entry.querySelector<HTMLElement>(nextSiblingSelector);
     if (!nextSibling) {
       return null;
     }
     const action = document.createElement('div');
     action.className = className;
-    nextSibling.parentElement!.insertBefore(action, nextSibling);
+    getParent(nextSibling).insertBefore(action, nextSibling);
     return action;
   };
 }
@@ -105,4 +105,15 @@ export function getSilentlyAddedElements(
     }
     return [];
   };
+}
+
+export function getParent(element: HTMLElement, n = 1): HTMLElement {
+  for (let i = 0; i < n; ++i) {
+    const parent = element.parentElement;
+    if (!parent) {
+      throw new Error('No parent');
+    }
+    element = parent;
+  }
+  return element;
 }

@@ -3,6 +3,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
+    "jsxFactory": "h",
     "lib": ["ES2015", "ES2019.Object", "ES2019.String", "DOM", "DOM.Iterable"],
     "module": "ES2015",
     "moduleResolution": "node",

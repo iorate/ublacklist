@@ -1,12 +1,13 @@
-.ub-control {
-  color: #7f869f;
-}
-
-.ub-button {
+.ub-link-button {
   color: #6573ff;
 }
 
+%control-colored {
+  color: #7f869f;
+}
+
 %control-default {
+  @extend %control-colored;
   font-size: 14px;
   margin: 8px 16px 0;
   @media (min-width: 990px) {
@@ -33,6 +34,7 @@
 // Images
 .ub-images {
   &-control {
+    @extend %control-colored;
     font-size: 14px;
     margin: 8px 13px 0;
     @media (min-width: 990px) {

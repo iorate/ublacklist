@@ -1,17 +1,17 @@
-import React from 'react';
+import { FunctionComponent, h } from 'preact';
 
 export type SectionProps = {
   id: string;
   title: string;
 };
 
-export const Section: React.FC<Readonly<SectionProps>> = props => (
-  <section id={props.id} className="section">
-    <h1 className="title">{props.title}</h1>
-    <div className="panel">{props.children}</div>
+export const Section: FunctionComponent<Readonly<SectionProps>> = props => (
+  <section id={props.id} class="section">
+    <h1 class="title">{props.title}</h1>
+    <div class="panel">{props.children}</div>
   </section>
 );
 
-export const SectionItem: React.FC = props => (
-  <div className="ub-section-item panel-block">{props.children}</div>
+export const SectionItem: FunctionComponent = props => (
+  <div class="ub-section-item panel-block">{props.children}</div>
 );

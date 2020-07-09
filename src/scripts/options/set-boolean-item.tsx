@@ -1,4 +1,5 @@
-import React from 'react';
+import { FunctionComponent, h } from 'preact';
+import { useContext, useState } from 'preact/hooks';
 import * as LocalStorage from '../local-storage';
 import { Context } from './context';
 import { SectionItem } from './section';
@@ -8,29 +9,29 @@ export type SetBooleanItemProps = {
   label: string;
 };
 
-export const SetBooleanItem: React.FC<Readonly<SetBooleanItemProps>> = props => {
-  const { [props.itemKey]: initialItem } = React.useContext(Context).initialItems;
-  const [item, setItem] = React.useState(initialItem);
+export const SetBooleanItem: FunctionComponent<Readonly<SetBooleanItemProps>> = props => {
+  const { [props.itemKey]: initialItem } = useContext(Context).initialItems;
+  const [item, setItem] = useState(initialItem);
   return (
     <SectionItem>
-      <div className="ub-row field is-grouped">
-        <div className="control is-expanded">
-          <label htmlFor={props.itemKey}>{props.label}</label>
+      <div class="ub-row field is-grouped">
+        <div class="control is-expanded">
+          <label for={props.itemKey}>{props.label}</label>
         </div>
-        <div className="control">
-          <div className="ub-switch">
+        <div class="control">
+          <div class="ub-switch">
             <input
               id={props.itemKey}
-              className="switch is-rounded"
+              class="switch is-rounded"
               type="checkbox"
               checked={item}
-              onChange={e => {
+              onInput={e => {
                 const value = e.currentTarget.checked;
-                setItem(value);
                 LocalStorage.store({ [props.itemKey]: value });
+                setItem(value);
               }}
             />
-            <label className="label" htmlFor={props.itemKey} />
+            <label class="label" for={props.itemKey} />
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ type MessageSignatures = {
   'blacklist-syncing': () => void;
   'blacklist-synced': (result: Result) => void;
   'subscription-updating': (id: SubscriptionId) => void;
-  'subscription-updated': (id: SubscriptionId, result: Result) => void;
+  'subscription-updated': (id: SubscriptionId, subscription: Subscription) => void;
 };
 
 export type MessageTypes = keyof MessageSignatures;

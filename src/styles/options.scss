@@ -1,60 +1,15 @@
-$block-spacing: 1rem;
 $body-size: 13px;
-$dropdown-menu-min-width: 0;
-$help-size: 1rem;
-$label-weight: normal;
-$panel-item-border: 1px solid #dbdbdb;
-$panel-shadow: 0 2px 3px rgba(hsl(0, 0, 4), 0.1), 0 0 0 1px rgba(hsl(0, 0, 4), 0.1);
-$primary: #1a73e8;
-$section-padding: 1.5rem;
-$table-head-cell-border-width: 0 0 1px;
-$title-size: 1.25rem;
-$title-weight: normal;
 
-@import '~bulma/sass/utilities/_all.sass';
-@import '~bulma/sass/base/_all.sass';
-@import '~bulma/sass/helpers/_all.sass';
-@import '~bulma/sass/grid/columns.sass';
-@import '~bulma/sass/layout/section.sass';
-@import '~bulma/sass/form/shared.sass';
-@import '~bulma/sass/form/checkbox-radio.sass';
-@import '~bulma/sass/form/input-textarea.sass';
-@import '~bulma/sass/form/select.sass';
-@import '~bulma/sass/form/tools.sass';
-@import '~bulma/sass/elements/box.sass';
-@import '~bulma/sass/elements/button.sass';
-@import '~bulma/sass/elements/table.sass';
-@import '~bulma/sass/elements/title.sass';
-@import '~bulma/sass/components/dropdown.sass';
-@import '~bulma/sass/components/modal.sass';
-@import '~bulma/sass/components/panel.sass';
-@import '~bulma-switch/dist/css/bulma-switch.sass';
+@import './shared.scss';
 
-.ub-button.button {
-  &[disabled] {
-    cursor: default;
-  }
-}
-
-.ub-dialog.modal-content.box {
-  color: #363636;
+.ub-dialog.modal-content {
   max-width: 480px;
-  width: 75%;
+  padding: 1.25rem;
+  width: 100%;
 }
 
 .ub-dropdown-item.dropdown-item {
   font-size: 1rem;
-}
-
-.ub-link-button {
-  color: $link;
-  cursor: pointer;
-  &:hover {
-    color: $link-hover;
-  }
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
 }
 
 .ub-list {
@@ -72,10 +27,6 @@ $title-weight: normal;
   margin: 0 auto;
   max-width: 640px;
   width: 100%;
-}
-
-.ub-row.field {
-  align-items: center;
 }
 
 .ub-section-item.panel-block {

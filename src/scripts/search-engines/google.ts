@@ -4,32 +4,21 @@ import {
   createControl,
   createControlBefore,
   getEntry,
+  getParent,
   getSilentlyAddedElements,
   getURL,
 } from './helpers';
 import googleMatches from '../../google-matches';
 import googleStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/google.scss';
 
-function ancestor(element: HTMLElement, n: number): HTMLElement | null {
-  let result: HTMLElement | null = element;
-  for (let i = 0; i < n; ++i) {
-    result = result.parentElement as HTMLElement | null;
-    if (!result) {
-      break;
-    }
-  }
-  return result;
-}
-
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
     const a = selector ? entry.querySelector(selector) : entry;
-    if (!a || a.tagName !== 'A') {
+    if (!(a instanceof HTMLAnchorElement)) {
       return null;
     }
-    const url = (a as HTMLAnchorElement).href;
     try {
-      const u = new URL(url, window.location.href);
+      const u = new URL(a.href, window.location.href);
       if (u.pathname !== '/url') {
         return null;
       }
@@ -93,7 +82,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           if (!addedElement.matches('.So9e7d > .ttfMne')) {
             return null;
           }
-          const entry = ancestor(addedElement, 1)!;
+          const entry = getParent(addedElement);
           if (entry.matches('.UDZeY *')) {
             // Map from the Web (COVID-19)
             return null;
@@ -113,7 +102,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           ) {
             return null;
           }
-          const entry = ancestor(addedElement, 5)!;
+          const entry = getParent(addedElement, 5);
           if (entry.matches('.UDZeY *')) {
             // Common Question (COVID-19)
             return null;
@@ -168,12 +157,12 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
             q.appendChild(action);
             return action;
           }
-          const r = entry.querySelector('.ellip + .r');
+          const r = entry.querySelector<HTMLElement>('.ellip + .r');
           if (r) {
             // Twitter Search
             const action = document.createElement('div');
             action.className = 'ub-pc-all-twitter-search-action';
-            r.parentElement!.insertBefore(action, r);
+            getParent(r).insertBefore(action, r);
             return action;
           }
           const d = entry.querySelector('.Dwsemf');
@@ -265,7 +254,11 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
         getURL: getURL('.VFACy'),
         createAction: createAction('ub-pc-images-general-action', ''),
         adjustEntry: entry => {
-          entry.querySelector<HTMLElement>('.VFACy')!.style.verticalAlign = 'bottom';
+          const q = entry.querySelector<HTMLElement>('.VFACy');
+          if (!q) {
+            return;
+          }
+          q.style.verticalAlign = 'bottom';
         },
       },
     ],
@@ -306,7 +299,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
         getURL: getURL('.l'),
         createAction: createAction('ub-pc-news-general-action-japanese', '.dhIWPd'),
         adjustEntry: entry => {
-          const image = entry.parentElement!.querySelector('.top');
+          const image = getParent(entry).querySelector('.top');
           if (!image || image.querySelector('.Y6GIfb')) {
             return;
           }
@@ -322,7 +315,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           if (!viewAll) {
             return;
           }
-          const parent = entry.parentElement!;
+          const parent = getParent(entry);
           const nextSibling = entry.nextSibling;
           const div = document.createElement('div');
           div.style.display = 'inline-block';
@@ -507,7 +500,7 @@ const mobileHandlers: Record<string, SearchEngineHandlers | undefined> = {
 export const google: SearchEngine = {
   matches: googleMatches,
   messageNames: {
-    name: 'Google', // never used
+    name: '', // never used
   },
   style: googleStyle,
 
