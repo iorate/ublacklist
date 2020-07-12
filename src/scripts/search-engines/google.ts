@@ -289,6 +289,11 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
         getURL: getURL('.dbsr > a'),
         createAction: createAction('ub-pc-news-general-action', '.XTjFC'),
       },
+      {
+        getEntry: getEntry('.nChh6e > div > .dbsr', 2),
+        getURL: getURL('.dbsr > a'),
+        createAction: createAction('ub-pc-news-general-action', '.XTjFC'),
+      },
       // People Also Search For
       {
         getEntry: getEntry('.F9rcV'),
