@@ -178,7 +178,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       },
       // Video
       {
-        getEntry: getEntry('.P94G9b > .ZTH1s', 1),
+        getEntry: getEntry('.gT5me > .ZTH1s', 1),
         getURL: getURL('a'),
         createAction: createAction('ub-pc-all-video-action', '.ZTH1s'),
       },
