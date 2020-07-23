@@ -1,12 +1,11 @@
 import mobile from 'is-mobile';
 import { Fragment, FunctionComponent, h, render } from 'preact';
-import { apis } from './apis';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-form';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
-import { AltURL, MatchPattern, assertNonNull } from './utilities';
+import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
 import { SearchEngineHandlers } from './types';
 import contentScriptStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/content-script.scss';
 
@@ -248,17 +247,14 @@ class Main {
         <Fragment>
           <span class="ub-stats">
             {this.blockedEntryCount === 1
-              ? apis.i18n.getMessage('content_singleSiteBlocked')
-              : apis.i18n.getMessage(
-                  'content_multipleSitesBlocked',
-                  String(this.blockedEntryCount),
-                )}
+              ? translate('content_singleSiteBlocked')
+              : translate('content_multipleSitesBlocked', String(this.blockedEntryCount))}
           </span>{' '}
           <LinkButton class="ub-show-button" onClick={onButtonClicked}>
-            {apis.i18n.getMessage('content_showBlockedSitesLink')}
+            {translate('content_showBlockedSitesLink')}
           </LinkButton>
           <LinkButton class="ub-hide-button" onClick={onButtonClicked}>
-            {apis.i18n.getMessage('content_hideBlockedSitesLink')}
+            {translate('content_hideBlockedSitesLink')}
           </LinkButton>
         </Fragment>
       ) : null,
@@ -283,10 +279,10 @@ class Main {
     render(
       <Fragment>
         <LinkButton class="ub-block-button" onClick={onButtonClicked}>
-          {apis.i18n.getMessage('content_blockSiteLink')}
+          {translate('content_blockSiteLink')}
         </LinkButton>
         <LinkButton class="ub-unblock-button" onClick={onButtonClicked}>
-          {apis.i18n.getMessage('content_unblockSiteLink')}
+          {translate('content_unblockSiteLink')}
         </LinkButton>
       </Fragment>,
       action,

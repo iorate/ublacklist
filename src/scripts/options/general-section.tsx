@@ -5,7 +5,7 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
-import { lines } from '../utilities';
+import { lines, translate } from '../utilities';
 import { Context } from './context';
 import { Portal } from './portal';
 import { Section, SectionItem } from './section';
@@ -26,13 +26,11 @@ const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogPro
   return (
     <Dialog open={props.open} setOpen={props.setOpen}>
       <div class="field">
-        <h1 class="title">{apis.i18n.getMessage('options_importBlacklistDialog_title')}</h1>
+        <h1 class="title">{translate('options_importBlacklistDialog_title')}</h1>
       </div>
       <div class="field">
-        <p class="has-text-grey">{apis.i18n.getMessage('options_importBlacklistDialog_helper')}</p>
-        <p class="has-text-grey">
-          {apis.i18n.getMessage('options_blacklistExample', 'example.com')}
-        </p>
+        <p class="has-text-grey">{translate('options_importBlacklistDialog_helper')}</p>
+        <p class="has-text-grey">{translate('options_blacklistExample', 'example.com')}</p>
       </div>
       <div class="field">
         <div class="control">
@@ -55,7 +53,7 @@ const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogPro
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('cancelButton')}
+            {translate('cancelButton')}
           </button>
         </div>
         <div class="control">
@@ -77,7 +75,7 @@ const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogPro
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('options_importBlacklistDialog_importButton')}
+            {translate('options_importBlacklistDialog_importButton')}
           </button>
         </div>
       </div>
@@ -103,16 +101,14 @@ const SetBlacklist: FunctionComponent = () => {
   return (
     <SectionItem>
       <div class="field">
-        <p>{apis.i18n.getMessage('options_blacklistLabel')}</p>
+        <p>{translate('options_blacklistLabel')}</p>
         <p
           class="has-text-grey"
-          dangerouslySetInnerHTML={{ __html: apis.i18n.getMessage('options_blacklistHelper') }}
+          dangerouslySetInnerHTML={{ __html: translate('options_blacklistHelper') }}
         />
+        <p class="has-text-grey">{translate('options_blacklistExample', '*://*.example.com/*')}</p>
         <p class="has-text-grey">
-          {apis.i18n.getMessage('options_blacklistExample', '*://*.example.com/*')}
-        </p>
-        <p class="has-text-grey">
-          {apis.i18n.getMessage('options_blacklistExample', '/example\\.(net|org)/')}
+          {translate('options_blacklistExample', '/example\\.(net|org)/')}
         </p>
       </div>
       <div class="field">
@@ -133,7 +129,7 @@ const SetBlacklist: FunctionComponent = () => {
         {latestBlacklist != null && (
           <div class="control is-expanded">
             <p class="has-text-grey">
-              {apis.i18n.getMessage('options_blacklistUpdated')}{' '}
+              {translate('options_blacklistUpdated')}{' '}
               <span
                 class="ub-link-button"
                 tabIndex={0}
@@ -148,7 +144,7 @@ const SetBlacklist: FunctionComponent = () => {
                   }
                 }}
               >
-                {apis.i18n.getMessage('options_reloadBlacklistButton')}
+                {translate('options_reloadBlacklistButton')}
               </span>
             </p>
           </div>
@@ -160,7 +156,7 @@ const SetBlacklist: FunctionComponent = () => {
               setImportBlacklistDialogOpen(true);
             }}
           >
-            {apis.i18n.getMessage('options_importBlacklistButton')}
+            {translate('options_importBlacklistButton')}
           </button>
         </div>
         <div class="control">
@@ -173,7 +169,7 @@ const SetBlacklist: FunctionComponent = () => {
               setLatestBlacklist(null);
             }}
           >
-            {apis.i18n.getMessage('options_saveBlacklistButton')}
+            {translate('options_saveBlacklistButton')}
           </button>
         </div>
       </div>
@@ -205,12 +201,12 @@ const RegisterSearchEngine: FunctionComponent<Readonly<RegisterSearchEngineProps
   return (
     <div class="ub-row field is-grouped">
       <div class="control is-expanded">
-        <p>{apis.i18n.getMessage(props.searchEngine.messageNames.name)}</p>
+        <p>{translate(props.searchEngine.messageNames.name)}</p>
       </div>
       <div class="control">
         {registered ? (
           <button class="ub-button button has-text-primary" disabled>
-            {apis.i18n.getMessage('options_searchEngineRegistered')}
+            {translate('options_searchEngineRegistered')}
           </button>
         ) : (
           <button
@@ -225,7 +221,7 @@ const RegisterSearchEngine: FunctionComponent<Readonly<RegisterSearchEngineProps
               setRegistered(registered);
             }}
           >
-            {apis.i18n.getMessage('options_registerSearchEngine')}
+            {translate('options_registerSearchEngine')}
           </button>
         )}
       </div>
@@ -237,8 +233,8 @@ const RegisterSearchEngines: FunctionComponent = () => {
   return (
     <SectionItem>
       <div class="field">
-        <p>{apis.i18n.getMessage('options_otherSearchEngines')}</p>
-        <p class="has-text-grey">{apis.i18n.getMessage('options_otherSearchEnginesDescription')}</p>
+        <p>{translate('options_otherSearchEngines')}</p>
+        <p class="has-text-grey">{translate('options_otherSearchEnginesDescription')}</p>
       </div>
       <div class="field">
         <ul class="ub-list">
@@ -257,20 +253,11 @@ const RegisterSearchEngines: FunctionComponent = () => {
 };
 
 export const GeneralSection: FunctionComponent = () => (
-  <Section id="general" title={apis.i18n.getMessage('options_generalTitle')}>
+  <Section id="general" title={translate('options_generalTitle')}>
     <SetBlacklist />
     <RegisterSearchEngines />
-    <SetBooleanItem
-      itemKey="skipBlockDialog"
-      label={apis.i18n.getMessage('options_skipBlockDialogLabel')}
-    />
-    <SetBooleanItem
-      itemKey="hideBlockLinks"
-      label={apis.i18n.getMessage('options_hideBlockLinksLabel')}
-    />
-    <SetBooleanItem
-      itemKey="hideControl"
-      label={apis.i18n.getMessage('options_hideControlLabel')}
-    />
+    <SetBooleanItem itemKey="skipBlockDialog" label={translate('options_skipBlockDialogLabel')} />
+    <SetBooleanItem itemKey="hideBlockLinks" label={translate('options_hideBlockLinksLabel')} />
+    <SetBooleanItem itemKey="hideControl" label={translate('options_hideControlLabel')} />
   </Section>
 );

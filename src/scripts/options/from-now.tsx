@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import dayjsRelativeTime from 'dayjs/plugin/relativeTime';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { apis } from '../apis';
 import '../dayjs-locales';
+import { translate } from '../utilities';
 
 dayjs.extend(dayjsRelativeTime);
 
@@ -21,5 +21,5 @@ export const FromNow: FunctionComponent<Readonly<FromNowProps>> = props => {
       clearInterval(intervalId);
     };
   }, []);
-  return <Fragment>{props.time.locale(apis.i18n.getMessage('dayjsLocale')).fromNow()}</Fragment>;
+  return <Fragment>{props.time.locale(translate('dayjsLocale')).fromNow()}</Fragment>;
 };

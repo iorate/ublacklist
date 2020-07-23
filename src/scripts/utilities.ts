@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
+import { apis } from './apis';
 import { ErrorResult, Result, SuccessResult } from './types';
+import { MessageName, MessageName1 } from '../locale';
 
 export class AltURL {
   readonly scheme: string;
@@ -184,4 +186,10 @@ export function lines(s: string): string[] {
 
 export function unlines(ss: string[]): string {
   return ss.join('\n');
+}
+
+export function translate(messageName: MessageName1, substitution1: string): string;
+export function translate(messageName: MessageName): string;
+export function translate(messageName: MessageName, ...substitutions: string[]): string {
+  return apis.i18n.getMessage(messageName, substitutions);
 }

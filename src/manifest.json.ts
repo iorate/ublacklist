@@ -1,5 +1,5 @@
-const path = require('path');
-const googleMatches = require('./google-matches');
+import path from 'path';
+import { googleMatches } from './google-matches';
 
 const manifest = {
   background: {
@@ -65,8 +65,11 @@ const manifest = {
   version: '0.1.0',
 };
 
-module.exports = () => ({
+export default (): { code: string; cacheable: boolean; dependencies: string[] } => ({
   code: JSON.stringify(manifest, null, 2),
   cacheable: true,
-  dependencies: [path.resolve(__dirname, 'google-matches.js')],
+  dependencies: [
+    path.resolve(__dirname, 'google-matches.d.ts'),
+    path.resolve(__dirname, 'google-matches.js'),
+  ],
 });

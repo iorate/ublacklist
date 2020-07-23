@@ -8,7 +8,7 @@ import {
   getSilentlyAddedElements,
   getURL,
 } from './helpers';
-import googleMatches from '../../google-matches';
+import { googleMatches } from '../../google-matches';
 import googleStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/google.scss';
 
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
@@ -500,7 +500,7 @@ const mobileHandlers: Record<string, SearchEngineHandlers | undefined> = {
 export const google: SearchEngine = {
   matches: googleMatches,
   messageNames: {
-    name: '', // never used
+    name: 'extensionName', // never used
   },
   style: googleStyle,
 

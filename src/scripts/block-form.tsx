@@ -1,11 +1,10 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useState } from 'preact/hooks';
-import { apis } from './apis';
 import { Blacklist } from './blacklist';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { Dialog } from './shared/dialog';
-import { AltURL } from './utilities';
+import { AltURL, translate } from './utilities';
 import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/block-form.scss';
 
 type BlockFormProps = {
@@ -61,7 +60,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
         <div class="ub-icon control" />
         <div class="control is-expanded">
           <h1 class="title">
-            {apis.i18n.getMessage(unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle')}
+            {translate(unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle')}
           </h1>
         </div>
       </div>
@@ -75,10 +74,10 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
             setDetailsOpen(e.currentTarget.open);
           }}
         >
-          <summary class="ub-summary">{apis.i18n.getMessage('popup_details')}</summary>
+          <summary class="ub-summary">{translate('popup_details')}</summary>
           <div class="field">
             <label class="label" for="url">
-              {apis.i18n.getMessage('popup_pageURLLabel')}
+              {translate('popup_pageURLLabel')}
             </label>
             <div class="control">
               <textarea
@@ -94,7 +93,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
           {props.enablePathDepth && (
             <div class="field">
               <label class="label" for="depth">
-                {apis.i18n.getMessage('popup_pathDepth')}
+                {translate('popup_pathDepth')}
               </label>
               <div class="control">
                 <input
@@ -121,7 +120,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
           )}
           <div class="field">
             <label class="label" for="rulesToAdd">
-              {apis.i18n.getMessage('popup_addedRulesLabel')}
+              {translate('popup_addedRulesLabel')}
             </label>
             <div class="control">
               <textarea
@@ -141,12 +140,12 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
             </div>
             <p
               class="help has-text-grey"
-              dangerouslySetInnerHTML={{ __html: apis.i18n.getMessage('options_blacklistHelper') }}
+              dangerouslySetInnerHTML={{ __html: translate('options_blacklistHelper') }}
             />
           </div>
           <div class="field">
             <label class="label" for="rulesToRemove">
-              {apis.i18n.getMessage('popup_removedRulesLabel')}
+              {translate('popup_removedRulesLabel')}
             </label>
             <div class="control">
               <textarea
@@ -175,7 +174,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
               }
             }}
           >
-            {apis.i18n.getMessage('popup_openOptionsLink')}
+            {translate('popup_openOptionsLink')}
           </span>
         </div>
         <div class="control">
@@ -185,7 +184,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('cancelButton')}
+            {translate('cancelButton')}
           </button>
         </div>
         <div class="control">
@@ -198,7 +197,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage(unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton')}
+            {translate(unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton')}
           </button>
         </div>
       </div>

@@ -9,7 +9,7 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { isErrorResult } from '../utilities';
+import { isErrorResult, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
 import { Portal } from './portal';
@@ -31,7 +31,7 @@ const NotifySyncUpdated: FunctionComponent = () => {
       <div class="ub-row field is-grouped">
         <div class="ub-notify-sync-updated-icon control" />
         <div class="control is-expanded">
-          <p>{apis.i18n.getMessage('options_syncFeatureUpdated')}</p>
+          <p>{translate('options_syncFeatureUpdated')}</p>
         </div>
       </div>
     </SectionItem>
@@ -52,7 +52,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
   return (
     <Dialog open={props.open} setOpen={props.setOpen}>
       <div class="field">
-        <h1 class="title">{apis.i18n.getMessage('options_turnOnSyncDialog_title')}</h1>
+        <h1 class="title">{translate('options_turnOnSyncDialog_title')}</h1>
       </div>
       {(Object.keys(supportedClouds) as CloudId[]).map(cloudId => (
         <div key={cloudId} class="ub-row field is-grouped">
@@ -71,9 +71,9 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
           </div>
           <div class="control">
             <label for={cloudId}>
-              <p>{apis.i18n.getMessage(supportedClouds[cloudId].messageNames.sync)}</p>
+              <p>{translate(supportedClouds[cloudId].messageNames.sync)}</p>
               <p class="has-text-grey">
-                {apis.i18n.getMessage(supportedClouds[cloudId].messageNames.syncDescription)}
+                {translate(supportedClouds[cloudId].messageNames.syncDescription)}
               </p>
             </label>
           </div>
@@ -87,7 +87,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('cancelButton')}
+            {translate('cancelButton')}
           </button>
         </div>
         <div class="control">
@@ -110,7 +110,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
               })();
             }}
           >
-            {apis.i18n.getMessage('options_turnOnSyncDialog_turnOnSyncButton')}
+            {translate('options_turnOnSyncDialog_turnOnSyncButton')}
           </button>
         </div>
       </div>
@@ -131,13 +131,11 @@ const TurnOnSync: FunctionComponent<Readonly<TurnOnSyncProps>> = props => {
         <div class="control is-expanded">
           {props.syncCloudId == null ? (
             <Fragment>
-              <p>{apis.i18n.getMessage('options_syncFeature')}</p>
-              <p class="has-text-grey">{apis.i18n.getMessage('options_syncFeatureDescription')}</p>
+              <p>{translate('options_syncFeature')}</p>
+              <p class="has-text-grey">{translate('options_syncFeatureDescription')}</p>
             </Fragment>
           ) : (
-            <p>
-              {apis.i18n.getMessage(supportedClouds[props.syncCloudId].messageNames.syncTurnedOn)}
-            </p>
+            <p>{translate(supportedClouds[props.syncCloudId].messageNames.syncTurnedOn)}</p>
           )}
         </div>
         <div class="control">
@@ -148,7 +146,7 @@ const TurnOnSync: FunctionComponent<Readonly<TurnOnSyncProps>> = props => {
                 setTurnOnSyncDialogOpen(true);
               }}
             >
-              {apis.i18n.getMessage('options_turnOnSync')}
+              {translate('options_turnOnSync')}
             </button>
           ) : (
             <button
@@ -158,7 +156,7 @@ const TurnOnSync: FunctionComponent<Readonly<TurnOnSyncProps>> = props => {
                 props.setSyncCloudId(null);
               }}
             >
-              {apis.i18n.getMessage('options_turnOffSync')}
+              {translate('options_turnOffSync')}
             </button>
           )}
         </div>
@@ -197,14 +195,14 @@ const SyncNow: FunctionComponent<Readonly<SyncNowProps>> = props => {
     <SectionItem>
       <div class="ub-row field is-grouped">
         <div class="control is-expanded">
-          <p>{apis.i18n.getMessage('options_syncResult')}</p>
+          <p>{translate('options_syncResult')}</p>
           <p class="has-text-grey">
             {syncing ? (
-              apis.i18n.getMessage('options_syncRunning')
+              translate('options_syncRunning')
             ) : props.syncCloudId == null || syncResult == null ? (
-              apis.i18n.getMessage('options_syncNever')
+              translate('options_syncNever')
             ) : isErrorResult(syncResult) ? (
-              apis.i18n.getMessage('error', syncResult.message)
+              translate('error', syncResult.message)
             ) : (
               <FromNow time={dayjs(syncResult.timestamp)} />
             )}
@@ -218,7 +216,7 @@ const SyncNow: FunctionComponent<Readonly<SyncNowProps>> = props => {
               sendMessage('sync-blacklist');
             }}
           >
-            {apis.i18n.getMessage('options_syncNowButton')}
+            {translate('options_syncNowButton')}
           </button>
         </div>
       </div>
@@ -243,13 +241,13 @@ export const SyncSection: FunctionComponent = () => {
   */
   // #endif
   return mobile ? null : (
-    <Section id="sync" title={apis.i18n.getMessage('options_syncTitle')}>
+    <Section id="sync" title={translate('options_syncTitle')}>
       <NotifySyncUpdated />
       <TurnOnSync syncCloudId={syncCloudId} setSyncCloudId={setSyncCloudId} />
       <SyncNow syncCloudId={syncCloudId} />
       <SetIntervalItem
         itemKey="syncInterval"
-        label={apis.i18n.getMessage('options_syncInterval')}
+        label={translate('options_syncInterval')}
         valueOptions={[5, 15, 30, 60, 120, 300]}
       />
     </Section>

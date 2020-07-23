@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
-import { apis } from '../apis';
 import { supportedClouds } from '../supported-clouds';
 import * as LocalStorage from '../local-storage';
 import { CloudId } from '../types';
-import { HTTPError, Mutex } from '../utilities';
+import { HTTPError, Mutex, translate } from '../utilities';
 
 const mutex = new Mutex();
 
@@ -56,7 +55,7 @@ export async function syncFile(
     }
     const cloud = supportedClouds[syncCloudId];
     if (syncCloudToken == null) {
-      throw new Error(apis.i18n.getMessage('unauthorizedError'));
+      throw new Error(translate('unauthorizedError'));
     }
     let accessToken = syncCloudToken.accessToken;
     let expiresAt = dayjs(syncCloudToken.expiresAt);
@@ -72,7 +71,7 @@ export async function syncFile(
       } catch (e) {
         if (e instanceof HTTPError && e.status === 400) {
           await LocalStorage.store({ syncCloudToken: null });
-          throw new Error(apis.i18n.getMessage('unauthorizedError'));
+          throw new Error(translate('unauthorizedError'));
         } else {
           throw e;
         }

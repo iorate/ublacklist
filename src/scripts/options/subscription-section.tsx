@@ -5,7 +5,7 @@ import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { AltURL, isErrorResult } from '../utilities';
+import { AltURL, isErrorResult, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
 import { Portal } from './portal';
@@ -32,11 +32,11 @@ const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogPro
   return (
     <Dialog open={props.open} setOpen={props.setOpen}>
       <div class="field">
-        <h1 class="title">{apis.i18n.getMessage('options_addSubscriptionDialog_title')}</h1>
+        <h1 class="title">{translate('options_addSubscriptionDialog_title')}</h1>
       </div>
       <div class="field">
         <label class="label" for="subscriptionName">
-          {apis.i18n.getMessage('options_addSubscriptionDialog_nameLabel')}
+          {translate('options_addSubscriptionDialog_nameLabel')}
         </label>
         <div class="control">
           <input
@@ -54,7 +54,7 @@ const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogPro
       </div>
       <div class="field">
         <label class="label" for="subscriptionURL">
-          {apis.i18n.getMessage('options_addSubscriptionDialog_urlLabel')}
+          {translate('options_addSubscriptionDialog_urlLabel')}
         </label>
         <div class="control">
           <input
@@ -79,7 +79,7 @@ const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogPro
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('cancelButton')}
+            {translate('cancelButton')}
           </button>
         </div>
         <div class="control">
@@ -102,7 +102,7 @@ const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogPro
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('options_addSubscriptionDialog_addButton')}
+            {translate('options_addSubscriptionDialog_addButton')}
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ const ShowSubscriptionDialog: FunctionComponent<Readonly<ShowSubscriptionDialogP
               props.setOpen(false);
             }}
           >
-            {apis.i18n.getMessage('okButton')}
+            {translate('okButton')}
           </button>
         </div>
       </div>
@@ -163,11 +163,11 @@ const ManageSubscription: FunctionComponent<Readonly<ManageSubscriptionProps>> =
       <td class="ub-table-data ub-subscription-url">{props.subscription.url}</td>
       <td class="ub-table-data ub-subscription-update-result">
         {props.updating ? (
-          apis.i18n.getMessage('options_subscriptionUpdateRunning')
+          translate('options_subscriptionUpdateRunning')
         ) : !props.subscription.updateResult ? (
           ''
         ) : isErrorResult(props.subscription.updateResult) ? (
-          apis.i18n.getMessage('error', props.subscription.updateResult.message)
+          translate('error', props.subscription.updateResult.message)
         ) : (
           <FromNow time={dayjs(props.subscription.updateResult.timestamp)} />
         )}
@@ -250,10 +250,8 @@ export const ManageSubscriptions: FunctionComponent = () => {
     <SectionItem>
       <div class="ub-row field is-grouped">
         <div class="control is-expanded">
-          <p>{apis.i18n.getMessage('options_subscriptionFeature')}</p>
-          <p class="has-text-grey">
-            {apis.i18n.getMessage('options_subscriptionFeatureDescription')}
-          </p>
+          <p>{translate('options_subscriptionFeature')}</p>
+          <p class="has-text-grey">{translate('options_subscriptionFeatureDescription')}</p>
         </div>
         <div class="control">
           <button
@@ -262,7 +260,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
               setAddSubscriptionDialogOpen(true);
             }}
           >
-            {apis.i18n.getMessage('options_addSubscriptionButton')}
+            {translate('options_addSubscriptionButton')}
           </button>
         </div>
       </div>
@@ -271,13 +269,13 @@ export const ManageSubscriptions: FunctionComponent = () => {
           <thead>
             <tr>
               <th class="ub-table-header ub-subscription-name has-text-grey">
-                {apis.i18n.getMessage('options_subscriptionNameHeader')}
+                {translate('options_subscriptionNameHeader')}
               </th>
               <th class="ub-table-header ub-subscription-url has-text-grey">
-                {apis.i18n.getMessage('options_subscriptionURLHeader')}
+                {translate('options_subscriptionURLHeader')}
               </th>
               <th class="ub-table-header ub-subscription-update-result has-text-grey">
-                {apis.i18n.getMessage('options_subscriptionUpdateResultHeader')}
+                {translate('options_subscriptionUpdateResultHeader')}
               </th>
               <th class="ub-table-header ub-subscription-menu"></th>
             </tr>
@@ -303,7 +301,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
         </table>
         {!Object.keys(subscriptions).length && (
           <div class="is-fullwidth has-text-centered">
-            <p class="has-text-grey">{apis.i18n.getMessage('options_noSubscriptionsAdded')}</p>
+            <p class="has-text-grey">{translate('options_noSubscriptionsAdded')}</p>
           </div>
         )}
       </div>
@@ -316,7 +314,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
               sendMessage('update-all-subscriptions');
             }}
           >
-            {apis.i18n.getMessage('options_updateAllSubscriptionsNowButton')}
+            {translate('options_updateAllSubscriptionsNowButton')}
           </button>
         </div>
       </div>
@@ -339,11 +337,11 @@ export const ManageSubscriptions: FunctionComponent = () => {
 };
 
 export const SubscriptionSection: FunctionComponent = () => (
-  <Section id="subscription" title={apis.i18n.getMessage('options_subscriptionTitle')}>
+  <Section id="subscription" title={translate('options_subscriptionTitle')}>
     <ManageSubscriptions />
     <SetIntervalItem
       itemKey="updateInterval"
-      label={apis.i18n.getMessage('options_updateInterval')}
+      label={translate('options_updateInterval')}
       valueOptions={[5, 15, 30, 60, 120, 300]}
     />
   </Section>

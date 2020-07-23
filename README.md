@@ -38,7 +38,7 @@ To add support for a search engine other than Google,
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/_locales/en/messages.json` to `src/_locales/${languageCode}/messages.json` and translate entries.
+1. Copy `src/_locales/en/messages.json.ts` to `src/_locales/${languageCode}/messages.json.ts` and translate entries.
 1. If you translated `dayjsLocale`, open `src/scripts/dayjs-locales.ts` and update imports.
 1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files.
 

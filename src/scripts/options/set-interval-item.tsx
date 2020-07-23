@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
 import { useContext, useState } from 'preact/hooks';
-import { apis } from '../apis';
 import '../dayjs-locales';
 import * as LocalStorage from '../local-storage';
+import { translate } from '../utilities';
 import { Context } from './context';
 import { SectionItem } from './section';
 
@@ -37,7 +37,7 @@ export const SetIntervalItem: FunctionComponent<Readonly<SetIntervalItemProps>> 
                 <option key={value} value={value}>
                   {dayjs
                     .duration({ minutes: value })
-                    .locale(apis.i18n.getMessage('dayjsLocale'))
+                    .locale(translate('dayjsLocale'))
                     .humanize(false)}
                 </option>
               ))}

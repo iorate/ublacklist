@@ -1,3 +1,4 @@
+const glob = require('glob');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
@@ -19,7 +20,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   devtool: env === 'development' ? 'inline-source-map' : false,
   entry: {
-    'manifest.json': './manifest.json.js',
+    json: glob.sync('./**/*.json.ts', { cwd: 'src' }),
     'scripts/background': './scripts/background.ts',
     'scripts/content-script': './scripts/content-script.tsx',
     'scripts/options': './scripts/options.tsx',
@@ -29,15 +30,22 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.json\.js$/,
+        test: /\.json.ts$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: '[name]',
+              name: '[path][name]',
             },
           },
           'val-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              configFile: 'tsconfig.json.json',
+              onlyCompileBundledFiles: true,
+            },
+          },
           ifdefLoader,
         ],
       },
@@ -61,10 +69,10 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: ['./_locales/**/*', './images/**/*', './scripts/**/*.js', './**/*.html'],
+      patterns: ['./images/**/*', './scripts/**/*.js', './**/*.html'],
     }),
     new FixStyleOnlyEntriesPlugin({
-      extensions: ['json.js'],
+      extensions: ['.json.ts'],
       silent: true,
     }),
     new LicenseCheckerWebpackPlugin(),
