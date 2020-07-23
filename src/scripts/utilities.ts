@@ -172,7 +172,12 @@ export function successResult(): SuccessResult {
 }
 // #endregion Result
 
-// #region string
+export function assertNonNull<T>(value: T): asserts value is NonNullable<T> {
+  if (value == null) {
+    throw new Error('Null');
+  }
+}
+
 export function lines(s: string): string[] {
   return s ? s.split('\n') : [];
 }
@@ -180,4 +185,3 @@ export function lines(s: string): string[] {
 export function unlines(ss: string[]): string {
   return ss.join('\n');
 }
-// #endregion string

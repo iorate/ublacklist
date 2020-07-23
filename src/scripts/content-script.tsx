@@ -6,31 +6,9 @@ import { BlockDialog } from './block-form';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
-import { AltURL, MatchPattern } from './utilities';
+import { AltURL, MatchPattern, assertNonNull } from './utilities';
 import { SearchEngineHandlers } from './types';
 import contentScriptStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/content-script.scss';
-
-// #region LazyLoad
-type NotLoaded = {
-  loaded: false;
-};
-
-type Loaded<T> = {
-  loaded: true;
-} & T;
-
-type LazyLoad<T> = NotLoaded | Loaded<T>;
-
-function isLoaded<T>(lazyLoad: LazyLoad<T>): lazyLoad is Loaded<T> {
-  return lazyLoad.loaded;
-}
-
-function assertLoaded<T>(lazyLoad: LazyLoad<T>): asserts lazyLoad is Loaded<T> {
-  if (!lazyLoad.loaded) {
-    throw new Error('Not loaded');
-  }
-}
-// #endregion LazyLoad
 
 const optionKeys = [
   'blacklist',
@@ -75,17 +53,17 @@ class Main {
   private queuedEntries: HTMLElement[] = [];
   private blockedEntryCount = 0;
 
-  private options: LazyLoad<{
+  private options: {
     blacklist: Blacklist;
     skipBlockDialog: boolean;
     enablePathDepth: boolean;
-  }> = { loaded: false };
+  } | null = null;
 
-  private domContent: LazyLoad<{
+  private domContent: {
     control: HTMLElement | null;
     adjustControl: ((control: HTMLElement) => void) | null;
     blockDialogRoot: ShadowRoot;
-  }> = { loaded: false };
+  } | null = null;
 
   constructor() {
     // style, handlers
@@ -144,7 +122,6 @@ class Main {
 
   private onOptionsLoaded = (options: LocalStorage.ItemsFor<typeof optionKeys>) => {
     this.options = {
-      loaded: true,
       blacklist: new Blacklist(
         options.blacklist,
         Object.values(options.subscriptions).map(subscription => subscription.blacklist),
@@ -154,7 +131,7 @@ class Main {
     };
     this.queuedEntries.forEach(this.judgeEntry);
     this.queuedEntries.length = 0;
-    if (isLoaded(this.domContent)) {
+    if (this.domContent) {
       this.renderControl();
     }
     document.documentElement.classList.add('ub-hide-blocked-entries');
@@ -182,7 +159,6 @@ class Main {
       .appendChild(document.createElement('div'))
       .attachShadow({ mode: 'open' });
     this.domContent = {
-      loaded: true,
       control,
       adjustControl,
       blockDialogRoot,
@@ -221,9 +197,9 @@ class Main {
     if (!entry) {
       return;
     }
-    if (isLoaded(this.options)) {
+    if (this.options) {
       this.judgeEntry(entry);
-      if (isLoaded(this.domContent)) {
+      if (this.domContent) {
         this.renderControl();
       }
     } else {
@@ -232,14 +208,14 @@ class Main {
   };
 
   private onBlacklistUpdated = () => {
-    assertLoaded(this.options);
+    assertNonNull(this.options);
     sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
     this.blockedEntryCount = 0;
     for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
       entry.classList.remove('ub-is-blocked');
       this.judgeEntry(entry);
     }
-    if (isLoaded(this.domContent)) {
+    if (this.domContent) {
       this.renderControl();
     }
     if (!this.blockedEntryCount) {
@@ -248,7 +224,7 @@ class Main {
   };
 
   private judgeEntry = (entry: HTMLElement) => {
-    assertLoaded(this.options);
+    assertNonNull(this.options);
     const url = entry.dataset.ubUrl;
     if (url == undefined) {
       throw new Error('Not entry');
@@ -260,7 +236,7 @@ class Main {
   };
 
   private renderControl = () => {
-    assertLoaded(this.domContent);
+    assertNonNull(this.domContent);
     if (!this.domContent.control) {
       return;
     }
@@ -293,7 +269,7 @@ class Main {
 
   private renderAction = (action: HTMLElement, url: string) => {
     const onButtonClicked = () => {
-      if (!isLoaded(this.options) || !isLoaded(this.domContent)) {
+      if (!this.options || !this.domContent) {
         return;
       }
       if (this.options.skipBlockDialog) {
@@ -318,8 +294,8 @@ class Main {
   };
 
   private renderBlockDialog = (url: string, open = true) => {
-    assertLoaded(this.options);
-    assertLoaded(this.domContent);
+    assertNonNull(this.options);
+    assertNonNull(this.domContent);
     render(
       <BlockDialog
         open={open}
