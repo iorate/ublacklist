@@ -4,13 +4,12 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "lib": ["ES2015", "ES2019.Object", "ES2019.String", "DOM", "DOM.Iterable"],
     "module": "ES2015",
     "moduleResolution": "node",
     "newLine": "LF",
     "sourceMap": true,
     "strict": true,
-    "target": "ES2015"
+    "target": "ES2017"
   },
   "include": ["src"]
 }

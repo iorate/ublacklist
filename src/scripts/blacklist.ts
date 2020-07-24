@@ -54,7 +54,7 @@ class BlacklistFragment {
       }
       const unblock = rawRule.startsWith('@');
       if (unblock) {
-        rawRule = rawRule.slice(1).trimStart();
+        rawRule = rawRule.slice(1).trim();
       }
       let pattern: Pattern;
       try {

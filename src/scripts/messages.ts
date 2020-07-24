@@ -64,9 +64,7 @@ function invokeListener(
 ): void | boolean {
   const response = listener(...args);
   if (response instanceof Promise) {
-    (async () => {
-      sendResponse(await response);
-    })();
+    response.then(sendResponse);
     return true;
   } else {
     sendResponse(response);

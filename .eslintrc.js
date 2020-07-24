@@ -5,7 +5,7 @@ module.exports = {
   },
   ignorePatterns: ['/dist/*'],
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2017,
   },
   overrides: [
     {
