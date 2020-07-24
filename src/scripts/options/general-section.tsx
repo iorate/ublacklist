@@ -6,7 +6,7 @@ import { Dialog, DialogProps } from '../shared/dialog';
 import { TextWithLinks } from '../shared/text-with-links';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
-import { lines, translate } from '../utilities';
+import { lines, stringEntries, translate } from '../utilities';
 import { Context } from './context';
 import { Portal } from './portal';
 import { Section, SectionItem } from './section';
@@ -238,11 +238,11 @@ const RegisterSearchEngines: FunctionComponent = () => {
       </div>
       <div class="field">
         <ul class="ub-list">
-          {(Object.keys(supportedSearchEngines) as SearchEngineId[]).map(
-            id =>
+          {stringEntries(supportedSearchEngines).map(
+            ([id, searchEngine]) =>
               id !== 'google' && (
                 <li key={id} class="ub-list-item">
-                  <RegisterSearchEngine id={id} searchEngine={supportedSearchEngines[id]} />
+                  <RegisterSearchEngine id={id} searchEngine={searchEngine} />
                 </li>
               ),
           )}

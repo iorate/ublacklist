@@ -1,7 +1,7 @@
 import * as LocalStorage from '../local-storage';
 import { postMessage } from '../messages';
 import { Subscription, SubscriptionId } from '../types';
-import { HTTPError, Mutex, errorResult, successResult } from '../utilities';
+import { HTTPError, Mutex, errorResult, numberKeys, successResult } from '../utilities';
 
 const mutex = new Mutex();
 const updating = new Set<SubscriptionId>();
@@ -16,7 +16,7 @@ export async function add(
     ]);
     subscriptions[id] = subscription;
     await LocalStorage.store({ subscriptions, nextSubscriptionId: id + 1 });
-    return { id, single: Object.keys(subscriptions).length === 1 };
+    return { id, single: numberKeys(subscriptions).length === 1 };
   });
 }
 
@@ -78,7 +78,7 @@ export async function updateAll(): Promise<{ interval: number | null }> {
     'subscriptions',
     'updateInterval',
   ]);
-  const ids = Object.keys(subscriptions).map(Number);
+  const ids = numberKeys(subscriptions);
   await Promise.all(ids.map(update));
   return { interval: ids.length ? updateInterval : null };
 }

@@ -5,7 +5,7 @@ import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { AltURL, isErrorResult, translate } from '../utilities';
+import { AltURL, isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
 import { Portal } from './portal';
@@ -288,8 +288,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(subscriptions)
-              .map(([id, subscription]) => [Number(id), subscription] as const)
+            {numberEntries(subscriptions)
               .sort(([id1, { name: name1 }], [id2, { name: name2 }]) =>
                 name1 < name2 ? -1 : name1 > name2 ? 1 : id1 - id2,
               )
@@ -306,7 +305,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
               ))}
           </tbody>
         </table>
-        {!Object.keys(subscriptions).length && (
+        {!numberKeys(subscriptions).length && (
           <div class="is-fullwidth has-text-centered">
             <p class="has-text-grey">{translate('options_noSubscriptionsAdded')}</p>
           </div>
@@ -316,7 +315,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
         <div class="control">
           <button
             class="ub-button button has-text-primary"
-            disabled={!Object.keys(subscriptions).length}
+            disabled={!numberKeys(subscriptions).length}
             onClick={() => {
               void sendMessage('update-all-subscriptions');
             }}

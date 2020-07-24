@@ -9,7 +9,7 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { isErrorResult, translate } from '../utilities';
+import { isErrorResult, stringEntries, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
 import { Portal } from './portal';
@@ -54,27 +54,25 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
       <div class="field">
         <h1 class="title">{translate('options_turnOnSyncDialog_title')}</h1>
       </div>
-      {(Object.keys(supportedClouds) as CloudId[]).map(cloudId => (
-        <div key={cloudId} class="ub-row field is-grouped">
+      {stringEntries(supportedClouds).map(([id, cloud]) => (
+        <div key={id} class="ub-row field is-grouped">
           <div class="control">
             <input
-              id={cloudId}
+              id={id}
               type="radio"
-              checked={cloudId === syncCloudId}
+              checked={id === syncCloudId}
               name="syncCloudId"
               onInput={e => {
                 if (e.currentTarget.checked) {
-                  setSyncCloudId(cloudId);
+                  setSyncCloudId(id);
                 }
               }}
             />
           </div>
           <div class="control">
-            <label for={cloudId}>
-              <p>{translate(supportedClouds[cloudId].messageNames.sync)}</p>
-              <p class="has-text-grey">
-                {translate(supportedClouds[cloudId].messageNames.syncDescription)}
-              </p>
+            <label for={id}>
+              <p>{translate(cloud.messageNames.sync)}</p>
+              <p class="has-text-grey">{translate(cloud.messageNames.syncDescription)}</p>
             </label>
           </div>
         </div>

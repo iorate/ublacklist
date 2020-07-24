@@ -1,3 +1,5 @@
+import { stringEntries } from '../utilities';
+
 export function createControl(className: string, parentSelector: string): () => HTMLElement | null {
   return () => {
     const parent = document.querySelector(parentSelector);
@@ -96,11 +98,9 @@ export function getSilentlyAddedElements(
   selectors: Readonly<Record<string, string>>,
 ): (addedElement: HTMLElement) => HTMLElement[] {
   return addedElement => {
-    for (const addedElementSelector of Object.keys(selectors)) {
+    for (const [addedElementSelector, selector] of stringEntries(selectors)) {
       if (addedElement.matches(addedElementSelector)) {
-        return Array.from(
-          addedElement.querySelectorAll<HTMLElement>(selectors[addedElementSelector]),
-        );
+        return Array.from(addedElement.querySelectorAll<HTMLElement>(selector));
       }
     }
     return [];

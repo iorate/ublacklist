@@ -180,6 +180,7 @@ export function assertNonNull<T>(value: T): asserts value is NonNullable<T> {
   }
 }
 
+// #region string
 export function lines(s: string): string[] {
   return s ? s.split('\n') : [];
 }
@@ -187,6 +188,29 @@ export function lines(s: string): string[] {
 export function unlines(ss: string[]): string {
   return ss.join('\n');
 }
+// #endregion string
+
+// #region object
+export function stringKeys<Key extends string, Value>(record: Readonly<Record<Key, Value>>): Key[] {
+  return Object.keys(record) as Key[];
+}
+
+export function stringEntries<Key extends string, Value>(
+  record: Readonly<Record<Key, Value>>,
+): [Key, Value][] {
+  return Object.entries(record) as [Key, Value][];
+}
+
+export function numberKeys<Key extends number, Value>(record: Readonly<Record<Key, Value>>): Key[] {
+  return Object.keys(record).map(Number) as Key[];
+}
+
+export function numberEntries<Key extends number, Value>(
+  record: Readonly<Record<Key, Value>>,
+): [Key, Value][] {
+  return Object.entries(record).map(([key, value]) => [Number(key), value]) as [Key, Value][];
+}
+// #endregion object
 
 export function translate(messageName: MessageName1, substitution1: string): string;
 export function translate(messageName: MessageName): string;
