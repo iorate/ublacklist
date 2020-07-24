@@ -69,7 +69,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
               }}
             />
           </div>
-          <div class="control">
+          <div class="control is-expanded">
             <label for={id}>
               <p>{translate(cloud.messageNames.sync)}</p>
               <p class="has-text-grey">{translate(cloud.messageNames.syncDescription)}</p>
