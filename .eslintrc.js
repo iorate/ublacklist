@@ -18,6 +18,7 @@ module.exports = {
       files: ['src/**/*.{ts,tsx}'],
       extends: [
         'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
         'prettier/@typescript-eslint',

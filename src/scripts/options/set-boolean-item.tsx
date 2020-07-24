@@ -27,7 +27,7 @@ export const SetBooleanItem: FunctionComponent<Readonly<SetBooleanItemProps>> = 
               checked={item}
               onInput={e => {
                 const value = e.currentTarget.checked;
-                LocalStorage.store({ [props.itemKey]: value });
+                void LocalStorage.store({ [props.itemKey]: value });
                 setItem(value);
               }}
             />

@@ -13,7 +13,7 @@ export const Context = createContext({} as Readonly<ContextValue>);
 export const ContextProvider: FunctionComponent = props => {
   const [value, setValue] = useState<ContextValue | null>(null);
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const [initialItems, platformInfo] = await Promise.all([
         LocalStorage.loadAll(),
         apis.runtime.getPlatformInfo(),

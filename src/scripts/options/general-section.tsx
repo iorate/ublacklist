@@ -133,7 +133,7 @@ const SetBlacklist: FunctionComponent = () => {
               <span
                 class="ub-link-button"
                 tabIndex={0}
-                onClick={async () => {
+                onClick={() => {
                   setBlacklist(latestBlacklist);
                   setBlacklistDirty(false);
                   setLatestBlacklist(null);
@@ -164,7 +164,7 @@ const SetBlacklist: FunctionComponent = () => {
             class="ub-button button is-primary"
             disabled={!blacklistDirty}
             onClick={() => {
-              sendMessage('set-blacklist', blacklist, 'options');
+              void sendMessage('set-blacklist', blacklist, 'options');
               setBlacklistDirty(false);
               setLatestBlacklist(null);
             }}
@@ -193,7 +193,7 @@ type RegisterSearchEngineProps = {
 const RegisterSearchEngine: FunctionComponent<Readonly<RegisterSearchEngineProps>> = props => {
   const [registered, setRegistered] = useState(false);
   useEffect(() => {
-    (async () => {
+    void (async () => {
       const registered = await apis.permissions.contains({ origins: props.searchEngine.matches });
       setRegistered(registered);
     })();
@@ -216,7 +216,7 @@ const RegisterSearchEngine: FunctionComponent<Readonly<RegisterSearchEngineProps
                 origins: props.searchEngine.matches,
               });
               if (registered) {
-                sendMessage('register-search-engine', props.id);
+                void sendMessage('register-search-engine', props.id);
               }
               setRegistered(registered);
             }}

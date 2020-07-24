@@ -12,7 +12,7 @@ const UPDATE_ALL_SUBSCRIPTIONS_ALARM_NAME = 'update-all-subscriptions';
 
 async function setBlacklist(blacklist: string, source: SetBlacklistSource): Promise<void> {
   await Blacklist.set(blacklist, source);
-  syncBlacklist();
+  void syncBlacklist();
 }
 
 async function syncBlacklist(): Promise<void> {
@@ -24,16 +24,16 @@ async function syncBlacklist(): Promise<void> {
 
 async function connectToCloud(id: CloudId): Promise<boolean> {
   const connected = await Clouds.connect(id);
-  syncBlacklist();
+  void syncBlacklist();
   return connected;
 }
 
 async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {
   const { id, single } = await Subscriptions.add(subscription);
   if (single) {
-    updateAllSubscriptions();
+    void updateAllSubscriptions();
   } else {
-    Subscriptions.update(id);
+    void Subscriptions.update(id);
   }
   return id;
 }
@@ -47,11 +47,11 @@ async function updateAllSubscriptions(): Promise<void> {
 
 function main() {
   apis.runtime.onInstalled.addListener(details => {
-    syncBlacklist();
-    updateAllSubscriptions();
+    void syncBlacklist();
+    void updateAllSubscriptions();
     if (details.reason === 'update') {
       // If sync was turned on in version <= 3.8.4, notify that the sync feature has been updated.
-      (async () => {
+      void (async () => {
         const { sync } = await LocalStorage.load(['sync']);
         if (sync) {
           await apis.runtime.openOptionsPage();
@@ -61,15 +61,15 @@ function main() {
   });
 
   apis.runtime.onStartup.addListener(() => {
-    syncBlacklist();
-    updateAllSubscriptions();
+    void syncBlacklist();
+    void updateAllSubscriptions();
   });
 
   apis.alarms.onAlarm.addListener(alarm => {
     if (alarm.name === SYNC_BLACKLIST_ALARM_NAME) {
-      syncBlacklist();
+      void syncBlacklist();
     } else if (alarm.name === UPDATE_ALL_SUBSCRIPTIONS_ALARM_NAME) {
-      updateAllSubscriptions();
+      void updateAllSubscriptions();
     }
   });
 
@@ -86,7 +86,7 @@ function main() {
     'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
   });
 
-  SearchEngines.registerAll();
+  void SearchEngines.registerAll();
 }
 
 main();

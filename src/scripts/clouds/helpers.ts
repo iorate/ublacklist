@@ -22,7 +22,10 @@ export function authorize(
       url: authorizationURL.toString(),
       interactive: true,
     });
-    const redirectParams = Object.fromEntries(new URL(redirectURL).searchParams.entries());
+    const redirectParams: Record<string, string> = {};
+    for (const [key, value] of new URL(redirectURL).searchParams.entries()) {
+      redirectParams[key] = value;
+    }
     try {
       Poi.validate(redirectParams, Poi.object({ code: Poi.string() }));
       return { authorizationCode: redirectParams.code };
@@ -56,7 +59,7 @@ export function getAccessToken(
       }),
     });
     if (response.ok) {
-      const responseBody = await response.json();
+      const responseBody = (await response.json()) as unknown;
       Poi.validate(
         responseBody,
         Poi.object({
@@ -96,7 +99,7 @@ export function refreshAccessToken(
       }),
     });
     if (response.ok) {
-      const responseBody = await response.json();
+      const responseBody = (await response.json()) as unknown;
       Poi.validate(
         responseBody,
         Poi.object({ access_token: Poi.string(), expires_in: Poi.number() }),

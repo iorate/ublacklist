@@ -166,7 +166,7 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
             class="ub-link-button"
             tabIndex={0}
             onClick={() => {
-              sendMessage('open-options-page');
+              void sendMessage('open-options-page');
             }}
             onKeyDown={e => {
               if (e.key === 'Enter') {

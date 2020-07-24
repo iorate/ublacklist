@@ -1,3 +1,4 @@
+import * as Poi from 'poi-ts';
 import { SearchEngine } from '../types';
 import { createAction, createControl, getAddedElements, getEntry, getURL } from './helpers';
 import startpageStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/startpage.scss';
@@ -49,8 +50,9 @@ export const startpage: SearchEngine = {
             return null;
           }
           try {
-            const metadata = JSON.parse(entry.dataset.imgMetadata);
-            return metadata.displayUrl ?? null;
+            const metadata = JSON.parse(entry.dataset.imgMetadata) as unknown;
+            Poi.validate(metadata, Poi.object({ displayUrl: Poi.string() }));
+            return metadata.displayUrl;
           } catch {
             return null;
           }

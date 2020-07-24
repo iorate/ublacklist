@@ -54,7 +54,7 @@ export async function update(id: SubscriptionId): Promise<void> {
         );
       }
     } catch (e) {
-      subscription.updateResult = errorResult(e.message);
+      subscription.updateResult = errorResult(e instanceof Error ? e.message : 'Unknown error');
     }
     // Lock now.
     await mutex.lock(async () => {

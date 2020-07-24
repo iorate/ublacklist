@@ -85,7 +85,7 @@ class Main {
     this.handlers = handlers;
 
     // options
-    LocalStorage.load(optionKeys).then(this.onOptionsLoaded);
+    void LocalStorage.load(optionKeys).then(this.onOptionsLoaded);
 
     // domContent
     if (document.readyState !== 'loading') {
@@ -150,7 +150,7 @@ class Main {
           continue;
         }
         control.classList.add('ub-control');
-        return [control, controlHandler.adjustControl ?? null] as const;
+        return [control, controlHandler.adjustControl?.bind(controlHandler) ?? null] as const;
       }
       return [null, null];
     })();
@@ -208,7 +208,7 @@ class Main {
 
   private onBlacklistUpdated = () => {
     assertNonNull(this.options);
-    sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
+    void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
     this.blockedEntryCount = 0;
     for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
       entry.classList.remove('ub-is-blocked');

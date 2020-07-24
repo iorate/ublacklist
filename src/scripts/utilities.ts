@@ -135,7 +135,7 @@ export class Mutex {
         }
       });
       if (this.queue.length === 1) {
-        this.dequeue();
+        void this.dequeue();
       }
     });
   }
@@ -146,7 +146,7 @@ export class Mutex {
     }
     await this.queue[0]();
     this.queue.shift();
-    this.dequeue();
+    void this.dequeue();
   }
 }
 

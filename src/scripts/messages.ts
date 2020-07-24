@@ -31,11 +31,14 @@ export function postMessage<Type extends MessageTypes>(
   type: Type,
   ...args: MessageParameters<Type>
 ): void {
-  (async () => {
+  void (async () => {
     try {
       await apis.runtime.sendMessage({ type, args });
     } catch (e) {
-      if (e.message === 'Could not establish connection. Receiving end does not exist.') {
+      if (
+        e instanceof Error &&
+        e.message === 'Could not establish connection. Receiving end does not exist.'
+      ) {
         return;
       } else {
         throw e;
@@ -64,7 +67,7 @@ function invokeListener(
 ): void | boolean {
   const response = listener(...args);
   if (response instanceof Promise) {
-    response.then(sendResponse);
+    void response.then(sendResponse);
     return true;
   } else {
     sendResponse(response);

@@ -21,32 +21,35 @@ export async function register(id: SearchEngineId): Promise<void> {
   // #endif
 }
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function registerAll(): Promise<void> {
   // #if CHROMIUM
-  apis.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-    if (changeInfo.status !== 'loading' || tab.url == null) {
-      return;
-    }
-    const url = new AltURL(tab.url);
-    for (const id of Object.keys(supportedSearchEngines) as SearchEngineId[]) {
-      if (id === 'google') {
-        continue;
+  apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    void (async () => {
+      if (changeInfo.status !== 'loading' || tab.url == null) {
+        return;
       }
-      if (supportedSearchEngines[id].matches.some(match => new MatchPattern(match).test(url))) {
-        const [required] = await apis.tabs.executeScript(tabId, {
-          file: '/scripts/content-script-required.js',
-          runAt: 'document_start',
-        });
-        if (!required) {
-          return;
+      const url = new AltURL(tab.url);
+      for (const id of Object.keys(supportedSearchEngines) as SearchEngineId[]) {
+        if (id === 'google') {
+          continue;
         }
-        await apis.tabs.executeScript(tabId, {
-          file: '/scripts/content-script.js',
-          runAt: 'document_start',
-        });
-        break;
+        if (supportedSearchEngines[id].matches.some(match => new MatchPattern(match).test(url))) {
+          const [required] = await apis.tabs.executeScript(tabId, {
+            file: '/scripts/content-script-required.js',
+            runAt: 'document_start',
+          });
+          if (!required) {
+            return;
+          }
+          await apis.tabs.executeScript(tabId, {
+            file: '/scripts/content-script.js',
+            runAt: 'document_start',
+          });
+          break;
+        }
       }
-    }
+    })();
   });
   /*
   // #else

@@ -206,7 +206,7 @@ const ManageSubscription: FunctionComponent<Readonly<ManageSubscriptionProps>> =
               <a
                 class="ub-dropdown-item dropdown-item"
                 onMouseDown={() => {
-                  sendMessage('update-subscription', props.id);
+                  void sendMessage('update-subscription', props.id);
                 }}
               >
                 {chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
@@ -318,7 +318,7 @@ export const ManageSubscriptions: FunctionComponent = () => {
             class="ub-button button has-text-primary"
             disabled={!Object.keys(subscriptions).length}
             onClick={() => {
-              sendMessage('update-all-subscriptions');
+              void sendMessage('update-all-subscriptions');
             }}
           >
             {translate('options_updateAllSubscriptionsNowButton')}

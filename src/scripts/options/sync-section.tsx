@@ -22,7 +22,7 @@ const NotifySyncUpdated: FunctionComponent = () => {
   const { sync: initialSync } = useContext(Context).initialItems;
   useEffect(() => {
     if (initialSync) {
-      LocalStorage.store({ sync: false });
+      void LocalStorage.store({ sync: false });
       window.location.hash = 'sync';
     }
   }, [initialSync]);
@@ -94,7 +94,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
           <button
             class="ub-button button is-primary"
             onClick={() => {
-              (async () => {
+              void (async () => {
                 const granted = await apis.permissions.request({
                   origins: supportedClouds[syncCloudId].hostPermissions,
                 });
@@ -152,7 +152,7 @@ const TurnOnSync: FunctionComponent<Readonly<TurnOnSyncProps>> = props => {
             <button
               class="ub-button button has-text-primary"
               onClick={() => {
-                sendMessage('disconnect-from-cloud');
+                void sendMessage('disconnect-from-cloud');
                 props.setSyncCloudId(null);
               }}
             >
@@ -213,7 +213,7 @@ const SyncNow: FunctionComponent<Readonly<SyncNowProps>> = props => {
             class="ub-button button has-text-primary"
             disabled={syncing || props.syncCloudId == null}
             onClick={() => {
-              sendMessage('sync-blacklist');
+              void sendMessage('sync-blacklist');
             }}
           >
             {translate('options_syncNowButton')}

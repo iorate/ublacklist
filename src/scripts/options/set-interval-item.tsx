@@ -29,7 +29,7 @@ export const SetIntervalItem: FunctionComponent<Readonly<SetIntervalItemProps>> 
               value={item}
               onInput={e => {
                 const value = Number(e.currentTarget.value);
-                LocalStorage.store({ [props.itemKey]: value });
+                void LocalStorage.store({ [props.itemKey]: value });
                 setItem(value);
               }}
             >
