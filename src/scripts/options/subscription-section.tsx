@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { useContext, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
@@ -115,6 +115,12 @@ type ShowSubscriptionDialogProps = DialogProps & {
 };
 
 const ShowSubscriptionDialog: FunctionComponent<Readonly<ShowSubscriptionDialogProps>> = props => {
+  const blacklistTextArea = useRef<HTMLTextAreaElement>();
+  useLayoutEffect(() => {
+    if (props.open && blacklistTextArea.current) {
+      blacklistTextArea.current.scrollTop = 0;
+    }
+  }, [props.open]);
   return (
     <Dialog open={props.open} setOpen={props.setOpen}>
       <div class="field">
@@ -123,6 +129,7 @@ const ShowSubscriptionDialog: FunctionComponent<Readonly<ShowSubscriptionDialogP
       <div class="field">
         <div class="control">
           <textarea
+            ref={blacklistTextArea}
             class="textarea has-fixed-size"
             readOnly={true}
             rows={10}
