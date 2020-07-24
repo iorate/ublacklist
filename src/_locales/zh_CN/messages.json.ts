@@ -25,7 +25,7 @@ export default exportMessages({
   options_generalTitle: '一般',
   options_blacklistLabel: '以下网站将不会显示在 Google 的搜索结果中：',
   options_blacklistHelper:
-    '你可以使用 <a href="https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">匹配模式</a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">正则表达式</a>。',
+    '你可以使用 [匹配模式](https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 或 [正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)。',
   options_importBlacklistButton: '从 Personal Blocklist 导入网站黑名单',
   options_saveBlacklistButton: '保存',
   options_importBlacklistDialog_title: '从 Personal Blocklist 导入网站黑名单',

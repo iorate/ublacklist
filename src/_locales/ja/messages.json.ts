@@ -27,7 +27,7 @@ export default exportMessages({
   options_generalTitle: '一般',
   options_blacklistLabel: 'Google の検索結果で表示されないようにするサイト',
   options_blacklistHelper:
-    '<a href="https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">マッチパターン</a>か<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">正規表現</a>が使用できます。',
+    '[マッチパターン](https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns)か[正規表現](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions)が使用できます。',
   options_blacklistExample: '例: $1',
   options_blacklistUpdated: '更新されています',
   options_reloadBlacklistButton: '再読み込み',

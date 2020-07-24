@@ -15,7 +15,7 @@ export default exportMessages({
   popup_unblockSiteTitle: 'Bu sitenin engelini kaldır',
   options_blacklistLabel: 'Google arama sonuçlarında görünmesi engellenen siteler',
   options_blacklistHelper:
-    '<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">Eşleşme desenleri</a> veya <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">düzenli ifadeler</a> kullanabilirsiniz.',
+    '[Eşleşme desenleri](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) veya [düzenli ifadeler](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) kullanabilirsiniz.',
   options_importBlacklistButton: "Personal Blocklist'ten içe aktar",
   options_importBlacklistDialog_title: "Personal Blocklist'ten içe aktar",
   options_importBlacklistDialog_helper:

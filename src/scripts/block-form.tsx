@@ -4,6 +4,7 @@ import { Blacklist } from './blacklist';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { Dialog } from './shared/dialog';
+import { TextWithLinks } from './shared/text-with-links';
 import { AltURL, translate } from './utilities';
 import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/block-form.scss';
 
@@ -138,10 +139,9 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
                 }}
               />
             </div>
-            <p
-              class="help has-text-grey"
-              dangerouslySetInnerHTML={{ __html: translate('options_blacklistHelper') }}
-            />
+            <p class="help has-text-grey">
+              <TextWithLinks text={translate('options_blacklistHelper')} />
+            </p>
           </div>
           <div class="field">
             <label class="label" for="rulesToRemove">

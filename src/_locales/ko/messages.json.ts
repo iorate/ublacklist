@@ -25,7 +25,7 @@ export default exportMessages({
   options_generalTitle: '일반',
   options_blacklistLabel: 'Google 검색 결과에서 차단한 사이트',
   options_blacklistHelper:
-    '<a href="https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">매치 패턴</a> 또는 <a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">정규 표현식</a>을 사용할 수 있습니다.',
+    '[매치 패턴](https://developer.mozilla.org/ko/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 또는 [정규 표현식](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions)을 사용할 수 있습니다.',
   options_importBlacklistButton: '내 차단 목록에서 가져오기',
   options_saveBlacklistButton: '저장',
   options_importBlacklistDialog_title: '내 차단 목록에서 가져오기',

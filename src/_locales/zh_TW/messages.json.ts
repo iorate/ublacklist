@@ -25,7 +25,7 @@ export default exportMessages({
   options_generalTitle: '一般',
   options_blacklistLabel: '在 Google 搜尋結果中被封鎖的網站',
   options_blacklistHelper:
-    '您可以使用 <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">匹配模式</a> 或 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">正規表達式</a>。',
+    '您可以使用 [匹配模式](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 或 [正規表達式](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)。',
   options_importBlacklistButton: '匯入個人封鎖清單',
   options_saveBlacklistButton: '儲存',
   options_importBlacklistDialog_title: '匯入個人封鎖清單',

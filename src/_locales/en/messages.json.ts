@@ -80,7 +80,7 @@ export default exportMessages({
 
   // The helper text for the blacklist textarea.
   options_blacklistHelper:
-    'You can use <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">match patterns</a> or <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">regular expressions</a>.',
+    'You can use [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) or [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
 
   // The helper text to show an example rule.
   // '$1' is expanded to the example.

@@ -3,6 +3,7 @@ import { useContext, useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
+import { TextWithLinks } from '../shared/text-with-links';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
 import { lines, translate } from '../utilities';
@@ -102,10 +103,9 @@ const SetBlacklist: FunctionComponent = () => {
     <SectionItem>
       <div class="field">
         <p>{translate('options_blacklistLabel')}</p>
-        <p
-          class="has-text-grey"
-          dangerouslySetInnerHTML={{ __html: translate('options_blacklistHelper') }}
-        />
+        <p class="has-text-grey">
+          <TextWithLinks text={translate('options_blacklistHelper')} />
+        </p>
         <p class="has-text-grey">{translate('options_blacklistExample', '*://*.example.com/*')}</p>
         <p class="has-text-grey">
           {translate('options_blacklistExample', '/example\\.(net|org)/')}

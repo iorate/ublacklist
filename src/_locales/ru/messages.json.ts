@@ -25,7 +25,7 @@ export default exportMessages({
   options_generalTitle: 'Общие',
   options_blacklistLabel: 'Выбранные сайты не будут отображаться в поисковой выдаче Google',
   options_blacklistHelper:
-    'Вы можете использовать <a href="https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns" noopener noreferrer target="_blank">шаблоны совпадения</a> или <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions" noopener noreferrer target="_blank">регулярные выражения</a>.',
+    'Вы можете использовать [шаблоны совпадения](https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) или [регулярные выражения](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions).',
   options_importBlacklistButton: 'Импорт из расширения Personal Blocklist',
   options_saveBlacklistButton: 'Сохранить',
   options_importBlacklistDialog_title: 'Импорт из расширения Personal Blocklist',
