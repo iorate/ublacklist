@@ -34,12 +34,10 @@ export default exportMessages({
   options_importBlacklistButton: '내 차단 목록에서 가져오기',
   options_saveBlacklistButton: '저장',
   options_importBlacklistDialog_title: '내 차단 목록에서 가져오기',
-  options_importBlacklistDialog_helper: 
-    '개인 차단 목록에서 도메인을 복사해 붙여넣어주세요.',
+  options_importBlacklistDialog_helper: '개인 차단 목록에서 도메인을 복사해 붙여넣어주세요.',
   options_importBlacklistDialog_importButton: '가져오기',
   options_otherSearchEngines: '다른 검색 엔진',
-  options_otherSearchEnginesDescription: 
-    '아래 검색 엔진에서도 차단 기능을 사용할 수 있습니다.',
+  options_otherSearchEnginesDescription: '아래 검색 엔진에서도 차단 기능을 사용할 수 있습니다.',
   options_registerSearchEngine: '활성화',
   options_searchEngineRegistered: '활성화 됨',
   options_skipBlockDialogLabel: "'이 사이트 차단하기' 다이얼로그 표시하지 않기",
