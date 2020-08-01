@@ -108,12 +108,13 @@ export function getSilentlyAddedElements(
 }
 
 export function getParent(element: HTMLElement, n = 1): HTMLElement {
+  let current = element;
   for (let i = 0; i < n; ++i) {
-    const parent = element.parentElement;
+    const parent = current.parentElement;
     if (!parent) {
       throw new Error('No parent');
     }
-    element = parent;
+    current = parent;
   }
-  return element;
+  return current;
 }
