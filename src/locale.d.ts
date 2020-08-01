@@ -82,6 +82,8 @@ export type MessageName =
 
 export type MessageName1 = 'error' | 'content_multipleSitesBlocked' | 'options_blacklistExample';
 
+export type MessageName0 = Exclude<MessageName, MessageName1>;
+
 export type Messages = Partial<Record<MessageName, string>>;
 
 export function exportMessages(

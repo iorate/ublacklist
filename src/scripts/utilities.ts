@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { apis } from './apis';
 import { ErrorResult, Result, SuccessResult } from './types';
-import { MessageName, MessageName1 } from '../locale';
+import { MessageName, MessageName0, MessageName1 } from '../locale';
 
 export class AltURL {
   readonly scheme: string;
@@ -212,8 +212,8 @@ export function numberEntries<Key extends number, Value>(
 }
 // #endregion object
 
+export function translate(messageName: MessageName0): string;
 export function translate(messageName: MessageName1, substitution1: string): string;
-export function translate(messageName: MessageName): string;
 export function translate(messageName: MessageName, ...substitutions: string[]): string {
   return apis.i18n.getMessage(messageName, substitutions);
 }
