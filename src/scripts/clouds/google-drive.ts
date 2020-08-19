@@ -4,8 +4,8 @@ import { Cloud } from '../types';
 import { HTTPError } from '../utilities';
 import * as Helpers from './helpers';
 
-const CLIENT_ID = '304167046827-45h8no7j0s38akv999nivvb7i17ckqeh.apps.googleusercontent.com';
-const CLIENT_SECRET = '1QcFpNjHoAf3_XczYwhYicTl';
+const CLIENT_ID = process.env.GOOGLE_DRIVE_API_KEY!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+const CLIENT_SECRET = process.env.GOOGLE_DRIVE_API_SECRET!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 const FILENAME = 'uBlacklist.txt';
 const MULTIPART_RELATED_BOUNDARY = '----------uBlacklistMultipartRelatedBoundaryJMPRhmg2VV4JBuua';
 

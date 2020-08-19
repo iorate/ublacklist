@@ -34,6 +34,11 @@ jobs:
       - run: yarn install --frozen-lockfile
 
       - run: yarn build
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
       - if: github.event_name != 'pull_request'
         run: yarn lint
@@ -41,6 +46,7 @@ jobs:
       - run: yarn test
 
       - if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'iorate/uBlacklist'
+        run: yarn semantic-release
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
@@ -48,4 +54,3 @@ jobs:
           FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           FIREFOX_SECRET_KEY: ${{ secrets.FIREFOX_SECRET_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn semantic-release

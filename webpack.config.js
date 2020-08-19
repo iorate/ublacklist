@@ -1,6 +1,7 @@
 const glob = require('glob');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const DotEnv = require('dotenv-webpack');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const LicenseCheckerWebpackPlugin = require('license-checker-webpack-plugin');
 
@@ -70,6 +71,10 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: ['./images/**/*', './scripts/**/*.js', './**/*.html'],
+    }),
+    new DotEnv({
+      defaults: true,
+      systemvars: true,
     }),
     new FixStyleOnlyEntriesPlugin({
       extensions: ['.json.ts'],
