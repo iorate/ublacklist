@@ -5,7 +5,7 @@ import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { AltURL, isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
+import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
 import { Portal } from './portal';
@@ -87,13 +87,16 @@ const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogPro
             class="ub-button button is-primary"
             disabled={!nameValid || !urlValid}
             onClick={async () => {
-              const normalizedURL = new AltURL(url).toString();
-              if (!(await apis.permissions.request({ origins: [normalizedURL] }))) {
+              const u = new URL(url);
+              const granted = await apis.permissions.request({
+                origins: [`${u.protocol}//${u.hostname}/*`],
+              });
+              if (!granted) {
                 return;
               }
               const subscription = {
                 name,
-                url: normalizedURL,
+                url: u.toString(),
                 blacklist: '',
                 updateResult: null,
               };
