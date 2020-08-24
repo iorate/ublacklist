@@ -7,8 +7,10 @@ import * as Helpers from './helpers';
 
 dayjs.extend(dayjsUTC);
 
-const APP_KEY = process.env.DROPBOX_API_KEY!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
-const APP_SECRET = process.env.DROPBOX_API_SECRET!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+const APP_KEY = process.env.DROPBOX_API_KEY!;
+const APP_SECRET = process.env.DROPBOX_API_SECRET!;
+/* eslint-enable */
 const FILEPATH = '/uBlacklist.txt';
 
 function toISOStringSecond(time: dayjs.Dayjs): string {
