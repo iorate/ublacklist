@@ -26,6 +26,15 @@ yarn
 yarn build:firefox:production
 ```
 
+**NOTE:** The API keys and secrets for the sync feature are not included in this repository. To develop the sync feature, set your own API keys and secrets in the `.env` file.
+
+```
+DROPBOX_API_KEY=...
+DROPBOX_API_SECRET=...
+GOOGLE_DRIVE_API_KEY=...
+GOOGLE_DRIVE_API_SECRET=...
+```
+
 ### Engine
 To add support for a search engine other than Google,
 
