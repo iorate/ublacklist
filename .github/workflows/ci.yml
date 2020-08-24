@@ -40,6 +40,11 @@ jobs:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist/
+
       - if: github.event_name != 'pull_request'
         run: yarn lint
 
