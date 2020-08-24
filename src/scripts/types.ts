@@ -1,5 +1,5 @@
 import type dayjs from 'dayjs';
-import type { MessageName } from '../locale';
+import type { MessageName0 } from '../locale';
 
 // #region Result
 export type ErrorResult = {
@@ -20,7 +20,7 @@ export type CloudId = 'googleDrive' | 'dropbox';
 
 export type Cloud = {
   hostPermissions: string[];
-  messageNames: { sync: MessageName; syncDescription: MessageName; syncTurnedOn: MessageName };
+  messageNames: { sync: MessageName0; syncDescription: MessageName0; syncTurnedOn: MessageName0 };
   modifiedTimePrecision: 'millisecond' | 'second';
 
   authorize(): Promise<{ authorizationCode: string }>;
@@ -73,7 +73,7 @@ export type SearchEngineHandlers = {
 
 export type SearchEngine = {
   matches: string[];
-  messageNames: { name: MessageName };
+  messageNames: { name: MessageName0 };
   style: string;
   getHandlers(url: string, mobile: boolean): SearchEngineHandlers | null;
 };
