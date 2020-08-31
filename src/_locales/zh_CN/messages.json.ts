@@ -37,7 +37,8 @@ export default exportMessages({
   options_importBlacklistDialog_helper: '贴上你从 Personal Blocklist 导出的的网站黑名单',
   options_importBlacklistDialog_importButton: '导入',
   options_otherSearchEngines: '其他搜索引擎',
-  options_otherSearchEnginesDescription: '当前还支持以下搜索引擎（需要手动开启，并同意读取和更改网页数据）',
+  options_otherSearchEnginesDescription:
+    '当前还支持以下搜索引擎（需要手动开启，并同意读取和更改网页数据）',
   options_registerSearchEngine: '启用',
   options_searchEngineRegistered: '已启用',
   options_skipBlockDialogLabel: '加入黑名单时不显示确认提示框。',

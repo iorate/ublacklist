@@ -37,7 +37,8 @@ export default exportMessages({
   options_importBlacklistDialog_helper: '貼上從 Personal Blocklist 匯出的網域清單。',
   options_importBlacklistDialog_importButton: '匯入',
   options_otherSearchEngines: '支援額外的網站',
-  options_otherSearchEnginesDescription: '你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站',
+  options_otherSearchEnginesDescription:
+    '你可以開啟以下網站的支援，請注意你必須允許此擴充功能存取你要支援的網站',
   options_registerSearchEngine: '啟用',
   options_searchEngineRegistered: '已啟用',
   options_skipBlockDialogLabel: '加入封鎖清單時不顯示確定提示。',
