@@ -55,10 +55,11 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
         <h1 class="title">{translate('options_turnOnSyncDialog_title')}</h1>
       </div>
       {stringEntries(supportedClouds).map(([id, cloud]) => (
-        <div key={id} class="ub-row field is-grouped">
+        <div key={id} class="field is-grouped">
           <div class="control">
             <input
               id={id}
+              class="is-checkradio is-small"
               type="radio"
               checked={id === syncCloudId}
               name="syncCloudId"
@@ -68,6 +69,7 @@ const TurnOnSyncDialog: FunctionComponent<Readonly<TurnOnSyncDialogProps>> = pro
                 }
               }}
             />
+            <label class="ub-checkradio" for={id} />
           </div>
           <div class="control is-expanded">
             <label for={id}>
