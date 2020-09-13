@@ -234,7 +234,7 @@ const SetBlacklist: FunctionComponent = () => {
           />
         </div>
       </div>
-      <div class="ub-row field is-grouped is-grouped-multiline is-grouped-right">
+      <div class="field is-grouped is-grouped-multiline is-grouped-right">
         {latestBlacklist != null && (
           <div class="control is-expanded">
             <p class="has-text-grey">
@@ -259,40 +259,44 @@ const SetBlacklist: FunctionComponent = () => {
           </div>
         )}
         <div class="control">
-          <button
-            class="ub-button button has-text-primary"
-            onClick={() => {
-              setImportBlacklistDialogOpen(true);
-            }}
-          >
-            {translate('options_importBlacklistButton')}
-          </button>
-        </div>
-        <div class="control">
-          <button
-            class="ub-button button has-text-primary"
-            onClick={() => {
-              const a = document.createElement('a');
-              a.href = `data:text/plain;charset=UTF-8,${encodeURIComponent(blacklist)}`;
-              a.download = 'uBlacklist.txt';
-              a.click();
-            }}
-          >
-            {translate('options_exportBlacklistButton')}
-          </button>
-        </div>
-        <div class="control">
-          <button
-            class="ub-button button is-primary"
-            disabled={!blacklistDirty}
-            onClick={() => {
-              void sendMessage('set-blacklist', blacklist, 'options');
-              setBlacklistDirty(false);
-              setLatestBlacklist(null);
-            }}
-          >
-            {translate('options_saveBlacklistButton')}
-          </button>
+          <div class="ub-row field is-grouped">
+            <div class="control">
+              <button
+                class="ub-button button has-text-primary"
+                onClick={() => {
+                  setImportBlacklistDialogOpen(true);
+                }}
+              >
+                {translate('options_importBlacklistButton')}
+              </button>
+            </div>
+            <div class="control">
+              <button
+                class="ub-button button has-text-primary"
+                onClick={() => {
+                  const a = document.createElement('a');
+                  a.href = `data:text/plain;charset=UTF-8,${encodeURIComponent(blacklist)}`;
+                  a.download = 'uBlacklist.txt';
+                  a.click();
+                }}
+              >
+                {translate('options_exportBlacklistButton')}
+              </button>
+            </div>
+            <div class="control">
+              <button
+                class="ub-button button is-primary"
+                disabled={!blacklistDirty}
+                onClick={() => {
+                  void sendMessage('set-blacklist', blacklist, 'options');
+                  setBlacklistDirty(false);
+                  setLatestBlacklist(null);
+                }}
+              >
+                {translate('options_saveBlacklistButton')}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <Portal id="importBlacklistDialog">
