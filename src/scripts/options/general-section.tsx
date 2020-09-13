@@ -270,6 +270,19 @@ const SetBlacklist: FunctionComponent = () => {
         </div>
         <div class="control">
           <button
+            class="ub-button button has-text-primary"
+            onClick={() => {
+              const a = document.createElement('a');
+              a.href = `data:text/plain;charset=UTF-8,${encodeURIComponent(blacklist)}`;
+              a.download = 'uBlacklist.txt';
+              a.click();
+            }}
+          >
+            {translate('options_exportBlacklistButton')}
+          </button>
+        </div>
+        <div class="control">
+          <button
             class="ub-button button is-primary"
             disabled={!blacklistDirty}
             onClick={() => {

@@ -92,8 +92,11 @@ export default exportMessages({
   // The text of the button to reload the blacklist.
   options_reloadBlacklistButton: 'Reload',
 
-  // The text of the button to import a blacklist from Personal Blocklist.
+  // The text of the button to import a blacklist.
   options_importBlacklistButton: 'Import',
+
+  // The text of the button to export a blacklist.
+  options_exportBlacklistButton: 'Export',
 
   // The text of the button to save a blacklist.
   options_saveBlacklistButton: 'Save',

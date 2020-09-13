@@ -29,6 +29,7 @@ export type MessageName =
   | 'options_blacklistUpdated'
   | 'options_reloadBlacklistButton'
   | 'options_importBlacklistButton'
+  | 'options_exportBlacklistButton'
   | 'options_saveBlacklistButton'
   | 'options_importBlacklistDialog_title'
   | 'options_importBlacklistDialog_fromFile'

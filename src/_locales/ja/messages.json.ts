@@ -32,6 +32,7 @@ export default exportMessages({
   options_blacklistUpdated: '更新されています',
   options_reloadBlacklistButton: '再読み込み',
   options_importBlacklistButton: 'インポート',
+  options_exportBlacklistButton: 'エクスポート',
   options_saveBlacklistButton: '保存',
   options_importBlacklistDialog_title: 'インポート',
   options_importBlacklistDialog_fromFile: 'ファイルからインポートする',
