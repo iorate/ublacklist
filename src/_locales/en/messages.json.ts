@@ -105,7 +105,7 @@ export default exportMessages({
   options_importBlacklistDialog_title: 'Import',
 
   // The label for the radio to import from a file.
-  options_importBlacklistDialog_fromFile: 'From a file',
+  options_importBlacklistDialog_fromFile: 'Import from a file',
 
   // The text of the button to import from a file.
   options_importBlacklistDialog_selectFile: 'Select a file',
