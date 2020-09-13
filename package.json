@@ -35,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
     "bulma": "^0.9.0",
+    "bulma-checkradio": "^1.1.1",
     "bulma-switch": "^2.0.0",
     "commitizen": "^4.2.1",
     "copy-webpack-plugin": "^6.1.0",

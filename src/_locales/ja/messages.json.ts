@@ -31,11 +31,13 @@ export default exportMessages({
   options_blacklistExample: '例: $1',
   options_blacklistUpdated: '更新されています',
   options_reloadBlacklistButton: '再読み込み',
-  options_importBlacklistButton: 'Personal Blocklist からインポートする',
+  options_importBlacklistButton: 'インポート',
   options_saveBlacklistButton: '保存',
-  options_importBlacklistDialog_title: 'Personal Blocklist からインポートする',
-  options_importBlacklistDialog_helper:
-    'Personal Blocklist からエクスポートしたドメインのリストを貼り付けて下さい。',
+  options_importBlacklistDialog_title: 'インポート',
+  options_importBlacklistDialog_fromFile: 'ファイルからインポートする',
+  options_importBlacklistDialog_selectFile: 'ファイルを選択',
+  options_importBlacklistDialog_fromPB: 'Personal Blocklist からインポートする',
+  options_importBlacklistDialog_append: '既存のリストに追加する',
   options_importBlacklistDialog_importButton: 'インポート',
   options_otherSearchEngines: 'その他の検索エンジン',
   options_otherSearchEnginesDescription:

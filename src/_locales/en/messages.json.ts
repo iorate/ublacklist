@@ -93,16 +93,25 @@ export default exportMessages({
   options_reloadBlacklistButton: 'Reload',
 
   // The text of the button to import a blacklist from Personal Blocklist.
-  options_importBlacklistButton: 'Import from Personal Blocklist',
+  options_importBlacklistButton: 'Import',
 
   // The text of the button to save a blacklist.
   options_saveBlacklistButton: 'Save',
 
   // The title of the import-blacklist dialog.
-  options_importBlacklistDialog_title: 'Import from Personal Blocklist',
+  options_importBlacklistDialog_title: 'Import',
 
-  // The helper text for the textarea on the import-blacklist dialog.
-  options_importBlacklistDialog_helper: 'Paste a domain list exported from Personal Blocklist.',
+  // The label for the radio to import from a file.
+  options_importBlacklistDialog_fromFile: 'From a file',
+
+  // The text of the button to import from a file.
+  options_importBlacklistDialog_selectFile: 'Select a file',
+
+  // The label for the radio to import from Personal Blocklist.
+  options_importBlacklistDialog_fromPB: 'Import from Personal Blocklist',
+
+  // The text of the checkbox to append to the existing blacklist
+  options_importBlacklistDialog_append: 'Append to the existing list',
 
   // The text of the import button on the import-blacklist dialog.
   options_importBlacklistDialog_importButton: 'Import',
