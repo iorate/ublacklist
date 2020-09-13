@@ -68,6 +68,9 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist', browser, env),
   },
+  performance: {
+    hints: false,
+  },
   plugins: [
     new CopyPlugin({
       patterns: ['./images/**/*', './scripts/**/*.js', './**/*.html'],
