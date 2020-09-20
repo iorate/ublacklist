@@ -203,6 +203,9 @@
   box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
   margin-bottom: 10px;
   padding: 11px 16px;
+  &:empty {
+    display: none;
+  }
 }
 
 %mobile-action-colored {
@@ -269,6 +272,9 @@
     box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
     margin: 0 8px 10px;
     padding: 11px 16px;
+    &:empty {
+      display: none;
+    }
   }
 
   &-general-action {
