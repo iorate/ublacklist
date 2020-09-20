@@ -18,11 +18,12 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
       return null;
     }
     try {
-      const u = new URL(a.href, window.location.href);
-      if (u.pathname !== '/url') {
-        return null;
+      const u = new URL(a.href);
+      if (u.origin === window.location.origin && u.pathname === '/url') {
+        return u.searchParams.get('q');
+      } else {
+        return a.href;
       }
-      return u.searchParams.get('q');
     } catch {
       return null;
     }
