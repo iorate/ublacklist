@@ -19,11 +19,14 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
     }
     try {
       const u = new URL(a.href);
-      if (u.origin === window.location.origin && u.pathname === '/url') {
-        return u.searchParams.get('q');
-      } else {
-        return a.href;
+      if (u.origin === window.location.origin) {
+        if (u.pathname === '/url') {
+          return u.searchParams.get('q');
+        } else if (u.pathname === '/imgres' || u.pathname === '/search') {
+          return null;
+        }
       }
+      return a.href;
     } catch {
       return null;
     }
