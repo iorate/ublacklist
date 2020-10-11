@@ -19,6 +19,7 @@ $title-weight: normal;
 @import '~bulma/sass/layout/section.sass';
 @import '~bulma/sass/form/shared.sass';
 @import '~bulma/sass/form/checkbox-radio.sass';
+@import '~bulma/sass/form/file.sass';
 @import '~bulma/sass/form/input-textarea.sass';
 @import '~bulma/sass/form/select.sass';
 @import '~bulma/sass/form/tools.sass';
@@ -28,7 +29,6 @@ $title-weight: normal;
 @import '~bulma/sass/components/dropdown.sass';
 @import '~bulma/sass/components/modal.sass';
 @import '~bulma/sass/components/panel.sass';
-@import '~bulma-switch/dist/css/bulma-switch.sass';
 
 .ub-button.button {
   &[disabled] {

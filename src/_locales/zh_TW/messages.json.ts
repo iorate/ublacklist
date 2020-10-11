@@ -31,10 +31,7 @@ export default exportMessages({
   options_blacklistExample: '舉例: $1',
   options_blacklistUpdated: '封鎖清單已更新',
   options_reloadBlacklistButton: '重載',
-  options_importBlacklistButton: '匯入個人封鎖清單',
   options_saveBlacklistButton: '儲存',
-  options_importBlacklistDialog_title: '匯入個人封鎖清單',
-  options_importBlacklistDialog_helper: '貼上從 Personal Blocklist 匯出的網域清單。',
   options_importBlacklistDialog_importButton: '匯入',
   options_otherSearchEngines: '支援額外的網站',
   options_otherSearchEnginesDescription:

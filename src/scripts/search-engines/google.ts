@@ -18,11 +18,15 @@ function getURLFromQuery(selector: string): (entry: HTMLElement) => string | nul
       return null;
     }
     try {
-      const u = new URL(a.href, window.location.href);
-      if (u.pathname !== '/url') {
-        return null;
+      const u = new URL(a.href);
+      if (u.origin === window.location.origin) {
+        if (u.pathname === '/url') {
+          return u.searchParams.get('q');
+        } else if (u.pathname === '/imgres' || u.pathname === '/search') {
+          return null;
+        }
       }
-      return u.searchParams.get('q');
+      return a.href;
     } catch {
       return null;
     }
@@ -41,7 +45,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       // General, Web Result
       {
         getEntry: addedElement => {
-          if (!addedElement.matches('.g .s')) {
+          if (!addedElement.matches('.g .s, .g .IsZvec')) {
             return null;
           }
           const entry = addedElement.closest('.g') as HTMLElement;
@@ -210,9 +214,9 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       // People Also Ask
       '.related-question-pair': '.g',
       // Recipe, General (COVID-19), Web Result (COVID-19), ...
-      '.yl > div': '.YwonT, .s, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
+      '.yl > div': '.YwonT, .s, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
       // AutoPagerize
-      '.autopagerize_page_info ~ .g': '.s',
+      '.autopagerize_page_info ~ .g': '.s, .IsZvec',
     }),
   },
   // Books

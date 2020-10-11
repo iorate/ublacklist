@@ -31,10 +31,7 @@ export default exportMessages({
   options_blacklistExample: '例如: $1',
   options_blacklistUpdated: '黑名单已更新',
   options_reloadBlacklistButton: '重新加载',
-  options_importBlacklistButton: '从 Personal Blocklist 导入网站黑名单',
   options_saveBlacklistButton: '保存',
-  options_importBlacklistDialog_title: '从 Personal Blocklist 导入网站黑名单',
-  options_importBlacklistDialog_helper: '贴上你从 Personal Blocklist 导出的的网站黑名单',
   options_importBlacklistDialog_importButton: '导入',
   options_otherSearchEngines: '其他搜索引擎',
   options_otherSearchEnginesDescription:

@@ -16,10 +16,6 @@ export default exportMessages({
   options_blacklistLabel: 'Google arama sonuçlarında görünmesi engellenen siteler',
   options_blacklistHelper:
     '[Eşleşme desenleri](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) veya [düzenli ifadeler](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) kullanabilirsiniz.',
-  options_importBlacklistButton: "Personal Blocklist'ten içe aktar",
-  options_importBlacklistDialog_title: "Personal Blocklist'ten içe aktar",
-  options_importBlacklistDialog_helper:
-    'Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın.',
   options_importBlacklistDialog_importButton: 'İçe aktar',
   options_turnOnSync: 'Senkronizasyonu etkinleştir',
   clouds_googleDriveSync: 'Google Drive ile senkronize et',

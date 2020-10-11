@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from 'preact';
-import { useContext, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Dialog, DialogProps } from '../shared/dialog';
@@ -18,10 +18,18 @@ type ImportBlacklistDialogProps = DialogProps & {
 };
 
 const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogProps>> = props => {
-  const [blocklist, setBlocklist] = useState('');
+  const [source, setSource] = useState<'file' | 'pb'>('file');
+  const [file, setFile] = useState<File | null>(null);
+  const [pb, setPB] = useState('');
+  const [append, setAppend] = useState(false);
+  const fileInput = useRef<HTMLInputElement>();
   useLayoutEffect(() => {
     if (props.open) {
-      setBlocklist('');
+      setSource('file');
+      setFile(null);
+      setPB('');
+      setAppend(false);
+      fileInput.current.value = '';
     }
   }, [props.open]);
   return (
@@ -29,21 +37,101 @@ const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogPro
       <div class="field">
         <h1 class="title">{translate('options_importBlacklistDialog_title')}</h1>
       </div>
-      <div class="field">
-        <p class="has-text-grey">{translate('options_importBlacklistDialog_helper')}</p>
-        <p class="has-text-grey">{translate('options_blacklistExample', 'example.com')}</p>
-      </div>
-      <div class="field">
+      <div class="field is-grouped">
         <div class="control">
-          <textarea
-            class="ub-textarea textarea has-fixed-size"
-            rows={10}
-            spellcheck={false}
-            value={blocklist}
+          <input
+            id="fromFile"
+            class="is-checkradio is-small"
+            checked={source === 'file'}
+            name="source"
+            type="radio"
             onInput={e => {
-              setBlocklist(e.currentTarget.value);
+              if (e.currentTarget.checked) {
+                setSource('file');
+              }
             }}
           />
+          <label class="ub-checkradio" for="fromFile" />
+        </div>
+        <div class="control is-expanded">
+          <div class="field">
+            <label for="fromFile">{translate('options_importBlacklistDialog_fromFile')}</label>
+          </div>
+          <div class="field">
+            <div class="file has-name is-fullwidth is-right">
+              <label class="file-label">
+                <input
+                  class="file-input"
+                  accept="text/plain"
+                  ref={fileInput}
+                  type="file"
+                  onInput={e => {
+                    setSource('file');
+                    setFile(e.currentTarget.files?.[0] ?? null);
+                  }}
+                />
+                <span class="file-cta">
+                  <span class="file-label">
+                    {translate('options_importBlacklistDialog_selectFile')}
+                  </span>
+                </span>
+                <span class="file-name">{file?.name ?? ''}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <input
+            id="fromPB"
+            class="is-checkradio is-small"
+            checked={source === 'pb'}
+            name="source"
+            type="radio"
+            onInput={e => {
+              if (e.currentTarget.checked) {
+                setSource('pb');
+              }
+            }}
+          />
+          <label class="ub-checkradio" for="fromPB" />
+        </div>
+        <div class="control is-expanded">
+          <div class="field">
+            <label for="fromPB">{translate('options_importBlacklistDialog_fromPB')}</label>
+          </div>
+          <div class="field">
+            <textarea
+              class="ub-textarea textarea has-fixed-size"
+              rows={5}
+              spellcheck={false}
+              value={pb}
+              onInput={e => {
+                setSource('pb');
+                setPB(e.currentTarget.value);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <input
+            id="append"
+            class="is-checkradio is-small"
+            type="checkbox"
+            checked={append}
+            onInput={e => {
+              setAppend(e.currentTarget.checked);
+            }}
+          />
+          <label class="ub-checkradio" for="append" />
+        </div>
+        <div class="control is-expanded">
+          <label for="append">
+            <p>{translate('options_importBlacklistDialog_append')}</p>
+          </label>
         </div>
       </div>
       <div class="ub-row field is-grouped is-grouped-right">
@@ -60,18 +148,39 @@ const ImportBlacklistDialog: FunctionComponent<Readonly<ImportBlacklistDialogPro
         <div class="control">
           <button
             class="ub-button button is-primary"
+            disabled={source === 'file' ? !file : !pb}
             onClick={() => {
-              let newBlacklist = '';
-              for (const domain of lines(blocklist)) {
-                if (/^[^/*]+$/.test(domain)) {
-                  newBlacklist = `${newBlacklist}${newBlacklist ? '\n' : ''}*://*.${domain}/*`;
+              const replaceOrAppend = (newBlacklist: string) => {
+                if (append) {
+                  props.setBlacklist(
+                    oldBlacklist =>
+                      `${oldBlacklist}${oldBlacklist && newBlacklist ? '\n' : ''}${newBlacklist}`,
+                  );
+                } else {
+                  props.setBlacklist(() => newBlacklist);
                 }
-              }
-              if (newBlacklist) {
-                props.setBlacklist(
-                  blacklist => `${blacklist}${blacklist ? '\n' : ''}${newBlacklist}`,
-                );
                 props.setBlacklistDirty(true);
+              };
+              if (source === 'file') {
+                if (!file) {
+                  throw new Error('No file');
+                }
+                const fileReader = new FileReader();
+                fileReader.addEventListener('load', () => {
+                  replaceOrAppend(fileReader.result as string);
+                });
+                fileReader.readAsText(file);
+              } else {
+                if (!pb) {
+                  throw new Error('No PB');
+                }
+                let newBlacklist = '';
+                for (const domain of lines(pb)) {
+                  if (/^([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+$/.test(domain)) {
+                    newBlacklist = `${newBlacklist}${newBlacklist ? '\n' : ''}*://*.${domain}/*`;
+                  }
+                }
+                replaceOrAppend(newBlacklist);
               }
               props.setOpen(false);
             }}
@@ -125,7 +234,7 @@ const SetBlacklist: FunctionComponent = () => {
           />
         </div>
       </div>
-      <div class="ub-row field is-grouped is-grouped-multiline is-grouped-right">
+      <div class="field is-grouped is-grouped-multiline is-grouped-right">
         {latestBlacklist != null && (
           <div class="control is-expanded">
             <p class="has-text-grey">
@@ -150,27 +259,44 @@ const SetBlacklist: FunctionComponent = () => {
           </div>
         )}
         <div class="control">
-          <button
-            class="ub-button button has-text-primary"
-            onClick={() => {
-              setImportBlacklistDialogOpen(true);
-            }}
-          >
-            {translate('options_importBlacklistButton')}
-          </button>
-        </div>
-        <div class="control">
-          <button
-            class="ub-button button is-primary"
-            disabled={!blacklistDirty}
-            onClick={() => {
-              void sendMessage('set-blacklist', blacklist, 'options');
-              setBlacklistDirty(false);
-              setLatestBlacklist(null);
-            }}
-          >
-            {translate('options_saveBlacklistButton')}
-          </button>
+          <div class="ub-row field is-grouped">
+            <div class="control">
+              <button
+                class="ub-button button has-text-primary"
+                onClick={() => {
+                  setImportBlacklistDialogOpen(true);
+                }}
+              >
+                {translate('options_importBlacklistButton')}
+              </button>
+            </div>
+            <div class="control">
+              <button
+                class="ub-button button has-text-primary"
+                onClick={() => {
+                  const a = document.createElement('a');
+                  a.href = `data:text/plain;charset=UTF-8,${encodeURIComponent(blacklist)}`;
+                  a.download = 'uBlacklist.txt';
+                  a.click();
+                }}
+              >
+                {translate('options_exportBlacklistButton')}
+              </button>
+            </div>
+            <div class="control">
+              <button
+                class="ub-button button is-primary"
+                disabled={!blacklistDirty}
+                onClick={() => {
+                  void sendMessage('set-blacklist', blacklist, 'options');
+                  setBlacklistDirty(false);
+                  setLatestBlacklist(null);
+                }}
+              >
+                {translate('options_saveBlacklistButton')}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <Portal id="importBlacklistDialog">

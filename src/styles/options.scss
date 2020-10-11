@@ -1,6 +1,13 @@
 $body-size: 13px;
 
 @import './shared.scss';
+@import '~bulma-checkradio/dist/css/bulma-checkradio.sass';
+@import '~bulma-switch/dist/css/bulma-switch.sass';
+
+.is-checkradio[type='checkbox'].is-small + label.ub-checkradio,
+.is-checkradio[type='radio'].is-small + label.ub-checkradio {
+  padding-left: 0.5rem;
+}
 
 .ub-dialog.modal-content {
   max-width: 480px;
