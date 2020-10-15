@@ -17,11 +17,11 @@
   @extend %pc-action-inline;
   font-size: 14px;
   margin-left: 4px;
-  span + & {
-    margin-left: 0;
-  }
   .fl + & {
     margin-left: 6px;
+  }
+  span:not([class]) + & {
+    margin-left: 0;
   }
 }
 

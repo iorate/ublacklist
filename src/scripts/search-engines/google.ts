@@ -1,6 +1,7 @@
 import { SearchEngine, SearchEngineHandlers } from '../types';
 import {
   createAction,
+  createActionBefore,
   createControl,
   createControlBefore,
   getEntry,
@@ -45,7 +46,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       // General, Web Result
       {
         getEntry: addedElement => {
-          if (!addedElement.matches('.g .s, .g .IsZvec')) {
+          if (!addedElement.matches('.g .IsZvec, .g .s')) {
             return null;
           }
           const entry = addedElement.closest('.g') as HTMLElement;
@@ -148,6 +149,37 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
         getURL: getURL('a'),
         createAction: createAction('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
       },
+      // [Twitter]
+      // div.g.eejeod <Entry>
+      //   g-section-with-header
+      //     div.e2BEnf.U7izfe
+      //       div.otisdd
+      //         div.DOqJne
+      //           g-link
+      //             a.no-hover-decoration <URL>
+      //               cite.ellip.iUh30
+      //               <Action>
+      //               h3.NsiYH
+      //     div
+      //     a
+      // [Twitter Search]
+      // div.g.eejeod <Entry>
+      //   g-section-with-header
+      //     div.e2BEnf.U7izfe
+      //       div.otisdd
+      //         div.r.zTpPx
+      //           g-link
+      //             a.no-hover-decoration <URL>
+      //               cite.ellip.iUh30.D5gSDf
+      //               <Action>
+      //               h3.NsiYH
+      //     div
+      //     a
+      {
+        getEntry: getEntry('.eejeod'),
+        getURL: getURL('g-link > a'),
+        createAction: createActionBefore('ub-pc-all-general-action', '.NsiYH'),
+      },
       // Twitter
       {
         getEntry: getEntry('.g'),
@@ -179,6 +211,28 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           }
           return null;
         },
+      },
+      // [Video]
+      // div.VibNM <Entry>
+      //   div.QmUzgb.U5LfPc
+      //     div
+      //       a.WpKAof <URL>
+      //         div.q2eaDe
+      //           div.JWCxk.lxoWPd.orkam
+      //             ...
+      //           div.I78iTc.nNwWze
+      //             div.CwxNSe
+      //               ...
+      //             div.MmhWIb
+      //               span.ocUPSd.GlPvmc
+      //                 cite.hDeAhf
+      //                 span.GlPvmc.YnLDzf ?
+      //                 <Action>
+      //               div.rjmdhd
+      {
+        getEntry: getEntry('.VibNM'),
+        getURL: getURL('.WpKAof'),
+        createAction: createAction('ub-pc-all-general-action', '.ocUPSd'),
       },
       // Video
       {
@@ -214,9 +268,9 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       // People Also Ask
       '.related-question-pair': '.g',
       // Recipe, General (COVID-19), Web Result (COVID-19), ...
-      '.yl > div': '.YwonT, .s, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
+      '.yl > div': '.YwonT, .IsZvec, .s, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
       // AutoPagerize
-      '.autopagerize_page_info ~ .g': '.s, .IsZvec',
+      '.autopagerize_page_info ~ .g': '.IsZvec, .s',
     }),
   },
   // Books
@@ -353,16 +407,28 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       },
     ],
     entryHandlers: [
-      // General
+      // [General]
+      // div.g <Entry>
+      //   div.rc
+      //     div.yuRUbf
+      //       a <URL>
+      //         ...
+      //       div.B6fmyf
+      //         div.TbwUpd
+      //           ...
+      //         div.eFM0qc
+      //           <Action>
+      //     div.IsZvec
+      //       ...
       {
-        getEntry: getEntry('.g > .rc > .s', 2),
-        getURL: getURL('.r > a'),
+        getEntry: getEntry('.g > .rc > .IsZvec, .g > .rc > .s', 2),
+        getURL: getURL('.yuRUbf > a, .r > a'),
         createAction: createAction('ub-pc-videos-general-action', '.eFM0qc'),
       },
     ],
     getSilentlyAddedElements: getSilentlyAddedElements({
       // AutoPagerize
-      '.autopagerize_page_info ~ .g': '.s',
+      '.autopagerize_page_info ~ .g': '.IsZvec, .s',
     }),
   },
 };
