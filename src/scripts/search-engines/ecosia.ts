@@ -15,18 +15,8 @@ const ubSelectors = {
   button: '.ub-link-button',
 };
 
-function adjustButtons(element: HTMLElement): void {
-  for (const button of element.querySelectorAll<HTMLElement>(ubSelectors.button)) {
-    button.classList.add('msg__all');
-  }
-}
-
 export const ecosia: SearchEngine = {
-  matches: [
-    '*://www.ecosia.org/',
-    '*://www.ecosia.org//',
-    '*://www.ecosia.org/search?*'
-  ],
+  matches: [ '*://www.ecosia.org/search?*' ],
   messageNames: {
     name: 'searchEngines_ecosiaName',
   },
@@ -45,7 +35,6 @@ export const ecosia: SearchEngine = {
           message.insertBefore(control, message.firstChild);
           return control;
         },
-        adjustControl: adjustButtons,
       },
     ],
     entryHandlers: [
@@ -53,7 +42,6 @@ export const ecosia: SearchEngine = {
         getEntry: getEntry(pageSelectors.entry),
         getURL: getURL(pageSelectors.url),
         createAction: createAction(ubSelectors.action),
-        adjustEntry: adjustButtons,
       },
     ],
     getAddedElements: getAddedElements(pageSelectors.results),
