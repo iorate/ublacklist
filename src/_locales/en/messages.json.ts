@@ -1,6 +1,6 @@
 import { exportMessages } from '../../locale';
 
-export default exportMessages({
+exportAsJSON = exportMessages({
   // The extension name.
   extensionName: 'uBlacklist',
 

@@ -1,7 +1,7 @@
 import * as Poi from 'poi-ts';
 import { SearchEngine } from '../types';
 import { createAction, createControl, getAddedElements, getEntry, getURL } from './helpers';
-import startpageStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/startpage.scss';
+import startpageStyle from '../../styles/search-engines/startpage.scss';
 
 export const startpage: SearchEngine = {
   matches: [

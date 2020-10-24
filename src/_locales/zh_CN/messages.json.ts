@@ -1,6 +1,6 @@
 import { exportMessages } from '../../locale';
 
-export default exportMessages({
+exportAsJSON = exportMessages({
   extensionName: 'uBlacklist',
   extensionDescription: '屏蔽特定的网站显示在 Google 的搜索结果中。',
   dayjsLocale: 'zh-cn',

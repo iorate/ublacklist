@@ -1,7 +1,6 @@
-import path from 'path';
 import { googleMatches } from './google-matches';
 
-const manifest = {
+exportAsJSON = {
   background: {
     // #if CHROMIUM
     persistent: false,
@@ -64,12 +63,3 @@ const manifest = {
   permissions: ['activeTab', 'alarms', 'identity', 'storage'],
   version: '0.1.0',
 };
-
-export default (): { code: string; cacheable: boolean; dependencies: string[] } => ({
-  code: JSON.stringify(manifest, null, 2),
-  cacheable: true,
-  dependencies: [
-    path.resolve(__dirname, 'google-matches.d.ts'),
-    path.resolve(__dirname, 'google-matches.js'),
-  ],
-});

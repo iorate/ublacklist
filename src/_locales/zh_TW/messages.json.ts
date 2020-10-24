@@ -1,6 +1,6 @@
 import { exportMessages } from '../../locale';
 
-export default exportMessages({
+exportAsJSON = exportMessages({
   extensionName: 'uBlacklist',
   extensionDescription: '封鎖來自於 Google 搜尋結果中的特定網站',
   dayjsLocale: 'zh-tw',

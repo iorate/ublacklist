@@ -6,7 +6,7 @@ import { PathDepth } from './path-depth';
 import { Dialog } from './shared/dialog';
 import { TextWithLinks } from './shared/text-with-links';
 import { AltURL, translate } from './utilities';
-import style from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/block-form.scss';
+import style from '../styles/block-form.scss';
 
 type BlockFormProps = {
   open: boolean;

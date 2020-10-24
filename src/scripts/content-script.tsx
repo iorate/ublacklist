@@ -7,7 +7,7 @@ import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
 import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
 import { SearchEngineHandlers } from './types';
-import contentScriptStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/content-script.scss';
+import contentScriptStyle from '../styles/content-script.scss';
 
 const optionKeys = [
   'blacklist',

@@ -4,7 +4,7 @@ import { Blacklist } from './blacklist';
 import { BlockForm } from './block-form';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
-import popupStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/popup.scss';
+import popupStyle from '../styles/popup.scss';
 
 async function main(): Promise<void> {
   const url = (await apis.tabs.query({ active: true, currentWindow: true }))[0].url;
