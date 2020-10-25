@@ -30,7 +30,7 @@
   }
 }
 
-.ub-hide-blocked-entries {
+html[data-ub-hide-entry] {
   .ub-show-button {
     display: inline !important;
   }
@@ -42,10 +42,10 @@
   }
 }
 
-.ub-hide-control .ub-control {
+html[data-ub-hide-control] .ub-control {
   display: none !important;
 }
 
-.ub-hide-actions .ub-action {
+html[data-ub-hide-action] .ub-action {
   display: none !important;
 }

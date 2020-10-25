@@ -133,12 +133,12 @@ class Main {
     if (this.domContent) {
       this.renderControl();
     }
-    document.documentElement.classList.add('ub-hide-blocked-entries');
+    document.documentElement.dataset.ubHideEntry = '';
     if (options.hideControl) {
-      document.documentElement.classList.add('ub-hide-control');
+      document.documentElement.dataset.ubHideControl = '';
     }
     if (options.hideBlockLinks) {
-      document.documentElement.classList.add('ub-hide-actions');
+      document.documentElement.dataset.ubHideAction = '';
     }
   };
 
@@ -218,7 +218,7 @@ class Main {
       this.renderControl();
     }
     if (!this.blockedEntryCount) {
-      document.documentElement.classList.add('ub-hide-blocked-entries');
+      document.documentElement.dataset.ubHideEntry = '';
     }
   };
 
@@ -239,9 +239,6 @@ class Main {
     if (!this.domContent.control) {
       return;
     }
-    const onButtonClicked = () => {
-      document.documentElement.classList.toggle('ub-hide-blocked-entries');
-    };
     render(
       this.blockedEntryCount ? (
         <Fragment>
@@ -250,10 +247,20 @@ class Main {
               ? translate('content_singleSiteBlocked')
               : translate('content_multipleSitesBlocked', String(this.blockedEntryCount))}
           </span>{' '}
-          <LinkButton class="ub-show-button" onClick={onButtonClicked}>
+          <LinkButton
+            class="ub-show-button"
+            onClick={() => {
+              delete document.documentElement.dataset['ubHideEntry'];
+            }}
+          >
             {translate('content_showBlockedSitesLink')}
           </LinkButton>
-          <LinkButton class="ub-hide-button" onClick={onButtonClicked}>
+          <LinkButton
+            class="ub-hide-button"
+            onClick={() => {
+              document.documentElement.dataset.ubHideEntry = '';
+            }}
+          >
             {translate('content_hideBlockedSitesLink')}
           </LinkButton>
         </Fragment>
