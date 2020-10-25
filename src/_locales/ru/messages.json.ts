@@ -1,6 +1,6 @@
 import { exportMessages } from '../../locale';
 
-export default exportMessages({
+exportAsJSON = exportMessages({
   extensionName: 'uBlacklist',
   extensionDescription: 'Блокирует сайты в поисковой выдаче Google',
   dayjsLocale: 'ru',

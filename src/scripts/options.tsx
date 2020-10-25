@@ -3,7 +3,7 @@ import { ContextProvider } from './options/context';
 import { GeneralSection } from './options/general-section';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
-import optionsStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/options.scss';
+import optionsStyle from '../styles/options.scss';
 
 const Main: FunctionComponent = () => (
   <div class="ub-main">

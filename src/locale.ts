@@ -86,11 +86,10 @@ export type MessageName =
   | 'searchEngines_startpageName';
 
 export type MessageName1 = 'error' | 'content_multipleSitesBlocked' | 'options_blacklistExample';
-
 export type MessageName0 = Exclude<MessageName, MessageName1>;
 
-export type Messages = Partial<Record<MessageName, string>>;
-
-export function exportMessages(
-  messages: Messages,
-): () => { code: string; cacheable: boolean; dependencies: string[] };
+export function exportMessages(messages: Partial<Record<MessageName, string>>): unknown {
+  return Object.fromEntries(
+    Object.entries(messages).map(([messageName, message]) => [messageName, { message }]),
+  );
+}

@@ -1,11 +1,11 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'prettier'],
   env: {
     node: true,
   },
   ignorePatterns: ['/dist/*'],
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2019,
   },
   overrides: [
     {
@@ -15,7 +15,7 @@ module.exports = {
       },
     },
     {
-      files: ['src/**/*.{ts,tsx}'],
+      files: ['**/*.{ts,tsx}'],
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',

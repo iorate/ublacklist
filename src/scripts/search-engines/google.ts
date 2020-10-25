@@ -10,7 +10,7 @@ import {
   getURL,
 } from './helpers';
 import { googleMatches } from '../../google-matches';
-import googleStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/google.scss';
+import googleStyle from '../../styles/search-engines/google.scss';
 
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return entry => {

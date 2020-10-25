@@ -1,6 +1,6 @@
 import { exportMessages } from '../../locale';
 
-export default exportMessages({
+exportAsJSON = exportMessages({
   extensionName: 'uBlacklist',
   extensionDescription: '指定したサイトが Google の検索結果で表示されないようにします',
   dayjsLocale: 'ja',
