@@ -1,7 +1,6 @@
 import { SearchEngine, SearchEngineHandlers } from '../types';
 import {
   createAction,
-  createActionBefore,
   createControl,
   createControlBefore,
   getEntry,
@@ -157,8 +156,22 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       //         div.DOqJne
       //           g-link
       //             a.no-hover-decoration <URL>
+      //               br
+      //               h3.NsiYH
       //               cite.ellip.iUh30
-      //               <Action>
+      //                 <Action>
+      //     div
+      //     a
+      // [Twitter]
+      // div.g.eejeod <Entry>
+      //   g-section-with-header
+      //     div.e2BEnf.U7izfe
+      //       div.otisdd
+      //         div.DOqJne
+      //           g-link
+      //             a.no-hover-decoration <URL>
+      //               cite.ellip.iUh30
+      //                 <Action>
       //               h3.NsiYH
       //     div
       //     a
@@ -170,15 +183,35 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
       //         div.r.zTpPx
       //           g-link
       //             a.no-hover-decoration <URL>
+      //               br
+      //               h3.NsiYH
       //               cite.ellip.iUh30.D5gSDf
-      //               <Action>
+      //                 <Action>
+      //     div
+      //     a
+      // [Twitter Search]
+      // div.g.eejeod <Entry>
+      //   g-section-with-header
+      //     div.e2BEnf.U7izfe
+      //       div.otisdd
+      //         div.r.zTpPx
+      //           g-link
+      //             a.no-hover-decoration <URL>
+      //               cite.ellip.iUh30.D5gSDf
+      //                 <Action>
       //               h3.NsiYH
       //     div
       //     a
       {
         getEntry: getEntry('.eejeod'),
         getURL: getURL('g-link > a'),
-        createAction: createActionBefore('ub-pc-all-general-action', '.NsiYH'),
+        createAction: createAction('ub-pc-all-general-action', '.ellip'),
+        adjustEntry: entry => {
+          const ellip = entry.querySelector<HTMLElement>('.ellip');
+          if (ellip) {
+            ellip.style.overflow = 'visible';
+          }
+        },
       },
       // Twitter
       {
