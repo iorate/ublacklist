@@ -16,7 +16,7 @@ const ubSelectors = {
 };
 
 export const ecosia: SearchEngine = {
-  matches: [ '*://www.ecosia.org/search?*' ],
+  matches: ['*://www.ecosia.org/search?*'],
   messageNames: {
     name: 'searchEngines_ecosiaName',
   },
@@ -41,7 +41,7 @@ export const ecosia: SearchEngine = {
       {
         getEntry: getEntry(pageSelectors.entry),
         getURL: getURL(pageSelectors.url),
-        createAction: createAction(ubSelectors.action),
+        createAction: createAction(ubSelectors.action, ''),
       },
     ],
     getAddedElements: getAddedElements(pageSelectors.results),
