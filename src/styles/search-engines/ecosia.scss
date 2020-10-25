@@ -4,8 +4,15 @@
   color: #00644d;
 }
 
-.ub-control.msg {
-  font-size: 13px;
-  text-align: right;
-  padding-right: 1em;
+.ub-web {
+  &-control {
+    display: block;
+    font-size: 13px;
+    text-align: right;
+    padding-right: 1em;
+  }
+
+  &-general-action {
+    display: block;
+  }
 }

@@ -33,7 +33,7 @@ export const duckduckgo: SearchEngine = {
           if (!message) {
             return null;
           }
-          const control = document.createElement('div');
+          const control = document.createElement('span');
           control.className = 'ub-web-control msg';
           message.insertBefore(control, message.firstChild);
           return control;

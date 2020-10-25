@@ -59,7 +59,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
         getURL: getURL('.rc a'),
         createAction: entry => {
           const parent = entry.querySelector('.eFM0qc');
-          const action = document.createElement('div');
+          const action = document.createElement('span');
           if (parent) {
             action.className = 'ub-pc-all-general-action';
             parent.appendChild(action);
@@ -188,7 +188,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           const q = entry.querySelector('.qdrjAc');
           if (q) {
             // Twitter
-            const action = document.createElement('div');
+            const action = document.createElement('span');
             action.className = 'ub-pc-all-twitter-action';
             q.appendChild(action);
             return action;
@@ -196,7 +196,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           const r = entry.querySelector<HTMLElement>('.ellip + .r');
           if (r) {
             // Twitter Search
-            const action = document.createElement('div');
+            const action = document.createElement('span');
             action.className = 'ub-pc-all-twitter-search-action';
             getParent(r).insertBefore(action, r);
             return action;
@@ -204,7 +204,7 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           const d = entry.querySelector('.Dwsemf');
           if (d) {
             // Twitter Search (Favicon)
-            const action = document.createElement('div');
+            const action = document.createElement('span');
             action.className = 'ub-pc-all-twitter-search-action-favicon';
             d.appendChild(action);
             return action;
@@ -375,11 +375,11 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           }
           const parent = getParent(entry);
           const nextSibling = entry.nextSibling;
-          const div = document.createElement('div');
-          div.style.display = 'inline-block';
-          div.appendChild(entry);
-          div.appendChild(viewAll);
-          parent.insertBefore(div, nextSibling);
+          const span = document.createElement('span');
+          span.style.display = 'inline-block';
+          span.appendChild(entry);
+          span.appendChild(viewAll);
+          parent.insertBefore(span, nextSibling);
         },
       },
       // Image (Japanese)

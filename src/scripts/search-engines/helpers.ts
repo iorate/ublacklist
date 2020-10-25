@@ -6,7 +6,7 @@ export function createControl(className: string, parentSelector: string): () => 
     if (!parent) {
       return null;
     }
-    const control = document.createElement('div');
+    const control = document.createElement('span');
     control.className = className;
     parent.appendChild(control);
     return control;
@@ -22,7 +22,7 @@ export function createControlBefore(
     if (!nextSibling) {
       return null;
     }
-    const control = document.createElement('div');
+    const control = document.createElement('span');
     control.className = className;
     getParent(nextSibling).insertBefore(control, nextSibling);
     return control;
@@ -67,7 +67,7 @@ export function createAction(
     if (!parent) {
       return null;
     }
-    const action = document.createElement('div');
+    const action = document.createElement('span');
     action.className = className;
     parent.appendChild(action);
     return action;
@@ -83,7 +83,7 @@ export function createActionBefore(
     if (!nextSibling) {
       return null;
     }
-    const action = document.createElement('div');
+    const action = document.createElement('span');
     action.className = className;
     getParent(nextSibling).insertBefore(action, nextSibling);
     return action;

@@ -3,11 +3,13 @@
 }
 
 .ub-control.msg {
+  display: block;
   padding: 0.5em 10px;
 }
 
 .ub-web {
   &-general-action {
+    display: block;
     margin-top: 2px;
   }
 }

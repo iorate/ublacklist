@@ -11,7 +11,7 @@ const pageSelectors = {
 
 const ubSelectors = {
   action: 'ub-web-general-action',
-  control: 'ub-web-control msg',
+  control: 'ub-web-control',
   button: '.ub-link-button',
 };
 
@@ -30,7 +30,7 @@ export const ecosia: SearchEngine = {
           if (!message) {
             return null;
           }
-          const control = document.createElement('div');
+          const control = document.createElement('span');
           control.className = ubSelectors.control;
           message.insertBefore(control, message.firstChild);
           return control;

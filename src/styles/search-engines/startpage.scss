@@ -8,6 +8,7 @@
 
 %control-default {
   @extend %control-colored;
+  display: block;
   font-size: 14px;
   margin: 8px 16px 0;
   @media (min-width: 990px) {
@@ -16,6 +17,7 @@
 }
 
 %action-default {
+  display: block;
   font-size: 14px;
   margin-top: 4px;
 }
@@ -35,6 +37,7 @@
 .ub-images {
   &-control {
     @extend %control-colored;
+    display: block;
     font-size: 14px;
     margin: 8px 13px 0;
     @media (min-width: 990px) {
@@ -43,6 +46,7 @@
   }
 
   &-action {
+    display: block;
     font-size: 12px;
     height: 18px;
     margin: 8px 0;
@@ -67,6 +71,7 @@
   }
 
   &-action {
+    display: block;
     font-size: 14px;
     margin-top: 0;
   }
