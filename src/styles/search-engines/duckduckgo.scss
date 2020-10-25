@@ -13,3 +13,12 @@
     margin-top: 2px;
   }
 }
+
+// https://github.com/iorate/uBlacklist/issues/64
+.ub-is-blocked + .results__sitelink--organics {
+  background-color: rgba(255, 192, 192, 0.5);
+}
+
+html[data-ub-hide-entry] .ub-is-blocked + .results__sitelink--organics {
+  display: none;
+}
