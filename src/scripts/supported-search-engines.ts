@@ -7,6 +7,6 @@ import { SearchEngines } from './types';
 export const supportedSearchEngines: SearchEngines = {
   google,
   duckduckgo,
-  startpage,
   ecosia,
+  startpage,
 };
