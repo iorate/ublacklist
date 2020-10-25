@@ -258,6 +258,9 @@ export default exportMessages({
   // The localized name of DuckDuckGo
   searchEngines_duckduckgoName: 'DuckDuckGo',
 
+  // The localized name of Ecosia
+  searchEngines_ecosiaName: 'Ecosia',
+
   // The localized name of Startpage.com
   searchEngines_startpageName: 'Startpage.com',
 });

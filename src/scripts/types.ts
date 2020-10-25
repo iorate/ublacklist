@@ -50,7 +50,7 @@ export type CloudToken = {
 // #endregion Clouds
 
 // #region SearchEngines
-export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage';
+export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage' | 'ecosia';
 
 export type ControlHandler = {
   createControl(): HTMLElement | null;

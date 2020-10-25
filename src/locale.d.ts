@@ -82,6 +82,7 @@ export type MessageName =
   | 'clouds_dropboxSyncDescription'
   | 'clouds_dropboxSyncTurnedOn'
   | 'searchEngines_duckduckgoName'
+  | 'searchEngines_ecosiaName'
   | 'searchEngines_startpageName';
 
 export type MessageName1 = 'error' | 'content_multipleSitesBlocked' | 'options_blacklistExample';
