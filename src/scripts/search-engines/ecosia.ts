@@ -1,6 +1,6 @@
 import { SearchEngine } from '../types';
 import { createAction, getAddedElements, getEntry, getURL } from './helpers';
-import ecosiaStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/ecosia.scss';
+import ecosiaStyle from '../../styles/search-engines/ecosia.scss';
 
 const pageSelectors = {
   results: '.mainline-results .result',
