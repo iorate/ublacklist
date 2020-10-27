@@ -57,7 +57,7 @@ $body-size: 13px;
 
 // Sync
 .ub-notify-sync-updated-icon {
-  background: url('~@mdi/svg/svg/alert.svg?fill=%237a7a7a') center no-repeat;
+  background: url('~@mdi/svg/svg/alert.svg?fill=%25237a7a7a') center no-repeat;
   height: 2.25rem;
   width: 2.25rem;
 }
@@ -83,6 +83,8 @@ $body-size: 13px;
 }
 
 .ub-subscription-menu-button.button {
-  background: url('~@mdi/svg/svg/dots-vertical.svg?fill=%237a7a7a') center no-repeat;
+  // '#' shall be encoded twice. '#' => '%23' => '%2523'
+  // See https://github.com/webpack-contrib/css-loader/issues/1048
+  background: url('~@mdi/svg/svg/dots-vertical.svg?fill=%25237a7a7a') center no-repeat;
   width: 2.25rem;
 }
