@@ -241,7 +241,7 @@ class Main {
     }
     render(
       this.blockedEntryCount ? (
-        <Fragment>
+        <>
           <span class="ub-stats">
             {this.blockedEntryCount === 1
               ? translate('content_singleSiteBlocked')
@@ -263,7 +263,7 @@ class Main {
           >
             {translate('content_hideBlockedSitesLink')}
           </LinkButton>
-        </Fragment>
+        </>
       ) : null,
       this.domContent.control,
     );
@@ -284,14 +284,14 @@ class Main {
       }
     };
     render(
-      <Fragment>
+      <>
         <LinkButton class="ub-block-button" onClick={onButtonClicked}>
           {translate('content_blockSiteLink')}
         </LinkButton>
         <LinkButton class="ub-unblock-button" onClick={onButtonClicked}>
           {translate('content_unblockSiteLink')}
         </LinkButton>
-      </Fragment>,
+      </>,
       action,
     );
   };

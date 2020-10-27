@@ -11,5 +11,5 @@ export const Portal: FunctionComponent<PortalProps> = props => {
     root = document.body.appendChild(document.createElement('div'));
     root.id = props.id;
   }
-  return createPortal(<Fragment>{props.children}</Fragment>, root);
+  return createPortal(<>{props.children}</>, root);
 };

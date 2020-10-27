@@ -206,17 +206,17 @@ const BlockFormBase: FunctionComponent<Readonly<BlockFormProps>> = props => {
 };
 
 export const BlockForm: FunctionComponent<Readonly<BlockFormProps>> = props => (
-  <Fragment>
+  <>
     <style>{style}</style>
     <BlockFormBase {...props} />
-  </Fragment>
+  </>
 );
 
 export const BlockDialog: FunctionComponent<Readonly<BlockFormProps>> = props => (
-  <Fragment>
+  <>
     <style>{style}</style>
     <Dialog open={props.open} setOpen={props.setOpen}>
       <BlockFormBase {...props} />
     </Dialog>
-  </Fragment>
+  </>
 );

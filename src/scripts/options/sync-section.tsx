@@ -130,10 +130,10 @@ const TurnOnSync: FunctionComponent<Readonly<TurnOnSyncProps>> = props => {
       <div class="ub-row field is-grouped">
         <div class="control is-expanded">
           {props.syncCloudId == null ? (
-            <Fragment>
+            <>
               <p>{translate('options_syncFeature')}</p>
               <p class="has-text-grey">{translate('options_syncFeatureDescription')}</p>
-            </Fragment>
+            </>
           ) : (
             <p>{translate(supportedClouds[props.syncCloudId].messageNames.syncTurnedOn)}</p>
           )}

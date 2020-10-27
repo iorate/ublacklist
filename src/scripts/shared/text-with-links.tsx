@@ -19,5 +19,5 @@ export const TextWithLinks: FunctionComponent<Readonly<TextWithLinksProps>> = pr
       ++i;
     }
   }
-  return <Fragment>{children}</Fragment>;
+  return <>{children}</>;
 };
