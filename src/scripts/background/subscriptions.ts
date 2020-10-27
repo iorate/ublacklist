@@ -53,7 +53,7 @@ export async function update(id: SubscriptionId): Promise<void> {
           new HTTPError(response.status, response.statusText).message,
         );
       }
-    } catch (e) {
+    } catch (e: unknown) {
       subscription.updateResult = errorResult(e instanceof Error ? e.message : 'Unknown error');
     }
     // Lock now.

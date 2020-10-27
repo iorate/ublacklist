@@ -34,7 +34,7 @@ export function postMessage<Type extends MessageTypes>(
   void (async () => {
     try {
       await apis.runtime.sendMessage({ type, args });
-    } catch (e) {
+    } catch (e: unknown) {
       if (
         e instanceof Error &&
         e.message === 'Could not establish connection. Receiving end does not exist.'

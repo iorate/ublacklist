@@ -39,7 +39,7 @@ export async function sync(): Promise<{ interval: number | null }> {
         await LocalStorage.store({ syncResult: result });
       }
       postMessage('blacklist-synced', result);
-    } catch (e) {
+    } catch (e: unknown) {
       const result = errorResult(e instanceof Error ? e.message : 'Unknown error');
       await LocalStorage.store({ syncResult: result });
       postMessage('blacklist-synced', result);

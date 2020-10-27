@@ -130,7 +130,7 @@ export class Mutex {
       this.queue.push(async () => {
         try {
           resolve(await Promise.resolve(func()));
-        } catch (e) {
+        } catch (e: unknown) {
           reject(e);
         }
       });

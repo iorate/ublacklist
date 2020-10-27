@@ -68,7 +68,7 @@ export async function syncFile(
         await LocalStorage.store({
           syncCloudToken: { accessToken, expiresAt: expiresAt.toISOString(), refreshToken },
         });
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof HTTPError && e.status === 400) {
           await LocalStorage.store({ syncCloudToken: null });
           throw new Error(translate('unauthorizedError'));
@@ -83,7 +83,7 @@ export async function syncFile(
     const refreshOnUnauthorized = async <T>(f: () => Promise<T>): Promise<T> => {
       try {
         return await f();
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof HTTPError && e.status === 401) {
           await refresh();
           return await f();
