@@ -97,7 +97,7 @@ ${content}\r
     }).toString();
     const response = await fetch(requestURL.toString());
     if (response.ok) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(
         responseBody,
         Poi.object({

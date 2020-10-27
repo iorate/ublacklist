@@ -59,7 +59,7 @@ export function getAccessToken(
       }),
     });
     if (response.ok) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(
         responseBody,
         Poi.object({
@@ -99,7 +99,7 @@ export function refreshAccessToken(
       }),
     });
     if (response.ok) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(
         responseBody,
         Poi.object({ access_token: Poi.string(), expires_in: Poi.number() }),

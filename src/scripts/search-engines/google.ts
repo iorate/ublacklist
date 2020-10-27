@@ -48,7 +48,8 @@ const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
           if (!addedElement.matches('.g .IsZvec, .g .s')) {
             return null;
           }
-          const entry = addedElement.closest('.g') as HTMLElement;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const entry = addedElement.closest<HTMLElement>('.g')!;
           if (entry.matches('.g *')) {
             // Featured Snippet, People Also Ask, ...?
             return null;

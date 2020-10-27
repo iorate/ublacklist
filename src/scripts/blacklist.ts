@@ -219,7 +219,7 @@ export class Blacklist {
       }
     }
     this.patch = patch;
-    return patch as BlacklistPatch;
+    return patch;
   }
 
   // Modify a created patch.
@@ -247,7 +247,7 @@ export class Blacklist {
       return null;
     }
     this.patch.rulesToAdd = patch.rulesToAdd;
-    return this.patch as BlacklistPatch;
+    return this.patch;
   }
 
   applyPatch(): void {

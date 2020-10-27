@@ -50,7 +50,7 @@ export const startpage: SearchEngine = {
             return null;
           }
           try {
-            const metadata = JSON.parse(entry.dataset.imgMetadata) as unknown;
+            const metadata: unknown = JSON.parse(entry.dataset.imgMetadata);
             Poi.validate(metadata, Poi.object({ displayUrl: Poi.string() }));
             return metadata.displayUrl;
           } catch {
