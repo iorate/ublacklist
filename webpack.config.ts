@@ -1,3 +1,4 @@
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
 import glob from 'glob';
@@ -109,6 +110,7 @@ const config: webpack.Configuration = {
     hints: false,
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: ['./images/**/*', './scripts/**/*.js', './**/*.html'],
     }),
