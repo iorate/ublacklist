@@ -35,12 +35,12 @@ class JsonJsPlugin {
 
 const browser = process.env.BROWSER === 'firefox' ? 'firefox' : 'chrome';
 const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-const ifdefLoader = {
-  loader: 'ifdef-loader',
+const ifWebpackLoader = {
+  loader: 'if-webpack-loader',
   options: {
-    CHROMIUM: browser === 'chrome',
+    CHROME: browser === 'chrome',
+    FIREFOX: browser === 'firefox',
     DEBUG: env === 'development',
-    'ifdef-triple-slash': false,
   },
 };
 
@@ -82,7 +82,7 @@ const config: webpack.Configuration = {
             },
           },
           'sass-loader',
-          ifdefLoader,
+          ifWebpackLoader,
         ],
       },
       {
@@ -91,7 +91,7 @@ const config: webpack.Configuration = {
       },
       {
         test: /\.tsx?$/,
-        use: ['ts-loader', ifdefLoader],
+        use: ['ts-loader', ifWebpackLoader],
       },
     ],
   },

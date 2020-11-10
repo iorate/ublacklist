@@ -231,16 +231,13 @@ export const SyncSection: FunctionComponent = () => {
     platformInfo: { os },
   } = useContext(Context);
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
-  // #if CHROMIUM
-  const mobile = false;
-  /*
-  // #else
-  const mobile = os === 'android';
-  // #endif
-  // #if CHROMIUM
+  /* #if FIREFOX
+  if (os === 'android') {
+    return null;
+  }
   */
   // #endif
-  return mobile ? null : (
+  return (
     <Section id="sync" title={translate('options_syncTitle')}>
       <NotifySyncUpdated />
       <TurnOnSync syncCloudId={syncCloudId} setSyncCloudId={setSyncCloudId} />

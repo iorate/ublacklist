@@ -5333,12 +5333,10 @@ ieee754@^1.1.4:
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
   integrity sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==
 
-ifdef-loader@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/ifdef-loader/-/ifdef-loader-2.1.5.tgz#f9c3505a7335daffb8593e6d9ecfc8dcdd59409e"
-  integrity sha512-GMUW5L8ZjsKRGABV3iXLdNFe2l7qFp9jeGYS55I6RNZLgQpicKxUfdH5oLDJ1cu+udb0hZiglwW6nX2kzgy86w==
-  dependencies:
-    loader-utils "^1.1.0"
+if-webpack-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/if-webpack-loader/-/if-webpack-loader-1.0.0.tgz#f125c20e54ba22591d71d139208cafcacb40f597"
+  integrity sha512-wRuRR6hRvtjGpgl+8Xo/YUUU9cNPmhmGmf3aOgFMN0gluUrMWNZ7zhAT1X/GhdO7oAhBb/ROXt3+gGV8U+mSaw==
 
 iferr@^0.1.5:
   version "0.1.5"

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-// #if CHROMIUM
+// #if CHROME
 export namespace apis {
   export namespace alarms {
     export type Alarm = chrome.alarms.Alarm;
@@ -240,10 +240,7 @@ export namespace apis {
     };
   }
 }
-/*
-// #else
+/* #elif FIREFOX
 export import apis = browser;
-// #endif
-// #if CHROMIUM
 */
 // #endif

@@ -5,23 +5,19 @@ import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function register(id: SearchEngineId): Promise<void> {
-  // #if CHROMIUM
-  /*
-  // #else
+  /* #if FIREFOX
   await browser.contentScripts.register({
     js: [{ file: '/scripts/content-script.js' }],
     matches: supportedSearchEngines[id].matches,
     runAt: 'document_start',
   });
-  // #endif
-  // #if CHROMIUM
   */
   // #endif
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function registerAll(): Promise<void> {
-  // #if CHROMIUM
+  // #if CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     void (async () => {
       if (changeInfo.status !== 'loading' || tab.url == null) {
@@ -49,8 +45,7 @@ export async function registerAll(): Promise<void> {
       }
     })();
   });
-  /*
-  // #else
+  /* #elif FIREFOX
   await Promise.all(
     stringEntries(supportedSearchEngines).map(async ([id, searchEngine]) => {
       if (id === 'google') {
@@ -61,8 +56,6 @@ export async function registerAll(): Promise<void> {
       }
     }),
   );
-  // #endif
-  // #if CHROMIUM
   */
   // #endif
 }

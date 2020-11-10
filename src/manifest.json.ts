@@ -2,7 +2,7 @@ import { googleMatches } from './google-matches';
 
 exportAsJSON = {
   background: {
-    // #if CHROMIUM
+    // #if CHROME
     persistent: false,
     // #endif
     scripts: ['scripts/background.js'],
@@ -14,16 +14,12 @@ exportAsJSON = {
     },
     default_popup: 'popup.html',
   },
-  // #if CHROMIUM
-  /*
-  // #elif DEBUG
+  /* #if FIREFOX && DEBUG
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',
     },
   },
-  // #endif
-  // #if CHROMIUM
   */
   // #endif
   content_scripts: [
@@ -40,7 +36,7 @@ exportAsJSON = {
     48: 'images/icon-48.png',
     128: 'images/icon-128.png',
   },
-  // #if CHROMIUM
+  // #if CHROME
   key:
     'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm+2y1Q2VH/S9rGxa/2kzRRspyxcA8R5QBa49JK/wca2kqyfpI/traqNnNY8SfRzOugtVP+8/WbyOY44wgr427VYws6thZ//cV2NDadEMqUF5dba9LR26QHXPFUWdbUyCtNHNVP4keG/OeGJ6thOrKUlxYorK9JAmdG1szucyOKt8+k8HNVfZFTi2UHGLn1ANLAsu6f4ykb6Z0QNNCysWuNHqtFEy4j0B4T+h5VZ+Il2l3yf8uGk/zAbJE7x0C7SIscBrWQ9jcliS/e25C6mEr5lrMhQ+VpVVsRVGg7PwY7xLywKHZM8z1nzLdpMs7egEqV25HiA/PEcaQRWwDKDqwQIDAQAB',
   // #endif
@@ -48,13 +44,11 @@ exportAsJSON = {
   name: '__MSG_extensionName__',
   optional_permissions: ['*://*/*'],
   options_ui: {
-    // #if CHROMIUM
-    /*
-    // #else
+    /* #if FIREFOX
     browser_style: false,
-    // #endif
-    // #if CHROMIUM
     */
+    // #endif
+    // #if CHROME
     chrome_style: false,
     // #endif
     open_in_tab: true,

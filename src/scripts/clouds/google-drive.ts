@@ -13,12 +13,8 @@ const MULTIPART_RELATED_BOUNDARY = '----------uBlacklistMultipartRelatedBoundary
 
 export const googleDrive: Cloud = {
   hostPermissions: [
-    // #if CHROMIUM
-    /*
-    // #else
+    /* #if FIREFOX
     'https://www.googleapis.com/*',
-    // #endif
-    // #if CHROMIUM
     */
     // #endif
   ],
