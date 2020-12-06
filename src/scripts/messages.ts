@@ -1,5 +1,5 @@
 import { apis } from './apis';
-import { CloudId, SearchEngineId, Result, Subscription, SubscriptionId } from './types';
+import { CloudId, Result, SearchEngineId, Subscription, SubscriptionId } from './types';
 
 export type SetBlacklistSource = 'content-script' | 'popup' | 'options' | 'background';
 

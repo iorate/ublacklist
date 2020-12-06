@@ -3,20 +3,25 @@ import { ContextProvider } from './options/context';
 import { GeneralSection } from './options/general-section';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
-import optionsStyle from '../styles/options.scss';
+import { Baseline } from './components/baseline';
+import { Container } from './components/container';
+import { AutoThemeProvider } from './components/theme';
 
 const Main: FunctionComponent = () => (
-  <div class="ub-main">
-    <ContextProvider>
-      <GeneralSection />
-      <SyncSection />
-      <SubscriptionSection />
-    </ContextProvider>
-  </div>
+  <ContextProvider>
+    <AutoThemeProvider>
+      <Baseline>
+        <Container>
+          <GeneralSection />
+          <SyncSection />
+          <SubscriptionSection />
+        </Container>
+      </Baseline>
+    </AutoThemeProvider>
+  </ContextProvider>
 );
 
 function main(): void {
-  render(optionsStyle, document.head.appendChild(document.createElement('style')));
   render(<Main />, document.body.appendChild(document.createElement('div')));
 }
 

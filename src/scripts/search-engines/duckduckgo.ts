@@ -1,6 +1,6 @@
 import { SearchEngine } from '../types';
+import duckduckgoStyle from './duckduckgo.scss';
 import { createAction, getAddedElements, getEntry, getURL } from './helpers';
-import duckduckgoStyle from '../../styles/search-engines/duckduckgo.scss';
 
 function adjustButtons(element: HTMLElement): void {
   for (const button of element.querySelectorAll<HTMLElement>('.ub-link-button')) {

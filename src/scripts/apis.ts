@@ -36,7 +36,8 @@ export namespace apis {
           if (chrome.runtime.lastError) {
             reject(new Error(chrome.runtime.lastError.message));
           } else {
-            resolve(responseUrl);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            resolve(responseUrl!);
           }
         });
       });

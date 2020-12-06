@@ -1,5 +1,5 @@
 import type dayjs from 'dayjs';
-import type { MessageName0 } from '../locale';
+import type { MessageName0 } from '../common/locales';
 
 // #region Result
 export type ErrorResult = {

@@ -1,13 +1,13 @@
 import mobile from 'is-mobile';
 import { Fragment, FunctionComponent, h, render } from 'preact';
+import contentScriptStyle from './content-script.scss';
 import { Blacklist } from './blacklist';
-import { BlockDialog } from './block-form';
+import { BlockDialog } from './block-dialog';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
 import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
 import { SearchEngineHandlers } from './types';
-import contentScriptStyle from '../styles/content-script.scss';
 
 const optionKeys = [
   'blacklist',
@@ -103,7 +103,7 @@ class Main {
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {
-            // #if DEBUG
+            // #if DEVELOPMENT
             console.debug(addedNode.cloneNode(true));
             // #endif
             if (addedNode === document.head) {
@@ -301,10 +301,9 @@ class Main {
     assertNonNull(this.domContent);
     render(
       <BlockDialog
+        target={this.domContent.blockDialogRoot}
         open={open}
-        setOpen={open => {
-          this.renderBlockDialog(url, open);
-        }}
+        close={() => this.renderBlockDialog(url, false)}
         url={url}
         blacklist={this.options.blacklist}
         enablePathDepth={this.options.enablePathDepth}

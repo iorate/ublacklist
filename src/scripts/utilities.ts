@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
+import { MessageName, MessageName0, MessageName1 } from '../common/locales';
 import { apis } from './apis';
 import { ErrorResult, Result, SuccessResult } from './types';
-import { MessageName, MessageName0, MessageName1 } from '../locale';
 
 export class AltURL {
   readonly scheme: string;

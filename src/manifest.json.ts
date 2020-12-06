@@ -1,6 +1,6 @@
-import { googleMatches } from './google-matches';
+import { googleMatches } from './common/google-matches';
 
-exportAsJSON = {
+exportAsJson('manifest.json', {
   background: {
     // #if CHROME
     persistent: false,
@@ -12,9 +12,9 @@ exportAsJSON = {
       19: 'images/icon-grey-19.png',
       38: 'images/icon-grey-38.png',
     },
-    default_popup: 'popup.html',
+    default_popup: 'html/popup.html',
   },
-  /* #if FIREFOX && DEBUG
+  /* #if FIREFOX && DEVELOPMENT
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',
@@ -44,16 +44,15 @@ exportAsJSON = {
   name: '__MSG_extensionName__',
   optional_permissions: ['*://*/*'],
   options_ui: {
-    /* #if FIREFOX
+    // #if CHROME
+    chrome_style: false,
+    /* #else
     browser_style: false,
     */
     // #endif
-    // #if CHROME
-    chrome_style: false,
-    // #endif
     open_in_tab: true,
-    page: 'options.html',
+    page: 'html/options.html',
   },
   permissions: ['activeTab', 'alarms', 'identity', 'storage'],
   version: '0.1.0',
-};
+});

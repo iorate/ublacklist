@@ -4,18 +4,191 @@
       "path": "cz-conventional-changelog"
     }
   },
+  "devDependencies": {
+    "@mdi/svg": "^5.7.55",
+    "@types/chrome": "0.0.126",
+    "@types/copy-webpack-plugin": "^6.2.0",
+    "@types/dotenv-webpack": "^5.0.0",
+    "@types/firefox-webext-browser": "^82.0.0",
+    "@types/glob": "^7.1.3",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.7",
+    "@types/terser-webpack-plugin": "^5.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "commitizen": "^4.2.2",
+    "copy-webpack-plugin": "^6.3.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "^5.0.1",
+    "csstype": "^3.0.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "dayjs": "^1.9.6",
+    "dotenv-webpack": "^5.1.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fibers": "^5.0.0",
+    "goober": "^2.0.15",
+    "html-webpack-plugin": "^4.5.0",
+    "if-webpack-loader": "^1.0.1",
+    "is-mobile": "^2.2.1",
+    "jest": "^26.6.3",
+    "license-webpack-plugin": "^2.3.0",
+    "nanoid": "^3.1.20",
+    "npm-run-all": "^4.1.5",
+    "poi-ts": "^0.2.0",
+    "preact": "10.5.7",
+    "prettier": "^2.1.2",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "semantic-release": "^17.2.2",
+    "semantic-release-chrome": "^1.1.3",
+    "semantic-release-firefox-add-on": "^0.2.6",
+    "stylelint": "^13.7.2",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-scss": "^3.17.2",
+    "terser-webpack-plugin": "^5.0.3",
+    "to-string-loader": "^1.1.6",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.11",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "prettier"
+    ],
+    "ignorePatterns": [
+      "/dist/*"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2019
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/scripts/**/*.js"
+        ],
+        "env": {
+          "browser": true
+        }
+      },
+      {
+        "files": [
+          "**/*.{ts,tsx}"
+        ],
+        "extends": [
+          "plugin:@typescript-eslint/recommended",
+          "plugin:@typescript-eslint/recommended-requiring-type-checking",
+          "plugin:import/typescript",
+          "plugin:react/recommended",
+          "plugin:react-hooks/recommended",
+          "prettier/@typescript-eslint",
+          "prettier/react"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+          "project": "./tsconfig.json"
+        },
+        "plugins": [
+          "@typescript-eslint"
+        ],
+        "rules": {
+          "sort-imports": [
+            "warn",
+            {
+              "ignoreDeclarationSort": true
+            }
+          ],
+          "import/order": [
+            "warn"
+          ],
+          "react/no-unknown-property": [
+            "error",
+            {
+              "ignore": [
+                "class",
+                "for",
+                "spellcheck"
+              ]
+            }
+          ],
+          "react/prop-types": [
+            "off"
+          ]
+        }
+      }
+    ],
+    "settings": {
+      "react": {
+        "pragma": "h",
+        "version": "16.0"
+      }
+    }
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "private": true,
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "semantic-release-chrome",
+        {
+          "asset": "ublacklist-chrome.zip",
+          "distFolder": "dist/chrome/production",
+          "extensionId": "pncfbmialoiaghdehhbnbhkkgmjanfhe"
+        }
+      ],
+      [
+        "semantic-release-firefox-add-on",
+        {
+          "channel": "listed",
+          "extensionId": "@ublacklist",
+          "sourceDir": "dist/firefox/production",
+          "targetXpi": "ublacklist-firefox.xpi"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "name": "ublacklist-${nextRelease.gitTag}-chrome.zip",
+              "path": "ublacklist-chrome.zip"
+            },
+            {
+              "name": "ublacklist-${nextRelease.gitTag}-firefox.xpi",
+              "path": "artifacts/ublacklist-firefox.xpi"
+            }
+          ]
+        }
+      ]
+    ]
+  },
   "scripts": {
     "build": "run-p --print-label build:**",
     "build:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --color",
     "build:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack --color",
     "build:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color",
     "build:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color",
-    "clean": "run-p --print-label clean:**",
-    "clean:chrome:development": "rimraf dist/chrome/development node_modules/.cache/webpack/chrome-development",
-    "clean:chrome:production": "rimraf dist/chrome/production node_modules/.cache/webpack/chrome-production",
-    "clean:firefox:development": "rimraf dist/firefox/development node_modules/.cache/webpack/firefox-development",
-    "clean:firefox:production": "rimraf dist/firefox/production node_modules/.cache/webpack/firefox-production",
     "commit": "git-cz",
     "lint": "run-p --print-label lint:*",
     "lint:eslint": "eslint --color .",
@@ -32,61 +205,10 @@
     "watch:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color --watch",
     "watch:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color --watch"
   },
-  "devDependencies": {
-    "@mdi/svg": "^5.7.55",
-    "@types/chrome": "0.0.126",
-    "@types/copy-webpack-plugin": "^6.2.0",
-    "@types/dotenv-webpack": "^5.0.0",
-    "@types/firefox-webext-browser": "^82.0.0",
-    "@types/glob": "^7.1.3",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^14.14.7",
-    "@types/terser-webpack-plugin": "^5.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
-    "bulma": "^0.9.1",
-    "bulma-checkradio": "^1.1.1",
-    "bulma-switch": "^2.0.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "commitizen": "^4.2.2",
-    "copy-webpack-plugin": "^6.3.0",
-    "cross-env": "^7.0.2",
-    "css-loader": "^5.0.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "dayjs": "^1.9.6",
-    "dotenv-webpack": "^5.1.0",
-    "eslint": "^7.13.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "fibers": "^5.0.0",
-    "if-webpack-loader": "^1.0.1",
-    "is-mobile": "^2.2.1",
-    "jest": "^26.6.3",
-    "license-webpack-plugin": "^2.3.0",
-    "npm-run-all": "^4.1.5",
-    "poi-ts": "^0.2.0",
-    "preact": "10.5.7",
-    "prettier": "^2.1.2",
-    "rimraf": "^3.0.2",
-    "sass": "^1.29.0",
-    "sass-loader": "^10.1.0",
-    "semantic-release": "^17.2.2",
-    "semantic-release-chrome": "^1.1.3",
-    "semantic-release-firefox-add-on": "^0.2.6",
-    "stylelint": "^13.7.2",
-    "stylelint-config-prettier": "^8.0.1",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-scss": "^3.17.2",
-    "svg-transform-loader": "^2.0.13",
-    "terser-webpack-plugin": "^5.0.3",
-    "to-string-loader": "^1.1.6",
-    "ts-jest": "^26.4.4",
-    "ts-loader": "^8.0.11",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.5",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+  "stylelint": {
+    "extends": [
+      "stylelint-config-recommended-scss",
+      "stylelint-config-prettier"
+    ]
   }
 }

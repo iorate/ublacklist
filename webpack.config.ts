@@ -1,48 +1,15 @@
+import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import glob from 'glob';
 import { LicenseWebpackPlugin } from 'license-webpack-plugin';
-import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
-class JsonJsPlugin {
-  apply(compiler: webpack.Compiler): void {
-    compiler.hooks.compilation.tap('JsonJsPlugin', compilation => {
-      compilation.hooks.processAssets.tap(
-        {
-          name: 'JsonJsPlugin',
-          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_PRE_PROCESS,
-        },
-        () => {
-          for (const { name, source } of compilation.getAssets()) {
-            if (name.endsWith('.json.js')) {
-              let exportAsJSON: unknown;
-              eval(source.source().toString());
-              compilation.emitAsset(
-                name.slice(0, -3),
-                new webpack.sources.RawSource(JSON.stringify(exportAsJSON, null, 2), false),
-              );
-              compilation.deleteAsset(name);
-            }
-          }
-        },
-      );
-    });
-  }
-}
-
-const browser = process.env.BROWSER === 'firefox' ? 'firefox' : 'chrome';
-const env = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-const ifWebpackLoader = {
-  loader: 'if-webpack-loader',
-  options: {
-    CHROME: browser === 'chrome',
-    FIREFOX: browser === 'firefox',
-    DEBUG: env === 'development',
-  },
-};
+const browser = process.env.BROWSER as 'chrome' | 'firefox';
+const env = process.env.NODE_ENV as 'development' | 'production';
 
 const config: webpack.Configuration = {
   cache: {
@@ -51,26 +18,23 @@ const config: webpack.Configuration = {
     },
     type: 'filesystem',
   },
+
   context: path.resolve(__dirname, 'src'),
+
   devtool: env === 'development' ? 'inline-source-map' : false,
+
   entry: {
-    // '_locales/en/messages.json': './_locales/en/messages.json.ts',
-    // ...
-    ...Object.fromEntries(
-      glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name.slice(2, -3), name]),
-    ),
+    ...Object.fromEntries(glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name, name])),
     'scripts/background': './scripts/background.ts',
     'scripts/content-script': './scripts/content-script.tsx',
     'scripts/options': './scripts/options.tsx',
     'scripts/popup': './scripts/popup.tsx',
   },
+
   mode: env,
+
   module: {
     rules: [
-      {
-        test: /\.png$/,
-        use: ['url-loader'],
-      },
       {
         test: /\.scss$/,
         use: [
@@ -82,62 +46,111 @@ const config: webpack.Configuration = {
             },
           },
           'sass-loader',
-          ifWebpackLoader,
         ],
       },
       {
-        test: /\.svg(\?.*)?$/,
-        use: ['url-loader', 'svg-transform-loader'],
+        test: /\.svg$/,
+        type: 'asset/inline',
       },
       {
         test: /\.tsx?$/,
-        use: ['ts-loader', ifWebpackLoader],
+        use: [
+          'ts-loader',
+          {
+            loader: 'if-webpack-loader',
+            options: {
+              CHROME: browser === 'chrome',
+              FIREFOX: browser === 'firefox',
+              DEVELOPMENT: env === 'development',
+              PRODUCTION: env === 'production',
+            },
+          },
+        ],
       },
     ],
   },
+
   name: browser,
+
   optimization: {
     minimizer: [
-      new TerserPlugin({
+      (new TerserPlugin({
         exclude: /scripts\/content-script-required\.js/,
-      }) as webpack.WebpackPluginInstance,
+      }) as unknown) as webpack.WebpackPluginInstance,
     ],
   },
+
   output: {
     path: path.resolve(__dirname, 'dist', browser, env),
   },
-  performance: {
-    hints: false,
-  },
+
   plugins: [
-    new CleanWebpackPlugin(),
+    (new CleanWebpackPlugin() as unknown) as webpack.WebpackPluginInstance,
+
     new CopyPlugin({
-      patterns: ['./images/**/*', './scripts/**/*.js', './**/*.html'],
+      patterns: ['./images/**/*.png', './scripts/**/*.js'],
     }),
+
     new DotEnv({
       defaults: true,
       systemvars: true,
     }),
-    new JsonJsPlugin(),
-    new LicenseWebpackPlugin({
-      additionalModules: [
-        {
-          name: '@mdi/svg',
-          directory: path.resolve(__dirname, 'node_modules/@mdi/svg'),
-        },
-        {
-          name: 'bulma',
-          directory: path.resolve(__dirname, 'node_modules/bulma'),
-        },
-        {
-          name: 'bulma-checkradio',
-          directory: path.resolve(__dirname, 'node_modules/bulma-checkradio'),
-        },
-        {
-          name: 'bulma-switch',
-          directory: path.resolve(__dirname, 'node_modules/bulma-switch'),
-        },
-      ],
+
+    (new HtmlWebpackPlugin({
+      chunks: ['scripts/options'],
+      filename: 'html/options.html',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1',
+      },
+      title: 'uBlacklist Options',
+    }) as unknown) as webpack.WebpackPluginInstance,
+
+    (new HtmlWebpackPlugin({
+      chunks: ['scripts/popup'],
+      filename: 'html/popup.html',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1',
+      },
+      title: 'uBlacklist Popup',
+    }) as unknown) as webpack.WebpackPluginInstance,
+
+    // JsonPlugin: *.json.ts.js -> *.json
+    {
+      apply(compiler: webpack.Compiler): void {
+        compiler.hooks.compilation.tap('JsonPlugin', compilation => {
+          compilation.hooks.processAssets.tap(
+            {
+              name: 'JsonPlugin',
+              stage: webpack.Compilation.PROCESS_ASSETS_STAGE_PRE_PROCESS,
+            },
+            assets => {
+              for (const [name, source] of Object.entries(assets)) {
+                if (name.endsWith('.json.ts.js')) {
+                  let filename: string | null = null;
+                  let value: unknown;
+                  const exportAsJson = (fn: string, val: unknown): void => {
+                    filename = fn;
+                    value = val;
+                  };
+                  // eslint-disable-next-line @typescript-eslint/no-implied-eval
+                  new Function('exportAsJson', source.source().toString())(exportAsJson);
+                  if (filename == null || value === undefined) {
+                    throw new Error(`${name}: exportAsJson not called`);
+                  }
+                  assets[filename] = new webpack.sources.RawSource(
+                    JSON.stringify(value, null, 2),
+                    false,
+                  );
+                  delete assets[name];
+                }
+              }
+            },
+          );
+        });
+      },
+    },
+
+    (new LicenseWebpackPlugin({
       licenseTextOverrides: {
         // https://github.com/juliangruber/is-mobile/blob/master/README.md
         'is-mobile': `(MIT)
@@ -152,10 +165,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 `,
       },
       perChunkOutput: false,
-    }),
+    }) as unknown) as webpack.WebpackPluginInstance,
   ],
+
   resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
 };
 

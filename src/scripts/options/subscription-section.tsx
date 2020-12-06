@@ -1,237 +1,259 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
+import {
+  StateUpdater,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'preact/hooks';
 import { apis } from '../apis';
+import { Button } from '../components/button';
+import {
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  DialogProps,
+  DialogTitle,
+} from '../components/dialog';
+import { Input } from '../components/input';
+import { Label, LabelItem } from '../components/label';
+import { Menu, MenuBody, MenuButton, MenuItem } from '../components/menu';
+import { Portal } from '../components/portal';
+import { Row, RowItem } from '../components/row';
+import {
+  Section,
+  SectionBody,
+  SectionHeader,
+  SectionItem,
+  SectionTitle,
+} from '../components/section';
+import { useCSS } from '../components/styles';
+import {
+  Table,
+  TableBody,
+  TableBodyCell,
+  TableBodyRow,
+  TableHeader,
+  TableHeaderCell,
+  TableHeaderRow,
+} from '../components/table';
+import { ReadOnlyTextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
-import { Dialog, DialogProps } from '../shared/dialog';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
-import { Portal } from './portal';
-import { Section, SectionItem } from './section';
 import { SetIntervalItem } from './set-interval-item';
 
-type AddSubscriptionDialogProps = DialogProps & {
-  setSubscriptions(update: (subscriptions: Subscriptions) => Subscriptions): void;
-};
-
-const AddSubscriptionDialog: FunctionComponent<Readonly<AddSubscriptionDialogProps>> = props => {
+const AddSubscriptionDialog: FunctionComponent<
+  { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
+> = ({ close, open, setSubscriptions }) => {
   const [name, setName] = useState('');
   const [nameValid, setNameValid] = useState(false);
   const [url, setURL] = useState('');
   const [urlValid, setURLValid] = useState(false);
   useLayoutEffect(() => {
-    if (props.open) {
+    if (open) {
       setName('');
       setNameValid(false);
       setURL('');
       setURLValid(false);
     }
-  }, [props.open]);
+  }, [open]);
+  const ok = nameValid && urlValid;
   return (
-    <Dialog open={props.open} setOpen={props.setOpen}>
-      <div class="field">
-        <h1 class="title">{translate('options_addSubscriptionDialog_title')}</h1>
-      </div>
-      <div class="field">
-        <label class="label" for="subscriptionName">
-          {translate('options_addSubscriptionDialog_nameLabel')}
-        </label>
-        <div class="control">
-          <input
-            id="subscriptionName"
-            class="input"
-            type="text"
-            required={true}
-            value={name}
-            onInput={e => {
-              setName(e.currentTarget.value);
-              setNameValid(e.currentTarget.validity.valid);
-            }}
-          />
-        </div>
-      </div>
-      <div class="field">
-        <label class="label" for="subscriptionURL">
-          {translate('options_addSubscriptionDialog_urlLabel')}
-        </label>
-        <div class="control">
-          <input
-            id="subscriptionURL"
-            class="input"
-            type="url"
-            pattern="^https?:.*"
-            required={true}
-            value={url}
-            onInput={e => {
-              setURL(e.currentTarget.value);
-              setURLValid(e.currentTarget.validity.valid);
-            }}
-          />
-        </div>
-      </div>
-      <div class="ub-row field is-grouped is-grouped-right">
-        <div class="control">
-          <button
-            class="ub-button button has-text-primary"
-            onClick={() => {
-              props.setOpen(false);
-            }}
-          >
-            {translate('cancelButton')}
-          </button>
-        </div>
-        <div class="control">
-          <button
-            class="ub-button button is-primary"
-            disabled={!nameValid || !urlValid}
-            onClick={async () => {
-              const u = new URL(url);
-              const granted = await apis.permissions.request({
-                origins: [`${u.protocol}//${u.hostname}/*`],
-              });
-              if (!granted) {
-                return;
-              }
-              const subscription = {
-                name,
-                url: u.toString(),
-                blacklist: '',
-                updateResult: null,
-              };
-              const id = await sendMessage('add-subscription', subscription);
-              props.setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
-              props.setOpen(false);
-            }}
-          >
-            {translate('options_addSubscriptionDialog_addButton')}
-          </button>
-        </div>
-      </div>
-    </Dialog>
-  );
-};
-
-type ShowSubscriptionDialogProps = DialogProps & {
-  subscription: Subscription | null;
-};
-
-const ShowSubscriptionDialog: FunctionComponent<Readonly<ShowSubscriptionDialogProps>> = props => {
-  const blacklistTextArea = useRef<HTMLTextAreaElement>();
-  useLayoutEffect(() => {
-    if (props.open && blacklistTextArea.current) {
-      blacklistTextArea.current.scrollTop = 0;
-    }
-  }, [props.open]);
-  return (
-    <Dialog open={props.open} setOpen={props.setOpen}>
-      <div class="field">
-        <h1 class="title">{props.subscription?.name}</h1>
-      </div>
-      <div class="field">
-        <div class="control">
-          <textarea
-            ref={blacklistTextArea}
-            class="textarea has-fixed-size"
-            readOnly={true}
-            rows={10}
-            value={props.subscription?.blacklist}
-          />
-        </div>
-      </div>
-      <div class="ub-row field is-grouped is-grouped-right">
-        <div class="control">
-          <button
-            class="ub-button button is-primary"
-            onClick={() => {
-              props.setOpen(false);
-            }}
-          >
-            {translate('okButton')}
-          </button>
-        </div>
-      </div>
-    </Dialog>
-  );
-};
-
-type ManageSubscriptionProps = {
-  id: SubscriptionId;
-  subscription: Subscription;
-  updating: boolean;
-  setSubscriptions(update: (subscriptions: Subscriptions) => Subscriptions): void;
-  setShowSubscriptionDialogOpen(open: boolean): void;
-  setShowSubscriptionDialogSubscription(subscription: Subscription | null): void;
-};
-
-const ManageSubscription: FunctionComponent<Readonly<ManageSubscriptionProps>> = props => {
-  const [dropdownActive, setDropdownActive] = useState(false);
-  return (
-    <tr>
-      <td class="ub-table-data ub-subscription-name">{props.subscription.name}</td>
-      <td class="ub-table-data ub-subscription-url">{props.subscription.url}</td>
-      <td class="ub-table-data ub-subscription-update-result">
-        {props.updating ? (
-          translate('options_subscriptionUpdateRunning')
-        ) : !props.subscription.updateResult ? (
-          ''
-        ) : isErrorResult(props.subscription.updateResult) ? (
-          translate('error', props.subscription.updateResult.message)
-        ) : (
-          <FromNow time={dayjs(props.subscription.updateResult.timestamp)} />
-        )}
-      </td>
-      <td class="ub-table-data subscription-menu">
-        <div class={`dropdown is-right${dropdownActive ? ' is-active' : ''}`}>
-          <div class="dropdown-trigger">
-            <button
-              class="ub-button ub-subscription-menu-button button is-white is-rounded"
-              onBlur={() => {
-                setDropdownActive(false);
-              }}
-              onClick={() => {
-                setDropdownActive(true);
+    <Dialog close={close} open={open} width="480px">
+      <DialogHeader>
+        <DialogTitle>{translate('options_addSubscriptionDialog_title')}</DialogTitle>
+      </DialogHeader>
+      <DialogBody>
+        <Row>
+          <RowItem expanded>
+            <Label forFullWidth>
+              <LabelItem primary>{translate('options_addSubscriptionDialog_nameLabel')}</LabelItem>
+            </Label>
+            <Input
+              class="js-focus-start"
+              id="subscriptionName"
+              required={true}
+              value={name}
+              onInput={e => {
+                setName(e.currentTarget.value);
+                setNameValid(e.currentTarget.validity.valid);
               }}
             />
-          </div>
-          <div class="dropdown-menu">
-            <div class="dropdown-content">
-              <a
-                class="ub-dropdown-item dropdown-item"
-                onMouseDown={() => {
-                  props.setShowSubscriptionDialogOpen(true);
-                  props.setShowSubscriptionDialogSubscription(props.subscription);
-                }}
-              >
-                {chrome.i18n.getMessage('options_showSubscriptionMenu')}
-              </a>
-              <a
-                class="ub-dropdown-item dropdown-item"
-                onMouseDown={() => {
-                  void sendMessage('update-subscription', props.id);
-                }}
-              >
-                {chrome.i18n.getMessage('options_updateSubscriptionNowMenu')}
-              </a>
-              <a
-                class="ub-dropdown-item dropdown-item"
-                onMouseDown={async () => {
-                  await sendMessage('remove-subscription', props.id);
-                  props.setSubscriptions(subscriptions => {
-                    const newSubscriptions = { ...subscriptions };
-                    delete newSubscriptions[props.id];
-                    return newSubscriptions;
-                  });
-                }}
-              >
-                {chrome.i18n.getMessage('options_removeSubscriptionMenu')}
-              </a>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem expanded>
+            <Label forFullWidth>
+              <LabelItem primary>{translate('options_addSubscriptionDialog_urlLabel')}</LabelItem>
+            </Label>
+            <Input
+              id="subscriptionURL"
+              pattern="^https?:.*"
+              required={true}
+              type="url"
+              value={url}
+              onInput={e => {
+                setURL(e.currentTarget.value);
+                setURLValid(e.currentTarget.validity.valid);
+              }}
+            />
+          </RowItem>
+        </Row>
+      </DialogBody>
+      <DialogFooter>
+        <Row right>
+          <RowItem>
+            <Button class={!ok ? 'js-focus-end' : undefined} onClick={close}>
+              {translate('cancelButton')}
+            </Button>
+          </RowItem>
+          <RowItem>
+            <Button
+              class={ok ? 'js-focus-end' : undefined}
+              disabled={!ok}
+              primary
+              onClick={async () => {
+                const u = new URL(url);
+                const granted = await apis.permissions.request({
+                  origins: [`${u.protocol}//${u.hostname}/*`],
+                });
+                if (!granted) {
+                  return;
+                }
+                const subscription = {
+                  name,
+                  url: u.toString(),
+                  blacklist: '',
+                  updateResult: null,
+                };
+                const id = await sendMessage('add-subscription', subscription);
+                setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
+                close();
+              }}
+            >
+              {translate('options_addSubscriptionDialog_addButton')}
+            </Button>
+          </RowItem>
+        </Row>
+      </DialogFooter>
+    </Dialog>
+  );
+};
+
+const ShowSubscriptionDialog: FunctionComponent<
+  { subscription: Subscription | null } & DialogProps
+> = ({ close, open, subscription }) => {
+  const blacklistTextArea = useRef<HTMLDivElement>();
+  useLayoutEffect(() => {
+    if (open) {
+      blacklistTextArea.current.scrollTop = 0;
+    }
+  }, [open]);
+  return (
+    <Dialog close={close} open={open} width="480px">
+      <DialogHeader>
+        <DialogTitle>{subscription?.name ?? ''}</DialogTitle>
+      </DialogHeader>
+      <DialogBody>
+        <Row>
+          <RowItem expanded>
+            <ReadOnlyTextArea
+              class="js-focus-start"
+              ref={blacklistTextArea}
+              rows={10}
+              wrap="off"
+              value={subscription?.blacklist ?? ''}
+            />
+          </RowItem>
+        </Row>
+      </DialogBody>
+      <DialogFooter>
+        <Row right>
+          <RowItem>
+            <Button class="js-focus-end" primary onClick={close}>
+              {translate('okButton')}
+            </Button>
+          </RowItem>
+        </Row>
+      </DialogFooter>
+    </Dialog>
+  );
+};
+
+const ManageSubscription: FunctionComponent<{
+  id: SubscriptionId;
+  setShowSubscriptionDialogOpen: StateUpdater<boolean>;
+  setShowSubscriptionDialogSubscription: StateUpdater<Subscription | null>;
+  setSubscriptions: StateUpdater<Subscriptions>;
+  subscription: Subscription;
+  updating: boolean;
+}> = ({
+  id,
+  setSubscriptions,
+  setShowSubscriptionDialogOpen,
+  setShowSubscriptionDialogSubscription,
+  subscription,
+  updating,
+}) => {
+  return (
+    <TableBodyRow>
+      <TableBodyCell>{subscription.name}</TableBodyCell>
+      <TableBodyCell breakAll>{subscription.url}</TableBodyCell>
+      <TableBodyCell>
+        {updating ? (
+          translate('options_subscriptionUpdateRunning')
+        ) : !subscription.updateResult ? (
+          ''
+        ) : isErrorResult(subscription.updateResult) ? (
+          translate('error', subscription.updateResult.message)
+        ) : (
+          <FromNow time={dayjs(subscription.updateResult.timestamp)} />
+        )}
+      </TableBodyCell>
+      <TableBodyCell>
+        <Menu>
+          <MenuButton />
+          <MenuBody>
+            <MenuItem
+              onClick={() => {
+                requestAnimationFrame(() => {
+                  setShowSubscriptionDialogOpen(true);
+                  setShowSubscriptionDialogSubscription(subscription);
+                });
+              }}
+            >
+              {translate('options_showSubscriptionMenu')}
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                void sendMessage('update-subscription', id);
+              }}
+            >
+              {translate('options_updateSubscriptionNowMenu')}
+            </MenuItem>
+            <MenuItem
+              onClick={async () => {
+                await sendMessage('remove-subscription', id);
+                setSubscriptions(subscriptions => {
+                  const newSubscriptions = { ...subscriptions };
+                  delete newSubscriptions[id];
+                  return newSubscriptions;
+                });
+              }}
+            >
+              {translate('options_removeSubscriptionMenu')}
+            </MenuItem>
+          </MenuBody>
+        </Menu>
+      </TableBodyCell>
+    </TableBodyRow>
   );
 };
 
@@ -245,99 +267,116 @@ export const ManageSubscriptions: FunctionComponent = () => {
     showSubscriptionDialogSubscription,
     setShowSubscriptionDialogSubscription,
   ] = useState<Subscription | null>(null);
-  useEffect(() => {
-    return addMessageListeners({
-      'subscription-updating': id => {
-        setUpdating(updating => ({ ...updating, [id]: true }));
-      },
-      'subscription-updated': (id, subscription) => {
-        setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
-        setUpdating(updating => ({ ...updating, [id]: false }));
-      },
-    });
-  }, []);
+  useEffect(
+    () =>
+      addMessageListeners({
+        'subscription-updating': id => {
+          setUpdating(updating => ({ ...updating, [id]: true }));
+        },
+        'subscription-updated': (id, subscription) => {
+          setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
+          setUpdating(updating => ({ ...updating, [id]: false }));
+        },
+      }),
+    [],
+  );
+
+  const css = useCSS();
+  const emptyClass = useMemo(
+    () =>
+      css({
+        minHeight: '3em',
+        textAlign: 'center',
+      }),
+    [css],
+  );
+
   return (
     <SectionItem>
-      <div class="ub-row field is-grouped">
-        <div class="control is-expanded">
-          <p>{translate('options_subscriptionFeature')}</p>
-          <p class="has-text-grey">{translate('options_subscriptionFeatureDescription')}</p>
-        </div>
-        <div class="control">
-          <button
-            class="ub-button button is-primary"
+      <Row>
+        <RowItem expanded>
+          <Label>
+            <LabelItem primary>{translate('options_subscriptionFeature')}</LabelItem>
+            <LabelItem>{translate('options_subscriptionFeatureDescription')}</LabelItem>
+          </Label>
+        </RowItem>
+        <RowItem>
+          <Button
+            primary
             onClick={() => {
               setAddSubscriptionDialogOpen(true);
             }}
           >
             {translate('options_addSubscriptionButton')}
-          </button>
-        </div>
-      </div>
-      <div class="field">
-        <table class="table is-fullwidth">
-          <thead>
-            <tr>
-              <th class="ub-table-header ub-subscription-name has-text-grey">
-                {translate('options_subscriptionNameHeader')}
-              </th>
-              <th class="ub-table-header ub-subscription-url has-text-grey">
-                {translate('options_subscriptionURLHeader')}
-              </th>
-              <th class="ub-table-header ub-subscription-update-result has-text-grey">
-                {translate('options_subscriptionUpdateResultHeader')}
-              </th>
-              <th class="ub-table-header ub-subscription-menu"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {numberEntries(subscriptions)
-              .sort(([id1, { name: name1 }], [id2, { name: name2 }]) =>
-                name1 < name2 ? -1 : name1 > name2 ? 1 : id1 - id2,
-              )
-              .map(([id, subscription]) => (
-                <ManageSubscription
-                  key={id}
-                  id={id}
-                  subscription={subscription}
-                  updating={updating[id] ?? false}
-                  setSubscriptions={setSubscriptions}
-                  setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
-                  setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
-                />
-              ))}
-          </tbody>
-        </table>
-        {!numberKeys(subscriptions).length && (
-          <div class="is-fullwidth has-text-centered">
-            <p class="has-text-grey">{translate('options_noSubscriptionsAdded')}</p>
-          </div>
-        )}
-      </div>
-      <div class="ub-row field is-grouped is-grouped-right">
-        <div class="control">
-          <button
-            class="ub-button button has-text-primary"
+          </Button>
+        </RowItem>
+      </Row>
+      {numberKeys(subscriptions).length ? (
+        <Row>
+          <RowItem expanded>
+            <Table>
+              <TableHeader>
+                <TableHeaderRow>
+                  <TableHeaderCell width="20%">
+                    {translate('options_subscriptionNameHeader')}
+                  </TableHeaderCell>
+                  <TableHeaderCell width="calc(60% - 0.75em - 36px)">
+                    {translate('options_subscriptionURLHeader')}
+                  </TableHeaderCell>
+                  <TableHeaderCell width="20%">
+                    {translate('options_subscriptionUpdateResultHeader')}
+                  </TableHeaderCell>
+                  <TableHeaderCell width="calc(0.75em + 36px)" />
+                </TableHeaderRow>
+              </TableHeader>
+              <TableBody>
+                {numberEntries(subscriptions)
+                  .sort(([id1, { name: name1 }], [id2, { name: name2 }]) =>
+                    name1 < name2 ? -1 : name1 > name2 ? 1 : id1 - id2,
+                  )
+                  .map(([id, subscription]) => (
+                    <ManageSubscription
+                      key={id}
+                      id={id}
+                      subscription={subscription}
+                      updating={updating[id] ?? false}
+                      setSubscriptions={setSubscriptions}
+                      setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
+                      setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
+                    />
+                  ))}
+              </TableBody>
+            </Table>
+          </RowItem>
+        </Row>
+      ) : (
+        <Row class={emptyClass}>
+          <RowItem expanded>{translate('options_noSubscriptionsAdded')}</RowItem>
+        </Row>
+      )}
+      <Row right>
+        <RowItem>
+          <Button
             disabled={!numberKeys(subscriptions).length}
             onClick={() => {
               void sendMessage('update-all-subscriptions');
             }}
           >
             {translate('options_updateAllSubscriptionsNowButton')}
-          </button>
-        </div>
-      </div>
-      <Portal id="addSubscriptionDialog">
+          </Button>
+        </RowItem>
+      </Row>
+      <Portal>
         <AddSubscriptionDialog
+          close={() => setAddSubscriptionDialogOpen(false)}
           open={addSubscriptionDialogOpen}
-          setOpen={setAddSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />
       </Portal>
-      <Portal id="showSubscriptionDialog">
+      <Portal>
         <ShowSubscriptionDialog
+          close={() => setShowSubscriptionDialogOpen(false)}
           open={showSubscriptionDialogOpen}
-          setOpen={setShowSubscriptionDialogOpen}
           subscription={showSubscriptionDialogSubscription}
         />
       </Portal>
@@ -346,12 +385,17 @@ export const ManageSubscriptions: FunctionComponent = () => {
 };
 
 export const SubscriptionSection: FunctionComponent = () => (
-  <Section id="subscription" title={translate('options_subscriptionTitle')}>
-    <ManageSubscriptions />
-    <SetIntervalItem
-      itemKey="updateInterval"
-      label={translate('options_updateInterval')}
-      valueOptions={[5, 15, 30, 60, 120, 300]}
-    />
+  <Section id="subscription">
+    <SectionHeader>
+      <SectionTitle>{translate('options_subscriptionTitle')}</SectionTitle>
+    </SectionHeader>
+    <SectionBody>
+      <ManageSubscriptions />
+      <SetIntervalItem
+        itemKey="updateInterval"
+        label={translate('options_updateInterval')}
+        valueOptions={[5, 15, 30, 60, 120, 300]}
+      />
+    </SectionBody>
   </Section>
 );

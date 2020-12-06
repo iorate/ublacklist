@@ -1,4 +1,6 @@
 import { SearchEngine, SearchEngineHandlers } from '../types';
+import { googleMatches } from '../../common/google-matches';
+import googleStyle from './google.scss';
 import {
   createAction,
   createControl,
@@ -8,8 +10,6 @@ import {
   getSilentlyAddedElements,
   getURL,
 } from './helpers';
-import { googleMatches } from '../../google-matches';
-import googleStyle from '../../styles/search-engines/google.scss';
 
 function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
   return entry => {
