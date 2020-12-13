@@ -96,23 +96,23 @@ const config: webpack.Configuration = {
       systemvars: true,
     }),
 
-    (new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       chunks: ['scripts/options'],
       filename: 'html/options.html',
       meta: {
         viewport: 'width=device-width, initial-scale=1',
       },
       title: 'uBlacklist Options',
-    }) as unknown) as webpack.WebpackPluginInstance,
+    }),
 
-    (new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       chunks: ['scripts/popup'],
       filename: 'html/popup.html',
       meta: {
         viewport: 'width=device-width, initial-scale=1',
       },
       title: 'uBlacklist Popup',
-    }) as unknown) as webpack.WebpackPluginInstance,
+    }),
 
     // JsonPlugin: *.json.ts.js -> *.json
     {
