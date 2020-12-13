@@ -1,18 +1,20 @@
 import { FunctionComponent, h } from 'preact';
-import { useContext, useMemo, useState } from 'preact/hooks';
+import { useMemo, useState } from 'preact/hooks';
 import { Label, LabelItem } from '../components/label';
 import { Row, RowItem } from '../components/row';
 import { SectionItem } from '../components/section';
 import { useCSS } from '../components/styles';
 import { Switch } from '../components/switch';
 import * as LocalStorage from '../local-storage';
-import { Context } from './context';
+import { useOptionsContext } from './options-context';
 
 export const SetBooleanItem: FunctionComponent<{
   itemKey: 'skipBlockDialog' | 'hideBlockLinks' | 'hideControl';
   label: string;
 }> = ({ itemKey, label }) => {
-  const { [itemKey]: initialItem } = useContext(Context).initialItems;
+  const {
+    initialItems: { [itemKey]: initialItem },
+  } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
 
   const css = useCSS();

@@ -1,12 +1,11 @@
 import { FunctionComponent, h } from 'preact';
-import { useContext } from 'preact/hooks';
 import { SelectProps, Select as _Select } from '../components/select';
-import { Context } from './context';
+import { useOptionsContext } from './options-context';
 
 export const Select: FunctionComponent<SelectProps> = props => {
   const {
     platformInfo: { os },
-  } = useContext(Context);
+  } = useOptionsContext();
   return <_Select {...props} native={os !== 'win'} />;
 };
 

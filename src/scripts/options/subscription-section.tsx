@@ -1,14 +1,6 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import {
-  StateUpdater,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'preact/hooks';
+import { StateUpdater, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import {
@@ -45,7 +37,7 @@ import { ReadOnlyTextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
-import { Context } from './context';
+import { useOptionsContext } from './options-context';
 import { FromNow } from './from-now';
 import { SetIntervalItem } from './set-interval-item';
 
@@ -258,7 +250,9 @@ const ManageSubscription: FunctionComponent<{
 };
 
 export const ManageSubscriptions: FunctionComponent = () => {
-  const { subscriptions: initialSubscriptions } = useContext(Context).initialItems;
+  const {
+    initialItems: { subscriptions: initialSubscriptions },
+  } = useOptionsContext();
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(false);

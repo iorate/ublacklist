@@ -1,14 +1,14 @@
 import { FunctionComponent, h, render } from 'preact';
-import { ContextProvider } from './options/context';
 import { GeneralSection } from './options/general-section';
+import { OptionsContextProvider } from './options/options-context';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
 import { Baseline } from './components/baseline';
 import { Container } from './components/container';
 import { AutoThemeProvider } from './components/theme';
 
-const Main: FunctionComponent = () => (
-  <ContextProvider>
+const Options: FunctionComponent = () => (
+  <OptionsContextProvider>
     <AutoThemeProvider>
       <Baseline>
         <Container>
@@ -18,11 +18,11 @@ const Main: FunctionComponent = () => (
         </Container>
       </Baseline>
     </AutoThemeProvider>
-  </ContextProvider>
+  </OptionsContextProvider>
 );
 
 function main(): void {
-  render(<Main />, document.body.appendChild(document.createElement('div')));
+  render(<Options />, document.body.appendChild(document.createElement('div')));
 }
 
 main();

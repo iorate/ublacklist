@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useContext, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import {
@@ -28,7 +28,7 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
 import { isErrorResult, stringEntries, stringKeys, translate } from '../utilities';
-import { Context } from './context';
+import { useOptionsContext } from './options-context';
 import { FromNow } from './from-now';
 import { Select, SelectOption } from './select';
 import { SetIntervalItem } from './set-interval-item';
@@ -164,7 +164,9 @@ const TurnOnSync: FunctionComponent<{
 };
 
 const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
-  const { syncResult: initialSyncResult } = useContext(Context).initialItems;
+  const {
+    initialItems: { syncResult: initialSyncResult },
+  } = useOptionsContext();
   const [syncResult, setSyncResult] = useState(initialSyncResult);
   const [syncing, setSyncing] = useState(false);
   useEffect(
@@ -219,7 +221,7 @@ export const SyncSection: FunctionComponent = () => {
     initialItems: { syncCloudId: initialSyncCloudId },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     platformInfo: { os },
-  } = useContext(Context);
+  } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
   /* #if FIREFOX
   if (os === 'android') {

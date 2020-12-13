@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useContext, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
@@ -30,7 +30,7 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
 import { lines, stringEntries, translate } from '../utilities';
-import { Context } from './context';
+import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
 
@@ -180,7 +180,9 @@ const ImportBlacklistDialog: FunctionComponent<
 };
 
 const SetBlacklist: FunctionComponent = () => {
-  const { blacklist: initialBlacklist } = useContext(Context).initialItems;
+  const {
+    initialItems: { blacklist: initialBlacklist },
+  } = useOptionsContext();
   const [blacklist, setBlacklist] = useState(initialBlacklist);
   const [blacklistDirty, setBlacklistDirty] = useState(false);
   const [latestBlacklist, setLatestBlacklist] = useState<string | null>(null);
