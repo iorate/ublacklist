@@ -22,7 +22,6 @@ import {
   SectionItem,
   SectionTitle,
 } from '../components/section';
-import { Select, SelectOption } from '../components/select';
 import { Text } from '../components/text';
 import '../dayjs-locales';
 import { addMessageListeners, sendMessage } from '../messages';
@@ -31,6 +30,7 @@ import { CloudId } from '../types';
 import { isErrorResult, stringEntries, stringKeys, translate } from '../utilities';
 import { Context } from './context';
 import { FromNow } from './from-now';
+import { Select, SelectOption } from './select';
 import { SetIntervalItem } from './set-interval-item';
 
 dayjs.extend(dayjsDuration);
@@ -38,9 +38,6 @@ dayjs.extend(dayjsDuration);
 const TurnOnSyncDialog: FunctionComponent<
   { setSyncCloudId: StateUpdater<CloudId | null> } & DialogProps
 > = ({ close, open, setSyncCloudId }) => {
-  const {
-    platformInfo: { os },
-  } = useContext(Context);
   const [selectedCloudId, setSelectedCloudId] = useState<CloudId>('googleDrive');
   useLayoutEffect(() => {
     if (open) {
@@ -57,7 +54,6 @@ const TurnOnSyncDialog: FunctionComponent<
           <RowItem>
             <Select
               class="js-focus-start"
-              native={os !== 'win'}
               value={selectedCloudId}
               onInput={e => {
                 setSelectedCloudId(e.currentTarget.value as CloudId);

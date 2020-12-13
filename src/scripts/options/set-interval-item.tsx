@@ -4,12 +4,12 @@ import { useContext, useMemo, useState } from 'preact/hooks';
 import { Label, LabelItem } from '../components/label';
 import { Row, RowItem } from '../components/row';
 import { SectionItem } from '../components/section';
-import { Select, SelectOption } from '../components/select';
 import { useCSS } from '../components/styles';
 import '../dayjs-locales';
 import * as LocalStorage from '../local-storage';
 import { translate } from '../utilities';
 import { Context } from './context';
+import { Select, SelectOption } from './select';
 
 export const SetIntervalItem: FunctionComponent<{
   itemKey: 'syncInterval' | 'updateInterval';
@@ -18,7 +18,6 @@ export const SetIntervalItem: FunctionComponent<{
 }> = ({ itemKey, label, valueOptions }) => {
   const {
     initialItems: { [itemKey]: initialItem },
-    platformInfo: { os },
   } = useContext(Context);
   const [item, setItem] = useState(initialItem);
 
@@ -44,7 +43,6 @@ export const SetIntervalItem: FunctionComponent<{
         <RowItem>
           <Select
             id={itemKey}
-            native={os !== 'win'}
             value={item}
             onInput={e => {
               const value = Number(e.currentTarget.value);

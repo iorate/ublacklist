@@ -24,7 +24,6 @@ import {
   SectionItem,
   SectionTitle,
 } from '../components/section';
-import { Select, SelectOption } from '../components/select';
 import { Text } from '../components/text';
 import { TextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
@@ -32,14 +31,12 @@ import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngine, SearchEngineId } from '../types';
 import { lines, stringEntries, translate } from '../utilities';
 import { Context } from './context';
+import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
 
 const ImportBlacklistDialog: FunctionComponent<
   { setBlacklist: StateUpdater<string>; setBlacklistDirty: StateUpdater<boolean> } & DialogProps
 > = ({ close, open, setBlacklist, setBlacklistDirty }) => {
-  const {
-    platformInfo: { os },
-  } = useContext(Context);
   const [source, setSource] = useState<'file' | 'pb'>('file');
   const [pb, setPB] = useState('');
   const [append, setAppend] = useState(false);
@@ -70,7 +67,6 @@ const ImportBlacklistDialog: FunctionComponent<
           <RowItem>
             <Select
               class="js-focus-start"
-              native={os !== 'win'}
               value={source}
               onInput={e => {
                 setSource(e.currentTarget.value as 'file' | 'pb');
