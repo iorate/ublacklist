@@ -126,22 +126,14 @@ const config: webpack.Configuration = {
             assets => {
               for (const [name, source] of Object.entries(assets)) {
                 if (name.endsWith('.json.ts.js')) {
-                  let filename: string | null = null;
-                  let value: unknown;
-                  const exportAsJson = (fn: string, val: unknown): void => {
-                    filename = fn;
-                    value = val;
+                  delete assets[name];
+                  const exportAsJson = (filename: string, value: unknown): void => {
+                    assets[filename] = new webpack.sources.RawSource(
+                      JSON.stringify(value, null, 2),
+                    );
                   };
                   // eslint-disable-next-line @typescript-eslint/no-implied-eval
                   new Function('exportAsJson', source.source().toString())(exportAsJson);
-                  if (filename == null || value === undefined) {
-                    throw new Error(`${name}: exportAsJson not called`);
-                  }
-                  assets[filename] = new webpack.sources.RawSource(
-                    JSON.stringify(value, null, 2),
-                    false,
-                  );
-                  delete assets[name];
                 }
               }
             },
