@@ -5,7 +5,17 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-const LabelContext = createContext<{ disabled?: boolean; for?: string }>({});
+type LabelContextValue = { disabled?: boolean; for?: string };
+
+const LabelContext = createContext<LabelContextValue | null>(null);
+
+function useLabelContext(): LabelContextValue {
+  const value = useContext(LabelContext);
+  if (!value) {
+    throw new Error('useLabelContext: no matching provider');
+  }
+  return value;
+}
 
 export type LabelProps = {
   disabled?: boolean;
@@ -36,7 +46,7 @@ export type LabelItemProps = { primary?: boolean } & JSX.IntrinsicElements['labe
 
 export const LabelItem = forwardRef(
   ({ primary, ...props }: LabelItemProps, ref: Ref<HTMLLabelElement>) => {
-    const { disabled, for: for_ } = useContext(LabelContext);
+    const { disabled, for: for_ } = useLabelContext();
 
     const css = useCSS();
     const theme = useTheme();

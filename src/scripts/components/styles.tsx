@@ -4,11 +4,11 @@ import { useContext } from 'preact/hooks';
 
 goober.setup(h);
 
-const StylesContext = createContext<{ target?: HTMLElement | ShadowRoot }>({});
+export type StylesProviderProps = { target?: HTMLElement | ShadowRoot };
 
-export type StylesContextProps = { target: HTMLElement | ShadowRoot };
+const StylesContext = createContext<StylesProviderProps>({});
 
-export const StylesProvider: FunctionComponent<StylesContextProps> = ({ children, target }) => {
+export const StylesProvider: FunctionComponent<StylesProviderProps> = ({ children, target }) => {
   return <StylesContext.Provider value={{ target }}>{children}</StylesContext.Provider>;
 };
 

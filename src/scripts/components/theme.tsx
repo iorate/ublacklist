@@ -228,9 +228,9 @@ export const lightTheme: Readonly<Theme> = {
   },
 };
 
-const ThemeContext = createContext<{ theme?: Theme }>({});
+export type ThemeProviderProps = { theme?: Theme };
 
-export type ThemeProviderProps = { theme: Theme };
+const ThemeContext = createContext<ThemeProviderProps>({});
 
 export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children, theme }) => {
   return <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>;

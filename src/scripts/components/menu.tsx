@@ -7,7 +7,17 @@ import { Icon } from './icon';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-const MenuContext = createContext<{ open?: boolean; setOpen?: StateUpdater<boolean> }>({});
+type MenuContextValue = { open: boolean; setOpen: StateUpdater<boolean> };
+
+const MenuContext = createContext<MenuContextValue | null>(null);
+
+function useMenuContext(): MenuContextValue {
+  const value = useContext(MenuContext);
+  if (!value) {
+    throw new Error('useMenuContext: no matching provider');
+  }
+  return value;
+}
 
 export type MenuProps = JSX.IntrinsicElements['div'];
 
@@ -35,7 +45,7 @@ export const Menu = forwardRef((props: MenuProps, ref: Ref<HTMLDivElement>) => {
 export type MenuButtonProps = JSX.IntrinsicElements['button'];
 
 export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButtonElement>) => {
-  const { setOpen } = useContext(MenuContext);
+  const { setOpen } = useMenuContext();
 
   const css = useCSS();
   const theme = useTheme();
@@ -73,7 +83,7 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
         {...applyClass(props, buttonClass)}
         ref={ref}
         onClick={() => {
-          setOpen?.(true);
+          setOpen(true);
         }}
       >
         <Icon color={theme.menu.dots} iconSize="24px" url={dotsVertical} />
@@ -108,9 +118,9 @@ function moveFocus(body: HTMLDivElement, backward: boolean) {
 export type MenuBodyProps = JSX.IntrinsicElements['div'];
 
 export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElement>) => {
-  const { open, setOpen } = useContext(MenuContext);
+  const { open, setOpen } = useMenuContext();
   const innerRef = useInnerRef(ref);
-  useModal(Boolean(open), () => innerRef.current.focus());
+  useModal(open, () => innerRef.current.focus());
 
   const css = useCSS();
   const theme = useTheme();
@@ -156,7 +166,7 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
       <div
         class={backdropClass}
         onClick={() => {
-          setOpen?.(false);
+          setOpen(false);
         }}
       />
       <div
@@ -165,7 +175,7 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
         tabIndex={0}
         onClick={e => {
           if (e.target instanceof HTMLElement && e.target.matches('.js-menu-item')) {
-            setOpen?.(false);
+            setOpen(false);
           }
         }}
         onKeyDown={e => {
@@ -174,7 +184,7 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
           }
           if (e.key === 'Escape' || e.key === 'Tab') {
             e.preventDefault();
-            setOpen?.(false);
+            setOpen(false);
           } else if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (innerRef.current) {

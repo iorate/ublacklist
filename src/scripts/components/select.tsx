@@ -7,7 +7,17 @@ import { Icon } from './icon';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-const SelectContext = createContext<{ native?: boolean }>({});
+type SelectContextValue = { native?: boolean };
+
+const SelectContext = createContext<SelectContextValue | null>(null);
+
+function useSelectContext(): SelectContextValue {
+  const value = useContext(SelectContext);
+  if (!value) {
+    throw new Error('useSelectContext: no matching provider');
+  }
+  return value;
+}
 
 export type SelectProps = { native?: boolean } & JSX.IntrinsicElements['select'];
 
@@ -74,7 +84,7 @@ export const Select = forwardRef(
 export type SelectOptionProps = JSX.IntrinsicElements['option'];
 
 export const SelectOption = forwardRef((props: SelectOptionProps, ref: Ref<HTMLOptionElement>) => {
-  const { native } = useContext(SelectContext);
+  const { native } = useSelectContext();
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
