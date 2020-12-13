@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { supportedClouds } from '../supported-clouds';
 import * as LocalStorage from '../local-storage';
+import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
 import { HTTPError, Mutex, translate } from '../utilities';
 

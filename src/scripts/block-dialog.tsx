@@ -1,6 +1,5 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
-import icon from './icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
@@ -20,10 +19,11 @@ import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
 import { ReadOnlyTextArea, TextArea } from './components/textarea';
+import { useTheme } from './components/theme';
+import icon from './icon.svg';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL, translate } from './utilities';
-import { useTheme } from './components/theme';
 
 type BlockDialogContentProps = {
   open: boolean;

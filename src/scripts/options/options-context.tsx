@@ -1,7 +1,7 @@
 import { FunctionComponent, createContext, h } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
-import * as LocalStorage from '../local-storage';
 import { apis } from '../apis';
+import * as LocalStorage from '../local-storage';
 
 export type OptionsContextValue = {
   initialItems: LocalStorage.Items;

@@ -1,5 +1,5 @@
-import { SearchEngine, SearchEngineHandlers } from '../types';
 import { googleMatches } from '../../common/google-matches';
+import { SearchEngine, SearchEngineHandlers } from '../types';
 import googleStyle from './google.scss';
 import {
   createAction,

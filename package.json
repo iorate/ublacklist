@@ -110,7 +110,12 @@
             }
           ],
           "import/order": [
-            "warn"
+            "warn",
+            {
+              "alphabetize": {
+                "order": "asc"
+              }
+            }
           ],
           "react/no-unknown-property": [
             "error",

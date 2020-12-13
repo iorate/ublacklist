@@ -1,6 +1,6 @@
-import * as Poi from 'poi-ts';
 import dayjs from 'dayjs';
 import dayjsUTC from 'dayjs/plugin/utc';
+import * as Poi from 'poi-ts';
 import { Cloud } from '../types';
 import { HTTPError } from '../utilities';
 import * as Helpers from './helpers';

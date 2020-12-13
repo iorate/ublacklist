@@ -28,8 +28,8 @@ import { addMessageListeners, sendMessage } from '../messages';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
 import { isErrorResult, stringEntries, stringKeys, translate } from '../utilities';
-import { useOptionsContext } from './options-context';
 import { FromNow } from './from-now';
+import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
 import { SetIntervalItem } from './set-interval-item';
 

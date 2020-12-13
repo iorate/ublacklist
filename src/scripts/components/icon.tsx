@@ -1,6 +1,6 @@
 import { JSX, h } from 'preact';
-import { Ref, useMemo } from 'preact/hooks';
 import { forwardRef } from 'preact/compat';
+import { Ref, useMemo } from 'preact/hooks';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 

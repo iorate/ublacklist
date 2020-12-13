@@ -1,13 +1,13 @@
 import mobile from 'is-mobile';
 import { Fragment, FunctionComponent, h, render } from 'preact';
-import contentScriptStyle from './content-script.scss';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
+import contentScriptStyle from './content-script.scss';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { supportedSearchEngines } from './supported-search-engines';
-import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
 import { SearchEngineHandlers } from './types';
+import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
 
 const optionKeys = [
   'blacklist',

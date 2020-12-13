@@ -37,8 +37,8 @@ import { ReadOnlyTextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
-import { useOptionsContext } from './options-context';
 import { FromNow } from './from-now';
+import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';
 
 const AddSubscriptionDialog: FunctionComponent<
