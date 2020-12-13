@@ -12,8 +12,12 @@ export const Container = forwardRef(
     const wrapperClass = useMemo(
       () =>
         css({
-          height: '100vh',
-          overflowY: 'auto',
+          bottom: 0,
+          left: 0,
+          overflow: 'auto',
+          position: 'fixed',
+          right: 0,
+          top: 0,
         }),
       [css],
     );
