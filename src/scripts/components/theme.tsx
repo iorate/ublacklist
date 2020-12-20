@@ -242,7 +242,7 @@ export function useTheme(): Theme {
 }
 
 export const AutoThemeProvider: FunctionComponent = ({ children }) => {
-  const mql = useRef(window.matchMedia('(prefers-color-scheme: dark'));
+  const mql = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
   const [dark, setDark] = useState(mql.current.matches);
   useEffect(() => {
     mql.current.addEventListener('change', e => {
