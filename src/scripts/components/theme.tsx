@@ -228,9 +228,9 @@ export const lightTheme: Readonly<Theme> = {
   },
 };
 
-export type ThemeProviderProps = { theme?: Theme };
+export type ThemeProviderProps = { theme: Theme };
 
-const ThemeContext = createContext<ThemeProviderProps>({});
+const ThemeContext = createContext<ThemeProviderProps>({ theme: lightTheme });
 
 export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children, theme }) => {
   return <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>;
@@ -238,7 +238,7 @@ export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children,
 
 export function useTheme(): Theme {
   const { theme } = useContext(ThemeContext);
-  return theme ?? lightTheme;
+  return theme;
 }
 
 export const AutoThemeProvider: FunctionComponent = ({ children }) => {
