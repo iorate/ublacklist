@@ -19,12 +19,8 @@ export const Icon = forwardRef(
           backgroundColor: color,
           display: 'block',
           height: iconSize,
-          // #if CHROME
+          mask: `url("${url}") center / ${iconSize} no-repeat`,
           WebkitMask: `url("${url}") center / ${iconSize} no-repeat`,
-          /* #else
-          mask: `url("${url}") center / ${iconSize} ${iconSize} no-repeat`,
-          */
-          // #endif
           width: iconSize,
         }),
       [css, color, iconSize, url],

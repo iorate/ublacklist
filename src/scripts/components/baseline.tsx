@@ -14,7 +14,7 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
         background: theme.background,
         color: theme.text.primary,
         margin: 0,
-        fontFamily: 'sans-serif',
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
         fontSize: fontSize ?? '13px',
         lineHeight: 1.5,
       }),
@@ -48,7 +48,7 @@ export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({ childre
     () =>
       css({
         color: theme.text.primary,
-        fontFamily: 'sans-serif',
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
         fontSize: fontSize ?? '13px',
         lineHeight: 1.5,
         '& *, & *::before, & *::after': {
