@@ -1,4 +1,4 @@
-import { googleMatches } from './common/google-matches';
+import { searchEngineMatches } from './common/search-engines';
 
 exportAsJson('manifest.json', {
   background: {
@@ -25,7 +25,7 @@ exportAsJson('manifest.json', {
   content_scripts: [
     {
       js: ['scripts/content-script.js'],
-      matches: googleMatches,
+      matches: searchEngineMatches.google,
       run_at: 'document_start',
     },
   ],

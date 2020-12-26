@@ -258,6 +258,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The label of the radio button to sync with Dropbox.
   clouds_dropboxSyncTurnedOn: 'Synced with Dropbox',
 
+  // The localized name of Google (not used)
+  searchEngines_googleName: 'Google',
+
   // The localized name of DuckDuckGo
   searchEngines_duckduckgoName: 'DuckDuckGo',
 

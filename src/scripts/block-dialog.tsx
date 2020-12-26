@@ -1,5 +1,6 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import icon from '../images/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
@@ -20,7 +21,6 @@ import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
 import { ReadOnlyTextArea, TextArea } from './components/textarea';
 import { useTheme } from './components/theme';
-import icon from './icon.svg';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL, translate } from './utilities';
@@ -195,26 +195,14 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
       <DialogFooter>
         <Row multiline right>
           <RowItem expanded>
-            <LinkButton
-              onClick={() => {
-                void (async () => {
-                  await sendMessage('open-options-page');
-                  props.close();
-                })();
-              }}
-            >
+            <LinkButton onClick={() => sendMessage('open-options-page')}>
               {translate('popup_openOptionsLink')}
             </LinkButton>
           </RowItem>
           <RowItem>
             <Row>
               <RowItem>
-                <Button
-                  class={!ok ? 'js-focus-end' : undefined}
-                  onClick={() => {
-                    props.close();
-                  }}
-                >
+                <Button class={!ok ? 'js-focus-end' : undefined} onClick={() => props.close()}>
                   {translate('cancelButton')}
                 </Button>
               </RowItem>
@@ -252,12 +240,12 @@ export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, ...pr
   </StylesProvider>
 );
 
-export type BlockPopupProps = BlockDialogContentProps;
+export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
 
 export const BlockPopup: FunctionComponent<BlockPopupProps> = props => (
   <Baseline>
     <NativeDialog close={props.close} width="360px">
-      <BlockDialogContent {...props} />
+      <BlockDialogContent open={true} {...props} />
     </NativeDialog>
   </Baseline>
 );

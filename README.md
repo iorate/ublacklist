@@ -39,22 +39,13 @@ GOOGLE_DRIVE_API_KEY=...
 GOOGLE_DRIVE_API_SECRET=...
 ```
 
-### Engine
-
-To add support for a search engine other than Google,
-
-1. Determine a search engine ID.
-1. Create `src/scripts/search-engines/${searchEngineId}.ts` and export an object of type `SearchEngine`.
-1. Open `src/scripts/types.ts` and update `SearchEngineId`.
-1. Open `src/scripts/supported-search-engine.ts` and update `supportedSearchEngines`.
-
 ### Locale
 
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
 1. Copy `src/locales/en.json.ts` to `src/locales/${languageCode}.json.ts` and translate entries.
-1. If you translated `dayjsLocale`, open `src/scripts/dayjs-locales.ts` and update imports.
+1. If you translated `dayjsLocale`, open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
 1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files.
 
 ## Author

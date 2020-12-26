@@ -151,11 +151,11 @@ export class Blacklist {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
-      } else if (this.subscriptionFragments.some(part => part.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-      } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
@@ -175,11 +175,11 @@ export class Blacklist {
       if (blockRuleIndices.length) {
         // The URL is blocked by a user rule. Unblock it.
         patch.unblock = true;
-        if (this.subscriptionFragments.some(part => part.unblocks(url))) {
+        if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
           // No need to add a user rule to unblock it.
           patch.requireRulesToAdd = false;
           patch.rulesToAdd = '';
-        } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
+        } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
           // Add a user rule to unblock it.
           patch.requireRulesToAdd = true;
           patch.rulesToAdd = suggestMatchPattern(url, true);
@@ -192,7 +192,7 @@ export class Blacklist {
         patch.rulesToRemove = unlines(
           blockRuleIndices.map(index => this.userFragment.blockRules[index].rawRule),
         );
-      } else if (this.subscriptionFragments.some(part => part.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
         // The URL is unblocked by a subscription rule. Block it.
         // Add a user rule to block it.
         patch.unblock = false;
@@ -200,7 +200,7 @@ export class Blacklist {
         patch.rulesToAdd = suggestMatchPattern(url, false);
         patch.compiledRuleIndicesToRemove = [];
         patch.rulesToRemove = '';
-      } else if (this.subscriptionFragments.some(part => part.blocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
         // The URL is blocked by a subscription rule. Unblock it.
         // Add a user rule to unblock it.
         patch.unblock = true;
@@ -228,19 +228,21 @@ export class Blacklist {
     if (!this.patch) {
       throw new Error('Patch not created');
     }
-    const partToAdd = new BlacklistFragment(patch.rulesToAdd);
+    const fragmentToAdd = new BlacklistFragment(patch.rulesToAdd);
     let rulesAddable!: boolean;
     if (this.patch.unblock) {
       if (this.patch.requireRulesToAdd) {
-        rulesAddable = partToAdd.unblocks(this.patch.url);
+        rulesAddable = fragmentToAdd.unblocks(this.patch.url);
       } else {
-        rulesAddable = !partToAdd.blocks(this.patch.url) || partToAdd.unblocks(this.patch.url);
+        rulesAddable =
+          !fragmentToAdd.blocks(this.patch.url) || fragmentToAdd.unblocks(this.patch.url);
       }
     } else {
       if (this.patch.requireRulesToAdd) {
-        rulesAddable = partToAdd.blocks(this.patch.url) && !partToAdd.unblocks(this.patch.url);
+        rulesAddable =
+          fragmentToAdd.blocks(this.patch.url) && !fragmentToAdd.unblocks(this.patch.url);
       } else {
-        rulesAddable = !partToAdd.unblocks(this.patch.url);
+        rulesAddable = !fragmentToAdd.unblocks(this.patch.url);
       }
     }
     if (!rulesAddable) {

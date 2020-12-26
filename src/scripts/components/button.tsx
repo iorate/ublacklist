@@ -58,6 +58,9 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLSpanE
       css({
         color: theme.link.text,
         cursor: 'pointer',
+        '&:disabled': {
+          cursor: 'default',
+        },
         '&:focus': {
           outline: 'none',
         },
@@ -76,11 +79,7 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLSpanE
       ref={ref}
       tabIndex={0}
       onKeyDown={e => {
-        if (e.isComposing) {
-          return;
-        }
         if (e.key === 'Enter') {
-          e.preventDefault();
           e.currentTarget.click();
         }
       }}

@@ -1,6 +1,9 @@
 import type dayjs from 'dayjs';
 import type { MessageName0 } from '../common/locales';
 
+export type { MessageName, MessageName0, MessageName1 } from '../common/locales';
+export type { SearchEngineId } from '../common/search-engines';
+
 // #region Result
 export type ErrorResult = {
   type: 'error';
@@ -50,35 +53,30 @@ export type CloudToken = {
 // #endregion Clouds
 
 // #region SearchEngines
-export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage' | 'ecosia';
-
-export type ControlHandler = {
-  createControl(): HTMLElement | null;
-  adjustControl?(control: HTMLElement): void;
+export type SerpControl = {
+  scope: string;
+  root: HTMLElement;
+  onRender?: () => void;
 };
 
-export type EntryHandler = {
-  getEntry(addedElement: HTMLElement): HTMLElement | null;
-  getURL(entry: HTMLElement): string | null;
-  createAction(entry: HTMLElement): HTMLElement | null;
-  adjustEntry?(entry: HTMLElement): void;
+export type SerpEntry = {
+  scope: string;
+  root: HTMLElement;
+  url: string;
+  actionRoot: HTMLElement;
+  onActionRender?: () => void;
 };
 
-export type SearchEngineHandlers = {
-  controlHandlers: ControlHandler[];
-  entryHandlers: EntryHandler[];
-  getAddedElements?(): HTMLElement[];
-  getSilentlyAddedElements?(addedElement: HTMLElement): HTMLElement[];
+export type SerpHandlerResult = {
+  controls: SerpControl[];
+  entries: SerpEntry[];
 };
 
-export type SearchEngine = {
-  matches: string[];
-  messageNames: { name: MessageName0 };
-  style: string;
-  getHandlers(url: string, mobile: boolean): SearchEngineHandlers | null;
+export type SerpHandler = {
+  onSerpStart: () => SerpHandlerResult;
+  onSerpHead: () => SerpHandlerResult;
+  onSerpElement: (element: HTMLElement) => SerpHandlerResult;
 };
-
-export type SearchEngines = Record<SearchEngineId, SearchEngine>;
 // #endregion SearchEngines
 
 // #region Subscriptions

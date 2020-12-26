@@ -7,7 +7,7 @@ import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 
 async function main(): Promise<void> {
-  const url = (await apis.tabs.query({ active: true, currentWindow: true }))[0].url;
+  const [{ url }] = await apis.tabs.query({ active: true, currentWindow: true });
   if (url == null) {
     throw new Error('No URL');
   }
@@ -21,7 +21,6 @@ async function main(): Promise<void> {
   render(
     <AutoThemeProvider>
       <BlockPopup
-        open={true}
         close={() => window.close()}
         blacklist={blacklist}
         url={url}
@@ -29,7 +28,7 @@ async function main(): Promise<void> {
         onBlocked={() => sendMessage('set-blacklist', blacklist.toString(), 'popup')}
       />
     </AutoThemeProvider>,
-    document.body,
+    document.body.appendChild(document.createElement('div')),
   );
 }
 

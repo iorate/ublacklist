@@ -82,6 +82,7 @@ export type MessageName =
   | 'clouds_dropboxSync'
   | 'clouds_dropboxSyncDescription'
   | 'clouds_dropboxSyncTurnedOn'
+  | 'searchEngines_googleName'
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
   | 'searchEngines_startpageName';

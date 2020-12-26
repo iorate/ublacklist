@@ -1,5 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
@@ -27,8 +28,8 @@ import {
 import { Text } from '../components/text';
 import { TextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
-import { supportedSearchEngines } from '../supported-search-engines';
-import { SearchEngine, SearchEngineId } from '../types';
+import { searchEngineMessageNames } from '../search-engines/message-names';
+import { MessageName0, SearchEngineId } from '../types';
 import { lines, stringEntries, translate } from '../utilities';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
@@ -289,18 +290,19 @@ const SetBlacklist: FunctionComponent = () => {
 
 const RegisterSearchEngine: FunctionComponent<{
   id: SearchEngineId;
-  searchEngine: SearchEngine;
-}> = ({ id, searchEngine }) => {
+  matches: string[];
+  messageNames: { name: MessageName0 };
+}> = ({ id, matches, messageNames }) => {
   const [registered, setRegistered] = useState(false);
   useEffect(() => {
     void (async () => {
-      const registered = await apis.permissions.contains({ origins: searchEngine.matches });
+      const registered = await apis.permissions.contains({ origins: matches });
       setRegistered(registered);
     })();
-  }, [searchEngine]);
+  }, [matches]);
   return (
     <Row>
-      <RowItem expanded>{translate(searchEngine.messageNames.name)}</RowItem>
+      <RowItem expanded>{translate(messageNames.name)}</RowItem>
       <RowItem>
         {registered ? (
           <Button disabled>{translate('options_searchEngineRegistered')}</Button>
@@ -308,7 +310,7 @@ const RegisterSearchEngine: FunctionComponent<{
           <Button
             onClick={async () => {
               const registered = await apis.permissions.request({
-                origins: searchEngine.matches,
+                origins: matches,
               });
               if (registered) {
                 void sendMessage('register-search-engine', id);
@@ -341,11 +343,15 @@ const RegisterSearchEngines: FunctionComponent = () => {
         </RowItem>
         <RowItem expanded>
           <List>
-            {stringEntries(supportedSearchEngines).map(
-              ([id, searchEngine]) =>
+            {stringEntries(searchEngineMatches).map(
+              ([id, matches]) =>
                 id !== 'google' && (
                   <ListItem key={id}>
-                    <RegisterSearchEngine id={id} searchEngine={searchEngine} />
+                    <RegisterSearchEngine
+                      id={id}
+                      matches={matches}
+                      messageNames={searchEngineMessageNames[id]}
+                    />
                   </ListItem>
                 ),
             )}

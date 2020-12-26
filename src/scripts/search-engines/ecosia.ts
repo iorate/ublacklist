@@ -1,49 +1,51 @@
-import { SearchEngine } from '../types';
-import ecosiaStyle from './ecosia.scss';
-import { createAction, getAddedElements, getEntry, getURL } from './helpers';
+import { SerpHandler } from '../types';
+import { handleSerpElement, handleSerpHead, handleSerpStart } from './helpers';
 
-const pageSelectors = {
-  results: '.mainline-results .result',
-  entry: '.mainline-results .result',
-  url: '.mainline-results .result a',
-  message: '.mainline-top',
-};
+const onSerpElement = handleSerpElement({
+  controlHandlers: [
+    {
+      target: '.mainline-top',
+      position: 'afterbegin',
+      style: {
+        display: 'block',
+        fontSize: '13px',
+        paddingRight: '1em',
+        textAlign: 'right',
+      },
+    },
+  ],
+  entryHandlers: [
+    {
+      target: '.mainline-results .result',
+      url: 'a',
+      actionTarget: '',
+      actionStyle: {
+        display: 'block',
+        fontSize: '13px',
+      },
+    },
+  ],
+});
 
-const ubSelectors = {
-  action: 'ub-web-general-action',
-  control: 'ub-web-control',
-  button: '.ub-link-button',
-};
-
-export const ecosia: SearchEngine = {
-  matches: ['*://www.ecosia.org/search?*'],
-  messageNames: {
-    name: 'searchEngines_ecosiaName',
-  },
-  style: ecosiaStyle,
-
-  getHandlers: () => ({
-    controlHandlers: [
-      {
-        createControl: (): HTMLElement | null => {
-          const message = document.querySelector(pageSelectors.message);
-          if (!message) {
-            return null;
-          }
-          const control = document.createElement('span');
-          control.className = ubSelectors.control;
-          message.insertBefore(control, message.firstChild);
-          return control;
+export function getSerpHandler(): SerpHandler {
+  return {
+    onSerpStart: handleSerpStart({
+      elements: '.mainline-results .result',
+      onSerpElement,
+    }),
+    onSerpHead: handleSerpHead({
+      globalStyle: {
+        '[data-ub-blocked="visible"]': {
+          background: 'rgba(255, 192, 192, 0.5) !important',
+        },
+        '.ub-button': {
+          color: 'rgb(0, 100, 77)',
+        },
+        '.ub-button:hover': {
+          textDecoration: 'underline',
         },
       },
-    ],
-    entryHandlers: [
-      {
-        getEntry: getEntry(pageSelectors.entry),
-        getURL: getURL(pageSelectors.url),
-        createAction: createAction(ubSelectors.action, ''),
-      },
-    ],
-    getAddedElements: getAddedElements(pageSelectors.results),
-  }),
-};
+    }),
+    onSerpElement,
+  };
+}

@@ -1,104 +1,112 @@
-import mobile from 'is-mobile';
 import { Fragment, FunctionComponent, h, render } from 'preact';
+import { useLayoutEffect, useMemo } from 'preact/hooks';
+import { searchEngineMatches } from '../common/search-engines';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
-import contentScriptStyle from './content-script.scss';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
-import { supportedSearchEngines } from './supported-search-engines';
-import { SearchEngineHandlers } from './types';
-import { AltURL, MatchPattern, assertNonNull, translate } from './utilities';
+import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
+import { css, glob } from './styles';
+import { SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
+import { AltURL, MatchPattern, stringEntries, translate } from './utilities';
 
-const optionKeys = [
-  'blacklist',
-  'subscriptions',
-  'hideControl',
-  'hideBlockLinks',
-  'skipBlockDialog',
-  'enablePathDepth',
-] as const;
+type SerpEntryWithState = SerpEntry & { blocked: boolean };
 
-// #region LinkButton
-type LinkButtonProps = {
-  class: string;
-  onClick(): void;
-};
-
-const LinkButton: FunctionComponent<LinkButtonProps> = props => (
-  <span
-    class={`ub-link-button ${props.class}`}
-    tabIndex={0}
-    onClick={e => {
-      e.preventDefault();
-      e.stopPropagation();
-      props.onClick();
-    }}
-    onKeyDown={e => {
-      if (e.key === 'Enter') {
+const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick }) => {
+  const class_ = useMemo(
+    () =>
+      css({
+        cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        '&:focus:not(:focus-visible)': {
+          outline: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          outline: 'none',
+        },
+      }),
+    [],
+  );
+  return (
+    <span
+      class={`ub-button ${class_}`}
+      tabIndex={0}
+      onClick={e => {
         e.preventDefault();
         e.stopPropagation();
-        e.currentTarget.click();
-      }
-    }}
-  >
-    {props.children}
-  </span>
-);
-// #endregion LinkButton
+        onClick();
+      }}
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+          onClick();
+        }
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 
-class Main {
-  private readonly style: string;
-  private readonly handlers: SearchEngineHandlers;
-  private queuedEntries: HTMLElement[] = [];
-  private blockedEntryCount = 0;
+const Control: FunctionComponent<{
+  blockedEntryCount: number;
+  showBlockedEntries: boolean;
+  onClick: () => void;
+  onRender?: () => void;
+}> = ({ blockedEntryCount, showBlockedEntries, onClick, onRender }) => {
+  useLayoutEffect(() => onRender?.());
+  return !blockedEntryCount ? null : (
+    <>
+      {blockedEntryCount === 1
+        ? translate('content_singleSiteBlocked')
+        : translate('content_multipleSitesBlocked', String(blockedEntryCount))}{' '}
+      <Button onClick={onClick}>
+        {translate(
+          showBlockedEntries ? 'content_hideBlockedSitesLink' : 'content_showBlockedSitesLink',
+        )}
+      </Button>
+    </>
+  );
+};
 
-  private options: {
+const Action: FunctionComponent<{
+  blocked: boolean;
+  onClick: () => void;
+  onRender?: () => void;
+}> = ({ blocked, onClick, onRender }) => {
+  useLayoutEffect(() => onRender?.());
+  return (
+    <Button onClick={onClick}>
+      {translate(blocked ? 'content_unblockSiteLink' : 'content_blockSiteLink')}
+    </Button>
+  );
+};
+
+class ContentScript {
+  options: {
     blacklist: Blacklist;
+    hideControls: boolean;
+    hideActions: boolean;
     skipBlockDialog: boolean;
     enablePathDepth: boolean;
   } | null = null;
+  readonly controls: SerpControl[] = [];
+  readonly entries: SerpEntryWithState[] = [];
+  readonly scopeStates: Record<
+    string,
+    { blockedEntryCount: number; showBlockedEntries: boolean }
+  > = {};
+  blockDialogRoot: ShadowRoot | null = null;
 
-  private domContent: {
-    control: HTMLElement | null;
-    adjustControl: ((control: HTMLElement) => void) | null;
-    blockDialogRoot: ShadowRoot;
-  } | null = null;
+  constructor(readonly serpHandler: SerpHandler) {
+    // onSerpStart
+    this.onSerpStart();
 
-  constructor() {
-    // style, handlers
-    const url = new AltURL(window.location.href);
-    const searchEngine = Object.values(supportedSearchEngines).find(searchEngine =>
-      searchEngine.matches.some(match => new MatchPattern(match).test(url)),
-    );
-    if (!searchEngine) {
-      throw new Error('No search engine');
-    }
-    this.style = searchEngine.style;
-    const handlers = searchEngine.getHandlers(
-      window.location.href,
-      mobile({ ua: window.navigator.userAgent, tablet: true }),
-    );
-    if (!handlers) {
-      this.handlers = {} as SearchEngineHandlers; // never used
-      return;
-    }
-    this.handlers = handlers;
-
-    // options
-    void LocalStorage.load(optionKeys).then(this.onOptionsLoaded);
-
-    // domContent
-    if (document.readyState !== 'loading') {
-      this.onDOMContentLoaded();
-    } else {
-      document.addEventListener('DOMContentLoaded', this.onDOMContentLoaded);
-    }
-
-    // head, elements
+    // onSerpHead, onSerpElement
     if (document.head) {
-      this.onHeadAdded();
+      this.onSerpHead();
     }
-    (this.handlers.getAddedElements?.() ?? []).forEach(this.onElementAdded);
     new MutationObserver(records => {
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
@@ -107,211 +115,209 @@ class Main {
             console.debug(addedNode.cloneNode(true));
             // #endif
             if (addedNode === document.head) {
-              this.onHeadAdded();
+              this.onSerpHead();
             }
-            this.onElementAdded(addedNode);
-            (this.handlers.getSilentlyAddedElements?.(addedNode) ?? []).forEach(
-              this.onElementAdded,
-            );
+            this.onSerpElement(addedNode);
           }
         }
       }
     }).observe(document.documentElement, { childList: true, subtree: true });
+
+    // onSerpEnd
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.onSerpEnd());
+    } else {
+      this.onSerpEnd();
+    }
   }
 
-  private onOptionsLoaded = (options: LocalStorage.ItemsFor<typeof optionKeys>) => {
-    this.options = {
-      blacklist: new Blacklist(
-        options.blacklist,
-        Object.values(options.subscriptions).map(subscription => subscription.blacklist),
-      ),
-      skipBlockDialog: options.skipBlockDialog,
-      enablePathDepth: options.enablePathDepth,
-    };
-    this.queuedEntries.forEach(this.judgeEntry);
-    this.queuedEntries.length = 0;
-    if (this.domContent) {
-      this.renderControl();
-    }
-    document.documentElement.dataset.ubHideEntry = '';
-    if (options.hideControl) {
-      document.documentElement.dataset.ubHideControl = '';
-    }
-    if (options.hideBlockLinks) {
-      document.documentElement.dataset.ubHideAction = '';
-    }
-  };
-
-  private onDOMContentLoaded = () => {
-    const [control, adjustControl] = (() => {
-      for (const controlHandler of this.handlers.controlHandlers) {
-        const control = controlHandler.createControl();
-        if (!control) {
-          continue;
-        }
-        control.classList.add('ub-control');
-        return [control, controlHandler.adjustControl?.bind(controlHandler) ?? null] as const;
-      }
-      return [null, null];
+  onSerpStart(): void {
+    void (async () => {
+      const options = await LocalStorage.load([
+        'blacklist',
+        'subscriptions',
+        'hideControl',
+        'hideBlockLinks',
+        'skipBlockDialog',
+        'enablePathDepth',
+      ]);
+      this.options = {
+        blacklist: new Blacklist(
+          options.blacklist,
+          Object.values(options.subscriptions).map(subscription => subscription.blacklist),
+        ),
+        hideControls: options.hideControl,
+        hideActions: options.hideBlockLinks,
+        skipBlockDialog: options.skipBlockDialog,
+        enablePathDepth: options.enablePathDepth,
+      };
+      this.rejudgeAllEntries();
     })();
-    const blockDialogRoot = document.body
+    this.handleResult(this.serpHandler.onSerpStart());
+  }
+
+  onSerpHead(): void {
+    glob({
+      '.ub-hidden': {
+        display: 'none !important',
+      },
+      '[data-ub-blocked="hidden"]': {
+        display: 'none !important',
+      },
+    });
+    this.handleResult(this.serpHandler.onSerpHead());
+  }
+
+  onSerpElement(element: HTMLElement): void {
+    this.handleResult(this.serpHandler.onSerpElement(element));
+  }
+
+  onSerpEnd(): void {
+    this.blockDialogRoot = document.body
       .appendChild(document.createElement('div'))
       .attachShadow({ mode: 'open' });
-    this.domContent = {
-      control,
-      adjustControl,
-      blockDialogRoot,
-    };
-    this.renderControl();
-  };
+  }
 
-  private onHeadAdded = () => {
-    render(contentScriptStyle, document.head.appendChild(document.createElement('style')));
-    render(this.style, document.head.appendChild(document.createElement('style')));
-  };
+  handleResult({ controls, entries }: SerpHandlerResult): void {
+    this.controls.push(...controls);
+    for (const entry of entries) {
+      const entryWithState = { ...entry, blocked: false };
+      this.entries.push(entryWithState);
+      this.judgeEntry(entryWithState);
+    }
+    for (const control of entries.length ? this.controls : controls) {
+      this.renderControl(control);
+    }
+  }
 
-  private onElementAdded = (addedElement: HTMLElement) => {
-    const entry = (() => {
-      for (const entryHandler of this.handlers.entryHandlers) {
-        const entry = entryHandler.getEntry(addedElement);
-        if (!entry || entry.hasAttribute('data-ub-url')) {
-          continue;
-        }
-        const url = entryHandler.getURL(entry);
-        if (url == null) {
-          continue;
-        }
-        const action = entryHandler.createAction(entry);
-        if (!action) {
-          continue;
-        }
-        entry.setAttribute('data-ub-url', url);
-        action.classList.add('ub-action');
-        this.renderAction(action, url);
-        entryHandler.adjustEntry?.(entry);
-        return entry;
-      }
-      return null;
-    })();
-    if (!entry) {
+  judgeEntry(entry: SerpEntryWithState): void {
+    if (!this.options) {
       return;
     }
-    if (this.options) {
+    entry.blocked = this.options.blacklist.test(new AltURL(entry.url));
+    if (entry.blocked) {
+      const scopeState = this.scopeStates[entry.scope] ?? {
+        blockedEntryCount: 0,
+        showBlockedEntries: false,
+      };
+      ++scopeState.blockedEntryCount;
+      this.scopeStates[entry.scope] = scopeState;
+    }
+    this.renderEntry(entry);
+  }
+
+  rejudgeAllEntries(): void {
+    for (const scopeState of Object.values(this.scopeStates)) {
+      scopeState.blockedEntryCount = 0;
+    }
+    for (const entry of this.entries) {
       this.judgeEntry(entry);
-      if (this.domContent) {
-        this.renderControl();
+    }
+    for (const scopeState of Object.values(this.scopeStates)) {
+      if (!scopeState.blockedEntryCount) {
+        scopeState.showBlockedEntries = false;
       }
+    }
+    for (const control of this.controls) {
+      this.renderControl(control);
+    }
+  }
+
+  renderControl(control: SerpControl): void {
+    const scopeState = this.scopeStates[control.scope] ?? {
+      blockedEntryCount: 0,
+      showBlockedEntries: false,
+    };
+    control.root.classList.toggle(
+      'ub-hidden',
+      this.options?.hideControls || !scopeState.blockedEntryCount,
+    );
+    render(
+      <Control
+        blockedEntryCount={scopeState.blockedEntryCount}
+        showBlockedEntries={scopeState.showBlockedEntries}
+        onClick={() => {
+          scopeState.showBlockedEntries = !scopeState.showBlockedEntries;
+          for (const control of this.controls) {
+            this.renderControl(control);
+          }
+          for (const entry of this.entries) {
+            this.renderEntry(entry);
+          }
+        }}
+        onRender={control.onRender}
+      />,
+      control.root,
+    );
+  }
+
+  renderEntry(entry: SerpEntryWithState): void {
+    if (entry.blocked) {
+      entry.root.dataset.ubBlocked = this.scopeStates[entry.scope]?.showBlockedEntries
+        ? 'visible'
+        : 'hidden';
     } else {
-      this.queuedEntries.push(entry);
+      delete entry.root.dataset.ubBlocked;
     }
-  };
+    entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
+    render(
+      <Action
+        blocked={entry.blocked}
+        onClick={() => {
+          if (!this.options || !this.blockDialogRoot) {
+            return;
+          }
+          if (this.options.skipBlockDialog) {
+            this.options.blacklist.createPatch(new AltURL(entry.url));
+            this.options.blacklist.applyPatch();
+            void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
+            this.rejudgeAllEntries();
+          } else {
+            this.renderBlockDialog(entry.url);
+          }
+        }}
+        onRender={entry.onActionRender}
+      />,
+      entry.actionRoot,
+    );
+  }
 
-  private onBlacklistUpdated = () => {
-    assertNonNull(this.options);
-    void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
-    this.blockedEntryCount = 0;
-    for (const entry of document.querySelectorAll<HTMLElement>('[data-ub-url]')) {
-      entry.classList.remove('ub-is-blocked');
-      this.judgeEntry(entry);
-    }
-    if (this.domContent) {
-      this.renderControl();
-    }
-    if (!this.blockedEntryCount) {
-      document.documentElement.dataset.ubHideEntry = '';
-    }
-  };
-
-  private judgeEntry = (entry: HTMLElement) => {
-    assertNonNull(this.options);
-    const url = entry.dataset.ubUrl;
-    if (url == undefined) {
-      throw new Error('Not entry');
-    }
-    if (this.options.blacklist.test(new AltURL(url))) {
-      ++this.blockedEntryCount;
-      entry.classList.add('ub-is-blocked');
-    }
-  };
-
-  private renderControl = () => {
-    assertNonNull(this.domContent);
-    if (!this.domContent.control) {
+  renderBlockDialog(url: string, open = true) {
+    if (!this.options || !this.blockDialogRoot) {
       return;
     }
-    render(
-      this.blockedEntryCount ? (
-        <>
-          <span class="ub-stats">
-            {this.blockedEntryCount === 1
-              ? translate('content_singleSiteBlocked')
-              : translate('content_multipleSitesBlocked', String(this.blockedEntryCount))}
-          </span>{' '}
-          <LinkButton
-            class="ub-show-button"
-            onClick={() => {
-              delete document.documentElement.dataset['ubHideEntry'];
-            }}
-          >
-            {translate('content_showBlockedSitesLink')}
-          </LinkButton>
-          <LinkButton
-            class="ub-hide-button"
-            onClick={() => {
-              document.documentElement.dataset.ubHideEntry = '';
-            }}
-          >
-            {translate('content_hideBlockedSitesLink')}
-          </LinkButton>
-        </>
-      ) : null,
-      this.domContent.control,
-    );
-    this.domContent.adjustControl?.(this.domContent.control);
-  };
-
-  private renderAction = (action: HTMLElement, url: string) => {
-    const onButtonClicked = () => {
-      if (!this.options || !this.domContent) {
-        return;
-      }
-      if (this.options.skipBlockDialog) {
-        this.options.blacklist.createPatch(new AltURL(url));
-        this.options.blacklist.applyPatch();
-        this.onBlacklistUpdated();
-      } else {
-        this.renderBlockDialog(url);
-      }
-    };
-    render(
-      <>
-        <LinkButton class="ub-block-button" onClick={onButtonClicked}>
-          {translate('content_blockSiteLink')}
-        </LinkButton>
-        <LinkButton class="ub-unblock-button" onClick={onButtonClicked}>
-          {translate('content_unblockSiteLink')}
-        </LinkButton>
-      </>,
-      action,
-    );
-  };
-
-  private renderBlockDialog = (url: string, open = true) => {
-    assertNonNull(this.options);
-    assertNonNull(this.domContent);
     render(
       <BlockDialog
-        target={this.domContent.blockDialogRoot}
+        target={this.blockDialogRoot}
         open={open}
         close={() => this.renderBlockDialog(url, false)}
         url={url}
         blacklist={this.options.blacklist}
         enablePathDepth={this.options.enablePathDepth}
-        onBlocked={this.onBlacklistUpdated}
+        onBlocked={() => {
+          if (!this.options) {
+            return;
+          }
+          void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
+          this.rejudgeAllEntries();
+        }}
       />,
-      this.domContent.blockDialogRoot,
+      this.blockDialogRoot,
     );
-  };
+  }
 }
 
-new Main();
+function main() {
+  const url = new AltURL(window.location.href);
+  const idMatches = stringEntries(searchEngineMatches).find(([, matches]) =>
+    matches.some(match => new MatchPattern(match).test(url)),
+  );
+  if (idMatches) {
+    const serpHandler = searchEngineSerpHandlers[idMatches[0]]();
+    if (serpHandler) {
+      new ContentScript(serpHandler);
+    }
+  }
+}
+
+main();

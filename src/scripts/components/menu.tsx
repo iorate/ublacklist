@@ -179,9 +179,6 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
           }
         }}
         onKeyDown={e => {
-          if (e.isComposing) {
-            return;
-          }
           if (e.key === 'Escape' || e.key === 'Tab') {
             e.preventDefault();
             setOpen(false);
