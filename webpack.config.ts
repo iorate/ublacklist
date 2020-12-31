@@ -1,5 +1,4 @@
 import path from 'path';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
 import glob from 'glob';
@@ -72,8 +71,6 @@ const config: webpack.Configuration = {
   },
 
   plugins: [
-    (new CleanWebpackPlugin() as unknown) as webpack.WebpackPluginInstance,
-
     new CopyPlugin({
       patterns: ['./images/**/*.png', './scripts/**/*.js'],
     }),
