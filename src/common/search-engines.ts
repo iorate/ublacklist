@@ -1,4 +1,4 @@
-export type SearchEngineId = 'google' | 'duckduckgo' | 'startpage' | 'ecosia';
+export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'startpage';
 
 export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
   google: [
@@ -196,6 +196,12 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
     'https://www.google.co.zw/search?*',
     'https://www.google.cat/search?*',
   ],
+  bing: [
+    'https://www.bing.com/search?*',
+    'https://www.bing.com/images/search?*',
+    'https://www.bing.com/videos/search?*',
+    'https://www.bing.com/news/search?*',
+  ],
   duckduckgo: [
     '*://duckduckgo.com/',
     '*://duckduckgo.com//',
@@ -207,7 +213,7 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
     '*://start.duckduckgo.com//',
     '*://start.duckduckgo.com/?*',
   ],
-  ecosia: ['*://www.ecosia.org/search?*'],
+  ecosia: ['https://www.ecosia.org/search?*'],
   startpage: [
     'https://startpage.com/do/*',
     'https://startpage.com/sp/*',

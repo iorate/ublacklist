@@ -1,5 +1,5 @@
 import { CSSAttribute, css, glob } from '../styles';
-import { SerpControl, SerpEntry, SerpHandlerResult } from '../types';
+import { SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from '../types';
 
 export function getParentElement(element: HTMLElement, level = 1): HTMLElement {
   let current = element;
@@ -32,18 +32,18 @@ export function insertElement(
 }
 
 export function handleSerpStart({
-  elements,
+  targets,
   onSerpElement,
 }: {
-  elements: string | (() => HTMLElement[]);
+  targets: string | (() => HTMLElement[]);
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
 }): () => SerpHandlerResult {
   return () => {
     const controls: SerpControl[] = [];
     const entries: SerpEntry[] = [];
-    for (const element of typeof elements === 'string'
-      ? document.querySelectorAll<HTMLElement>(elements)
-      : elements()) {
+    for (const element of typeof targets === 'string'
+      ? document.querySelectorAll<HTMLElement>(targets)
+      : targets()) {
       const { controls: elementControls, entries: elementEntries } = onSerpElement(element);
       controls.push(...elementControls);
       entries.push(...elementEntries);
@@ -92,13 +92,13 @@ export type EntryHandler = {
     | 'beforeend'
     | 'afterend'
     | ((target: HTMLElement) => HTMLElement | null);
-  actionStyle?: string | CSSAttribute | ((action: HTMLElement) => void);
+  actionStyle?: string | CSSAttribute | ((actionRoot: HTMLElement) => void);
   actionButtonStyle?: string | CSSAttribute | ((button: HTMLElement) => void);
 };
 
 export type PagerHandler = {
   target: string | ((element: HTMLElement) => boolean);
-  elements: string | ((target: HTMLElement) => HTMLElement[]);
+  innerTargets: string | ((target: HTMLElement) => HTMLElement[]);
 };
 
 function handleRender(
@@ -186,12 +186,17 @@ export function handleSerpElement({
       if (typeof url === 'string') {
         const a = url ? entryRoot.querySelector<HTMLElement>(url) : entryRoot;
         if (a instanceof HTMLAnchorElement) {
-          entryURL = a.href;
+          entryURL = a.href || null;
         }
       } else {
         entryURL = url(entryRoot);
       }
       if (entryURL == null) {
+        continue;
+      }
+      try {
+        new URL(entryURL);
+      } catch {
         continue;
       }
       const entryActionTarget =
@@ -229,14 +234,14 @@ export function handleSerpElement({
       });
       entryRoots.add(entryRoot);
     }
-    for (const { target, elements } of pagerHandlers) {
+    for (const { target, innerTargets } of pagerHandlers) {
       if (!(typeof target === 'string' ? element.matches(target) : target(element))) {
         continue;
       }
       const pagerElements =
-        typeof elements === 'string'
-          ? element.querySelectorAll<HTMLElement>(elements)
-          : elements(element);
+        typeof innerTargets === 'string'
+          ? element.querySelectorAll<HTMLElement>(innerTargets)
+          : innerTargets(element);
       for (const pagerElement of pagerElements) {
         const { controls: pagerControls, entries: pagerEntries } = onSerpElement(pagerElement);
         controls.push(...pagerControls);
@@ -246,4 +251,25 @@ export function handleSerpElement({
     return { controls, entries };
   };
   return onSerpElement;
+}
+
+export function handleSerp({
+  globalStyle,
+  targets,
+  controlHandlers,
+  entryHandlers,
+  pagerHandlers = [],
+}: {
+  targets: string | (() => HTMLElement[]);
+  globalStyle: CSSAttribute;
+  controlHandlers: ControlHandler[];
+  entryHandlers: EntryHandler[];
+  pagerHandlers?: PagerHandler[];
+}): SerpHandler {
+  const onSerpElement = handleSerpElement({ controlHandlers, entryHandlers, pagerHandlers });
+  return {
+    onSerpStart: handleSerpStart({ targets, onSerpElement }),
+    onSerpHead: handleSerpHead({ globalStyle }),
+    onSerpElement,
+  };
 }

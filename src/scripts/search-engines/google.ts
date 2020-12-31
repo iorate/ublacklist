@@ -255,17 +255,17 @@ const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | und
         // People Also Ask
         {
           target: '.related-question-pair',
-          elements: '.g',
+          innerTargets: '.g',
         },
         // Recipe, Default (COVID-19), Web Result (COVID-19), ...
         {
           target: '.yl > div',
-          elements: '.YwonT, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b',
+          innerTargets: '.YwonT, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b',
         },
         // AutoPagerize
         {
           target: '.autopagerize_page_info ~ .g',
-          elements: '.IsZvec',
+          innerTargets: '.IsZvec',
         },
       ],
     }),
@@ -377,7 +377,7 @@ const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | und
         // AutoPagerize
         {
           target: '.autopagerize_page_info ~ div',
-          elements: '.dbsr',
+          innerTargets: '.dbsr',
         },
       ],
     }),
@@ -403,9 +403,10 @@ const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | und
         },
       ],
       pagerHandlers: [
+        // AutoPagerize
         {
           target: '.autopagerize_page_info ~ .g',
-          elements: '.IsZvec',
+          innerTargets: '.IsZvec',
         },
       ],
     }),

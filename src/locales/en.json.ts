@@ -258,15 +258,18 @@ exportAsMessages('_locales/en/messages.json', {
   // The label of the radio button to sync with Dropbox.
   clouds_dropboxSyncTurnedOn: 'Synced with Dropbox',
 
-  // The localized name of Google (not used)
+  // The localized name of Google (not used).
   searchEngines_googleName: 'Google',
 
-  // The localized name of DuckDuckGo
+  // The localized name of Bing.
+  searchEngines_bingName: 'Bing',
+
+  // The localized name of DuckDuckGo.
   searchEngines_duckduckgoName: 'DuckDuckGo',
 
-  // The localized name of Ecosia
+  // The localized name of Ecosia.
   searchEngines_ecosiaName: 'Ecosia',
 
-  // The localized name of Startpage.com
+  // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',
 });

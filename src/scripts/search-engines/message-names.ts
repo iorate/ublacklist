@@ -4,6 +4,9 @@ export const searchEngineMessageNames: Readonly<Record<SearchEngineId, { name: M
   google: {
     name: 'searchEngines_googleName',
   },
+  bing: {
+    name: 'searchEngines_bingName',
+  },
   duckduckgo: {
     name: 'searchEngines_duckduckgoName',
   },
