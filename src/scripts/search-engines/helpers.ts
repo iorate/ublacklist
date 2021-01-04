@@ -260,8 +260,8 @@ export function handleSerp({
   entryHandlers,
   pagerHandlers = [],
 }: {
+  globalStyle: CSSAttribute | (() => void);
   targets: string | (() => HTMLElement[]);
-  globalStyle: CSSAttribute;
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
   pagerHandlers?: PagerHandler[];
