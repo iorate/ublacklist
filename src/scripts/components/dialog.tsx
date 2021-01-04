@@ -158,7 +158,7 @@ export const NativeDialog = forwardRef(
 
     const css = useCSS();
     const theme = useTheme();
-    const browserDialogClass = useMemo(
+    const class_ = useMemo(
       () =>
         css({
           background: theme.dialog.background,
@@ -171,7 +171,7 @@ export const NativeDialog = forwardRef(
 
     return (
       <div
-        {...applyClass(props, browserDialogClass)}
+        {...applyClass(props, class_)}
         ref={innerRef}
         onKeyDown={e => {
           if (e.isComposing) {

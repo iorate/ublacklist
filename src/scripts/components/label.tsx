@@ -26,7 +26,7 @@ export type LabelProps = {
 export const Label = forwardRef(
   ({ disabled, for: for_, forFullWidth, ...props }: LabelProps, ref: Ref<HTMLDivElement>) => {
     const css = useCSS();
-    const labelClass = useMemo(
+    const class_ = useMemo(
       () =>
         css({
           marginBottom: forFullWidth ? '0.5em' : 0,
@@ -36,7 +36,7 @@ export const Label = forwardRef(
     );
     return (
       <LabelContext.Provider value={{ disabled: disabled, for: for_ }}>
-        <div {...applyClass(props, labelClass)} ref={ref} />
+        <div {...applyClass(props, class_)} ref={ref} />
       </LabelContext.Provider>
     );
   },
