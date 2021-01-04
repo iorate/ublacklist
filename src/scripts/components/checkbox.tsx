@@ -9,7 +9,7 @@ import { useTheme } from './theme';
 export type CheckBoxProps = JSX.IntrinsicElements['input'];
 
 export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
-  const id = useMemo(() => props.id ?? nanoid(), [props.id]);
+  const id = props.id ?? nanoid();
 
   const css = useCSS();
   const theme = useTheme();

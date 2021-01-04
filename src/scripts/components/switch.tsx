@@ -9,7 +9,7 @@ import { useTheme } from './theme';
 export type SwitchProps = JSX.IntrinsicElements['input'];
 
 export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>) => {
-  const id = useMemo(() => props.id ?? nanoid(), [props.id]);
+  const id = props.id ?? nanoid();
 
   const css = useCSS();
   const theme = useTheme();
