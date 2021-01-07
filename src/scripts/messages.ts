@@ -1,5 +1,5 @@
 import { apis } from './apis';
-import { CloudId, SearchEngineId, Result, Subscription, SubscriptionId } from './types';
+import { CloudId, Result, SearchEngineId, Subscription, SubscriptionId } from './types';
 
 export type SetBlacklistSource = 'content-script' | 'popup' | 'options' | 'background';
 
@@ -34,7 +34,7 @@ export function postMessage<Type extends MessageTypes>(
   void (async () => {
     try {
       await apis.runtime.sendMessage({ type, args });
-    } catch (e) {
+    } catch (e: unknown) {
       if (
         e instanceof Error &&
         e.message === 'Could not establish connection. Receiving end does not exist.'

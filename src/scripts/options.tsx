@@ -1,23 +1,28 @@
 import { FunctionComponent, h, render } from 'preact';
-import { ContextProvider } from './options/context';
+import { Baseline } from './components/baseline';
+import { Container } from './components/container';
+import { AutoThemeProvider } from './components/theme';
 import { GeneralSection } from './options/general-section';
+import { OptionsContextProvider } from './options/options-context';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
-import optionsStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../styles/options.scss';
 
-const Main: FunctionComponent = () => (
-  <div class="ub-main">
-    <ContextProvider>
-      <GeneralSection />
-      <SyncSection />
-      <SubscriptionSection />
-    </ContextProvider>
-  </div>
+const Options: FunctionComponent = () => (
+  <OptionsContextProvider>
+    <AutoThemeProvider>
+      <Baseline>
+        <Container>
+          <GeneralSection />
+          <SyncSection />
+          <SubscriptionSection />
+        </Container>
+      </Baseline>
+    </AutoThemeProvider>
+  </OptionsContextProvider>
 );
 
 function main(): void {
-  render(optionsStyle, document.head.appendChild(document.createElement('style')));
-  render(<Main />, document.body.appendChild(document.createElement('div')));
+  render(<Options />, document.body.appendChild(document.createElement('div')));
 }
 
 main();

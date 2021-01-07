@@ -1,68 +1,57 @@
+import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
-import { supportedSearchEngines } from '../supported-search-engines';
 import { SearchEngineId } from '../types';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function register(id: SearchEngineId): Promise<void> {
-  // #if CHROMIUM
-  /*
-  // #else
+  /* #if FIREFOX
   await browser.contentScripts.register({
     js: [{ file: '/scripts/content-script.js' }],
-    matches: supportedSearchEngines[id].matches,
+    matches: searchEngineMatches[id],
     runAt: 'document_start',
   });
-  // #endif
-  // #if CHROMIUM
   */
   // #endif
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function registerAll(): Promise<void> {
-  // #if CHROMIUM
+  // #if CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     void (async () => {
       if (changeInfo.status !== 'loading' || tab.url == null) {
         return;
       }
       const url = new AltURL(tab.url);
-      for (const [id, searchEngine] of stringEntries(supportedSearchEngines)) {
-        if (id === 'google') {
-          continue;
-        }
-        if (searchEngine.matches.some(match => new MatchPattern(match).test(url))) {
-          const [required] = await apis.tabs.executeScript(tabId, {
-            file: '/scripts/content-script-required.js',
+      for (const [id, matches] of stringEntries(searchEngineMatches)) {
+        if (id !== 'google' && matches.some(match => new MatchPattern(match).test(url))) {
+          const [once] = await apis.tabs.executeScript(tabId, {
+            file: '/scripts/content-script-once.js',
             runAt: 'document_start',
           });
-          if (!required) {
-            return;
+          if (once) {
+            await apis.tabs.executeScript(tabId, {
+              file: '/scripts/content-script.js',
+              runAt: 'document_start',
+            });
           }
-          await apis.tabs.executeScript(tabId, {
-            file: '/scripts/content-script.js',
-            runAt: 'document_start',
-          });
           break;
         }
       }
     })();
   });
-  /*
-  // #else
+  /* #else
   await Promise.all(
-    stringEntries(supportedSearchEngines).map(async ([id, searchEngine]) => {
+    stringEntries(searchEngineMatches).map(async ([id, matches]) => {
       if (id === 'google') {
         return;
       }
-      if (await apis.permissions.contains({ origins: searchEngine.matches })) {
+      if (await apis.permissions.contains({ origins: matches })) {
         await register(id);
       }
     }),
   );
-  // #endif
-  // #if CHROMIUM
   */
   // #endif
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-// #if CHROMIUM
+// #if CHROME
 export namespace apis {
   export namespace alarms {
     export type Alarm = chrome.alarms.Alarm;
@@ -36,7 +36,8 @@ export namespace apis {
           if (chrome.runtime.lastError) {
             reject(new Error(chrome.runtime.lastError.message));
           } else {
-            resolve(responseUrl);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            resolve(responseUrl!);
           }
         });
       });
@@ -240,10 +241,7 @@ export namespace apis {
     };
   }
 }
-/*
-// #else
+/* #elif FIREFOX
 export import apis = browser;
-// #endif
-// #if CHROMIUM
 */
 // #endif

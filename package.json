@@ -4,81 +4,204 @@
       "path": "cz-conventional-changelog"
     }
   },
+  "devDependencies": {
+    "@mdi/svg": "^5.7.55",
+    "@types/chrome": "0.0.127",
+    "@types/copy-webpack-plugin": "^6.2.0",
+    "@types/dotenv-webpack": "^5.0.0",
+    "@types/firefox-webext-browser": "^82.0.0",
+    "@types/glob": "^7.1.3",
+    "@types/jest": "^26.0.19",
+    "@types/node": "^14.14.16",
+    "@types/terser-webpack-plugin": "^5.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "commitizen": "^4.2.2",
+    "copy-webpack-plugin": "^7.0.0",
+    "cross-env": "^7.0.2",
+    "csstype": "^3.0.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "dayjs": "^1.9.8",
+    "dotenv-webpack": "^6.0.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "goober": "^2.0.19-next.1",
+    "html-webpack-plugin": "^5.0.0-beta.1",
+    "if-webpack-loader": "^2.0.0",
+    "is-mobile": "^2.2.1",
+    "jest": "^26.6.3",
+    "license-webpack-plugin": "^2.3.9",
+    "nanoid": "^3.1.20",
+    "npm-run-all": "^4.1.5",
+    "poi-ts": "^0.2.0",
+    "preact": "10.5.7",
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^17.2.2",
+    "semantic-release-chrome": "^1.1.3",
+    "semantic-release-firefox-add-on": "^0.2.6",
+    "terser-webpack-plugin": "^5.0.3",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.12",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "webpack": "^5.11.0",
+    "webpack-cli": "^4.3.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "prettier"
+    ],
+    "ignorePatterns": [
+      "/dist/*"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2019
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/scripts/**/*.js"
+        ],
+        "env": {
+          "browser": true
+        }
+      },
+      {
+        "files": [
+          "**/*.{ts,tsx}"
+        ],
+        "extends": [
+          "plugin:@typescript-eslint/recommended",
+          "plugin:@typescript-eslint/recommended-requiring-type-checking",
+          "plugin:import/typescript",
+          "plugin:react/recommended",
+          "plugin:react-hooks/recommended",
+          "prettier/@typescript-eslint",
+          "prettier/react"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+          "project": "./tsconfig.json"
+        },
+        "plugins": [
+          "@typescript-eslint"
+        ],
+        "rules": {
+          "sort-imports": [
+            "warn",
+            {
+              "ignoreDeclarationSort": true
+            }
+          ],
+          "import/order": [
+            "warn",
+            {
+              "alphabetize": {
+                "order": "asc"
+              }
+            }
+          ],
+          "react/no-unknown-property": [
+            "error",
+            {
+              "ignore": [
+                "class",
+                "for",
+                "spellcheck"
+              ]
+            }
+          ],
+          "react/prop-types": [
+            "off"
+          ]
+        }
+      }
+    ],
+    "settings": {
+      "react": {
+        "pragma": "h",
+        "version": "16.0"
+      }
+    }
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "private": true,
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "semantic-release-chrome",
+        {
+          "asset": "ublacklist-chrome.zip",
+          "distFolder": "dist/chrome/production",
+          "extensionId": "pncfbmialoiaghdehhbnbhkkgmjanfhe"
+        }
+      ],
+      [
+        "semantic-release-firefox-add-on",
+        {
+          "channel": "listed",
+          "extensionId": "@ublacklist",
+          "sourceDir": "dist/firefox/production",
+          "targetXpi": "ublacklist-firefox.xpi"
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "name": "ublacklist-${nextRelease.gitTag}-chrome.zip",
+              "path": "ublacklist-chrome.zip"
+            },
+            {
+              "name": "ublacklist-${nextRelease.gitTag}-firefox.xpi",
+              "path": "artifacts/ublacklist-firefox.xpi"
+            }
+          ]
+        }
+      ]
+    ]
+  },
   "scripts": {
     "build": "run-p --print-label build:**",
     "build:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --color",
     "build:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack --color",
     "build:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color",
     "build:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color",
-    "clean": "rimraf dist/*",
+    "clean": "run-p --print-label clean:**",
+    "clean:chrome:development": "rimraf dist/chrome/development",
+    "clean:chrome:production": "rimraf dist/chrome/production",
+    "clean:firefox:development": "rimraf dist/firefox/development",
+    "clean:firefox:production": "rimraf dist/firefox/production",
     "commit": "git-cz",
     "lint": "run-p --print-label lint:*",
-    "lint:scripts": "eslint --color .",
-    "lint:styles": "stylelint --color src/**/*.scss",
-    "lintfix": "run-p --print-label lintfix:*",
-    "lintfix:scripts": "eslint --color --fix .",
-    "lintfix:styles": "stylelint --color --fix src/**/*.scss",
+    "lint:eslint": "eslint --color .",
+    "lint:prettier": "prettier --check --color --loglevel warn .",
+    "lintfix": "run-s --print-label lintfix:*",
+    "lintfix:eslint": "eslint --color --fix .",
+    "lintfix:prettier": "prettier --color --loglevel warn --write .",
     "test": "jest",
     "watch": "run-p --print-label watch:**",
     "watch:chrome:development": "cross-env BROWSER=chrome NODE_ENV=development webpack --color --watch",
     "watch:chrome:production": "cross-env BROWSER=chrome NODE_ENV=production webpack --color --watch",
     "watch:firefox:development": "cross-env BROWSER=firefox NODE_ENV=development webpack --color --watch",
     "watch:firefox:production": "cross-env BROWSER=firefox NODE_ENV=production webpack --color --watch"
-  },
-  "devDependencies": {
-    "@mdi/svg": "^5.5.55",
-    "@types/chrome": "0.0.123",
-    "@types/firefox-webext-browser": "^78.0.1",
-    "@types/jest": "^26.0.13",
-    "@types/node": "^14.10.1",
-    "@typescript-eslint/eslint-plugin": "^4.1.0",
-    "@typescript-eslint/parser": "^4.1.0",
-    "bulma": "^0.9.0",
-    "bulma-checkradio": "^1.1.1",
-    "bulma-switch": "^2.0.0",
-    "commitizen": "^4.2.1",
-    "copy-webpack-plugin": "^6.1.0",
-    "cross-env": "^7.0.2",
-    "css-loader": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "dayjs": "^1.8.35",
-    "dotenv-webpack": "^2.0.0",
-    "eslint": "^7.8.1",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.2",
-    "extract-loader": "^5.1.0",
-    "file-loader": "^6.1.0",
-    "ifdef-loader": "^2.1.5",
-    "is-mobile": "^2.2.1",
-    "jest": "^26.4.2",
-    "license-checker-webpack-plugin": "0.1.5",
-    "node-sass": "^4.14.1",
-    "npm-run-all": "^4.1.5",
-    "poi-ts": "^0.2.0",
-    "preact": "10.4.8",
-    "prettier": "^2.1.1",
-    "raw-loader": "^4.0.1",
-    "rimraf": "^3.0.2",
-    "sass-loader": "^10.0.2",
-    "semantic-release": "^17.0.8",
-    "semantic-release-chrome": "^1.1.3",
-    "semantic-release-firefox-add-on": "^0.2.6",
-    "stylelint": "^13.7.1",
-    "stylelint-config-prettier": "^8.0.1",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-prettier": "^1.1.2",
-    "stylelint-scss": "^3.17.2",
-    "svg-transform-loader": "^2.0.13",
-    "ts-jest": "^26.3.0",
-    "ts-loader": "^8.0.3",
-    "typescript": "^4.0.2",
-    "url-loader": "^4.1.0",
-    "val-loader": "^2.1.1",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-fix-style-only-entries": "^0.5.0"
   }
 }

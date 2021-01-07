@@ -1,5 +1,5 @@
-import * as Poi from 'poi-ts';
 import dayjs from 'dayjs';
+import * as Poi from 'poi-ts';
 import { Cloud } from '../types';
 import { HTTPError } from '../utilities';
 import * as Helpers from './helpers';
@@ -13,12 +13,8 @@ const MULTIPART_RELATED_BOUNDARY = '----------uBlacklistMultipartRelatedBoundary
 
 export const googleDrive: Cloud = {
   hostPermissions: [
-    // #if CHROMIUM
-    /*
-    // #else
+    /* #if FIREFOX
     'https://www.googleapis.com/*',
-    // #endif
-    // #if CHROMIUM
     */
     // #endif
   ],
@@ -97,7 +93,7 @@ ${content}\r
     }).toString();
     const response = await fetch(requestURL.toString());
     if (response.ok) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(
         responseBody,
         Poi.object({

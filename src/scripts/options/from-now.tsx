@@ -21,5 +21,5 @@ export const FromNow: FunctionComponent<Readonly<FromNowProps>> = props => {
       clearInterval(intervalId);
     };
   }, []);
-  return <Fragment>{props.time.locale(translate('dayjsLocale')).fromNow()}</Fragment>;
+  return <>{props.time.locale(translate('dayjsLocale')).fromNow()}</>;
 };

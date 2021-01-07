@@ -1,84 +1,108 @@
 import * as Poi from 'poi-ts';
-import { SearchEngine } from '../types';
-import { createAction, createControl, getAddedElements, getEntry, getURL } from './helpers';
-import startpageStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/startpage.scss';
+import { CSSAttribute } from '../styles';
+import { SerpHandler } from '../types';
+import { handleSerp } from './helpers';
 
-export const startpage: SearchEngine = {
-  matches: [
-    'https://startpage.com/do/*',
-    'https://startpage.com/sp/*',
-    'https://www.startpage.com/do/*',
-    'https://www.startpage.com/rvd/*',
-    'https://www.startpage.com/sp/*',
-  ],
-  messageNames: {
-    name: 'searchEngines_startpageName',
-  },
-  style: startpageStyle,
+const defaultControlStyle: CSSAttribute = {
+  color: 'rgb(127, 134, 159)',
+  display: 'block',
+  fontSize: '14px',
+  marginTop: '8px',
+};
 
-  getHandlers: () => ({
+export function getSerpHandler(): SerpHandler {
+  return handleSerp({
+    globalStyle: {
+      '[data-ub-blocked="visible"]': {
+        background: 'rgba(255, 192, 192, 0.5) !important',
+      },
+      '.ub-button': {
+        color: 'rgb(101, 115, 255)',
+      },
+      '.ub-button:hover': {
+        textDecoration: 'underline',
+      },
+    },
+    targets:
+      '.layout-web__inline-nav-container, .layout-images-nav-container, .layout-news__inline-nav-container, .layout-video__inline-nav-container, .w-gl__result, .image-container, .article, .vo-sp__link',
     controlHandlers: [
       // Web
       {
-        createControl: createControl('ub-web-control', '.layout-web__inline-nav-container'),
+        target: '.layout-web__inline-nav-container',
+        style: defaultControlStyle,
       },
       // Images
       {
-        createControl: createControl('ub-images-control', '.layout-images__inline-nav-container'),
+        target: '.layout-images__inline-nav-container',
+        style: defaultControlStyle,
       },
       // News
       {
-        createControl: createControl('ub-news-control', '.layout-news__inline-nav-container'),
+        target: '.layout-news__inline-nav-container',
+        style: defaultControlStyle,
       },
       // Videos
       {
-        createControl: createControl('ub-videos-control', '.layout-video__inline-nav-container'),
+        target: '.layout-video__inline-nav-container',
+        style: defaultControlStyle,
       },
     ],
     entryHandlers: [
       // Web
       {
-        getEntry: getEntry('.w-gl__result'),
-        getURL: getURL('.w-gl__result-title'),
-        createAction: createAction('ub-web-action', ''),
+        target: '.w-gl__result',
+        url: '.w-gl__result-title',
+        actionTarget: '.w-gl__result__main',
+        actionStyle: {
+          display: 'block',
+          marginTop: '4px',
+        },
       },
       // Images
       {
-        getEntry: getEntry('.image-container'),
-        getURL: (entry: HTMLElement): string | null => {
-          if (!entry.dataset.imgMetadata) {
-            return null;
-          }
-          try {
-            const metadata = JSON.parse(entry.dataset.imgMetadata) as unknown;
-            Poi.validate(metadata, Poi.object({ displayUrl: Poi.string() }));
-            return metadata.displayUrl;
-          } catch {
-            return null;
-          }
+        target: '.image-container',
+        url: (root: HTMLElement): string | null => {
+          return root.dataset.imgMetadata != null
+            ? Poi.tryParseJSON(root.dataset.imgMetadata, Poi.object({ displayUrl: Poi.string() }))
+                ?.displayUrl ?? null
+            : null;
         },
-        createAction: createAction('ub-images-action', ''),
-        adjustEntry: (entry: HTMLElement): void => {
-          const details = entry.querySelector<HTMLElement>('.details');
-          if (!details) {
-            return;
+        actionTarget: root => {
+          const details = root.querySelector<HTMLElement>('.details');
+          if (details) {
+            details.style.bottom = '34px';
           }
-          details.style.bottom = '34px';
+          return root;
+        },
+        actionStyle: {
+          display: 'block',
+          fontSize: '12px',
+          height: '18px',
+          margin: '8px 0',
         },
       },
       // News
       {
-        getEntry: getEntry('.article'),
-        getURL: getURL('.article-right > a'),
-        createAction: createAction('ub-news-action', '.article-right'),
+        target: '.article',
+        url: '.article-right > a',
+        actionTarget: '.article-right',
+        actionStyle: {
+          display: 'block',
+          fontSize: '14px',
+          marginTop: '4px',
+        },
       },
       // Videos
       {
-        getEntry: getEntry('.vo-sp__link'),
-        getURL: getURL(''),
-        createAction: createAction('ub-videos-action', '.vo-sp__details'),
+        target: '.vo-sp__link',
+        url: '',
+        actionTarget: '.vo-sp__details',
+        actionStyle: {
+          display: 'block',
+          fontSize: '14px',
+          marginTop: 0,
+        },
       },
     ],
-    getAddedElements: getAddedElements('.w-gl__result, .image-container, .article, .vo-sp__link'),
-  }),
-};
+  });
+}

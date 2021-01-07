@@ -1,6 +1,6 @@
-import * as Poi from 'poi-ts';
 import dayjs from 'dayjs';
 import dayjsUTC from 'dayjs/plugin/utc';
+import * as Poi from 'poi-ts';
 import { Cloud } from '../types';
 import { HTTPError } from '../utilities';
 import * as Helpers from './helpers';
@@ -92,11 +92,11 @@ export const dropbox: Cloud = {
       }),
     });
     if (response.ok) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(responseBody, Poi.object({ id: Poi.string(), client_modified: Poi.string() }));
       return { id: responseBody.id, modifiedTime: dayjs(responseBody.client_modified) };
     } else if (response.status === 409) {
-      const responseBody = (await response.json()) as unknown;
+      const responseBody: unknown = await response.json();
       Poi.validate(
         responseBody,
         Poi.object({

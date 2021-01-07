@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
+import { MessageName, MessageName0, MessageName1 } from '../common/locales';
 import { apis } from './apis';
 import { ErrorResult, Result, SuccessResult } from './types';
-import { MessageName, MessageName0, MessageName1 } from '../locale';
 
 export class AltURL {
   readonly scheme: string;
@@ -130,7 +130,7 @@ export class Mutex {
       this.queue.push(async () => {
         try {
           resolve(await Promise.resolve(func()));
-        } catch (e) {
+        } catch (e: unknown) {
           reject(e);
         }
       });
@@ -173,12 +173,6 @@ export function successResult(): SuccessResult {
   };
 }
 // #endregion Result
-
-export function assertNonNull<T>(value: T): asserts value is NonNullable<T> {
-  if (value == null) {
-    throw new Error('Null');
-  }
-}
 
 // #region string
 export function lines(s: string): string[] {

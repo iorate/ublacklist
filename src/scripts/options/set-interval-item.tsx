@@ -1,50 +1,66 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import { useMemo, useState } from 'preact/hooks';
+import { Label, LabelItem } from '../components/label';
+import { Row, RowItem } from '../components/row';
+import { SectionItem } from '../components/section';
+import { useCSS } from '../components/styles';
 import '../dayjs-locales';
 import * as LocalStorage from '../local-storage';
 import { translate } from '../utilities';
-import { Context } from './context';
-import { SectionItem } from './section';
+import { useOptionsContext } from './options-context';
+import { Select, SelectOption } from './select';
 
-export type SetIntervalItemProps = {
+export const SetIntervalItem: FunctionComponent<{
   itemKey: 'syncInterval' | 'updateInterval';
   label: string;
   valueOptions: number[];
-};
-
-export const SetIntervalItem: FunctionComponent<Readonly<SetIntervalItemProps>> = props => {
-  const { [props.itemKey]: initialItem } = useContext(Context).initialItems;
+}> = ({ itemKey, label, valueOptions }) => {
+  const {
+    initialItems: { [itemKey]: initialItem },
+  } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
+
+  const css = useCSS();
+  const rowClass = useMemo(
+    () =>
+      css({
+        '&&': {
+          minHeight: '2.5em',
+        },
+      }),
+    [css],
+  );
+
   return (
     <SectionItem>
-      <div class="ub-row field is-grouped">
-        <div class="control is-expanded">
-          <label for={props.itemKey}>{props.label}</label>
-        </div>
-        <div class="control">
-          <div class="select">
-            <select
-              id={props.itemKey}
-              value={item}
-              onInput={e => {
-                const value = Number(e.currentTarget.value);
-                void LocalStorage.store({ [props.itemKey]: value });
-                setItem(value);
-              }}
-            >
-              {props.valueOptions.map(value => (
-                <option key={value} value={value}>
-                  {dayjs
-                    .duration({ minutes: value })
-                    .locale(translate('dayjsLocale'))
-                    .humanize(false)}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
+      <Row class={rowClass}>
+        <RowItem expanded>
+          <Label for={itemKey}>
+            <LabelItem primary>{label}</LabelItem>
+          </Label>
+        </RowItem>
+        <RowItem>
+          <Select
+            id={itemKey}
+            value={item}
+            onInput={e => {
+              const value = Number(e.currentTarget.value);
+              void LocalStorage.store({ [itemKey]: value });
+              setItem(value);
+            }}
+          >
+            {valueOptions.map(value => (
+              <SelectOption key={value} value={value}>
+                {dayjs
+                  .duration({ minutes: value })
+                  .locale(translate('dayjsLocale'))
+                  .humanize(false)}
+              </SelectOption>
+            ))}
+          </Select>
+        </RowItem>
+      </Row>
     </SectionItem>
   );
 };

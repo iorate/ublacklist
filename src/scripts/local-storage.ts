@@ -39,7 +39,7 @@ const defaultItems: Items = {
 export type ItemsFor<T extends readonly (keyof Items)[]> = { [Key in T[number]]: Items[Key] };
 
 export async function load<T extends readonly (keyof Items)[]>(keys: T): Promise<ItemsFor<T>> {
-  const defaultItemsForKeys = {} as Record<keyof Items, unknown>;
+  const defaultItemsForKeys: Partial<Record<keyof Items, unknown>> = {};
   for (const key of keys) {
     defaultItemsForKeys[key] = defaultItems[key];
   }

@@ -1,515 +1,673 @@
-import { SearchEngine, SearchEngineHandlers } from '../types';
-import {
-  createAction,
-  createControl,
-  createControlBefore,
-  getEntry,
-  getParent,
-  getSilentlyAddedElements,
-  getURL,
-} from './helpers';
-import { googleMatches } from '../../google-matches';
-import googleStyle from '!!raw-loader!extract-loader!css-loader!sass-loader!../../styles/search-engines/google.scss';
+import mobile from 'is-mobile';
+import { CSSAttribute } from '../styles';
+import { SerpHandler } from '../types';
+import { getParentElement, handleSerpElement, handleSerpHead, insertElement } from './helpers';
 
-function getURLFromQuery(selector: string): (entry: HTMLElement) => string | null {
-  return entry => {
-    const a = selector ? entry.querySelector(selector) : entry;
+// #region desktop
+const desktopGlobalStyle: CSSAttribute = {
+  '[data-ub-blocked="visible"]': {
+    background: 'rgba(255, 192, 192, 0.5)',
+  },
+  '.ub-button': {
+    color: 'rgb(26, 13, 171)',
+  },
+  '.ub-button:hover': {
+    textDecoration: 'underline',
+  },
+};
+
+const desktopInlineActionStyle: CSSAttribute = {
+  display: 'inline-block',
+  width: 0,
+};
+
+const desktopDefaultActionStyle: CSSAttribute = {
+  ...desktopInlineActionStyle,
+  fontSize: '14px',
+  marginLeft: '4px',
+  '.fl + &': {
+    marginLeft: '6px',
+  },
+  'span:not([class]) + &': {
+    marginLeft: 0,
+  },
+};
+
+const desktopNewsActionStyle: CSSAttribute = {
+  ...desktopInlineActionStyle,
+  fontSize: '12px',
+  marginLeft: '6px',
+};
+
+const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | undefined> = {
+  // All
+  '': {
+    onSerpHead: handleSerpHead({
+      globalStyle: {
+        ...desktopGlobalStyle,
+        '[data-ub-blocked="visible"] .kp-blk, [data-ub-blocked="visible"] .cv2VAd, [data-ub-blocked="visible"] .WpKAof': {
+          background: 'transparent !important',
+        },
+      },
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#result-stats',
+        },
+        {
+          target: '#botabar',
+          position: 'afterend',
+          style: {
+            color: 'rgb(112, 117, 122)',
+            display: 'block',
+            margin: '-11px 0 11px 180px',
+          },
+        },
+      ],
+      entryHandlers: [
+        // Default, Web Result
+        {
+          target: '.g .IsZvec',
+          level: target => {
+            const root = target.closest<HTMLElement>('.g');
+            // Featured Snippet, People Also Ask
+            return root ? (root.matches('.g *') ? null : root) : null;
+          },
+          url: '.rc a',
+          actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') ?? root,
+          actionStyle: desktopDefaultActionStyle,
+        },
+        // Featured Snippet
+        {
+          target: '.g > .kp-blk > .xpdopen > .ifM9O > div > .g',
+          level: 5,
+          url: '.rc a',
+          actionTarget: '.eFM0qc',
+          actionStyle: desktopDefaultActionStyle,
+        },
+        {
+          target: '.ifM9O > div > .NFQFxe',
+          url: '.rc a',
+          actionTarget: '.eFM0qc',
+          actionStyle: desktopDefaultActionStyle,
+        },
+        // Latest
+        {
+          target: '.So9e7d > .ttfMne',
+          level: target => {
+            const root = getParentElement(target);
+            // Map from the Web (COVID-19)
+            return root.matches('.UDZeY *') ? null : root;
+          },
+          url: '.VlJC0',
+          actionTarget: '.ttfMne',
+          actionStyle: {
+            display: 'block',
+            fontSize: '14px',
+            margin: '-10px 0 10px',
+            padding: '0 16px',
+          },
+        },
+        // People Also Ask
+        {
+          target: '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
+          level: target => {
+            const root = getParentElement(target, 5);
+            // Common Question (COVID-19)
+            return root.matches('.UDZeY *') ? null : root;
+          },
+          url: '.rc a',
+          actionTarget: '.eFM0qc',
+          actionStyle: {
+            ...desktopDefaultActionStyle,
+            position: 'relative',
+            top: '-3px',
+          },
+        },
+        // Quote in the News
+        {
+          target: '.UaDxmd > .F4CzCf',
+          level: 1,
+          url: '.YVkwvd',
+          actionTarget: '.FF4Vu',
+          actionStyle: {
+            display: 'block',
+            fontSize: '14px',
+            lineHeight: '20px',
+          },
+        },
+        // Recipe
+        {
+          target: '.YwonT',
+          url: '.a-no-hover-decoration',
+          actionTarget: '.a-no-hover-decoration',
+          actionStyle: {
+            display: 'block',
+            fontSize: '12px',
+          },
+        },
+        // Top Story (Horizontal)
+        {
+          target: '.JJZKK .kno-fb-ctx',
+          level: '.JJZKK',
+          url: 'a',
+          actionTarget: '.kno-fb-ctx',
+          actionStyle: {
+            display: 'block',
+            fontSize: '12px',
+            margin: '-10px 0 10px',
+            padding: '0 16px',
+            position: 'relative',
+            zIndex: 1,
+          },
+        },
+        // Top Story (Vertical)
+        {
+          target: 'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
+          level: 8,
+          url: 'a',
+          actionTarget: '.tYlW7b',
+          actionStyle: {
+            ...desktopInlineActionStyle,
+            fontSize: '14px',
+          },
+        },
+        {
+          target: 'div > div > .dbsr > a > div > div > .tYlW7b',
+          level: 6,
+          url: 'a',
+          actionTarget: '.tYlW7b',
+          actionStyle: {
+            ...desktopInlineActionStyle,
+            fontSize: '14px',
+          },
+        },
+        // Twitter, Twitter Search
+        {
+          target: '.eejeod',
+          url: 'g-link > a',
+          actionTarget: root => {
+            const ellip = root.querySelector<HTMLElement>('.ellip');
+            if (ellip) {
+              ellip.style.overflow = 'visible';
+              return ellip;
+            } else {
+              return null;
+            }
+          },
+          actionStyle: desktopDefaultActionStyle,
+        },
+        // Video
+        {
+          target: '.VibNM',
+          url: '.WpKAof',
+          actionTarget: '.ocUPSd',
+          actionStyle: desktopDefaultActionStyle,
+        },
+        // News (COVID-19)
+        {
+          target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
+          level: 1,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        {
+          target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
+          level: 4,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        {
+          target: '.nChh6e > div > .dbsr',
+          level: 2,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        // People Also Search For (COVID-19)
+        {
+          target: '.F9rcV',
+          url: '.Tsx23b',
+          actionTarget: '.Tsx23b',
+          actionStyle: {
+            display: 'block',
+            fontSize: '12px',
+            margin: '-12px 0 12px',
+            padding: '0 16px',
+          },
+        },
+        // Top Story (Vertical, COVID-19)
+        {
+          target: '.bh13Qc > .cv2VAd > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
+          level: 7,
+          url: 'a',
+          actionTarget: '.tYlW7b',
+          actionStyle: {
+            ...desktopInlineActionStyle,
+            fontSize: '14px',
+          },
+        },
+      ],
+      pagerHandlers: [
+        // People Also Ask
+        {
+          target: '.related-question-pair',
+          innerTargets: '.g',
+        },
+        // Recipe, Default (COVID-19), Web Result (COVID-19), ...
+        {
+          target: '.yl > div',
+          innerTargets: '.YwonT, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b',
+        },
+        // AutoPagerize
+        {
+          target: '.autopagerize_page_info ~ .g',
+          innerTargets: '.IsZvec',
+        },
+      ],
+    }),
+  },
+  // Books
+  bks: {
+    onSerpHead: handleSerpHead({
+      globalStyle: desktopGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#result-stats',
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.Yr5TG',
+          url: '.bHexk > a',
+          actionTarget: '.eFM0qc',
+        },
+      ],
+    }),
+  },
+  // Images
+  isch: {
+    onSerpHead: handleSerpHead({
+      globalStyle: desktopGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '.cEPPT',
+          position: 'afterend',
+          style: {
+            color: '#70757a',
+            display: 'block',
+            padding: '0 0 11px 165px',
+          },
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.isv-r, .isv-r > .VFACy',
+          level: '.isv-r',
+          url: '.VFACy',
+          actionTarget: '',
+          actionStyle: {
+            display: 'block',
+            fontSize: '11px',
+            lineHeight: '16px',
+            padding: '0 4px',
+            '[data-ub-blocked="visible"] &': {
+              background: 'rgba(255, 192, 192, 0.5)',
+            },
+          },
+        },
+      ],
+    }),
+  },
+  // News
+  nws: {
+    onSerpHead: handleSerpHead({
+      globalStyle: desktopGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#result-stats',
+        },
+      ],
+      entryHandlers: [
+        // Default
+        {
+          target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
+          level: 1,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        {
+          target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
+          level: 4,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        {
+          target: '.nChh6e > div > .dbsr',
+          level: 2,
+          url: '.dbsr > a',
+          actionTarget: '.XTjFC',
+          actionStyle: desktopNewsActionStyle,
+        },
+        // People Also Search For
+        {
+          target: '.F9rcV',
+          url: '.Tsx23b',
+          actionTarget: '.Tsx23b',
+          actionStyle: {
+            display: 'block',
+            fontSize: '12px',
+            margin: '-12px 0 12px',
+            padding: '0 16px',
+          },
+        },
+      ],
+      pagerHandlers: [
+        // AutoPagerize
+        {
+          target: '.autopagerize_page_info ~ div',
+          innerTargets: '.dbsr',
+        },
+      ],
+    }),
+  },
+  // Videos
+  vid: {
+    onSerpHead: handleSerpHead({
+      globalStyle: desktopGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#result-stats',
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.g > .rc > .IsZvec',
+          level: 2,
+          url: '.yuRUbf > a',
+          actionTarget: '.eFM0qc',
+          actionStyle: desktopDefaultActionStyle,
+        },
+      ],
+      pagerHandlers: [
+        // AutoPagerize
+        {
+          target: '.autopagerize_page_info ~ .g',
+          innerTargets: '.IsZvec',
+        },
+      ],
+    }),
+  },
+};
+// #endregion desktop
+
+// #region mobile
+function getURLFromQuery(selector: string): (root: HTMLElement) => string | null {
+  return root => {
+    const a = selector ? root.querySelector(selector) : root;
     if (!(a instanceof HTMLAnchorElement)) {
       return null;
     }
-    try {
-      const u = new URL(a.href);
-      if (u.origin === window.location.origin) {
-        if (u.pathname === '/url') {
-          return u.searchParams.get('q');
-        } else if (u.pathname === '/imgres' || u.pathname === '/search') {
-          return null;
-        }
-      }
-      return a.href;
-    } catch {
+    const url = a.href;
+    if (!url) {
       return null;
     }
+    const u = new URL(url);
+    return u.origin === window.location.origin
+      ? u.pathname === '/url'
+        ? u.searchParams.get('q')
+        : u.pathname === '/imgres' || u.pathname === '/search'
+        ? null
+        : url
+      : url;
   };
 }
 
-const pcHandlers: Record<string, SearchEngineHandlers | undefined> = {
+const mobileGlobalStyle: CSSAttribute = {
+  '[data-ub-blocked="visible"]': {
+    background: 'rgba(255, 192, 192, 0.5) !important',
+  },
+  '.ub-button': {
+    color: 'rgb(25, 103, 210)',
+  },
+};
+
+const mobileColoredControlStyle: CSSAttribute = {
+  color: 'rgba(0, 0, 0, 0.54)',
+};
+
+const mobileDefaultControlStyle: CSSAttribute = {
+  ...mobileColoredControlStyle,
+  borderRadius: '8px',
+  boxShadow: '0 1px 6px rgba(32, 33, 36, 0.28)',
+  display: 'block',
+  marginBottom: '10px',
+  padding: '11px 16px',
+};
+
+const mobileImageControlStyle: CSSAttribute = {
+  ...mobileColoredControlStyle,
+  background: 'white',
+  borderRadius: '8px',
+  boxShadow: '0 1px 6px rgba(32, 33, 36, 0.18)',
+  display: 'block',
+  margin: '0 8px 10px',
+  padding: '11px 16px',
+};
+
+const mobileDefaultActionStyle: CSSAttribute = {
+  display: 'block',
+  padding: '0 16px 12px',
+};
+
+const mobileSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | undefined> = {
   // All
   '': {
-    controlHandlers: [
-      {
-        createControl: createControl('ub-pc-all-control', '#result-stats'),
-      },
-    ],
-    entryHandlers: [
-      // General, Web Result
-      {
-        getEntry: addedElement => {
-          if (!addedElement.matches('.g .s, .g .IsZvec')) {
-            return null;
-          }
-          const entry = addedElement.closest('.g') as HTMLElement;
-          if (entry.matches('.g *')) {
-            // Featured Snippet, People Also Ask, ...?
-            return null;
-          }
-          return entry;
-        },
-        getURL: getURL('.rc a'),
-        createAction: entry => {
-          const parent = entry.querySelector('.eFM0qc');
-          const action = document.createElement('div');
-          if (parent) {
-            action.className = 'ub-pc-all-general-action';
-            parent.appendChild(action);
-          } else {
-            action.className = 'ub-pc-all-general-action-fallback';
-            entry.appendChild(action);
-          }
-          return action;
+    onSerpHead: handleSerpHead({
+      globalStyle: {
+        ...mobileGlobalStyle,
+        '[data-ub-blocked="visible"] .ZINbbc': {
+          background: 'transparent !important',
         },
       },
-      // Featured Snippet
-      {
-        getEntry: getEntry('.g > .kp-blk > .xpdopen > .ifM9O > div > .g', 5),
-        getURL: getURL('.rc a'),
-        createAction: createAction('ub-pc-all-general-action', '.eFM0qc'),
-      },
-      {
-        getEntry: getEntry('.ifM9O > div > .NFQFxe'),
-        getURL: getURL('.rc a'),
-        createAction: createAction('ub-pc-all-general-action', '.eFM0qc'),
-      },
-      // Latest
-      {
-        getEntry: addedElement => {
-          if (!addedElement.matches('.So9e7d > .ttfMne')) {
-            return null;
-          }
-          const entry = getParent(addedElement);
-          if (entry.matches('.UDZeY *')) {
-            // Map from the Web (COVID-19)
-            return null;
-          }
-          return entry;
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#main > div:nth-child(4)',
+          position: 'beforebegin',
+          style: mobileDefaultControlStyle,
         },
-        getURL: getURL('.VlJC0'),
-        createAction: createAction('ub-pc-all-latest-action', '.ttfMne'),
-      },
-      // People Also Ask
-      {
-        getEntry: addedElement => {
-          if (
-            !addedElement.matches(
-              '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
-            )
-          ) {
-            return null;
-          }
-          const entry = getParent(addedElement, 5);
-          if (entry.matches('.UDZeY *')) {
-            // Common Question (COVID-19)
-            return null;
-          }
-          return entry;
+      ],
+      entryHandlers: [
+        // Default, Featured Snippet, Video
+        {
+          target: '.xpd',
+          url: getURLFromQuery(':scope > .kCrYT > a'),
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
         },
-        getURL: getURL('.rc a'),
-        createAction: createAction('ub-pc-all-paa-action', '.eFM0qc'),
-      },
-      // Quote in the News
-      {
-        getEntry: getEntry('.UaDxmd > .F4CzCf', 1),
-        getURL: getURL('.YVkwvd'),
-        createAction: createAction('ub-pc-all-quote-action', '.FF4Vu'),
-      },
-      // Recipe
-      {
-        getEntry: getEntry('.YwonT'),
-        getURL: getURL('.a-no-hover-decoration'),
-        createAction: createAction('ub-pc-all-recipe-action', '.a-no-hover-decoration'),
-      },
-      // Top Story (Horizontal)
-      {
-        getEntry: getEntry('.JJZKK > .kno-fb-ctx', 1),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-all-top-story-action-horizontal', '.kno-fb-ctx'),
-      },
-      // Top Story (Vertical)
-      {
-        getEntry: getEntry(
-          'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
-          8,
-        ),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
-      },
-      {
-        getEntry: getEntry('div > div > .dbsr > a > div > div > .tYlW7b', 6),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
-      },
-      // Twitter
-      {
-        getEntry: getEntry('.g'),
-        getURL: getURL('.zTpPx > g-link > a'),
-        createAction: entry => {
-          const q = entry.querySelector('.qdrjAc');
-          if (q) {
-            // Twitter
-            const action = document.createElement('div');
-            action.className = 'ub-pc-all-twitter-action';
-            q.appendChild(action);
-            return action;
-          }
-          const r = entry.querySelector<HTMLElement>('.ellip + .r');
-          if (r) {
-            // Twitter Search
-            const action = document.createElement('div');
-            action.className = 'ub-pc-all-twitter-search-action';
-            getParent(r).insertBefore(action, r);
-            return action;
-          }
-          const d = entry.querySelector('.Dwsemf');
-          if (d) {
-            // Twitter Search (Favicon)
-            const action = document.createElement('div');
-            action.className = 'ub-pc-all-twitter-search-action-favicon';
-            d.appendChild(action);
-            return action;
-          }
-          return null;
+        // Latest
+        {
+          target: '.BVG0Nb',
+          level: target => (target.querySelector('.S7Jdze:last-child') ? target : null),
+          url: getURLFromQuery(''),
+          actionTarget: '',
+          actionStyle: {
+            display: 'block',
+            padding: '12px 16px',
+          },
         },
-      },
-      // Video
-      {
-        getEntry: getEntry('.gT5me > .ZTH1s', 1),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-all-video-action', '.ZTH1s'),
-      },
-      // News (COVID-19)
-      {
-        getEntry: getEntry('div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr', 1),
-        getURL: getURL('.dbsr > a'),
-        createAction: createAction('ub-pc-all-news-action-covid-19', '.XTjFC'),
-      },
-      {
-        getEntry: getEntry('div > .nChh6e > div > div > div + .dbsr', 4),
-        getURL: getURL('.dbsr > a'),
-        createAction: createAction('ub-pc-all-news-action-covid-19', '.XTjFC'),
-      },
-      // People Also Search For (COVID-19)
-      {
-        getEntry: getEntry('.F9rcV'),
-        getURL: getURL('.Tsx23b'),
-        createAction: createAction('ub-pc-all-pasf-action-covid-19', '.Tsx23b'),
-      },
-      // Top Story (Vertical, COVID-19)
-      {
-        getEntry: getEntry('.bh13Qc > .cv2VAd > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b', 7),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-all-top-story-action-vertical', '.tYlW7b'),
-      },
-    ],
-    getSilentlyAddedElements: getSilentlyAddedElements({
-      // People Also Ask
-      '.related-question-pair': '.g',
-      // Recipe, General (COVID-19), Web Result (COVID-19), ...
-      '.yl > div': '.YwonT, .s, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b, .ZTH1s',
-      // AutoPagerize
-      '.autopagerize_page_info ~ .g': '.s, .IsZvec',
+        // People Also Ask
+        {
+          target: '.xpc > .qxDOhb > div',
+          level: 2,
+          url: getURLFromQuery('.kCrYT > a'),
+          actionTarget: '.xpd',
+          actionStyle: mobileDefaultActionStyle,
+        },
+        // Top Story (Horizontal), Twitter Search
+        {
+          target: '.BVG0Nb',
+          level: target => (target.closest('.xpd')?.querySelector('.AzGoi') ? null : target),
+          url: getURLFromQuery(''),
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
+        },
+        // Top Story (Vertical)
+        {
+          target: '.X7NTVe',
+          url: getURLFromQuery('.tHmfQe'),
+          actionTarget: '.tHmfQe',
+          actionStyle: {
+            display: 'block',
+            paddingTop: '12px',
+          },
+        },
+        // Twitter
+        {
+          target: '.xpd',
+          level: target =>
+            target.querySelector(':scope > div:first-child > a > .kCrYT') ? target : null,
+          url: getURLFromQuery('a'),
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
+        },
+      ],
     }),
   },
   // Books
   bks: {
-    controlHandlers: [
-      {
-        createControl: createControl('ub-pc-books-control', '#result-stats'),
-      },
-    ],
-    entryHandlers: [
-      // General
-      {
-        getEntry: getEntry('.Yr5TG'),
-        getURL: getURL('.bHexk > a'),
-        createAction: createAction('ub-pc-books-general-action', '.eFM0qc'),
-      },
-      // General (Japanese)
-      {
-        getEntry: getEntry('.g'),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-books-general-action', '.eFM0qc'),
-      },
-    ],
+    onSerpHead: handleSerpHead({
+      globalStyle: mobileGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#main > div:nth-child(4)',
+          position: 'beforebegin',
+          style: mobileDefaultControlStyle,
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.xpd',
+          url: '.kCrYT > a',
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
+        },
+      ],
+    }),
   },
   // Images
   isch: {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-pc-images-control', '.FAZ4xe'),
-      },
-      {
-        createControl: createControlBefore('ub-pc-images-control-sensitive', '.mJxzWe'),
-      },
-    ],
-    entryHandlers: [
-      // General
-      {
-        getEntry: getEntry('.isv-r'),
-        getURL: getURL('.VFACy'),
-        createAction: createAction('ub-pc-images-general-action', ''),
-        adjustEntry: entry => {
-          const q = entry.querySelector<HTMLElement>('.VFACy');
-          if (!q) {
-            return;
-          }
-          q.style.verticalAlign = 'bottom';
+    onSerpHead: handleSerpHead({
+      globalStyle: {
+        ...mobileGlobalStyle,
+        '[data-ub-blocked="visible"] .iKjWAf': {
+          background: 'transparent !important',
         },
       },
-    ],
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '.dmFHw',
+          position: 'beforebegin',
+          style: mobileImageControlStyle,
+        },
+        {
+          target: '#uGbavf',
+          position: target =>
+            document.querySelector('.dmFHw') ? null : insertElement('span', target, 'beforebegin'),
+          style: mobileImageControlStyle,
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.islrtb',
+          url: getURLFromQuery('.iKjWAf'),
+          actionTarget: '',
+          actionStyle: {
+            display: 'block',
+            fontSize: '11px',
+            lineHeight: '20px',
+            margin: '-4px 0 4px',
+            padding: '0 4px',
+          },
+        },
+      ],
+    }),
   },
   // News
   nws: {
-    controlHandlers: [
-      {
-        createControl: createControl('ub-pc-news-control', '#result-stats'),
-      },
-    ],
-    entryHandlers: [
-      // General
-      {
-        getEntry: getEntry('div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr', 1),
-        getURL: getURL('.dbsr > a'),
-        createAction: createAction('ub-pc-news-general-action', '.XTjFC'),
-      },
-      {
-        getEntry: getEntry('div > .nChh6e > div > div > .dbsr', 4),
-        getURL: getURL('.dbsr > a'),
-        createAction: createAction('ub-pc-news-general-action', '.XTjFC'),
-      },
-      {
-        getEntry: getEntry('.nChh6e > div > .dbsr', 2),
-        getURL: getURL('.dbsr > a'),
-        createAction: createAction('ub-pc-news-general-action', '.XTjFC'),
-      },
-      // People Also Search For
-      {
-        getEntry: getEntry('.F9rcV'),
-        getURL: getURL('.Tsx23b'),
-        createAction: createAction('ub-pc-news-pasf-action', '.Tsx23b'),
-      },
-      // General (Japanese)
-      {
-        getEntry: getEntry('.gG0TJc'),
-        getURL: getURL('.l'),
-        createAction: createAction('ub-pc-news-general-action-japanese', '.dhIWPd'),
-        adjustEntry: entry => {
-          const image = getParent(entry).querySelector('.top');
-          if (!image || image.querySelector('.Y6GIfb')) {
-            return;
-          }
-          entry.insertBefore(image, entry.firstChild);
+    onSerpHead: handleSerpHead({
+      globalStyle: mobileGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#main > div:nth-child(4)',
+          position: 'beforebegin',
+          style: mobileDefaultControlStyle,
         },
-      },
-      {
-        getEntry: getEntry('.YiHbdc, .ErI7Gd'),
-        getURL: getURL('a'),
-        createAction: createAction('ub-pc-news-general-action-japanese', ''),
-        adjustEntry: entry => {
-          const viewAll = entry.querySelector('.cWEW3c');
-          if (!viewAll) {
-            return;
-          }
-          const parent = getParent(entry);
-          const nextSibling = entry.nextSibling;
-          const div = document.createElement('div');
-          div.style.display = 'inline-block';
-          div.appendChild(entry);
-          div.appendChild(viewAll);
-          parent.insertBefore(div, nextSibling);
+      ],
+      entryHandlers: [
+        {
+          target: '.xpd',
+          url: getURLFromQuery('.kCrYT > a'),
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
         },
-      },
-      // Image (Japanese)
-      {
-        getEntry: addedElement => {
-          if (!addedElement.matches('.top') || !addedElement.querySelector(':scope > .Y6GIfb')) {
-            return null;
-          }
-          return addedElement;
-        },
-        getURL: getURL(''),
-        createAction: createAction('ub-pc-news-image-action-japanese', ''),
-      },
-    ],
-    getSilentlyAddedElements: getSilentlyAddedElements({
-      // AutoPagerize
-      '.autopagerize_page_info ~ div': '.dbsr, .gG0TJc, .YiHbdc, .ErI7Gd, .top',
+      ],
     }),
   },
   // Videos
   vid: {
-    controlHandlers: [
-      {
-        createControl: createControl('ub-pc-videos-control', '#result-stats'),
-      },
-    ],
-    entryHandlers: [
-      // General
-      {
-        getEntry: getEntry('.g > .rc > .s', 2),
-        getURL: getURL('.r > a'),
-        createAction: createAction('ub-pc-videos-general-action', '.eFM0qc'),
-      },
-    ],
-    getSilentlyAddedElements: getSilentlyAddedElements({
-      // AutoPagerize
-      '.autopagerize_page_info ~ .g': '.s',
+    onSerpHead: handleSerpHead({
+      globalStyle: mobileGlobalStyle,
+    }),
+    onSerpElement: handleSerpElement({
+      controlHandlers: [
+        {
+          target: '#main > div:nth-child(4)',
+          position: 'beforebegin',
+          style: mobileDefaultControlStyle,
+        },
+      ],
+      entryHandlers: [
+        {
+          target: '.xpd',
+          url: getURLFromQuery('.kCrYT > a'),
+          actionTarget: '',
+          actionStyle: mobileDefaultActionStyle,
+        },
+      ],
     }),
   },
 };
+// #endregion mobile
 
-const mobileHandlers: Record<string, SearchEngineHandlers | undefined> = {
-  // All
-  '': {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-mobile-all-control', '#main > div:nth-child(4)'),
-      },
-    ],
-    entryHandlers: [
-      // General, Featured Snippet, Video
-      {
-        getEntry: getEntry('.xpd'),
-        getURL: getURLFromQuery(':scope > .kCrYT > a'),
-        createAction: createAction('ub-mobile-all-general-action', ''),
-      },
-      // Latest
-      {
-        getEntry: addedElement => {
-          if (
-            !addedElement.matches('.BVG0Nb') ||
-            !addedElement.querySelector('.S7Jdze:last-child')
-          ) {
-            return null;
-          }
-          return addedElement;
-        },
-        getURL: getURLFromQuery(''),
-        createAction: createAction('ub-mobile-all-latest-action', ''),
-      },
-      // People Also Ask
-      {
-        getEntry: getEntry('.xpc > .qxDOhb > .hwc', 2),
-        getURL: getURLFromQuery('.kCrYT > a'),
-        createAction: createAction('ub-mobile-all-paa-action', '.xpd'),
-      },
-      // Top Story (Horizontal), Twitter Search
-      {
-        getEntry: addedElement => {
-          if (
-            !addedElement.matches('.BVG0Nb') ||
-            // Twitter
-            addedElement.closest('.xpd')?.querySelector('.AzGoi')
-          ) {
-            return null;
-          }
-          return addedElement;
-        },
-        getURL: getURLFromQuery(''),
-        createAction: createAction('ub-mobile-all-top-story-action', ''),
-      },
-      // Top Story (Vertical)
-      {
-        getEntry: getEntry('.X7NTVe'),
-        getURL: getURLFromQuery('.tHmfQe'),
-        createAction: createAction('ub-mobile-all-top-story-action-vertical', '.tHmfQe'),
-      },
-      // Twitter
-      {
-        getEntry: addedElement => {
-          if (
-            !addedElement.matches('.xpd') ||
-            !addedElement.querySelector(':scope > div:first-child > a > .kCrYT')
-          ) {
-            return null;
-          }
-          return addedElement;
-        },
-        getURL: getURLFromQuery('a'),
-        createAction: createAction('ub-mobile-all-twitter-action', ''),
-      },
-    ],
-  },
-  // Books
-  bks: {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-mobile-books-control', '#main > div:nth-child(4)'),
-      },
-    ],
-    entryHandlers: [
-      {
-        getEntry: getEntry('.xpd'),
-        getURL: getURL('.kCrYT > a'),
-        createAction: createAction('ub-mobile-books-general-action', ''),
-      },
-    ],
-  },
-  // Images
-  isch: {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-mobile-images-control', '.dmFHw'),
-      },
-    ],
-    entryHandlers: [
-      {
-        getEntry: getEntry('.islrtb'),
-        getURL: getURLFromQuery('.iKjWAf'),
-        createAction: createAction('ub-mobile-images-general-action', ''),
-      },
-    ],
-  },
-  // News
-  nws: {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-mobile-news-control', '#main > div:nth-child(4)'),
-      },
-    ],
-    entryHandlers: [
-      {
-        getEntry: getEntry('.xpd'),
-        getURL: getURLFromQuery('.kCrYT > a'),
-        createAction: createAction('ub-mobile-news-general-action', ''),
-      },
-    ],
-  },
-  // Videos
-  vid: {
-    controlHandlers: [
-      {
-        createControl: createControlBefore('ub-mobile-videos-control', '#main > div:nth-child(4)'),
-      },
-    ],
-    entryHandlers: [
-      {
-        getEntry: getEntry('.xpd'),
-        getURL: getURLFromQuery('.kCrYT > a'),
-        createAction: createAction('ub-mobile-videos-general-action', ''),
-      },
-    ],
-  },
-};
-
-export const google: SearchEngine = {
-  matches: googleMatches,
-  messageNames: {
-    name: 'extensionName', // never used
-  },
-  style: googleStyle,
-
-  getHandlers: (url, mobile) => {
-    const tbm = new URL(url).searchParams.get('tbm') ?? '';
-    return (mobile ? mobileHandlers : pcHandlers)[tbm] ?? null;
-  },
-};
+export function getSerpHandler(): SerpHandler | null {
+  const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
+  const handler = (mobile({ tablet: true }) ? mobileSerpHandlers : desktopSerpHandlers)[tbm];
+  return handler
+    ? {
+        onSerpStart: () => ({ controls: [], entries: [] }),
+        ...handler,
+      }
+    : null;
+}

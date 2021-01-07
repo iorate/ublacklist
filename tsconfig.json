@@ -4,12 +4,12 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "module": "ES2015",
+    "jsxFragmentFactory": "Fragment",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "newLine": "LF",
     "sourceMap": true,
     "strict": true,
-    "target": "ES2017"
-  },
-  "include": ["src"]
+    "target": "ES2019"
+  }
 }
