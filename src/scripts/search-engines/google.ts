@@ -72,23 +72,17 @@ const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | und
           level: target => {
             const root = target.closest<HTMLElement>('.g');
             // Featured Snippet, People Also Ask
-            return root ? (root.matches('.g *') ? null : root) : null;
+            return root && (root.matches('.g *') ? null : root);
           },
-          url: '.rc a',
-          actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') ?? root,
+          url: 'a',
+          actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') || root,
           actionStyle: desktopDefaultActionStyle,
         },
         // Featured Snippet
         {
           target: '.g > .kp-blk > .xpdopen > .ifM9O > div > .g',
           level: 5,
-          url: '.rc a',
-          actionTarget: '.eFM0qc',
-          actionStyle: desktopDefaultActionStyle,
-        },
-        {
-          target: '.ifM9O > div > .NFQFxe',
-          url: '.rc a',
+          url: '.yuRUbf > a',
           actionTarget: '.eFM0qc',
           actionStyle: desktopDefaultActionStyle,
         },
@@ -117,7 +111,7 @@ const desktopSerpHandlers: Record<string, Omit<SerpHandler, 'onSerpStart'> | und
             // Common Question (COVID-19)
             return root.matches('.UDZeY *') ? null : root;
           },
-          url: '.rc a',
+          url: '.yuRUbf > a',
           actionTarget: '.eFM0qc',
           actionStyle: {
             ...desktopDefaultActionStyle,
