@@ -47,8 +47,13 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
   const [rulesToRemove, setRulesToRemove] = useState('');
   useLayoutEffect(() => {
     if (props.open && !prevOpen.current) {
-      const url = new AltURL(props.url);
-      if (/^(https?|ftp)$/.test(url.scheme)) {
+      let url: AltURL | null = null;
+      try {
+        url = new AltURL(props.url);
+      } catch {
+        // NOP
+      }
+      if (url && /^(https?|ftp)$/.test(url.scheme)) {
         const patch = props.blacklist.createPatch(url);
         setDisabled(false);
         setUnblock(patch.unblock);

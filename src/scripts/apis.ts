@@ -241,7 +241,7 @@ export namespace apis {
     };
   }
 }
-/* #elif FIREFOX
+/* #else
 export import apis = browser;
 */
 // #endif

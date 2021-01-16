@@ -36,6 +36,7 @@ export const Select = forwardRef(
       () =>
         css({
           appearance: 'none',
+          WebkitAppearance: 'none',
           background: 'transparent',
           border: `solid 1px ${theme.select.border}`,
           borderRadius: '4px',

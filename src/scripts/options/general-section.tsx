@@ -327,6 +327,10 @@ const RegisterSearchEngine: FunctionComponent<{
 };
 
 const RegisterSearchEngines: FunctionComponent = () => {
+  /* #if CHROME_MV3 || SAFARI
+  return null;
+  */
+  // #else
   return (
     <SectionItem>
       <Row>
@@ -360,6 +364,7 @@ const RegisterSearchEngines: FunctionComponent = () => {
       </Row>
     </SectionItem>
   );
+  // #endif
 };
 
 export const GeneralSection: FunctionComponent = () => (

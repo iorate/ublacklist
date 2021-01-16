@@ -7,8 +7,16 @@ import { LicenseWebpackPlugin } from 'license-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
-const browser = process.env.BROWSER as 'chrome' | 'firefox';
-const env = process.env.NODE_ENV as 'development' | 'production';
+function getEnv<Value extends string>(key: string, possibleValues: readonly Value[]): Value {
+  const value = process.env[key];
+  if (value == null || !(possibleValues as readonly string[]).includes(value)) {
+    throw new Error(`${key} shall be one of: ${possibleValues.join(', ')}`);
+  }
+  return value as Value;
+}
+
+const browser = getEnv('BROWSER', ['chrome', 'chrome-mv3', 'firefox', 'safari'] as const);
+const env = getEnv('NODE_ENV', ['development', 'production'] as const);
 
 const config: webpack.Configuration = {
   cache: {
@@ -24,7 +32,7 @@ const config: webpack.Configuration = {
 
   entry: {
     ...Object.fromEntries(glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name, name])),
-    'scripts/background': './scripts/background.ts',
+    [browser === 'chrome-mv3' ? 'background' : 'scripts/background']: './scripts/background.ts',
     'scripts/content-script': './scripts/content-script.tsx',
     'scripts/options': './scripts/options.tsx',
     'scripts/popup': './scripts/popup.tsx',
@@ -45,8 +53,10 @@ const config: webpack.Configuration = {
           {
             loader: 'if-webpack-loader',
             options: {
-              CHROME: browser === 'chrome',
+              CHROME: browser === 'chrome' || browser === 'chrome-mv3',
+              CHROME_MV3: browser === 'chrome-mv3',
               FIREFOX: browser === 'firefox',
+              SAFARI: browser === 'safari',
               DEVELOPMENT: env === 'development',
               PRODUCTION: env === 'production',
             },
@@ -82,7 +92,7 @@ const config: webpack.Configuration = {
 
     new HtmlWebpackPlugin({
       chunks: ['scripts/options'],
-      filename: 'html/options.html',
+      filename: 'pages/options.html',
       meta: {
         viewport: 'width=device-width, initial-scale=1',
       },
@@ -91,7 +101,7 @@ const config: webpack.Configuration = {
 
     new HtmlWebpackPlugin({
       chunks: ['scripts/popup'],
-      filename: 'html/popup.html',
+      filename: 'pages/popup.html',
       meta: {
         viewport: 'width=device-width, initial-scale=1',
       },

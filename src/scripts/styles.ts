@@ -1,4 +1,4 @@
-// #if CHROME
+// #if !FIREFOX
 export { CSSAttribute, css, glob } from 'goober';
 /* #else
 import * as goober from 'goober';

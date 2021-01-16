@@ -217,6 +217,7 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
 };
 
 export const SyncSection: FunctionComponent = () => {
+  // #if !SAFARI
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -245,4 +246,8 @@ export const SyncSection: FunctionComponent = () => {
       </SectionBody>
     </Section>
   );
+  /* #else
+  return null;
+  */
+  // #endif
 };

@@ -17,7 +17,8 @@ export async function register(id: SearchEngineId): Promise<void> {
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function registerAll(): Promise<void> {
-  // #if CHROME
+  // #if CHROME_MV3
+  // #elif CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     void (async () => {
       if (changeInfo.status !== 'loading' || tab.url == null) {
@@ -41,7 +42,7 @@ export async function registerAll(): Promise<void> {
       }
     })();
   });
-  /* #else
+  /* #elif FIREFOX
   await Promise.all(
     stringEntries(searchEngineMatches).map(async ([id, matches]) => {
       if (id === 'google') {

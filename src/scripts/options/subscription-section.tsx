@@ -314,9 +314,18 @@ export const ManageSubscriptions: FunctionComponent = () => {
                   <TableHeaderCell width="20%">
                     {translate('options_subscriptionNameHeader')}
                   </TableHeaderCell>
-                  <TableHeaderCell width="calc(60% - 0.75em - 36px)">
-                    {translate('options_subscriptionURLHeader')}
-                  </TableHeaderCell>
+                  {
+                    // #if !SAFARI
+                    <TableHeaderCell width="calc(60% - 0.75em - 36px)">
+                      {translate('options_subscriptionURLHeader')}
+                    </TableHeaderCell>
+                    /* #else
+                    <TableHeaderCell width="calc((640px - 1.25em * 2) * 0.6 - 0.75em - 36px)">
+                      {translate('options_subscriptionURLHeader')}
+                    </TableHeaderCell>
+                    */
+                    // #endif
+                  }
                   <TableHeaderCell width="20%">
                     {translate('options_subscriptionUpdateResultHeader')}
                   </TableHeaderCell>
