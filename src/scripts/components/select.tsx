@@ -3,7 +3,7 @@ import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useContext, useMemo } from 'preact/hooks';
 import { applyClass } from './helpers';
-import { Icon } from './icon';
+import { TemplateIcon } from './icon';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -74,7 +74,7 @@ export const Select = forwardRef(
         <div class={wrapperClass}>
           <select {...applyClass(props, selectClass)} ref={ref} />
           <div class={arrowClass}>
-            <Icon color={theme.select.arrow} iconSize="24px" url={menuDown} />
+            <TemplateIcon color={theme.select.arrow} iconSize="24px" url={menuDown} />
           </div>
         </div>
       </SelectContext.Provider>

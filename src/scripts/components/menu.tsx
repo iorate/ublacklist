@@ -3,7 +3,7 @@ import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, StateUpdater, useContext, useMemo, useState } from 'preact/hooks';
 import { FocusCircle, applyClass, useInnerRef, useModal } from './helpers';
-import { Icon } from './icon';
+import { TemplateIcon } from './icon';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -86,7 +86,7 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
           setOpen(true);
         }}
       >
-        <Icon color={theme.menu.dots} iconSize="24px" url={dotsVertical} />
+        <TemplateIcon color={theme.menu.dots} iconSize="24px" url={dotsVertical} />
       </button>
       <FocusCircle depth={0} size="36px" />
     </div>

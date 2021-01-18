@@ -82,7 +82,7 @@ const config: webpack.Configuration = {
 
   plugins: [
     new CopyPlugin({
-      patterns: ['./images/**/*.png', './scripts/**/*.js'],
+      patterns: ['./icons/*.png', './scripts/*.js'],
     }),
 
     new DotEnv({

@@ -20,8 +20,12 @@ exportAsJson('manifest.json', {
   browser_action: {
     // #endif
     default_icon: {
-      19: 'images/icon-grey-19.png',
-      38: 'images/icon-grey-38.png',
+      // #if !SAFARI
+      32: 'icons/icon-32.png',
+      /* #else
+      32: 'icons/template-icon-32.png',
+      */
+      // #endif
     },
     default_popup: 'pages/popup.html',
   },
@@ -60,9 +64,8 @@ exportAsJson('manifest.json', {
   description: '__MSG_extensionDescription__',
 
   icons: {
-    16: 'images/icon-16.png',
-    48: 'images/icon-48.png',
-    128: 'images/icon-128.png',
+    48: 'icons/icon-48.png',
+    128: 'icons/icon-128.png',
   },
 
   // #if CHROME

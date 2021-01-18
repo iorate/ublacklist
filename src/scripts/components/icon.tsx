@@ -5,13 +5,38 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 
 export type IconProps = {
-  color?: string;
   iconSize?: string;
   url: string;
 } & JSX.IntrinsicElements['span'];
 
 export const Icon = forwardRef(
-  ({ color = 'black', iconSize = '24px', url, ...props }: IconProps, ref: Ref<HTMLSpanElement>) => {
+  ({ iconSize = '24px', url, ...props }: IconProps, ref: Ref<HTMLSpanElement>) => {
+    const css = useCSS();
+    const class_ = useMemo(
+      () =>
+        css({
+          background: `url("${url}") center / ${iconSize} no-repeat`,
+          display: 'block',
+          height: iconSize,
+          width: iconSize,
+        }),
+      [css, iconSize, url],
+    );
+    return <span {...applyClass(props, class_)} ref={ref} />;
+  },
+);
+
+export type TemplateIconProps = {
+  color?: string;
+  iconSize?: string;
+  url: string;
+} & JSX.IntrinsicElements['span'];
+
+export const TemplateIcon = forwardRef(
+  (
+    { color = 'black', iconSize = '24px', url, ...props }: TemplateIconProps,
+    ref: Ref<HTMLSpanElement>,
+  ) => {
     const css = useCSS();
     const class_ = useMemo(
       () =>

@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
-import icon from '../images/icon.svg';
+import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
@@ -20,7 +20,6 @@ import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
 import { ReadOnlyTextArea, TextArea } from './components/textarea';
-import { useTheme } from './components/theme';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL, translate } from './utilities';
@@ -81,7 +80,6 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
   const ok = !disabled && rulesToAddValid;
 
   const css = useCSS();
-  const theme = useTheme();
   const hostClass = useMemo(
     () =>
       css({
@@ -96,7 +94,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
         <DialogTitle>
           <Row>
             <RowItem>
-              <Icon color={theme.text.primary} iconSize="24px" url={icon} />
+              <Icon iconSize="24px" url={icon} />
             </RowItem>
             <RowItem expanded>
               {translate(unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle')}
