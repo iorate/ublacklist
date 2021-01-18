@@ -45,8 +45,7 @@ jobs:
           name: dist
           path: dist/
 
-      - if: github.event_name != 'pull_request'
-        run: yarn lint
+      - run: yarn lint
 
       - run: yarn test
 
