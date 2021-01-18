@@ -1,20 +1,9 @@
-name: ci
+name: release
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-  workflow_dispatch:
-    inputs:
-      release:
-        required: true
-        description: Please type iorate/uBlacklist to release.
+on: workflow_dispatch
 
 jobs:
-  ci:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,24 +22,14 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - run: yarn build
+      - run: yarn run-p build:chrome:production build:firefox:production
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist/
-
-      - run: yarn lint
-
-      - run: yarn test
-
-      - if: github.event_name == 'workflow_dispatch' && github.event.inputs.release == 'iorate/uBlacklist'
-        run: yarn semantic-release
+      - run: yarn semantic-release
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
