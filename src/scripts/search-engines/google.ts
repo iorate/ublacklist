@@ -376,7 +376,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.g > .rc > .IsZvec',
+        target: '.g > .tF2Cxc > .IsZvec',
         level: 2,
         url: '.yuRUbf > a',
         actionTarget: '.eFM0qc',
