@@ -4,6 +4,7 @@ import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
   DialogBody,
@@ -13,7 +14,7 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Indent } from '../components/indent';
-import { Label, LabelItem } from '../components/label';
+import { Label, LabelWrapper, SubLabel } from '../components/label';
 import { expandLinks } from '../components/link';
 import { List, ListItem } from '../components/list';
 import { Portal } from '../components/portal';
@@ -59,15 +60,17 @@ const ImportBlacklistDialog: FunctionComponent<
     setBlacklistDirty(true);
   };
   return (
-    <Dialog close={close} open={open} width="480px">
+    <Dialog aria-labelledby="importBlacklistDialogTitle" close={close} open={open} width="480px">
       <DialogHeader>
-        <DialogTitle>{translate('options_importBlacklistDialog_title')}</DialogTitle>
+        <DialogTitle id="importBlacklistDialogTitle">
+          {translate('options_importBlacklistDialog_title')}
+        </DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem>
             <Select
-              class="js-focus-start"
+              class={FOCUS_START_CLASS}
               value={source}
               onInput={e => {
                 setSource(e.currentTarget.value as 'file' | 'pb');
@@ -85,11 +88,12 @@ const ImportBlacklistDialog: FunctionComponent<
         {source === 'pb' && (
           <Row>
             <RowItem expanded>
-              <Label forFullWidth>
-                <LabelItem>{translate('options_importBlacklistDialog_helper')}</LabelItem>
-                <LabelItem>{translate('options_blacklistExample', 'example.com')}</LabelItem>
-              </Label>
+              <LabelWrapper fullWidth>
+                <SubLabel>{translate('options_importBlacklistDialog_helper')}</SubLabel>
+                <SubLabel>{translate('options_blacklistExample', 'example.com')}</SubLabel>
+              </LabelWrapper>
               <TextArea
+                aria-label="The domain list exported from Personal Blocklist"
                 rows={5}
                 value={pb}
                 wrap="off"
@@ -113,23 +117,23 @@ const ImportBlacklistDialog: FunctionComponent<
             </Indent>
           </RowItem>
           <RowItem expanded>
-            <Label for="append">
-              <LabelItem primary>{translate('options_importBlacklistDialog_append')}</LabelItem>
-            </Label>
+            <LabelWrapper>
+              <Label for="append">{translate('options_importBlacklistDialog_append')}</Label>
+            </LabelWrapper>
           </RowItem>
         </Row>
       </DialogBody>
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={source === 'pb' && !pb ? 'js-focus-end' : undefined} onClick={close}>
+            <Button class={source === 'pb' && !pb ? FOCUS_END_CLASS : undefined} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             {source === 'file' ? (
               <Button
-                class="js-focus-end"
+                class={FOCUS_END_CLASS}
                 primary
                 onClick={() => {
                   const fileInput = document.createElement('input');
@@ -156,7 +160,7 @@ const ImportBlacklistDialog: FunctionComponent<
               </Button>
             ) : (
               <Button
-                class={pb ? 'js-focus-end' : undefined}
+                class={pb ? FOCUS_END_CLASS : undefined}
                 disabled={!pb}
                 primary
                 onClick={() => {
@@ -203,13 +207,14 @@ const SetBlacklist: FunctionComponent = () => {
     <SectionItem>
       <Row>
         <RowItem expanded>
-          <Label forFullWidth>
-            <LabelItem primary>{translate('options_blacklistLabel')}</LabelItem>
-            <LabelItem>{expandLinks(translate('options_blacklistHelper'))}</LabelItem>
-            <LabelItem>{translate('options_blacklistExample', '*://*.example.com/*')}</LabelItem>
-            <LabelItem>{translate('options_blacklistExample', '/example\\.(net|org)/')}</LabelItem>
-          </Label>
+          <LabelWrapper fullWidth>
+            <Label for="blacklist">{translate('options_blacklistLabel')}</Label>
+            <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
+            <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
+            <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
+          </LabelWrapper>
           <TextArea
+            id="blacklist"
             rows={10}
             value={blacklist}
             wrap="off"
@@ -335,10 +340,10 @@ const RegisterSearchEngines: FunctionComponent = () => {
     <SectionItem>
       <Row>
         <RowItem expanded>
-          <Label>
-            <LabelItem primary>{translate('options_otherSearchEngines')}</LabelItem>
-            <LabelItem>{translate('options_otherSearchEnginesDescription')}</LabelItem>
-          </Label>
+          <LabelWrapper>
+            <Label>{translate('options_otherSearchEngines')}</Label>
+            <SubLabel>{translate('options_otherSearchEnginesDescription')}</SubLabel>
+          </LabelWrapper>
         </RowItem>
       </Row>
       <Row>

@@ -4,6 +4,7 @@ import { FunctionComponent, h } from 'preact';
 import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
   DialogBody,
@@ -12,7 +13,7 @@ import {
   DialogProps,
   DialogTitle,
 } from '../components/dialog';
-import { Label, LabelItem } from '../components/label';
+import { Label, LabelWrapper, SubLabel } from '../components/label';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
 import {
@@ -45,15 +46,17 @@ const TurnOnSyncDialog: FunctionComponent<
     }
   }, [open]);
   return (
-    <Dialog close={close} open={open} width="480px">
+    <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open} width="480px">
       <DialogHeader>
-        <DialogTitle>{translate('options_turnOnSyncDialog_title')}</DialogTitle>
+        <DialogTitle id="turnOnSyncDialogTitle">
+          {translate('options_turnOnSyncDialog_title')}
+        </DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem>
             <Select
-              class="js-focus-start"
+              class={FOCUS_START_CLASS}
               value={selectedCloudId}
               onInput={e => {
                 setSelectedCloudId(e.currentTarget.value as CloudId);
@@ -80,7 +83,7 @@ const TurnOnSyncDialog: FunctionComponent<
           </RowItem>
           <RowItem>
             <Button
-              class="js-focus-end"
+              class={FOCUS_END_CLASS}
               primary
               onClick={() => {
                 void (async () => {
@@ -118,16 +121,14 @@ const TurnOnSync: FunctionComponent<{
       <Row>
         <RowItem expanded>
           {syncCloudId != null ? (
-            <Label>
-              <LabelItem primary>
-                {translate(supportedClouds[syncCloudId].messageNames.syncTurnedOn)}
-              </LabelItem>
-            </Label>
+            <LabelWrapper>
+              <Label>{translate(supportedClouds[syncCloudId].messageNames.syncTurnedOn)}</Label>
+            </LabelWrapper>
           ) : (
-            <Label>
-              <LabelItem primary>{translate('options_syncFeature')}</LabelItem>
-              <LabelItem>{translate('options_syncFeatureDescription')}</LabelItem>
-            </Label>
+            <LabelWrapper>
+              <Label>{translate('options_syncFeature')}</Label>
+              <SubLabel>{translate('options_syncFeatureDescription')}</SubLabel>
+            </LabelWrapper>
           )}
         </RowItem>
         <RowItem>
@@ -186,9 +187,9 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
     <SectionItem>
       <Row>
         <RowItem expanded>
-          <Label>
-            <LabelItem primary>{translate('options_syncResult')}</LabelItem>
-            <LabelItem>
+          <LabelWrapper>
+            <Label>{translate('options_syncResult')}</Label>
+            <SubLabel>
               {syncing ? (
                 translate('options_syncRunning')
               ) : props.syncCloudId == null || syncResult == null ? (
@@ -198,8 +199,8 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
               ) : (
                 <FromNow time={dayjs(syncResult.timestamp)} />
               )}
-            </LabelItem>
-          </Label>
+            </SubLabel>
+          </LabelWrapper>
         </RowItem>
         <RowItem>
           <Button

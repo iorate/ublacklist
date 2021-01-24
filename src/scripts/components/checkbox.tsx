@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
-import { FocusCircle, applyClass } from './helpers';
+import { FocusCircle, applyClass, useInnerRef } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -10,6 +10,7 @@ export type CheckBoxProps = JSX.IntrinsicElements['input'];
 
 export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
   const id = props.id ?? nanoid();
+  const innerRef = useInnerRef(ref);
 
   const css = useCSS();
   const theme = useTheme();
@@ -87,12 +88,12 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
 
   return (
     <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} id={id} ref={ref} type="checkbox" />
-      <label class={labelClass} for={id}>
+      <input {...applyClass(props, inputClass)} id={id} ref={innerRef} type="checkbox" />
+      <span class={labelClass} onClick={() => innerRef.current.click()}>
         <span class={boxClass} />
         <span class={checkMarkClass} />
         <FocusCircle depth={1} size="16px" />
-      </label>
+      </span>
     </div>
   );
 });

@@ -5,7 +5,7 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-type LabelContextValue = { disabled?: boolean; for?: string };
+type LabelContextValue = { disabled?: boolean };
 
 const LabelContext = createContext<LabelContextValue | null>(null);
 
@@ -17,58 +17,81 @@ function useLabelContext(): LabelContextValue {
   return value;
 }
 
-export type LabelProps = {
+export type LabelWrapperProps = {
   disabled?: boolean;
-  for?: string;
-  forFullWidth?: boolean;
+  fullWidth?: boolean;
 } & JSX.IntrinsicElements['div'];
 
-export const Label = forwardRef(
-  ({ disabled, for: for_, forFullWidth, ...props }: LabelProps, ref: Ref<HTMLDivElement>) => {
+export const LabelWrapper = forwardRef(
+  ({ disabled, fullWidth, ...props }: LabelWrapperProps, ref: Ref<HTMLDivElement>) => {
     const css = useCSS();
     const class_ = useMemo(
       () =>
         css({
-          marginBottom: forFullWidth ? '0.5em' : 0,
+          marginBottom: fullWidth ? '0.5em' : 0,
           opacity: disabled ? 0.38 : 1,
         }),
-      [css, disabled, forFullWidth],
+      [css, disabled, fullWidth],
     );
     return (
-      <LabelContext.Provider value={{ disabled: disabled, for: for_ }}>
+      <LabelContext.Provider value={{ disabled: disabled }}>
         <div {...applyClass(props, class_)} ref={ref} />
       </LabelContext.Provider>
     );
   },
 );
 
-export type LabelItemProps = { primary?: boolean } & JSX.IntrinsicElements['label'];
+export type LabelProps = { focus?: string } & JSX.IntrinsicElements['label'];
 
-export const LabelItem = forwardRef(
-  ({ primary, ...props }: LabelItemProps, ref: Ref<HTMLLabelElement>) => {
-    const { disabled, for: for_ } = useLabelContext();
+export const Label = forwardRef(({ focus, ...props }: LabelProps, ref: Ref<HTMLLabelElement>) => {
+  const { disabled } = useLabelContext();
 
-    const css = useCSS();
-    const theme = useTheme();
-    const wrapperClass = useMemo(
-      () =>
-        css({
-          color: primary ? theme.text.primary : theme.text.secondary,
-        }),
-      [css, theme, primary],
-    );
-    const labelClass = useMemo(
-      () =>
-        css({
-          cursor: disabled || for_ == null ? 'default' : 'pointer',
-        }),
-      [css, disabled, for_],
-    );
+  const css = useCSS();
+  const theme = useTheme();
+  const class_ = useMemo(
+    () =>
+      css({
+        color: theme.text.primary,
+        cursor: disabled ? 'default' : focus == null && props.for == null ? 'auto' : 'pointer',
+      }),
+    [css, theme, disabled, focus, props.for],
+  );
 
-    return (
-      <div class={wrapperClass}>
-        <label {...applyClass(props, labelClass)} for={for_} ref={ref} />
-      </div>
-    );
-  },
-);
+  return (
+    <div>
+      <label
+        {...applyClass(props, class_)}
+        ref={ref}
+        onClick={e => {
+          if (!disabled && focus != null) {
+            const root = e.currentTarget.getRootNode() as HTMLDocument | ShadowRoot;
+            root.querySelector<HTMLElement>(`#${focus}`)?.focus();
+          }
+        }}
+      />
+    </div>
+  );
+});
+
+export type SubLabelProps = JSX.IntrinsicElements['span'];
+
+export const SubLabel = forwardRef((props: SubLabelProps, ref: Ref<HTMLSpanElement>) => {
+  const { disabled } = useLabelContext();
+
+  const css = useCSS();
+  const theme = useTheme();
+  const class_ = useMemo(
+    () =>
+      css({
+        color: theme.text.secondary,
+        cursor: disabled ? 'default' : 'auto',
+      }),
+    [css, theme, disabled],
+  );
+
+  return (
+    <div>
+      <span {...applyClass(props, class_)} ref={ref} />
+    </div>
+  );
+});

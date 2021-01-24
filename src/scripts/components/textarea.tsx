@@ -5,7 +5,11 @@ import { applyClass, useInnerRef } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type TextAreaProps = { breakAll?: boolean } & JSX.IntrinsicElements['textarea'];
+export type TextAreaProps = {
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  breakAll?: boolean;
+} & JSX.IntrinsicElements['textarea'];
 
 export const TextArea = forwardRef(
   ({ breakAll, ...props }: TextAreaProps, ref: Ref<HTMLTextAreaElement>) => {
@@ -41,6 +45,8 @@ export const TextArea = forwardRef(
 );
 
 export type ReadOnlyTextAreaProps = {
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
   breakAll?: boolean;
   disabled?: boolean;
   rows?: number;
@@ -86,7 +92,14 @@ export const ReadOnlyTextArea = forwardRef(
     );
 
     return (
-      <div {...applyClass(props, class_)} ref={innerRef} tabIndex={0}>
+      <div
+        {...applyClass(props, class_)}
+        aria-disabled={disabled}
+        aria-readonly={true}
+        ref={innerRef}
+        role="textbox"
+        tabIndex={0}
+      >
         {value}
       </div>
     );

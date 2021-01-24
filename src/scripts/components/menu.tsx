@@ -2,6 +2,7 @@ import dotsVertical from '@mdi/svg/svg/dots-vertical.svg';
 import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, StateUpdater, useContext, useMemo, useState } from 'preact/hooks';
+import { MENU_ITEM_CLASS } from './constants';
 import { FocusCircle, applyClass, useInnerRef, useModal } from './helpers';
 import { TemplateIcon } from './icon';
 import { useCSS } from './styles';
@@ -94,7 +95,7 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
 });
 
 function moveFocus(body: HTMLDivElement, backward: boolean) {
-  const items = [...body.querySelectorAll<HTMLElement>('.js-menu-item')];
+  const items = [...body.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}`)];
   if (!items.length) {
     return;
   }
@@ -172,9 +173,9 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
       <div
         {...applyClass(props, bodyClass)}
         ref={innerRef}
-        tabIndex={0}
+        tabIndex={-1}
         onClick={e => {
-          if (e.target instanceof HTMLElement && e.target.matches('.js-menu-item')) {
+          if (e.target instanceof HTMLElement && e.target.matches(`.${MENU_ITEM_CLASS}`)) {
             setOpen(false);
           }
         }}
@@ -184,14 +185,10 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
             setOpen(false);
           } else if (e.key === 'ArrowDown') {
             e.preventDefault();
-            if (innerRef.current) {
-              moveFocus(innerRef.current, false);
-            }
+            moveFocus(innerRef.current, false);
           } else if (e.key === 'ArrowUp') {
             e.preventDefault();
-            if (innerRef.current) {
-              moveFocus(innerRef.current, true);
-            }
+            moveFocus(innerRef.current, true);
           }
         }}
       />
@@ -226,5 +223,5 @@ export const MenuItem = forwardRef((props: MenuItemProps, ref: Ref<HTMLButtonEle
       }),
     [css, theme],
   );
-  return <button {...applyClass(props, `js-menu-item ${class_}`)} ref={ref} />;
+  return <button {...applyClass(props, `${MENU_ITEM_CLASS} ${class_}`)} ref={ref} />;
 });

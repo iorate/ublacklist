@@ -8,7 +8,7 @@ import { sendMessage } from './messages';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { css, glob } from './styles';
 import { SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
-import { AltURL, MatchPattern, stringEntries, translate } from './utilities';
+import { AltURL, MatchPattern, stringKeys, translate } from './utilities';
 
 type SerpEntryWithState = SerpEntry & { blocked: boolean };
 
@@ -30,6 +30,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   return (
     <span
       class={`ub-button ${class_}`}
+      role="link"
       tabIndex={0}
       onClick={e => {
         e.preventDefault();
@@ -309,11 +310,11 @@ class ContentScript {
 
 function main() {
   const url = new AltURL(window.location.href);
-  const idMatches = stringEntries(searchEngineMatches).find(([, matches]) =>
-    matches.some(match => new MatchPattern(match).test(url)),
+  const id = stringKeys(searchEngineMatches).find(id =>
+    searchEngineMatches[id].some(match => new MatchPattern(match).test(url)),
   );
-  if (idMatches) {
-    const serpHandler = searchEngineSerpHandlers[idMatches[0]]();
+  if (id) {
+    const serpHandler = searchEngineSerpHandlers[id]();
     if (serpHandler) {
       new ContentScript(serpHandler);
     }

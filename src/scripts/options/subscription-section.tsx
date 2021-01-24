@@ -3,6 +3,7 @@ import { FunctionComponent, h } from 'preact';
 import { StateUpdater, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
   DialogBody,
@@ -12,7 +13,7 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Input } from '../components/input';
-import { Label, LabelItem } from '../components/label';
+import { Label, LabelWrapper, SubLabel } from '../components/label';
 import { Menu, MenuBody, MenuButton, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
@@ -58,18 +59,22 @@ const AddSubscriptionDialog: FunctionComponent<
   }, [open]);
   const ok = nameValid && urlValid;
   return (
-    <Dialog close={close} open={open} width="480px">
+    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open} width="480px">
       <DialogHeader>
-        <DialogTitle>{translate('options_addSubscriptionDialog_title')}</DialogTitle>
+        <DialogTitle id="addSubscriptionDialogTitle">
+          {translate('options_addSubscriptionDialog_title')}
+        </DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <Label forFullWidth>
-              <LabelItem primary>{translate('options_addSubscriptionDialog_nameLabel')}</LabelItem>
-            </Label>
+            <LabelWrapper fullWidth>
+              <Label for="subscriptionName">
+                {translate('options_addSubscriptionDialog_nameLabel')}
+              </Label>
+            </LabelWrapper>
             <Input
-              class="js-focus-start"
+              class={FOCUS_START_CLASS}
               id="subscriptionName"
               required={true}
               value={name}
@@ -82,9 +87,11 @@ const AddSubscriptionDialog: FunctionComponent<
         </Row>
         <Row>
           <RowItem expanded>
-            <Label forFullWidth>
-              <LabelItem primary>{translate('options_addSubscriptionDialog_urlLabel')}</LabelItem>
-            </Label>
+            <LabelWrapper fullWidth>
+              <Label for="subscriptionURL">
+                {translate('options_addSubscriptionDialog_urlLabel')}
+              </Label>
+            </LabelWrapper>
             <Input
               id="subscriptionURL"
               pattern="^https?:.*"
@@ -102,13 +109,13 @@ const AddSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={!ok ? 'js-focus-end' : undefined} onClick={close}>
+            <Button class={!ok ? FOCUS_END_CLASS : undefined} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              class={ok ? 'js-focus-end' : undefined}
+              class={ok ? FOCUS_END_CLASS : undefined}
               disabled={!ok}
               primary
               onClick={async () => {
@@ -149,15 +156,16 @@ const ShowSubscriptionDialog: FunctionComponent<
     }
   }, [open]);
   return (
-    <Dialog close={close} open={open} width="480px">
+    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open} width="480px">
       <DialogHeader>
-        <DialogTitle>{subscription?.name ?? ''}</DialogTitle>
+        <DialogTitle id="showSubscriptionDialogTitle">{subscription?.name ?? ''}</DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem expanded>
             <ReadOnlyTextArea
-              class="js-focus-start"
+              aria-label="Blacklist"
+              class={FOCUS_START_CLASS}
               ref={blacklistTextArea}
               rows={10}
               wrap="off"
@@ -169,7 +177,7 @@ const ShowSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class="js-focus-end" primary onClick={close}>
+            <Button class={FOCUS_END_CLASS} primary onClick={close}>
               {translate('okButton')}
             </Button>
           </RowItem>
@@ -211,7 +219,7 @@ const ManageSubscription: FunctionComponent<{
       </TableBodyCell>
       <TableBodyCell>
         <Menu>
-          <MenuButton />
+          <MenuButton aria-label="Open the menu" />
           <MenuBody>
             <MenuItem
               onClick={() => {
@@ -289,10 +297,10 @@ export const ManageSubscriptions: FunctionComponent = () => {
     <SectionItem>
       <Row>
         <RowItem expanded>
-          <Label>
-            <LabelItem primary>{translate('options_subscriptionFeature')}</LabelItem>
-            <LabelItem>{translate('options_subscriptionFeatureDescription')}</LabelItem>
-          </Label>
+          <LabelWrapper>
+            <Label>{translate('options_subscriptionFeature')}</Label>
+            <SubLabel>{translate('options_subscriptionFeatureDescription')}</SubLabel>
+          </LabelWrapper>
         </RowItem>
         <RowItem>
           <Button

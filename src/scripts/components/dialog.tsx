@@ -1,11 +1,44 @@
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
 import { applyClass, useInnerRef, useModal } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
+function handleKeyDown(
+  e: JSX.TargetedKeyboardEvent<HTMLDivElement>,
+  dialog: HTMLDivElement,
+  close: () => void,
+): void {
+  e.stopPropagation();
+  if (e.isComposing) {
+    return;
+  }
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    close();
+  } else if (e.key === 'Tab') {
+    if (e.shiftKey) {
+      if (
+        e.target === dialog ||
+        (e.target instanceof HTMLElement && e.target.matches(`.${FOCUS_START_CLASS}`))
+      ) {
+        e.preventDefault();
+        dialog.querySelector<HTMLElement>(`.${FOCUS_END_CLASS}`)?.focus();
+      }
+    } else {
+      if (e.target instanceof HTMLElement && e.target.matches(`.${FOCUS_END_CLASS}`)) {
+        e.preventDefault();
+        dialog.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
+      }
+    }
+  }
+}
+
 export type DialogProps = {
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
   close: () => void;
   open: boolean;
   width?: string;
@@ -14,7 +47,9 @@ export type DialogProps = {
 export const Dialog = forwardRef(
   ({ close, open, width, ...props }: DialogProps, ref: Ref<HTMLDivElement>) => {
     const innerRef = useInnerRef(ref);
-    useModal(open, () => innerRef.current.querySelector<HTMLElement>('.js-focus-start')?.focus());
+    useModal(open, () =>
+      innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus(),
+    );
 
     const css = useCSS();
     const theme = useTheme();
@@ -65,33 +100,10 @@ export const Dialog = forwardRef(
         <div class={backdropClass} onClick={close} />
         <div
           {...applyClass(props, dialogClass)}
+          aria-modal={open}
           ref={innerRef}
-          tabIndex={0}
-          onKeyDown={e => {
-            e.stopPropagation();
-            if (e.isComposing) {
-              return;
-            }
-            if (e.key === 'Escape') {
-              e.preventDefault();
-              close();
-            } else if (e.key === 'Tab') {
-              if (e.shiftKey) {
-                if (
-                  e.target === innerRef.current ||
-                  (e.target instanceof HTMLElement && e.target.matches('.js-focus-start'))
-                ) {
-                  e.preventDefault();
-                  innerRef.current.querySelector<HTMLElement>('.js-focus-end')?.focus();
-                }
-              } else {
-                if (e.target instanceof HTMLElement && e.target.matches('.js-focus-end')) {
-                  e.preventDefault();
-                  innerRef.current.querySelector<HTMLElement>('.js-focus-start')?.focus();
-                }
-              }
-            }
-          }}
+          role="dialog"
+          onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
           onKeyPress={e => e.stopPropagation()}
           onKeyUp={e => e.stopPropagation()}
         />
@@ -173,27 +185,7 @@ export const NativeDialog = forwardRef(
       <div
         {...applyClass(props, class_)}
         ref={innerRef}
-        onKeyDown={e => {
-          if (e.isComposing) {
-            return;
-          }
-          if (e.key === 'Escape') {
-            e.preventDefault();
-            close();
-          } else if (e.key === 'Tab') {
-            if (e.shiftKey) {
-              if (e.target instanceof HTMLElement && e.target.matches('.js-focus-start')) {
-                e.preventDefault();
-                innerRef.current.querySelector<HTMLElement>('.js-focus-end')?.focus();
-              }
-            } else {
-              if (e.target instanceof HTMLElement && e.target.matches('.js-focus-end')) {
-                e.preventDefault();
-                innerRef.current.querySelector<HTMLElement>('.js-focus-start')?.focus();
-              }
-            }
-          }
-        }}
+        onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
       />
     );
   },

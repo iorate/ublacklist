@@ -4,6 +4,7 @@ import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { Details, DetailsBody, DetailsSummary } from './components/details';
 import {
   Dialog,
@@ -15,7 +16,7 @@ import {
 } from './components/dialog';
 import { Icon } from './components/icon';
 import { Input } from './components/input';
-import { Label, LabelItem } from './components/label';
+import { Label, LabelWrapper, SubLabel } from './components/label';
 import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
@@ -91,7 +92,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
   return (
     <>
       <DialogHeader>
-        <DialogTitle>
+        <DialogTitle id="title">
           <Row>
             <RowItem>
               <Icon iconSize="24px" url={icon} />
@@ -116,24 +117,35 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 setDetailsOpen(e.currentTarget.open);
               }}
             >
-              <DetailsSummary class="js-focus-start">{translate('popup_details')}</DetailsSummary>
+              <DetailsSummary class={FOCUS_START_CLASS}>
+                {translate('popup_details')}
+              </DetailsSummary>
               <DetailsBody>
                 <Row>
                   <RowItem expanded>
-                    <Label forFullWidth>
-                      <LabelItem primary>{translate('popup_pageURLLabel')}</LabelItem>
-                    </Label>
-                    <ReadOnlyTextArea breakAll rows={2} value={props.url} />
+                    <LabelWrapper fullWidth>
+                      <Label focus="url" id="urlLabel">
+                        {translate('popup_pageURLLabel')}
+                      </Label>
+                    </LabelWrapper>
+                    <ReadOnlyTextArea
+                      aria-labelledby="urlLabel"
+                      breakAll
+                      id="url"
+                      rows={2}
+                      value={props.url}
+                    />
                   </RowItem>
                 </Row>
                 {props.enablePathDepth && (
                   <Row>
                     <RowItem expanded>
-                      <Label disabled={disabled} forFullWidth>
-                        <LabelItem primary>{translate('popup_pathDepth')}</LabelItem>
-                      </Label>
+                      <LabelWrapper disabled={disabled} fullWidth>
+                        <Label for="depth">{translate('popup_pathDepth')}</Label>
+                      </LabelWrapper>
                       <Input
                         disabled={disabled}
+                        id="depth"
                         max={pathDepth?.maxDepth() ?? 0}
                         min={0}
                         type="number"
@@ -160,15 +172,16 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 )}
                 <Row>
                   <RowItem expanded>
-                    <Label disabled={disabled} forFullWidth>
-                      <LabelItem primary>{translate('popup_addedRulesLabel')}</LabelItem>
-                      <LabelItem>
+                    <LabelWrapper disabled={disabled} fullWidth>
+                      <Label for="rulesToAdd">{translate('popup_addedRulesLabel')}</Label>
+                      <SubLabel>
                         {expandLinks(translate('options_blacklistHelper'), disabled)}
-                      </LabelItem>
-                    </Label>
+                      </SubLabel>
+                    </LabelWrapper>
                     <TextArea
                       breakAll
                       disabled={disabled}
+                      id="rulesToAdd"
                       rows={2}
                       value={rulesToAdd}
                       onInput={e => {
@@ -184,10 +197,19 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 </Row>
                 <Row>
                   <RowItem expanded>
-                    <Label disabled={disabled} forFullWidth>
-                      <LabelItem primary>{translate('popup_removedRulesLabel')}</LabelItem>
-                    </Label>
-                    <ReadOnlyTextArea breakAll disabled={disabled} rows={2} value={rulesToRemove} />
+                    <LabelWrapper disabled={disabled} fullWidth>
+                      <Label focus="rulesToRemove" id="rulesToRemoveLabel">
+                        {translate('popup_removedRulesLabel')}
+                      </Label>
+                    </LabelWrapper>
+                    <ReadOnlyTextArea
+                      aria-labelledby="rulesToRemoveLabel"
+                      breakAll
+                      disabled={disabled}
+                      id="rulesToRemove"
+                      rows={2}
+                      value={rulesToRemove}
+                    />
                   </RowItem>
                 </Row>
               </DetailsBody>
@@ -205,13 +227,13 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
           <RowItem>
             <Row>
               <RowItem>
-                <Button class={!ok ? 'js-focus-end' : undefined} onClick={() => props.close()}>
+                <Button class={!ok ? FOCUS_END_CLASS : undefined} onClick={() => props.close()}>
                   {translate('cancelButton')}
                 </Button>
               </RowItem>
               <RowItem>
                 <Button
-                  class={ok ? 'js-focus-end' : undefined}
+                  class={ok ? FOCUS_END_CLASS : undefined}
                   disabled={!ok}
                   primary
                   onClick={async () => {
@@ -236,7 +258,7 @@ export type BlockDialogProps = { target: HTMLElement | ShadowRoot } & BlockDialo
 export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, ...props }) => (
   <StylesProvider target={target}>
     <ScopedBaseline>
-      <Dialog close={props.close} open={props.open} width="360px">
+      <Dialog aria-labelledby="title" close={props.close} open={props.open} width="360px">
         <BlockDialogContent {...props} />
       </Dialog>
     </ScopedBaseline>

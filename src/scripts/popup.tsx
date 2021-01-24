@@ -5,6 +5,7 @@ import { BlockPopup } from './block-dialog';
 import { AutoThemeProvider } from './components/theme';
 import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
+import { translate } from './utilities';
 
 async function main(): Promise<void> {
   const [{ url }] = await apis.tabs.query({ active: true, currentWindow: true });
@@ -18,6 +19,7 @@ async function main(): Promise<void> {
     Object.values(options.subscriptions).map(subscription => subscription.blacklist),
   );
 
+  document.documentElement.lang = translate('lang');
   render(
     <AutoThemeProvider>
       <BlockPopup

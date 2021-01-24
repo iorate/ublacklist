@@ -5,7 +5,11 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type ButtonProps = { primary?: boolean } & JSX.IntrinsicElements['button'];
+export type ButtonProps = {
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  primary?: boolean;
+} & JSX.IntrinsicElements['button'];
 
 export const Button = forwardRef(
   ({ primary, ...props }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
@@ -44,13 +48,13 @@ export const Button = forwardRef(
         },
       });
     }, [css, theme, primary]);
-    return <button {...applyClass(props, class_)} ref={ref} />;
+    return <button {...applyClass(props, class_)} ref={ref} type="button" />;
   },
 );
 
-export type LinkButtonProps = JSX.IntrinsicElements['span'];
+export type LinkButtonProps = JSX.IntrinsicElements['a'];
 
-export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLSpanElement>) => {
+export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLAnchorElement>) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
@@ -74,7 +78,7 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLSpanE
     [css, theme],
   );
   return (
-    <span
+    <a
       {...applyClass(props, class_)}
       ref={ref}
       tabIndex={0}

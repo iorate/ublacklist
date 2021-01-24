@@ -6,6 +6,7 @@ import { GeneralSection } from './options/general-section';
 import { OptionsContextProvider } from './options/options-context';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
+import { translate } from './utilities';
 
 const Options: FunctionComponent = () => (
   <OptionsContextProvider>
@@ -22,6 +23,7 @@ const Options: FunctionComponent = () => (
 );
 
 function main(): void {
+  document.documentElement.lang = translate('lang');
   render(<Options />, document.body.appendChild(document.createElement('div')));
 }
 
