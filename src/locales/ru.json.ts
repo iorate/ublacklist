@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/ru/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription: 'Блокирует сайты в поисковой выдаче Google',
-  dayjsLocale: 'ru',
+  lang: 'ru',
   error: 'Ошибка: $1',
   cancelButton: 'Отмена',
   okButton: 'ОК',

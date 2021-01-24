@@ -1,7 +1,7 @@
 export type MessageName =
   | 'extensionName'
   | 'extensionDescription'
-  | 'dayjsLocale'
+  | 'lang'
   | 'error'
   | 'unauthorizedError'
   | 'cancelButton'

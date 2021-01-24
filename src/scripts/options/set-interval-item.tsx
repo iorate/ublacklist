@@ -52,10 +52,7 @@ export const SetIntervalItem: FunctionComponent<{
           >
             {valueOptions.map(value => (
               <SelectOption key={value} value={value}>
-                {dayjs
-                  .duration({ minutes: value })
-                  .locale(translate('dayjsLocale'))
-                  .humanize(false)}
+                {dayjs.duration({ minutes: value }).locale(translate('lang')).humanize(false)}
               </SelectOption>
             ))}
           </Select>

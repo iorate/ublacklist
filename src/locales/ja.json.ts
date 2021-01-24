@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/ja/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription: '指定したサイトが Google の検索結果で表示されないようにします',
-  dayjsLocale: 'ja',
+  lang: 'ja',
   error: 'エラー: $1',
   unauthorizedError: '認証が解除されています。同期をオフにして、再度有効にして下さい。',
   cancelButton: 'キャンセル',

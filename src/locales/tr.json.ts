@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/tr/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription: 'Seçili sitelerin Google arama sonuçlarında görünmesini engeller',
-  dayjsLocale: 'tr',
+  lang: 'tr',
   okButton: 'Tamam',
   content_singleSiteBlocked: 'uBlacklist 1 siteyi engelledi',
   content_multipleSitesBlocked: 'uBlacklist $1 siteyi engelledi',

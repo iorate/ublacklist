@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/zh_CN/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription: '屏蔽特定的网站显示在 Google 的搜索结果中。',
-  dayjsLocale: 'zh-cn',
+  lang: 'zh-cn',
   error: '出现错误: $1',
   unauthorizedError: '未授权的操作。请尝试先关闭同步后，再开启同步。',
   cancelButton: '取消',

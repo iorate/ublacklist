@@ -7,8 +7,8 @@ exportAsMessages('_locales/en/messages.json', {
   // The extension description.
   extensionDescription: 'Blocks sites you specify from appearing in Google search results',
 
-  // The locale for 'dayjs'. See https://github.com/iamkun/dayjs/tree/dev/src/locale and select a proper locale.
-  dayjsLocale: 'en',
+  // The language code.
+  lang: 'en',
 
   // The text that means an error occurred.
   // '$1' is expanded to the message.

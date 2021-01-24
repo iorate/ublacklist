@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/zh_TW/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription: '封鎖來自於 Google 搜尋結果中的特定網站',
-  dayjsLocale: 'zh-tw',
+  lang: 'zh-tw',
   error: '錯誤: $1',
   unauthorizedError: '未經授權。請關閉同步，然後再次開啟。',
   cancelButton: '取消',
