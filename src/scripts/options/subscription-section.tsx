@@ -168,8 +168,8 @@ const ShowSubscriptionDialog: FunctionComponent<
               class={FOCUS_START_CLASS}
               ref={blacklistTextArea}
               rows={10}
-              wrap="off"
               value={subscription?.blacklist ?? ''}
+              wrap="off"
             />
           </RowItem>
         </Row>
@@ -347,13 +347,13 @@ export const ManageSubscriptions: FunctionComponent = () => {
                   )
                   .map(([id, subscription]) => (
                     <ManageSubscription
-                      key={id}
                       id={id}
-                      subscription={subscription}
-                      updating={updating[id] ?? false}
-                      setSubscriptions={setSubscriptions}
+                      key={id}
                       setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
                       setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
+                      setSubscriptions={setSubscriptions}
+                      subscription={subscription}
+                      updating={updating[id] ?? false}
                     />
                   ))}
               </TableBody>

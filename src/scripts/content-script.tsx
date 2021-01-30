@@ -289,12 +289,12 @@ class ContentScript {
     }
     render(
       <BlockDialog
-        target={this.blockDialogRoot}
-        open={open}
-        close={() => this.renderBlockDialog(url, false)}
-        url={url}
         blacklist={this.options.blacklist}
+        close={() => this.renderBlockDialog(url, false)}
         enablePathDepth={this.options.enablePathDepth}
+        open={open}
+        target={this.blockDialogRoot}
+        url={url}
         onBlocked={() => {
           if (!this.options) {
             return;

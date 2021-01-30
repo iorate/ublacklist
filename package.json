@@ -92,6 +92,12 @@
           }
         }
       ],
+      "react/jsx-sort-props": [
+        "warn",
+        {
+          "callbacksLast": true
+        }
+      ],
       "react/no-unknown-property": [
         "error",
         {

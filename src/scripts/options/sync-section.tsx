@@ -237,7 +237,7 @@ export const SyncSection: FunctionComponent = () => {
         <SectionTitle id="syncSectionTitle">{translate('options_syncTitle')}</SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <TurnOnSync syncCloudId={syncCloudId} setSyncCloudId={setSyncCloudId} />
+        <TurnOnSync setSyncCloudId={setSyncCloudId} syncCloudId={syncCloudId} />
         <SyncNow syncCloudId={syncCloudId} />
         <SetIntervalItem
           itemKey="syncInterval"
