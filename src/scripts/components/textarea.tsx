@@ -40,7 +40,7 @@ export const TextArea = forwardRef(
         }),
       [css, theme, breakAll],
     );
-    return <textarea {...applyClass(props, class_)} ref={ref} spellcheck={false} />;
+    return <textarea {...applyClass(props, class_)} ref={ref} />;
   },
 );
 
@@ -81,7 +81,6 @@ export const ReadOnlyTextArea = forwardRef(
           overflow: 'auto',
           padding: '0.5em 0.625em',
           whiteSpace: wrap === 'off' ? 'pre' : 'pre-wrap',
-          width: '100%',
           wordBreak: breakAll ? 'break-all' : 'normal',
           '&:focus': {
             boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
@@ -95,6 +94,7 @@ export const ReadOnlyTextArea = forwardRef(
       <div
         {...applyClass(props, class_)}
         aria-disabled={disabled}
+        aria-multiline={true}
         aria-readonly={true}
         ref={innerRef}
         role="textbox"

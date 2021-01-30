@@ -5,23 +5,25 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type ListProps = JSX.IntrinsicElements['div'];
+export type ListProps = JSX.IntrinsicElements['ul'];
 
-export const List = forwardRef((props: ListProps, ref: Ref<HTMLDivElement>) => {
+export const List = forwardRef((props: ListProps, ref: Ref<HTMLUListElement>) => {
   const css = useCSS();
   const class_ = useMemo(
     () =>
       css({
-        width: '100%',
+        listStyleType: 'none',
+        margin: 0,
+        padding: 0,
       }),
     [css],
   );
-  return <div {...applyClass(props, class_)} ref={ref} />;
+  return <ul {...applyClass(props, class_)} ref={ref} />;
 });
 
-export type ListItemProps = JSX.IntrinsicElements['div'];
+export type ListItemProps = JSX.IntrinsicElements['li'];
 
-export const ListItem = forwardRef((props: ListItemProps, ref: Ref<HTMLDivElement>) => {
+export const ListItem = forwardRef((props: ListItemProps, ref: Ref<HTMLLIElement>) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
@@ -34,5 +36,5 @@ export const ListItem = forwardRef((props: ListItemProps, ref: Ref<HTMLDivElemen
       }),
     [css, theme],
   );
-  return <div {...applyClass(props, class_)} ref={ref} />;
+  return <li {...applyClass(props, class_)} ref={ref} />;
 });

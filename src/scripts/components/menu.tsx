@@ -1,7 +1,7 @@
 import dotsVertical from '@mdi/svg/svg/dots-vertical.svg';
 import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
-import { Ref, StateUpdater, useContext, useMemo, useState } from 'preact/hooks';
+import { Ref, StateUpdater, useContext, useMemo, useRef, useState } from 'preact/hooks';
 import { MENU_ITEM_CLASS } from './constants';
 import { FocusCircle, applyClass, useInnerRef, useModal } from './helpers';
 import { TemplateIcon } from './icon';
@@ -29,9 +29,7 @@ export const Menu = forwardRef((props: MenuProps, ref: Ref<HTMLDivElement>) => {
   const class_ = useMemo(
     () =>
       css({
-        height: '36px',
         position: 'relative',
-        width: '36px',
       }),
     [css],
   );
@@ -53,9 +51,7 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
   const wrapperClass = useMemo(
     () =>
       css({
-        left: 0,
-        position: 'absolute',
-        top: 0,
+        position: 'relative',
       }),
     [css],
   );
@@ -89,7 +85,7 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
       >
         <TemplateIcon color={theme.menu.dots} iconSize="24px" url={dotsVertical} />
       </button>
-      <FocusCircle depth={0} size="36px" />
+      <FocusCircle />
     </div>
   );
 });
@@ -120,6 +116,7 @@ export type MenuBodyProps = JSX.IntrinsicElements['div'];
 
 export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElement>) => {
   const { open, setOpen } = useMenuContext();
+  const backdrop = useRef<HTMLDivElement>();
   const innerRef = useInnerRef(ref);
   useModal(open, () => innerRef.current.focus());
 
@@ -137,12 +134,12 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
     () =>
       css({
         background: 'transparent',
-        bottom: 0,
         display: open ? 'block' : 'none',
+        height: '100%',
         left: 0,
         position: 'fixed',
-        right: 0,
         top: 0,
+        width: '100%',
       }),
     [css, open],
   );
@@ -156,42 +153,42 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
         outline: 'none',
         padding: '0.75em 0',
         position: 'absolute',
-        top: '36px',
+        top: 0,
         right: 0,
       }),
     [css, theme, open],
   );
 
   return (
-    <div class={wrapperClass}>
-      <div
-        class={backdropClass}
-        onClick={() => {
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      class={wrapperClass}
+      tabIndex={-1}
+      onClick={e => {
+        if (
+          e.target === backdrop.current ||
+          (e.target instanceof HTMLElement && e.target.matches(`.${MENU_ITEM_CLASS}`))
+        ) {
           setOpen(false);
-        }}
-      />
-      <div
-        {...applyClass(props, bodyClass)}
-        ref={innerRef}
-        tabIndex={-1}
-        onClick={e => {
-          if (e.target instanceof HTMLElement && e.target.matches(`.${MENU_ITEM_CLASS}`)) {
-            setOpen(false);
-          }
-        }}
-        onKeyDown={e => {
-          if (e.key === 'Escape' || e.key === 'Tab') {
-            e.preventDefault();
-            setOpen(false);
-          } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            moveFocus(innerRef.current, false);
-          } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            moveFocus(innerRef.current, true);
-          }
-        }}
-      />
+        }
+      }}
+      onKeyDown={e => {
+        if (e.key === 'Escape' || e.key === 'Tab') {
+          e.preventDefault();
+          setOpen(false);
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          moveFocus(innerRef.current, false);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          moveFocus(innerRef.current, true);
+        }
+      }}
+    >
+      <div class={backdropClass} ref={backdrop} />
+      <div aria-label="Menu" aria-modal={open} role="dialog">
+        <div {...applyClass(props, bodyClass)} ref={innerRef} role="menu" tabIndex={-1} />
+      </div>
     </div>
   );
 });
@@ -223,5 +220,7 @@ export const MenuItem = forwardRef((props: MenuItemProps, ref: Ref<HTMLButtonEle
       }),
     [css, theme],
   );
-  return <button {...applyClass(props, `${MENU_ITEM_CLASS} ${class_}`)} ref={ref} />;
+  return (
+    <button {...applyClass(props, `${MENU_ITEM_CLASS} ${class_}`)} ref={ref} role="menuitem" />
+  );
 });

@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Input } from '../components/input';
-import { Label, LabelWrapper, SubLabel } from '../components/label';
+import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
 import { Menu, MenuBody, MenuButton, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
@@ -59,7 +59,7 @@ const AddSubscriptionDialog: FunctionComponent<
   }, [open]);
   const ok = nameValid && urlValid;
   return (
-    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="addSubscriptionDialogTitle">
           {translate('options_addSubscriptionDialog_title')}
@@ -69,9 +69,9 @@ const AddSubscriptionDialog: FunctionComponent<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <Label for="subscriptionName">
+              <ControlLabel for="subscriptionName">
                 {translate('options_addSubscriptionDialog_nameLabel')}
-              </Label>
+              </ControlLabel>
             </LabelWrapper>
             <Input
               class={FOCUS_START_CLASS}
@@ -88,9 +88,9 @@ const AddSubscriptionDialog: FunctionComponent<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <Label for="subscriptionURL">
+              <ControlLabel for="subscriptionURL">
                 {translate('options_addSubscriptionDialog_urlLabel')}
-              </Label>
+              </ControlLabel>
             </LabelWrapper>
             <Input
               id="subscriptionURL"
@@ -156,7 +156,7 @@ const ShowSubscriptionDialog: FunctionComponent<
     }
   }, [open]);
   return (
-    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="showSubscriptionDialogTitle">{subscription?.name ?? ''}</DialogTitle>
       </DialogHeader>
@@ -377,14 +377,14 @@ export const ManageSubscriptions: FunctionComponent = () => {
           </Button>
         </RowItem>
       </Row>
-      <Portal>
+      <Portal id="addSubscriptionDialogPortal">
         <AddSubscriptionDialog
           close={() => setAddSubscriptionDialogOpen(false)}
           open={addSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />
       </Portal>
-      <Portal>
+      <Portal id="showSubscriptionDialogPortal">
         <ShowSubscriptionDialog
           close={() => setShowSubscriptionDialogOpen(false)}
           open={showSubscriptionDialogOpen}
@@ -396,9 +396,11 @@ export const ManageSubscriptions: FunctionComponent = () => {
 };
 
 export const SubscriptionSection: FunctionComponent = () => (
-  <Section id="subscription">
+  <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
     <SectionHeader>
-      <SectionTitle>{translate('options_subscriptionTitle')}</SectionTitle>
+      <SectionTitle id="subscriptionSectionTitle">
+        {translate('options_subscriptionTitle')}
+      </SectionTitle>
     </SectionHeader>
     <SectionBody>
       <ManageSubscriptions />

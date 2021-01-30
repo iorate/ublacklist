@@ -47,31 +47,27 @@ export function useModal(open: boolean, focus: () => void): void {
   }, [open, focus, rootClass]);
 }
 
-export const FocusCircle: FunctionComponent<{ depth: number; size: string }> = ({
-  depth,
-  size,
-}) => {
+export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }) => {
   const css = useCSS();
   const theme = useTheme();
   const focusCircleClass = useMemo(
     () =>
       css({
         borderRadius: '50%',
-        display: 'block',
         height: '40px',
-        left: `calc(${size} / 2 - 20px)`,
+        left: `calc(50% - 20px)`,
         pointerEvents: 'none',
         position: 'absolute',
-        top: `calc(${size} / 2 - 20px)`,
+        top: `calc(50% - 20px)`,
         width: '40px',
-        [`:focus-visible ~ ${'* > '.repeat(depth)}&`]: {
+        [`:focus-visible + ${'* > '.repeat(depth)}&`]: {
           background: theme.focus.circle,
         },
-        [`:-moz-focusring ~ ${'* > '.repeat(depth)}&`]: {
+        [`:-moz-focusring + ${'* > '.repeat(depth)}&`]: {
           background: theme.focus.circle,
         },
       }),
-    [css, theme, depth, size],
+    [css, theme, depth],
   );
-  return <span class={focusCircleClass} />;
+  return <div class={focusCircleClass} />;
 };

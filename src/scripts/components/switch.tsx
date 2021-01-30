@@ -1,17 +1,13 @@
-import { nanoid } from 'nanoid';
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
-import { FocusCircle, applyClass, useInnerRef } from './helpers';
+import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
 export type SwitchProps = JSX.IntrinsicElements['input'];
 
 export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>) => {
-  const id = props.id ?? nanoid();
-  const innerRef = useInnerRef(ref);
-
   const css = useCSS();
   const theme = useTheme();
   const wrapperClass = useMemo(
@@ -26,23 +22,23 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
   const inputClass = useMemo(
     () =>
       css({
+        cursor: 'pointer',
+        height: '100%',
+        margin: 0,
         opacity: 0,
-        pointerEvents: 'none',
+        position: 'absolute',
+        width: '100%',
+        zIndex: 1,
+        '&:disabled': {
+          cursor: 'default',
+        },
       }),
     [css],
   );
-  const labelClass = useMemo(
+  const backgroundClass = useMemo(
     () =>
       css({
-        cursor: 'pointer',
-        display: 'block',
-        height: '16px',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '34px',
-        ':disabled ~ &': {
-          cursor: 'default',
+        ':disabled + &': {
           opacity: 0.38,
         },
       }),
@@ -53,14 +49,13 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
       css({
         background: theme.switch.bar,
         borderRadius: '8px',
-        display: 'block',
         height: '12px',
         left: '3px',
         position: 'absolute',
         top: '2px',
         transition: 'background-color linear 80ms',
         width: '28px',
-        ':checked ~ * > &': {
+        ':checked + * > &': {
           background: theme.switch.barChecked,
         },
       }),
@@ -69,12 +64,11 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
   const knobMoverClass = useMemo(
     () =>
       css({
-        display: 'block',
         left: 0,
         position: 'absolute',
         top: 0,
         transition: 'left linear 80ms',
-        ':checked ~ * > &': {
+        ':checked + * > &': {
           left: '18px',
         },
       }),
@@ -86,14 +80,10 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
         background: theme.switch.knob,
         border: theme.switch.knobBorder != null ? `solid 1px ${theme.switch.knobBorder}` : 'none',
         borderRadius: '50%',
-        display: 'block',
         height: '16px',
-        left: 0,
-        position: 'absolute',
-        top: 0,
         transition: 'background linear 80ms, border linear 80ms',
         width: '16px',
-        ':checked ~ * > * > &': {
+        ':checked + * > * > &': {
           background: theme.switch.knobChecked,
           border: 'none',
         },
@@ -102,14 +92,14 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
   );
   return (
     <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} id={id} ref={innerRef} type="checkbox" />
-      <span class={labelClass} onClick={() => innerRef.current.click()}>
-        <span class={barClass} />
-        <span class={knobMoverClass}>
-          <span class={knobClass} />
-          <FocusCircle depth={2} size="16px" />
-        </span>
-      </span>
+      <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
+      <div class={backgroundClass}>
+        <div class={barClass} />
+        <div class={knobMoverClass}>
+          <div class={knobClass} />
+          <FocusCircle depth={2} />
+        </div>
+      </div>
     </div>
   );
 });

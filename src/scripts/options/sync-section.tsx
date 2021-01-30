@@ -46,7 +46,7 @@ const TurnOnSyncDialog: FunctionComponent<
     }
   }, [open]);
   return (
-    <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="turnOnSyncDialogTitle">
           {translate('options_turnOnSyncDialog_title')}
@@ -153,7 +153,7 @@ const TurnOnSync: FunctionComponent<{
           )}
         </RowItem>
       </Row>
-      <Portal>
+      <Portal id="turnOnSyncDialogPortal">
         <TurnOnSyncDialog
           close={() => setTurnOnSyncDialogOpen(false)}
           open={turnOnSyncDialogOpen}
@@ -232,9 +232,9 @@ export const SyncSection: FunctionComponent = () => {
   */
   // #endif
   return (
-    <Section id="sync">
+    <Section aria-labelledby="syncSectionTitle" id="sync">
       <SectionHeader>
-        <SectionTitle>{translate('options_syncTitle')}</SectionTitle>
+        <SectionTitle id="syncSectionTitle">{translate('options_syncTitle')}</SectionTitle>
       </SectionHeader>
       <SectionBody>
         <TurnOnSync syncCloudId={syncCloudId} setSyncCloudId={setSyncCloudId} />

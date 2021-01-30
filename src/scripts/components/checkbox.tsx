@@ -1,17 +1,13 @@
-import { nanoid } from 'nanoid';
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
-import { FocusCircle, applyClass, useInnerRef } from './helpers';
+import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
 export type CheckBoxProps = JSX.IntrinsicElements['input'];
 
 export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
-  const id = props.id ?? nanoid();
-  const innerRef = useInnerRef(ref);
-
   const css = useCSS();
   const theme = useTheme();
   const wrapperClass = useMemo(
@@ -26,23 +22,23 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
   const inputClass = useMemo(
     () =>
       css({
+        cursor: 'pointer',
+        height: '100%',
+        margin: 0,
         opacity: 0,
-        pointerEvents: 'none',
+        position: 'absolute',
+        width: '100%',
+        zIndex: 1,
+        '&:disabled': {
+          cursor: 'default',
+        },
       }),
     [css],
   );
-  const labelClass = useMemo(
+  const imageClass = useMemo(
     () =>
       css({
-        cursor: 'pointer',
-        display: 'block',
-        height: '16px',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '16px',
-        ':disabled ~ &': {
-          cursor: 'default',
+        ':disabled + &': {
           opacity: 0.38,
         },
       }),
@@ -53,13 +49,12 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
       css({
         border: `solid 2px ${theme.checkBox.border}`,
         borderRadius: '2px',
-        display: 'block',
         height: '16px',
         left: 0,
         position: 'absolute',
         top: 0,
         width: '16px',
-        ':checked ~ * > &': {
+        ':checked + * > &': {
           background: theme.checkBox.box,
           border: 'none',
         },
@@ -72,14 +67,13 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
         borderColor: 'transparent',
         borderStyle: 'solid',
         borderWidth: '0 0 3px 3px',
-        display: 'block',
         height: '8px',
         left: 0,
         position: 'absolute',
         top: '3px',
         transform: 'rotate(-45deg) scale(0.75)',
         width: '16px',
-        ':checked ~ * > &': {
+        ':checked + * > &': {
           borderColor: theme.checkBox.checkMark,
         },
       }),
@@ -88,12 +82,12 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
 
   return (
     <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} id={id} ref={innerRef} type="checkbox" />
-      <span class={labelClass} onClick={() => innerRef.current.click()}>
-        <span class={boxClass} />
-        <span class={checkMarkClass} />
-        <FocusCircle depth={1} size="16px" />
-      </span>
+      <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
+      <div class={imageClass}>
+        <div class={boxClass} />
+        <div class={checkMarkClass} />
+        <FocusCircle depth={1} />
+      </div>
     </div>
   );
 });

@@ -12,11 +12,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  NativeDialog,
+  EmbeddedDialog,
 } from './components/dialog';
 import { Icon } from './components/icon';
 import { Input } from './components/input';
-import { Label, LabelWrapper, SubLabel } from './components/label';
+import { ControlLabel, ControlLikeLabel, LabelWrapper, SubLabel } from './components/label';
 import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
@@ -124,9 +124,9 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
-                      <Label focus="url" id="urlLabel">
+                      <ControlLikeLabel for="url" id="urlLabel">
                         {translate('popup_pageURLLabel')}
-                      </Label>
+                      </ControlLikeLabel>
                     </LabelWrapper>
                     <ReadOnlyTextArea
                       aria-labelledby="urlLabel"
@@ -141,7 +141,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                   <Row>
                     <RowItem expanded>
                       <LabelWrapper disabled={disabled} fullWidth>
-                        <Label for="depth">{translate('popup_pathDepth')}</Label>
+                        <ControlLabel for="depth">{translate('popup_pathDepth')}</ControlLabel>
                       </LabelWrapper>
                       <Input
                         disabled={disabled}
@@ -173,7 +173,9 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper disabled={disabled} fullWidth>
-                      <Label for="rulesToAdd">{translate('popup_addedRulesLabel')}</Label>
+                      <ControlLabel for="rulesToAdd">
+                        {translate('popup_addedRulesLabel')}
+                      </ControlLabel>
                       <SubLabel>
                         {expandLinks(translate('options_blacklistHelper'), disabled)}
                       </SubLabel>
@@ -183,6 +185,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                       disabled={disabled}
                       id="rulesToAdd"
                       rows={2}
+                      spellcheck={false}
                       value={rulesToAdd}
                       onInput={e => {
                         const newRulesToAdd = e.currentTarget.value;
@@ -198,9 +201,9 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper disabled={disabled} fullWidth>
-                      <Label focus="rulesToRemove" id="rulesToRemoveLabel">
+                      <ControlLikeLabel for="rulesToRemove" id="rulesToRemoveLabel">
                         {translate('popup_removedRulesLabel')}
-                      </Label>
+                      </ControlLikeLabel>
                     </LabelWrapper>
                     <ReadOnlyTextArea
                       aria-labelledby="rulesToRemoveLabel"
@@ -269,8 +272,8 @@ export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
 
 export const BlockPopup: FunctionComponent<BlockPopupProps> = props => (
   <Baseline>
-    <NativeDialog close={props.close} width="360px">
+    <EmbeddedDialog close={props.close} width="360px">
       <BlockDialogContent open={true} {...props} />
-    </NativeDialog>
+    </EmbeddedDialog>
   </Baseline>
 );

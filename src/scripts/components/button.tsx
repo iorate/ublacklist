@@ -52,16 +52,20 @@ export const Button = forwardRef(
   },
 );
 
-export type LinkButtonProps = JSX.IntrinsicElements['a'];
+export type LinkButtonProps = JSX.IntrinsicElements['button'];
 
-export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLAnchorElement>) => {
+export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLButtonElement>) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
     () =>
       css({
+        background: 'transparent',
+        border: 'none',
         color: theme.link.text,
         cursor: 'pointer',
+        display: 'inline',
+        padding: 0,
         '&:disabled': {
           cursor: 'default',
         },
@@ -77,16 +81,5 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLAncho
       }),
     [css, theme],
   );
-  return (
-    <a
-      {...applyClass(props, class_)}
-      ref={ref}
-      tabIndex={0}
-      onKeyDown={e => {
-        if (e.key === 'Enter') {
-          e.currentTarget.click();
-        }
-      }}
-    />
-  );
+  return <button {...applyClass(props, class_)} ref={ref} />;
 });

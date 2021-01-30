@@ -26,6 +26,7 @@
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "goober": "^2.0.22",
@@ -34,7 +35,6 @@
     "is-mobile": "^2.2.1",
     "jest": "^26.6.3",
     "license-webpack-plugin": "^2.3.11",
-    "nanoid": "^3.1.20",
     "npm-run-all": "^4.1.5",
     "poi-ts": "^0.4.0",
     "preact": "10.5.10",
@@ -54,76 +54,58 @@
   "eslintConfig": {
     "extends": [
       "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
       "plugin:import/errors",
+      "plugin:import/typescript",
       "plugin:import/warnings",
-      "prettier"
+      "plugin:jsx-a11y/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "prettier/react"
     ],
     "ignorePatterns": [
-      "/dist/*"
+      "/dist",
+      "**/*.js"
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "ecmaVersion": 2019
+      "project": "./tsconfig.json"
     },
-    "overrides": [
-      {
-        "files": [
-          "src/scripts/**/*.js"
-        ],
-        "env": {
-          "browser": true
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "sort-imports": [
+        "warn",
+        {
+          "ignoreDeclarationSort": true
         }
-      },
-      {
-        "files": [
-          "**/*.{ts,tsx}"
-        ],
-        "extends": [
-          "plugin:@typescript-eslint/recommended",
-          "plugin:@typescript-eslint/recommended-requiring-type-checking",
-          "plugin:import/typescript",
-          "plugin:react/recommended",
-          "plugin:react-hooks/recommended",
-          "prettier/@typescript-eslint",
-          "prettier/react"
-        ],
-        "parser": "@typescript-eslint/parser",
-        "parserOptions": {
-          "project": "./tsconfig.json"
-        },
-        "plugins": [
-          "@typescript-eslint"
-        ],
-        "rules": {
-          "sort-imports": [
-            "warn",
-            {
-              "ignoreDeclarationSort": true
-            }
-          ],
-          "import/order": [
-            "warn",
-            {
-              "alphabetize": {
-                "order": "asc"
-              }
-            }
-          ],
-          "react/no-unknown-property": [
-            "error",
-            {
-              "ignore": [
-                "class",
-                "for",
-                "spellcheck"
-              ]
-            }
-          ],
-          "react/prop-types": [
-            "off"
+      ],
+      "import/order": [
+        "warn",
+        {
+          "alphabetize": {
+            "order": "asc"
+          }
+        }
+      ],
+      "react/no-unknown-property": [
+        "error",
+        {
+          "ignore": [
+            "class",
+            "for",
+            "spellcheck"
           ]
         }
-      }
-    ],
+      ],
+      "react/prop-types": [
+        "off"
+      ]
+    },
     "settings": {
       "react": {
         "pragma": "h",

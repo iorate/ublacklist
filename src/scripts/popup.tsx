@@ -30,7 +30,7 @@ async function main(): Promise<void> {
         onBlocked={() => sendMessage('set-blacklist', blacklist.toString(), 'popup')}
       />
     </AutoThemeProvider>,
-    document.body.appendChild(document.createElement('div')),
+    document.body,
   );
 }
 

@@ -30,7 +30,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   return (
     <span
       class={`ub-button ${class_}`}
-      role="link"
+      role="button"
       tabIndex={0}
       onClick={e => {
         e.preventDefault();
@@ -38,10 +38,10 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
         onClick();
       }}
       onKeyDown={e => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           e.stopPropagation();
-          onClick();
+          e.currentTarget.click();
         }
       }}
     >

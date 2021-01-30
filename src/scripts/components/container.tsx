@@ -7,7 +7,7 @@ import { useCSS } from './styles';
 export type ContainerProps = { width?: string } & JSX.IntrinsicElements['div'];
 
 export const Container = forwardRef(
-  ({ width, ...props }: ContainerProps, ref: Ref<HTMLDivElement>) => {
+  ({ width = '640px', ...props }: ContainerProps, ref: Ref<HTMLDivElement>) => {
     const css = useCSS();
     const wrapperClass = useMemo(
       () =>
@@ -27,7 +27,7 @@ export const Container = forwardRef(
           margin: '0 auto',
           maxWidth: '100%',
           padding: '2em 0',
-          width: width ?? '640px',
+          width,
         }),
       [css, width],
     );

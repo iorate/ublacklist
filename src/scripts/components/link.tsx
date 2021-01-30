@@ -7,36 +7,40 @@ import { useTheme } from './theme';
 
 export type LinkProps = { disabled?: boolean } & JSX.IntrinsicElements['a'];
 
-export const Link = forwardRef(({ disabled, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: theme.link.text,
-        textDecoration: 'none',
-        '&:focus': {
-          outline: 'none',
-        },
-        '&:focus-visible': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        },
-      }),
-    [css, theme],
-  );
-  return (
-    <a
-      {...applyClass(props, class_)}
-      href={disabled ? undefined : props.href}
-      ref={ref}
-      rel="noopener noreferrer"
-      target="_blank"
-    />
-  );
-});
+export const Link = forwardRef(
+  ({ children, disabled, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          color: theme.link.text,
+          textDecoration: 'none',
+          '&:focus': {
+            outline: 'none',
+          },
+          '&:focus-visible': {
+            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+          },
+          '&:-moz-focusring': {
+            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+          },
+        }),
+      [css, theme],
+    );
+    return (
+      <a
+        {...applyClass(props, class_)}
+        href={disabled ? undefined : props.href}
+        ref={ref}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {children}
+      </a>
+    );
+  },
+);
 
 export function expandLinks(text: string, disabled?: boolean): VNode {
   const children: (string | VNode)[] = [];

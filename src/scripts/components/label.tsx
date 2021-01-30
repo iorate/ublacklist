@@ -1,7 +1,7 @@
 import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useContext, useMemo } from 'preact/hooks';
-import { applyClass } from './helpers';
+import { applyClass, useInnerRef } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -41,9 +41,9 @@ export const LabelWrapper = forwardRef(
   },
 );
 
-export type LabelProps = { focus?: string } & JSX.IntrinsicElements['label'];
+export type LabelProps = JSX.IntrinsicElements['span'];
 
-export const Label = forwardRef(({ focus, ...props }: LabelProps, ref: Ref<HTMLLabelElement>) => {
+export const Label = forwardRef((props: LabelProps, ref: Ref<HTMLSpanElement>) => {
   const { disabled } = useLabelContext();
 
   const css = useCSS();
@@ -52,26 +52,79 @@ export const Label = forwardRef(({ focus, ...props }: LabelProps, ref: Ref<HTMLL
     () =>
       css({
         color: theme.text.primary,
-        cursor: disabled ? 'default' : focus == null && props.for == null ? 'auto' : 'pointer',
+        cursor: disabled ? 'default' : 'auto',
       }),
-    [css, theme, disabled, focus, props.for],
+    [css, theme, disabled],
   );
 
   return (
     <div>
-      <label
-        {...applyClass(props, class_)}
-        ref={ref}
-        onClick={e => {
-          if (!disabled && focus != null) {
-            const root = e.currentTarget.getRootNode() as HTMLDocument | ShadowRoot;
-            root.querySelector<HTMLElement>(`#${focus}`)?.focus();
-          }
-        }}
-      />
+      <span {...applyClass(props, class_)} ref={ref} />
     </div>
   );
 });
+
+export type ControlLabelProps = { for: string } & JSX.IntrinsicElements['label'];
+
+export const ControlLabel = forwardRef(
+  ({ children, for: for_, ...props }: ControlLabelProps, ref: Ref<HTMLLabelElement>) => {
+    const { disabled } = useLabelContext();
+
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          color: theme.text.primary,
+          cursor: disabled ? 'default' : 'pointer',
+        }),
+      [css, theme, disabled],
+    );
+
+    return (
+      <div>
+        <label {...applyClass(props, class_)} for={for_} ref={ref}>
+          {children}
+        </label>
+      </div>
+    );
+  },
+);
+
+export type ControlLikeLabelProps = { for: string } & JSX.IntrinsicElements['span'];
+
+export const ControlLikeLabel = forwardRef(
+  ({ for: for_, ...props }: ControlLikeLabelProps, ref: Ref<HTMLSpanElement>) => {
+    const { disabled } = useLabelContext();
+    const innerRef = useInnerRef(ref);
+
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          color: theme.text.primary,
+          cursor: disabled ? 'default' : 'pointer',
+        }),
+      [css, theme, disabled],
+    );
+
+    return (
+      <div>
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        <span
+          {...applyClass(props, class_)}
+          ref={innerRef}
+          onClick={() =>
+            (innerRef.current.getRootNode() as HTMLDocument | ShadowRoot)
+              .querySelector<HTMLElement>(`#${for_}`)
+              ?.focus()
+          }
+        />
+      </div>
+    );
+  },
+);
 
 export type SubLabelProps = JSX.IntrinsicElements['span'];
 

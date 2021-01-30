@@ -14,7 +14,7 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Indent } from '../components/indent';
-import { Label, LabelWrapper, SubLabel } from '../components/label';
+import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
 import { expandLinks } from '../components/link';
 import { List, ListItem } from '../components/list';
 import { Portal } from '../components/portal';
@@ -60,7 +60,7 @@ const ImportBlacklistDialog: FunctionComponent<
     setBlacklistDirty(true);
   };
   return (
-    <Dialog aria-labelledby="importBlacklistDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="importBlacklistDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="importBlacklistDialogTitle">
           {translate('options_importBlacklistDialog_title')}
@@ -95,6 +95,7 @@ const ImportBlacklistDialog: FunctionComponent<
               <TextArea
                 aria-label="The domain list exported from Personal Blocklist"
                 rows={5}
+                spellcheck={false}
                 value={pb}
                 wrap="off"
                 onInput={e => {
@@ -118,7 +119,9 @@ const ImportBlacklistDialog: FunctionComponent<
           </RowItem>
           <RowItem expanded>
             <LabelWrapper>
-              <Label for="append">{translate('options_importBlacklistDialog_append')}</Label>
+              <ControlLabel for="append">
+                {translate('options_importBlacklistDialog_append')}
+              </ControlLabel>
             </LabelWrapper>
           </RowItem>
         </Row>
@@ -208,7 +211,7 @@ const SetBlacklist: FunctionComponent = () => {
       <Row>
         <RowItem expanded>
           <LabelWrapper fullWidth>
-            <Label for="blacklist">{translate('options_blacklistLabel')}</Label>
+            <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
@@ -216,6 +219,7 @@ const SetBlacklist: FunctionComponent = () => {
           <TextArea
             id="blacklist"
             rows={10}
+            spellcheck={false}
             value={blacklist}
             wrap="off"
             onInput={e => {
@@ -281,7 +285,7 @@ const SetBlacklist: FunctionComponent = () => {
           </Row>
         </RowItem>
       </Row>
-      <Portal>
+      <Portal id="importBlacklistDialogPortal">
         <ImportBlacklistDialog
           close={() => setImportBlacklistDialogOpen(false)}
           open={importBlacklistDialogOpen}
@@ -373,9 +377,9 @@ const RegisterSearchEngines: FunctionComponent = () => {
 };
 
 export const GeneralSection: FunctionComponent = () => (
-  <Section id="general">
+  <Section aria-labelledby="generalSectionTitle" id="general">
     <SectionHeader>
-      <SectionTitle>{translate('options_generalTitle')}</SectionTitle>
+      <SectionTitle id="generalSectionTitle">{translate('options_generalTitle')}</SectionTitle>
     </SectionHeader>
     <SectionBody>
       <SetBlacklist />
