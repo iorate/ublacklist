@@ -76,7 +76,6 @@ export const Dialog = forwardRef(
           borderRadius: '8px',
           boxShadow: '0 0 16px rgba(0, 0, 0, 0.12), 0 16px 16px rgba(0, 0, 0, 0.24)',
           maxWidth: '100%',
-          outline: 'none',
           padding: '1.5em',
           position: 'relative',
           width,

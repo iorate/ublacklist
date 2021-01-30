@@ -90,8 +90,8 @@ export const MenuButton = forwardRef((props: MenuButtonProps, ref: Ref<HTMLButto
   );
 });
 
-function moveFocus(body: HTMLDivElement, backward: boolean) {
-  const items = [...body.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}`)];
+function moveFocus(menuBody: HTMLDivElement, backward: boolean) {
+  const items = [...menuBody.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}`)];
   if (!items.length) {
     return;
   }
@@ -143,20 +143,26 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
       }),
     [css, open],
   );
-  const bodyClass = useMemo(
+  const dialogClass = useMemo(
     () =>
       css({
         background: theme.menu.itemListBackground,
         boxShadow: 'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px',
         display: open ? 'block' : 'none',
         minWidth: '10em',
-        outline: 'none',
         padding: '0.75em 0',
         position: 'absolute',
         top: 0,
         right: 0,
       }),
     [css, theme, open],
+  );
+  const bodyClass = useMemo(
+    () =>
+      css({
+        outline: 'none',
+      }),
+    [css],
   );
 
   return (
@@ -186,7 +192,7 @@ export const MenuBody = forwardRef((props: MenuBodyProps, ref: Ref<HTMLDivElemen
       }}
     >
       <div class={backdropClass} ref={backdrop} />
-      <div aria-label="Menu" aria-modal={open} role="dialog">
+      <div aria-label="Menu" aria-modal={open} class={dialogClass} role="dialog">
         <div {...applyClass(props, bodyClass)} ref={innerRef} role="menu" tabIndex={-1} />
       </div>
     </div>
