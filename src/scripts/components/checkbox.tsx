@@ -1,6 +1,7 @@
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
+import { CHECKBOX_Z_INDEX } from './constants';
 import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
@@ -28,7 +29,7 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
         opacity: 0,
         position: 'absolute',
         width: '100%',
-        zIndex: 1,
+        zIndex: CHECKBOX_Z_INDEX,
         '&:disabled': {
           cursor: 'default',
         },

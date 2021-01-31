@@ -38,6 +38,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_importBlacklistDialog_fromFile: 'ファイルからインポートする',
   options_importBlacklistDialog_selectFile: 'ファイルを選択',
   options_importBlacklistDialog_fromPB: 'Personal Blocklist からインポートする',
+  options_importBlacklistDialog_pbLabel: 'ドメインのリスト',
   options_importBlacklistDialog_append: '既存のリストに追加する',
   options_importBlacklistDialog_importButton: 'インポート',
   options_importBlacklistDialog_helper:
@@ -73,6 +74,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_subscriptionNameHeader: '名前',
   options_subscriptionURLHeader: 'URL',
   options_subscriptionUpdateResultHeader: '最後の更新',
+  options_subscriptionMenuButtonLabel: 'メニュー',
   options_noSubscriptionsAdded: '購読が追加されていません',
   options_subscriptionUpdateRunning: '更新中...',
   options_showSubscriptionMenu: '表示',
@@ -83,6 +85,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_addSubscriptionDialog_nameLabel: '名前',
   options_addSubscriptionDialog_urlLabel: 'URL',
   options_addSubscriptionDialog_addButton: '追加',
+  options_showSubscriptionDialog_blacklistLabel: 'ルールのリスト',
   options_updateInterval: '更新の間隔',
   clouds_googleDriveSync: 'Google ドライブと同期する',
   clouds_googleDriveSyncDescription: '非表示のアプリデータフォルダにファイルが作成されます。',

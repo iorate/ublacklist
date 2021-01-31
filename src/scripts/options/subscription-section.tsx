@@ -14,7 +14,7 @@ import {
 } from '../components/dialog';
 import { Input } from '../components/input';
 import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
-import { Menu, MenuBody, MenuButton, MenuItem } from '../components/menu';
+import { Menu, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
 import {
@@ -164,7 +164,7 @@ const ShowSubscriptionDialog: FunctionComponent<
         <Row>
           <RowItem expanded>
             <ReadOnlyTextArea
-              aria-label="Blacklist"
+              aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
               class={FOCUS_START_CLASS}
               ref={blacklistTextArea}
               rows={10}
@@ -218,39 +218,36 @@ const ManageSubscription: FunctionComponent<{
         )}
       </TableBodyCell>
       <TableBodyCell>
-        <Menu>
-          <MenuButton aria-label="Open the menu" />
-          <MenuBody>
-            <MenuItem
-              onClick={() => {
-                requestAnimationFrame(() => {
-                  setShowSubscriptionDialogOpen(true);
-                  setShowSubscriptionDialogSubscription(subscription);
-                });
-              }}
-            >
-              {translate('options_showSubscriptionMenu')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                void sendMessage('update-subscription', id);
-              }}
-            >
-              {translate('options_updateSubscriptionNowMenu')}
-            </MenuItem>
-            <MenuItem
-              onClick={async () => {
-                await sendMessage('remove-subscription', id);
-                setSubscriptions(subscriptions => {
-                  const newSubscriptions = { ...subscriptions };
-                  delete newSubscriptions[id];
-                  return newSubscriptions;
-                });
-              }}
-            >
-              {translate('options_removeSubscriptionMenu')}
-            </MenuItem>
-          </MenuBody>
+        <Menu buttonLabel={translate('options_subscriptionMenuButtonLabel')}>
+          <MenuItem
+            onClick={() => {
+              requestAnimationFrame(() => {
+                setShowSubscriptionDialogOpen(true);
+                setShowSubscriptionDialogSubscription(subscription);
+              });
+            }}
+          >
+            {translate('options_showSubscriptionMenu')}
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              void sendMessage('update-subscription', id);
+            }}
+          >
+            {translate('options_updateSubscriptionNowMenu')}
+          </MenuItem>
+          <MenuItem
+            onClick={async () => {
+              await sendMessage('remove-subscription', id);
+              setSubscriptions(subscriptions => {
+                const newSubscriptions = { ...subscriptions };
+                delete newSubscriptions[id];
+                return newSubscriptions;
+              });
+            }}
+          >
+            {translate('options_removeSubscriptionMenu')}
+          </MenuItem>
         </Menu>
       </TableBodyCell>
     </TableBodyRow>

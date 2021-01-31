@@ -93,7 +93,7 @@ const ImportBlacklistDialog: FunctionComponent<
                 <SubLabel>{translate('options_blacklistExample', 'example.com')}</SubLabel>
               </LabelWrapper>
               <TextArea
-                aria-label="The domain list exported from Personal Blocklist"
+                aria-label={translate('options_importBlacklistDialog_pbLabel')}
                 rows={5}
                 spellcheck={false}
                 value={pb}

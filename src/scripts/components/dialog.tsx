@@ -1,8 +1,9 @@
+import * as goober from 'goober';
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
-import { applyClass, useInnerRef, useModal } from './helpers';
+import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
+import { DIALOG_Z_INDEX, FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
+import { applyClass, useInnerRef } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -46,10 +47,31 @@ export type DialogProps = {
 
 export const Dialog = forwardRef(
   ({ close, open, width = '480px', ...props }: DialogProps, ref: Ref<HTMLDivElement>) => {
+    const prevOpen = useRef(false);
+    const prevFocus = useRef<Element | null>(null);
     const innerRef = useInnerRef(ref);
-    useModal(open, () =>
-      innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus(),
+    const rootClass = useMemo(
+      () =>
+        goober.css.bind({ target: document.head })({
+          overflow: 'hidden !important',
+        }),
+      [],
     );
+    useLayoutEffect(() => {
+      if (open) {
+        if (!prevOpen.current) {
+          prevFocus.current = document.activeElement;
+          innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
+          document.documentElement.classList.add(rootClass);
+        }
+      } else if (prevOpen.current) {
+        if (prevFocus.current instanceof HTMLElement || prevFocus.current instanceof SVGElement) {
+          prevFocus.current.focus();
+        }
+        document.documentElement.classList.remove(rootClass);
+      }
+      prevOpen.current = open;
+    }, [open, innerRef, rootClass]);
 
     const css = useCSS();
     const theme = useTheme();
@@ -65,7 +87,7 @@ export const Dialog = forwardRef(
           position: 'fixed',
           top: 0,
           width: '100%',
-          zIndex: 100000,
+          zIndex: DIALOG_Z_INDEX,
         }),
       [css, open],
     );
@@ -175,6 +197,7 @@ export const EmbeddedDialog = forwardRef(
         css({
           background: theme.dialog.background,
           maxWidth: '100%',
+          outline: 'none',
           padding: '1.5em',
           width,
         }),

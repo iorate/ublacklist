@@ -1,4 +1,3 @@
-import * as goober from 'goober';
 import { FunctionComponent, h } from 'preact';
 import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
 import { useCSS } from './styles';
@@ -20,31 +19,6 @@ export function useInnerRef<T>(ref: Ref<T>): Ref<T> {
     }
   }, [ref]);
   return innerRef;
-}
-
-export function useModal(open: boolean, focus: () => void): void {
-  const prevOpen = useRef(false);
-  const prevFocus = useRef<Element | null>(null);
-  const rootClass = useMemo(
-    () =>
-      goober.css({
-        overflow: 'hidden !important',
-      }),
-    [],
-  );
-  useLayoutEffect(() => {
-    if (open) {
-      if (!prevOpen.current) {
-        prevFocus.current = document.activeElement;
-        focus();
-        document.documentElement.classList.add(rootClass);
-      }
-    } else if (prevOpen.current && prevFocus.current instanceof HTMLElement) {
-      prevFocus.current.focus();
-      document.documentElement.classList.remove(rootClass);
-    }
-    prevOpen.current = open;
-  }, [open, focus, rootClass]);
 }
 
 export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }) => {
