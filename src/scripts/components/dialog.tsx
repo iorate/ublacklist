@@ -47,7 +47,6 @@ export type DialogProps = {
 
 export const Dialog = forwardRef(
   ({ close, open, width = '480px', ...props }: DialogProps, ref: Ref<HTMLDivElement>) => {
-    const prevOpen = useRef(false);
     const prevFocus = useRef<Element | null>(null);
     const innerRef = useInnerRef(ref);
     const rootClass = useMemo(
@@ -59,19 +58,18 @@ export const Dialog = forwardRef(
     );
     useLayoutEffect(() => {
       if (open) {
-        if (!prevOpen.current) {
-          prevFocus.current = document.activeElement;
-          innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
-          document.documentElement.classList.add(rootClass);
-        }
-      } else if (prevOpen.current) {
+        prevFocus.current = document.activeElement;
+        innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
+        document.documentElement.classList.add(rootClass);
+      } else {
         if (prevFocus.current instanceof HTMLElement || prevFocus.current instanceof SVGElement) {
           prevFocus.current.focus();
         }
         document.documentElement.classList.remove(rootClass);
       }
-      prevOpen.current = open;
-    }, [open, innerRef, rootClass]);
+      // 'innerRef' and 'rootClass' do not change between renders.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     const css = useCSS();
     const theme = useTheme();

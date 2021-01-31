@@ -33,14 +33,12 @@ export type MenuProps = { buttonLabel?: string; disabled?: boolean } & JSX.Intri
 export const Menu = forwardRef(
   ({ buttonLabel = '', disabled = false, ...props }: MenuProps, ref: Ref<HTMLDivElement>) => {
     const [open, setOpen] = useState(false);
-    const prevOpen = useRef(false);
     const buttonRef = useRef<HTMLButtonElement>();
     const bodyRef = useRef<HTMLDivElement>();
     useLayoutEffect(() => {
-      if (open && !prevOpen.current) {
+      if (open) {
         bodyRef.current.focus();
       }
-      prevOpen.current = open;
     }, [open]);
 
     const css = useCSS();
