@@ -16,11 +16,11 @@ import {
 } from './components/dialog';
 import { Icon } from './components/icon';
 import { Input } from './components/input';
-import { ControlLabel, ControlLikeLabel, LabelWrapper, SubLabel } from './components/label';
+import { ControlLabel, LabelWrapper, SubLabel } from './components/label';
 import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
-import { ReadOnlyTextArea, TextArea } from './components/textarea';
+import { TextArea } from './components/textarea';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL, translate } from './utilities';
@@ -124,17 +124,9 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
-                      <ControlLikeLabel for="url" id="urlLabel">
-                        {translate('popup_pageURLLabel')}
-                      </ControlLikeLabel>
+                      <ControlLabel for="url">{translate('popup_pageURLLabel')}</ControlLabel>
                     </LabelWrapper>
-                    <ReadOnlyTextArea
-                      aria-labelledby="urlLabel"
-                      breakAll
-                      id="url"
-                      rows={2}
-                      value={props.url}
-                    />
+                    <TextArea breakAll id="url" readOnly rows={2} value={props.url} />
                   </RowItem>
                 </Row>
                 {props.enablePathDepth && (
@@ -201,15 +193,15 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper disabled={disabled} fullWidth>
-                      <ControlLikeLabel for="rulesToRemove" id="rulesToRemoveLabel">
+                      <ControlLabel for="rulesToRemove">
                         {translate('popup_removedRulesLabel')}
-                      </ControlLikeLabel>
+                      </ControlLabel>
                     </LabelWrapper>
-                    <ReadOnlyTextArea
-                      aria-labelledby="rulesToRemoveLabel"
+                    <TextArea
                       breakAll
                       disabled={disabled}
                       id="rulesToRemove"
+                      readOnly
                       rows={2}
                       value={rulesToRemove}
                     />

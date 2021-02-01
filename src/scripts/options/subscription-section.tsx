@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -34,7 +34,7 @@ import {
   TableHeaderCell,
   TableHeaderRow,
 } from '../components/table';
-import { ReadOnlyTextArea } from '../components/textarea';
+import { TextArea } from '../components/textarea';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
@@ -149,12 +149,6 @@ const AddSubscriptionDialog: FunctionComponent<
 const ShowSubscriptionDialog: FunctionComponent<
   { subscription: Subscription | null } & DialogProps
 > = ({ close, open, subscription }) => {
-  const blacklistTextArea = useRef<HTMLDivElement>();
-  useLayoutEffect(() => {
-    if (open) {
-      blacklistTextArea.current.scrollTop = 0;
-    }
-  }, [open]);
   return (
     <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -163,14 +157,16 @@ const ShowSubscriptionDialog: FunctionComponent<
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <ReadOnlyTextArea
-              aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
-              class={FOCUS_START_CLASS}
-              ref={blacklistTextArea}
-              rows={10}
-              value={subscription?.blacklist ?? ''}
-              wrap="off"
-            />
+            {open && (
+              <TextArea
+                aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
+                class={FOCUS_START_CLASS}
+                readOnly
+                rows={10}
+                value={subscription?.blacklist ?? ''}
+                wrap="off"
+              />
+            )}
           </RowItem>
         </Row>
       </DialogBody>
