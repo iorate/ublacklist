@@ -15,15 +15,16 @@ export const Link = forwardRef(
       () =>
         css({
           color: theme.link.text,
+          outline: 'none',
           textDecoration: 'none',
           '&:focus': {
-            outline: 'none',
-          },
-          '&:focus-visible': {
             boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
           },
-          '&:-moz-focusring': {
-            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+          '&:focus:not(:focus-visible)': {
+            boxShadow: 'none',
+          },
+          '&:focus:not(:-moz-focusring)': {
+            boxShadow: 'none',
           },
         }),
       [css, theme],

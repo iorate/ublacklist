@@ -21,11 +21,14 @@ export const DetailsSummary = forwardRef((props: DetailsSummaryProps, ref: Ref<H
       css({
         cursor: 'pointer',
         outline: 'none',
-        '&:focus-visible': {
+        '&:focus': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
         },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
         },
       }),
     [css, theme],

@@ -34,11 +34,14 @@ export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }
         position: 'absolute',
         top: `calc(50% - 20px)`,
         width: '40px',
-        [`:focus-visible + ${'* > '.repeat(depth)}&`]: {
+        [`:focus + ${'* > '.repeat(depth)}&`]: {
           background: theme.focus.circle,
         },
-        [`:-moz-focusring + ${'* > '.repeat(depth)}&`]: {
-          background: theme.focus.circle,
+        [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
+          background: 'transparent',
+        },
+        [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
+          background: 'transparent',
         },
       }),
     [css, theme, depth],

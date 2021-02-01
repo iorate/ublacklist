@@ -25,6 +25,7 @@ export const Button = forwardRef(
         cursor: 'pointer',
         fontSize: '1em',
         height: '2.5em',
+        outline: 'none',
         padding: '0.5em 1em',
         '&:active': {
           background: buttonTheme.backgroundActive,
@@ -35,13 +36,13 @@ export const Button = forwardRef(
           cursor: 'default',
         },
         '&:focus': {
-          outline: 'none',
-        },
-        '&:focus-visible': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
         },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
         },
         '&:hover:not(:active):not(:disabled)': {
           background: buttonTheme.backgroundHovered,
@@ -65,18 +66,19 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLButto
         color: theme.link.text,
         cursor: 'pointer',
         display: 'inline',
+        outline: 'none',
         padding: 0,
         '&:disabled': {
           cursor: 'default',
         },
         '&:focus': {
-          outline: 'none',
-        },
-        '&:focus-visible': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
         },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
         },
       }),
     [css, theme],
