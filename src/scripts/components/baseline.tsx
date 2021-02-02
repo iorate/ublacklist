@@ -5,7 +5,7 @@ import { useTheme } from './theme';
 
 export type BaseLineProps = { fontSize?: string };
 
-export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize }) => {
+export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
   const bodyClass = useMemo(
@@ -15,7 +15,7 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
         color: theme.text.primary,
         margin: 0,
         fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-        fontSize: fontSize ?? '13px',
+        fontSize,
         lineHeight: 1.5,
       }),
     [css, theme, fontSize],
@@ -41,7 +41,10 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
 
 export type ScopedBaselineProps = { fontSize?: string };
 
-export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({ children, fontSize }) => {
+export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
+  children,
+  fontSize = '13px',
+}) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
@@ -49,7 +52,7 @@ export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({ childre
       css({
         color: theme.text.primary,
         fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-        fontSize: fontSize ?? '13px',
+        fontSize,
         lineHeight: 1.5,
         '& *, & *::before, & *::after': {
           boxSizing: 'border-box',

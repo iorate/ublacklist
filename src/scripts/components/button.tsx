@@ -23,7 +23,7 @@ export const Button = forwardRef(
         borderRadius: '4px',
         color: buttonTheme.text,
         cursor: 'pointer',
-        fontSize: '1em',
+        font: 'inherit',
         height: '2.5em',
         outline: 'none',
         padding: '0.5em 1em',
@@ -66,6 +66,7 @@ export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLButto
         color: theme.link.text,
         cursor: 'pointer',
         display: 'inline',
+        font: 'inherit',
         outline: 'none',
         padding: 0,
         '&:disabled': {

@@ -154,6 +154,7 @@ export const MenuItem = forwardRef((props: MenuItemProps, ref: Ref<HTMLButtonEle
         color: theme.text.primary,
         cursor: 'pointer',
         display: 'block',
+        font: 'inherit',
         height: '2.5em',
         padding: '0 2em',
         textAlign: 'start',

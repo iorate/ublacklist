@@ -43,8 +43,7 @@ export const Select = forwardRef(
           color: theme.text.primary,
           cursor: 'pointer',
           display: 'block',
-          fontFamily: 'inherit',
-          fontSize: '1em',
+          font: 'inherit',
           lineHeight: '1.5',
           padding: `0.5em calc(0.625em + 24px) 0.5em 0.625em`,
           width: '15em',
@@ -94,7 +93,7 @@ export const SelectOption = forwardRef((props: SelectOptionProps, ref: Ref<HTMLO
         background: native ? 'transparent' : theme.select.optionBackground,
         color: native ? 'initial' : 'inherit',
       }),
-    [native, css, theme],
+    [css, theme, native],
   );
   return <option {...applyClass(props, class_)} ref={ref} />;
 });
