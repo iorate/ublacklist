@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  uBlacklist for Safari
+
+  Created by Selina on 3/2/2021.
+  
+*/
+
+"step_enable_title" = "开启 uBlacklist";
+"step_enable_desc" = "在 Safari 设置中开启 uBlacklist";
+
+"step_permission_title" = "给予访问权限";
+"step_permission_desc" = "点击 Safari 工具栏中的 uBlacklist 图标，然后点击'在每个网站上始终允许'";
+
+"step_check_title" = "检查是否生效";
+"step_check_desc" = "打开搜索引擎查看 uBlacklist 是否生效";
