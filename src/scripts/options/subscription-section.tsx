@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useMemo, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -35,6 +35,7 @@ import {
   TableHeaderRow,
 } from '../components/table';
 import { TextArea } from '../components/textarea';
+import { usePrevious } from '../components/utilities';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
@@ -45,19 +46,21 @@ import { SetIntervalItem } from './set-interval-item';
 const AddSubscriptionDialog: FunctionComponent<
   { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
 > = ({ close, open, setSubscriptions }) => {
-  const [name, setName] = useState('');
-  const [nameValid, setNameValid] = useState(false);
-  const [url, setURL] = useState('');
-  const [urlValid, setURLValid] = useState(false);
-  useLayoutEffect(() => {
-    if (open) {
-      setName('');
-      setNameValid(false);
-      setURL('');
-      setURLValid(false);
-    }
-  }, [open]);
-  const ok = nameValid && urlValid;
+  const [state, setState] = useState({
+    name: '',
+    nameValid: false,
+    url: '',
+    urlValid: false,
+  });
+  const prevOpen = usePrevious(open);
+  if (open && !prevOpen) {
+    state.name = '';
+    state.nameValid = false;
+    state.url = '';
+    state.urlValid = false;
+  }
+  const ok = state.nameValid && state.urlValid;
+
   return (
     <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -73,16 +76,21 @@ const AddSubscriptionDialog: FunctionComponent<
                 {translate('options_addSubscriptionDialog_nameLabel')}
               </ControlLabel>
             </LabelWrapper>
-            <Input
-              class={FOCUS_START_CLASS}
-              id="subscriptionName"
-              required={true}
-              value={name}
-              onInput={e => {
-                setName(e.currentTarget.value);
-                setNameValid(e.currentTarget.validity.valid);
-              }}
-            />
+            {open && (
+              <Input
+                class={FOCUS_START_CLASS}
+                id="subscriptionName"
+                required={true}
+                value={state.name}
+                onInput={e =>
+                  setState(s => ({
+                    ...s,
+                    name: e.currentTarget.value,
+                    nameValid: e.currentTarget.validity.valid,
+                  }))
+                }
+              />
+            )}
           </RowItem>
         </Row>
         <Row>
@@ -92,17 +100,22 @@ const AddSubscriptionDialog: FunctionComponent<
                 {translate('options_addSubscriptionDialog_urlLabel')}
               </ControlLabel>
             </LabelWrapper>
-            <Input
-              id="subscriptionURL"
-              pattern="^https?:.*"
-              required={true}
-              type="url"
-              value={url}
-              onInput={e => {
-                setURL(e.currentTarget.value);
-                setURLValid(e.currentTarget.validity.valid);
-              }}
-            />
+            {open && (
+              <Input
+                id="subscriptionURL"
+                pattern="^https?:.*"
+                required={true}
+                type="url"
+                value={state.url}
+                onInput={e =>
+                  setState(s => ({
+                    ...s,
+                    url: e.currentTarget.value,
+                    urlValid: e.currentTarget.validity.valid,
+                  }))
+                }
+              />
+            )}
           </RowItem>
         </Row>
       </DialogBody>
@@ -119,7 +132,7 @@ const AddSubscriptionDialog: FunctionComponent<
               disabled={!ok}
               primary
               onClick={async () => {
-                const u = new URL(url);
+                const u = new URL(state.url);
                 const granted = await apis.permissions.request({
                   origins: [`${u.protocol}//${u.hostname}/*`],
                 });
@@ -127,7 +140,7 @@ const AddSubscriptionDialog: FunctionComponent<
                   return;
                 }
                 const subscription = {
-                  name,
+                  name: state.name,
                   url: u.toString(),
                   blacklist: '',
                   updateResult: null,

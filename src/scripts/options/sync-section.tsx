@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -24,11 +24,12 @@ import {
   SectionTitle,
 } from '../components/section';
 import { Text } from '../components/text';
+import { usePrevious } from '../components/utilities';
 import '../dayjs-locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { isErrorResult, stringEntries, stringKeys, translate } from '../utilities';
+import { isErrorResult, stringEntries, translate } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
@@ -39,12 +40,14 @@ dayjs.extend(dayjsDuration);
 const TurnOnSyncDialog: FunctionComponent<
   { setSyncCloudId: StateUpdater<CloudId | null> } & DialogProps
 > = ({ close, open, setSyncCloudId }) => {
-  const [selectedCloudId, setSelectedCloudId] = useState<CloudId>('googleDrive');
-  useLayoutEffect(() => {
-    if (open) {
-      setSelectedCloudId(stringKeys(supportedClouds)[0]);
-    }
-  }, [open]);
+  const [state, setState] = useState({
+    selectedCloudId: 'googleDrive' as CloudId,
+  });
+  const prevOpen = usePrevious(open);
+  if (open && !prevOpen) {
+    state.selectedCloudId = 'googleDrive';
+  }
+
   return (
     <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -57,10 +60,10 @@ const TurnOnSyncDialog: FunctionComponent<
           <RowItem>
             <Select
               class={FOCUS_START_CLASS}
-              value={selectedCloudId}
-              onInput={e => {
-                setSelectedCloudId(e.currentTarget.value as CloudId);
-              }}
+              value={state.selectedCloudId}
+              onInput={e =>
+                setState(s => ({ ...s, selectedCloudId: e.currentTarget.value as CloudId }))
+              }
             >
               {stringEntries(supportedClouds).map(([id, cloud]) => (
                 <SelectOption key={id} value={id}>
@@ -72,7 +75,9 @@ const TurnOnSyncDialog: FunctionComponent<
         </Row>
         <Row>
           <RowItem expanded>
-            <Text>{translate(supportedClouds[selectedCloudId].messageNames.syncDescription)}</Text>
+            <Text>
+              {translate(supportedClouds[state.selectedCloudId].messageNames.syncDescription)}
+            </Text>
           </RowItem>
         </Row>
       </DialogBody>
@@ -88,16 +93,16 @@ const TurnOnSyncDialog: FunctionComponent<
               onClick={() => {
                 void (async () => {
                   const granted = await apis.permissions.request({
-                    origins: supportedClouds[selectedCloudId].hostPermissions,
+                    origins: supportedClouds[state.selectedCloudId].hostPermissions,
                   });
                   if (!granted) {
                     return;
                   }
-                  const connected = await sendMessage('connect-to-cloud', selectedCloudId);
+                  const connected = await sendMessage('connect-to-cloud', state.selectedCloudId);
                   if (!connected) {
                     return;
                   }
-                  setSyncCloudId(selectedCloudId);
+                  setSyncCloudId(state.selectedCloudId);
                   close();
                 })();
               }}

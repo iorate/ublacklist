@@ -1,5 +1,5 @@
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useLayoutEffect, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useState } from 'preact/hooks';
 import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
@@ -28,6 +28,7 @@ import {
 } from '../components/section';
 import { Text } from '../components/text';
 import { TextArea } from '../components/textarea';
+import { usePrevious } from '../components/utilities';
 import { addMessageListeners, sendMessage } from '../messages';
 import { searchEngineMessageNames } from '../search-engines/message-names';
 import { MessageName0, SearchEngineId } from '../types';
@@ -39,18 +40,19 @@ import { SetBooleanItem } from './set-boolean-item';
 const ImportBlacklistDialog: FunctionComponent<
   { setBlacklist: StateUpdater<string>; setBlacklistDirty: StateUpdater<boolean> } & DialogProps
 > = ({ close, open, setBlacklist, setBlacklistDirty }) => {
-  const [source, setSource] = useState<'file' | 'pb'>('file');
-  const [pb, setPB] = useState('');
-  const [append, setAppend] = useState(false);
-  useLayoutEffect(() => {
-    if (open) {
-      setSource('file');
-      setPB('');
-      setAppend(false);
-    }
-  }, [open]);
+  const [state, setState] = useState({
+    source: 'file' as 'file' | 'pb',
+    pb: '',
+    append: false,
+  });
+  const prevOpen = usePrevious(open);
+  if (open && !prevOpen) {
+    state.source = 'file';
+    state.pb = '';
+    state.append = false;
+  }
   const replaceOrAppend = (newBlacklist: string) => {
-    if (append) {
+    if (state.append) {
       setBlacklist(
         oldBlacklist => `${oldBlacklist}${oldBlacklist && newBlacklist ? '\n' : ''}${newBlacklist}`,
       );
@@ -59,6 +61,7 @@ const ImportBlacklistDialog: FunctionComponent<
     }
     setBlacklistDirty(true);
   };
+
   return (
     <Dialog aria-labelledby="importBlacklistDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -71,10 +74,10 @@ const ImportBlacklistDialog: FunctionComponent<
           <RowItem>
             <Select
               class={FOCUS_START_CLASS}
-              value={source}
-              onInput={e => {
-                setSource(e.currentTarget.value as 'file' | 'pb');
-              }}
+              value={state.source}
+              onInput={e =>
+                setState(s => ({ ...s, source: e.currentTarget.value as 'file' | 'pb' }))
+              }
             >
               <SelectOption value="file">
                 {translate('options_importBlacklistDialog_fromFile')}
@@ -85,7 +88,7 @@ const ImportBlacklistDialog: FunctionComponent<
             </Select>
           </RowItem>
         </Row>
-        {source === 'pb' && (
+        {state.source === 'pb' && (
           <Row>
             <RowItem expanded>
               <LabelWrapper fullWidth>
@@ -96,11 +99,9 @@ const ImportBlacklistDialog: FunctionComponent<
                 aria-label={translate('options_importBlacklistDialog_pbLabel')}
                 rows={5}
                 spellcheck={false}
-                value={pb}
+                value={state.pb}
                 wrap="off"
-                onInput={e => {
-                  setPB(e.currentTarget.value);
-                }}
+                onInput={e => setState(s => ({ ...s, pb: e.currentTarget.value }))}
               />
             </RowItem>
           </Row>
@@ -109,11 +110,9 @@ const ImportBlacklistDialog: FunctionComponent<
           <RowItem>
             <Indent>
               <CheckBox
-                checked={append}
+                checked={state.append}
                 id="append"
-                onInput={e => {
-                  setAppend(e.currentTarget.checked);
-                }}
+                onInput={e => setState(s => ({ ...s, append: e.currentTarget.checked }))}
               />
             </Indent>
           </RowItem>
@@ -129,12 +128,15 @@ const ImportBlacklistDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={source === 'pb' && !pb ? FOCUS_END_CLASS : undefined} onClick={close}>
+            <Button
+              class={state.source === 'pb' && !state.pb ? FOCUS_END_CLASS : undefined}
+              onClick={close}
+            >
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
-            {source === 'file' ? (
+            {state.source === 'file' ? (
               <Button
                 class={FOCUS_END_CLASS}
                 primary
@@ -163,12 +165,12 @@ const ImportBlacklistDialog: FunctionComponent<
               </Button>
             ) : (
               <Button
-                class={pb ? FOCUS_END_CLASS : undefined}
-                disabled={!pb}
+                class={state.pb ? FOCUS_END_CLASS : undefined}
+                disabled={!state.pb}
                 primary
                 onClick={() => {
                   let newBlacklist = '';
-                  for (const domain of lines(pb)) {
+                  for (const domain of lines(state.pb)) {
                     if (/^([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+$/.test(domain)) {
                       newBlacklist = `${newBlacklist}${newBlacklist ? '\n' : ''}*://*.${domain}/*`;
                     }
