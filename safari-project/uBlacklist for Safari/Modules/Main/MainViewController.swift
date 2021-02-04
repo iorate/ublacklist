@@ -11,15 +11,14 @@ import SafariServices.SFSafariApplication
 import SafariServices.SFSafariExtensionManager
 
 // Top Bar
-let TopBarHeight = 44
-let AppIconWidth = 30
-let InfoButtonWidth = 25
+private let AppIconWidth = 30
 
 // Step StackView
-let StepStackViewSpacing: CGFloat = 20
-let StepStackViewMaxWidth = 570
-let StepItemViewHeight = 80
-let StepStackViewBottomInset = 20
+private let StepStackViewSpacing: CGFloat = 20
+private let StepStackViewMaxWidth = 570
+private let StepItemViewHeight = 80
+private let StepStackViewBottomInset = 20
+
 
 // MARK: - View Layout
 extension MainViewController {
@@ -33,7 +32,6 @@ extension MainViewController {
         self.view.addSubview(self.topBar)
         self.topBar.snp.makeConstraints { (make) in
             make.left.top.right.equalToSuperview()
-            make.height.equalTo(TopBarHeight)
         }
         
         self.topBar.addSubview(self.iconImageView)
@@ -59,7 +57,7 @@ extension MainViewController {
         self.infoButton.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-ItemInset)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(InfoButtonWidth)
+            make.width.height.equalTo(TopBarButtonWidth)
         }
         
         // Step View
@@ -92,13 +90,15 @@ extension MainViewController {
                 descString = "step_permission_desc".localized()
                 itemView.button.image = NSImage(systemSymbolName: "eye.circle", accessibilityDescription: nil)
                 itemView.doneImageView.isHidden = true
+                itemView.button.target = self
+                itemView.button.action = #selector(openGrantPermissionGuide)
             case .Check:
                 titleString = "step_check_title".localized()
                 descString = "step_check_desc".localized()
                 itemView.button.image = NSImage(systemSymbolName: "doc.text.magnifyingglass", accessibilityDescription: nil)
                 itemView.doneImageView.isHidden = true
                 itemView.button.target = self
-                itemView.button.action = #selector(openExamplePage)
+                itemView.button.action = #selector(openCheckPage)
             }
             
             itemView.titleLabel.stringValue = titleString
@@ -182,7 +182,7 @@ extension MainViewController {
     }
     
     @objc private func onInfoButtonClick() {
-        
+
     }
     
     @objc private func openSafariExtensionPreferences() {
@@ -193,17 +193,29 @@ extension MainViewController {
         }
     }
     
-    @objc private func openExamplePage() {
-        if let url = URL(string: AppExampleURL) {
-            NSWorkspace.shared.open(url)
+    @objc private func openGrantPermissionGuide() {
+        let vc = PreviewViewController()
+        let image = NSImage(named: "grant-permission-guide.gif")
+        vc.previewImageView.image = image
+        vc.titleLabel.stringValue = "permission_guide_title".localized()
+        self.presentAsSheet(vc)
+        
+        if let url = URL(string: GoogleURL) {
+            NSWorkspace.shared.open(inSafari: url)
+        }
+    }
+    
+    @objc private func openCheckPage() {
+        if let url = URL(string: AppCheckURL) {
+            NSWorkspace.shared.open(inSafari: url)
         }
     }
 }
 
 class MainViewController: NSViewController {
     
-    lazy var topBar: NSView = {
-        let view = NSView()
+    lazy var topBar: TopBar = {
+        let view = TopBar()
         return view
     }()
     
@@ -215,7 +227,7 @@ class MainViewController: NSViewController {
     
     lazy var nameLabel: NSTextField = {
         let label = NSTextField(labelWithString: AppName)
-        label.font = NSFont.avenirHeavy(size: 17)
+        label.font = NSFont.avenirHeavy(size: LargeFontSize)
         label.textColor = NSColor.appTextColor()
         return label
     }()
@@ -224,7 +236,7 @@ class MainViewController: NSViewController {
         let versionString = "v\(Bundle.appVersion())"
         
         let label = NSTextField(labelWithString: versionString)
-        label.font = NSFont.avenirLight(size: 12)
+        label.font = NSFont.avenirLight(size: SmallFontSize)
         label.textColor = NSColor.appSecondaryTextColor()
         return label
     }()

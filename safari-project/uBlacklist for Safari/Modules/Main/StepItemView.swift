@@ -7,6 +7,9 @@
 
 import Cocoa
 
+private let StepIconWidth = 35
+private let StepItemCornerRadius: CGFloat = 12
+
 class StepItemView: NSView {
     
     lazy var numImageView: NSImageView = {
@@ -19,14 +22,14 @@ class StepItemView: NSView {
     lazy var titleLabel: NSTextField = {
         let label = NSTextField(labelWithString: "")
         label.textColor = NSColor.appTextColor()
-        label.font = NSFont.avenirMedium(size: 15)
+        label.font = NSFont.avenirMedium(size: MediumFontSize)
         return label
     }()
     
     lazy var descLabel: NSTextField = {
         let label = NSTextField(labelWithString: "")
         label.textColor = NSColor.appSecondaryTextColor()
-        label.font = NSFont.avenirLight(size: 12)
+        label.font = NSFont.avenirLight(size: SmallFontSize)
         label.maximumNumberOfLines = 2
         label.lineBreakMode = .byWordWrapping
         return label
@@ -73,27 +76,27 @@ class StepItemView: NSView {
         self.wantsLayer = true
         self.layer?.masksToBounds = true
         self.layer?.backgroundColor = NSColor.secondaryBgColor().cgColor
-        self.layer?.cornerRadius = 12
+        self.layer?.cornerRadius = StepItemCornerRadius
         
         self.addSubview(self.numImageView)
         self.numImageView.snp.makeConstraints { (make) in
             make.left.equalTo(ItemInset)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(StepIconWidth)
         }
         
         self.addSubview(self.doneImageView)
         self.doneImageView.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-ItemInset)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(StepIconWidth)
         }
         
         self.addSubview(self.button)
         self.button.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-ItemInset)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(StepIconWidth)
         }
         
         self.addSubview(self.textStackView)

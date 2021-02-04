@@ -31,6 +31,9 @@
 		6A9E798125C3BDAA002477CB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9E798025C3BDAA002477CB /* MainViewController.swift */; };
 		6A9E798825C3C2B4002477CB /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9E798725C3C2B4002477CB /* Helper.swift */; };
 		6AAADBFD25A6C5C300EFFEF3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAADBFC25A6C5C300EFFEF3 /* MainWindowController.swift */; };
+		6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */; };
+		6AD94C1A25CBE89E0082D100 /* grant-permission-guide.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */; };
+		6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C2525CBFDEE0082D100 /* TopBar.swift */; };
 		CBA6A5D1F0516A2AC18DAEC6 /* Pods_uBlacklist_for_Safari.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C3609D5DD26B73222D7796 /* Pods_uBlacklist_for_Safari.framework */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +96,9 @@
 		6A9E798025C3BDAA002477CB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		6A9E798725C3C2B4002477CB /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		6AAADBFC25A6C5C300EFFEF3 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "grant-permission-guide.gif"; sourceTree = "<group>"; };
+		6AD94C2525CBFDEE0082D100 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
 		A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension.release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension/Pods-uBlacklist for Safari Extension.release.xcconfig"; sourceTree = "<group>"; };
 		FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -141,9 +147,8 @@
 		6A29DB8B25A5B4E0004C85C8 /* uBlacklist for Safari */ = {
 			isa = PBXGroup;
 			children = (
-				6AFE44B025C3F6A9000E88AF /* Others */,
-				6A9E798625C3C295002477CB /* Utils */,
-				6A9E797F25C3BD9C002477CB /* Main */,
+				6AD94C2325CBFDA60082D100 /* Modules */,
+				6A9E798625C3C295002477CB /* Common */,
 				6A7DF3C225A856FC00EAC19B /* Resource */,
 				6A29DB8D25A5B4E0004C85C8 /* AppDelegate.swift */,
 				6A29DB8F25A5B4E0004C85C8 /* Main.storyboard */,
@@ -151,6 +156,7 @@
 				6A7DF39E25A7F64B00EAC19B /* AboutViewController.swift */,
 				6A29DB9425A5B4E1004C85C8 /* Assets.xcassets */,
 				6A29DB9625A5B4E1004C85C8 /* Info.plist */,
+				6A29DB8C25A5B4E0004C85C8 /* uBlacklist_for_Safari.entitlements */,
 			);
 			path = "uBlacklist for Safari";
 			sourceTree = "<group>";
@@ -193,8 +199,8 @@
 		6A7DF3C225A856FC00EAC19B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				6A7DF3C925A8637C00EAC19B /* licence.html */,
-				6A7DF3C325A8570B00EAC19B /* other-licence.html */,
+				6AD94C2025CBFD100082D100 /* Licences */,
+				6AD94C1825CBE86B0082D100 /* Images */,
 				6A49755825CA55F600BF8E57 /* Localizable.strings */,
 			);
 			path = Resource;
@@ -210,7 +216,58 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		6A9E798625C3C295002477CB /* Utils */ = {
+		6A9E798625C3C295002477CB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6AD94C2425CBFDC30082D100 /* Utils */,
+				6AD94C1F25CBFCE80082D100 /* Views */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		6AD94C1325CBE79B0082D100 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+		6AD94C1825CBE86B0082D100 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		6AD94C1F25CBFCE80082D100 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6AD94C2525CBFDEE0082D100 /* TopBar.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6AD94C2025CBFD100082D100 /* Licences */ = {
+			isa = PBXGroup;
+			children = (
+				6A7DF3C925A8637C00EAC19B /* licence.html */,
+				6A7DF3C325A8570B00EAC19B /* other-licence.html */,
+			);
+			path = Licences;
+			sourceTree = "<group>";
+		};
+		6AD94C2325CBFDA60082D100 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				6AD94C1325CBE79B0082D100 /* Preview */,
+				6A9E797F25C3BD9C002477CB /* Main */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		6AD94C2425CBFDC30082D100 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				6A7DF38C25A728B400EAC19B /* NSColor+Helper.swift */,
@@ -218,14 +275,6 @@
 				6A9E798725C3C2B4002477CB /* Helper.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		6AFE44B025C3F6A9000E88AF /* Others */ = {
-			isa = PBXGroup;
-			children = (
-				6A29DB8C25A5B4E0004C85C8 /* uBlacklist_for_Safari.entitlements */,
-			);
-			path = Others;
 			sourceTree = "<group>";
 		};
 		D045DCC3957EFB112A300DDC /* Pods */ = {
@@ -324,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A49755625CA55F600BF8E57 /* Localizable.strings in Resources */,
+				6AD94C1A25CBE89E0082D100 /* grant-permission-guide.gif in Resources */,
 				6A29DB9525A5B4E1004C85C8 /* Assets.xcassets in Resources */,
 				6A29DB9125A5B4E0004C85C8 /* Main.storyboard in Resources */,
 				6A7DF3CA25A8637C00EAC19B /* licence.html in Resources */,
@@ -418,6 +468,8 @@
 				6A7DF39F25A7F64B00EAC19B /* AboutViewController.swift in Sources */,
 				6A7DF38D25A728B400EAC19B /* NSColor+Helper.swift in Sources */,
 				6A29DB9325A5B4E0004C85C8 /* ViewController.swift in Sources */,
+				6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */,
+				6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */,
 				6A7DF38725A6E9A400EAC19B /* Constants.swift in Sources */,
 				6A9E798825C3C2B4002477CB /* Helper.swift in Sources */,
 				6AAADBFD25A6C5C300EFFEF3 /* MainWindowController.swift in Sources */,
@@ -643,7 +695,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/Others/uBlacklist_for_Safari.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/uBlacklist_for_Safari.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -671,7 +723,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/Others/uBlacklist_for_Safari.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/uBlacklist_for_Safari.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

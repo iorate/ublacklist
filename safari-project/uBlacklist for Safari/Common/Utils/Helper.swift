@@ -69,3 +69,12 @@ extension String {
         return NSLocalizedString(self, comment: comment ?? "")
     }
 }
+
+extension NSWorkspace {
+    func open(inSafari url: URL) {
+        let config = NSWorkspace.OpenConfiguration()
+        
+        let safariURL = self.urlForApplication(withBundleIdentifier: "com.apple.Safari")
+        self.open([url], withApplicationAt: safariURL!, configuration: config, completionHandler: nil)
+    }
+}

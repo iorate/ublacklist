@@ -14,3 +14,4 @@
 
 "step_check_title" = "Check for Validity";
 "step_check_desc" = "Open the search engine and check if the plugin is in effect";
+"permission_guide_title" = "How to grant permission";

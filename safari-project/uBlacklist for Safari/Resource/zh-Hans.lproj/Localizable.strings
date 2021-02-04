@@ -14,3 +14,4 @@
 
 "step_check_title" = "检查是否生效";
 "step_check_desc" = "打开搜索引擎查看 uBlacklist 是否生效";
+"permission_guide_title" = "如何授予权限";
