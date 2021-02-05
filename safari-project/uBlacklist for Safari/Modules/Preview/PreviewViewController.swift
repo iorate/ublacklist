@@ -44,10 +44,10 @@ class PreviewViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initView()
+        self.setupViews()
     }
     
-    private func initView() {
+    private func setupViews() {
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = NSColor.bgColor().cgColor
         

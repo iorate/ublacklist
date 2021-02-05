@@ -34,6 +34,8 @@
 		6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */; };
 		6AD94C1A25CBE89E0082D100 /* grant-permission-guide.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */; };
 		6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C2525CBFDEE0082D100 /* TopBar.swift */; };
+		6AE6479525CD0188005076E1 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6479425CD0188005076E1 /* InfoViewController.swift */; };
+		6AE6479925CD026C005076E1 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6479825CD026C005076E1 /* TableViewCell.swift */; };
 		CBA6A5D1F0516A2AC18DAEC6 /* Pods_uBlacklist_for_Safari.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C3609D5DD26B73222D7796 /* Pods_uBlacklist_for_Safari.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +101,8 @@
 		6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "grant-permission-guide.gif"; sourceTree = "<group>"; };
 		6AD94C2525CBFDEE0082D100 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		6AE6479425CD0188005076E1 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		6AE6479825CD026C005076E1 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension.release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension/Pods-uBlacklist for Safari Extension.release.xcconfig"; sourceTree = "<group>"; };
 		FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -261,6 +265,7 @@
 		6AD94C2325CBFDA60082D100 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				6AE6479325CD0175005076E1 /* Info */,
 				6AD94C1325CBE79B0082D100 /* Preview */,
 				6A9E797F25C3BD9C002477CB /* Main */,
 			);
@@ -275,6 +280,15 @@
 				6A9E798725C3C2B4002477CB /* Helper.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		6AE6479325CD0175005076E1 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				6AE6479425CD0188005076E1 /* InfoViewController.swift */,
+				6AE6479825CD026C005076E1 /* TableViewCell.swift */,
+			);
+			path = Info;
 			sourceTree = "<group>";
 		};
 		D045DCC3957EFB112A300DDC /* Pods */ = {
@@ -465,6 +479,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AE6479925CD026C005076E1 /* TableViewCell.swift in Sources */,
 				6A7DF39F25A7F64B00EAC19B /* AboutViewController.swift in Sources */,
 				6A7DF38D25A728B400EAC19B /* NSColor+Helper.swift in Sources */,
 				6A29DB9325A5B4E0004C85C8 /* ViewController.swift in Sources */,
@@ -475,6 +490,7 @@
 				6AAADBFD25A6C5C300EFFEF3 /* MainWindowController.swift in Sources */,
 				6A29DB8E25A5B4E0004C85C8 /* AppDelegate.swift in Sources */,
 				6A9E798125C3BDAA002477CB /* MainViewController.swift in Sources */,
+				6AE6479525CD0188005076E1 /* InfoViewController.swift in Sources */,
 				6A37E8AF25C408EE0036D085 /* StepItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

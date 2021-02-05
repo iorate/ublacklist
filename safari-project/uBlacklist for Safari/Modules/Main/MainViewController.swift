@@ -27,7 +27,7 @@ extension MainViewController {
         case Enable = 1, Permission, Check
     }
     
-    private func initView() {
+    private func setupViews() {
         // Top Bar
         self.view.addSubview(self.topBar)
         self.topBar.snp.makeConstraints { (make) in
@@ -267,7 +267,7 @@ class MainViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initView()
+        self.setupViews()
         self.initNotifications()
         self.reloadViews(enabled: false)
     }
