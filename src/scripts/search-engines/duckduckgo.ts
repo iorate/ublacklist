@@ -9,7 +9,7 @@ function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void 
         margin: 0,
         maxWidth: 'none',
         padding: '0.5em 10px',
-        ...(style ?? {}),
+        ...(style || {}),
       },
     });
     root.classList.add(class_, 'msg');
@@ -33,6 +33,10 @@ export function getSerpHandler(): SerpHandler {
       },
       '.ub-button:hover': {
         textDecoration: 'underline',
+      },
+      // https://github.com/iorate/uBlacklist/issues/78
+      '.is-mobile .result--news.result--img .result__extras': {
+        bottom: 'calc(2.1em + 2px) !important',
       },
     },
     targets:
@@ -129,6 +133,12 @@ export function getSerpHandler(): SerpHandler {
         actionStyle: {
           display: 'block',
           marginTop: '2px',
+          // https://github.com/iorate/uBlacklist/issues/78
+          '.is-mobile .result--news.result--img &': {
+            bottom: 'calc(0.5em - 14px)',
+            clear: 'both',
+            position: 'relative',
+          },
         },
         actionButtonStyle: 'msg__all',
       },
