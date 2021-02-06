@@ -32,6 +32,7 @@ export const TextArea = forwardRef(
           color: theme.text.primary,
           display: 'block',
           font: 'inherit',
+          height: props.rows != null ? `calc(1.5em * ${props.rows} + 1em + 2px)` : 'auto',
           lineHeight: '1.5',
           padding: '0.5em 0.625em',
           resize: 'none',
@@ -48,7 +49,7 @@ export const TextArea = forwardRef(
             color: theme.text.secondary,
           },
         }),
-      [css, theme, breakAll],
+      [css, theme, breakAll, props.rows],
     );
     return <textarea {...applyClass(props, class_)} ref={ref} />;
   },
