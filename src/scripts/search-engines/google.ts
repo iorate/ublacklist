@@ -33,6 +33,14 @@ const desktopDefaultActionStyle: CSSAttribute = {
   },
 };
 
+const desktopAboutThisResultActionStyle: CSSAttribute = {
+  ...desktopInlineActionStyle,
+  fontSize: '14px',
+  left: '52px',
+  position: 'relative',
+  visibility: 'visible',
+};
+
 const desktopNewsActionStyle: CSSAttribute = {
   ...desktopInlineActionStyle,
   fontSize: '12px',
@@ -65,7 +73,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
-      // Default, Web Result
+      // Default, Web Result (About this result)
       {
         target: '.g .IsZvec',
         level: target => {
@@ -74,8 +82,43 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return root && (root.matches('.g *') ? null : root);
         },
         url: 'a',
-        actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') || root,
+        actionTarget: '.csDOgf',
+        actionPosition: 'afterend',
+        actionStyle: desktopAboutThisResultActionStyle,
+      },
+      // Default, Web Result
+      {
+        target: '.g .IsZvec',
+        level: target => {
+          const root = target.closest<HTMLElement>('.g');
+          return root && (root.matches('.g *') ? null : root);
+        },
+        url: 'a',
+        actionTarget: '.eFM0qc',
         actionStyle: desktopDefaultActionStyle,
+      },
+      // Default, Web Result (Fallback)
+      {
+        target: '.g .IsZvec',
+        level: target => {
+          const root = target.closest<HTMLElement>('.g');
+          return root && (root.matches('.g *') ? null : root);
+        },
+        url: 'a',
+        actionTarget: '',
+        actionStyle: {
+          fontSize: '14px',
+          marginTop: '4px',
+        },
+      },
+      // Featured Snippet (About this result)
+      {
+        target: '.g > .kp-blk > .xpdopen > .ifM9O > div > .g',
+        level: 5,
+        url: '.yuRUbf > a',
+        actionTarget: '.csDOgf',
+        actionPosition: 'afterend',
+        actionStyle: desktopAboutThisResultActionStyle,
       },
       // Featured Snippet
       {
@@ -102,7 +145,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           padding: '0 16px',
         },
       },
-      // People Also Ask
+      // People Also Ask (About this result)
       {
         target: '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
         level: target => {
@@ -111,11 +154,31 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return root.matches('.UDZeY *') ? null : root;
         },
         url: '.yuRUbf > a',
+        actionTarget: '.csDOgf',
+        actionPosition: 'afterend',
+        actionStyle: {
+          ...desktopAboutThisResultActionStyle,
+          '& > .ub-button': {
+            display: 'inline-block',
+            overflowY: 'hidden',
+          },
+        },
+      },
+      // People Also Ask
+      {
+        target: '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
+        level: target => {
+          const root = getParentElement(target, 5);
+          return root.matches('.UDZeY *') ? null : root;
+        },
+        url: '.yuRUbf > a',
         actionTarget: '.eFM0qc',
         actionStyle: {
           ...desktopDefaultActionStyle,
-          position: 'relative',
-          top: '-3px',
+          '& > .ub-button': {
+            display: 'inline-block',
+            overflowY: 'hidden',
+          },
         },
       },
       // Quote in the News
@@ -176,19 +239,19 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
         },
       },
+      // Twitter, Twitter Search (About this result)
+      {
+        target: '.eejeod',
+        url: 'g-link > a',
+        actionTarget: '.oERM6',
+        actionPosition: 'afterend',
+        actionStyle: desktopAboutThisResultActionStyle,
+      },
       // Twitter, Twitter Search
       {
         target: '.eejeod',
         url: 'g-link > a',
-        actionTarget: root => {
-          const ellip = root.querySelector<HTMLElement>('.ellip');
-          if (ellip) {
-            ellip.style.overflow = 'visible';
-            return ellip;
-          } else {
-            return null;
-          }
-        },
+        actionTarget: '.ellip',
         actionStyle: desktopDefaultActionStyle,
       },
       // Video
