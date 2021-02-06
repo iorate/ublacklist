@@ -68,7 +68,16 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         style: {
           color: 'rgb(112, 117, 122)',
           display: 'block',
-          margin: '-11px 0 11px 180px',
+          margin: '-24px 0 24px 180px',
+        },
+      },
+      {
+        target: '.vI9alf',
+        position: 'afterend',
+        style: {
+          color: 'rgb(112, 117, 122)',
+          display: 'block',
+          margin: '0 0 16px 180px',
         },
       },
     ],
