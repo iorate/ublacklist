@@ -70,9 +70,9 @@ const config: webpack.Configuration = {
 
   optimization: {
     minimizer: [
-      (new TerserPlugin({
+      new TerserPlugin({
         exclude: /scripts\/content-script-once\.js/,
-      }) as unknown) as webpack.WebpackPluginInstance,
+      }),
     ],
   },
 
