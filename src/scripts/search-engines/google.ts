@@ -250,7 +250,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Twitter, Twitter Search (About this result)
       {
-        target: '.eejeod',
+        target: '.eejeod, .g',
         url: 'g-link > a',
         actionTarget: '.oERM6',
         actionPosition: 'afterend',
@@ -258,7 +258,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Twitter, Twitter Search
       {
-        target: '.eejeod',
+        target: '.eejeod, .g',
         url: 'g-link > a',
         actionTarget: '.ellip',
         actionStyle: desktopDefaultActionStyle,
