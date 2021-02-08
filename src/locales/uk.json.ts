@@ -26,7 +26,8 @@ exportAsMessages('_locales/uk/messages.json', {
   popup_openOptionsLink: 'Параметри',
   options_generalTitle: 'Загальні',
   options_blacklistLabel: 'Сайти, які прибираються з пошукових результатів Google',
-  options_blacklistHelper: 'Ви можете використовувати [зіставляння з маскою](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) або [регулярні вирази](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
+  options_blacklistHelper:
+    'Ви можете використовувати [зіставляння з маскою](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) або [регулярні вирази](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
   options_blacklistExample: 'Приклад: $1',
   options_blacklistUpdated: 'Оновлено',
   options_reloadBlacklistButton: 'Оновити',
@@ -42,16 +43,19 @@ exportAsMessages('_locales/uk/messages.json', {
   options_importBlacklistDialog_importButton: 'Імпорт',
   options_importBlacklistDialog_helper: 'Вставте домени з вашого особистого списку.',
   options_otherSearchEngines: 'Інші пошукові рушії',
-  options_otherSearchEnginesDescription: 'Ви можете використовувати це розширення для перелічених нижче пошуковиків.',
+  options_otherSearchEnginesDescription:
+    'Ви можете використовувати це розширення для перелічених нижче пошуковиків.',
   options_registerSearchEngine: 'Дозволити',
   options_searchEngineRegistered: 'Дозволено',
   options_skipBlockDialogLabel: 'Пропускати діялог "Заблокувати цей сайт"',
   options_hideBlockLinksLabel: 'Ховати посилання "Заблокувати сайт"',
   options_hideControlLabel: 'Ховати число блокованих сайтів і ланку "Показати"',
   options_syncTitle: 'Синхронізація',
-  options_syncFeatureUpdated: 'Функцію синхронізації оновлено. Щоб продовжити використання синхронізації натисніть кнопку "Увімкнути".',
+  options_syncFeatureUpdated:
+    'Функцію синхронізації оновлено. Щоб продовжити використання синхронізації натисніть кнопку "Увімкнути".',
   options_syncFeature: 'Синхронізувати з хмарою',
-  options_syncFeatureDescription: 'Ви можете синхронізувати списки блокування зі своїми пристроями через хмару.',
+  options_syncFeatureDescription:
+    'Ви можете синхронізувати списки блокування зі своїми пристроями через хмару.',
   options_turnOnSync: 'Увімкнути',
   options_turnOnSyncDialog_title: 'Увімкнути синхронізацію',
   options_turnOnSyncDialog_turnOnSyncButton: 'Увімкнути',
@@ -63,7 +67,8 @@ exportAsMessages('_locales/uk/messages.json', {
   options_syncInterval: 'Період синхронізації',
   options_subscriptionTitle: 'Підписка',
   options_subscriptionFeature: 'Підписатися на списки блокування',
-  options_subscriptionFeatureDescription: 'Якщо ви додасьте підписку, списки блокування реґулярно завантажуватимуться з вказаної URL-адреси.',
+  options_subscriptionFeatureDescription:
+    'Якщо ви додасьте підписку, списки блокування реґулярно завантажуватимуться з вказаної URL-адреси.',
   options_addSubscriptionButton: 'Додати джерело',
   options_subscriptionNameHeader: 'Назва',
   options_subscriptionURLHeader: 'URL-адреса',
@@ -82,7 +87,8 @@ exportAsMessages('_locales/uk/messages.json', {
   options_showSubscriptionDialog_blacklistLabel: 'Правила',
   options_updateInterval: 'Період оновлення',
   clouds_googleDriveSync: 'Синхр. з Google Drive',
-  clouds_googleDriveSyncDescription: 'Файл створиться в теці програмних даних, яка прихована від користувача.',
+  clouds_googleDriveSyncDescription:
+    'Файл створиться в теці програмних даних, яка прихована від користувача.',
   clouds_googleDriveSyncTurnedOn: 'Синхронізовано з Google Drive',
   clouds_dropboxSync: 'Синхр. з Dropbox',
   clouds_dropboxSyncDescription: 'Файл створиться у "/Apps/uBlacklist/".',
