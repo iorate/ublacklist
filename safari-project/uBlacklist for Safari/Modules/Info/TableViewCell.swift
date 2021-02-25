@@ -9,13 +9,13 @@ import Cocoa
 
 class TableViewCell: NSView {
     
-    private let TableViewCellCornerRadius: CGFloat = 12
-    private let TableViewCellHeight = 50
+    private let TableViewCellCornerRadius: CGFloat = 8
+    private let TableViewCellHeight = 40
     
     lazy var titleLabel: NSTextField = {
         let label = NSTextField(labelWithString: "")
         label.textColor = NSColor.appTextColor()
-        label.font = NSFont.avenirMedium(size: MediumFontSize)
+        label.font = NSFont.avenirLight(size: MediumFontSize)
         return label
     }()
     

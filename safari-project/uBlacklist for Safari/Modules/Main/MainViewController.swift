@@ -146,7 +146,7 @@ extension MainViewController {
     }
     
     private func refreshStepState() {
-        SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: extensionBundleIdentifier) { (state, error) in
+        SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: ExtensionBundleIdentifier) { (state, error) in
             guard let state = state, error == nil else {
                 return
             }
@@ -182,7 +182,8 @@ extension MainViewController {
     }
     
     @objc private func onInfoButtonClick() {
-
+        let vc = InfoViewController()
+        self.presentAsSheet(vc)
     }
     
     @objc private func openSafariExtensionPreferences() {

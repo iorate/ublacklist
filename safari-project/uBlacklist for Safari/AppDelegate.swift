@@ -9,9 +9,22 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
+    private let windowSize = CGSize(width: 594, height: 384)
+    
+    lazy var window: NSWindow = {
+        let screenSize = NSScreen.main!.visibleFrame.size
+        let x = (screenSize.width - windowSize.width) / 2
+        let y = (screenSize.height - windowSize.height) / 2
+        
+        let window = NSWindow(contentRect: NSMakeRect(x, y, windowSize.width, windowSize.height), styleMask: [.closable, .titled], backing: .buffered, defer: false)
+        window.backgroundColor = NSColor.bgColor()
+        window.titlebarAppearsTransparent = true
+        return window
+    }()
     
     lazy var windowController: MainWindowController = {
-        let mwc = MainWindowController()
+        let mwc = MainWindowController(window: self.window)
+        mwc.contentViewController = MainViewController()
         return mwc
     }()
 

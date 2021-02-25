@@ -15,3 +15,12 @@
 "step_check_title" = "检查是否生效";
 "step_check_desc" = "打开搜索引擎查看 uBlacklist 是否生效";
 "permission_guide_title" = "如何授予权限";
+
+"support_title" = "支持";
+
+"manual_title" = "使用手册";
+"basic_btn_title" = "基础用法";
+"advanced_btn_title" = "高级特性";
+
+"homepage_title" = "主页";
+"feedback_title" = "意见反馈";
