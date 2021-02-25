@@ -98,6 +98,7 @@
 		6AD94C2525CBFDEE0082D100 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
 		6AE6479425CD0188005076E1 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		6AE6479825CD026C005076E1 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		6AEE80AA25E7ABA10032996F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension.release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension/Pods-uBlacklist for Safari Extension.release.xcconfig"; sourceTree = "<group>"; };
 		FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -198,7 +199,6 @@
 			children = (
 				6AD94C2025CBFD100082D100 /* Licences */,
 				6AD94C1825CBE86B0082D100 /* Images */,
-				6A49755825CA55F600BF8E57 /* Localizable.strings */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -216,6 +216,7 @@
 		6A9E798625C3C295002477CB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6AEE80A725E7A81A0032996F /* Intl */,
 				6AD94C2425CBFDC30082D100 /* Utils */,
 				6AD94C1F25CBFCE80082D100 /* Views */,
 			);
@@ -282,6 +283,14 @@
 				6AE6479825CD026C005076E1 /* TableViewCell.swift */,
 			);
 			path = Info;
+			sourceTree = "<group>";
+		};
+		6AEE80A725E7A81A0032996F /* Intl */ = {
+			isa = PBXGroup;
+			children = (
+				6A49755825CA55F600BF8E57 /* Localizable.strings */,
+			);
+			path = Intl;
 			sourceTree = "<group>";
 		};
 		D045DCC3957EFB112A300DDC /* Pods */ = {
@@ -362,6 +371,7 @@
 				en,
 				Base,
 				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 6A29DB8025A5B4E0004C85C8;
 			productRefGroup = 6A29DB8A25A5B4E0004C85C8 /* Products */;
@@ -518,6 +528,7 @@
 			children = (
 				6A49755725CA55F600BF8E57 /* en */,
 				6A49755B25CA55FC00BF8E57 /* zh-Hans */,
+				6AEE80AA25E7ABA10032996F /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
