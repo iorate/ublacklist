@@ -30,7 +30,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   return (
     <span
       class={`ub-button ${class_}`}
-      role="link"
+      role="button"
       tabIndex={0}
       onClick={e => {
         e.preventDefault();
@@ -38,10 +38,10 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
         onClick();
       }}
       onKeyDown={e => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           e.stopPropagation();
-          onClick();
+          e.currentTarget.click();
         }
       }}
     >
@@ -289,12 +289,12 @@ class ContentScript {
     }
     render(
       <BlockDialog
-        target={this.blockDialogRoot}
-        open={open}
-        close={() => this.renderBlockDialog(url, false)}
-        url={url}
         blacklist={this.options.blacklist}
+        close={() => this.renderBlockDialog(url, false)}
         enablePathDepth={this.options.enablePathDepth}
+        open={open}
+        target={this.blockDialogRoot}
+        url={url}
         onBlocked={() => {
           if (!this.options) {
             return;

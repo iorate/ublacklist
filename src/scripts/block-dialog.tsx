@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent, h } from 'preact';
-import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useMemo, useState } from 'preact/hooks';
 import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
@@ -12,73 +12,80 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  NativeDialog,
+  EmbeddedDialog,
 } from './components/dialog';
 import { Icon } from './components/icon';
 import { Input } from './components/input';
-import { Label, LabelWrapper, SubLabel } from './components/label';
+import { ControlLabel, LabelWrapper, SubLabel } from './components/label';
 import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
-import { ReadOnlyTextArea, TextArea } from './components/textarea';
+import { TextArea } from './components/textarea';
+import { usePrevious } from './components/utilities';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { AltURL, translate } from './utilities';
 
 type BlockDialogContentProps = {
-  open: boolean;
-  close: () => void;
   blacklist: Blacklist;
+  close: () => void;
   enablePathDepth: boolean;
+  open: boolean;
   url: string;
-  onBlocked(): void | Promise<void>;
+  onBlocked: () => void | Promise<void>;
 };
 
-const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => {
-  const prevOpen = useRef(false);
-  const [disabled, setDisabled] = useState(false);
-  const [unblock, setUnblock] = useState(false);
-  const [host, setHost] = useState('');
-  const [detailsOpen, setDetailsOpen] = useState(false);
-  const [pathDepth, setPathDepth] = useState<PathDepth | null>(null);
-  const [depth, setDepth] = useState('');
-  const [rulesToAdd, setRulesToAdd] = useState('');
-  const [rulesToAddValid, setRulesToAddValid] = useState(false);
-  const [rulesToRemove, setRulesToRemove] = useState('');
-  useLayoutEffect(() => {
-    if (props.open && !prevOpen.current) {
-      let url: AltURL | null = null;
-      try {
-        url = new AltURL(props.url);
-      } catch {
-        // NOP
-      }
-      if (url && /^(https?|ftp)$/.test(url.scheme)) {
-        const patch = props.blacklist.createPatch(url);
-        setDisabled(false);
-        setUnblock(patch.unblock);
-        setHost(url.host);
-        setDetailsOpen(false);
-        setPathDepth(props.enablePathDepth ? new PathDepth(url) : null);
-        setDepth('0');
-        setRulesToAdd(patch.rulesToAdd);
-        setRulesToAddValid(true);
-        setRulesToRemove(patch.rulesToRemove);
-      } else {
-        setDisabled(true);
-        setUnblock(false);
-        setHost(props.url);
-        setDetailsOpen(false);
-        setPathDepth(null);
-        setDepth('');
-        setRulesToAdd('');
-        setRulesToAddValid(false);
-        setRulesToRemove('');
-      }
+const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
+  blacklist,
+  close,
+  enablePathDepth,
+  open,
+  url,
+  onBlocked,
+}) => {
+  const [state, setState] = useState({
+    disabled: false,
+    unblock: false,
+    host: '',
+    detailsOpen: false,
+    pathDepth: null as PathDepth | null,
+    depth: '',
+    rulesToAdd: '',
+    rulesToAddValid: false,
+    rulesToRemove: '',
+  });
+  const prevOpen = usePrevious(open);
+  if (open && !prevOpen) {
+    let u: AltURL | null = null;
+    try {
+      u = new AltURL(url);
+    } catch {
+      // NOP
     }
-    prevOpen.current = props.open;
-  }, [props.open, props.url, props.blacklist, props.enablePathDepth]);
-  const ok = !disabled && rulesToAddValid;
+    if (u && /^(https?|ftp)$/.test(u.scheme)) {
+      const patch = blacklist.createPatch(u);
+      state.disabled = false;
+      state.unblock = patch.unblock;
+      state.host = u.host;
+      state.detailsOpen = false;
+      state.pathDepth = enablePathDepth ? new PathDepth(u) : null;
+      state.depth = '0';
+      state.rulesToAdd = patch.rulesToAdd;
+      state.rulesToAddValid = true;
+      state.rulesToRemove = patch.rulesToRemove;
+    } else {
+      state.disabled = true;
+      state.unblock = false;
+      state.host = url;
+      state.detailsOpen = false;
+      state.pathDepth = null;
+      state.depth = '';
+      state.rulesToAdd = '';
+      state.rulesToAddValid = false;
+      state.rulesToRemove = '';
+    }
+  }
+  const ok = !state.disabled && state.rulesToAddValid;
 
   const css = useCSS();
   const hostClass = useMemo(
@@ -98,7 +105,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
               <Icon iconSize="24px" url={icon} />
             </RowItem>
             <RowItem expanded>
-              {translate(unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle')}
+              {translate(state.unblock ? 'popup_unblockSiteTitle' : 'popup_blockSiteTitle')}
             </RowItem>
           </Row>
         </DialogTitle>
@@ -106,16 +113,14 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <span class={hostClass}>{host}</span>
+            <span class={hostClass}>{state.host}</span>
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             <Details
-              open={detailsOpen}
-              onToggle={e => {
-                setDetailsOpen(e.currentTarget.open);
-              }}
+              open={state.detailsOpen}
+              onToggle={e => setState(s => ({ ...s, detailsOpen: e.currentTarget.open }))}
             >
               <DetailsSummary class={FOCUS_START_CLASS}>
                 {translate('popup_details')}
@@ -124,92 +129,92 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
-                      <Label focus="url" id="urlLabel">
-                        {translate('popup_pageURLLabel')}
-                      </Label>
+                      <ControlLabel for="url">{translate('popup_pageURLLabel')}</ControlLabel>
                     </LabelWrapper>
-                    <ReadOnlyTextArea
-                      aria-labelledby="urlLabel"
-                      breakAll
-                      id="url"
-                      rows={2}
-                      value={props.url}
-                    />
+                    {open && <TextArea breakAll id="url" readOnly rows={2} value={url} />}
                   </RowItem>
                 </Row>
-                {props.enablePathDepth && (
+                {enablePathDepth && (
                   <Row>
                     <RowItem expanded>
-                      <LabelWrapper disabled={disabled} fullWidth>
-                        <Label for="depth">{translate('popup_pathDepth')}</Label>
+                      <LabelWrapper disabled={state.disabled} fullWidth>
+                        <ControlLabel for="depth">{translate('popup_pathDepth')}</ControlLabel>
                       </LabelWrapper>
-                      <Input
-                        disabled={disabled}
-                        id="depth"
-                        max={pathDepth?.maxDepth() ?? 0}
-                        min={0}
-                        type="number"
-                        value={depth}
-                        onInput={e => {
-                          const newDepth = e.currentTarget.value;
-                          setDepth(newDepth);
-                          if (!pathDepth || !newDepth || !e.currentTarget.validity.valid) {
-                            return;
-                          }
-                          const newRulesToAdd = pathDepth.suggestMatchPattern(
-                            Number(newDepth),
-                            unblock,
-                          );
-                          setRulesToAdd(newRulesToAdd);
-                          const newPatch = props.blacklist.modifyPatch({
-                            rulesToAdd: newRulesToAdd,
-                          });
-                          setRulesToAddValid(Boolean(newPatch));
-                        }}
-                      />
+                      {open && (
+                        <Input
+                          disabled={state.disabled}
+                          id="depth"
+                          max={state.pathDepth?.maxDepth() ?? 0}
+                          min={0}
+                          type="number"
+                          value={state.depth}
+                          onInput={e => {
+                            const depth = e.currentTarget.value;
+                            if (!state.pathDepth || !depth || !e.currentTarget.validity.valid) {
+                              setState(s => ({ ...s, depth }));
+                              return;
+                            }
+                            const rulesToAdd = state.pathDepth.suggestMatchPattern(
+                              Number(depth),
+                              state.unblock,
+                            );
+                            const patch = blacklist.modifyPatch({ rulesToAdd });
+                            setState(s => ({
+                              ...s,
+                              depth,
+                              rulesToAdd,
+                              rulesToAddValid: Boolean(patch),
+                            }));
+                          }}
+                        />
+                      )}
                     </RowItem>
                   </Row>
                 )}
                 <Row>
                   <RowItem expanded>
-                    <LabelWrapper disabled={disabled} fullWidth>
-                      <Label for="rulesToAdd">{translate('popup_addedRulesLabel')}</Label>
+                    <LabelWrapper disabled={state.disabled} fullWidth>
+                      <ControlLabel for="rulesToAdd">
+                        {translate('popup_addedRulesLabel')}
+                      </ControlLabel>
                       <SubLabel>
-                        {expandLinks(translate('options_blacklistHelper'), disabled)}
+                        {expandLinks(translate('options_blacklistHelper'), state.disabled)}
                       </SubLabel>
                     </LabelWrapper>
-                    <TextArea
-                      breakAll
-                      disabled={disabled}
-                      id="rulesToAdd"
-                      rows={2}
-                      value={rulesToAdd}
-                      onInput={e => {
-                        const newRulesToAdd = e.currentTarget.value;
-                        setRulesToAdd(newRulesToAdd);
-                        const newPatch = props.blacklist.modifyPatch({
-                          rulesToAdd: newRulesToAdd,
-                        });
-                        setRulesToAddValid(Boolean(newPatch));
-                      }}
-                    />
+                    {open && (
+                      <TextArea
+                        breakAll
+                        disabled={state.disabled}
+                        id="rulesToAdd"
+                        rows={2}
+                        spellcheck={false}
+                        value={state.rulesToAdd}
+                        onInput={e => {
+                          const rulesToAdd = e.currentTarget.value;
+                          const patch = blacklist.modifyPatch({ rulesToAdd });
+                          setState(s => ({ ...s, rulesToAdd, rulesToAddValid: Boolean(patch) }));
+                        }}
+                      />
+                    )}
                   </RowItem>
                 </Row>
                 <Row>
                   <RowItem expanded>
-                    <LabelWrapper disabled={disabled} fullWidth>
-                      <Label focus="rulesToRemove" id="rulesToRemoveLabel">
+                    <LabelWrapper disabled={state.disabled} fullWidth>
+                      <ControlLabel for="rulesToRemove">
                         {translate('popup_removedRulesLabel')}
-                      </Label>
+                      </ControlLabel>
                     </LabelWrapper>
-                    <ReadOnlyTextArea
-                      aria-labelledby="rulesToRemoveLabel"
-                      breakAll
-                      disabled={disabled}
-                      id="rulesToRemove"
-                      rows={2}
-                      value={rulesToRemove}
-                    />
+                    {open && (
+                      <TextArea
+                        breakAll
+                        disabled={state.disabled}
+                        id="rulesToRemove"
+                        readOnly
+                        rows={2}
+                        value={state.rulesToRemove}
+                      />
+                    )}
                   </RowItem>
                 </Row>
               </DetailsBody>
@@ -227,7 +232,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
           <RowItem>
             <Row>
               <RowItem>
-                <Button class={!ok ? FOCUS_END_CLASS : undefined} onClick={() => props.close()}>
+                <Button class={!ok ? FOCUS_END_CLASS : undefined} onClick={close}>
                   {translate('cancelButton')}
                 </Button>
               </RowItem>
@@ -237,12 +242,12 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = props => 
                   disabled={!ok}
                   primary
                   onClick={async () => {
-                    props.blacklist.applyPatch();
-                    await Promise.resolve(props.onBlocked());
-                    props.close();
+                    blacklist.applyPatch();
+                    await Promise.resolve(onBlocked());
+                    close();
                   }}
                 >
-                  {translate(unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton')}
+                  {translate(state.unblock ? 'popup_unblockSiteButton' : 'popup_blockSiteButton')}
                 </Button>
               </RowItem>
             </Row>
@@ -269,8 +274,8 @@ export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
 
 export const BlockPopup: FunctionComponent<BlockPopupProps> = props => (
   <Baseline>
-    <NativeDialog close={props.close} width="360px">
+    <EmbeddedDialog close={props.close} width="360px">
       <BlockDialogContent open={true} {...props} />
-    </NativeDialog>
+    </EmbeddedDialog>
   </Baseline>
 );

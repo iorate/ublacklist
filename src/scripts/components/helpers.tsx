@@ -1,4 +1,3 @@
-import * as goober from 'goober';
 import { FunctionComponent, h } from 'preact';
 import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
 import { useCSS } from './styles';
@@ -22,56 +21,30 @@ export function useInnerRef<T>(ref: Ref<T>): Ref<T> {
   return innerRef;
 }
 
-export function useModal(open: boolean, focus: () => void): void {
-  const prevOpen = useRef(false);
-  const prevFocus = useRef<Element | null>(null);
-  const rootClass = useMemo(
-    () =>
-      goober.css({
-        overflow: 'hidden !important',
-      }),
-    [],
-  );
-  useLayoutEffect(() => {
-    if (open) {
-      if (!prevOpen.current) {
-        prevFocus.current = document.activeElement;
-        focus();
-        document.documentElement.classList.add(rootClass);
-      }
-    } else if (prevOpen.current && prevFocus.current instanceof HTMLElement) {
-      prevFocus.current.focus();
-      document.documentElement.classList.remove(rootClass);
-    }
-    prevOpen.current = open;
-  }, [open, focus, rootClass]);
-}
-
-export const FocusCircle: FunctionComponent<{ depth: number; size: string }> = ({
-  depth,
-  size,
-}) => {
+export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }) => {
   const css = useCSS();
   const theme = useTheme();
   const focusCircleClass = useMemo(
     () =>
       css({
         borderRadius: '50%',
-        display: 'block',
         height: '40px',
-        left: `calc(${size} / 2 - 20px)`,
+        left: `calc(50% - 20px)`,
         pointerEvents: 'none',
         position: 'absolute',
-        top: `calc(${size} / 2 - 20px)`,
+        top: `calc(50% - 20px)`,
         width: '40px',
-        [`:focus-visible ~ ${'* > '.repeat(depth)}&`]: {
+        [`:focus + ${'* > '.repeat(depth)}&`]: {
           background: theme.focus.circle,
         },
-        [`:-moz-focusring ~ ${'* > '.repeat(depth)}&`]: {
-          background: theme.focus.circle,
+        [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
+          background: 'transparent',
+        },
+        [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
+          background: 'transparent',
         },
       }),
-    [css, theme, depth, size],
+    [css, theme, depth],
   );
-  return <span class={focusCircleClass} />;
+  return <div class={focusCircleClass} />;
 };

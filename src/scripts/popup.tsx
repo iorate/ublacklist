@@ -23,14 +23,14 @@ async function main(): Promise<void> {
   render(
     <AutoThemeProvider>
       <BlockPopup
-        close={() => window.close()}
         blacklist={blacklist}
-        url={url}
+        close={() => window.close()}
         enablePathDepth={options.enablePathDepth}
+        url={url}
         onBlocked={() => sendMessage('set-blacklist', blacklist.toString(), 'popup')}
       />
     </AutoThemeProvider>,
-    document.body.appendChild(document.createElement('div')),
+    document.body,
   );
 }
 

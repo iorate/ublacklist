@@ -113,6 +113,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The label for the select to import from Personal Blocklist.
   options_importBlacklistDialog_fromPB: 'Import from Personal Blocklist',
 
+  // The label for the textarea to import from Personal Blocklist (for a11y only).
+  options_importBlacklistDialog_pbLabel: 'Domains',
+
   // The text of the checkbox to append to the existing blacklist
   options_importBlacklistDialog_append: 'Append to the existing list',
 
@@ -120,7 +123,7 @@ exportAsMessages('_locales/en/messages.json', {
   options_importBlacklistDialog_importButton: 'Import',
 
   // The helper text for the textarea on the import-blacklist dialog.
-  options_importBlacklistDialog_helper: 'Paste a domain list exported from Personal Blocklist.',
+  options_importBlacklistDialog_helper: 'Paste the domains exported from Personal Blocklist.',
 
   // Other search engines support.
   options_otherSearchEngines: 'Other search engines',
@@ -206,6 +209,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The header text of the update-result row of the subscriptions table.
   options_subscriptionUpdateResultHeader: 'Last update',
 
+  // The label for the menu buttons of the subscriptions table (for a11y only).
+  options_subscriptionMenuButtonLabel: 'Menu',
+
   // The text that means no subscriptions have been added.
   options_noSubscriptionsAdded: 'No subscriptions added',
 
@@ -235,6 +241,9 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The text of the add button on the add-subscription dialog.
   options_addSubscriptionDialog_addButton: 'Add',
+
+  // The label for the textarea on the show-subscription dialog (for a11y only).
+  options_showSubscriptionDialog_blacklistLabel: 'Rules',
 
   // The label of the select to select an update interval.
   options_updateInterval: 'Update interval',

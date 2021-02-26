@@ -1,8 +1,9 @@
+import * as goober from 'goober';
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
-import { applyClass, useInnerRef, useModal } from './helpers';
+import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
+import { DIALOG_Z_INDEX, FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
+import { applyClass, useInnerRef } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -45,11 +46,30 @@ export type DialogProps = {
 } & JSX.IntrinsicElements['div'];
 
 export const Dialog = forwardRef(
-  ({ close, open, width, ...props }: DialogProps, ref: Ref<HTMLDivElement>) => {
+  ({ close, open, width = '480px', ...props }: DialogProps, ref: Ref<HTMLDivElement>) => {
+    const prevFocus = useRef<Element | null>(null);
     const innerRef = useInnerRef(ref);
-    useModal(open, () =>
-      innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus(),
+    const rootClass = useMemo(
+      () =>
+        goober.css.bind({ target: document.head })({
+          overflow: 'hidden !important',
+        }),
+      [],
     );
+    useLayoutEffect(() => {
+      if (open) {
+        prevFocus.current = document.activeElement;
+        innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
+        document.documentElement.classList.add(rootClass);
+      } else {
+        if (prevFocus.current instanceof HTMLElement || prevFocus.current instanceof SVGElement) {
+          prevFocus.current.focus();
+        }
+        document.documentElement.classList.remove(rootClass);
+      }
+      // 'innerRef' and 'rootClass' do not change between renders.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     const css = useCSS();
     const theme = useTheme();
@@ -57,28 +77,17 @@ export const Dialog = forwardRef(
       () =>
         css({
           alignItems: 'center',
-          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.6)',
           display: open ? 'flex' : 'none',
           justifyContent: 'center',
+          height: '100%',
           left: 0,
           position: 'fixed',
-          right: 0,
           top: 0,
-          zIndex: 100000,
+          width: '100%',
+          zIndex: DIALOG_Z_INDEX,
         }),
       [css, open],
-    );
-    const backdropClass = useMemo(
-      () =>
-        css({
-          background: 'rgba(0, 0, 0, 0.6)',
-          bottom: 0,
-          left: 0,
-          position: 'absolute',
-          right: 0,
-          top: 0,
-        }),
-      [css],
     );
     const dialogClass = useMemo(
       () =>
@@ -87,26 +96,28 @@ export const Dialog = forwardRef(
           borderRadius: '8px',
           boxShadow: '0 0 16px rgba(0, 0, 0, 0.12), 0 16px 16px rgba(0, 0, 0, 0.24)',
           maxWidth: '100%',
-          outline: 'none',
           padding: '1.5em',
           position: 'relative',
-          width: width ?? '480px',
+          width,
         }),
       [css, theme, width],
     );
 
     return (
-      <div class={wrapperClass}>
-        <div class={backdropClass} onClick={close} />
-        <div
-          {...applyClass(props, dialogClass)}
-          aria-modal={open}
-          ref={innerRef}
-          role="dialog"
-          onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
-          onKeyPress={e => e.stopPropagation()}
-          onKeyUp={e => e.stopPropagation()}
-        />
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div
+        class={wrapperClass}
+        tabIndex={-1}
+        onClick={e => {
+          if (e.target === e.currentTarget) {
+            close();
+          }
+        }}
+        onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
+        onKeyPress={e => e.stopPropagation()}
+        onKeyUp={e => e.stopPropagation()}
+      >
+        <div {...applyClass(props, dialogClass)} aria-modal={open} ref={innerRef} role="dialog" />
       </div>
     );
   },
@@ -128,19 +139,25 @@ export const DialogHeader = forwardRef((props: DialogHeaderProps, ref: Ref<HTMLD
 
 export type DialogTitleProps = JSX.IntrinsicElements['h1'];
 
-export const DialogTitle = forwardRef((props: DialogTitleProps, ref: Ref<HTMLHeadingElement>) => {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        fontSize: '1.125em',
-        fontWeight: 'normal',
-        margin: 0,
-      }),
-    [css],
-  );
-  return <h1 {...applyClass(props, class_)} ref={ref} />;
-});
+export const DialogTitle = forwardRef(
+  ({ children, ...props }: DialogTitleProps, ref: Ref<HTMLHeadingElement>) => {
+    const css = useCSS();
+    const class_ = useMemo(
+      () =>
+        css({
+          fontSize: '1.125em',
+          fontWeight: 'normal',
+          margin: 0,
+        }),
+      [css],
+    );
+    return (
+      <h1 {...applyClass(props, class_)} ref={ref}>
+        {children}
+      </h1>
+    );
+  },
+);
 
 export type DialogBodyProps = JSX.IntrinsicElements['div'];
 
@@ -162,10 +179,13 @@ export const DialogFooter = forwardRef((props: DialogFooterProps, ref: Ref<HTMLD
   return <div {...applyClass(props, class_)} ref={ref} />;
 });
 
-export type NativeDialog = { close: () => void; width?: string } & JSX.IntrinsicElements['div'];
+export type EmbeddedDialogProps = {
+  close: () => void;
+  width?: string;
+} & JSX.IntrinsicElements['div'];
 
-export const NativeDialog = forwardRef(
-  ({ close, width, ...props }: NativeDialog, ref: Ref<HTMLDivElement>) => {
+export const EmbeddedDialog = forwardRef(
+  ({ close, width = 'auto', ...props }: EmbeddedDialogProps, ref: Ref<HTMLDivElement>) => {
     const innerRef = useInnerRef(ref);
 
     const css = useCSS();
@@ -175,16 +195,19 @@ export const NativeDialog = forwardRef(
         css({
           background: theme.dialog.background,
           maxWidth: '100%',
+          outline: 'none',
           padding: '1.5em',
-          width: width ?? '480px',
+          width,
         }),
       [css, theme, width],
     );
 
     return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
         {...applyClass(props, class_)}
         ref={innerRef}
+        tabIndex={-1}
         onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
       />
     );

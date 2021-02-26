@@ -43,7 +43,10 @@ export type TableHeaderCellProps = {
 } & JSX.IntrinsicElements['th'];
 
 export const TableHeaderCell = forwardRef(
-  ({ breakAll, width, ...props }: TableHeaderCellProps, ref: Ref<HTMLTableHeaderCellElement>) => {
+  (
+    { breakAll, width = 'auto', ...props }: TableHeaderCellProps,
+    ref: Ref<HTMLTableHeaderCellElement>,
+  ) => {
     const css = useCSS();
     const theme = useTheme();
     const class_ = useMemo(

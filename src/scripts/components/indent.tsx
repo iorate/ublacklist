@@ -11,7 +11,7 @@ export const Indent = forwardRef((props: IndentProps, ref: Ref<HTMLDivElement>) 
   const class_ = useMemo(
     () =>
       css({
-        width: '2.25em',
+        width: '2.375em',
       }),
     [css],
   );

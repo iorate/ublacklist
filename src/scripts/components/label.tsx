@@ -41,9 +41,9 @@ export const LabelWrapper = forwardRef(
   },
 );
 
-export type LabelProps = { focus?: string } & JSX.IntrinsicElements['label'];
+export type LabelProps = JSX.IntrinsicElements['span'];
 
-export const Label = forwardRef(({ focus, ...props }: LabelProps, ref: Ref<HTMLLabelElement>) => {
+export const Label = forwardRef((props: LabelProps, ref: Ref<HTMLSpanElement>) => {
   const { disabled } = useLabelContext();
 
   const css = useCSS();
@@ -52,26 +52,44 @@ export const Label = forwardRef(({ focus, ...props }: LabelProps, ref: Ref<HTMLL
     () =>
       css({
         color: theme.text.primary,
-        cursor: disabled ? 'default' : focus == null && props.for == null ? 'auto' : 'pointer',
+        cursor: disabled ? 'default' : 'auto',
       }),
-    [css, theme, disabled, focus, props.for],
+    [css, theme, disabled],
   );
 
   return (
     <div>
-      <label
-        {...applyClass(props, class_)}
-        ref={ref}
-        onClick={e => {
-          if (!disabled && focus != null) {
-            const root = e.currentTarget.getRootNode() as HTMLDocument | ShadowRoot;
-            root.querySelector<HTMLElement>(`#${focus}`)?.focus();
-          }
-        }}
-      />
+      <span {...applyClass(props, class_)} ref={ref} />
     </div>
   );
 });
+
+export type ControlLabelProps = { for: string } & JSX.IntrinsicElements['label'];
+
+export const ControlLabel = forwardRef(
+  ({ children, for: for_, ...props }: ControlLabelProps, ref: Ref<HTMLLabelElement>) => {
+    const { disabled } = useLabelContext();
+
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          color: theme.text.primary,
+          cursor: disabled ? 'default' : 'pointer',
+        }),
+      [css, theme, disabled],
+    );
+
+    return (
+      <div>
+        <label {...applyClass(props, class_)} for={for_} ref={ref}>
+          {children}
+        </label>
+      </div>
+    );
+  },
+);
 
 export type SubLabelProps = JSX.IntrinsicElements['span'];
 

@@ -5,7 +5,10 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type SectionProps = JSX.IntrinsicElements['section'];
+export type SectionProps = {
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+} & JSX.IntrinsicElements['section'];
 
 export const Section = forwardRef((props: SectionProps, ref: Ref<HTMLElement>) => {
   const css = useCSS();
@@ -37,19 +40,25 @@ export const SectionHeader = forwardRef((props: SectionHeaderProps, ref: Ref<HTM
 
 export type SectionTitleProps = JSX.IntrinsicElements['h1'];
 
-export const SectionTitle = forwardRef((props: SectionTitleProps, ref: Ref<HTMLHeadingElement>) => {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        fontSize: '1.125em',
-        fontWeight: 'normal',
-        margin: 0,
-      }),
-    [css],
-  );
-  return <h1 {...applyClass(props, class_)} ref={ref} />;
-});
+export const SectionTitle = forwardRef(
+  ({ children, ...props }: SectionTitleProps, ref: Ref<HTMLHeadingElement>) => {
+    const css = useCSS();
+    const class_ = useMemo(
+      () =>
+        css({
+          fontSize: '1.125em',
+          fontWeight: 'normal',
+          margin: 0,
+        }),
+      [css],
+    );
+    return (
+      <h1 {...applyClass(props, class_)} ref={ref}>
+        {children}
+      </h1>
+    );
+  },
+);
 
 export type SectionBodyProps = JSX.IntrinsicElements['div'];
 

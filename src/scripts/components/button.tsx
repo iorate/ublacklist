@@ -23,8 +23,9 @@ export const Button = forwardRef(
         borderRadius: '4px',
         color: buttonTheme.text,
         cursor: 'pointer',
-        fontSize: '1em',
+        font: 'inherit',
         height: '2.5em',
+        outline: 'none',
         padding: '0.5em 1em',
         '&:active': {
           background: buttonTheme.backgroundActive,
@@ -35,13 +36,13 @@ export const Button = forwardRef(
           cursor: 'default',
         },
         '&:focus': {
-          outline: 'none',
-        },
-        '&:focus-visible': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
         },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
         },
         '&:hover:not(:active):not(:disabled)': {
           background: buttonTheme.backgroundHovered,
@@ -52,41 +53,36 @@ export const Button = forwardRef(
   },
 );
 
-export type LinkButtonProps = JSX.IntrinsicElements['a'];
+export type LinkButtonProps = JSX.IntrinsicElements['button'];
 
-export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLAnchorElement>) => {
+export const LinkButton = forwardRef((props: LinkButtonProps, ref: Ref<HTMLButtonElement>) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
     () =>
       css({
+        background: 'transparent',
+        border: 'none',
         color: theme.link.text,
         cursor: 'pointer',
+        display: 'inline',
+        font: 'inherit',
+        outline: 'none',
+        padding: 0,
         '&:disabled': {
           cursor: 'default',
         },
         '&:focus': {
-          outline: 'none',
-        },
-        '&:focus-visible': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
         },
-        '&:-moz-focusring': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
         },
       }),
     [css, theme],
   );
-  return (
-    <a
-      {...applyClass(props, class_)}
-      ref={ref}
-      tabIndex={0}
-      onKeyDown={e => {
-        if (e.key === 'Enter') {
-          e.currentTarget.click();
-        }
-      }}
-    />
-  );
+  return <button {...applyClass(props, class_)} ref={ref} />;
 });

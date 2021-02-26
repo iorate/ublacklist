@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
-import { Label, LabelWrapper } from '../components/label';
+import { ControlLabel, LabelWrapper } from '../components/label';
 import { Row, RowItem } from '../components/row';
 import { SectionItem } from '../components/section';
 import { useCSS } from '../components/styles';
@@ -33,7 +33,7 @@ export const SetBooleanItem: FunctionComponent<{
       <Row class={rowClass}>
         <RowItem expanded>
           <LabelWrapper>
-            <Label for={itemKey}>{label}</Label>
+            <ControlLabel for={itemKey}>{label}</ControlLabel>
           </LabelWrapper>
         </RowItem>
         <RowItem>

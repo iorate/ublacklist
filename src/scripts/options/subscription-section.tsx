@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { StateUpdater, useEffect, useMemo, useState } from 'preact/hooks';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -13,8 +13,8 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Input } from '../components/input';
-import { Label, LabelWrapper, SubLabel } from '../components/label';
-import { Menu, MenuBody, MenuButton, MenuItem } from '../components/menu';
+import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
+import { Menu, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
 import {
@@ -34,7 +34,8 @@ import {
   TableHeaderCell,
   TableHeaderRow,
 } from '../components/table';
-import { ReadOnlyTextArea } from '../components/textarea';
+import { TextArea } from '../components/textarea';
+import { usePrevious } from '../components/utilities';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
@@ -45,21 +46,23 @@ import { SetIntervalItem } from './set-interval-item';
 const AddSubscriptionDialog: FunctionComponent<
   { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
 > = ({ close, open, setSubscriptions }) => {
-  const [name, setName] = useState('');
-  const [nameValid, setNameValid] = useState(false);
-  const [url, setURL] = useState('');
-  const [urlValid, setURLValid] = useState(false);
-  useLayoutEffect(() => {
-    if (open) {
-      setName('');
-      setNameValid(false);
-      setURL('');
-      setURLValid(false);
-    }
-  }, [open]);
-  const ok = nameValid && urlValid;
+  const [state, setState] = useState({
+    name: '',
+    nameValid: false,
+    url: '',
+    urlValid: false,
+  });
+  const prevOpen = usePrevious(open);
+  if (open && !prevOpen) {
+    state.name = '';
+    state.nameValid = false;
+    state.url = '';
+    state.urlValid = false;
+  }
+  const ok = state.nameValid && state.urlValid;
+
   return (
-    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="addSubscriptionDialogTitle">
           {translate('options_addSubscriptionDialog_title')}
@@ -69,40 +72,50 @@ const AddSubscriptionDialog: FunctionComponent<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <Label for="subscriptionName">
+              <ControlLabel for="subscriptionName">
                 {translate('options_addSubscriptionDialog_nameLabel')}
-              </Label>
+              </ControlLabel>
             </LabelWrapper>
-            <Input
-              class={FOCUS_START_CLASS}
-              id="subscriptionName"
-              required={true}
-              value={name}
-              onInput={e => {
-                setName(e.currentTarget.value);
-                setNameValid(e.currentTarget.validity.valid);
-              }}
-            />
+            {open && (
+              <Input
+                class={FOCUS_START_CLASS}
+                id="subscriptionName"
+                required={true}
+                value={state.name}
+                onInput={e =>
+                  setState(s => ({
+                    ...s,
+                    name: e.currentTarget.value,
+                    nameValid: e.currentTarget.validity.valid,
+                  }))
+                }
+              />
+            )}
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <Label for="subscriptionURL">
+              <ControlLabel for="subscriptionURL">
                 {translate('options_addSubscriptionDialog_urlLabel')}
-              </Label>
+              </ControlLabel>
             </LabelWrapper>
-            <Input
-              id="subscriptionURL"
-              pattern="^https?:.*"
-              required={true}
-              type="url"
-              value={url}
-              onInput={e => {
-                setURL(e.currentTarget.value);
-                setURLValid(e.currentTarget.validity.valid);
-              }}
-            />
+            {open && (
+              <Input
+                id="subscriptionURL"
+                pattern="^https?:.*"
+                required={true}
+                type="url"
+                value={state.url}
+                onInput={e =>
+                  setState(s => ({
+                    ...s,
+                    url: e.currentTarget.value,
+                    urlValid: e.currentTarget.validity.valid,
+                  }))
+                }
+              />
+            )}
           </RowItem>
         </Row>
       </DialogBody>
@@ -119,7 +132,7 @@ const AddSubscriptionDialog: FunctionComponent<
               disabled={!ok}
               primary
               onClick={async () => {
-                const u = new URL(url);
+                const u = new URL(state.url);
                 const granted = await apis.permissions.request({
                   origins: [`${u.protocol}//${u.hostname}/*`],
                 });
@@ -127,7 +140,7 @@ const AddSubscriptionDialog: FunctionComponent<
                   return;
                 }
                 const subscription = {
-                  name,
+                  name: state.name,
                   url: u.toString(),
                   blacklist: '',
                   updateResult: null,
@@ -149,28 +162,24 @@ const AddSubscriptionDialog: FunctionComponent<
 const ShowSubscriptionDialog: FunctionComponent<
   { subscription: Subscription | null } & DialogProps
 > = ({ close, open, subscription }) => {
-  const blacklistTextArea = useRef<HTMLDivElement>();
-  useLayoutEffect(() => {
-    if (open) {
-      blacklistTextArea.current.scrollTop = 0;
-    }
-  }, [open]);
   return (
-    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open} width="480px">
+    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
         <DialogTitle id="showSubscriptionDialogTitle">{subscription?.name ?? ''}</DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <ReadOnlyTextArea
-              aria-label="Blacklist"
-              class={FOCUS_START_CLASS}
-              ref={blacklistTextArea}
-              rows={10}
-              wrap="off"
-              value={subscription?.blacklist ?? ''}
-            />
+            {open && (
+              <TextArea
+                aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
+                class={FOCUS_START_CLASS}
+                readOnly
+                rows={10}
+                value={subscription?.blacklist ?? ''}
+                wrap="off"
+              />
+            )}
           </RowItem>
         </Row>
       </DialogBody>
@@ -218,39 +227,36 @@ const ManageSubscription: FunctionComponent<{
         )}
       </TableBodyCell>
       <TableBodyCell>
-        <Menu>
-          <MenuButton aria-label="Open the menu" />
-          <MenuBody>
-            <MenuItem
-              onClick={() => {
-                requestAnimationFrame(() => {
-                  setShowSubscriptionDialogOpen(true);
-                  setShowSubscriptionDialogSubscription(subscription);
-                });
-              }}
-            >
-              {translate('options_showSubscriptionMenu')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                void sendMessage('update-subscription', id);
-              }}
-            >
-              {translate('options_updateSubscriptionNowMenu')}
-            </MenuItem>
-            <MenuItem
-              onClick={async () => {
-                await sendMessage('remove-subscription', id);
-                setSubscriptions(subscriptions => {
-                  const newSubscriptions = { ...subscriptions };
-                  delete newSubscriptions[id];
-                  return newSubscriptions;
-                });
-              }}
-            >
-              {translate('options_removeSubscriptionMenu')}
-            </MenuItem>
-          </MenuBody>
+        <Menu buttonLabel={translate('options_subscriptionMenuButtonLabel')}>
+          <MenuItem
+            onClick={() => {
+              requestAnimationFrame(() => {
+                setShowSubscriptionDialogOpen(true);
+                setShowSubscriptionDialogSubscription(subscription);
+              });
+            }}
+          >
+            {translate('options_showSubscriptionMenu')}
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              void sendMessage('update-subscription', id);
+            }}
+          >
+            {translate('options_updateSubscriptionNowMenu')}
+          </MenuItem>
+          <MenuItem
+            onClick={async () => {
+              await sendMessage('remove-subscription', id);
+              setSubscriptions(subscriptions => {
+                const newSubscriptions = { ...subscriptions };
+                delete newSubscriptions[id];
+                return newSubscriptions;
+              });
+            }}
+          >
+            {translate('options_removeSubscriptionMenu')}
+          </MenuItem>
         </Menu>
       </TableBodyCell>
     </TableBodyRow>
@@ -347,13 +353,13 @@ export const ManageSubscriptions: FunctionComponent = () => {
                   )
                   .map(([id, subscription]) => (
                     <ManageSubscription
-                      key={id}
                       id={id}
-                      subscription={subscription}
-                      updating={updating[id] ?? false}
-                      setSubscriptions={setSubscriptions}
+                      key={id}
                       setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
                       setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
+                      setSubscriptions={setSubscriptions}
+                      subscription={subscription}
+                      updating={updating[id] ?? false}
                     />
                   ))}
               </TableBody>
@@ -377,14 +383,14 @@ export const ManageSubscriptions: FunctionComponent = () => {
           </Button>
         </RowItem>
       </Row>
-      <Portal>
+      <Portal id="addSubscriptionDialogPortal">
         <AddSubscriptionDialog
           close={() => setAddSubscriptionDialogOpen(false)}
           open={addSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />
       </Portal>
-      <Portal>
+      <Portal id="showSubscriptionDialogPortal">
         <ShowSubscriptionDialog
           close={() => setShowSubscriptionDialogOpen(false)}
           open={showSubscriptionDialogOpen}
@@ -396,9 +402,11 @@ export const ManageSubscriptions: FunctionComponent = () => {
 };
 
 export const SubscriptionSection: FunctionComponent = () => (
-  <Section id="subscription">
+  <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
     <SectionHeader>
-      <SectionTitle>{translate('options_subscriptionTitle')}</SectionTitle>
+      <SectionTitle id="subscriptionSectionTitle">
+        {translate('options_subscriptionTitle')}
+      </SectionTitle>
     </SectionHeader>
     <SectionBody>
       <ManageSubscriptions />
