@@ -63,7 +63,7 @@ extension InfoViewController {
         let button = NSButton(title: title, target: target, action: action)
         button.font = NSFont.avenirLight(size: SmallFontSize)
         button.isBordered = false
-        button.contentTintColor = NSColor.systemIndigo
+        button.contentTintColor = NSColor.themeColor()
         return button
     }
     
@@ -151,11 +151,10 @@ class InfoViewController: NSViewController {
     }()
     
     lazy var closeButton: NSButton = {
-        let image = NSImage(systemSymbolName: "arrow.down.forward.and.arrow.up.backward", accessibilityDescription: nil)
+        let image = NSImage(named: "btn-close")?.tint(color: .themeColor())
         let button = NSButton(image: image!, target: self, action: #selector(onClose))
-        button.contentTintColor = NSColor.themeColor()
         button.isBordered = false
-        button.imageScaling = .scaleProportionallyUpOrDown
+        button.imageScaling = .scaleNone
         return button
     }()
     
@@ -205,7 +204,7 @@ class InfoViewController: NSViewController {
     }
     
     private func descLinkAttributes() -> [NSAttributedString.Key : Any] {
-        let linkAttr: [NSAttributedString.Key : Any] = [.font: descFont, .foregroundColor: NSColor.systemIndigo, .cursor: NSCursor.pointingHand]
+        let linkAttr: [NSAttributedString.Key : Any] = [.font: descFont, .foregroundColor: NSColor.themeColor(), .cursor: NSCursor.pointingHand]
         return linkAttr
     }
     

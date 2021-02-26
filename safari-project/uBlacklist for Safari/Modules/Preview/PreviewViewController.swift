@@ -17,11 +17,10 @@ class PreviewViewController: NSViewController {
     }()
     
     lazy var closeButton: NSButton = {
-        let image = NSImage(systemSymbolName: "arrow.down.forward.and.arrow.up.backward", accessibilityDescription: nil)
+        let image = NSImage(named: "btn-close")?.tint(color: .themeColor())
         let button = NSButton(image: image!, target: self, action: #selector(onClose))
-        button.contentTintColor = NSColor.themeColor()
         button.isBordered = false
-        button.imageScaling = .scaleProportionallyUpOrDown
+        button.imageScaling = .scaleNone
         return button
     }()
     

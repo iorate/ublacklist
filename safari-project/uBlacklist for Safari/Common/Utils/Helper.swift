@@ -39,6 +39,17 @@ extension NSFont {
 }
 
 extension NSColor {
+    
+    convenience init(hex: String, alpha: CGFloat = 1) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = hex[hex.startIndex] == "#" ? 1 : 0
+        
+        var rgb: UInt32 = 0
+        scanner.scanHexInt32(&rgb)
+        
+        self.init(red: CGFloat((rgb & 0xFF0000) >> 16)/255.0, green: CGFloat((rgb & 0xFF00) >> 8)/255.0, blue: CGFloat(rgb & 0xFF)/255.0, alpha: alpha)
+    }
+    
     class func themeColor() -> NSColor {
         return NSColor(hex: "#5E5CE6")
     }
@@ -64,17 +75,42 @@ extension NSColor {
     }
 }
 
+extension NSImage {
+    
+    func tint(color: NSColor) -> NSImage {
+        let image = self.copy() as! NSImage
+        image.lockFocus()
+        
+        color.set()
+        
+        let imageRect = NSRect(origin: NSZeroPoint, size: image.size)
+        imageRect.fill(using: .sourceAtop)
+        
+        image.unlockFocus()
+        
+        return image
+    }
+}
+
 extension String {
+    
     func localized(withComment comment: String? = nil) -> String {
         return NSLocalizedString(self, comment: comment ?? "")
     }
 }
 
 extension NSWorkspace {
+    
     func open(inSafari url: URL) {
-        let config = NSWorkspace.OpenConfiguration()
+        let safariBundleId = "com.apple.Safari"
         
-        let safariURL = self.urlForApplication(withBundleIdentifier: "com.apple.Safari")
-        self.open([url], withApplicationAt: safariURL!, configuration: config, completionHandler: nil)
+        if #available(OSX 10.15, *) {
+            let config = NSWorkspace.OpenConfiguration()
+            let safariURL = self.urlForApplication(withBundleIdentifier: safariBundleId)
+            self.open([url], withApplicationAt: safariURL!, configuration: config, completionHandler: nil)
+        } else {
+            // Fallback on earlier versions
+            self.open([url], withAppBundleIdentifier: safariBundleId, options: .default, additionalEventParamDescriptor: nil, launchIdentifiers: nil)
+        }
     }
 }

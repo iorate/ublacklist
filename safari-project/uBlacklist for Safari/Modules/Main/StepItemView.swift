@@ -15,7 +15,6 @@ class StepItemView: NSView {
     lazy var numImageView: NSImageView = {
         let imageView = NSImageView()
         imageView.imageScaling = .scaleProportionallyUpOrDown
-        imageView.contentTintColor = NSColor.themeColor()
         return imageView
     }()
     
@@ -45,20 +44,18 @@ class StepItemView: NSView {
     }()
     
     lazy var button: NSButton = {
-        let image = NSImage(systemSymbolName: "gear", accessibilityDescription: nil)
+        let image = NSImage(named: "btn-setting")?.tint(color: .themeColor())
         
         let button = NSButton(image: image!, target: nil, action: nil)
-        button.contentTintColor = NSColor.themeColor()
         button.isBordered = false
         button.imageScaling = .scaleProportionallyUpOrDown
         return button
     }()
     
     lazy var doneImageView: NSImageView = {
-        let image = NSImage(systemSymbolName: "checkmark.circle", accessibilityDescription: nil)
+        let image = NSImage(named: "icon-checkmark")?.tint(color: .confirmColor())
         
         let imageView = NSImageView(image: image!)
-        imageView.contentTintColor = NSColor.confirmColor()
         imageView.imageScaling = .scaleProportionallyUpOrDown
         return imageView
     }()

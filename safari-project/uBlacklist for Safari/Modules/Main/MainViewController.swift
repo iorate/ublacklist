@@ -75,7 +75,7 @@ extension MainViewController {
     private func initStepView() {
         Step.allCases.forEach { (c) in
             let itemView = StepItemView()
-            let numImage = NSImage(systemSymbolName: "\(c.rawValue).circle", accessibilityDescription: nil)
+            let numImage = NSImage(named: "icon-step-\(c.rawValue)")?.tint(color: .themeColor())
             itemView.numImageView.image = numImage
             
             var titleString, descString: String
@@ -88,14 +88,14 @@ extension MainViewController {
             case .Permission:
                 titleString = "step_permission_title".localized()
                 descString = "step_permission_desc".localized()
-                itemView.button.image = NSImage(systemSymbolName: "eye.circle", accessibilityDescription: nil)
+                itemView.button.image = NSImage(named: "btn-preview")?.tint(color: .themeColor())
                 itemView.doneImageView.isHidden = true
                 itemView.button.target = self
                 itemView.button.action = #selector(openGrantPermissionGuide)
             case .Check:
                 titleString = "step_check_title".localized()
                 descString = "step_check_desc".localized()
-                itemView.button.image = NSImage(systemSymbolName: "doc.text.magnifyingglass", accessibilityDescription: nil)
+                itemView.button.image = NSImage(named: "btn-check-webpage")?.tint(color: .themeColor())
                 itemView.doneImageView.isHidden = true
                 itemView.button.target = self
                 itemView.button.action = #selector(openCheckPage)
@@ -243,10 +243,9 @@ class MainViewController: NSViewController {
     }()
     
     lazy var infoButton: NSButton = {
-        let image = NSImage(systemSymbolName: "info.circle", accessibilityDescription: nil)
+        let image = NSImage(named: "btn-info")?.tint(color: .themeColor())
         
         let button = NSButton(image: image!, target: self, action: #selector(onInfoButtonClick))
-        button.contentTintColor = NSColor.themeColor()
         button.isBordered = false
         button.imageScaling = .scaleProportionallyUpOrDown
         return button

@@ -17,7 +17,6 @@
 		6A37E8AF25C408EE0036D085 /* StepItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E8AE25C408EE0036D085 /* StepItemView.swift */; };
 		6A49755625CA55F600BF8E57 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A49755825CA55F600BF8E57 /* Localizable.strings */; };
 		6A7DF38725A6E9A400EAC19B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7DF38625A6E9A400EAC19B /* Constants.swift */; };
-		6A7DF38D25A728B400EAC19B /* NSColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7DF38C25A728B400EAC19B /* NSColor+Helper.swift */; };
 		6A7DF3C425A8570B00EAC19B /* other-licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A7DF3C325A8570B00EAC19B /* other-licence.html */; };
 		6A7DF3CA25A8637C00EAC19B /* licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A7DF3C925A8637C00EAC19B /* licence.html */; };
 		6A9E797725C3BD4D002477CB /* licenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797125C3BD4D002477CB /* licenses.txt */; };
@@ -81,7 +80,6 @@
 		6A49755725CA55F600BF8E57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A49755B25CA55FC00BF8E57 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A7DF38625A6E9A400EAC19B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		6A7DF38C25A728B400EAC19B /* NSColor+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+Helper.swift"; sourceTree = "<group>"; };
 		6A7DF3C325A8570B00EAC19B /* other-licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "other-licence.html"; sourceTree = "<group>"; };
 		6A7DF3C925A8637C00EAC19B /* licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licence.html; sourceTree = "<group>"; };
 		6A9E797125C3BD4D002477CB /* licenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = licenses.txt; path = ../../dist/safari/production/licenses.txt; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 		6AD94C2425CBFDC30082D100 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6A7DF38C25A728B400EAC19B /* NSColor+Helper.swift */,
 				6A7DF38625A6E9A400EAC19B /* Constants.swift */,
 				6A9E798725C3C2B4002477CB /* Helper.swift */,
 			);
@@ -483,7 +480,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AE6479925CD026C005076E1 /* TableViewCell.swift in Sources */,
-				6A7DF38D25A728B400EAC19B /* NSColor+Helper.swift in Sources */,
 				6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */,
 				6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */,
 				6A7DF38725A6E9A400EAC19B /* Constants.swift in Sources */,
@@ -588,7 +584,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -644,7 +640,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -669,7 +665,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -695,7 +691,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -724,7 +720,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -752,7 +748,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
 				PRODUCT_NAME = "$(TARGET_NAME)";
