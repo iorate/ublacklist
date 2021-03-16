@@ -5,10 +5,10 @@ import { getParentElement, handleSerp } from './helpers';
 
 const globalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
-    background: 'rgba(255, 192, 192, 0.5) !important',
+    backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
   },
   '.ub-button': {
-    color: 'rgb(26, 13, 171)',
+    color: 'var(--ub-link-color, rgb(26, 13, 171))',
   },
   '.ub-button:hover': {
     textDecoration: 'underline',
@@ -53,7 +53,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
   '/images/search': handleSerp({
     globalStyle: {
       '.ub-button': {
-        color: 'rgb(26, 13, 171)',
+        color: 'var(--ub-link-color, rgb(26, 13, 171))',
       },
       '.ub-button:hover': {
         textDecoration: 'underline',
@@ -89,7 +89,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
             actionRoot.closest<HTMLElement>('.infopt')?.classList.add(
               css({
                 '[data-ub-blocked="visible"] &': {
-                  background: 'rgba(255, 192, 192, 0.5) !important',
+                  backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
                 },
               }),
             );
@@ -119,7 +119,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
             actionRoot.className = css({
               pointerEvents: 'auto',
               '& .ub-button': {
-                color: 'inherit',
+                color: 'var(--ub-link-color, inherit)',
               },
             });
           }

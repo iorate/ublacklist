@@ -6,10 +6,10 @@ import { getParentElement, handleSerp, insertElement } from './helpers';
 // #region desktop
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
-    background: 'rgba(255, 192, 192, 0.5)',
+    backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
   },
   '.ub-button': {
-    color: 'rgb(26, 13, 171)',
+    color: 'var(--ub-link-color, rgb(26, 13, 171))',
   },
   '.ub-button:hover': {
     textDecoration: 'underline',
@@ -53,7 +53,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     globalStyle: {
       ...desktopGlobalStyle,
       '[data-ub-blocked="visible"] .kp-blk, [data-ub-blocked="visible"] .cv2VAd, [data-ub-blocked="visible"] .WpKAof': {
-        background: 'transparent !important',
+        backgroundColor: 'transparent !important',
       },
     },
     targets:
@@ -378,7 +378,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           lineHeight: '16px',
           padding: '0 4px',
           '[data-ub-blocked="visible"] &': {
-            background: 'rgba(255, 192, 192, 0.5)',
+            backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
           },
         },
       },
@@ -490,10 +490,10 @@ function getURLFromQuery(selector: string): (root: HTMLElement) => string | null
 
 const mobileGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
-    background: 'rgba(255, 192, 192, 0.5) !important',
+    backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
   },
   '.ub-button': {
-    color: 'rgb(25, 103, 210)',
+    color: 'var(--ub-link-color, rgb(25, 103, 210))',
   },
 };
 
@@ -512,7 +512,7 @@ const mobileDefaultControlStyle: CSSAttribute = {
 
 const mobileImageControlStyle: CSSAttribute = {
   ...mobileColoredControlStyle,
-  background: 'white',
+  backgroundColor: 'white',
   borderRadius: '8px',
   boxShadow: '0 1px 6px rgba(32, 33, 36, 0.18)',
   display: 'block',
@@ -531,7 +531,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     globalStyle: {
       ...mobileGlobalStyle,
       '[data-ub-blocked="visible"] .ZINbbc': {
-        background: 'transparent !important',
+        backgroundColor: 'transparent !important',
       },
     },
     targets: '#main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
@@ -623,7 +623,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     globalStyle: {
       ...mobileGlobalStyle,
       '[data-ub-blocked="visible"] .iKjWAf': {
-        background: 'transparent !important',
+        backgroundColor: 'transparent !important',
       },
     },
     targets: '.dmFHw, #uGbavf, .islrtb',

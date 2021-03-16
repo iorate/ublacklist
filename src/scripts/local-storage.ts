@@ -3,37 +3,58 @@ import { apis } from './apis';
 import { CloudId, CloudToken, Result, SubscriptionId, Subscriptions } from './types';
 
 export type Items = {
+  // general
   blacklist: string;
-  enablePathDepth: boolean;
+  timestamp: string;
+  skipBlockDialog: boolean;
   hideBlockLinks: boolean;
   hideControl: boolean;
-  nextSubscriptionId: SubscriptionId;
-  skipBlockDialog: boolean;
-  subscriptions: Subscriptions;
-  sync: boolean; // sync was turned on in version <= 3
+  enablePathDepth: boolean;
+
+  // sync
   syncCloudId: CloudId | null;
   syncCloudToken: CloudToken | null;
   syncInterval: number;
   syncResult: Result | null;
-  timestamp: string;
+
+  // subscription
+  subscriptions: Subscriptions;
+  nextSubscriptionId: SubscriptionId;
   updateInterval: number;
+
+  // appearance
+  linkColor: string | null;
+  blockColor: string | null;
+  highlightColors: string[];
+  dialogTheme: 'light' | 'dark' | null;
+
+  // unused
+  sync: boolean;
 };
 
 const defaultItems: Items = {
   blacklist: '',
-  enablePathDepth: false,
+  timestamp: dayjs(0).toISOString(),
+  skipBlockDialog: false,
   hideBlockLinks: false,
   hideControl: false,
-  nextSubscriptionId: 0,
-  skipBlockDialog: false,
-  subscriptions: {},
-  sync: false,
+  enablePathDepth: false,
+
   syncCloudId: null,
   syncCloudToken: null,
   syncInterval: 15,
   syncResult: null,
-  timestamp: dayjs(0).toISOString(),
+
+  subscriptions: {},
+  nextSubscriptionId: 0,
   updateInterval: 120,
+
+  linkColor: null,
+  blockColor: null,
+  highlightColors: ['#ddeeff'],
+  dialogTheme: null,
+
+  sync: false,
 };
 
 export type ItemsFor<T extends readonly (keyof Items)[]> = { [Key in T[number]]: Items[Key] };
