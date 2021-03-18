@@ -146,6 +146,48 @@ exportAsMessages('_locales/en/messages.json', {
   // The label for the switch whether to hide the number of blocked sites and the 'Show' link.
   options_hideControlLabel: 'Hide the number of blocked sites and the "Show" link',
 
+  // The title of the appearance section.
+  options_appearanceTitle: 'Appearance',
+
+  // The color of links.
+  options_linkColor: 'The color of links',
+
+  // The color of blocked search results.
+  options_blockColor: 'The color of blocked search results',
+
+  // The label of radio buttons to use the default color.
+  options_colorUseDefault: 'Default',
+
+  // The label of radio buttons to specify the color.
+  options_colorSpecify: 'Custom',
+
+  // The colors of highlighted search results.
+  options_highlightColors: 'The colors of highlighted search results',
+
+  // The description of the highlighting feature.
+  options_highlightDescription: 'To highlight search results with Color N, prepend "@N" to rules.',
+
+  // The name of the nth color.
+  options_highlightColorNth: 'Color $1',
+
+  // The label of the button to add a highlight color (for a11y only).
+  options_highlightColorAdd: 'Add',
+
+  // The label of the button to remove a highlight color (for a11y only).
+  options_highlightColorRemove: 'Remove',
+
+  // The dialog theme.
+  options_dialogTheme: 'The theme of the "Block this site" dialog on search results',
+
+  // The label of a radio button to use the default dialog theme.
+  options_dialogThemeDefault: 'Default',
+
+  // The label of a radio button to use the light theme.
+  options_dialogThemeLight: 'Light',
+
+  // The label of a radio button to use the dark theme.
+  options_dialogThemeDark: 'Dark',
+
   // The title of the sync section.
   options_syncTitle: 'Sync',
 

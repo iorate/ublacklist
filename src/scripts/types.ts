@@ -72,10 +72,13 @@ export type SerpHandlerResult = {
   entries: SerpEntry[];
 };
 
+export type DialogTheme = 'light' | 'dark';
+
 export type SerpHandler = {
   onSerpStart: () => SerpHandlerResult;
   onSerpHead: () => SerpHandlerResult;
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
+  getDialogTheme: () => DialogTheme;
 };
 // #endregion SearchEngines
 

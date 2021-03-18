@@ -25,6 +25,7 @@ import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './compo
 import { usePrevious } from './components/utilities';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
+import { DialogTheme } from './types';
 import { AltURL, translate } from './utilities';
 
 type BlockDialogContentProps = {
@@ -261,7 +262,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
 
 export type BlockDialogProps = {
   target: HTMLElement | ShadowRoot;
-  theme: 'light' | 'dark';
+  theme: DialogTheme;
 } & BlockDialogContentProps;
 
 export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, theme, ...props }) => (

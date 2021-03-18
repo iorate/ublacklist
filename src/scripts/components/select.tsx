@@ -2,6 +2,7 @@ import menuDown from '@mdi/svg/svg/menu-down.svg';
 import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useContext, useMemo } from 'preact/hooks';
+import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { TemplateIcon } from './icon';
 import { useCSS } from './styles';
@@ -49,7 +50,7 @@ export const Select = forwardRef(
           width: '15em',
           '&:disabled': {
             cursor: 'default',
-            opacity: 0.38,
+            opacity: DISABLED_OPACITY,
           },
           '&:focus': {
             boxShadow: `0 0 0 2px ${theme.focus.shadow}`,

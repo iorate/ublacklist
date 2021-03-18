@@ -7,7 +7,7 @@ import * as LocalStorage from './local-storage';
 import { sendMessage } from './messages';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { CSSAttribute, css, glob } from './styles';
-import { SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
+import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
 import { AltURL, MatchPattern, stringKeys, translate } from './utilities';
 
 type SerpEntryWithState = SerpEntry & { testResult: number };
@@ -91,7 +91,7 @@ class ContentScript {
     hideControls: boolean;
     hideActions: boolean;
     enablePathDepth: boolean;
-    dialogTheme: 'light' | 'dark';
+    dialogTheme: DialogTheme | null;
   } | null = null;
   readonly controls: SerpControl[] = [];
   readonly entries: SerpEntryWithState[] = [];
@@ -158,14 +158,14 @@ class ContentScript {
         hideControls: options.hideControl,
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
-        dialogTheme: options.dialogTheme ?? 'light',
+        dialogTheme: options.dialogTheme === 'default' ? null : options.dialogTheme,
       };
 
       const rootStyle: CSSAttribute = {};
-      if (options.linkColor != null) {
+      if (options.linkColor !== 'default') {
         rootStyle['--ub-link-color'] = options.linkColor;
       }
-      if (options.blockColor != null) {
+      if (options.blockColor !== 'default') {
         rootStyle['--ub-block-color'] = options.blockColor;
       }
       const globalStyle: CSSAttribute = {
@@ -330,7 +330,7 @@ class ContentScript {
         enablePathDepth={this.options.enablePathDepth}
         open={open}
         target={this.blockDialogRoot}
-        theme={this.options.dialogTheme}
+        theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
         url={url}
         onBlocked={() => {
           if (!this.options) {

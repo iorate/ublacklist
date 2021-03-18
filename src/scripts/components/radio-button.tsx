@@ -6,9 +6,9 @@ import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type CheckBoxProps = JSX.IntrinsicElements['input'];
+export type RadioButtonProps = JSX.IntrinsicElements['input'];
 
-export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
+export const RadioButton = forwardRef((props: RadioButtonProps, ref: Ref<HTMLInputElement>) => {
   const css = useCSS();
   const theme = useTheme();
   const wrapperClass = useMemo(
@@ -45,37 +45,33 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
       }),
     [css],
   );
-  const boxClass = useMemo(
+  const circleClass = useMemo(
     () =>
       css({
-        border: `solid 2px ${theme.checkBox.border}`,
-        borderRadius: '2px',
+        border: `solid 2px ${theme.radioButton.unchecked}`,
+        borderRadius: '50%',
         height: '16px',
         left: 0,
         position: 'absolute',
         top: 0,
         width: '16px',
         ':checked + * > &': {
-          background: theme.checkBox.box,
-          border: 'none',
+          borderColor: theme.radioButton.checked,
         },
       }),
     [css, theme],
   );
-  const checkMarkClass = useMemo(
+  const dotClass = useMemo(
     () =>
       css({
-        borderColor: 'transparent',
-        borderStyle: 'solid',
-        borderWidth: '0 0 3px 3px',
+        borderRadius: '50%',
         height: '8px',
-        left: 0,
+        left: '4px',
         position: 'absolute',
-        top: '3px',
-        transform: 'rotate(-45deg) scale(0.75)',
-        width: '16px',
+        top: '4px',
+        width: '8px',
         ':checked + * > &': {
-          borderColor: theme.checkBox.checkMark,
+          backgroundColor: theme.radioButton.checked,
         },
       }),
     [css, theme],
@@ -83,10 +79,10 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
 
   return (
     <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
+      <input {...applyClass(props, inputClass)} ref={ref} type="radio" />
       <div class={imageClass}>
-        <div class={boxClass} />
-        <div class={checkMarkClass} />
+        <div class={circleClass} />
+        <div class={dotClass} />
         <FocusCircle depth={1} />
       </div>
     </div>

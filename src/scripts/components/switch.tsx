@@ -1,7 +1,7 @@
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
-import { SWITCH_Z_INDEX } from './constants';
+import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
 import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
@@ -29,7 +29,7 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
         opacity: 0,
         position: 'absolute',
         width: '100%',
-        zIndex: SWITCH_Z_INDEX,
+        zIndex: INPUT_Z_INDEX,
         '&:disabled': {
           cursor: 'default',
         },
@@ -40,7 +40,7 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
     () =>
       css({
         ':disabled + &': {
-          opacity: 0.38,
+          opacity: DISABLED_OPACITY,
         },
       }),
     [css],

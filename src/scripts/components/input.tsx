@@ -1,6 +1,7 @@
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo } from 'preact/hooks';
+import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
@@ -23,7 +24,7 @@ export const Input = forwardRef((props: InputProps, ref: Ref<HTMLInputElement>) 
         padding: '0.5em 0.625em',
         width: '100%',
         '&:disabled': {
-          opacity: 0.38,
+          opacity: DISABLED_OPACITY,
         },
         '&:focus': {
           boxShadow: `0 0 0 2px ${theme.focus.shadow}`,

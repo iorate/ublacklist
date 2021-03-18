@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { apis } from './apis';
-import { CloudId, CloudToken, Result, SubscriptionId, Subscriptions } from './types';
+import { CloudId, CloudToken, DialogTheme, Result, SubscriptionId, Subscriptions } from './types';
 
 export type Items = {
   // general
@@ -23,10 +23,10 @@ export type Items = {
   updateInterval: number;
 
   // appearance
-  linkColor: string | null;
-  blockColor: string | null;
+  linkColor: string;
+  blockColor: string;
   highlightColors: string[];
-  dialogTheme: 'light' | 'dark' | null;
+  dialogTheme: DialogTheme | 'default';
 
   // unused
   sync: boolean;
@@ -49,10 +49,10 @@ const defaultItems: Items = {
   nextSubscriptionId: 0,
   updateInterval: 120,
 
-  linkColor: null,
-  blockColor: null,
+  linkColor: 'default',
+  blockColor: 'default',
   highlightColors: ['#ddeeff'],
-  dialogTheme: null,
+  dialogTheme: 'default',
 
   sync: false,
 };

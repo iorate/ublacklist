@@ -46,6 +46,20 @@ export type MessageName =
   | 'options_skipBlockDialogLabel'
   | 'options_hideBlockLinksLabel'
   | 'options_hideControlLabel'
+  | 'options_appearanceTitle'
+  | 'options_linkColor'
+  | 'options_blockColor'
+  | 'options_colorUseDefault'
+  | 'options_colorSpecify'
+  | 'options_highlightColors'
+  | 'options_highlightDescription'
+  | 'options_highlightColorNth'
+  | 'options_highlightColorAdd'
+  | 'options_highlightColorRemove'
+  | 'options_dialogTheme'
+  | 'options_dialogThemeDefault'
+  | 'options_dialogThemeLight'
+  | 'options_dialogThemeDark'
   | 'options_syncTitle'
   | 'options_syncFeatureUpdated'
   | 'options_syncFeature'
@@ -91,5 +105,9 @@ export type MessageName =
   | 'searchEngines_ecosiaName'
   | 'searchEngines_startpageName';
 
-export type MessageName1 = 'error' | 'content_multipleSitesBlocked' | 'options_blacklistExample';
+export type MessageName1 =
+  | 'error'
+  | 'content_multipleSitesBlocked'
+  | 'options_blacklistExample'
+  | 'options_highlightColorNth';
 export type MessageName0 = Exclude<MessageName, MessageName1>;
