@@ -119,5 +119,5 @@ exportAsJson('manifest.json', {
     'storage',
   ],
 
-  version: '4.9.0',
+  version: '4.10.0',
 });
