@@ -1,5 +1,5 @@
 import { CSSAttribute, css, glob } from '../styles';
-import { SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from '../types';
+import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from '../types';
 
 export function getParentElement(element: HTMLElement, level = 1): HTMLElement {
   let current = element;
@@ -264,17 +264,20 @@ export function handleSerp({
   controlHandlers,
   entryHandlers,
   pagerHandlers = [],
+  getDialogTheme = () => 'light',
 }: {
   globalStyle: CSSAttribute | (() => void);
   targets: string | (() => HTMLElement[]);
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
   pagerHandlers?: PagerHandler[];
+  getDialogTheme?: () => DialogTheme;
 }): SerpHandler {
   const onSerpElement = handleSerpElement({ controlHandlers, entryHandlers, pagerHandlers });
   return {
     onSerpStart: handleSerpStart({ targets, onSerpElement }),
     onSerpHead: handleSerpHead({ globalStyle }),
     onSerpElement,
+    getDialogTheme,
   };
 }

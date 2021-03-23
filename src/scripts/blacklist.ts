@@ -29,72 +29,89 @@ class RegularExpression {
 
 type Pattern = MatchPattern | RegularExpression;
 
-type CompiledRule = {
+type Rule = {
   rawRule: string;
   rawRuleIndex: number;
-  unblock: boolean;
   pattern: Pattern;
 };
 
 class BlacklistFragment {
   rawRules: (string | null)[] = [];
-  blockRules: CompiledRule[] = [];
-  unblockRules: CompiledRule[] = [];
+
+  // rules[0]: block
+  // rules[1]: unblock
+  // rules[2]: highlight-1
+  // rules[3]: highlight-2
+  // ...
+  // rules may be a sparse array
+  rules: Rule[][] = [];
 
   constructor(blacklist: string) {
     this.add(blacklist);
   }
 
   add(blacklist: string): void {
-    for (const originalRawRule of lines(blacklist)) {
-      this.rawRules.push(originalRawRule);
-      let rawRule = originalRawRule.trim();
-      if (!rawRule || rawRule.startsWith('#')) {
+    for (const rawRule of lines(blacklist)) {
+      this.rawRules.push(rawRule);
+      const trimmed = rawRule.trim();
+      if (!trimmed || trimmed.startsWith('#')) {
         continue;
       }
-      const unblock = rawRule.startsWith('@');
-      if (unblock) {
-        rawRule = rawRule.slice(1).trim();
-      }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const [, at, atNumber, rest] = /^(@(\d*)\s*)?(.*)$/.exec(trimmed)!;
+      // *://example.com/*   -> 0 (block)
+      // @*://example.com/*  -> 1 (unblock)
+      // @1*://example.com/* -> 2 (highlight-1)
+      // @2*://example.com/* -> 3 (highlight-2)
+      // ...
+      const index = at ? (atNumber ? Number(atNumber) + 1 : 1) : 0;
       let pattern: Pattern;
       try {
-        pattern = new MatchPattern(rawRule);
+        pattern = new MatchPattern(rest);
       } catch {
         try {
-          pattern = new RegularExpression(rawRule);
+          pattern = new RegularExpression(rest);
         } catch {
           continue;
         }
       }
-      (unblock ? this.unblockRules : this.blockRules).push({
-        rawRule: originalRawRule,
+      this.rules[index] ||= [];
+      this.rules[index].push({
+        rawRule,
         rawRuleIndex: this.rawRules.length - 1,
-        unblock,
         pattern,
       });
     }
   }
 
-  blocks(url: AltURL): boolean {
-    return this.blockRules.some(blockRule => blockRule.pattern.test(url));
-  }
-
-  unblocks(url: AltURL): boolean {
-    return this.unblockRules.some(unblockRule => unblockRule.pattern.test(url));
+  // 0: block
+  // 1: unblock
+  // 2: highlight-1
+  // 3: highlight-2
+  // ...
+  // -1: none of the above
+  test(url: AltURL): number {
+    return this.rules.reduceRight(
+      (result, rules, index) =>
+        result !== -1 ? result : rules.some(rule => rule.pattern.test(url)) ? index : -1,
+      -1,
+    );
   }
 }
 
 type BlacklistPatchInternal = BlacklistPatch & {
   requireRulesToAdd: boolean;
-  compiledRuleIndicesToRemove: number[];
+  ruleIndicesToRemove: [number, number][];
 };
 
-function findIndices<T>(array: readonly T[], predicate: (element: T) => boolean): number[] {
-  const indices: number[] = [];
-  array.forEach((element, index) => {
-    if (predicate(element)) {
-      indices.push(index);
-    }
+function findIndices<T>(xss: readonly T[][], predicate: (x: T) => boolean): [number, number][] {
+  const indices: [number, number][] = [];
+  xss.forEach((xs, i) => {
+    xs.forEach((x, j) => {
+      if (predicate(x)) {
+        indices.push([i, j]);
+      }
+    });
   });
   return indices;
 }
@@ -123,39 +140,37 @@ export class Blacklist {
     return unlines(this.userFragment.rawRules.filter(rawRule => rawRule != null) as string[]);
   }
 
-  test(url: AltURL): boolean {
-    if (this.userFragment.unblocks(url)) {
-      return false;
-    } else if (this.userFragment.blocks(url)) {
-      return true;
-    } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
-      return false;
-    } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
-      return true;
-    } else {
-      return false;
+  // 0: block
+  // 1: unblock
+  // 2: highlight-1
+  // 3: highlight-2
+  // ...
+  // -1: none of the above
+  test(url: AltURL): number {
+    const userResult = this.userFragment.test(url);
+    if (userResult >= 0) {
+      return userResult;
     }
+    return Math.max(...this.subscriptionFragments.map(fragment => fragment.test(url)), -1);
   }
 
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
   createPatch(url: AltURL): BlacklistPatch {
     const patch = { url } as BlacklistPatchInternal;
-    const unblockRuleIndices = findIndices(this.userFragment.unblockRules, unblockRule =>
-      unblockRule.pattern.test(url),
-    );
-    if (unblockRuleIndices.length) {
+    const ruleIndices = findIndices(this.userFragment.rules, rule => rule.pattern.test(url));
+    if (ruleIndices.some(([i]) => i >= 1)) {
       // The URL is unblocked by a user rule. Block it.
       patch.unblock = false;
-      if (this.userFragment.blocks(url)) {
+      if (ruleIndices.some(([i]) => i === 0)) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
-      } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.test(url) >= 1)) {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-      } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.test(url) === 0)) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = '';
@@ -164,22 +179,19 @@ export class Blacklist {
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
       }
-      patch.compiledRuleIndicesToRemove = unblockRuleIndices;
+      patch.ruleIndicesToRemove = ruleIndices.filter(([i]) => i >= 1);
       patch.rulesToRemove = unlines(
-        unblockRuleIndices.map(index => this.userFragment.unblockRules[index].rawRule),
+        patch.ruleIndicesToRemove.map(([i, j]) => this.userFragment.rules[i][j].rawRule),
       );
     } else {
-      const blockRuleIndices = findIndices(this.userFragment.blockRules, blockRule =>
-        blockRule.pattern.test(url),
-      );
-      if (blockRuleIndices.length) {
+      if (ruleIndices.some(([i]) => i === 0)) {
         // The URL is blocked by a user rule. Unblock it.
         patch.unblock = true;
-        if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
+        if (this.subscriptionFragments.some(fragment => fragment.test(url) >= 1)) {
           // No need to add a user rule to unblock it.
           patch.requireRulesToAdd = false;
           patch.rulesToAdd = '';
-        } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
+        } else if (this.subscriptionFragments.some(fragment => fragment.test(url) === 0)) {
           // Add a user rule to unblock it.
           patch.requireRulesToAdd = true;
           patch.rulesToAdd = suggestMatchPattern(url, true);
@@ -188,25 +200,25 @@ export class Blacklist {
           patch.requireRulesToAdd = false;
           patch.rulesToAdd = '';
         }
-        patch.compiledRuleIndicesToRemove = blockRuleIndices;
+        patch.ruleIndicesToRemove = ruleIndices.filter(([i]) => i === 0);
         patch.rulesToRemove = unlines(
-          blockRuleIndices.map(index => this.userFragment.blockRules[index].rawRule),
+          patch.ruleIndicesToRemove.map(([i, j]) => this.userFragment.rules[i][j].rawRule),
         );
-      } else if (this.subscriptionFragments.some(fragment => fragment.unblocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.test(url) >= 1)) {
         // The URL is unblocked by a subscription rule. Block it.
         // Add a user rule to block it.
         patch.unblock = false;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.compiledRuleIndicesToRemove = [];
+        patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
-      } else if (this.subscriptionFragments.some(fragment => fragment.blocks(url))) {
+      } else if (this.subscriptionFragments.some(fragment => fragment.test(url) === 0)) {
         // The URL is blocked by a subscription rule. Unblock it.
         // Add a user rule to unblock it.
         patch.unblock = true;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, true);
-        patch.compiledRuleIndicesToRemove = [];
+        patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
       } else {
         // The URL is neither blocked nor unblocked. Block it.
@@ -214,7 +226,7 @@ export class Blacklist {
         patch.unblock = false;
         patch.requireRulesToAdd = true;
         patch.rulesToAdd = suggestMatchPattern(url, false);
-        patch.compiledRuleIndicesToRemove = [];
+        patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
       }
     }
@@ -232,17 +244,15 @@ export class Blacklist {
     let rulesAddable!: boolean;
     if (this.patch.unblock) {
       if (this.patch.requireRulesToAdd) {
-        rulesAddable = fragmentToAdd.unblocks(this.patch.url);
+        rulesAddable = fragmentToAdd.test(this.patch.url) >= 1;
       } else {
-        rulesAddable =
-          !fragmentToAdd.blocks(this.patch.url) || fragmentToAdd.unblocks(this.patch.url);
+        rulesAddable = fragmentToAdd.test(this.patch.url) !== 0;
       }
     } else {
       if (this.patch.requireRulesToAdd) {
-        rulesAddable =
-          fragmentToAdd.blocks(this.patch.url) && !fragmentToAdd.unblocks(this.patch.url);
+        rulesAddable = fragmentToAdd.test(this.patch.url) === 0;
       } else {
-        rulesAddable = !fragmentToAdd.unblocks(this.patch.url);
+        rulesAddable = fragmentToAdd.test(this.patch.url) < 1;
       }
     }
     if (!rulesAddable) {
@@ -256,13 +266,13 @@ export class Blacklist {
     if (!this.patch) {
       throw new Error('Patch not created');
     }
-    const compiledRules = this.patch.unblock
-      ? this.userFragment.blockRules
-      : this.userFragment.unblockRules;
-    for (const index of this.patch.compiledRuleIndicesToRemove.reverse()) {
-      this.userFragment.rawRules[compiledRules[index].rawRuleIndex] = null;
-      compiledRules.splice(index, 1);
+
+    this.patch.ruleIndicesToRemove.reverse();
+    for (const [i, j] of this.patch.ruleIndicesToRemove) {
+      this.userFragment.rawRules[this.userFragment.rules[i][j].rawRuleIndex] = null;
+      this.userFragment.rules[i].splice(j, 1);
     }
+
     this.userFragment.add(this.patch.rulesToAdd);
     this.patch = null;
   }

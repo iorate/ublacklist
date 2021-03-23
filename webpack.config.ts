@@ -137,6 +137,10 @@ const config: webpack.Configuration = {
     },
 
     (new LicenseWebpackPlugin({
+      licenseFileOverrides: {
+        'preact-compat': '../LICENSE',
+        'preact-hooks': '../LICENSE',
+      },
       licenseTextOverrides: {
         // https://github.com/juliangruber/is-mobile/blob/master/README.md
         'is-mobile': `(MIT)

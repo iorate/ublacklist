@@ -1,6 +1,7 @@
 import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useMemo, useRef } from 'preact/hooks';
+import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
@@ -39,7 +40,7 @@ export const TextArea = forwardRef(
           width: '100%',
           wordBreak: breakAll ? 'break-all' : 'normal',
           '&:disabled': {
-            opacity: 0.38,
+            opacity: DISABLED_OPACITY,
           },
           '&:focus': {
             boxShadow: `0 0 0 2px ${theme.focus.shadow}`,

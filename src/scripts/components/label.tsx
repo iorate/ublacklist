@@ -1,6 +1,7 @@
 import { JSX, createContext, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useContext, useMemo } from 'preact/hooks';
+import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
@@ -29,7 +30,7 @@ export const LabelWrapper = forwardRef(
       () =>
         css({
           marginBottom: fullWidth ? '0.5em' : 0,
-          opacity: disabled ? 0.38 : 1,
+          opacity: disabled ? DISABLED_OPACITY : 1,
         }),
       [css, disabled, fullWidth],
     );

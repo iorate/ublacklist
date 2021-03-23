@@ -27,6 +27,9 @@ export type Theme = {
     box: string;
     checkMark: string;
   };
+  colorPicker: {
+    border: string;
+  };
   dialog: {
     background: string;
   };
@@ -34,6 +37,7 @@ export type Theme = {
     circle: string;
     shadow: string;
   };
+  iconButton: string;
   input: {
     border: string;
   };
@@ -41,14 +45,13 @@ export type Theme = {
     text: string;
   };
   menu: {
-    dots: string;
     itemBackgroundFocused: string;
     itemBackgroundHovered: string;
     itemListBackground: string;
   };
   radioButton: {
-    border: string;
-    circle: string;
+    unchecked: string;
+    checked: string;
   };
   section: {
     background: string;
@@ -103,6 +106,9 @@ export const darkTheme: Readonly<Theme> = {
     box: 'rgb(138, 180, 248)',
     checkMark: 'rgb(32, 33, 36)',
   },
+  colorPicker: {
+    border: 'rgb(95, 99, 104)',
+  },
   dialog: {
     background: 'rgb(41, 42, 45)',
   },
@@ -110,6 +116,7 @@ export const darkTheme: Readonly<Theme> = {
     shadow: 'rgba(138, 180, 248, 0.5)',
     circle: 'rgba(138, 180, 248, 0.4)',
   },
+  iconButton: 'rgb(154, 160, 166)',
   input: {
     border: 'rgb(95, 99, 104)',
   },
@@ -117,14 +124,13 @@ export const darkTheme: Readonly<Theme> = {
     text: 'rgb(138, 180, 248)',
   },
   menu: {
-    dots: 'rgb(154, 160, 166)',
     itemBackgroundFocused: 'rgba(95, 99, 104, 0.6)',
     itemBackgroundHovered: 'rgba(95, 99, 104, 0.3)',
     itemListBackground: 'rgb(41, 42, 45)',
   },
   radioButton: {
-    border: 'rgb(154, 160, 166)',
-    circle: 'rgb(138, 180, 248)',
+    unchecked: 'rgb(154, 160, 166)',
+    checked: 'rgb(138, 180, 248)',
   },
   section: {
     background: 'rgb(41, 42, 45)',
@@ -178,6 +184,9 @@ export const lightTheme: Readonly<Theme> = {
     box: 'rgb(26, 115, 232)',
     checkMark: 'white',
   },
+  colorPicker: {
+    border: 'rgb(218, 220, 224)',
+  },
   dialog: {
     background: 'white',
   },
@@ -185,6 +194,7 @@ export const lightTheme: Readonly<Theme> = {
     shadow: 'rgba(26, 115, 232, 0.4)',
     circle: 'rgba(26, 115, 232, 0.2)',
   },
+  iconButton: 'rgb(95, 99, 104)',
   input: {
     border: 'rgb(218, 220, 224)',
   },
@@ -192,14 +202,13 @@ export const lightTheme: Readonly<Theme> = {
     text: 'rgb(51, 103, 214)',
   },
   menu: {
-    dots: 'rgb(95, 99, 104)',
     itemBackgroundFocused: 'rgba(189, 193, 198, 0.3)',
     itemBackgroundHovered: 'rgba(189, 193, 198, 0.15)',
     itemListBackground: 'white',
   },
   radioButton: {
-    border: 'rgb(95, 99, 104)',
-    circle: 'rgb(26, 115, 232)',
+    unchecked: 'rgb(95, 99, 104)',
+    checked: 'rgb(26, 115, 232)',
   },
   section: {
     background: 'white',

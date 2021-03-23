@@ -20,15 +20,16 @@ export function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"], [data-ub-blocked="visible"] + .results__sitelink--organics, [data-ub-blocked="visible"] .tile--img__sub': {
-        background: 'rgba(255, 192, 192, 0.5) !important',
+        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
       },
       '[data-ub-blocked="visible"] .tile__body': {
-        background: 'transparent !important',
+        backgroundColor: 'transparent !important',
       },
       '[data-ub-blocked="hidden"] + .results__sitelink--organics': {
         display: 'none !important',
       },
       '.ub-button.msg__all': {
+        color: 'var(--ub-link-color) !important',
         display: 'inline',
       },
       '.ub-button:hover': {

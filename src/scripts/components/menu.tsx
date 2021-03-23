@@ -3,8 +3,8 @@ import { JSX, h } from 'preact';
 import { forwardRef } from 'preact/compat';
 import { Ref, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from './constants';
-import { FocusCircle, applyClass } from './helpers';
-import { TemplateIcon } from './icon';
+import { applyClass } from './helpers';
+import { IconButton } from './icon-button';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
@@ -51,24 +51,6 @@ export const Menu = forwardRef(
         }),
       [css],
     );
-    const buttonClass = useMemo(() => {
-      return css({
-        background: 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        display: 'block',
-        height: '36px',
-        padding: '6px',
-        width: '36px',
-        '&:disabled': {
-          cursor: 'default',
-          opacity: 0.38,
-        },
-        '&:focus': {
-          outline: 'none',
-        },
-      });
-    }, [css]);
     const bodyClass = useMemo(
       () =>
         css({
@@ -97,18 +79,15 @@ export const Menu = forwardRef(
           }
         }}
       >
-        <button
+        <IconButton
           aria-expanded={open}
           aria-haspopup="menu"
           aria-label={buttonLabel}
-          class={buttonClass}
           disabled={disabled}
+          iconURL={dotsVertical}
           ref={buttonRef}
           onClick={() => setOpen(!open)}
-        >
-          <TemplateIcon color={theme.menu.dots} iconSize="24px" url={dotsVertical} />
-        </button>
-        <FocusCircle />
+        />
         <div
           {...applyClass(props, bodyClass)}
           ref={bodyRef}

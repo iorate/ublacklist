@@ -21,9 +21,11 @@ import { expandLinks } from './components/link';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
 import { TextArea } from './components/textarea';
+import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
 import { usePrevious } from './components/utilities';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
+import { DialogTheme } from './types';
 import { AltURL, translate } from './utilities';
 
 type BlockDialogContentProps = {
@@ -258,24 +260,31 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   );
 };
 
-export type BlockDialogProps = { target: HTMLElement | ShadowRoot } & BlockDialogContentProps;
+export type BlockDialogProps = {
+  target: HTMLElement | ShadowRoot;
+  theme: DialogTheme;
+} & BlockDialogContentProps;
 
-export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, ...props }) => (
+export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, theme, ...props }) => (
   <StylesProvider target={target}>
-    <ScopedBaseline>
-      <Dialog aria-labelledby="title" close={props.close} open={props.open} width="360px">
-        <BlockDialogContent {...props} />
-      </Dialog>
-    </ScopedBaseline>
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <ScopedBaseline>
+        <Dialog aria-labelledby="title" close={props.close} open={props.open} width="360px">
+          <BlockDialogContent {...props} />
+        </Dialog>
+      </ScopedBaseline>
+    </ThemeProvider>
   </StylesProvider>
 );
 
 export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
 
 export const BlockPopup: FunctionComponent<BlockPopupProps> = props => (
-  <Baseline>
-    <EmbeddedDialog close={props.close} width="360px">
-      <BlockDialogContent open={true} {...props} />
-    </EmbeddedDialog>
-  </Baseline>
+  <AutoThemeProvider>
+    <Baseline>
+      <EmbeddedDialog close={props.close} width="360px">
+        <BlockDialogContent open={true} {...props} />
+      </EmbeddedDialog>
+    </Baseline>
+  </AutoThemeProvider>
 );
