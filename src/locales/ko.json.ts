@@ -55,8 +55,7 @@ exportAsMessages('_locales/ko/messages.json', {
   options_colorUseDefault: '기본값',
   options_colorSpecify: '직접 선택',
   options_highlightColors: '검색 결과 배경색',
-  options_highlightDescription:
-    '"색 N" 을 배경색으로 지정하려면 규칙 앞에 "@N" 을 붙여주세요.',
+  options_highlightDescription: '"색 N" 을 배경색으로 지정하려면 규칙 앞에 "@N" 을 붙여주세요.',
   options_highlightColorNth: '색 $1',
   options_highlightColorAdd: '추가',
   options_highlightColorRemove: '제거',
