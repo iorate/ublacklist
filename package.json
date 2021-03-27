@@ -76,6 +76,10 @@
       "@typescript-eslint"
     ],
     "rules": {
+      "object-shorthand": [
+        "warn",
+        "always"
+      ],
       "sort-imports": [
         "warn",
         {
