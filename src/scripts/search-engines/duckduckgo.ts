@@ -95,6 +95,7 @@ export function getSerpHandler(): SerpHandler {
         scope: 'all',
         target: '.result:not(.result--ad):not(.result--news)',
         url: '.result__a',
+        title: '.result__a',
         actionTarget: '.result__body',
         actionStyle: {
           display: 'block',
@@ -107,6 +108,7 @@ export function getSerpHandler(): SerpHandler {
         scope: 'images',
         target: '.tile--img',
         url: '.tile--img__sub',
+        title: '.tile--img__title',
         actionTarget: '.tile--img__sub',
         actionStyle: {
           lineHeight: '1.5',
@@ -118,6 +120,7 @@ export function getSerpHandler(): SerpHandler {
         scope: 'videos',
         target: '.tile--vid',
         url: '.tile__title > a',
+        title: '.tile__title > a',
         actionTarget: '.tile__body',
         actionStyle: {
           display: 'block',
@@ -130,6 +133,7 @@ export function getSerpHandler(): SerpHandler {
         scope: 'news',
         target: '.result--news',
         url: '.result__a',
+        title: '.result__a',
         actionTarget: '.result__body',
         actionStyle: {
           display: 'block',

@@ -20,6 +20,14 @@ export class AltURL {
   }
 }
 
+export function makeAltURL(url: string): AltURL | null {
+  try {
+    return new AltURL(url);
+  } catch {
+    return null;
+  }
+}
+
 export class HTTPError extends Error {
   constructor(readonly status: number, readonly statusText: string) {
     super(`${status}${statusText ? ' ' : ''}${statusText}`);

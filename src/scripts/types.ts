@@ -1,5 +1,6 @@
 import type dayjs from 'dayjs';
 import type { MessageName0 } from '../common/locales';
+import type { AltURL } from './utilities';
 
 export type { MessageName, MessageName0, MessageName1 } from '../common/locales';
 export type { SearchEngineId } from '../common/search-engines';
@@ -59,12 +60,18 @@ export type SerpControl = {
   onRender?: () => void;
 };
 
+export type SerpEntryProps = {
+  url: AltURL;
+  title: string | null;
+};
+
 export type SerpEntry = {
   scope: string;
   root: HTMLElement;
-  url: string;
   actionRoot: HTMLElement;
   onActionRender?: () => void;
+  props: SerpEntryProps;
+  state: number;
 };
 
 export type SerpHandlerResult = {

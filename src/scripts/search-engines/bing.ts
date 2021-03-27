@@ -38,7 +38,8 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
     entryHandlers: [
       {
         target: '.b_algo',
-        url: 'a',
+        url: 'h2 > a',
+        title: 'h2',
         actionTarget: '.b_attribution',
         actionStyle: {
           display: 'inline-block',
@@ -79,6 +80,10 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
           return m != null
             ? Poi.tryParseJSON(m, Poi.object({ purl: Poi.string() }))?.purl ?? null
             : null;
+        },
+        title: root => {
+          const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
+          return m != null ? Poi.tryParseJSON(m, Poi.object({ t: Poi.string() }))?.t ?? null : null;
         },
         actionTarget: root =>
           root.querySelector<HTMLElement>('.infnmpt') ??
@@ -164,6 +169,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
             ? Poi.tryParseJSON(vrhm, Poi.object({ murl: Poi.string() }))?.murl ?? null
             : null;
         },
+        title: '.mc_vtvc_title',
         actionTarget: '.mc_vtvc_meta',
         actionStyle: {
           display: 'block',
@@ -202,6 +208,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
           return newsCard?.querySelector('.generalads') ? null : newsCard;
         },
         url: '.title',
+        title: '.title',
         actionTarget: '.source',
         actionStyle: {
           marginLeft: '6px',

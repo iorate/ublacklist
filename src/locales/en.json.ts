@@ -51,11 +51,14 @@ exportAsMessages('_locales/en/messages.json', {
   // The title of the disclosure widget that contains the details.
   popup_details: 'Details',
 
-  // The label for the input that shows a page URL.
+  // The label for the textarea that shows the page URL.
   popup_pageURLLabel: 'Page URL',
 
   // The label for the input that shows a path depth of rules to be added.
   popup_pathDepth: 'Depth',
+
+  // The label for the textarea that shows the page title.
+  popup_pageTitleLabel: 'Page title',
 
   // The label for the textarea that shows rules to be added.
   popup_addedRulesLabel: 'Rules to be added',
@@ -85,6 +88,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The helper text to show an example rule.
   // '$1' is expanded to the example.
   options_blacklistExample: 'Example: $1',
+
+  // The helper text to explain how to block sites by page title.
+  options_blockByTitle: 'To block sites by page title, prepend "title" to regular expressions.',
 
   // The text indicating that the blacklist is update outside the options page.
   options_blacklistUpdated: 'Updated',

@@ -7,7 +7,7 @@ import { sendMessage } from './messages';
 import { translate } from './utilities';
 
 async function main(): Promise<void> {
-  const [{ url }] = await apis.tabs.query({ active: true, currentWindow: true });
+  const [{ title, url }] = await apis.tabs.query({ active: true, currentWindow: true });
   if (url == null) {
     throw new Error('No URL');
   }
@@ -24,6 +24,7 @@ async function main(): Promise<void> {
       blacklist={blacklist}
       close={() => window.close()}
       enablePathDepth={options.enablePathDepth}
+      title={title ?? null}
       url={url}
       onBlocked={() => sendMessage('set-blacklist', blacklist.toString(), 'popup')}
     />,

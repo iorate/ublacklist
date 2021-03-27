@@ -215,8 +215,10 @@ const SetBlacklist: FunctionComponent = () => {
           <LabelWrapper fullWidth>
             <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
+            <SubLabel>{translate('options_blockByTitle')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
+            <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
           <TextArea
             id="blacklist"

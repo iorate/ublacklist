@@ -1,7 +1,7 @@
 import mobile from 'is-mobile';
 import { CSSAttribute } from '../styles';
 import { SerpHandler } from '../types';
-import { getParentElement, handleSerp, insertElement } from './helpers';
+import { handleSerp, insertElement } from './helpers';
 
 // #region desktop
 const desktopGlobalStyle: CSSAttribute = {
@@ -21,7 +21,7 @@ const desktopInlineActionStyle: CSSAttribute = {
   width: 0,
 };
 
-const desktopDefaultActionStyle: CSSAttribute = {
+const desktopRegularActionStyle: CSSAttribute = {
   ...desktopInlineActionStyle,
   fontSize: '14px',
   marginLeft: '4px',
@@ -57,7 +57,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     },
     targets:
-      '#result-stats, #botabar, .IsZvec, .g, .ttfMne, .F4CzCf, .YwonT, .kno-fb-ctx, .tYlW7b, .eejeod, .VibNM, .dbsr, .F9rcV',
+      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .tYlW7b, .eejeod, .VibNM, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -82,7 +82,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
-      // Default, Web Result (About this result)
+      // Regular, Web Result (About this result)
       {
         target: '.g .IsZvec',
         level: target => {
@@ -91,11 +91,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return root && (root.matches('.g *') ? null : root);
         },
         url: 'a',
+        title: 'h3',
         actionTarget: '.csDOgf',
         actionPosition: 'afterend',
         actionStyle: desktopAboutThisResultActionStyle,
       },
-      // Default, Web Result
+      // Regular, Web Result
       {
         target: '.g .IsZvec',
         level: target => {
@@ -103,10 +104,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return root && (root.matches('.g *') ? null : root);
         },
         url: 'a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
-        actionStyle: desktopDefaultActionStyle,
+        actionStyle: desktopRegularActionStyle,
       },
-      // Default, Web Result (Fallback)
+      // Regular, Web Result (Fallback)
       {
         target: '.g .IsZvec',
         level: target => {
@@ -114,6 +116,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return root && (root.matches('.g *') ? null : root);
         },
         url: 'a',
+        title: 'h3',
         actionTarget: '',
         actionStyle: {
           fontSize: '14px',
@@ -125,6 +128,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.g > .kp-blk > .xpdopen > .ifM9O > div > .g',
         level: 5,
         url: '.yuRUbf > a',
+        title: 'h3',
         actionTarget: '.csDOgf',
         actionPosition: 'afterend',
         actionStyle: desktopAboutThisResultActionStyle,
@@ -134,35 +138,32 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.g > .kp-blk > .xpdopen > .ifM9O > div > .g',
         level: 5,
         url: '.yuRUbf > a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
-        actionStyle: desktopDefaultActionStyle,
+        actionStyle: desktopRegularActionStyle,
       },
-      // Latest
+      // Latest, Top Story (Horizontal)
       {
-        target: '.So9e7d > .ttfMne',
-        level: target => {
-          const root = getParentElement(target);
-          // Map from the Web (COVID-19)
-          return root.matches('.UDZeY *') ? null : root;
-        },
-        url: '.VlJC0',
-        actionTarget: '.ttfMne',
+        target: '.JJZKK .kno-fb-ctx',
+        level: '.JJZKK',
+        url: 'a',
+        title: '[role="heading"][aria-level="4"]',
+        actionTarget: '.kno-fb-ctx',
         actionStyle: {
           display: 'block',
-          fontSize: '14px',
+          fontSize: '12px',
           margin: '-10px 0 10px',
           padding: '0 16px',
+          position: 'relative',
+          zIndex: 1,
         },
       },
       // People Also Ask (About this result)
       {
-        target: '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
-        level: target => {
-          const root = getParentElement(target, 5);
-          // Common Question (COVID-19)
-          return root.matches('.UDZeY *') ? null : root;
-        },
+        target: '.related-question-pair, .related-question-pair .VWE0hc',
+        level: '.related-question-pair',
         url: '.yuRUbf > a',
+        title: 'h3',
         actionTarget: '.csDOgf',
         actionPosition: 'afterend',
         actionStyle: {
@@ -175,15 +176,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // People Also Ask
       {
-        target: '.related-question-pair > g-accordion-expander > .gy6Qzb > div > div > .g',
-        level: target => {
-          const root = getParentElement(target, 5);
-          return root.matches('.UDZeY *') ? null : root;
-        },
+        target: '.related-question-pair, .related-question-pair .VWE0hc',
+        level: '.related-question-pair',
         url: '.yuRUbf > a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
         actionStyle: {
-          ...desktopDefaultActionStyle,
+          ...desktopRegularActionStyle,
           '& > .ub-button': {
             display: 'inline-block',
             overflowY: 'hidden',
@@ -195,6 +194,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.UaDxmd > .F4CzCf',
         level: 1,
         url: '.YVkwvd',
+        title: '.YVkwvd > div',
         actionTarget: '.FF4Vu',
         actionStyle: {
           display: 'block',
@@ -206,25 +206,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.YwonT',
         url: '.a-no-hover-decoration',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.a-no-hover-decoration',
         actionStyle: {
           display: 'block',
           fontSize: '12px',
-        },
-      },
-      // Top Story (Horizontal)
-      {
-        target: '.JJZKK .kno-fb-ctx',
-        level: '.JJZKK',
-        url: 'a',
-        actionTarget: '.kno-fb-ctx',
-        actionStyle: {
-          display: 'block',
-          fontSize: '12px',
-          margin: '-10px 0 10px',
-          padding: '0 16px',
-          position: 'relative',
-          zIndex: 1,
         },
       },
       // Top Story (Vertical)
@@ -232,6 +218,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: 'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
         level: 8,
         url: 'a',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.tYlW7b',
         actionStyle: {
           ...desktopInlineActionStyle,
@@ -242,6 +229,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: 'div > div > .dbsr > a > div > div > .tYlW7b',
         level: 6,
         url: 'a',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.tYlW7b',
         actionStyle: {
           ...desktopInlineActionStyle,
@@ -252,6 +240,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.eejeod, .g',
         url: 'g-link > a',
+        title: 'a > h3',
         actionTarget: '.oERM6',
         actionPosition: 'afterend',
         actionStyle: desktopAboutThisResultActionStyle,
@@ -260,21 +249,24 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.eejeod, .g',
         url: 'g-link > a',
+        title: 'a > h3',
         actionTarget: '.ellip',
-        actionStyle: desktopDefaultActionStyle,
+        actionStyle: desktopRegularActionStyle,
       },
       // Video
       {
         target: '.VibNM',
         url: '.WpKAof',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.ocUPSd',
-        actionStyle: desktopDefaultActionStyle,
+        actionStyle: desktopRegularActionStyle,
       },
       // News (COVID-19)
       {
         target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
         level: 1,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
       },
@@ -282,6 +274,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
         level: 4,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="2"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
       },
@@ -289,31 +282,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.nChh6e > div > .dbsr',
         level: 2,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="2"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
-      },
-      // People Also Search For (COVID-19)
-      {
-        target: '.F9rcV',
-        url: '.Tsx23b',
-        actionTarget: '.Tsx23b',
-        actionStyle: {
-          display: 'block',
-          fontSize: '12px',
-          margin: '-12px 0 12px',
-          padding: '0 16px',
-        },
-      },
-      // Top Story (Vertical, COVID-19)
-      {
-        target: '.bh13Qc > .cv2VAd > div > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
-        level: 7,
-        url: 'a',
-        actionTarget: '.tYlW7b',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
-        },
       },
     ],
     pagerHandlers: [
@@ -322,10 +293,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.related-question-pair',
         innerTargets: '.g',
       },
-      // Recipe, Default (COVID-19), Web Result (COVID-19), ...
+      // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets: '.YwonT, .IsZvec, .dbsr, .F9rcV, .kno-fb-ctx, .tYlW7b',
+        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .dbsr, .F9rcV, .tYlW7b, .VibNM',
       },
       // AutoPagerize
       {
@@ -347,7 +318,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.Yr5TG',
         url: '.bHexk > a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
     ],
   }),
@@ -371,6 +344,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.isv-r, .isv-r > .VFACy',
         level: '.isv-r',
         url: '.VFACy',
+        title: root => {
+          const a = root.querySelector<HTMLElement>('.VFACy');
+          return a?.firstChild?.textContent ?? null;
+        },
         actionTarget: '',
         actionStyle: {
           display: 'block',
@@ -394,11 +371,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
-      // Default
+      // Regular
       {
         target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
         level: 1,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
       },
@@ -406,6 +384,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
         level: 4,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="2"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
       },
@@ -413,6 +392,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.nChh6e > div > .dbsr',
         level: 2,
         url: '.dbsr > a',
+        title: '[role="heading"][aria-level="2"]',
         actionTarget: '.XTjFC',
         actionStyle: desktopNewsActionStyle,
       },
@@ -420,6 +400,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.F9rcV',
         url: '.Tsx23b',
+        title: '.I1HL6b',
         actionTarget: '.Tsx23b',
         actionStyle: {
           display: 'block',
@@ -451,8 +432,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.g > .tF2Cxc > .IsZvec',
         level: 2,
         url: '.yuRUbf > a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
-        actionStyle: desktopDefaultActionStyle,
+        actionStyle: desktopRegularActionStyle,
       },
     ],
     pagerHandlers: [
@@ -501,7 +483,7 @@ const mobileColoredControlStyle: CSSAttribute = {
   color: 'rgba(0, 0, 0, 0.54)',
 };
 
-const mobileDefaultControlStyle: CSSAttribute = {
+const mobileRegularControlStyle: CSSAttribute = {
   ...mobileColoredControlStyle,
   borderRadius: '8px',
   boxShadow: '0 1px 6px rgba(32, 33, 36, 0.28)',
@@ -520,7 +502,7 @@ const mobileImageControlStyle: CSSAttribute = {
   padding: '11px 16px',
 };
 
-const mobileDefaultActionStyle: CSSAttribute = {
+const mobileRegularActionStyle: CSSAttribute = {
   display: 'block',
   padding: '0 16px 12px',
 };
@@ -539,48 +521,41 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
-        style: mobileDefaultControlStyle,
+        style: mobileRegularControlStyle,
       },
     ],
     entryHandlers: [
-      // Default, Featured Snippet, Video
+      // Regular, Featured Snippet, Video
       {
         target: '.xpd',
         url: getURLFromQuery(':scope > .kCrYT > a'),
+        title: '.vvjwJb',
         actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
-      // Latest
+      // Latest, Top Story (Horizontal), Twitter Search
       {
         target: '.BVG0Nb',
-        level: target => (target.querySelector('.S7Jdze:last-child') ? target : null),
+        level: target => (target.closest('.xpd')?.querySelector('.AzGoi') ? null : target),
         url: getURLFromQuery(''),
+        title: '.s3v9rd, .vvjwJb',
         actionTarget: '',
-        actionStyle: {
-          display: 'block',
-          padding: '12px 16px',
-        },
+        actionStyle: mobileRegularActionStyle,
       },
       // People Also Ask
       {
         target: '.xpc > .qxDOhb > div',
         level: 2,
         url: getURLFromQuery('.kCrYT > a'),
+        title: '.vvjwJb',
         actionTarget: '.xpd',
-        actionStyle: mobileDefaultActionStyle,
-      },
-      // Top Story (Horizontal), Twitter Search
-      {
-        target: '.BVG0Nb',
-        level: target => (target.closest('.xpd')?.querySelector('.AzGoi') ? null : target),
-        url: getURLFromQuery(''),
-        actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
       // Top Story (Vertical)
       {
         target: '.X7NTVe',
-        url: getURLFromQuery('.tHmfQe'),
+        url: getURLFromQuery('.tHmfQe:last-child'), // `:last-child` avoids "Authorized vaccines"
+        title: '.deIvCb',
         actionTarget: '.tHmfQe',
         actionStyle: {
           display: 'block',
@@ -593,8 +568,9 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         level: target =>
           target.querySelector(':scope > div:first-child > a > .kCrYT') ? target : null,
         url: getURLFromQuery('a'),
+        title: '.vvjwJb',
         actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
     ],
   }),
@@ -606,15 +582,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
-        style: mobileDefaultControlStyle,
+        style: mobileRegularControlStyle,
       },
     ],
     entryHandlers: [
       {
         target: '.xpd',
         url: '.kCrYT > a',
+        title: '.vvjwJb',
         actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
     ],
   }),
@@ -644,6 +621,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.islrtb',
         url: getURLFromQuery('.iKjWAf'),
+        title: '.mVDMnf',
         actionTarget: '',
         actionStyle: {
           display: 'block',
@@ -663,15 +641,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
-        style: mobileDefaultControlStyle,
+        style: mobileRegularControlStyle,
       },
     ],
     entryHandlers: [
       {
         target: '.xpd',
         url: getURLFromQuery('.kCrYT > a'),
+        title: '.vvjwJb',
         actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
     ],
   }),
@@ -683,15 +662,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
-        style: mobileDefaultControlStyle,
+        style: mobileRegularControlStyle,
       },
     ],
     entryHandlers: [
       {
         target: '.xpd',
         url: getURLFromQuery('.kCrYT > a'),
+        title: '.vvjwJb',
         actionTarget: '',
-        actionStyle: mobileDefaultActionStyle,
+        actionStyle: mobileRegularActionStyle,
       },
     ],
   }),

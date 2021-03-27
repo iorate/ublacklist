@@ -1,5 +1,6 @@
 import { CSSAttribute, css, glob } from '../styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from '../types';
+import { makeAltURL } from '../utilities';
 
 export function getParentElement(element: HTMLElement, level = 1): HTMLElement {
   let current = element;
@@ -90,6 +91,7 @@ export type EntryHandler = {
   target: string | ((element: HTMLElement) => boolean);
   level?: number | string | ((target: HTMLElement) => HTMLElement | null);
   url: string | ((root: HTMLElement) => string | null);
+  title?: string | ((root: HTMLElement) => string | null);
   actionTarget: string | ((root: HTMLElement) => HTMLElement | null);
   actionPosition?:
     | 'beforebegin'
@@ -170,6 +172,7 @@ export function handleSerpElement({
       target,
       level = 0,
       url,
+      title,
       actionTarget,
       actionPosition = 'beforeend',
       actionStyle,
@@ -199,10 +202,18 @@ export function handleSerpElement({
       if (entryURL == null) {
         continue;
       }
-      try {
-        new URL(entryURL);
-      } catch {
+      const entryAltURL = makeAltURL(entryURL);
+      if (entryAltURL == null) {
         continue;
+      }
+      let entryTitle: string | null;
+      if (title == null) {
+        entryTitle = null;
+      } else if (typeof title === 'string') {
+        const h = entryRoot.querySelector<HTMLElement>(title);
+        entryTitle = h?.textContent?.trim().replace(/\n/g, ' ') ?? null;
+      } else {
+        entryTitle = title(entryRoot);
       }
       const entryActionTarget =
         typeof actionTarget === 'string'
@@ -232,10 +243,14 @@ export function handleSerpElement({
       entries.push({
         scope,
         root: entryRoot,
-        url: entryURL,
         actionRoot: entryActionRoot,
         onActionRender:
           actionButtonStyle != null ? handleRender(entryActionRoot, actionButtonStyle) : undefined,
+        props: {
+          url: entryAltURL,
+          title: entryTitle,
+        },
+        state: -1,
       });
       entryRoots.add(entryRoot);
     }

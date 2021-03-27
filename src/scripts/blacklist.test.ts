@@ -1,5 +1,39 @@
 import { Blacklist } from './blacklist';
+import { SerpEntryProps } from './types';
 import { AltURL } from './utilities';
+
+function makeProps(url: string, title?: string): SerpEntryProps {
+  return {
+    url: new AltURL(url),
+    title: title ?? null,
+  };
+}
+
+describe('title', () => {
+  test('test', () => {
+    const b1 = new Blacklist(
+      String.raw`*://example.com/*
+url/example\.(net|org)/
+title/Example/
+@title/allowed/i`,
+      [],
+    );
+    expect(b1.test(makeProps('http://example.net', 'Net'))).toBe(0);
+    expect(b1.test(makeProps('https://example.edu', 'Example Domain'))).toBe(0);
+    expect(b1.test(makeProps('http://example.com', 'Allowed'))).toBe(1);
+
+    const b2 = new Blacklist(
+      String.raw`/example\.net/
+u/example\.org/
+ti/Example/
+@titl/allowed/i`,
+      [],
+    );
+    expect(b2.test(makeProps('http://example.net', 'Net'))).toBe(0);
+    expect(b2.test(makeProps('https://example.edu', 'Example Domain'))).toBe(0);
+    expect(b2.test(makeProps('http://example.com', 'Allowed'))).toBe(1);
+  });
+});
 
 describe('highlight', () => {
   test('test', () => {
@@ -11,15 +45,15 @@ describe('highlight', () => {
 @10/example\.com/`,
       [],
     );
-    expect(b1.test(new AltURL('https://example.com/'))).toBe(11);
-    expect(b1.test(new AltURL('https://example.net/'))).toBe(1);
-    expect(b1.test(new AltURL('https://example.org/'))).toBe(2);
-    expect(b1.test(new AltURL('https://example.edu/'))).toBe(3);
-    expect(b1.test(new AltURL('https://example.co.jp'))).toBe(-1);
+    expect(b1.test(makeProps('https://example.com/'))).toBe(11);
+    expect(b1.test(makeProps('https://example.net/'))).toBe(1);
+    expect(b1.test(makeProps('https://example.org/'))).toBe(2);
+    expect(b1.test(makeProps('https://example.edu/'))).toBe(3);
+    expect(b1.test(makeProps('https://example.co.jp'))).toBe(-1);
 
     const b2 = new Blacklist(String.raw`  @2  https://*.example.com/*  `, []);
-    expect(b2.test(new AltURL('https://subdomain.example.com/'))).toBe(3);
-    expect(b2.test(new AltURL('https://example.net/'))).toBe(-1);
+    expect(b2.test(makeProps('https://subdomain.example.com/'))).toBe(3);
+    expect(b2.test(makeProps('https://example.net/'))).toBe(-1);
 
     const b3 = new Blacklist(
       String.raw`*://example.com/*
@@ -29,14 +63,14 @@ describe('highlight', () => {
 *://example.net/*`,
       ],
     );
-    expect(b3.test(new AltURL('https://example.com/'))).toBe(0);
-    expect(b3.test(new AltURL('https://subdomain.example.com/'))).toBe(101);
-    expect(b3.test(new AltURL('https://example.net/'))).toBe(1);
+    expect(b3.test(makeProps('https://example.com/'))).toBe(0);
+    expect(b3.test(makeProps('https://subdomain.example.com/'))).toBe(101);
+    expect(b3.test(makeProps('https://example.net/'))).toBe(1);
   });
 
   test('patch', () => {
     const b1 = new Blacklist(String.raw`@1*://example.com/*`, []);
-    const p11 = b1.createPatch(new AltURL('https://example.com/'));
+    const p11 = b1.createPatch(makeProps('https://example.com/'));
     expect(p11.unblock).toBe(false);
     expect(p11.rulesToAdd).toBe(String.raw`*://example.com/*`);
     expect(p11.rulesToRemove).toBe(String.raw`@1*://example.com/*`);
@@ -49,7 +83,7 @@ describe('highlight', () => {
     expect(b1.toString()).toBe(String.raw`*://example.com/*`);
 
     const b2 = new Blacklist(String.raw`*://example.com/*`, [String.raw`*://example.com/*`]);
-    const p21 = b2.createPatch(new AltURL('https://example.com'));
+    const p21 = b2.createPatch(makeProps('https://example.com'));
     expect(p21.unblock).toBe(true);
     expect(p21.rulesToAdd).toBe(String.raw`@*://example.com/*`);
     expect(p21.rulesToRemove).toBe(String.raw`*://example.com/*`);
@@ -80,24 +114,24 @@ describe('block and unblock', () => {
 
   test('test', () => {
     const b1 = new Blacklist(BLACKLIST1, []);
-    expect(b1.test(new AltURL('http://example.com/'))).toBe(0);
-    expect(b1.test(new AltURL('https://www.example.com/path'))).toBe(0);
-    expect(b1.test(new AltURL('ftp://example.net/'))).toBe(0);
-    expect(b1.test(new AltURL('http://example.edu/'))).toBe(-1);
+    expect(b1.test(makeProps('http://example.com/'))).toBe(0);
+    expect(b1.test(makeProps('https://www.example.com/path'))).toBe(0);
+    expect(b1.test(makeProps('ftp://example.net/'))).toBe(0);
+    expect(b1.test(makeProps('http://example.edu/'))).toBe(-1);
 
     const b123 = new Blacklist(BLACKLIST1, [BLACKLIST2, BLACKLIST3]);
-    expect(b123.test(new AltURL('http://example.com/'))).toBe(0);
-    expect(b123.test(new AltURL('http://example.net/'))).toBe(1);
-    expect(b123.test(new AltURL('https://example.edu/'))).toBe(-1);
-    expect(b123.test(new AltURL('https://example.edu/path/to/example'))).toBe(1);
-    expect(b123.test(new AltURL('https://www.qinterest.com/'))).toBe(0);
+    expect(b123.test(makeProps('http://example.com/'))).toBe(0);
+    expect(b123.test(makeProps('http://example.net/'))).toBe(1);
+    expect(b123.test(makeProps('https://example.edu/'))).toBe(-1);
+    expect(b123.test(makeProps('https://example.edu/path/to/example'))).toBe(1);
+    expect(b123.test(makeProps('https://www.qinterest.com/'))).toBe(0);
   });
 
   test('patch', () => {
     const b1 = new Blacklist(BLACKLIST1, []);
-    const p1a = b1.createPatch(new AltURL('https://www.example.edu/'));
+    const p1a = b1.createPatch(makeProps('https://www.example.edu/'));
     expect(p1a.unblock).toBe(false);
-    expect(p1a.url.toString()).toBe('https://www.example.edu/');
+    expect(p1a.props.url.toString()).toBe('https://www.example.edu/');
     expect(p1a.rulesToAdd).toBe('*://www.example.edu/*');
     expect(p1a.rulesToRemove).toBe('');
     const p1b = b1.modifyPatch({ rulesToAdd: '*://example.edu/*' });
@@ -109,9 +143,9 @@ describe('block and unblock', () => {
 https://*.example.edu/`);
 
     const b123 = new Blacklist(BLACKLIST1, [BLACKLIST2, BLACKLIST3]);
-    const p123a = b123.createPatch(new AltURL('http://www.example.com/path'));
+    const p123a = b123.createPatch(makeProps('http://www.example.com/path'));
     expect(p123a.unblock).toBe(true);
-    expect(p123a.url.toString()).toBe('http://www.example.com/path');
+    expect(p123a.props.url.toString()).toBe('http://www.example.com/path');
     expect(p123a.rulesToAdd).toBe('');
     expect(p123a.rulesToRemove).toBe('*://*.example.com/*');
     b123.applyPatch();
@@ -120,9 +154,9 @@ https://*.example.edu/`);
 # But unblock 'example.net'
 @*://example.net/*`);
 
-    const p123b = b123.createPatch(new AltURL('https://example.net/'));
+    const p123b = b123.createPatch(makeProps('https://example.net/'));
     expect(p123b.unblock).toBe(false);
-    expect(p123b.url.toString()).toBe('https://example.net/');
+    expect(p123b.props.url.toString()).toBe('https://example.net/');
     expect(p123b.rulesToAdd).toBe('');
     expect(p123b.rulesToRemove).toBe('@*://example.net/*');
     const p123c = b123.modifyPatch({ rulesToAdd: '@/net/' });
@@ -134,9 +168,9 @@ https://*.example.edu/`);
       b123.applyPatch();
     }).toThrow();
 
-    const p123e = b123.createPatch(new AltURL('ftp://example.org/dir/file'));
+    const p123e = b123.createPatch(makeProps('ftp://example.org/dir/file'));
     expect(p123e.unblock).toBe(true);
-    expect(p123e.url.toString()).toBe('ftp://example.org/dir/file');
+    expect(p123e.props.url.toString()).toBe('ftp://example.org/dir/file');
     expect(p123e.rulesToAdd).toBe('@ftp://example.org/*');
     expect(p123e.rulesToRemove).toBe(String.raw`/example\.(net|org)/`);
     b123.applyPatch();
@@ -145,7 +179,7 @@ https://*.example.edu/`);
 @*://example.net/*
 @ftp://example.org/*`);
 
-    b123.createPatch(new AltURL('http://www.example.edu/foo/bar'));
+    b123.createPatch(makeProps('http://www.example.edu/foo/bar'));
     const p123f = b123.modifyPatch({
       rulesToAdd: String.raw`*://www.example.edu/*
 @/edu/`,
