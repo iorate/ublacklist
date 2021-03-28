@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { Cloud } from '../types';
-import { HTTPError } from '../utilities';
+import { HTTPError, UnexpectedResponse } from '../utilities';
 import * as Helpers from './helpers';
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -94,17 +94,21 @@ ${content}\r
     const response = await fetch(requestURL.toString());
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      Poi.validate(
-        responseBody,
-        Poi.object({
-          files: Poi.array(
-            Poi.object({
-              id: Poi.string(),
-              modifiedTime: Poi.string(),
-            }),
-          ),
-        }),
-      );
+      if (
+        !S.is(
+          responseBody,
+          S.object({
+            files: S.array(
+              S.object({
+                id: S.string(),
+                modifiedTime: S.string(),
+              }),
+            ),
+          }),
+        )
+      ) {
+        throw new UnexpectedResponse(responseBody);
+      }
       if (!responseBody.files.length) {
         return null;
       }

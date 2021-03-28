@@ -31,6 +31,14 @@ export function makeAltURL(url: string): AltURL | null {
 export class HTTPError extends Error {
   constructor(readonly status: number, readonly statusText: string) {
     super(`${status}${statusText ? ' ' : ''}${statusText}`);
+    this.name = 'HTTPError';
+  }
+}
+
+export class UnexpectedResponse extends Error {
+  constructor(readonly response: unknown) {
+    super(JSON.stringify(response));
+    this.name = 'UnexpectedResponse';
   }
 }
 

@@ -1,4 +1,4 @@
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { CSSAttribute } from '../styles';
 import { SerpHandler } from '../types';
 import { handleSerp } from './helpers';
@@ -64,16 +64,16 @@ export function getSerpHandler(): SerpHandler {
         target: '.image-container',
         url: root => {
           return root.dataset.imgMetadata != null
-            ? Poi.tryParseJSON(root.dataset.imgMetadata, Poi.object({ displayUrl: Poi.string() }))
-                ?.displayUrl ?? null
+            ? S.parse(root.dataset.imgMetadata, S.object({ displayUrl: S.string() }))?.displayUrl ??
+                null
             : null;
         },
         title: root => {
           return root.dataset.imgMetadata != null
-            ? Poi.tryParseJSON(
-                root.dataset.imgMetadata,
-                Poi.object({ title: Poi.string() }),
-              )?.title.replace(/<\/?b>/g, '') ?? null
+            ? S.parse(root.dataset.imgMetadata, S.object({ title: S.string() }))?.title.replace(
+                /<\/?b>/g,
+                '',
+              ) ?? null
             : null;
         },
         actionTarget: root => {

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import dayjsUTC from 'dayjs/plugin/utc';
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { Cloud } from '../types';
-import { HTTPError } from '../utilities';
+import { HTTPError, UnexpectedResponse } from '../utilities';
 import * as Helpers from './helpers';
 
 dayjs.extend(dayjsUTC);
@@ -93,19 +93,25 @@ export const dropbox: Cloud = {
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      Poi.validate(responseBody, Poi.object({ id: Poi.string(), client_modified: Poi.string() }));
+      if (!S.is(responseBody, S.object({ id: S.string(), client_modified: S.string() }))) {
+        throw new UnexpectedResponse(responseBody);
+      }
       return { id: responseBody.id, modifiedTime: dayjs(responseBody.client_modified) };
     } else if (response.status === 409) {
       const responseBody: unknown = await response.json();
-      Poi.validate(
-        responseBody,
-        Poi.object({
-          error: Poi.object({
-            '.tag': Poi.literal('path'),
-            path: Poi.object({ '.tag': Poi.string() }),
+      if (
+        !S.is(
+          responseBody,
+          S.object({
+            error: S.object({
+              '.tag': S.literal('path'),
+              path: S.object({ '.tag': S.string() }),
+            }),
           }),
-        }),
-      );
+        )
+      ) {
+        throw new UnexpectedResponse(responseBody);
+      }
       if (responseBody.error.path['.tag'] === 'not_found') {
         return null;
       } else {

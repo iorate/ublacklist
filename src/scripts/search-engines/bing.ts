@@ -1,4 +1,4 @@
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
 import { getParentElement, handleSerp } from './helpers';
@@ -77,13 +77,11 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
         level: '.dgControl_list > li',
         url: root => {
           const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
-          return m != null
-            ? Poi.tryParseJSON(m, Poi.object({ purl: Poi.string() }))?.purl ?? null
-            : null;
+          return m != null ? S.parse(m, S.object({ purl: S.string() }))?.purl ?? null : null;
         },
         title: root => {
           const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
-          return m != null ? Poi.tryParseJSON(m, Poi.object({ t: Poi.string() }))?.t ?? null : null;
+          return m != null ? S.parse(m, S.object({ t: S.string() }))?.t ?? null : null;
         },
         actionTarget: root =>
           root.querySelector<HTMLElement>('.infnmpt') ??
@@ -165,9 +163,7 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
         target: '.dg_u',
         url: root => {
           const vrhm = root.querySelector<HTMLElement>('.vrhdata')?.getAttribute('vrhm');
-          return vrhm != null
-            ? Poi.tryParseJSON(vrhm, Poi.object({ murl: Poi.string() }))?.murl ?? null
-            : null;
+          return vrhm != null ? S.parse(vrhm, S.object({ murl: S.string() }))?.murl ?? null : null;
         },
         title: '.mc_vtvc_title',
         actionTarget: '.mc_vtvc_meta',
