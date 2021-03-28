@@ -147,12 +147,10 @@ const ImportBlacklistDialog: FunctionComponent<
                   fileInput.addEventListener('input', () => {
                     const file = fileInput.files?.[0];
                     if (!file) {
-                      console.log('!file');
                       return;
                     }
                     const fileReader = new FileReader();
                     fileReader.addEventListener('load', () => {
-                      console.log('load');
                       replaceOrAppend(fileReader.result as string);
                     });
                     fileReader.readAsText(file);
