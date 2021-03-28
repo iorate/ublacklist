@@ -28,6 +28,8 @@ if intl_group.find_subpath("#{to}")
 end
 
 ref = intl_group.new_reference("#{to}.lproj/Localizable.strings")
-ref.name = "#{to}"
+ref.name = to
 ref.include_in_index = nil
 project.save
+
+puts "Successfully added #{to}.lproj/Localizable.strings reference"
