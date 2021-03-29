@@ -39,6 +39,9 @@ ruby change_version.rb #{version} #{build_number}
 # Example: ruby change_version.rb 5.1.0 12
 ```
 
+### Note
+**If the plugin is not found in Safari when you run it, you may need to turn on 'Allow Unsigned Extensions' in Safari.**
+
 ## Locale
 
 ### Option 1: Use script
