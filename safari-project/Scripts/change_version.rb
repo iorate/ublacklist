@@ -22,7 +22,7 @@ if File.exists?(core_manifest_file_path) == false
     return
 end
 
-manifest = JSON.load_file(core_manifest_file_path)
+manifest = JSON.parse(File.read(core_manifest_file_path))
 manifest['version'] = version
 file = File.open(core_manifest_file_path, 'w')
 file.write(JSON.pretty_generate(manifest))
