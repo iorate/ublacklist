@@ -210,8 +210,7 @@ export function handleSerpElement({
       if (title == null) {
         entryTitle = null;
       } else if (typeof title === 'string') {
-        const h = entryRoot.querySelector<HTMLElement>(title);
-        entryTitle = h?.textContent?.trim().replace(/\n/g, ' ') ?? null;
+        entryTitle = entryRoot.querySelector<HTMLElement>(title)?.innerText ?? null;
       } else {
         entryTitle = title(entryRoot);
       }
