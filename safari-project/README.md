@@ -37,7 +37,6 @@ cd scripts
 ruby change_version.rb #{version} #{build_number}
 
 # Example: ruby change_version.rb 5.1.0 12
-
 ```
 
 ## Locale

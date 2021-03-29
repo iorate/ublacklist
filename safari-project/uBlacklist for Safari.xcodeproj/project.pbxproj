@@ -656,7 +656,7 @@
 				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari Extension/uBlacklist_for_Safari_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "uBlacklist for Safari Extension/Info.plist";
@@ -666,7 +666,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 4.10.0;
+				MARKETING_VERSION = 5.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -682,7 +682,7 @@
 				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari Extension/uBlacklist_for_Safari_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "uBlacklist for Safari Extension/Info.plist";
@@ -692,7 +692,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 4.10.0;
+				MARKETING_VERSION = 5.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -712,7 +712,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "uBlacklist for Safari/Info.plist";
@@ -721,7 +721,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 4.10.0;
+				MARKETING_VERSION = 5.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -740,7 +740,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 102;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "uBlacklist for Safari/Info.plist";
@@ -749,7 +749,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 4.10.0;
+				MARKETING_VERSION = 5.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
