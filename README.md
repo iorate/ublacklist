@@ -2,7 +2,7 @@
 
 Blocks specific sites from appearing in Google search results
 
-[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
+[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [Mac App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (by [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Description
 
@@ -28,6 +28,18 @@ cd uBlacklist
 yarn
 
 yarn build:firefox:production
+```
+
+Before opening a pull request, you should make sure that 'build', 'lint' and 'test' pass.
+
+```shell
+yarn build
+
+yarn lint
+# Some lint errors can be fixed automatically
+# yarn lintfix
+
+yarn test
 ```
 
 **NOTE:** The API keys and secrets for the sync feature are not included in this repository. To develop the sync feature, set your own API keys and secrets in the `.env` file.
