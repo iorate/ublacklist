@@ -35,7 +35,7 @@ export const LabelWrapper = forwardRef(
       [css, disabled, fullWidth],
     );
     return (
-      <LabelContext.Provider value={{ disabled: disabled }}>
+      <LabelContext.Provider value={{ disabled }}>
         <div {...applyClass(props, class_)} ref={ref} />
       </LabelContext.Provider>
     );

@@ -1,4 +1,4 @@
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { CSSAttribute } from '../styles';
 import { SerpHandler } from '../types';
 import { handleSerp } from './helpers';
@@ -52,6 +52,7 @@ export function getSerpHandler(): SerpHandler {
       {
         target: '.w-gl__result',
         url: '.w-gl__result-title',
+        title: 'h3',
         actionTarget: '.w-gl__result__main',
         actionStyle: {
           display: 'block',
@@ -61,10 +62,18 @@ export function getSerpHandler(): SerpHandler {
       // Images
       {
         target: '.image-container',
-        url: (root: HTMLElement): string | null => {
+        url: root => {
           return root.dataset.imgMetadata != null
-            ? Poi.tryParseJSON(root.dataset.imgMetadata, Poi.object({ displayUrl: Poi.string() }))
-                ?.displayUrl ?? null
+            ? S.parse(root.dataset.imgMetadata, S.object({ displayUrl: S.string() }))?.displayUrl ??
+                null
+            : null;
+        },
+        title: root => {
+          return root.dataset.imgMetadata != null
+            ? S.parse(root.dataset.imgMetadata, S.object({ title: S.string() }))?.title.replace(
+                /<\/?b>/g,
+                '',
+              ) ?? null
             : null;
         },
         actionTarget: root => {
@@ -85,6 +94,7 @@ export function getSerpHandler(): SerpHandler {
       {
         target: '.article',
         url: '.article-right > a',
+        title: '.title',
         actionTarget: '.article-right',
         actionStyle: {
           display: 'block',
@@ -96,6 +106,7 @@ export function getSerpHandler(): SerpHandler {
       {
         target: '.vo-sp__link',
         url: '',
+        title: 'h1',
         actionTarget: '.vo-sp__details',
         actionStyle: {
           display: 'block',

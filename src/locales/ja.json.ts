@@ -19,6 +19,7 @@ exportAsMessages('_locales/ja/messages.json', {
   popup_details: '詳細',
   popup_pageURLLabel: 'ページの URL',
   popup_pathDepth: '階層',
+  popup_pageTitleLabel: 'ページのタイトル',
   popup_addedRulesLabel: '追加されるルール',
   popup_removedRulesLabel: '削除されるルール',
   popup_blockSiteButton: 'ブロック',
@@ -29,6 +30,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_blacklistHelper:
     '[マッチパターン](https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Match_patterns)か[正規表現](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions)が使用できます。',
   options_blacklistExample: '例: $1',
+  options_blockByTitle: 'ページのタイトルでブロックするには、正規表現の前に "title" を追加します。',
   options_blacklistUpdated: '更新されています',
   options_reloadBlacklistButton: '再読み込み',
   options_importBlacklistButton: 'インポート',

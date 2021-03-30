@@ -1,6 +1,6 @@
-import * as Poi from 'poi-ts';
+import * as S from 'microstruct';
 import { apis } from '../apis';
-import { HTTPError } from '../utilities';
+import { HTTPError, UnexpectedResponse } from '../utilities';
 
 export type AuthorizeParams = {
   client_id: string;
@@ -26,12 +26,12 @@ export function authorize(
     for (const [key, value] of new URL(redirectURL).searchParams.entries()) {
       redirectParams[key] = value;
     }
-    try {
-      Poi.validate(redirectParams, Poi.object({ code: Poi.string() }));
+    if (S.is(redirectParams, S.object({ code: S.string() }))) {
       return { authorizationCode: redirectParams.code };
-    } catch {
-      Poi.validate(redirectParams, Poi.object({ error: Poi.string() }));
+    } else if (S.is(redirectParams, S.object({ error: S.string() }))) {
       throw new Error(redirectParams.error);
+    } else {
+      throw new UnexpectedResponse(redirectParams);
     }
   };
 }
@@ -60,14 +60,18 @@ export function getAccessToken(
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      Poi.validate(
-        responseBody,
-        Poi.object({
-          access_token: Poi.string(),
-          expires_in: Poi.number(),
-          refresh_token: Poi.string(),
-        }),
-      );
+      if (
+        !S.is(
+          responseBody,
+          S.object({
+            access_token: S.string(),
+            expires_in: S.number(),
+            refresh_token: S.string(),
+          }),
+        )
+      ) {
+        throw new UnexpectedResponse(responseBody);
+      }
       return {
         accessToken: responseBody.access_token,
         expiresIn: responseBody.expires_in,
@@ -100,10 +104,9 @@ export function refreshAccessToken(
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      Poi.validate(
-        responseBody,
-        Poi.object({ access_token: Poi.string(), expires_in: Poi.number() }),
-      );
+      if (!S.is(responseBody, S.object({ access_token: S.string(), expires_in: S.number() }))) {
+        throw new UnexpectedResponse(responseBody);
+      }
       return { accessToken: responseBody.access_token, expiresIn: responseBody.expires_in };
     } else {
       throw new HTTPError(response.status, response.statusText);

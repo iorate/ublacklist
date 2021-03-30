@@ -65,7 +65,7 @@ export const ColorPicker = forwardRef((props: ColorPickerProps, ref: Ref<HTMLInp
   return (
     <div class={wrapperClass}>
       <input {...applyClass(props, inputClass)} ref={ref} type="color" />
-      <div class={colorClass} style={`background-color:${(props.value as string) ?? '#00000'};`} />
+      <div class={colorClass} style={`background-color:${(props.value as string) ?? '#000000'};`} />
     </div>
   );
 });

@@ -31,6 +31,7 @@ export function getSerpHandler(): SerpHandler {
       {
         target: '.mainline-results .result',
         url: 'a',
+        title: 'a',
         actionTarget: '',
         actionStyle: {
           display: 'block',

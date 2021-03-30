@@ -10,8 +10,6 @@ import { CSSAttribute, css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
 import { AltURL, MatchPattern, stringKeys, translate } from './utilities';
 
-type SerpEntryWithState = SerpEntry & { testResult: number };
-
 const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick }) => {
   const class_ = useMemo(
     () =>
@@ -94,7 +92,7 @@ class ContentScript {
     dialogTheme: DialogTheme | null;
   } | null = null;
   readonly controls: SerpControl[] = [];
-  readonly entries: SerpEntryWithState[] = [];
+  readonly entries: SerpEntry[] = [];
   readonly scopeStates: Record<
     string,
     { blockedEntryCount: number; showBlockedEntries: boolean }
@@ -216,21 +214,20 @@ class ContentScript {
   handleResult({ controls, entries }: SerpHandlerResult): void {
     this.controls.push(...controls);
     for (const entry of entries) {
-      const entryWithState = { ...entry, testResult: -1 };
-      this.entries.push(entryWithState);
-      this.judgeEntry(entryWithState);
+      this.entries.push(entry);
+      this.judgeEntry(entry);
     }
     for (const control of entries.length ? this.controls : controls) {
       this.renderControl(control);
     }
   }
 
-  judgeEntry(entry: SerpEntryWithState): void {
+  judgeEntry(entry: SerpEntry): void {
     if (!this.options) {
       return;
     }
-    entry.testResult = this.options.blacklist.test(new AltURL(entry.url));
-    if (entry.testResult === 0) {
+    entry.state = this.options.blacklist.test(entry.props);
+    if (entry.state === 0) {
       const scopeState = this.scopeStates[entry.scope] ?? {
         blockedEntryCount: 0,
         showBlockedEntries: false,
@@ -286,31 +283,31 @@ class ContentScript {
     );
   }
 
-  renderEntry(entry: SerpEntryWithState): void {
+  renderEntry(entry: SerpEntry): void {
     delete entry.root.dataset.ubBlocked;
     delete entry.root.dataset.ubHighlight;
-    if (entry.testResult === 0) {
+    if (entry.state === 0) {
       entry.root.dataset.ubBlocked = this.scopeStates[entry.scope]?.showBlockedEntries
         ? 'visible'
         : 'hidden';
-    } else if (entry.testResult >= 2) {
-      entry.root.dataset.ubHighlight = String(entry.testResult - 1);
+    } else if (entry.state >= 2) {
+      entry.root.dataset.ubHighlight = String(entry.state - 1);
     }
     entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
     render(
       <Action
-        blocked={entry.testResult === 0}
+        blocked={entry.state === 0}
         onClick={() => {
           if (!this.options || !this.blockDialogRoot) {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.blacklist.createPatch(new AltURL(entry.url));
+            this.options.blacklist.createPatch(entry.props);
             this.options.blacklist.applyPatch();
             void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
             this.rejudgeAllEntries();
           } else {
-            this.renderBlockDialog(entry.url);
+            this.renderBlockDialog(entry.props.url.toString(), entry.props.title);
           }
         }}
         onRender={entry.onActionRender}
@@ -319,18 +316,19 @@ class ContentScript {
     );
   }
 
-  renderBlockDialog(url: string, open = true) {
+  renderBlockDialog(url: string, title: string | null, open = true) {
     if (!this.options || !this.blockDialogRoot) {
       return;
     }
     render(
       <BlockDialog
         blacklist={this.options.blacklist}
-        close={() => this.renderBlockDialog(url, false)}
+        close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
+        title={title}
         url={url}
         onBlocked={() => {
           if (!this.options) {

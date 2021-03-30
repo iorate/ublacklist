@@ -147,12 +147,10 @@ const ImportBlacklistDialog: FunctionComponent<
                   fileInput.addEventListener('input', () => {
                     const file = fileInput.files?.[0];
                     if (!file) {
-                      console.log('!file');
                       return;
                     }
                     const fileReader = new FileReader();
                     fileReader.addEventListener('load', () => {
-                      console.log('load');
                       replaceOrAppend(fileReader.result as string);
                     });
                     fileReader.readAsText(file);
@@ -215,8 +213,10 @@ const SetBlacklist: FunctionComponent = () => {
           <LabelWrapper fullWidth>
             <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
+            <SubLabel>{translate('options_blockByTitle')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
+            <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
           <TextArea
             id="blacklist"

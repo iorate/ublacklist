@@ -17,6 +17,7 @@ export type MessageName =
   | 'popup_details'
   | 'popup_pageURLLabel'
   | 'popup_pathDepth'
+  | 'popup_pageTitleLabel'
   | 'popup_addedRulesLabel'
   | 'popup_removedRulesLabel'
   | 'popup_blockSiteButton'
@@ -26,6 +27,7 @@ export type MessageName =
   | 'options_blacklistLabel'
   | 'options_blacklistHelper'
   | 'options_blacklistExample'
+  | 'options_blockByTitle'
   | 'options_blacklistUpdated'
   | 'options_reloadBlacklistButton'
   | 'options_importBlacklistButton'
@@ -110,4 +112,5 @@ export type MessageName1 =
   | 'content_multipleSitesBlocked'
   | 'options_blacklistExample'
   | 'options_highlightColorNth';
+
 export type MessageName0 = Exclude<MessageName, MessageName1>;

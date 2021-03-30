@@ -16,8 +16,7 @@ import {
 } from './components/dialog';
 import { Icon } from './components/icon';
 import { Input } from './components/input';
-import { ControlLabel, LabelWrapper, SubLabel } from './components/label';
-import { expandLinks } from './components/link';
+import { ControlLabel, LabelWrapper } from './components/label';
 import { Row, RowItem } from './components/row';
 import { StylesProvider, useCSS } from './components/styles';
 import { TextArea } from './components/textarea';
@@ -26,13 +25,14 @@ import { usePrevious } from './components/utilities';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { DialogTheme } from './types';
-import { AltURL, translate } from './utilities';
+import { makeAltURL, translate } from './utilities';
 
 type BlockDialogContentProps = {
   blacklist: Blacklist;
   close: () => void;
   enablePathDepth: boolean;
   open: boolean;
+  title: string | null;
   url: string;
   onBlocked: () => void | Promise<void>;
 };
@@ -42,7 +42,8 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   close,
   enablePathDepth,
   open,
-  url,
+  title,
+  url: entryURL,
   onBlocked,
 }) => {
   const [state, setState] = useState({
@@ -58,19 +59,14 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   });
   const prevOpen = usePrevious(open);
   if (open && !prevOpen) {
-    let u: AltURL | null = null;
-    try {
-      u = new AltURL(url);
-    } catch {
-      // NOP
-    }
-    if (u && /^(https?|ftp)$/.test(u.scheme)) {
-      const patch = blacklist.createPatch(u);
+    const url = makeAltURL(entryURL);
+    if (url && /^(https?|ftp)$/.test(url.scheme)) {
+      const patch = blacklist.createPatch({ url, title });
       state.disabled = false;
       state.unblock = patch.unblock;
-      state.host = u.host;
+      state.host = url.host;
       state.detailsOpen = false;
-      state.pathDepth = enablePathDepth ? new PathDepth(u) : null;
+      state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = '0';
       state.rulesToAdd = patch.rulesToAdd;
       state.rulesToAddValid = true;
@@ -78,7 +74,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
     } else {
       state.disabled = true;
       state.unblock = false;
-      state.host = url;
+      state.host = entryURL;
       state.detailsOpen = false;
       state.pathDepth = null;
       state.depth = '';
@@ -133,7 +129,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                     <LabelWrapper fullWidth>
                       <ControlLabel for="url">{translate('popup_pageURLLabel')}</ControlLabel>
                     </LabelWrapper>
-                    {open && <TextArea breakAll id="url" readOnly rows={2} value={url} />}
+                    {open && <TextArea breakAll id="url" readOnly rows={2} value={entryURL} />}
                   </RowItem>
                 </Row>
                 {enablePathDepth && (
@@ -175,13 +171,26 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                 )}
                 <Row>
                   <RowItem expanded>
+                    <LabelWrapper fullWidth>
+                      <ControlLabel for="pageTitle">
+                        {translate('popup_pageTitleLabel')}
+                      </ControlLabel>
+                    </LabelWrapper>
+                    <TextArea
+                      id="pageTitle"
+                      readOnly
+                      rows={2}
+                      spellcheck={false}
+                      value={title ?? ''}
+                    />
+                  </RowItem>
+                </Row>
+                <Row>
+                  <RowItem expanded>
                     <LabelWrapper disabled={state.disabled} fullWidth>
                       <ControlLabel for="rulesToAdd">
                         {translate('popup_addedRulesLabel')}
                       </ControlLabel>
-                      <SubLabel>
-                        {expandLinks(translate('options_blacklistHelper'), state.disabled)}
-                      </SubLabel>
                     </LabelWrapper>
                     {open && (
                       <TextArea
