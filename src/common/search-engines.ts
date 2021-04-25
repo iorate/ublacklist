@@ -215,10 +215,8 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
   ],
   ecosia: ['https://www.ecosia.org/search?*'],
   startpage: [
-    'https://startpage.com/do/*',
-    'https://startpage.com/sp/*',
-    'https://www.startpage.com/do/*',
-    'https://www.startpage.com/rvd/*',
-    'https://www.startpage.com/sp/*',
+    'https://*.startpage.com/do/*',
+    'https://*.startpage.com/rvd/*',
+    'https://*.startpage.com/sp/*',
   ],
 };
