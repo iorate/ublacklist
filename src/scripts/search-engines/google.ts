@@ -429,8 +429,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.g > .tF2Cxc > .IsZvec',
-        level: 2,
+        target: '.g .IsZvec',
+        level: '.g',
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
