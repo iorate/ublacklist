@@ -179,7 +179,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.related-question-pair, .related-question-pair .VWE0hc',
         level: '.related-question-pair',
         url: '.yuRUbf > a',
-        title: 'h3',
+        title: root => root.querySelector('h3')?.textContent ?? null,
         actionTarget: '.eFM0qc',
         actionStyle: {
           ...desktopRegularActionStyle,
@@ -429,8 +429,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.g > .tF2Cxc > .IsZvec',
-        level: 2,
+        target: '.g .IsZvec',
+        level: '.g',
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
