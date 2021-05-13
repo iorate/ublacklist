@@ -5,12 +5,11 @@ import { getSerpHandler as ecosiaSerpHandler } from './ecosia';
 import { getSerpHandler as googleSerpHandler } from './google';
 import { getSerpHandler as startpageSerpHandler } from './startpage';
 
-export const searchEngineSerpHandlers: Readonly<
-  Record<SearchEngineId, () => SerpHandler | null>
-> = {
-  google: googleSerpHandler,
-  bing: bingSerpHandler,
-  duckduckgo: duckduckgoSerpHandler,
-  ecosia: ecosiaSerpHandler,
-  startpage: startpageSerpHandler,
-};
+export const searchEngineSerpHandlers: Readonly<Record<SearchEngineId, () => SerpHandler | null>> =
+  {
+    google: googleSerpHandler,
+    bing: bingSerpHandler,
+    duckduckgo: duckduckgoSerpHandler,
+    ecosia: ecosiaSerpHandler,
+    startpage: startpageSerpHandler,
+  };

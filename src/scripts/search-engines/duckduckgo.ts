@@ -19,9 +19,10 @@ function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void 
 export function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
-      '[data-ub-blocked="visible"], [data-ub-blocked="visible"] + .results__sitelink--organics, [data-ub-blocked="visible"] .tile--img__sub': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
-      },
+      '[data-ub-blocked="visible"], [data-ub-blocked="visible"] + .results__sitelink--organics, [data-ub-blocked="visible"] .tile--img__sub':
+        {
+          backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+        },
       '[data-ub-blocked="visible"] .tile__body': {
         backgroundColor: 'transparent !important',
       },

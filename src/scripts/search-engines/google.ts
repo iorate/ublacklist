@@ -52,9 +52,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   '': handleSerp({
     globalStyle: {
       ...desktopGlobalStyle,
-      '[data-ub-blocked="visible"] .kp-blk, [data-ub-blocked="visible"] .cv2VAd, [data-ub-blocked="visible"] .WpKAof': {
-        backgroundColor: 'transparent !important',
-      },
+      '[data-ub-blocked="visible"] .kp-blk, [data-ub-blocked="visible"] .cv2VAd, [data-ub-blocked="visible"] .WpKAof':
+        {
+          backgroundColor: 'transparent !important',
+        },
     },
     targets:
       '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .tYlW7b, .eejeod, .VibNM, .dbsr, .F9rcV',

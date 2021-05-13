@@ -25,9 +25,10 @@ class RegExpTester {
   private readonly regExp: RegExp;
 
   constructor(re: string) {
-    const m = /^(\w*)\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/.exec(
-      re,
-    );
+    const m =
+      /^(\w*)\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/.exec(
+        re,
+      );
     if (!m) {
       throw new Error('Invalid regular expression');
     }
