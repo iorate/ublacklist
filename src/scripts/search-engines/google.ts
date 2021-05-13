@@ -1,5 +1,5 @@
 import mobile from 'is-mobile';
-import { CSSAttribute } from '../styles';
+import { CSSAttribute, glob } from '../styles';
 import { SerpHandler } from '../types';
 import { handleSerp, insertElement } from './helpers';
 
@@ -446,6 +446,52 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
   }),
 };
+
+let desktopDarkTheme = false;
+
+function detectDesktopDarkTheme(): void {
+  if (desktopDarkTheme || !document.body) {
+    return;
+  }
+  const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
+  // Should we parse the color value?
+  if (backgroundColor === 'rgb(32, 33, 36)') {
+    desktopDarkTheme = true;
+    glob({
+      '.ub-button': {
+        color: 'var(--ub-link-color, rgb(138, 180, 248))',
+      },
+    });
+  }
+}
+
+function getDesktopSerpHandler(tbm: string): SerpHandler | null {
+  if (!desktopSerpHandlers[tbm]) {
+    return null;
+  }
+  const { onSerpStart, onSerpHead, onSerpElement } = desktopSerpHandlers[tbm];
+  return {
+    onSerpStart,
+    onSerpHead: () => {
+      const result = onSerpHead();
+      detectDesktopDarkTheme();
+      return result;
+    },
+    onSerpElement: element => {
+      const result = onSerpElement(element);
+      if (
+        element instanceof HTMLLinkElement ||
+        element instanceof HTMLStyleElement ||
+        element === document.body
+      ) {
+        detectDesktopDarkTheme();
+      }
+      return result;
+    },
+    getDialogTheme: () => (desktopDarkTheme ? 'dark' : 'light'),
+  };
+}
+
 // #endregion desktop
 
 // #region mobile
@@ -676,9 +722,13 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
   }),
 };
+
+function getMobileSerpHandler(tbm: string): SerpHandler | null {
+  return mobileSerpHandlers[tbm] || null;
+}
 // #endregion mobile
 
 export function getSerpHandler(): SerpHandler | null {
   const tbm = new URL(window.location.href).searchParams.get('tbm') ?? '';
-  return (mobile({ tablet: true }) ? mobileSerpHandlers : desktopSerpHandlers)[tbm] ?? null;
+  return mobile({ tablet: true }) ? getMobileSerpHandler(tbm) : getDesktopSerpHandler(tbm);
 }
