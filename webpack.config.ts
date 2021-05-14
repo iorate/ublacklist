@@ -136,7 +136,7 @@ const config: webpack.Configuration = {
       },
     },
 
-    (new LicenseWebpackPlugin({
+    new LicenseWebpackPlugin({
       licenseFileOverrides: {
         'preact-compat': '../LICENSE',
         'preact-hooks': '../LICENSE',
@@ -158,7 +158,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         goober: 'MIT',
       },
       perChunkOutput: false,
-    }) as unknown) as webpack.WebpackPluginInstance,
+    }) as unknown as webpack.WebpackPluginInstance,
   ],
 
   resolve: {

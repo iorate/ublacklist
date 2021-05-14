@@ -271,10 +271,8 @@ export const ManageSubscriptions: FunctionComponent = () => {
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(false);
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = useState(false);
-  const [
-    showSubscriptionDialogSubscription,
-    setShowSubscriptionDialogSubscription,
-  ] = useState<Subscription | null>(null);
+  const [showSubscriptionDialogSubscription, setShowSubscriptionDialogSubscription] =
+    useState<Subscription | null>(null);
   useEffect(
     () =>
       addMessageListeners({

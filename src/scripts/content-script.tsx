@@ -93,10 +93,8 @@ class ContentScript {
   } | null = null;
   readonly controls: SerpControl[] = [];
   readonly entries: SerpEntry[] = [];
-  readonly scopeStates: Record<
-    string,
-    { blockedEntryCount: number; showBlockedEntries: boolean }
-  > = {};
+  readonly scopeStates: Record<string, { blockedEntryCount: number; showBlockedEntries: boolean }> =
+    {};
   blockDialogRoot: ShadowRoot | null = null;
   globalStyle: CSSAttribute | null = null;
 
