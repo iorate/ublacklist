@@ -159,22 +159,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           zIndex: 1,
         },
       },
-      // People Also Ask (About this result)
-      {
-        target: '.related-question-pair, .related-question-pair .VWE0hc',
-        level: '.related-question-pair',
-        url: '.yuRUbf > a',
-        title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: {
-          ...desktopAboutThisResultActionStyle,
-          '& > .ub-button': {
-            display: 'inline-block',
-            overflowY: 'hidden',
-          },
-        },
-      },
       // People Also Ask
       {
         target: '.related-question-pair, .related-question-pair .VWE0hc',
@@ -237,22 +221,22 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
         },
       },
-      // Twitter, Twitter Search (About this result)
-      {
-        target: '.eejeod, .g',
-        url: 'g-link > a',
-        title: 'a > h3',
-        actionTarget: '.oERM6',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
       // Twitter, Twitter Search
       {
         target: '.eejeod, .g',
         url: 'g-link > a',
         title: 'a > h3',
-        actionTarget: '.ellip',
-        actionStyle: desktopRegularActionStyle,
+        actionTarget: root =>
+          root.querySelector<HTMLElement>('.oERM6') || root.querySelector<HTMLElement>('.ellip'),
+        actionPosition: target =>
+          insertElement('span', target, target.matches('.oERM6') ? 'afterend' : 'beforeend'),
+        actionStyle: actionRoot => {
+          actionRoot.className = css(
+            actionRoot.matches('.oERM6 + *')
+              ? desktopAboutThisResultActionStyle
+              : desktopRegularActionStyle,
+          );
+        },
       },
       // Video
       {
