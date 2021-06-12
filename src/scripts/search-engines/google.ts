@@ -1,5 +1,5 @@
 import mobile from 'is-mobile';
-import { CSSAttribute, glob } from '../styles';
+import { CSSAttribute, css, glob } from '../styles';
 import { SerpHandler } from '../types';
 import { handleSerp, insertElement } from './helpers';
 
@@ -83,45 +83,45 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
-      // Regular, Web Result (About this result)
-      {
-        target: '.g .IsZvec',
-        level: target => {
-          const root = target.closest<HTMLElement>('.g');
-          // Featured Snippet, People Also Ask
-          return root && (root.matches('.g *') ? null : root);
-        },
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
       // Regular, Web Result
       {
-        target: '.g .IsZvec',
+        target: '.IsZvec',
         level: target => {
-          const root = target.closest<HTMLElement>('.g');
-          return root && (root.matches('.g *') ? null : root);
+          const inner_g = target.closest<HTMLElement>('.g');
+          if (!inner_g) {
+            return null;
+          }
+          const outer_g = inner_g.parentElement?.closest<HTMLElement>('.g');
+          if (!outer_g) {
+            return inner_g;
+          }
+          if (outer_g.matches('.g-blk')) {
+            // Featured Snippet, People Also Ask
+            return null;
+          } else {
+            // Web Result with Sitelinks
+            return outer_g;
+          }
         },
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
-      },
-      // Regular, Web Result (Fallback)
-      {
-        target: '.g .IsZvec',
-        level: target => {
-          const root = target.closest<HTMLElement>('.g');
-          return root && (root.matches('.g *') ? null : root);
-        },
-        url: 'a',
-        title: 'h3',
-        actionTarget: '',
-        actionStyle: {
-          fontSize: '14px',
-          marginTop: '4px',
+        actionTarget: root =>
+          root.querySelector<HTMLElement>('.csDOgf') ||
+          root.querySelector<HTMLElement>('.eFM0qc') ||
+          root,
+        actionPosition: target =>
+          insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
+        actionStyle: actionRoot => {
+          actionRoot.className = css(
+            actionRoot.matches('.csDOgf + *')
+              ? desktopAboutThisResultActionStyle
+              : actionRoot.matches('.eFM0qc > *')
+              ? desktopRegularActionStyle
+              : {
+                  fontSize: '14px',
+                  marginTop: '4px',
+                },
+          );
         },
       },
       // Featured Snippet (About this result)
