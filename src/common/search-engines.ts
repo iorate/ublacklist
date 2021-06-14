@@ -202,6 +202,9 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
     'https://www.bing.com/videos/search?*',
     'https://www.bing.com/news/search?*',
     'https://cn.bing.com/search?*',
+    'https://cn.bing.com/images/search?*',
+    'https://cn.bing.com/videos/search?*',
+    'https://cn.bing.com/news/search?*',
   ],
   duckduckgo: [
     '*://duckduckgo.com/',
