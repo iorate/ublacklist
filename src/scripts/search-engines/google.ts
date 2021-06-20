@@ -284,7 +284,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // AutoPagerize
       {
-        target: '.autopagerize_page_info ~ .g',
+        target: '.autopagerize_page_info ~ .g, .autopagerize_page_info ~ .hlcw0c',
         innerTargets: '.IsZvec',
       },
     ],
