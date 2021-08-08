@@ -33,11 +33,11 @@ export type MenuProps = { buttonLabel?: string; disabled?: boolean } & JSX.Intri
 export const Menu = forwardRef(
   ({ buttonLabel = '', disabled = false, ...props }: MenuProps, ref: Ref<HTMLDivElement>) => {
     const [open, setOpen] = useState(false);
-    const buttonRef = useRef<HTMLButtonElement>();
-    const bodyRef = useRef<HTMLDivElement>();
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const bodyRef = useRef<HTMLDivElement>(null);
     useLayoutEffect(() => {
       if (open) {
-        bodyRef.current.focus();
+        bodyRef.current?.focus();
       }
     }, [open]);
 
@@ -96,14 +96,14 @@ export const Menu = forwardRef(
           onClick={e => {
             if (e.target instanceof HTMLElement && e.target.matches(`.${MENU_ITEM_CLASS}`)) {
               setOpen(false);
-              buttonRef.current.focus();
+              buttonRef.current?.focus();
             }
           }}
           onKeyDown={e => {
             if (e.key === 'Escape') {
               e.preventDefault();
               setOpen(false);
-              buttonRef.current.focus();
+              buttonRef.current?.focus();
             } else if (
               e.key === 'ArrowUp' ||
               e.key === 'ArrowDown' ||
