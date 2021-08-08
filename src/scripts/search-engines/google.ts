@@ -333,15 +333,32 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return a?.firstChild?.textContent ?? null;
         },
         actionTarget: '',
-        actionStyle: {
-          display: 'block',
-          fontSize: '11px',
-          lineHeight: '16px',
-          padding: '0 4px',
-          '[data-ub-blocked="visible"] &': {
-            backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
-          },
+        actionStyle: actionRoot => {
+          const style: CSSAttribute = {
+            display: 'block',
+            fontSize: '11px',
+            lineHeight: '16px',
+            padding: '0 4px',
+          };
+          if (actionRoot.matches('[jsname="BWRNE"] *')) {
+            // Related images
+            style['& > .ub-button'] = {
+              color: '#609beb',
+            };
+          } else {
+            style['[data-ub-blocked="visible"] &'] = {
+              backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
+            };
+          }
+          actionRoot.className = css(style);
         },
+      },
+    ],
+    pagerHandlers: [
+      // Related images
+      {
+        target: '[jsname="BWRNE"]',
+        innerTargets: '.isv-r',
       },
     ],
   }),
@@ -633,7 +650,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '.dmFHw, #uGbavf, .islrtb',
+    targets: '.dmFHw, #uGbavf, .isv-r',
     controlHandlers: [
       {
         target: '.dmFHw',
@@ -649,7 +666,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.islrtb',
+        target: '.isv-r',
         url: getURLFromQuery('.iKjWAf'),
         title: '.mVDMnf',
         actionTarget: '',
