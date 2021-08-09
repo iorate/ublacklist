@@ -11,10 +11,10 @@ export function applyClass<Props extends { class?: string }>(props: Props, class
 }
 
 // https://itnext.io/reusing-the-ref-from-forwardref-with-react-hooks-4ce9df693dd
-export function useInnerRef<T>(ref: Ref<T>): Ref<T> {
-  const innerRef = useRef<T>();
+export function useInnerRef<T>(ref: Ref<T>): Ref<T | null> {
+  const innerRef = useRef<T>(null);
   useLayoutEffect(() => {
-    if (ref) {
+    if (ref && innerRef.current != null) {
       ref.current = innerRef.current;
     }
   }, [ref]);

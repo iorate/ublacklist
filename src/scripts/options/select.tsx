@@ -8,5 +8,8 @@ export const Select: FunctionComponent<SelectProps> = props => {
   const {
     platformInfo: { os },
   } = useOptionsContext();
+  // https://github.com/preactjs/preact/pull/3214
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return <_Select {...props} native={os !== 'win'} />;
 };

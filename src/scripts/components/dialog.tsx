@@ -59,7 +59,7 @@ export const Dialog = forwardRef(
     useLayoutEffect(() => {
       if (open) {
         prevFocus.current = document.activeElement;
-        innerRef.current.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
+        innerRef.current?.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
         document.documentElement.classList.add(rootClass);
       } else {
         if (prevFocus.current instanceof HTMLElement || prevFocus.current instanceof SVGElement) {
@@ -115,7 +115,11 @@ export const Dialog = forwardRef(
             close();
           }
         }}
-        onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
+        onKeyDown={e => {
+          if (innerRef.current) {
+            handleKeyDown(e, innerRef.current, close);
+          }
+        }}
         onKeyPress={e => e.stopPropagation()}
         onKeyUp={e => e.stopPropagation()}
       >
@@ -210,7 +214,11 @@ export const EmbeddedDialog = forwardRef(
         {...applyClass(props, class_)}
         ref={innerRef}
         tabIndex={-1}
-        onKeyDown={e => handleKeyDown(e, innerRef.current, close)}
+        onKeyDown={e => {
+          if (innerRef.current) {
+            handleKeyDown(e, innerRef.current, close);
+          }
+        }}
       />
     );
   },
