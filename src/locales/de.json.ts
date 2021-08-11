@@ -1,6 +1,6 @@
 import { exportAsMessages } from './helpers';
 
-exportAsMessages('_locales/en/messages.json', {
+exportAsMessages('_locales/de/messages.json', {
   // The extension name.
   extensionName: 'uBlacklist',
 
