@@ -5,7 +5,8 @@ exportAsMessages('_locales/de/messages.json', {
   extensionName: 'uBlacklist',
 
   // The extension description.
-  extensionDescription: 'Blockiert Seiten damit diese nicht in den Suchergebnissen von Google auftauchen',
+  extensionDescription:
+    'Blockiert Seiten damit diese nicht in den Suchergebnissen von Google auftauchen',
 
   // The language code.
   lang: 'de',
@@ -90,7 +91,8 @@ exportAsMessages('_locales/de/messages.json', {
   options_blacklistExample: 'Beispiel: $1',
 
   // The helper text to explain how to block sites by page title.
-  options_blockByTitle: 'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
+  options_blockByTitle:
+    'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
 
   // The text indicating that the blacklist is update outside the options page.
   options_blacklistUpdated: 'Aktualisiert',
@@ -129,13 +131,15 @@ exportAsMessages('_locales/de/messages.json', {
   options_importBlacklistDialog_importButton: 'Importieren',
 
   // The helper text for the textarea on the import-blacklist dialog.
-  options_importBlacklistDialog_helper: 'Einfügen der von der persönlichen Sperrliste exportierten Domänen.',
+  options_importBlacklistDialog_helper:
+    'Einfügen der von der persönlichen Sperrliste exportierten Domänen.',
 
   // Other search engines support.
   options_otherSearchEngines: 'Andere Suchmaschinen',
 
   // The details for other search engines support.
-  options_otherSearchEnginesDescription: 'Sie können diese Erweiterung auf den nachfolgenden Suchmaschinen verwenden.',
+  options_otherSearchEnginesDescription:
+    'Sie können diese Erweiterung auf den nachfolgenden Suchmaschinen verwenden.',
 
   // The text of the button to enable this extension on a search engine.
   options_registerSearchEngine: 'Aktivieren',
@@ -171,7 +175,8 @@ exportAsMessages('_locales/de/messages.json', {
   options_highlightColors: 'Die Farbe von hervorgehobenen Suchergebnissen',
 
   // The description of the highlighting feature.
-  options_highlightDescription: 'Um Suchergebnisse mit der Farbe N hervorzuheben, müssen Sie "@N" der Regel voranstellen.',
+  options_highlightDescription:
+    'Um Suchergebnisse mit der Farbe N hervorzuheben, müssen Sie "@N" der Regel voranstellen.',
 
   // The name of the nth color.
   options_highlightColorNth: 'Farbe $1',
