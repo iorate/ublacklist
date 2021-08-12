@@ -57,7 +57,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     },
     targets:
-      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .tYlW7b, .eejeod, .VibNM, .dbsr, .F9rcV',
+      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -239,6 +239,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Video
       {
+        target: '.RzdJxc',
+        url: '.X5OiLe',
+        title: '.fc9yUc',
+        actionTarget: '.pcJO7e',
+        actionStyle: {
+          ...desktopInlineActionStyle,
+          fontSize: '14px',
+          marginLeft: '4px',
+        },
+      },
+      {
         target: '.VibNM',
         url: '.WpKAof',
         title: '[role="heading"][aria-level="3"]',
@@ -280,7 +291,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .dbsr, .F9rcV, .tYlW7b, .VibNM',
+        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .dbsr, .F9rcV, .tYlW7b, .RzdJxc, .VibNM',
       },
       // AutoPagerize
       {
