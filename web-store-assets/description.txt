@@ -1,0 +1,8 @@
+Diese Erweiterung verhindert die Anzeige von festgelegten Seiten in den Suchergebnissen von Google.
+
+Sie können Regeln auf Suchergebnissenseiten hinzufügen oder auf Seiten die durch einen klick auf das Symbol in der Werkzeugleiste blockiert werden sollen. Regeln können entweder mit Mustern (z.B. *://*.example.com/*) oder mit regulären Ausdrücken (z.B. /example\.(net|org)/) definiert werden.
+
+Sie können Ihre Regeln mit all Ihren Geräten synchronisieren, in dem Sie Google Drive oder Dropbox verwenden. Weiterhin können Sie öffentlich zur Verfügung gestellte Regeln abonnieren.
+
+Änderungen:
+https://github.com/iorate/uBlacklist/releases
