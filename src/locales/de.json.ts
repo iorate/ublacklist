@@ -79,7 +79,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_generalTitle: 'Allgemein',
 
   // The label for the blacklist textarea.
-  options_blacklistLabel: 'Seiten die von in den Suchergebnissen von Google blockiert sind',
+  options_blacklistLabel: 'Seiten die in den Suchergebnissen von Google blockiert sind',
 
   // The helper text for the blacklist textarea.
   options_blacklistHelper:
@@ -90,7 +90,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_blacklistExample: 'Beispiel: $1',
 
   // The helper text to explain how to block sites by page title.
-  options_blockByTitle: 'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "titel" vor reguläre Ausdrücke voranstellen.',
+  options_blockByTitle: 'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
 
   // The text indicating that the blacklist is update outside the options page.
   options_blacklistUpdated: 'Aktualisiert',
