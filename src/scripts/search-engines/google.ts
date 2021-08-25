@@ -354,7 +354,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           if (actionRoot.matches('[jsname="BWRNE"] *')) {
             // Related images
             style['& > .ub-button'] = {
-              color: '#609beb',
+              color: 'var(--ub-link-color, #609beb)',
             };
           } else {
             style['[data-ub-blocked="visible"] &'] = {
