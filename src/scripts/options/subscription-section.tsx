@@ -263,11 +263,10 @@ const ManageSubscription: FunctionComponent<{
   );
 };
 
-export const ManageSubscriptions: FunctionComponent = () => {
-  const {
-    initialItems: { subscriptions: initialSubscriptions },
-  } = useOptionsContext();
-  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+export const ManageSubscriptions: FunctionComponent<{
+  subscriptions: Subscriptions;
+  setSubscriptions: StateUpdater<Subscriptions>;
+}> = ({ subscriptions, setSubscriptions }) => {
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(false);
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = useState(false);
@@ -280,11 +279,13 @@ export const ManageSubscriptions: FunctionComponent = () => {
           setUpdating(updating => ({ ...updating, [id]: true }));
         },
         'subscription-updated': (id, subscription) => {
-          setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
+          setSubscriptions(subscriptions =>
+            subscriptions[id] ? { ...subscriptions, [id]: subscription } : subscriptions,
+          );
           setUpdating(updating => ({ ...updating, [id]: false }));
         },
       }),
-    [],
+    [subscriptions, setSubscriptions],
   );
 
   const css = useCSS();
@@ -399,20 +400,29 @@ export const ManageSubscriptions: FunctionComponent = () => {
   );
 };
 
-export const SubscriptionSection: FunctionComponent = () => (
-  <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
-    <SectionHeader>
-      <SectionTitle id="subscriptionSectionTitle">
-        {translate('options_subscriptionTitle')}
-      </SectionTitle>
-    </SectionHeader>
-    <SectionBody>
-      <ManageSubscriptions />
-      <SetIntervalItem
-        itemKey="updateInterval"
-        label={translate('options_updateInterval')}
-        valueOptions={[5, 15, 30, 60, 120, 300]}
-      />
-    </SectionBody>
-  </Section>
-);
+export const SubscriptionSection: FunctionComponent = () => {
+  const {
+    initialItems: { subscriptions: initialSubscriptions },
+  } = useOptionsContext();
+  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+  return (
+    <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
+      <SectionHeader>
+        <SectionTitle id="subscriptionSectionTitle">
+          {translate('options_subscriptionTitle')}
+        </SectionTitle>
+      </SectionHeader>
+      <SectionBody>
+        <ManageSubscriptions setSubscriptions={setSubscriptions} subscriptions={subscriptions} />
+        <SectionItem>
+          <SetIntervalItem
+            disabled={!numberKeys(subscriptions).length}
+            itemKey="updateInterval"
+            label={translate('options_updateInterval')}
+            valueOptions={[5, 15, 30, 60, 120, 300]}
+          />
+        </SectionItem>
+      </SectionBody>
+    </Section>
+  );
+};

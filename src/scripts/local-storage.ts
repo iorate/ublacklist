@@ -1,76 +1,48 @@
-import dayjs from 'dayjs';
 import { apis } from './apis';
-import { CloudId, CloudToken, DialogTheme, Result, SubscriptionId, Subscriptions } from './types';
+import { sendMessage } from './messages';
+import { LocalStorageItems, LocalStorageItemsFor, SaveSource } from './types';
 
-export type Items = {
-  // general
-  blacklist: string;
-  timestamp: string;
-  skipBlockDialog: boolean;
-  hideBlockLinks: boolean;
-  hideControl: boolean;
-  enablePathDepth: boolean;
-
-  // sync
-  syncCloudId: CloudId | null;
-  syncCloudToken: CloudToken | null;
-  syncInterval: number;
-  syncResult: Result | null;
-
-  // subscription
-  subscriptions: Subscriptions;
-  nextSubscriptionId: SubscriptionId;
-  updateInterval: number;
-
-  // appearance
-  linkColor: string;
-  blockColor: string;
-  highlightColors: string[];
-  dialogTheme: DialogTheme | 'default';
-
-  // unused
-  sync: boolean;
-};
-
-const defaultItems: Items = {
+export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   blacklist: '',
-  timestamp: dayjs(0).toISOString(),
   skipBlockDialog: false,
   hideBlockLinks: false,
   hideControl: false,
   enablePathDepth: false,
-
-  syncCloudId: null,
-  syncCloudToken: null,
-  syncInterval: 15,
-  syncResult: null,
-
-  subscriptions: {},
-  nextSubscriptionId: 0,
-  updateInterval: 120,
 
   linkColor: 'default',
   blockColor: 'default',
   highlightColors: ['#ddeeff'],
   dialogTheme: 'default',
 
-  sync: false,
+  syncCloudId: null,
+  syncBlocklist: true,
+  syncGeneral: false,
+  syncAppearance: false,
+  syncSubscriptions: false,
+  syncResult: null,
+  syncInterval: 15,
+
+  subscriptions: {},
+  updateInterval: 120,
 };
 
-export type ItemsFor<T extends readonly (keyof Items)[]> = { [Key in T[number]]: Items[Key] };
-
-export async function load<T extends readonly (keyof Items)[]>(keys: T): Promise<ItemsFor<T>> {
-  const defaultItemsForKeys: Partial<Record<keyof Items, unknown>> = {};
+export function loadFromLocalStorage<T extends readonly (keyof LocalStorageItems)[]>(
+  keys: T,
+): Promise<LocalStorageItemsFor<T>> {
+  const defaultItemsForKeys: Partial<Record<keyof LocalStorageItems, unknown>> = {};
   for (const key of keys) {
-    defaultItemsForKeys[key] = defaultItems[key];
+    defaultItemsForKeys[key] = defaultLocalStorageItems[key];
   }
-  return (await apis.storage.local.get(defaultItemsForKeys)) as ItemsFor<T>;
+  return apis.storage.local.get(defaultItemsForKeys) as Promise<LocalStorageItemsFor<T>>;
 }
 
-export async function loadAll(): Promise<Items> {
-  return (await apis.storage.local.get(defaultItems)) as Items;
+export function loadAllFromLocalStorage(): Promise<LocalStorageItems> {
+  return apis.storage.local.get(defaultLocalStorageItems) as Promise<LocalStorageItems>;
 }
 
-export async function store<T extends Partial<Items>>(items: T): Promise<void> {
-  await apis.storage.local.set(items);
+export function saveToLocalStorage(
+  items: Readonly<Partial<LocalStorageItems>>,
+  source: SaveSource,
+): Promise<void> {
+  return sendMessage('save-to-local-storage', items, source);
 }

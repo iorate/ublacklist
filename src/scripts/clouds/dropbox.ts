@@ -7,11 +7,10 @@ import * as Helpers from './helpers';
 
 dayjs.extend(dayjsUTC);
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const APP_KEY = process.env.DROPBOX_API_KEY!;
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const APP_SECRET = process.env.DROPBOX_API_SECRET!;
-/* eslint-enable */
-const FILEPATH = '/uBlacklist.txt';
 
 function toISOStringSecond(time: dayjs.Dayjs): string {
   return time.utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
@@ -46,12 +45,17 @@ export const dropbox: Cloud = {
   }),
 
   // https://www.dropbox.com/developers/documentation/http/documentation#files-upload
-  async createFile(accessToken: string, content: string, modifiedTime: dayjs.Dayjs): Promise<void> {
+  async createFile(
+    accessToken: string,
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void> {
     const urlBuilder = new URL('https://content.dropboxapi.com/2/files/upload');
     urlBuilder.search = new URLSearchParams({
       authorization: `Bearer ${accessToken}`,
       arg: JSON.stringify({
-        path: FILEPATH,
+        path: `/${filename}`,
         mode: 'add',
         autorename: false,
         client_modified: toISOStringSecond(modifiedTime),
@@ -74,7 +78,10 @@ export const dropbox: Cloud = {
   },
 
   // https://www.dropbox.com/developers/documentation/http/documentation#files-get_metadata
-  async findFile(accessToken: string): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  async findFile(
+    accessToken: string,
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
     const urlBuilder = new URL('https://api.dropboxapi.com/2/files/get_metadata');
     urlBuilder.search = new URLSearchParams({
       authorization: `Bearer ${accessToken}`,
@@ -85,7 +92,7 @@ export const dropbox: Cloud = {
         'Content-Type': 'text/plain; charset=dropbox-cors-hack',
       },
       body: JSON.stringify({
-        path: FILEPATH,
+        path: `/${filename}`,
         include_media_info: false,
         include_deleted: false,
         include_has_explicit_shared_members: false,

@@ -8,7 +8,6 @@ import * as Helpers from './helpers';
 const CLIENT_ID = process.env.GOOGLE_DRIVE_API_KEY!;
 const CLIENT_SECRET = process.env.GOOGLE_DRIVE_API_SECRET!;
 /* eslint-enable */
-const FILENAME = 'uBlacklist.txt';
 const MULTIPART_RELATED_BOUNDARY = '----------uBlacklistMultipartRelatedBoundaryJMPRhmg2VV4JBuua';
 
 export const googleDrive: Cloud = {
@@ -48,7 +47,12 @@ export const googleDrive: Cloud = {
   // https://developers.google.com/drive/api/v3/reference/files/create
   // https://developers.google.com/drive/api/v3/manage-uploads#multipart
   // https://developers.google.com/drive/api/v3/appdata
-  async createFile(accessToken: string, content: string, modifiedTime: dayjs.Dayjs): Promise<void> {
+  async createFile(
+    accessToken: string,
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void> {
     const requestURL = new URL('https://www.googleapis.com/upload/drive/v3/files');
     requestURL.search = new URLSearchParams({
       uploadType: 'multipart',
@@ -64,7 +68,7 @@ Content-Type: application/json; charset=UTF-8\r
 \r
 ${JSON.stringify({
   modifiedTime: modifiedTime.toISOString(),
-  name: FILENAME,
+  name: filename,
   parents: ['appDataFolder'],
 })}\r
 --${MULTIPART_RELATED_BOUNDARY}\r
@@ -82,13 +86,16 @@ ${content}\r
 
   // https://developers.google.com/drive/api/v3/reference/files/list
   // https://developers.google.com/drive/api/v3/appdata
-  async findFile(accessToken: string): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  async findFile(
+    accessToken: string,
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
     const requestURL = new URL('https://www.googleapis.com/drive/v3/files');
     requestURL.search = new URLSearchParams({
       // Move authorization from the 'Authorization' header to avoid preflight requests.
       access_token: accessToken,
       fields: 'files(id, modifiedTime)',
-      q: `name = '${FILENAME}'`,
+      q: `name = '${filename}'`,
       spaces: 'appDataFolder',
     }).toString();
     const response = await fetch(requestURL.toString());

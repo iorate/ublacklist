@@ -1,48 +1,36 @@
-import * as LocalStorage from '../local-storage';
+import { apis } from '../apis';
 import { postMessage } from '../messages';
-import { Subscription, SubscriptionId } from '../types';
-import { HTTPError, Mutex, errorResult, numberKeys, successResult } from '../utilities';
+import { SubscriptionId } from '../types';
+import { HTTPError, errorResult, numberKeys, successResult } from '../utilities';
+import { loadFromRawStorage, modifyInRawStorage } from './raw-storage';
 
-const mutex = new Mutex();
+const UPDATE_ALL_ALARM_NAME = 'update-all-subscriptions';
+
 const updating = new Set<SubscriptionId>();
 
-export async function add(
-  subscription: Subscription,
-): Promise<{ id: SubscriptionId; single: boolean }> {
-  return await mutex.lock(async () => {
-    const { subscriptions, nextSubscriptionId: id } = await LocalStorage.load([
-      'subscriptions',
-      'nextSubscriptionId',
-    ]);
-    subscriptions[id] = subscription;
-    await LocalStorage.store({ subscriptions, nextSubscriptionId: id + 1 });
-    return { id, single: numberKeys(subscriptions).length === 1 };
-  });
-}
-
-export async function remove(id: SubscriptionId): Promise<void> {
-  await mutex.lock(async () => {
-    const { subscriptions } = await LocalStorage.load(['subscriptions']);
-    delete subscriptions[id];
-    await LocalStorage.store({ subscriptions });
-  });
-}
-
-export async function update(id: SubscriptionId): Promise<void> {
+async function tryLock(id: SubscriptionId, callback: () => Promise<void>): Promise<void> {
   if (updating.has(id)) {
     return;
   }
   updating.add(id);
   try {
-    // Use optimistic lock for 'subscriptions'.
-    // Don't lock now.
+    await callback();
+  } finally {
+    updating.delete(id);
+  }
+}
+
+export function update(id: SubscriptionId): Promise<void> {
+  return tryLock(id, async () => {
     const {
       subscriptions: { [id]: subscription },
-    } = await LocalStorage.load(['subscriptions']);
+    } = await loadFromRawStorage(['subscriptions']);
     if (!subscription) {
       return;
     }
+
     postMessage('subscription-updating', id);
+
     try {
       const response = await fetch(subscription.url);
       if (response.ok) {
@@ -56,29 +44,35 @@ export async function update(id: SubscriptionId): Promise<void> {
     } catch (e: unknown) {
       subscription.updateResult = errorResult(e instanceof Error ? e.message : 'Unknown error');
     }
-    // Lock now.
-    await mutex.lock(async () => {
-      const { subscriptions } = await LocalStorage.load(['subscriptions']);
-      // 'subscriptions[id]' may be already removed.
+    await modifyInRawStorage(['subscriptions'], ({ subscriptions }) => {
       if (!subscriptions[id]) {
-        return;
+        return {};
       }
-      subscriptions[id] = subscription;
-      await LocalStorage.store({ subscriptions });
-      postMessage('subscription-updated', id, subscription);
+      return { subscriptions: { ...subscriptions, [id]: subscription } };
     });
-  } finally {
-    updating.delete(id);
-  }
+
+    postMessage('subscription-updated', id, subscription);
+  });
 }
 
-export async function updateAll(): Promise<{ interval: number | null }> {
-  // Don't lock now.
-  const { subscriptions, updateInterval } = await LocalStorage.load([
+export async function updateAll(): Promise<void> {
+  const { subscriptions, updateInterval } = await loadFromRawStorage([
     'subscriptions',
     'updateInterval',
   ]);
-  const ids = numberKeys(subscriptions);
-  await Promise.all(ids.map(update));
-  return { interval: ids.length ? updateInterval : null };
+
+  apis.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
+
+  await Promise.all(numberKeys(subscriptions).map(update));
+}
+
+export function initialize(): void {
+  apis.runtime.onStartup.addListener(() => {
+    void updateAll();
+  });
+  apis.alarms.onAlarm.addListener(alarm => {
+    if (alarm.name === UPDATE_ALL_ALARM_NAME) {
+      void updateAll();
+    }
+  });
 }

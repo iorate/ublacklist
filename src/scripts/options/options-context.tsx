@@ -1,10 +1,11 @@
 import { FunctionComponent, createContext, h } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
-import * as LocalStorage from '../local-storage';
+import { loadAllFromLocalStorage } from '../local-storage';
+import { LocalStorageItems } from '../types';
 
 export type OptionsContextValue = {
-  initialItems: LocalStorage.Items;
+  initialItems: LocalStorageItems;
   platformInfo: apis.runtime.PlatformInfo;
 };
 
@@ -15,7 +16,7 @@ export const OptionsContextProvider: FunctionComponent = props => {
   useEffect(() => {
     void (async () => {
       const [initialItems, platformInfo] = await Promise.all([
-        LocalStorage.loadAll(),
+        loadAllFromLocalStorage(),
         apis.runtime.getPlatformInfo(),
       ]);
       setValue({ initialItems, platformInfo });

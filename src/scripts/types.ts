@@ -33,8 +33,16 @@ export type Cloud = {
   ): Promise<{ accessToken: string; expiresIn: number; refreshToken: string }>;
   refreshAccessToken(refreshToken: string): Promise<{ accessToken: string; expiresIn: number }>;
 
-  createFile(accessToken: string, content: string, modifiedTime: dayjs.Dayjs): Promise<void>;
-  findFile(accessToken: string): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  createFile(
+    accessToken: string,
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+  findFile(
+    accessToken: string,
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
   readFile(accessToken: string, id: string): Promise<{ content: string }>;
   writeFile(
     accessToken: string,
@@ -52,6 +60,44 @@ export type CloudToken = {
   refreshToken: string;
 };
 // #endregion Clouds
+
+// #region LocalStorage
+export type LocalStorageItems = {
+  // blocklist
+  blacklist: string;
+
+  // general
+  skipBlockDialog: boolean;
+  hideBlockLinks: boolean;
+  hideControl: boolean;
+  enablePathDepth: boolean;
+
+  // appearance
+  linkColor: string;
+  blockColor: string;
+  highlightColors: string[];
+  dialogTheme: DialogTheme | 'default';
+
+  // sync
+  syncCloudId: CloudId | null;
+  syncBlocklist: boolean;
+  syncGeneral: boolean;
+  syncAppearance: boolean;
+  syncSubscriptions: boolean;
+  syncResult: Result | null;
+  syncInterval: number;
+
+  // subscriptions
+  subscriptions: Subscriptions;
+  updateInterval: number;
+};
+
+export type LocalStorageItemsFor<T extends readonly (keyof LocalStorageItems)[]> = {
+  [Key in T[number]]: LocalStorageItems[Key];
+};
+
+export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
+// #endregion LocalStorage
 
 // #region SearchEngines
 export type SerpControl = {

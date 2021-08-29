@@ -1,14 +1,15 @@
 import dayjs from 'dayjs';
-import * as LocalStorage from '../local-storage';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
 import { HTTPError, Mutex, translate } from '../utilities';
+import { loadFromRawStorage, saveToRawStorage } from './raw-storage';
+import { sync } from './sync';
 
 const mutex = new Mutex();
 
 export async function connect(id: CloudId): Promise<boolean> {
-  return mutex.lock(async () => {
-    const { syncCloudId: oldId } = await LocalStorage.load(['syncCloudId']);
+  const connected = await mutex.lock(async () => {
+    const { syncCloudId: oldId } = await loadFromRawStorage(['syncCloudId']);
     if (oldId != null) {
       return oldId === id;
     }
@@ -16,7 +17,7 @@ export async function connect(id: CloudId): Promise<boolean> {
     try {
       const { authorizationCode } = await cloud.authorize();
       const token = await cloud.getAccessToken(authorizationCode);
-      await LocalStorage.store({
+      await saveToRawStorage({
         syncCloudId: id,
         syncCloudToken: {
           accessToken: token.accessToken,
@@ -29,24 +30,29 @@ export async function connect(id: CloudId): Promise<boolean> {
       return false;
     }
   });
+  if (connected) {
+    void sync();
+  }
+  return connected;
 }
 
-export async function disconnect(): Promise<void> {
+export function disconnect(): Promise<void> {
   return mutex.lock(async () => {
-    const { syncCloudId: id } = await LocalStorage.load(['syncCloudId']);
+    const { syncCloudId: id } = await loadFromRawStorage(['syncCloudId']);
     if (id == null) {
       return;
     }
-    await LocalStorage.store({ syncCloudId: null, syncCloudToken: null });
+    await saveToRawStorage({ syncCloudId: null, syncCloudToken: null });
   });
 }
 
-export async function syncFile(
+export function syncFile(
+  filename: string,
   content: string,
   modifiedTime: dayjs.Dayjs,
 ): Promise<{ content: string; modifiedTime: dayjs.Dayjs } | null> {
-  return await mutex.lock(async () => {
-    const { syncCloudId, syncCloudToken } = await LocalStorage.load([
+  return mutex.lock(async () => {
+    const { syncCloudId, syncCloudToken } = await loadFromRawStorage([
       'syncCloudId',
       'syncCloudToken',
     ]);
@@ -65,12 +71,12 @@ export async function syncFile(
         const newToken = await cloud.refreshAccessToken(refreshToken);
         accessToken = newToken.accessToken;
         expiresAt = dayjs().add(newToken.expiresIn, 'second');
-        await LocalStorage.store({
+        await saveToRawStorage({
           syncCloudToken: { accessToken, expiresAt: expiresAt.toISOString(), refreshToken },
         });
       } catch (e: unknown) {
         if (e instanceof HTTPError && e.status === 400) {
-          await LocalStorage.store({ syncCloudToken: null });
+          await saveToRawStorage({ syncCloudToken: null });
           throw new Error(translate('unauthorizedError'));
         } else {
           throw e;
@@ -92,7 +98,7 @@ export async function syncFile(
         }
       }
     };
-    const cloudFile = await refreshOnUnauthorized(() => cloud.findFile(accessToken));
+    const cloudFile = await refreshOnUnauthorized(() => cloud.findFile(accessToken, filename));
     if (cloudFile) {
       if (modifiedTime.isBefore(cloudFile.modifiedTime, cloud.modifiedTimePrecision)) {
         const { content: cloudContent } = await refreshOnUnauthorized(() =>
@@ -111,7 +117,9 @@ export async function syncFile(
         return null;
       }
     } else {
-      await refreshOnUnauthorized(() => cloud.createFile(accessToken, content, modifiedTime));
+      await refreshOnUnauthorized(() =>
+        cloud.createFile(accessToken, filename, content, modifiedTime),
+      );
       return null;
     }
   });

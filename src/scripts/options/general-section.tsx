@@ -29,6 +29,7 @@ import {
 import { Text } from '../components/text';
 import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
+import { saveToLocalStorage } from '../local-storage';
 import { addMessageListeners, sendMessage } from '../messages';
 import { searchEngineMessageNames } from '../search-engines/message-names';
 import { MessageName0, SearchEngineId } from '../types';
@@ -198,7 +199,7 @@ const SetBlacklist: FunctionComponent = () => {
   useEffect(
     () =>
       addMessageListeners({
-        'blacklist-set': (latestBlacklist, source) => {
+        'blocklist-saved': (latestBlacklist, source) => {
           if (source !== 'options') {
             setLatestBlacklist(latestBlacklist);
           }
@@ -276,7 +277,7 @@ const SetBlacklist: FunctionComponent = () => {
                 disabled={!blacklistDirty}
                 primary
                 onClick={() => {
-                  void sendMessage('set-blacklist', blacklist, 'options');
+                  void saveToLocalStorage({ blacklist }, 'options');
                   setBlacklistDirty(false);
                   setLatestBlacklist(null);
                 }}
@@ -386,9 +387,18 @@ export const GeneralSection: FunctionComponent = () => (
     <SectionBody>
       <SetBlacklist />
       <RegisterSearchEngines />
-      <SetBooleanItem itemKey="skipBlockDialog" label={translate('options_skipBlockDialogLabel')} />
-      <SetBooleanItem itemKey="hideBlockLinks" label={translate('options_hideBlockLinksLabel')} />
-      <SetBooleanItem itemKey="hideControl" label={translate('options_hideControlLabel')} />
+      <SectionItem>
+        <SetBooleanItem
+          itemKey="skipBlockDialog"
+          label={translate('options_skipBlockDialogLabel')}
+        />
+      </SectionItem>
+      <SectionItem>
+        <SetBooleanItem itemKey="hideBlockLinks" label={translate('options_hideBlockLinksLabel')} />
+      </SectionItem>
+      <SectionItem>
+        <SetBooleanItem itemKey="hideControl" label={translate('options_hideControlLabel')} />
+      </SectionItem>
     </SectionBody>
   </Section>
 );

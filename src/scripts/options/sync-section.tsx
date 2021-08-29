@@ -13,7 +13,9 @@ import {
   DialogProps,
   DialogTitle,
 } from '../components/dialog';
+import { Indent } from '../components/indent';
 import { Label, LabelWrapper, SubLabel } from '../components/label';
+import { List, ListItem } from '../components/list';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
 import {
@@ -33,6 +35,7 @@ import { isErrorResult, stringEntries, translate } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
+import { SetBooleanItem } from './set-boolean-item';
 import { SetIntervalItem } from './set-interval-item';
 
 dayjs.extend(dayjsDuration);
@@ -178,10 +181,10 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
   useEffect(
     () =>
       addMessageListeners({
-        'blacklist-syncing': () => {
+        syncing: () => {
           setSyncing(true);
         },
-        'blacklist-synced': result => {
+        synced: result => {
           setSyncResult(result);
           setSyncing(false);
         },
@@ -211,7 +214,7 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
           <Button
             disabled={syncing || props.syncCloudId == null}
             onClick={() => {
-              void sendMessage('sync-blacklist');
+              void sendMessage('sync');
             }}
           >
             {translate('options_syncNowButton')}
@@ -221,6 +224,55 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
     </SectionItem>
   );
 };
+
+const SyncCategories: FunctionComponent<{ disabled: boolean }> = ({ disabled }) => (
+  <SectionItem>
+    <Row>
+      <RowItem expanded>
+        <LabelWrapper>
+          <Label>{translate('options_syncCategories')}</Label>
+        </LabelWrapper>
+      </RowItem>
+    </Row>
+    <Row>
+      <RowItem>
+        <Indent />
+      </RowItem>
+      <RowItem expanded>
+        <List>
+          <ListItem>
+            <SetBooleanItem
+              disabled={disabled}
+              itemKey="syncBlocklist"
+              label={translate('options_syncBlocklist')}
+            />
+          </ListItem>
+          <ListItem>
+            <SetBooleanItem
+              disabled={disabled}
+              itemKey="syncGeneral"
+              label={translate('options_syncGeneral')}
+            />
+          </ListItem>
+          <ListItem>
+            <SetBooleanItem
+              disabled={disabled}
+              itemKey="syncAppearance"
+              label={translate('options_syncAppearance')}
+            />
+          </ListItem>
+          <ListItem>
+            <SetBooleanItem
+              disabled={disabled}
+              itemKey="syncSubscriptions"
+              label={translate('options_syncSubscriptions')}
+            />
+          </ListItem>
+        </List>
+      </RowItem>
+    </Row>
+  </SectionItem>
+);
 
 export const SyncSection: FunctionComponent = () => {
   // #if !SAFARI
@@ -244,11 +296,15 @@ export const SyncSection: FunctionComponent = () => {
       <SectionBody>
         <TurnOnSync setSyncCloudId={setSyncCloudId} syncCloudId={syncCloudId} />
         <SyncNow syncCloudId={syncCloudId} />
-        <SetIntervalItem
-          itemKey="syncInterval"
-          label={translate('options_syncInterval')}
-          valueOptions={[5, 15, 30, 60, 120, 300]}
-        />
+        <SyncCategories disabled={syncCloudId == null} />
+        <SectionItem>
+          <SetIntervalItem
+            disabled={syncCloudId == null}
+            itemKey="syncInterval"
+            label={translate('options_syncInterval')}
+            valueOptions={[5, 15, 30, 60, 120, 300]}
+          />
+        </SectionItem>
       </SectionBody>
     </Section>
   );
