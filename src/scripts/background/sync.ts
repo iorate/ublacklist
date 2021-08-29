@@ -322,6 +322,9 @@ export function syncDelayed(flags: SyncDirtyFlags): void {
 }
 
 export function initialize(): void {
+  apis.runtime.onInstalled.addListener(() => {
+    void sync();
+  });
   apis.runtime.onStartup.addListener(() => {
     void sync();
   });

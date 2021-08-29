@@ -67,6 +67,9 @@ export async function updateAll(): Promise<void> {
 }
 
 export function initialize(): void {
+  apis.runtime.onInstalled.addListener(() => {
+    void updateAll();
+  });
   apis.runtime.onStartup.addListener(() => {
     void updateAll();
   });
