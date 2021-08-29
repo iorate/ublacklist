@@ -52,6 +52,20 @@ import { SetIntervalItem } from './set-interval-item';
 
 const PERMISSION_PASSLIST = ['*://*.githubusercontent.com/*'];
 
+async function requestPermission(urls: readonly string[]): Promise<boolean> {
+  const origins: string[] = [];
+  const passlist = PERMISSION_PASSLIST.map(pass => new MatchPattern(pass));
+  for (const url of urls) {
+    const u = new AltURL(url);
+    if (passlist.some(pass => pass.test(u))) {
+      continue;
+    }
+    origins.push(`${u.scheme}://${u.host}/*`);
+  }
+  // Don't call `permissions.request` when unnecessary. re #110
+  return origins.length ? apis.permissions.request({ origins }) : true;
+}
+
 const AddSubscriptionDialog: FunctionComponent<
   { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
 > = ({ close, open, setSubscriptions }) => {
@@ -141,22 +155,12 @@ const AddSubscriptionDialog: FunctionComponent<
               disabled={!ok}
               primary
               onClick={async () => {
-                const u = new URL(state.url);
-                if (
-                  !PERMISSION_PASSLIST.some(pattern =>
-                    new MatchPattern(pattern).test(new AltURL(u.toString())),
-                  )
-                ) {
-                  const granted = await apis.permissions.request({
-                    origins: [`${u.protocol}//${u.hostname}/*`],
-                  });
-                  if (!granted) {
-                    return;
-                  }
+                if (!(await requestPermission([state.url]))) {
+                  return;
                 }
                 const subscription = {
                   name: state.name,
-                  url: u.toString(),
+                  url: state.url,
                   blacklist: '',
                   updateResult: null,
                 };
@@ -254,8 +258,11 @@ const ManageSubscription: FunctionComponent<{
             {translate('options_showSubscriptionMenu')}
           </MenuItem>
           <MenuItem
-            onClick={() => {
-              void sendMessage('update-subscription', id);
+            onClick={async () => {
+              if (!(await requestPermission([subscription.url]))) {
+                return;
+              }
+              await sendMessage('update-subscription', id);
             }}
           >
             {translate('options_updateSubscriptionNowMenu')}
@@ -389,8 +396,11 @@ export const ManageSubscriptions: FunctionComponent<{
         <RowItem>
           <Button
             disabled={!numberKeys(subscriptions).length}
-            onClick={() => {
-              void sendMessage('update-all-subscriptions');
+            onClick={async () => {
+              if (!(await requestPermission(Object.values(subscriptions).map(s => s.url)))) {
+                return;
+              }
+              await sendMessage('update-all-subscriptions');
             }}
           >
             {translate('options_updateAllSubscriptionsNowButton')}
