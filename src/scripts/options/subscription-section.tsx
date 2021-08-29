@@ -38,10 +38,19 @@ import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
+import {
+  AltURL,
+  MatchPattern,
+  isErrorResult,
+  numberEntries,
+  numberKeys,
+  translate,
+} from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';
+
+const PERMISSION_PASSLIST = ['*://*.githubusercontent.com/*'];
 
 const AddSubscriptionDialog: FunctionComponent<
   { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
@@ -133,11 +142,17 @@ const AddSubscriptionDialog: FunctionComponent<
               primary
               onClick={async () => {
                 const u = new URL(state.url);
-                const granted = await apis.permissions.request({
-                  origins: [`${u.protocol}//${u.hostname}/*`],
-                });
-                if (!granted) {
-                  return;
+                if (
+                  !PERMISSION_PASSLIST.some(pattern =>
+                    new MatchPattern(pattern).test(new AltURL(u.toString())),
+                  )
+                ) {
+                  const granted = await apis.permissions.request({
+                    origins: [`${u.protocol}//${u.hostname}/*`],
+                  });
+                  if (!granted) {
+                    return;
+                  }
                 }
                 const subscription = {
                   name: state.name,
