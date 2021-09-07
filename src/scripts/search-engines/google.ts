@@ -57,7 +57,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     },
     targets:
-      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .dbsr, .F9rcV',
+      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .related-question-pair, F4CzCf, .YwonT, .S1FAPd, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -198,6 +198,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
       },
       // Top Story (Vertical)
+      {
+        target: 'div > .WlydOe > .TIh7vf > .iRPxbe > .ZE0LJd > .S1FAPd',
+        level: 5,
+        url: '.WlydOe',
+        title: '.mCBkyc',
+        actionTarget: '.S1FAPd',
+        actionStyle: {
+          ...desktopInlineActionStyle,
+          marginLeft: '4px',
+        },
+      },
       {
         target: 'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
         level: 8,
