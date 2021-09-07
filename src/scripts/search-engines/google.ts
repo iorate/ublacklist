@@ -52,7 +52,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   '': handleSerp({
     globalStyle: {
       ...desktopGlobalStyle,
-      ':is([data-ub-blocked], [data-ub-highlight]) g-inner-card': {
+      ':is([data-ub-blocked], [data-ub-highlight]) :is(g-inner-card, .kp-blk)': {
         backgroundColor: 'transparent !important',
       },
     },
