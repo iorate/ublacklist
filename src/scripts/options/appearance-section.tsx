@@ -17,7 +17,7 @@ import {
   SectionTitle,
 } from '../components/section';
 import { useCSS } from '../components/styles';
-import * as LocalStorage from '../local-storage';
+import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../utilities';
 import { useOptionsContext } from './options-context';
 
@@ -51,7 +51,7 @@ const SetColorItem: FunctionComponent<{
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(false);
-                  void LocalStorage.store({ [itemKey]: 'default' });
+                  void saveToLocalStorage({ [itemKey]: 'default' }, 'options');
                 }
               }}
             ></RadioButton>
@@ -75,7 +75,7 @@ const SetColorItem: FunctionComponent<{
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(true);
-                  void LocalStorage.store({ [itemKey]: color });
+                  void saveToLocalStorage({ [itemKey]: color }, 'options');
                 }
               }}
             />
@@ -96,7 +96,7 @@ const SetColorItem: FunctionComponent<{
               setSpecifyColor(true);
               const color = e.currentTarget.value;
               setColor(color);
-              void LocalStorage.store({ [itemKey]: color });
+              void saveToLocalStorage({ [itemKey]: color }, 'options');
             }}
           />
         </RowItem>
@@ -141,7 +141,10 @@ const SetHighlightColors: FunctionComponent = () => {
             onClick={() => {
               colorsAndKeys.push(['#ddeeff', nextKey.current++]);
               setColorsAndKeys([...colorsAndKeys]);
-              void LocalStorage.store({ highlightColors: colorsAndKeys.map(([color]) => color) });
+              void saveToLocalStorage(
+                { highlightColors: colorsAndKeys.map(([color]) => color) },
+                'options',
+              );
             }}
           />
         </RowItem>
@@ -169,9 +172,10 @@ const SetHighlightColors: FunctionComponent = () => {
                       onInput={e => {
                         colorsAndKeys[index] = [e.currentTarget.value, colorsAndKeys[index][1]];
                         setColorsAndKeys([...colorsAndKeys]);
-                        void LocalStorage.store({
-                          highlightColors: colorsAndKeys.map(([color]) => color),
-                        });
+                        void saveToLocalStorage(
+                          { highlightColors: colorsAndKeys.map(([color]) => color) },
+                          'options',
+                        );
                       }}
                     />
                   </RowItem>
@@ -183,9 +187,10 @@ const SetHighlightColors: FunctionComponent = () => {
                         onClick={() => {
                           colorsAndKeys.pop();
                           setColorsAndKeys([...colorsAndKeys]);
-                          void LocalStorage.store({
-                            highlightColors: colorsAndKeys.map(([color]) => color),
-                          });
+                          void saveToLocalStorage(
+                            { highlightColors: colorsAndKeys.map(([color]) => color) },
+                            'options',
+                          );
                         }}
                       />
                     ) : (
@@ -227,7 +232,7 @@ const SetDialogTheme: FunctionComponent = () => {
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('default');
-                  void LocalStorage.store({ dialogTheme: 'default' });
+                  void saveToLocalStorage({ dialogTheme: 'default' }, 'options');
                 }
               }}
             />
@@ -251,7 +256,7 @@ const SetDialogTheme: FunctionComponent = () => {
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('light');
-                  void LocalStorage.store({ dialogTheme: 'light' });
+                  void saveToLocalStorage({ dialogTheme: 'light' }, 'options');
                 }
               }}
             />
@@ -275,7 +280,7 @@ const SetDialogTheme: FunctionComponent = () => {
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('dark');
-                  void LocalStorage.store({ dialogTheme: 'dark' });
+                  void saveToLocalStorage({ dialogTheme: 'dark' }, 'options');
                 }
               }}
             />

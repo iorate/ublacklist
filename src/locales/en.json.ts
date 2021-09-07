@@ -232,6 +232,21 @@ exportAsMessages('_locales/en/messages.json', {
   // The text of the button to sync now.
   options_syncNowButton: 'Sync now',
 
+  // The label of the list to choose what to sync.
+  options_syncCategories: 'What to sync',
+
+  // The label of the switch to sync the blocklist.
+  options_syncBlocklist: 'Blocked sites',
+
+  // The label of the switch to sync the general settings.
+  options_syncGeneral: 'General settings',
+
+  // The label of the switch to sync the appearance.
+  options_syncAppearance: 'Appearance',
+
+  // The label of the switch to sync the subscriptions.
+  options_syncSubscriptions: 'Subscriptions',
+
   // The label of the select to select a sync interval.
   options_syncInterval: 'Sync interval',
 

@@ -58,7 +58,7 @@ To add a locale,
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
 1. Copy `src/locales/en.json.ts` to `src/locales/${languageCode}.json.ts` and translate entries.
 1. Open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
-1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files.
+1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files. Screenshots should be 1280x800.
 
 ## Author
 

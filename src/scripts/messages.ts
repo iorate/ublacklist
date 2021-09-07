@@ -1,24 +1,34 @@
 import { apis } from './apis';
-import { CloudId, Result, SearchEngineId, Subscription, SubscriptionId } from './types';
-
-export type SetBlacklistSource = 'content-script' | 'popup' | 'options' | 'background';
+import {
+  CloudId,
+  LocalStorageItems,
+  Result,
+  SaveSource,
+  SearchEngineId,
+  Subscription,
+  SubscriptionId,
+} from './types';
 
 type MessageSignatures = {
-  // content-script/popup/options -> background
-  'set-blacklist': (blacklist: string, source: SetBlacklistSource) => void;
-  'sync-blacklist': () => void;
   'connect-to-cloud': (id: CloudId) => boolean;
   'disconnect-from-cloud': () => void;
   'register-search-engine': (id: SearchEngineId) => void;
+  'open-options-page': () => void;
+
+  'save-to-local-storage': (
+    items: Readonly<Partial<Exclude<LocalStorageItems, 'subscriptions'>>>,
+    source: SaveSource,
+  ) => void;
+  'blocklist-saved': (blacklist: string, source: SaveSource) => void;
   'add-subscription': (subscription: Subscription) => SubscriptionId;
   'remove-subscription': (id: SubscriptionId) => void;
+
+  sync: () => void;
+  syncing: () => void;
+  synced: (result: Result) => void;
+
   'update-subscription': (id: SubscriptionId) => void;
   'update-all-subscriptions': () => void;
-  'open-options-page': () => void;
-  // background -> options
-  'blacklist-set': (blacklist: string, source: SetBlacklistSource) => void;
-  'blacklist-syncing': () => void;
-  'blacklist-synced': (result: Result) => void;
   'subscription-updating': (id: SubscriptionId) => void;
   'subscription-updated': (id: SubscriptionId, subscription: Subscription) => void;
 };

@@ -2,16 +2,21 @@ import { FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
 import { ControlLabel, LabelWrapper } from '../components/label';
 import { Row, RowItem } from '../components/row';
-import { SectionItem } from '../components/section';
 import { useCSS } from '../components/styles';
 import { Switch } from '../components/switch';
-import * as LocalStorage from '../local-storage';
+import { saveToLocalStorage } from '../local-storage';
+import { LocalStorageItems } from '../types';
 import { useOptionsContext } from './options-context';
 
 export const SetBooleanItem: FunctionComponent<{
-  itemKey: 'skipBlockDialog' | 'hideBlockLinks' | 'hideControl';
+  disabled?: boolean;
+  itemKey: keyof {
+    [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
+      ? Key
+      : never]: boolean;
+  };
   label: string;
-}> = ({ itemKey, label }) => {
+}> = ({ disabled = false, itemKey, label }) => {
   const {
     initialItems: { [itemKey]: initialItem },
   } = useOptionsContext();
@@ -29,25 +34,24 @@ export const SetBooleanItem: FunctionComponent<{
   );
 
   return (
-    <SectionItem>
-      <Row class={rowClass}>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={itemKey}>{label}</ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-        <RowItem>
-          <Switch
-            checked={item}
-            id={itemKey}
-            onInput={e => {
-              const value = e.currentTarget.checked;
-              void LocalStorage.store({ [itemKey]: value });
-              setItem(value);
-            }}
-          />
-        </RowItem>
-      </Row>
-    </SectionItem>
+    <Row class={rowClass}>
+      <RowItem expanded>
+        <LabelWrapper>
+          <ControlLabel for={itemKey}>{label}</ControlLabel>
+        </LabelWrapper>
+      </RowItem>
+      <RowItem>
+        <Switch
+          checked={item}
+          disabled={disabled}
+          id={itemKey}
+          onInput={e => {
+            const value = e.currentTarget.checked;
+            void saveToLocalStorage({ [itemKey]: value }, 'options');
+            setItem(value);
+          }}
+        />
+      </RowItem>
+    </Row>
   );
 };

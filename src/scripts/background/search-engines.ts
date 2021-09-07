@@ -16,7 +16,7 @@ export async function register(id: SearchEngineId): Promise<void> {
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export async function registerAll(): Promise<void> {
+export function initialize(): void {
   // #if CHROME_MV3
   // #elif CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -43,16 +43,16 @@ export async function registerAll(): Promise<void> {
     })();
   });
   /* #elif FIREFOX
-  await Promise.all(
-    stringEntries(searchEngineMatches).map(async ([id, matches]) => {
-      if (id === 'google') {
-        return;
-      }
+  for (const [id, matches] of stringEntries(searchEngineMatches)) {
+    if (id === 'google') {
+      continue;
+    }
+    void (async () => {
       if (await apis.permissions.contains({ origins: matches })) {
         await register(id);
       }
-    }),
-  );
+    })();
+  }
   */
   // #endif
 }

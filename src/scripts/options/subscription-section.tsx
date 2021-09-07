@@ -38,10 +38,33 @@ import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { isErrorResult, numberEntries, numberKeys, translate } from '../utilities';
+import {
+  AltURL,
+  MatchPattern,
+  isErrorResult,
+  numberEntries,
+  numberKeys,
+  translate,
+} from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';
+
+const PERMISSION_PASSLIST = ['*://*.githubusercontent.com/*'];
+
+async function requestPermission(urls: readonly string[]): Promise<boolean> {
+  const origins: string[] = [];
+  const passlist = PERMISSION_PASSLIST.map(pass => new MatchPattern(pass));
+  for (const url of urls) {
+    const u = new AltURL(url);
+    if (passlist.some(pass => pass.test(u))) {
+      continue;
+    }
+    origins.push(`${u.scheme}://${u.host}/*`);
+  }
+  // Don't call `permissions.request` when unnecessary. re #110
+  return origins.length ? apis.permissions.request({ origins }) : true;
+}
 
 const AddSubscriptionDialog: FunctionComponent<
   { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
@@ -132,16 +155,12 @@ const AddSubscriptionDialog: FunctionComponent<
               disabled={!ok}
               primary
               onClick={async () => {
-                const u = new URL(state.url);
-                const granted = await apis.permissions.request({
-                  origins: [`${u.protocol}//${u.hostname}/*`],
-                });
-                if (!granted) {
+                if (!(await requestPermission([state.url]))) {
                   return;
                 }
                 const subscription = {
                   name: state.name,
-                  url: u.toString(),
+                  url: state.url,
                   blacklist: '',
                   updateResult: null,
                 };
@@ -239,8 +258,11 @@ const ManageSubscription: FunctionComponent<{
             {translate('options_showSubscriptionMenu')}
           </MenuItem>
           <MenuItem
-            onClick={() => {
-              void sendMessage('update-subscription', id);
+            onClick={async () => {
+              if (!(await requestPermission([subscription.url]))) {
+                return;
+              }
+              await sendMessage('update-subscription', id);
             }}
           >
             {translate('options_updateSubscriptionNowMenu')}
@@ -263,11 +285,10 @@ const ManageSubscription: FunctionComponent<{
   );
 };
 
-export const ManageSubscriptions: FunctionComponent = () => {
-  const {
-    initialItems: { subscriptions: initialSubscriptions },
-  } = useOptionsContext();
-  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+export const ManageSubscriptions: FunctionComponent<{
+  subscriptions: Subscriptions;
+  setSubscriptions: StateUpdater<Subscriptions>;
+}> = ({ subscriptions, setSubscriptions }) => {
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(false);
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = useState(false);
@@ -280,11 +301,13 @@ export const ManageSubscriptions: FunctionComponent = () => {
           setUpdating(updating => ({ ...updating, [id]: true }));
         },
         'subscription-updated': (id, subscription) => {
-          setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
+          setSubscriptions(subscriptions =>
+            subscriptions[id] ? { ...subscriptions, [id]: subscription } : subscriptions,
+          );
           setUpdating(updating => ({ ...updating, [id]: false }));
         },
       }),
-    [],
+    [subscriptions, setSubscriptions],
   );
 
   const css = useCSS();
@@ -373,8 +396,11 @@ export const ManageSubscriptions: FunctionComponent = () => {
         <RowItem>
           <Button
             disabled={!numberKeys(subscriptions).length}
-            onClick={() => {
-              void sendMessage('update-all-subscriptions');
+            onClick={async () => {
+              if (!(await requestPermission(Object.values(subscriptions).map(s => s.url)))) {
+                return;
+              }
+              await sendMessage('update-all-subscriptions');
             }}
           >
             {translate('options_updateAllSubscriptionsNowButton')}
@@ -399,20 +425,29 @@ export const ManageSubscriptions: FunctionComponent = () => {
   );
 };
 
-export const SubscriptionSection: FunctionComponent = () => (
-  <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
-    <SectionHeader>
-      <SectionTitle id="subscriptionSectionTitle">
-        {translate('options_subscriptionTitle')}
-      </SectionTitle>
-    </SectionHeader>
-    <SectionBody>
-      <ManageSubscriptions />
-      <SetIntervalItem
-        itemKey="updateInterval"
-        label={translate('options_updateInterval')}
-        valueOptions={[5, 15, 30, 60, 120, 300]}
-      />
-    </SectionBody>
-  </Section>
-);
+export const SubscriptionSection: FunctionComponent = () => {
+  const {
+    initialItems: { subscriptions: initialSubscriptions },
+  } = useOptionsContext();
+  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+  return (
+    <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
+      <SectionHeader>
+        <SectionTitle id="subscriptionSectionTitle">
+          {translate('options_subscriptionTitle')}
+        </SectionTitle>
+      </SectionHeader>
+      <SectionBody>
+        <ManageSubscriptions setSubscriptions={setSubscriptions} subscriptions={subscriptions} />
+        <SectionItem>
+          <SetIntervalItem
+            disabled={!numberKeys(subscriptions).length}
+            itemKey="updateInterval"
+            label={translate('options_updateInterval')}
+            valueOptions={[5, 15, 30, 60, 120, 300]}
+          />
+        </SectionItem>
+      </SectionBody>
+    </Section>
+  );
+};

@@ -3,8 +3,7 @@ import { useLayoutEffect, useMemo } from 'preact/hooks';
 import { searchEngineMatches } from '../common/search-engines';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
-import * as LocalStorage from './local-storage';
-import { sendMessage } from './messages';
+import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { CSSAttribute, css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
@@ -132,7 +131,7 @@ class ContentScript {
 
   onSerpStart(): void {
     void (async () => {
-      const options = await LocalStorage.load([
+      const options = await loadFromLocalStorage([
         'blacklist',
         'subscriptions',
         'skipBlockDialog',
@@ -302,7 +301,10 @@ class ContentScript {
           if (this.options.skipBlockDialog) {
             this.options.blacklist.createPatch(entry.props);
             this.options.blacklist.applyPatch();
-            void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
+            void saveToLocalStorage(
+              { blacklist: this.options.blacklist.toString() },
+              'content-script',
+            );
             this.rejudgeAllEntries();
           } else {
             this.renderBlockDialog(entry.props.url.toString(), entry.props.title);
@@ -332,7 +334,10 @@ class ContentScript {
           if (!this.options) {
             return;
           }
-          void sendMessage('set-blacklist', this.options.blacklist.toString(), 'content-script');
+          void saveToLocalStorage(
+            { blacklist: this.options.blacklist.toString() },
+            'content-script',
+          );
           this.rejudgeAllEntries();
         }}
       />,
