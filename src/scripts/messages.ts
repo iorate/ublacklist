@@ -1,7 +1,7 @@
 import { apis } from './apis';
 import {
   CloudId,
-  LocalStorageItems,
+  LocalStorageItemsSavable,
   Result,
   SaveSource,
   SearchEngineId,
@@ -16,7 +16,7 @@ type MessageSignatures = {
   'open-options-page': () => void;
 
   'save-to-local-storage': (
-    items: Readonly<Partial<Exclude<LocalStorageItems, 'subscriptions'>>>,
+    items: Readonly<Partial<LocalStorageItemsSavable>>,
     source: SaveSource,
   ) => void;
   'blocklist-saved': (blacklist: string, source: SaveSource) => void;

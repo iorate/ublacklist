@@ -8,13 +8,13 @@ import { saveToLocalStorage } from '../local-storage';
 import { LocalStorageItems } from '../types';
 import { useOptionsContext } from './options-context';
 
+export type BooleanItemKey = keyof {
+  [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key] ? Key : never]: boolean;
+};
+
 export const SetBooleanItem: FunctionComponent<{
   disabled?: boolean;
-  itemKey: keyof {
-    [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
-      ? Key
-      : never]: boolean;
-  };
+  itemKey: BooleanItemKey;
   label: string;
 }> = ({ disabled = false, itemKey, label }) => {
   const {
@@ -47,7 +47,10 @@ export const SetBooleanItem: FunctionComponent<{
           id={itemKey}
           onInput={e => {
             const value = e.currentTarget.checked;
-            void saveToLocalStorage({ [itemKey]: value }, 'options');
+            void saveToLocalStorage(
+              { [itemKey]: value } as Partial<Record<BooleanItemKey, boolean>>,
+              'options',
+            );
             setItem(value);
           }}
         />

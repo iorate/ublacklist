@@ -96,6 +96,11 @@ export type LocalStorageItemsFor<T extends readonly (keyof LocalStorageItems)[]>
   [Key in T[number]]: LocalStorageItems[Key];
 };
 
+export type LocalStorageItemsSavable = Omit<
+  LocalStorageItems,
+  'syncCloudId' | 'syncResult' | 'subscriptions'
+>;
+
 export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
 // #endregion LocalStorage
 

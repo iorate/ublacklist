@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { postMessage } from '../messages';
-import { LocalStorageItems, SaveSource, Subscription, SubscriptionId } from '../types';
+import { LocalStorageItemsSavable, SaveSource, Subscription, SubscriptionId } from '../types';
 import { RawStorageItems, modifyInRawStorage, saveToRawStorage } from './raw-storage';
 import { update as updateSubscription } from './subscriptions';
 import { SyncDirtyFlags, syncDelayed } from './sync';
@@ -60,7 +60,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
 ];
 
 export async function save(
-  items: Readonly<Partial<Exclude<LocalStorageItems, 'subscriptions'>>>,
+  items: Readonly<Partial<LocalStorageItemsSavable>>,
   source: SaveSource,
 ): Promise<void> {
   const syncDirtyFlags: SyncDirtyFlags = {};
