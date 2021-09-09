@@ -10,9 +10,11 @@ import { translate } from '../utilities';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
 
+export type IntervalItemKey = 'syncInterval' | 'updateInterval';
+
 export const SetIntervalItem: FunctionComponent<{
   disabled?: boolean;
-  itemKey: 'syncInterval' | 'updateInterval';
+  itemKey: IntervalItemKey;
   label: string;
   valueOptions: number[];
 }> = ({ disabled = false, itemKey, label, valueOptions }) => {
@@ -46,7 +48,10 @@ export const SetIntervalItem: FunctionComponent<{
           value={item}
           onInput={e => {
             const value = Number(e.currentTarget.value);
-            void saveToLocalStorage({ [itemKey]: value }, 'options');
+            void saveToLocalStorage(
+              { [itemKey]: value } as Partial<Record<IntervalItemKey, number>>,
+              'options',
+            );
             setItem(value);
           }}
         >

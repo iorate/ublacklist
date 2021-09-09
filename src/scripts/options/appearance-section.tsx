@@ -21,9 +21,11 @@ import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../utilities';
 import { useOptionsContext } from './options-context';
 
+type ColorItemKey = 'linkColor' | 'blockColor';
+
 const SetColorItem: FunctionComponent<{
   initialColor: string;
-  itemKey: 'linkColor' | 'blockColor';
+  itemKey: ColorItemKey;
   label: string;
 }> = ({ initialColor, itemKey, label }) => {
   const {
@@ -51,7 +53,10 @@ const SetColorItem: FunctionComponent<{
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(false);
-                  void saveToLocalStorage({ [itemKey]: 'default' }, 'options');
+                  void saveToLocalStorage(
+                    { [itemKey]: 'default' } as Partial<Record<ColorItemKey, string>>,
+                    'options',
+                  );
                 }
               }}
             ></RadioButton>
@@ -75,7 +80,10 @@ const SetColorItem: FunctionComponent<{
               onInput={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(true);
-                  void saveToLocalStorage({ [itemKey]: color }, 'options');
+                  void saveToLocalStorage(
+                    { [itemKey]: color } as Partial<Record<ColorItemKey, string>>,
+                    'options',
+                  );
                 }
               }}
             />
@@ -96,7 +104,10 @@ const SetColorItem: FunctionComponent<{
               setSpecifyColor(true);
               const color = e.currentTarget.value;
               setColor(color);
-              void saveToLocalStorage({ [itemKey]: color }, 'options');
+              void saveToLocalStorage(
+                { [itemKey]: color } as Partial<Record<ColorItemKey, string>>,
+                'options',
+              );
             }}
           />
         </RowItem>
