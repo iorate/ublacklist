@@ -203,9 +203,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target: 'div > .WlydOe > .TIh7vf > .iRPxbe > .ZE0LJd > .S1FAPd',
+        target: 'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd',
         level: 5,
-        url: '.WlydOe',
+        url: 'a',
         title: '.mCBkyc',
         actionTarget: '.S1FAPd',
         actionStyle: {
