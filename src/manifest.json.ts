@@ -6,7 +6,7 @@ exportAsJson('manifest.json', {
     service_worker: 'background.js',
     */
     // #else
-    // #if CHROME
+    // #if CHROME || SAFARI
     persistent: false,
     // #endif
     scripts: ['scripts/background.js'],
