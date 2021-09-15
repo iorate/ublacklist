@@ -313,9 +313,9 @@ export function syncDelayed(flags: SyncDirtyFlags): void {
   dirtyFlags.appearance ||= flags.appearance;
   dirtyFlags.subscriptions ||= flags.subscriptions;
   if (timeoutId != null) {
-    window.clearTimeout(timeoutId);
+    self.clearTimeout(timeoutId);
   }
-  timeoutId = window.setTimeout(() => {
+  timeoutId = self.setTimeout(() => {
     if (dirtyFlags) {
       void doSync(dirtyFlags, false);
     }
