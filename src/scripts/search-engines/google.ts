@@ -57,7 +57,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     },
     targets:
-      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .F4CzCf, .YwonT, .S1FAPd, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .dbsr, .F9rcV',
+      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .F4CzCf, .YwonT, .S1FAPd, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .WlydOe, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -273,6 +273,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // News (COVID-19)
       {
+        target: '.WlydOe',
+        level: target => target.closest('.ftSUBd') || target,
+        url: root => {
+          const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
+          return a instanceof HTMLAnchorElement ? a.href : null;
+        },
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.CEMjEf',
+        actionStyle: desktopNewsActionStyle,
+      },
+      {
         target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
         level: 1,
         url: '.dbsr > a',
@@ -301,7 +312,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .g, .dbsr, .F9rcV, .tYlW7b, .RzdJxc, .VibNM',
+        innerTargets:
+          '.YwonT, .IsZvec, .kno-fb-ctx, .g, .WlydOe, .dbsr, .F9rcV, .tYlW7b, .RzdJxc, .VibNM',
       },
       // AutoPagerize
       {
@@ -386,7 +398,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   // News
   nws: handleSerp({
     globalStyle: desktopGlobalStyle,
-    targets: '#result-stats, .dbsr, .F9rcV',
+    targets: '#result-stats, .WlydOe, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -394,6 +406,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       // Regular
+      {
+        target: '.WlydOe',
+        level: target => target.closest('.ftSUBd') || target,
+        url: root => {
+          const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
+          return a instanceof HTMLAnchorElement ? a.href : null;
+        },
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.CEMjEf',
+        actionStyle: desktopNewsActionStyle,
+      },
       {
         target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
         level: 1,
@@ -436,7 +459,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.dbsr',
+        innerTargets: '.WlydOe, .dbsr',
       },
     ],
   }),
