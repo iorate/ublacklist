@@ -94,7 +94,10 @@ const config: webpack.Configuration = {
       chunks: ['scripts/options'],
       filename: 'pages/options.html',
       meta: {
-        viewport: 'width=device-width, initial-scale=1',
+        viewport:
+          browser === 'safari'
+            ? 'width=device-width, initial-scale=1, maximum-scale=1'
+            : 'width=device-width, initial-scale=1',
       },
       title: 'uBlacklist Options',
     }),

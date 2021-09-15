@@ -239,13 +239,16 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
   return mutex.lock(async () => {
     const localItems = await loadAllFromRawStorage();
 
+    if (localItems.syncCloudId == null) {
+      if (repeat) {
+        await apis.alarms.clear(SYNC_ALARM_NAME);
+      }
+      return;
+    }
     if (repeat) {
       apis.alarms.create(SYNC_ALARM_NAME, { periodInMinutes: localItems.syncInterval });
     }
 
-    if (localItems.syncCloudId == null) {
-      return;
-    }
     const cloudItems: Partial<RawStorageItems> = {};
     const promises: Promise<void>[] = [];
     for (const section of syncSections) {
@@ -310,9 +313,9 @@ export function syncDelayed(flags: SyncDirtyFlags): void {
   dirtyFlags.appearance ||= flags.appearance;
   dirtyFlags.subscriptions ||= flags.subscriptions;
   if (timeoutId != null) {
-    window.clearTimeout(timeoutId);
+    self.clearTimeout(timeoutId);
   }
-  timeoutId = window.setTimeout(() => {
+  timeoutId = self.setTimeout(() => {
     if (dirtyFlags) {
       void doSync(dirtyFlags, false);
     }
