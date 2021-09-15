@@ -236,16 +236,16 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   options_syncCategories: '同步选项',
 
   // The label of the switch to sync the blocklist.
-  options_syncBlocklist: '网站屏蔽列表',
+  options_syncBlocklist: '屏蔽列表',
 
   // The label of the switch to sync the general settings.
   options_syncGeneral: '常规设置',
 
   // The label of the switch to sync the appearance.
-  options_syncAppearance: '外观',
+  options_syncAppearance: '外观设置',
 
   // The label of the switch to sync the subscriptions.
-  options_syncSubscriptions: '订阅',
+  options_syncSubscriptions: '订阅设置',
 
   // The label of the select to select a sync interval.
   options_syncInterval: '同步间隔',
