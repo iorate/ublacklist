@@ -1,6 +1,20 @@
-import { CSSAttribute } from '../../styles';
+import { CSSAttribute, css } from '../../styles';
 import { SerpHandler } from '../../types';
 import { handleSerp, insertElement } from '../helpers';
+
+function getURLFromPing(selector: string): (root: HTMLElement) => string | null {
+  return root => {
+    const a = selector ? root.querySelector(selector) : root;
+    if (!(a instanceof HTMLAnchorElement) || !a.ping) {
+      return null;
+    }
+    try {
+      return new URL(a.ping, window.location.href).searchParams.get('url');
+    } catch {
+      return null;
+    }
+  };
+}
 
 function getURLFromQuery(selector: string): (root: HTMLElement) => string | null {
   return root => {
@@ -60,6 +74,10 @@ const mobileRegularActionStyle: CSSAttribute = {
   padding: '0 16px 12px',
 };
 
+const iOSButtonStyle: CSSAttribute = {
+  color: 'var(--ub-link-color, #1558d6)',
+};
+
 const mobileSerpHandlers: Record<string, SerpHandler> = {
   // All
   '': handleSerp({
@@ -69,8 +87,21 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '#main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
+    targets: '#rso, #main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
     controlHandlers: [
+      {
+        target: '#rso',
+        position: 'afterbegin',
+        style: root => {
+          const controlClass = css({
+            display: 'block',
+            fontSize: '14px',
+            padding: '12px  16px',
+            '& > .ub-button': iOSButtonStyle,
+          });
+          root.className = `mnr-c ${controlClass}`;
+        },
+      },
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
@@ -78,6 +109,20 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
+      // iOS
+      {
+        target: '.mnr-c.xpd',
+        level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') || target,
+        url: getURLFromPing('a'),
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '',
+        actionStyle: {
+          display: 'block',
+          fontSize: '14px',
+          padding: '0 16px 12px 16px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
       // Regular, Featured Snippet, Video
       {
         target: '.xpd',
@@ -124,6 +169,13 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         title: '.vvjwJb',
         actionTarget: '',
         actionStyle: mobileRegularActionStyle,
+      },
+    ],
+    pagerHandlers: [
+      // iOS
+      {
+        target: '[id^="arc-srp_"] > div',
+        innerTargets: '.mnr-c.xpd',
       },
     ],
   }),
