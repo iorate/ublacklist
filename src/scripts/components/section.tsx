@@ -24,19 +24,26 @@ export const Section = forwardRef((props: SectionProps, ref: Ref<HTMLElement>) =
   return <section {...applyClass(props, class_)} ref={ref} />;
 });
 
-export type SectionHeaderProps = JSX.IntrinsicElements['div'];
+export type SectionHeaderProps = {
+  maxWidth?: string;
+} & JSX.IntrinsicElements['div'];
 
-export const SectionHeader = forwardRef((props: SectionHeaderProps, ref: Ref<HTMLDivElement>) => {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        marginBottom: '1em',
-      }),
-    [css],
-  );
-  return <div {...applyClass(props, class_)} ref={ref} />;
-});
+export const SectionHeader = forwardRef(
+  ({ maxWidth = '640px', ...props }: SectionHeaderProps, ref: Ref<HTMLDivElement>) => {
+    const css = useCSS();
+    const class_ = useMemo(
+      () =>
+        css({
+          marginBottom: '1em',
+          [`@media screen and (max-width: ${maxWidth})`]: {
+            padding: '0 1.25em',
+          },
+        }),
+      [css, maxWidth],
+    );
+    return <div {...applyClass(props, class_)} ref={ref} />;
+  },
+);
 
 export type SectionTitleProps = JSX.IntrinsicElements['h1'];
 
