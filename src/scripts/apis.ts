@@ -10,6 +10,18 @@ export namespace apis {
       chrome.alarms.create(name, alarmInfo);
     }
 
+    export function clear(name: string): Promise<boolean> {
+      return new Promise<boolean>((resolve, reject) => {
+        chrome.alarms.clear(name, wasCleared => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(wasCleared);
+          }
+        });
+      });
+    }
+
     export const onAlarm = {
       addListener(callback: (alarm: Alarm) => void): void {
         chrome.alarms.onAlarm.addListener(callback);

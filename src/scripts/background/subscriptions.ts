@@ -61,6 +61,10 @@ export async function updateAll(): Promise<void> {
     'updateInterval',
   ]);
 
+  if (!numberKeys(subscriptions).length) {
+    await apis.alarms.clear(UPDATE_ALL_ALARM_NAME);
+    return;
+  }
   apis.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
 
   await Promise.all(numberKeys(subscriptions).map(update));
