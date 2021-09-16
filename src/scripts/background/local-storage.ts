@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import { postMessage } from '../messages';
-import { LocalStorageItems, SaveSource, Subscription, SubscriptionId } from '../types';
+import { LocalStorageItemsSavable, SaveSource, Subscription, SubscriptionId } from '../types';
+import { numberKeys } from '../utilities';
 import { RawStorageItems, modifyInRawStorage, saveToRawStorage } from './raw-storage';
-import { update as updateSubscription } from './subscriptions';
+import { updateAll as updateAllSubscriptions, update as updateSubscription } from './subscriptions';
 import { SyncDirtyFlags, syncDelayed } from './sync';
 
 type LocalStorageSection = {
@@ -60,7 +61,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
 ];
 
 export async function save(
-  items: Readonly<Partial<Exclude<LocalStorageItems, 'subscriptions'>>>,
+  items: Readonly<Partial<LocalStorageItemsSavable>>,
   source: SaveSource,
 ): Promise<void> {
   const syncDirtyFlags: SyncDirtyFlags = {};
@@ -77,10 +78,12 @@ export async function save(
 
 export async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {
   let id!: SubscriptionId;
+  let first!: boolean;
   await modifyInRawStorage(
     ['subscriptions', 'nextSubscriptionId'],
     ({ subscriptions, nextSubscriptionId }) => {
       id = nextSubscriptionId;
+      first = numberKeys(subscriptions).length === 0;
       return {
         subscriptions: { ...subscriptions, [nextSubscriptionId]: subscription },
         nextSubscriptionId: nextSubscriptionId + 1,
@@ -89,7 +92,11 @@ export async function addSubscription(subscription: Subscription): Promise<Subsc
     },
   );
   syncDelayed({ subscriptions: true });
-  void updateSubscription(id);
+  if (first) {
+    void updateAllSubscriptions();
+  } else {
+    void updateSubscription(id);
+  }
   return id;
 }
 
