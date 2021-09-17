@@ -3,57 +3,105 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4005D3C040DDCC441DF32575 /* Pods_uBlacklist_for_Safari_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */; };
-		6A29DB8E25A5B4E0004C85C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29DB8D25A5B4E0004C85C8 /* AppDelegate.swift */; };
-		6A29DB9125A5B4E0004C85C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A29DB8F25A5B4E0004C85C8 /* Main.storyboard */; };
-		6A29DB9525A5B4E1004C85C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A29DB9425A5B4E1004C85C8 /* Assets.xcassets */; };
-		6A29DB9C25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6A29DB9B25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		6A29DBA125A5B4E1004C85C8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A29DBA025A5B4E1004C85C8 /* Cocoa.framework */; };
-		6A29DBA425A5B4E1004C85C8 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29DBA325A5B4E1004C85C8 /* SafariWebExtensionHandler.swift */; };
-		6A37E8AF25C408EE0036D085 /* StepItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A37E8AE25C408EE0036D085 /* StepItemView.swift */; };
-		6A49755625CA55F600BF8E57 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A49755825CA55F600BF8E57 /* Localizable.strings */; };
-		6A7DF38725A6E9A400EAC19B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7DF38625A6E9A400EAC19B /* Constants.swift */; };
-		6A7DF3C425A8570B00EAC19B /* other-licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A7DF3C325A8570B00EAC19B /* other-licence.html */; };
-		6A7DF3CA25A8637C00EAC19B /* licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A7DF3C925A8637C00EAC19B /* licence.html */; };
-		6A9E797725C3BD4D002477CB /* licenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797125C3BD4D002477CB /* licenses.txt */; };
-		6A9E797825C3BD4D002477CB /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797225C3BD4D002477CB /* icons */; };
-		6A9E797925C3BD4D002477CB /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797325C3BD4D002477CB /* manifest.json */; };
-		6A9E797A25C3BD4D002477CB /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797425C3BD4D002477CB /* _locales */; };
-		6A9E797B25C3BD4D002477CB /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797525C3BD4D002477CB /* pages */; };
-		6A9E797C25C3BD4D002477CB /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6A9E797625C3BD4D002477CB /* scripts */; };
-		6A9E798125C3BDAA002477CB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9E798025C3BDAA002477CB /* MainViewController.swift */; };
-		6A9E798825C3C2B4002477CB /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9E798725C3C2B4002477CB /* Helper.swift */; };
-		6AAADBFD25A6C5C300EFFEF3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAADBFC25A6C5C300EFFEF3 /* MainWindowController.swift */; };
-		6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */; };
-		6AD94C1A25CBE89E0082D100 /* grant-permission-guide.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */; };
-		6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD94C2525CBFDEE0082D100 /* TopBar.swift */; };
-		6AE6479525CD0188005076E1 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6479425CD0188005076E1 /* InfoViewController.swift */; };
-		6AE6479925CD026C005076E1 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6479825CD026C005076E1 /* TableViewCell.swift */; };
-		CBA6A5D1F0516A2AC18DAEC6 /* Pods_uBlacklist_for_Safari.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C3609D5DD26B73222D7796 /* Pods_uBlacklist_for_Safari.framework */; };
+		6A323BB97C87FED7657B9E9C /* Pods_uBlacklist_for_Safari__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F935002044BD70848B5D5DE4 /* Pods_uBlacklist_for_Safari__macOS_.framework */; };
+		6A6A3CE226F34D4F000B99BE /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDC26F34D4E000B99BE /* _locales */; };
+		6A6A3CE326F34D4F000B99BE /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDC26F34D4E000B99BE /* _locales */; };
+		6A6A3CE426F34D4F000B99BE /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDD26F34D4E000B99BE /* pages */; };
+		6A6A3CE526F34D4F000B99BE /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDD26F34D4E000B99BE /* pages */; };
+		6A6A3CE626F34D4F000B99BE /* licenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDE26F34D4E000B99BE /* licenses.txt */; };
+		6A6A3CE726F34D4F000B99BE /* licenses.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDE26F34D4E000B99BE /* licenses.txt */; };
+		6A6A3CE826F34D4F000B99BE /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDF26F34D4E000B99BE /* scripts */; };
+		6A6A3CE926F34D4F000B99BE /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDF26F34D4E000B99BE /* scripts */; };
+		6A6A3CEA26F34D4F000B99BE /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CE026F34D4E000B99BE /* manifest.json */; };
+		6A6A3CEB26F34D4F000B99BE /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CE026F34D4E000B99BE /* manifest.json */; };
+		6A6A3CEC26F34D4F000B99BE /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CE126F34D4F000B99BE /* icons */; };
+		6A6A3CED26F34D4F000B99BE /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CE126F34D4F000B99BE /* icons */; };
+		6A6A3D0926F35275000B99BE /* grant-permission-guide.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CF026F35275000B99BE /* grant-permission-guide.gif */; };
+		6A6A3D0A26F35275000B99BE /* other-licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CF226F35275000B99BE /* other-licence.html */; };
+		6A6A3D0B26F35275000B99BE /* licence.html in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CF326F35275000B99BE /* licence.html */; };
+		6A6A3D0C26F35275000B99BE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CF626F35275000B99BE /* Localizable.strings */; };
+		6A6A3D0D26F35275000B99BE /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3CFB26F35275000B99BE /* AppConstants.swift */; };
+		6A6A3D0E26F35275000B99BE /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3CFC26F35275000B99BE /* Helper.swift */; };
+		6A6A3D0F26F35275000B99BE /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3CFE26F35275000B99BE /* TopBar.swift */; };
+		6A6A3D1026F35275000B99BE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0126F35275000B99BE /* TableViewCell.swift */; };
+		6A6A3D1126F35275000B99BE /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0226F35275000B99BE /* InfoViewController.swift */; };
+		6A6A3D1226F35275000B99BE /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0426F35275000B99BE /* PreviewViewController.swift */; };
+		6A6A3D1326F35275000B99BE /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0626F35275000B99BE /* MainWindowController.swift */; };
+		6A6A3D1426F35275000B99BE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0726F35275000B99BE /* MainViewController.swift */; };
+		6A6A3D1526F35275000B99BE /* StepItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D0826F35275000B99BE /* StepItemView.swift */; };
+		6A6A3D1726F35869000B99BE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1626F35869000B99BE /* Extensions.swift */; };
+		6A6A3D1826F35869000B99BE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1626F35869000B99BE /* Extensions.swift */; };
+		6A6A3D1A26F436E2000B99BE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1926F436E2000B99BE /* MainViewController.swift */; };
+		6A6A3D1C26F43894000B99BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1B26F43894000B99BE /* Constants.swift */; };
+		6A6A3D1D26F4389E000B99BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1B26F43894000B99BE /* Constants.swift */; };
+		6A6A3D1F26F4413B000B99BE /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D1E26F4413B000B99BE /* AppConstants.swift */; };
+		6A6A3D2126F473E2000B99BE /* GuideStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2026F473E2000B99BE /* GuideStepView.swift */; };
+		6A6A3D2E26F49655000B99BE /* ios-guide-step-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2626F49654000B99BE /* ios-guide-step-8.png */; };
+		6A6A3D2F26F49655000B99BE /* ios-guide-step-6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2726F49655000B99BE /* ios-guide-step-6.png */; };
+		6A6A3D3026F49655000B99BE /* ios-guide-step-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2826F49655000B99BE /* ios-guide-step-2.png */; };
+		6A6A3D3126F49655000B99BE /* ios-guide-step-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2926F49655000B99BE /* ios-guide-step-7.png */; };
+		6A6A3D3226F49655000B99BE /* ios-guide-step-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2A26F49655000B99BE /* ios-guide-step-3.png */; };
+		6A6A3D3326F49655000B99BE /* ios-guide-step-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2B26F49655000B99BE /* ios-guide-step-5.png */; };
+		6A6A3D3426F49655000B99BE /* ios-guide-step-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */; };
+		6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2D26F49655000B99BE /* ios-guide-step-4.png */; };
+		6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D4326F49761000B99BE /* Localizable.strings */; };
+		6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AC526F34B4300D6629A /* AppDelegate.swift */; };
+		6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45AC926F34B4300D6629A /* LaunchScreen.storyboard */; };
+		6AA45AD726F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AD626F34B4300D6629A /* AppDelegate.swift */; };
+		6AA45ADA26F34B4300D6629A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45AD826F34B4300D6629A /* Main.storyboard */; };
+		6AA45AE226F34B4300D6629A /* uBlacklist for Safari Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6AA45AE126F34B4300D6629A /* uBlacklist for Safari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6AA45AEC26F34B4300D6629A /* uBlacklist for Safari Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6AA45AEB26F34B4300D6629A /* uBlacklist for Safari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6AA45AFA26F34B4300D6629A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABA26F34B4200D6629A /* ViewController.swift */; };
+		6AA45AFB26F34B4300D6629A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABA26F34B4200D6629A /* ViewController.swift */; };
+		6AA45AFC26F34B4300D6629A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45ABB26F34B4300D6629A /* Assets.xcassets */; };
+		6AA45AFD26F34B4300D6629A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45ABB26F34B4300D6629A /* Assets.xcassets */; };
+		6AA45AFE26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
+		6AA45AFF26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
+		D836345634856B8713781271 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */; };
+		DB53B6893AECB69B52825B52 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */; };
+		E1F45B853590D2A26481E422 /* Pods_uBlacklist_for_Safari__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6A29DB9D25A5B4E1004C85C8 /* PBXContainerItemProxy */ = {
+		6AA45AE326F34B4300D6629A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6A29DB8125A5B4E0004C85C8 /* Project object */;
+			containerPortal = 6AA45AAF26F34B4200D6629A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 6A29DB9A25A5B4E1004C85C8;
-			remoteInfo = "uBlacklist for Safari Extension";
+			remoteGlobalIDString = 6AA45AE026F34B4300D6629A;
+			remoteInfo = "uBlacklist for Safari Extension (iOS)";
+		};
+		6AA45AED26F34B4300D6629A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6AA45AAF26F34B4200D6629A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6AA45AEA26F34B4300D6629A;
+			remoteInfo = "uBlacklist for Safari Extension (macOS)";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		6A29DBAC25A5B4E1004C85C8 /* Embed App Extensions */ = {
+		6AA45B0526F34B4300D6629A /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				6A29DB9C25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex in Embed App Extensions */,
+				6AA45AE226F34B4300D6629A /* uBlacklist for Safari Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45B0C26F34B4300D6629A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6AA45AEC26F34B4300D6629A /* uBlacklist for Safari Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,242 +109,375 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		13C3609D5DD26B73222D7796 /* Pods_uBlacklist_for_Safari.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4EEF433F931D92A24ABAF33D /* Pods-uBlacklist for Safari.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari.release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari/Pods-uBlacklist for Safari.release.xcconfig"; sourceTree = "<group>"; };
-		56912DD879FC97121B678C13 /* Pods-uBlacklist for Safari Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension.debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension/Pods-uBlacklist for Safari Extension.debug.xcconfig"; sourceTree = "<group>"; };
-		6272CE86263DEC457C9CE733 /* Pods-uBlacklist for Safari.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari.debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari/Pods-uBlacklist for Safari.debug.xcconfig"; sourceTree = "<group>"; };
-		6A29DB8925A5B4E0004C85C8 /* uBlacklist for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uBlacklist for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A29DB8C25A5B4E0004C85C8 /* uBlacklist_for_Safari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uBlacklist_for_Safari.entitlements; sourceTree = "<group>"; };
-		6A29DB8D25A5B4E0004C85C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6A29DB9025A5B4E0004C85C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6A29DB9425A5B4E1004C85C8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6A29DB9625A5B4E1004C85C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A29DB9B25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "uBlacklist for Safari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A29DBA025A5B4E1004C85C8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		6A29DBA325A5B4E1004C85C8 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		6A29DBA525A5B4E1004C85C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6A29DBA625A5B4E1004C85C8 /* uBlacklist_for_Safari_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = uBlacklist_for_Safari_Extension.entitlements; sourceTree = "<group>"; };
-		6A37E8AE25C408EE0036D085 /* StepItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepItemView.swift; sourceTree = "<group>"; };
-		6A49755725CA55F600BF8E57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6A49755B25CA55FC00BF8E57 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		6A7DF38625A6E9A400EAC19B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		6A7DF3C325A8570B00EAC19B /* other-licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "other-licence.html"; sourceTree = "<group>"; };
-		6A7DF3C925A8637C00EAC19B /* licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licence.html; sourceTree = "<group>"; };
-		6A9E797125C3BD4D002477CB /* licenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = licenses.txt; path = ../../dist/safari/production/licenses.txt; sourceTree = "<group>"; };
-		6A9E797225C3BD4D002477CB /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../dist/safari/production/icons; sourceTree = "<group>"; };
-		6A9E797325C3BD4D002477CB /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = manifest.json; path = ../../dist/safari/production/manifest.json; sourceTree = "<group>"; };
-		6A9E797425C3BD4D002477CB /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../dist/safari/production/_locales; sourceTree = "<group>"; };
-		6A9E797525C3BD4D002477CB /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../dist/safari/production/pages; sourceTree = "<group>"; };
-		6A9E797625C3BD4D002477CB /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = ../../dist/safari/production/scripts; sourceTree = "<group>"; };
-		6A9E798025C3BDAA002477CB /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		6A9E798725C3C2B4002477CB /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
-		6AAADBFC25A6C5C300EFFEF3 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
-		6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "grant-permission-guide.gif"; sourceTree = "<group>"; };
-		6AD94C2525CBFDEE0082D100 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
-		6AE6479425CD0188005076E1 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
-		6AE6479825CD026C005076E1 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		6AEE80AA25E7ABA10032996F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension.release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension/Pods-uBlacklist for Safari Extension.release.xcconfig"; sourceTree = "<group>"; };
-		FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0402E0A0F207CD885903154D /* Pods-uBlacklist for Safari Extension (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (iOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (iOS)/Pods-uBlacklist for Safari Extension (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		0CEDCAAAFA33348D26976E3F /* Pods-uBlacklist for Safari Extension (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		66F6D373CF9EF60C8ECEAF9A /* Pods-uBlacklist for Safari (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (iOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		6A6A3CDC26F34D4E000B99BE /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../dist/safari/production/_locales; sourceTree = "<group>"; };
+		6A6A3CDD26F34D4E000B99BE /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../dist/safari/production/pages; sourceTree = "<group>"; };
+		6A6A3CDE26F34D4E000B99BE /* licenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = licenses.txt; path = ../../dist/safari/production/licenses.txt; sourceTree = "<group>"; };
+		6A6A3CDF26F34D4E000B99BE /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = ../../dist/safari/production/scripts; sourceTree = "<group>"; };
+		6A6A3CE026F34D4E000B99BE /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = manifest.json; path = ../../dist/safari/production/manifest.json; sourceTree = "<group>"; };
+		6A6A3CE126F34D4F000B99BE /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../dist/safari/production/icons; sourceTree = "<group>"; };
+		6A6A3CF026F35275000B99BE /* grant-permission-guide.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "grant-permission-guide.gif"; sourceTree = "<group>"; };
+		6A6A3CF226F35275000B99BE /* other-licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "other-licence.html"; sourceTree = "<group>"; };
+		6A6A3CF326F35275000B99BE /* licence.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = licence.html; sourceTree = "<group>"; };
+		6A6A3CF726F35275000B99BE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A6A3CF826F35275000B99BE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A6A3CF926F35275000B99BE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A6A3CFB26F35275000B99BE /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		6A6A3CFC26F35275000B99BE /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		6A6A3CFE26F35275000B99BE /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		6A6A3D0126F35275000B99BE /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		6A6A3D0226F35275000B99BE /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		6A6A3D0426F35275000B99BE /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		6A6A3D0626F35275000B99BE /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		6A6A3D0726F35275000B99BE /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		6A6A3D0826F35275000B99BE /* StepItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepItemView.swift; sourceTree = "<group>"; };
+		6A6A3D1626F35869000B99BE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6A6A3D1926F436E2000B99BE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		6A6A3D1B26F43894000B99BE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		6A6A3D1E26F4413B000B99BE /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		6A6A3D2026F473E2000B99BE /* GuideStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideStepView.swift; sourceTree = "<group>"; };
+		6A6A3D2626F49654000B99BE /* ios-guide-step-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-8.png"; sourceTree = "<group>"; };
+		6A6A3D2726F49655000B99BE /* ios-guide-step-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-6.png"; sourceTree = "<group>"; };
+		6A6A3D2826F49655000B99BE /* ios-guide-step-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-2.png"; sourceTree = "<group>"; };
+		6A6A3D2926F49655000B99BE /* ios-guide-step-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-7.png"; sourceTree = "<group>"; };
+		6A6A3D2A26F49655000B99BE /* ios-guide-step-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-3.png"; sourceTree = "<group>"; };
+		6A6A3D2B26F49655000B99BE /* ios-guide-step-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-5.png"; sourceTree = "<group>"; };
+		6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-1.png"; sourceTree = "<group>"; };
+		6A6A3D2D26F49655000B99BE /* ios-guide-step-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-4.png"; sourceTree = "<group>"; };
+		6A6A3D4226F49761000B99BE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A6A3D4426F49762000B99BE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A6A3D4526F49763000B99BE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6AA45ABA26F34B4200D6629A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6AA45ABB26F34B4300D6629A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		6AA45AC226F34B4300D6629A /* uBlacklist for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uBlacklist for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA45AC526F34B4300D6629A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6AA45ACA26F34B4300D6629A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6AA45ACF26F34B4300D6629A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AA45AD426F34B4300D6629A /* uBlacklist for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "uBlacklist for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA45AD626F34B4300D6629A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6AA45AD926F34B4300D6629A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6AA45ADB26F34B4300D6629A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AA45ADC26F34B4300D6629A /* uBlacklist for Safari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "uBlacklist for Safari.entitlements"; sourceTree = "<group>"; };
+		6AA45AE126F34B4300D6629A /* uBlacklist for Safari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "uBlacklist for Safari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA45AE626F34B4300D6629A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AA45AEB26F34B4300D6629A /* uBlacklist for Safari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "uBlacklist for Safari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AA45AF026F34B4300D6629A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6AA45AF126F34B4300D6629A /* uBlacklist for Safari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "uBlacklist for Safari.entitlements"; sourceTree = "<group>"; };
+		711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8962C7ADFD5631F7A2D4F66F /* Pods-uBlacklist for Safari (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		CEA00A4B5E243FD7A05EA2B7 /* Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (iOS)/Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		DF30642323E6EBC936ED8BD4 /* Pods-uBlacklist for Safari (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (iOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		F935002044BD70848B5D5DE4 /* Pods_uBlacklist_for_Safari__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6A29DB8625A5B4E0004C85C8 /* Frameworks */ = {
+		6AA45ABF26F34B4300D6629A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBA6A5D1F0516A2AC18DAEC6 /* Pods_uBlacklist_for_Safari.framework in Frameworks */,
+				E1F45B853590D2A26481E422 /* Pods_uBlacklist_for_Safari__iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A29DB9825A5B4E1004C85C8 /* Frameworks */ = {
+		6AA45AD126F34B4300D6629A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A29DBA125A5B4E1004C85C8 /* Cocoa.framework in Frameworks */,
-				4005D3C040DDCC441DF32575 /* Pods_uBlacklist_for_Safari_Extension.framework in Frameworks */,
+				6A323BB97C87FED7657B9E9C /* Pods_uBlacklist_for_Safari__macOS_.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45ADE26F34B4300D6629A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D836345634856B8713781271 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45AE826F34B4300D6629A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB53B6893AECB69B52825B52 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A29DB8025A5B4E0004C85C8 = {
+		6A6A3CEE26F35275000B99BE /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				6A29DB8B25A5B4E0004C85C8 /* uBlacklist for Safari */,
-				6A29DBA225A5B4E1004C85C8 /* uBlacklist for Safari Extension */,
-				6A29DB9F25A5B4E1004C85C8 /* Frameworks */,
-				6A29DB8A25A5B4E0004C85C8 /* Products */,
-				D045DCC3957EFB112A300DDC /* Pods */,
-			);
-			sourceTree = "<group>";
-		};
-		6A29DB8A25A5B4E0004C85C8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6A29DB8925A5B4E0004C85C8 /* uBlacklist for Safari.app */,
-				6A29DB9B25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6A29DB8B25A5B4E0004C85C8 /* uBlacklist for Safari */ = {
-			isa = PBXGroup;
-			children = (
-				6AD94C2325CBFDA60082D100 /* Modules */,
-				6A9E798625C3C295002477CB /* Common */,
-				6A7DF3C225A856FC00EAC19B /* Resource */,
-				6A29DB8D25A5B4E0004C85C8 /* AppDelegate.swift */,
-				6A29DB8F25A5B4E0004C85C8 /* Main.storyboard */,
-				6A29DB9425A5B4E1004C85C8 /* Assets.xcassets */,
-				6A29DB9625A5B4E1004C85C8 /* Info.plist */,
-				6A29DB8C25A5B4E0004C85C8 /* uBlacklist_for_Safari.entitlements */,
-			);
-			path = "uBlacklist for Safari";
-			sourceTree = "<group>";
-		};
-		6A29DB9F25A5B4E1004C85C8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6A29DBA025A5B4E1004C85C8 /* Cocoa.framework */,
-				13C3609D5DD26B73222D7796 /* Pods_uBlacklist_for_Safari.framework */,
-				FC6AC36F034770504C97FEEA /* Pods_uBlacklist_for_Safari_Extension.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6A29DBA225A5B4E1004C85C8 /* uBlacklist for Safari Extension */ = {
-			isa = PBXGroup;
-			children = (
-				6A29DBB025A5B4E1004C85C8 /* Resources */,
-				6A29DBA325A5B4E1004C85C8 /* SafariWebExtensionHandler.swift */,
-				6A29DBA525A5B4E1004C85C8 /* Info.plist */,
-				6A29DBA625A5B4E1004C85C8 /* uBlacklist_for_Safari_Extension.entitlements */,
-			);
-			path = "uBlacklist for Safari Extension";
-			sourceTree = "<group>";
-		};
-		6A29DBB025A5B4E1004C85C8 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				6A9E797425C3BD4D002477CB /* _locales */,
-				6A9E797225C3BD4D002477CB /* icons */,
-				6A9E797125C3BD4D002477CB /* licenses.txt */,
-				6A9E797325C3BD4D002477CB /* manifest.json */,
-				6A9E797525C3BD4D002477CB /* pages */,
-				6A9E797625C3BD4D002477CB /* scripts */,
-			);
-			name = Resources;
-			path = "uBlacklist for Safari Extension";
-			sourceTree = SOURCE_ROOT;
-		};
-		6A7DF3C225A856FC00EAC19B /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				6AD94C2025CBFD100082D100 /* Licences */,
-				6AD94C1825CBE86B0082D100 /* Images */,
+				6A6A3CEF26F35275000B99BE /* Images */,
+				6A6A3CF126F35275000B99BE /* Licences */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		6A9E797F25C3BD9C002477CB /* Main */ = {
+		6A6A3CEF26F35275000B99BE /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6AAADBFC25A6C5C300EFFEF3 /* MainWindowController.swift */,
-				6A9E798025C3BDAA002477CB /* MainViewController.swift */,
-				6A37E8AE25C408EE0036D085 /* StepItemView.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		6A9E798625C3C295002477CB /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				6AEE80A725E7A81A0032996F /* Intl */,
-				6AD94C2425CBFDC30082D100 /* Utils */,
-				6AD94C1F25CBFCE80082D100 /* Views */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		6AD94C1325CBE79B0082D100 /* Preview */ = {
-			isa = PBXGroup;
-			children = (
-				6AD94C1425CBE7AC0082D100 /* PreviewViewController.swift */,
-			);
-			path = Preview;
-			sourceTree = "<group>";
-		};
-		6AD94C1825CBE86B0082D100 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				6AD94C1925CBE89E0082D100 /* grant-permission-guide.gif */,
+				6A6A3CF026F35275000B99BE /* grant-permission-guide.gif */,
 			);
 			path = Images;
 			sourceTree = "<group>";
 		};
-		6AD94C1F25CBFCE80082D100 /* Views */ = {
+		6A6A3CF126F35275000B99BE /* Licences */ = {
 			isa = PBXGroup;
 			children = (
-				6AD94C2525CBFDEE0082D100 /* TopBar.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		6AD94C2025CBFD100082D100 /* Licences */ = {
-			isa = PBXGroup;
-			children = (
-				6A7DF3C925A8637C00EAC19B /* licence.html */,
-				6A7DF3C325A8570B00EAC19B /* other-licence.html */,
+				6A6A3CF226F35275000B99BE /* other-licence.html */,
+				6A6A3CF326F35275000B99BE /* licence.html */,
 			);
 			path = Licences;
 			sourceTree = "<group>";
 		};
-		6AD94C2325CBFDA60082D100 /* Modules */ = {
+		6A6A3CF426F35275000B99BE /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				6AE6479325CD0175005076E1 /* Info */,
-				6AD94C1325CBE79B0082D100 /* Preview */,
-				6A9E797F25C3BD9C002477CB /* Main */,
+				6A6A3CF526F35275000B99BE /* Intl */,
+				6A6A3CFA26F35275000B99BE /* Utils */,
+				6A6A3CFD26F35275000B99BE /* Views */,
 			);
-			path = Modules;
+			path = Common;
 			sourceTree = "<group>";
 		};
-		6AD94C2425CBFDC30082D100 /* Utils */ = {
+		6A6A3CF526F35275000B99BE /* Intl */ = {
 			isa = PBXGroup;
 			children = (
-				6A7DF38625A6E9A400EAC19B /* Constants.swift */,
-				6A9E798725C3C2B4002477CB /* Helper.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		6AE6479325CD0175005076E1 /* Info */ = {
-			isa = PBXGroup;
-			children = (
-				6AE6479425CD0188005076E1 /* InfoViewController.swift */,
-				6AE6479825CD026C005076E1 /* TableViewCell.swift */,
-			);
-			path = Info;
-			sourceTree = "<group>";
-		};
-		6AEE80A725E7A81A0032996F /* Intl */ = {
-			isa = PBXGroup;
-			children = (
-				6A49755825CA55F600BF8E57 /* Localizable.strings */,
+				6A6A3CF626F35275000B99BE /* Localizable.strings */,
 			);
 			path = Intl;
 			sourceTree = "<group>";
 		};
-		D045DCC3957EFB112A300DDC /* Pods */ = {
+		6A6A3CFA26F35275000B99BE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				6272CE86263DEC457C9CE733 /* Pods-uBlacklist for Safari.debug.xcconfig */,
-				4EEF433F931D92A24ABAF33D /* Pods-uBlacklist for Safari.release.xcconfig */,
-				56912DD879FC97121B678C13 /* Pods-uBlacklist for Safari Extension.debug.xcconfig */,
-				A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */,
+				6A6A3CFB26F35275000B99BE /* AppConstants.swift */,
+				6A6A3CFC26F35275000B99BE /* Helper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		6A6A3CFD26F35275000B99BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3CFE26F35275000B99BE /* TopBar.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6A6A3CFF26F35275000B99BE /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D0026F35275000B99BE /* Info */,
+				6A6A3D0326F35275000B99BE /* Preview */,
+				6A6A3D0526F35275000B99BE /* Main */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		6A6A3D0026F35275000B99BE /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D0126F35275000B99BE /* TableViewCell.swift */,
+				6A6A3D0226F35275000B99BE /* InfoViewController.swift */,
+			);
+			path = Info;
+			sourceTree = "<group>";
+		};
+		6A6A3D0326F35275000B99BE /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D0426F35275000B99BE /* PreviewViewController.swift */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+		6A6A3D0526F35275000B99BE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D0626F35275000B99BE /* MainWindowController.swift */,
+				6A6A3D0726F35275000B99BE /* MainViewController.swift */,
+				6A6A3D0826F35275000B99BE /* StepItemView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		6A6A3D2226F474F5000B99BE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D2326F47510000B99BE /* img */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6A6A3D2326F47510000B99BE /* img */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */,
+				6A6A3D2826F49655000B99BE /* ios-guide-step-2.png */,
+				6A6A3D2A26F49655000B99BE /* ios-guide-step-3.png */,
+				6A6A3D2D26F49655000B99BE /* ios-guide-step-4.png */,
+				6A6A3D2B26F49655000B99BE /* ios-guide-step-5.png */,
+				6A6A3D2726F49655000B99BE /* ios-guide-step-6.png */,
+				6A6A3D2926F49655000B99BE /* ios-guide-step-7.png */,
+				6A6A3D2626F49654000B99BE /* ios-guide-step-8.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
+		6A6A3D3D26F4973A000B99BE /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D3E26F49743000B99BE /* Intl */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		6A6A3D3E26F49743000B99BE /* Intl */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D4326F49761000B99BE /* Localizable.strings */,
+			);
+			path = Intl;
+			sourceTree = "<group>";
+		};
+		6AA45AAE26F34B4200D6629A = {
+			isa = PBXGroup;
+			children = (
+				6AA45AB326F34B4200D6629A /* Shared (App) */,
+				6AA45ABC26F34B4300D6629A /* Shared (Extension) */,
+				6AA45AC426F34B4300D6629A /* iOS (App) */,
+				6AA45AD526F34B4300D6629A /* macOS (App) */,
+				6AA45AE526F34B4300D6629A /* iOS (Extension) */,
+				6AA45AEF26F34B4300D6629A /* macOS (Extension) */,
+				6AA45AC326F34B4300D6629A /* Products */,
+				E25F6096AB60E41FB8D3E577 /* Pods */,
+				73667BD18591A3932E1198B5 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6AA45AB326F34B4200D6629A /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				6AA45ABA26F34B4200D6629A /* ViewController.swift */,
+				6AA45ABB26F34B4300D6629A /* Assets.xcassets */,
+				6A6A3D1626F35869000B99BE /* Extensions.swift */,
+				6A6A3D1B26F43894000B99BE /* Constants.swift */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		6AA45ABC26F34B4300D6629A /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				6AA45B1026F34B4300D6629A /* Resources */,
+				6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		6AA45AC326F34B4300D6629A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6AA45AC226F34B4300D6629A /* uBlacklist for Safari.app */,
+				6AA45AD426F34B4300D6629A /* uBlacklist for Safari.app */,
+				6AA45AE126F34B4300D6629A /* uBlacklist for Safari Extension.appex */,
+				6AA45AEB26F34B4300D6629A /* uBlacklist for Safari Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6AA45AC426F34B4300D6629A /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3D3D26F4973A000B99BE /* Common */,
+				6A6A3D2226F474F5000B99BE /* Resources */,
+				6AA45AC526F34B4300D6629A /* AppDelegate.swift */,
+				6AA45AC926F34B4300D6629A /* LaunchScreen.storyboard */,
+				6AA45ACF26F34B4300D6629A /* Info.plist */,
+				6A6A3D1926F436E2000B99BE /* MainViewController.swift */,
+				6A6A3D1E26F4413B000B99BE /* AppConstants.swift */,
+				6A6A3D2026F473E2000B99BE /* GuideStepView.swift */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		6AA45AD526F34B4300D6629A /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3CF426F35275000B99BE /* Common */,
+				6A6A3CFF26F35275000B99BE /* Modules */,
+				6A6A3CEE26F35275000B99BE /* Resource */,
+				6AA45AD626F34B4300D6629A /* AppDelegate.swift */,
+				6AA45AD826F34B4300D6629A /* Main.storyboard */,
+				6AA45ADB26F34B4300D6629A /* Info.plist */,
+				6AA45ADC26F34B4300D6629A /* uBlacklist for Safari.entitlements */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		6AA45AE526F34B4300D6629A /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				6AA45AE626F34B4300D6629A /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		6AA45AEF26F34B4300D6629A /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				6AA45AF026F34B4300D6629A /* Info.plist */,
+				6AA45AF126F34B4300D6629A /* uBlacklist for Safari.entitlements */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		6AA45B1026F34B4300D6629A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6A6A3CDC26F34D4E000B99BE /* _locales */,
+				6A6A3CE126F34D4F000B99BE /* icons */,
+				6A6A3CDE26F34D4E000B99BE /* licenses.txt */,
+				6A6A3CE026F34D4E000B99BE /* manifest.json */,
+				6A6A3CDD26F34D4E000B99BE /* pages */,
+				6A6A3CDF26F34D4E000B99BE /* scripts */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+		73667BD18591A3932E1198B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */,
+				F935002044BD70848B5D5DE4 /* Pods_uBlacklist_for_Safari__macOS_.framework */,
+				BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */,
+				2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E25F6096AB60E41FB8D3E577 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DF30642323E6EBC936ED8BD4 /* Pods-uBlacklist for Safari (iOS).debug.xcconfig */,
+				66F6D373CF9EF60C8ECEAF9A /* Pods-uBlacklist for Safari (iOS).release.xcconfig */,
+				AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */,
+				8962C7ADFD5631F7A2D4F66F /* Pods-uBlacklist for Safari (macOS).release.xcconfig */,
+				CEA00A4B5E243FD7A05EA2B7 /* Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig */,
+				0402E0A0F207CD885903154D /* Pods-uBlacklist for Safari Extension (iOS).release.xcconfig */,
+				C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */,
+				0CEDCAAAFA33348D26976E3F /* Pods-uBlacklist for Safari Extension (macOS).release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -304,64 +485,110 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6A29DB8825A5B4E0004C85C8 /* uBlacklist for Safari */ = {
+		6AA45AC126F34B4300D6629A /* uBlacklist for Safari (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A29DBAD25A5B4E1004C85C8 /* Build configuration list for PBXNativeTarget "uBlacklist for Safari" */;
+			buildConfigurationList = 6AA45B0626F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari (iOS)" */;
 			buildPhases = (
-				21845CA40D6A1B4A8A1DF7C2 /* [CP] Check Pods Manifest.lock */,
-				6A29DB8525A5B4E0004C85C8 /* Sources */,
-				6A29DB8625A5B4E0004C85C8 /* Frameworks */,
-				6A29DB8725A5B4E0004C85C8 /* Resources */,
-				6A29DBAC25A5B4E1004C85C8 /* Embed App Extensions */,
-				D6EA45221701A33F9700BEE6 /* [CP] Embed Pods Frameworks */,
+				45E5704557B0AD4D67C3ABFD /* [CP] Check Pods Manifest.lock */,
+				6AA45ABE26F34B4300D6629A /* Sources */,
+				6AA45ABF26F34B4300D6629A /* Frameworks */,
+				6AA45AC026F34B4300D6629A /* Resources */,
+				6AA45B0526F34B4300D6629A /* Embed App Extensions */,
+				E08E61DC9A572A5754690C31 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6A29DB9E25A5B4E1004C85C8 /* PBXTargetDependency */,
+				6AA45AE426F34B4300D6629A /* PBXTargetDependency */,
 			);
-			name = "uBlacklist for Safari";
-			productName = "uBlacklist for Safari";
-			productReference = 6A29DB8925A5B4E0004C85C8 /* uBlacklist for Safari.app */;
+			name = "uBlacklist for Safari (iOS)";
+			productName = "uBlacklist for Safari (iOS)";
+			productReference = 6AA45AC226F34B4300D6629A /* uBlacklist for Safari.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6A29DB9A25A5B4E1004C85C8 /* uBlacklist for Safari Extension */ = {
+		6AA45AD326F34B4300D6629A /* uBlacklist for Safari (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6A29DBA925A5B4E1004C85C8 /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension" */;
+			buildConfigurationList = 6AA45B0D26F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari (macOS)" */;
 			buildPhases = (
-				3D2D19463BC5581357A239C9 /* [CP] Check Pods Manifest.lock */,
-				6A29DB9725A5B4E1004C85C8 /* Sources */,
-				6A29DB9825A5B4E1004C85C8 /* Frameworks */,
-				6A29DB9925A5B4E1004C85C8 /* Resources */,
+				D8DA5C5FB4E6B406BCA00374 /* [CP] Check Pods Manifest.lock */,
+				6AA45AD026F34B4300D6629A /* Sources */,
+				6AA45AD126F34B4300D6629A /* Frameworks */,
+				6AA45AD226F34B4300D6629A /* Resources */,
+				6AA45B0C26F34B4300D6629A /* Embed App Extensions */,
+				A061D79FAECB637548674886 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6AA45AEE26F34B4300D6629A /* PBXTargetDependency */,
+			);
+			name = "uBlacklist for Safari (macOS)";
+			productName = "uBlacklist for Safari (macOS)";
+			productReference = 6AA45AD426F34B4300D6629A /* uBlacklist for Safari.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6AA45AE026F34B4300D6629A /* uBlacklist for Safari Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AA45B0226F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension (iOS)" */;
+			buildPhases = (
+				1ADBE00F42D727C9C2E4FACB /* [CP] Check Pods Manifest.lock */,
+				6AA45ADD26F34B4300D6629A /* Sources */,
+				6AA45ADE26F34B4300D6629A /* Frameworks */,
+				6AA45ADF26F34B4300D6629A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "uBlacklist for Safari Extension";
-			productName = "uBlacklist for Safari Extension";
-			productReference = 6A29DB9B25A5B4E1004C85C8 /* uBlacklist for Safari Extension.appex */;
+			name = "uBlacklist for Safari Extension (iOS)";
+			productName = "uBlacklist for Safari Extension (iOS)";
+			productReference = 6AA45AE126F34B4300D6629A /* uBlacklist for Safari Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		6AA45AEA26F34B4300D6629A /* uBlacklist for Safari Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6AA45B0926F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension (macOS)" */;
+			buildPhases = (
+				88B4E6CE932B2F02DBA1BCAC /* [CP] Check Pods Manifest.lock */,
+				6AA45AE726F34B4300D6629A /* Sources */,
+				6AA45AE826F34B4300D6629A /* Frameworks */,
+				6AA45AE926F34B4300D6629A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "uBlacklist for Safari Extension (macOS)";
+			productName = "uBlacklist for Safari Extension (macOS)";
+			productReference = 6AA45AEB26F34B4300D6629A /* uBlacklist for Safari Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		6A29DB8125A5B4E0004C85C8 /* Project object */ = {
+		6AA45AAF26F34B4200D6629A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1230;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
-					6A29DB8825A5B4E0004C85C8 = {
-						CreatedOnToolsVersion = 12.3;
+					6AA45AC126F34B4300D6629A = {
+						CreatedOnToolsVersion = 13.0;
 					};
-					6A29DB9A25A5B4E1004C85C8 = {
-						CreatedOnToolsVersion = 12.3;
+					6AA45AD326F34B4300D6629A = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					6AA45AE026F34B4300D6629A = {
+						CreatedOnToolsVersion = 13.0;
+					};
+					6AA45AEA26F34B4300D6629A = {
+						CreatedOnToolsVersion = 13.0;
 					};
 				};
 			};
-			buildConfigurationList = 6A29DB8425A5B4E0004C85C8 /* Build configuration list for PBXProject "uBlacklist for Safari" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 6AA45AB226F34B4200D6629A /* Build configuration list for PBXProject "uBlacklist for Safari" */;
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -370,48 +597,81 @@
 				"zh-Hans",
 				"zh-Hant",
 			);
-			mainGroup = 6A29DB8025A5B4E0004C85C8;
-			productRefGroup = 6A29DB8A25A5B4E0004C85C8 /* Products */;
+			mainGroup = 6AA45AAE26F34B4200D6629A;
+			productRefGroup = 6AA45AC326F34B4300D6629A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6A29DB8825A5B4E0004C85C8 /* uBlacklist for Safari */,
-				6A29DB9A25A5B4E1004C85C8 /* uBlacklist for Safari Extension */,
+				6AA45AC126F34B4300D6629A /* uBlacklist for Safari (iOS) */,
+				6AA45AD326F34B4300D6629A /* uBlacklist for Safari (macOS) */,
+				6AA45AE026F34B4300D6629A /* uBlacklist for Safari Extension (iOS) */,
+				6AA45AEA26F34B4300D6629A /* uBlacklist for Safari Extension (macOS) */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6A29DB8725A5B4E0004C85C8 /* Resources */ = {
+		6AA45AC026F34B4300D6629A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A49755625CA55F600BF8E57 /* Localizable.strings in Resources */,
-				6AD94C1A25CBE89E0082D100 /* grant-permission-guide.gif in Resources */,
-				6A29DB9525A5B4E1004C85C8 /* Assets.xcassets in Resources */,
-				6A29DB9125A5B4E0004C85C8 /* Main.storyboard in Resources */,
-				6A7DF3CA25A8637C00EAC19B /* licence.html in Resources */,
-				6A7DF3C425A8570B00EAC19B /* other-licence.html in Resources */,
+				6A6A3D3326F49655000B99BE /* ios-guide-step-5.png in Resources */,
+				6A6A3D3026F49655000B99BE /* ios-guide-step-2.png in Resources */,
+				6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */,
+				6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */,
+				6A6A3D2F26F49655000B99BE /* ios-guide-step-6.png in Resources */,
+				6A6A3D2E26F49655000B99BE /* ios-guide-step-8.png in Resources */,
+				6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */,
+				6A6A3D3226F49655000B99BE /* ios-guide-step-3.png in Resources */,
+				6A6A3D3126F49655000B99BE /* ios-guide-step-7.png in Resources */,
+				6A6A3D3426F49655000B99BE /* ios-guide-step-1.png in Resources */,
+				6AA45AFC26F34B4300D6629A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A29DB9925A5B4E1004C85C8 /* Resources */ = {
+		6AA45AD226F34B4300D6629A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9E797725C3BD4D002477CB /* licenses.txt in Resources */,
-				6A9E797B25C3BD4D002477CB /* pages in Resources */,
-				6A9E797925C3BD4D002477CB /* manifest.json in Resources */,
-				6A9E797C25C3BD4D002477CB /* scripts in Resources */,
-				6A9E797A25C3BD4D002477CB /* _locales in Resources */,
-				6A9E797825C3BD4D002477CB /* icons in Resources */,
+				6AA45ADA26F34B4300D6629A /* Main.storyboard in Resources */,
+				6A6A3D0B26F35275000B99BE /* licence.html in Resources */,
+				6A6A3D0C26F35275000B99BE /* Localizable.strings in Resources */,
+				6AA45AFD26F34B4300D6629A /* Assets.xcassets in Resources */,
+				6A6A3D0926F35275000B99BE /* grant-permission-guide.gif in Resources */,
+				6A6A3D0A26F35275000B99BE /* other-licence.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45ADF26F34B4300D6629A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6A3CE226F34D4F000B99BE /* _locales in Resources */,
+				6A6A3CE426F34D4F000B99BE /* pages in Resources */,
+				6A6A3CEA26F34D4F000B99BE /* manifest.json in Resources */,
+				6A6A3CEC26F34D4F000B99BE /* icons in Resources */,
+				6A6A3CE626F34D4F000B99BE /* licenses.txt in Resources */,
+				6A6A3CE826F34D4F000B99BE /* scripts in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45AE926F34B4300D6629A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A6A3CE326F34D4F000B99BE /* _locales in Resources */,
+				6A6A3CE526F34D4F000B99BE /* pages in Resources */,
+				6A6A3CEB26F34D4F000B99BE /* manifest.json in Resources */,
+				6A6A3CED26F34D4F000B99BE /* icons in Resources */,
+				6A6A3CE726F34D4F000B99BE /* licenses.txt in Resources */,
+				6A6A3CE926F34D4F000B99BE /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21845CA40D6A1B4A8A1DF7C2 /* [CP] Check Pods Manifest.lock */ = {
+		1ADBE00F42D727C9C2E4FACB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -426,14 +686,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari Extension (iOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3D2D19463BC5581357A239C9 /* [CP] Check Pods Manifest.lock */ = {
+		45E5704557B0AD4D67C3ABFD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -448,98 +708,206 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari Extension-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari (iOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D6EA45221701A33F9700BEE6 /* [CP] Embed Pods Frameworks */ = {
+		88B4E6CE932B2F02DBA1BCAC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari/Pods-uBlacklist for Safari-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari Extension (macOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A061D79FAECB637548674886 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari/Pods-uBlacklist for Safari-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari/Pods-uBlacklist for Safari-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8DA5C5FB4E6B406BCA00374 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-uBlacklist for Safari (macOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E08E61DC9A572A5754690C31 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS)-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		6A29DB8525A5B4E0004C85C8 /* Sources */ = {
+		6AA45ABE26F34B4300D6629A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AE6479925CD026C005076E1 /* TableViewCell.swift in Sources */,
-				6AD94C1525CBE7AC0082D100 /* PreviewViewController.swift in Sources */,
-				6AD94C2625CBFDEE0082D100 /* TopBar.swift in Sources */,
-				6A7DF38725A6E9A400EAC19B /* Constants.swift in Sources */,
-				6A9E798825C3C2B4002477CB /* Helper.swift in Sources */,
-				6AAADBFD25A6C5C300EFFEF3 /* MainWindowController.swift in Sources */,
-				6A29DB8E25A5B4E0004C85C8 /* AppDelegate.swift in Sources */,
-				6A9E798125C3BDAA002477CB /* MainViewController.swift in Sources */,
-				6AE6479525CD0188005076E1 /* InfoViewController.swift in Sources */,
-				6A37E8AF25C408EE0036D085 /* StepItemView.swift in Sources */,
+				6A6A3D1C26F43894000B99BE /* Constants.swift in Sources */,
+				6AA45AFA26F34B4300D6629A /* ViewController.swift in Sources */,
+				6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */,
+				6A6A3D2126F473E2000B99BE /* GuideStepView.swift in Sources */,
+				6A6A3D1726F35869000B99BE /* Extensions.swift in Sources */,
+				6A6A3D1A26F436E2000B99BE /* MainViewController.swift in Sources */,
+				6A6A3D1F26F4413B000B99BE /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A29DB9725A5B4E1004C85C8 /* Sources */ = {
+		6AA45AD026F34B4300D6629A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A29DBA425A5B4E1004C85C8 /* SafariWebExtensionHandler.swift in Sources */,
+				6AA45AFB26F34B4300D6629A /* ViewController.swift in Sources */,
+				6AA45AD726F34B4300D6629A /* AppDelegate.swift in Sources */,
+				6A6A3D0F26F35275000B99BE /* TopBar.swift in Sources */,
+				6A6A3D1126F35275000B99BE /* InfoViewController.swift in Sources */,
+				6A6A3D1026F35275000B99BE /* TableViewCell.swift in Sources */,
+				6A6A3D0D26F35275000B99BE /* AppConstants.swift in Sources */,
+				6A6A3D1526F35275000B99BE /* StepItemView.swift in Sources */,
+				6A6A3D1D26F4389E000B99BE /* Constants.swift in Sources */,
+				6A6A3D1826F35869000B99BE /* Extensions.swift in Sources */,
+				6A6A3D0E26F35275000B99BE /* Helper.swift in Sources */,
+				6A6A3D1226F35275000B99BE /* PreviewViewController.swift in Sources */,
+				6A6A3D1326F35275000B99BE /* MainWindowController.swift in Sources */,
+				6A6A3D1426F35275000B99BE /* MainViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45ADD26F34B4300D6629A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AA45AFE26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6AA45AE726F34B4300D6629A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AA45AFF26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6A29DB9E25A5B4E1004C85C8 /* PBXTargetDependency */ = {
+		6AA45AE426F34B4300D6629A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6A29DB9A25A5B4E1004C85C8 /* uBlacklist for Safari Extension */;
-			targetProxy = 6A29DB9D25A5B4E1004C85C8 /* PBXContainerItemProxy */;
+			target = 6AA45AE026F34B4300D6629A /* uBlacklist for Safari Extension (iOS) */;
+			targetProxy = 6AA45AE326F34B4300D6629A /* PBXContainerItemProxy */;
+		};
+		6AA45AEE26F34B4300D6629A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6AA45AEA26F34B4300D6629A /* uBlacklist for Safari Extension (macOS) */;
+			targetProxy = 6AA45AED26F34B4300D6629A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6A29DB8F25A5B4E0004C85C8 /* Main.storyboard */ = {
+		6A6A3CF626F35275000B99BE /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6A29DB9025A5B4E0004C85C8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		6A49755825CA55F600BF8E57 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6A49755725CA55F600BF8E57 /* en */,
-				6A49755B25CA55FC00BF8E57 /* zh-Hans */,
-				6AEE80AA25E7ABA10032996F /* zh-Hant */,
+				6A6A3CF726F35275000B99BE /* zh-Hans */,
+				6A6A3CF826F35275000B99BE /* en */,
+				6A6A3CF926F35275000B99BE /* zh-Hant */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6A6A3D4326F49761000B99BE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A6A3D4226F49761000B99BE /* en */,
+				6A6A3D4426F49762000B99BE /* zh-Hans */,
+				6A6A3D4526F49763000B99BE /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6AA45AC926F34B4300D6629A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6AA45ACA26F34B4300D6629A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6AA45AD826F34B4300D6629A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6AA45AD926F34B4300D6629A /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6A29DBA725A5B4E1004C85C8 /* Debug */ = {
+		6AA45B0026F34B4300D6629A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -584,24 +952,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		6A29DBA825A5B4E1004C85C8 /* Release */ = {
+		6AA45B0126F34B4300D6629A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -640,119 +1005,295 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		6A29DBAA25A5B4E1004C85C8 /* Debug */ = {
+		6AA45B0326F34B4300D6629A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56912DD879FC97121B678C13 /* Pods-uBlacklist for Safari Extension.debug.xcconfig */;
+			baseConfigurationReference = CEA00A4B5E243FD7A05EA2B7 /* Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari Extension/uBlacklist_for_Safari_Extension.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43G9ZW34K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
+				PRODUCT_NAME = "uBlacklist for Safari Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6AA45B0426F34B4300D6629A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0402E0A0F207CD885903154D /* Pods-uBlacklist for Safari Extension (iOS).release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43G9ZW34K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
+				PRODUCT_NAME = "uBlacklist for Safari Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6AA45B0726F34B4300D6629A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF30642323E6EBC936ED8BD4 /* Pods-uBlacklist for Safari (iOS).debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43G9ZW34K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = uBlacklist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
+				PRODUCT_NAME = "uBlacklist for Safari";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6AA45B0826F34B4300D6629A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66F6D373CF9EF60C8ECEAF9A /* Pods-uBlacklist for Safari (iOS).release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 43G9ZW34K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = uBlacklist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
+				PRODUCT_NAME = "uBlacklist for Safari";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6AA45B0A26F34B4300D6629A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "uBlacklist for Safari Extension/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 5.12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "uBlacklist for Safari Extension";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		6A29DBAB25A5B4E1004C85C8 /* Release */ = {
+		6AA45B0B26F34B4300D6629A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A35293988A9C61B942402EE6 /* Pods-uBlacklist for Safari Extension.release.xcconfig */;
+			baseConfigurationReference = 0CEDCAAAFA33348D26976E3F /* Pods-uBlacklist for Safari Extension (macOS).release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari Extension/uBlacklist_for_Safari_Extension.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "uBlacklist for Safari Extension/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 5.12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari.Extension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "uBlacklist for Safari Extension";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		6A29DBAE25A5B4E1004C85C8 /* Debug */ = {
+		6AA45B0E26F34B4300D6629A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6272CE86263DEC457C9CE733 /* Pods-uBlacklist for Safari.debug.xcconfig */;
+			baseConfigurationReference = AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/uBlacklist_for_Safari.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "uBlacklist for Safari/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 5.12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "uBlacklist for Safari";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		6A29DBAF25A5B4E1004C85C8 /* Release */ = {
+		6AA45B0F26F34B4300D6629A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4EEF433F931D92A24ABAF33D /* Pods-uBlacklist for Safari.release.xcconfig */;
+			baseConfigurationReference = 8962C7ADFD5631F7A2D4F66F /* Pods-uBlacklist for Safari (macOS).release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari/uBlacklist_for_Safari.entitlements";
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 102;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "uBlacklist for Safari/Info.plist";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "uBlacklist for Safari";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 5.12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honeyluka.uBlacklist-for-Safari";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PRODUCT_NAME = "uBlacklist for Safari";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -760,34 +1301,52 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6A29DB8425A5B4E0004C85C8 /* Build configuration list for PBXProject "uBlacklist for Safari" */ = {
+		6AA45AB226F34B4200D6629A /* Build configuration list for PBXProject "uBlacklist for Safari" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A29DBA725A5B4E1004C85C8 /* Debug */,
-				6A29DBA825A5B4E1004C85C8 /* Release */,
+				6AA45B0026F34B4300D6629A /* Debug */,
+				6AA45B0126F34B4300D6629A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A29DBA925A5B4E1004C85C8 /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension" */ = {
+		6AA45B0226F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A29DBAA25A5B4E1004C85C8 /* Debug */,
-				6A29DBAB25A5B4E1004C85C8 /* Release */,
+				6AA45B0326F34B4300D6629A /* Debug */,
+				6AA45B0426F34B4300D6629A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A29DBAD25A5B4E1004C85C8 /* Build configuration list for PBXNativeTarget "uBlacklist for Safari" */ = {
+		6AA45B0626F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A29DBAE25A5B4E1004C85C8 /* Debug */,
-				6A29DBAF25A5B4E1004C85C8 /* Release */,
+				6AA45B0726F34B4300D6629A /* Debug */,
+				6AA45B0826F34B4300D6629A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AA45B0926F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AA45B0A26F34B4300D6629A /* Debug */,
+				6AA45B0B26F34B4300D6629A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6AA45B0D26F34B4300D6629A /* Build configuration list for PBXNativeTarget "uBlacklist for Safari (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6AA45B0E26F34B4300D6629A /* Debug */,
+				6AA45B0F26F34B4300D6629A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 6A29DB8125A5B4E0004C85C8 /* Project object */;
+	rootObject = 6AA45AAF26F34B4200D6629A /* Project object */;
 }
