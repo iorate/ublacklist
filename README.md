@@ -18,14 +18,14 @@ To publish a blacklist as a subscription, place a blacklist file encoded in UTF-
 
 ### Build
 
-To build this extension, [Node.js](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/en/) are required.
+To build this extension, [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/) are required.
 
 ```shell
 git clone https://github.com/iorate/uBlacklist.git
 
 cd uBlacklist
 
-yarn
+yarn install --immutable
 
 yarn build:firefox:production
 ```
