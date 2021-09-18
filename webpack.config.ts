@@ -1,11 +1,11 @@
 import path from 'path';
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import glob from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { LicenseWebpackPlugin } from 'license-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
 function getEnv<Value extends string>(
@@ -24,6 +24,9 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
   const browser = getEnv(env, 'browser', ['chrome', 'chrome-mv3', 'firefox', 'safari'] as const);
   const mode = getEnv(env, 'mode', ['development', 'production'] as const);
   const typecheck = getEnv(env, 'typecheck', ['notypecheck', 'typecheck'] as const);
+
+  const target = ['chrome92', 'firefox91', 'safari14'];
+
   return {
     cache:
       mode === 'development'
@@ -66,9 +69,10 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
           test: /\.tsx?$/,
           use: [
             {
-              loader: 'ts-loader',
+              loader: 'esbuild-loader',
               options: {
-                transpileOnly: true,
+                loader: 'tsx',
+                target,
               },
             },
             {
@@ -91,8 +95,9 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
 
     optimization: {
       minimizer: [
-        new TerserPlugin({
-          exclude: /scripts\/content-script-once\.js/,
+        new ESBuildMinifyPlugin({
+          exclude: 'scripts/content-script-once.js',
+          target,
         }),
       ],
     },
