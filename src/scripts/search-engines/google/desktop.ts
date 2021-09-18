@@ -315,7 +315,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // AutoPagerize
       {
-        target: '.autopagerize_page_info ~ .g, .autopagerize_page_info ~ .hlcw0c',
+        target: '.autopagerize_page_info ~ div',
         innerTargets: '.IsZvec',
       },
     ],
