@@ -2,20 +2,21 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "icon-128.png"
+      "scale" : "1x"
     },
     {
+      "filename" : "app-icon-no-bg@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "app-icon-no-bg@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

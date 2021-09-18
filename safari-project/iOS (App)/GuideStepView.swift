@@ -181,7 +181,7 @@ class FirstGuideView: GuideStepView {
     
     private func prepareForAnimation() {
         logoImageView.alpha = 0
-        logoImageView.transform = CGAffineTransform(scaleX: 2, y: 2)
+        logoImageView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
     }
     
     func startLogoAnimation() {
