@@ -22,7 +22,7 @@ jobs:
 
       - run: yarn install --immutable
 
-      - run: yarn build
+      - run: yarn build-all
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}

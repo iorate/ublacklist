@@ -27,17 +27,18 @@ cd uBlacklist
 
 yarn install --immutable
 
-yarn build:firefox:production
+# yarn build <browser:=chrome> <mode:=development> <typecheck:=notypecheck>
+yarn build firefox production
 ```
 
-Before opening a pull request, you should make sure that 'build', 'lint' and 'test' pass.
+Before opening a pull request, you should make sure that 'build-all', 'lint' and 'test' pass.
 
 ```shell
-yarn build
+yarn build-all
 
 yarn lint
 # Some lint errors can be fixed automatically
-# yarn lintfix
+# yarn fix
 
 yarn test
 ```
