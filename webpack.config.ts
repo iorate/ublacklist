@@ -37,7 +37,12 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
 
     context: path.resolve(__dirname, 'src'),
 
-    devtool: mode === 'development' ? 'inline-source-map' : false,
+    devtool:
+      mode === 'development'
+        ? browser === 'chrome-mv3'
+          ? 'inline-cheap-source-map'
+          : 'eval'
+        : false,
 
     entry: {
       ...Object.fromEntries(glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name, name])),

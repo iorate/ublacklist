@@ -8,7 +8,6 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "newLine": "LF",
-    "sourceMap": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2019"

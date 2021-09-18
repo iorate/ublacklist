@@ -59,6 +59,10 @@ exportAsJson('manifest.json', {
     },
   ],
 
+  // #if !CHROME_MV3 && DEVELOPMENT
+  content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  // #endif
+
   default_locale: 'en',
 
   description: '__MSG_extensionDescription__',
