@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 import SnapKit
 
-private let GuideContentPercent: CGFloat = 0.36
+private let GuideContentPercentSmall: CGFloat = 0.3
+private let GuideContentPercentLarge: CGFloat = 0.36
 
 class GuideStepView: UIView {
     
@@ -67,7 +68,7 @@ class GuideStepView: UIView {
         bottomContentView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(guideImageView.snp.bottom)
-            make.height.equalToSuperview().multipliedBy(GuideContentPercent)
+            make.height.equalToSuperview().multipliedBy(GuideContentPercentLarge)
         }
         
         bottomContentView.addSubview(titleLabel)
@@ -97,10 +98,37 @@ class GuideStepView: UIView {
         }
         titleLabel.text = title
         descLabel.text = desc
+        
+        refreshSizeClass()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard let previous = previousTraitCollection else { return }
+        if traitCollection.horizontalSizeClass != previous.horizontalSizeClass {
+            refreshSizeClass()
+        }
+    }
+    
+    func refreshSizeClass() {
+        titleLabel.textAlignment = traitCollection.horizontalSizeClass == .regular ? .center : .left
+        descLabel.textAlignment = traitCollection.horizontalSizeClass == .regular ? .center : .left
+        
+        bottomContentView.snp.remakeConstraints { make in
+            var percent = GuideContentPercentLarge
+            if UIDevice.isPad(), traitCollection.horizontalSizeClass == .regular {
+                percent = GuideContentPercentSmall
+            }
+            
+            make.height.equalToSuperview().multipliedBy(percent)
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalTo(guideImageView.snp.bottom)
+        }
     }
 }
 
@@ -138,7 +166,7 @@ class FirstGuideView: GuideStepView {
             make.center.equalTo(guideImageView)
             make.height.equalTo(logoImageView.snp.width)
             make.width.equalTo(guideImageView).multipliedBy(0.35).priority(999)
-            make.width.lessThanOrEqualTo(300)
+            make.width.lessThanOrEqualTo(250)
         }
     }
     

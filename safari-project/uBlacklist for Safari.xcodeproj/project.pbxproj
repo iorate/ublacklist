@@ -49,6 +49,7 @@
 		6A6A3D3426F49655000B99BE /* ios-guide-step-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */; };
 		6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2D26F49655000B99BE /* ios-guide-step-4.png */; };
 		6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D4326F49761000B99BE /* Localizable.strings */; };
+		6A909E8026F5FB8E0035AB7D /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A909E7F26F5FB8E0035AB7D /* AppExtensions.swift */; };
 		6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AC526F34B4300D6629A /* AppDelegate.swift */; };
 		6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45AC926F34B4300D6629A /* LaunchScreen.storyboard */; };
 		6AA45AD726F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AD626F34B4300D6629A /* AppDelegate.swift */; };
@@ -150,6 +151,7 @@
 		6A6A3D4226F49761000B99BE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A6A3D4426F49762000B99BE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A6A3D4526F49763000B99BE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A909E7F26F5FB8E0035AB7D /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		6AA45ABA26F34B4200D6629A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6AA45ABB26F34B4300D6629A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				6A6A3D1926F436E2000B99BE /* MainViewController.swift */,
 				6A6A3D1E26F4413B000B99BE /* AppConstants.swift */,
 				6A6A3D2026F473E2000B99BE /* GuideStepView.swift */,
+				6A909E7F26F5FB8E0035AB7D /* AppExtensions.swift */,
 			);
 			path = "iOS (App)";
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				6A6A3D1726F35869000B99BE /* Extensions.swift in Sources */,
 				6A6A3D1A26F436E2000B99BE /* MainViewController.swift in Sources */,
 				6A6A3D1F26F4413B000B99BE /* AppConstants.swift in Sources */,
+				6A909E8026F5FB8E0035AB7D /* AppExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,6 +1098,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1133,6 +1138,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
