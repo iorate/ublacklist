@@ -1,6 +1,6 @@
 import * as goober from 'goober';
 
-export { CSSAttribute } from 'goober';
+export type { CSSAttribute } from 'goober';
 
 export const css: typeof goober.css = (tag, ...props) =>
   goober.css.bind({ target: document.head })(tag, ...props);

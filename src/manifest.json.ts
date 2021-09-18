@@ -1,6 +1,6 @@
 import { searchEngineMatches } from './common/search-engines';
 
-exportAsJson('manifest.json', {
+exportAsJSON('manifest.json', {
   background: {
     /* #if CHROME_MV3
     service_worker: 'background.js',
@@ -58,6 +58,10 @@ exportAsJson('manifest.json', {
       run_at: 'document_start',
     },
   ],
+
+  // #if !CHROME_MV3 && DEVELOPMENT
+  content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self';",
+  // #endif
 
   default_locale: 'en',
 

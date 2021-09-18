@@ -18,17 +18,11 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+          cache: yarn
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/yarn
-          key: yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            yarn-
+      - run: yarn install --immutable
 
-      - run: yarn install --frozen-lockfile
-
-      - run: yarn build
+      - run: yarn build-all
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
