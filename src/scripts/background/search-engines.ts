@@ -27,11 +27,11 @@ export function initialize(): void {
       const url = new AltURL(tab.url);
       for (const [id, matches] of stringEntries(searchEngineMatches)) {
         if (id !== 'google' && matches.some(match => new MatchPattern(match).test(url))) {
-          const [once] = await apis.tabs.executeScript(tabId, {
-            file: '/scripts/content-script-once.js',
+          const [injected] = await apis.tabs.executeScript(tabId, {
+            file: '/scripts/content-script-injected.js',
             runAt: 'document_start',
           });
-          if (once) {
+          if (injected === false) {
             await apis.tabs.executeScript(tabId, {
               file: '/scripts/content-script.js',
               runAt: 'document_start',
