@@ -25,12 +25,15 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
   const mode = getEnv(env, 'mode', ['development', 'production'] as const);
   const typecheck = getEnv(env, 'typecheck', ['notypecheck', 'typecheck'] as const);
   return {
-    cache: {
-      buildDependencies: {
-        config: [__filename],
-      },
-      type: 'filesystem',
-    },
+    cache:
+      mode === 'development'
+        ? {
+            buildDependencies: {
+              config: [__filename],
+            },
+            type: 'filesystem',
+          }
+        : false,
 
     context: path.resolve(__dirname, 'src'),
 
