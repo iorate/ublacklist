@@ -7,7 +7,7 @@
 */
 
 "guide_title_step_0" = "欢迎使用 uBlacklist";
-"guide_desc_step_0" = "uBlacklist 是一个用于 Chrome 和 Firefox 的谷歌搜索过滤器。现在它来到了iOS！\n\n首先，请按照指南来启用 uBlacklist。";
+"guide_desc_step_0" = "uBlacklist 是一个用于 Chrome 和 Firefox 的谷歌搜索过滤器。现在它来到了 iOS！\n\n首先，请按照指南来启用 uBlacklist。";
 
 "guide_title_step_1" = "打开 Safari 设置";
 "guide_desc_step_1" = "打开系统设置, 找到并点击 Safari。";
