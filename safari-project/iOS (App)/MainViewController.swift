@@ -10,6 +10,7 @@ import SnapKit
 
 private let TopBarHeight: CGFloat = 60
 private let IconSize: CGFloat = 38
+private let GuideContentBottomInset: CGFloat = 40
 
 class MainViewController: UIViewController {
     
@@ -63,11 +64,13 @@ class MainViewController: UIViewController {
         scrollView.backgroundColor = .clear
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
+        scrollView.delegate = self
         return scrollView
     }()
     
     private lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
+        control.isUserInteractionEnabled = false
         return control
     }()
     
@@ -108,7 +111,7 @@ class MainViewController: UIViewController {
         guideContentView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(topBar.snp.bottom)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-GuideContentBottomInset)
         }
         
         guideContentView.addSubview(guideScrollView)
@@ -119,41 +122,93 @@ class MainViewController: UIViewController {
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(guideContentView.snp.bottom)
+            make.top.equalTo(guideContentView.snp.bottom)
         }
     }
     
     private func initGuides() {
-        var stepViews: [GuideStepView] = []
+        var stepViews: [UIView] = []
         
+        // first guide
+        let firstGuideView = FirstGuideView.create()
+        stepViews.append(firstGuideView)
+        
+        DispatchQueue.main.async {
+            firstGuideView.startLogoAnimation()
+        }
+        
+        // middle guides
         for index in 1...8 {
             let imgName = "ios-guide-step-\(index)"
             let title = "guide_title_step_\(index)".localized()
             let desc = "guide_desc_step_\(index)".localized()
             let stepView = GuideStepView(imageName: imgName, title: title, desc: desc)
+            stepViews.append(stepView)
             
+            // extra settings
+            if index == 5 {
+                stepView.button.isHidden = false
+                stepView.button.setTitle("guide_button_step_5".localized(), for: .normal)
+                stepView.button.addTarget(self, action: #selector(onOpenGoogleButtonClick), for: .touchUpInside)
+            }
+        }
+        
+        // last guide
+        let lastGuideView = LastGuideView.create()
+        lastGuideView.button.addTarget(self, action: #selector(onOpenHomepageButtonClick), for: .touchUpInside)
+        stepViews.append(lastGuideView)
+        
+        // config
+        for (index, stepView) in stepViews.enumerated() {
             guideScrollView.addSubview(stepView)
             stepView.snp.makeConstraints { make in
                 make.width.equalTo(guideContentView)
                 make.height.equalTo(guideContentView)
                 make.top.bottom.equalToSuperview()
                 
-                if stepViews.count != 0 {
-                    let previousView = stepViews.last!
-                    make.left.equalTo(previousView.snp.right)
-                } else {
-                    // first
+                if index == 0 {
                     make.left.equalToSuperview()
+                } else if index == stepViews.count - 1 {
+                    make.left.equalTo(stepViews[index - 1].snp.right)
+                    make.right.equalToSuperview()
+                } else {
+                    make.left.equalTo(stepViews[index - 1].snp.right)
                 }
             }
-            
-            stepViews.append(stepView)
         }
-        
-        stepViews.last!.snp.makeConstraints { make in
-            make.right.equalToSuperview()
-        }
-        
+                
         pageControl.numberOfPages = stepViews.count
+    }
+    
+    @objc func onOpenGoogleButtonClick() {
+        if let url = URL(string: GoogleURL) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    @objc func onOpenHomepageButtonClick() {
+        if let url = URL(string: iorateHomePage) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        refreshPageControl()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate == false {
+            refreshPageControl()
+        }
+    }
+    
+    private func refreshPageControl() {
+        let x = guideScrollView.contentOffset.x
+        let width = guideScrollView.bounds.width
+        let index = Int(x / width)
+        pageControl.currentPage = index
     }
 }

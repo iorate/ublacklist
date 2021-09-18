@@ -10,6 +10,7 @@
 let AppName = "uBlacklist for Safari"
 let ExtensionBundleIdentifier = "com.honeyluka.uBlacklist-for-Safari.Extension"
 
+let iorateHomePage = "https://iorate.github.io/ublacklist/"
 let AppHomePageURL = "https://group-leafy.github.io/uBlacklist-for-Safari/"
 let AppFeedbackEmail = "group.leafy@gmail.com"
 let StartManualURL = "https://iorate.github.io/ublacklist/getting-started"

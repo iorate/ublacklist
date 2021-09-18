@@ -5,3 +5,35 @@
   Created by Selina on 17/9/2021.
   
 */
+
+"guide_title_step_0" = "欢迎使用 uBlacklist";
+"guide_desc_step_0" = "uBlacklist 是一个用于 Chrome 和 Firefox 的谷歌搜索过滤器。现在它来到了iOS！\n\n首先，请按照指南来启用 uBlacklist。";
+
+"guide_title_step_1" = "打开 Safari 设置";
+"guide_desc_step_1" = "打开系统设置, 找到并点击 Safari。";
+
+"guide_title_step_2" = "打开扩展列表";
+"guide_desc_step_2" = "找到并点击 扩展。";
+
+"guide_title_step_3" = "打开 uBlacklist 设置";
+"guide_desc_step_3" = "找到并点击 uBlacklist。";
+
+"guide_title_step_4" = "开启 uBlacklist";
+"guide_desc_step_4" = "点击开关开启 uBlacklist。";
+
+"guide_title_step_5" = "打开谷歌";
+"guide_desc_step_5" = "点击下方按钮，使用 Safari 打开 google.com。(你也可以手动来做这一步)\n\n然后点击地址栏上的 'aA' 按钮。";
+"guide_button_step_5" = "打开 Google.com";
+
+"guide_title_step_6" = "给予访问权限";
+"guide_desc_step_6" = "点击菜单中的 'uBlacklist'。（通常带有黄色感叹号）";
+
+"guide_title_step_7" = "给予访问权限";
+"guide_desc_step_7" = "点击 '始终允许'。";
+
+"guide_title_step_8" = "给予访问权限";
+"guide_desc_step_8" = "点击 '在所有网站上始终允许'。";
+
+"guide_title_step_done" = "基础设置完成";
+"guide_desc_step_done" = "现在你可以正常使用 uBlacklist 了。\n\n想要了解更多 uBlacklist 的用法，请点击下方按钮访问 uBlacklist 的主页。";
+"guide_button_step_done" = "打开 uBlacklist 主页";
