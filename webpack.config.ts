@@ -45,7 +45,9 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         : false,
 
     entry: {
-      ...Object.fromEntries(glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name, name])),
+      ...Object.fromEntries(
+        glob.sync('./**/*.json.ts', { cwd: 'src' }).map(name => [name.slice(0, -3), name]),
+      ),
       [browser === 'chrome-mv3' ? 'background' : 'scripts/background']: './scripts/background.ts',
       'scripts/content-script': './scripts/content-script.tsx',
       'scripts/options': './scripts/options.tsx',
@@ -109,6 +111,34 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         systemvars: true,
       }),
 
+      // ExportAsJSONPlugin: *.json.js -> *.json
+      {
+        apply(compiler: webpack.Compiler): void {
+          compiler.hooks.compilation.tap('ExportAsJSONPlugin', compilation => {
+            compilation.hooks.processAssets.tap(
+              {
+                name: 'ExportAsJSONPlugin',
+                stage: webpack.Compilation.PROCESS_ASSETS_STAGE_PRE_PROCESS,
+              },
+              assets => {
+                for (const [name, source] of Object.entries(assets)) {
+                  if (name.endsWith('.json.js')) {
+                    delete assets[name];
+                    const exportAsJSON = (filename: string, value: unknown): void => {
+                      assets[filename] = new webpack.sources.RawSource(
+                        JSON.stringify(value, null, mode === 'development' ? 2 : 0),
+                      );
+                    };
+                    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+                    new Function('exportAsJSON', source.source().toString())(exportAsJSON);
+                  }
+                }
+              },
+            );
+          });
+        },
+      },
+
       ...(typecheck === 'typecheck'
         ? [
             new ForkTsCheckerWebpackPlugin({
@@ -139,34 +169,6 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         },
         title: 'uBlacklist Popup',
       }),
-
-      // JsonPlugin: *.json.ts.js -> *.json
-      {
-        apply(compiler: webpack.Compiler): void {
-          compiler.hooks.compilation.tap('JsonPlugin', compilation => {
-            compilation.hooks.processAssets.tap(
-              {
-                name: 'JsonPlugin',
-                stage: webpack.Compilation.PROCESS_ASSETS_STAGE_PRE_PROCESS,
-              },
-              assets => {
-                for (const [name, source] of Object.entries(assets)) {
-                  if (name.endsWith('.json.ts.js')) {
-                    delete assets[name];
-                    const exportAsJson = (filename: string, value: unknown): void => {
-                      assets[filename] = new webpack.sources.RawSource(
-                        JSON.stringify(value, null, 2),
-                      );
-                    };
-                    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-                    new Function('exportAsJson', source.source().toString())(exportAsJson);
-                  }
-                }
-              },
-            );
-          });
-        },
-      },
 
       new LicenseWebpackPlugin({
         licenseFileOverrides: {

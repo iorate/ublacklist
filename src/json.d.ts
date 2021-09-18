@@ -1,1 +1,1 @@
-declare function exportAsJson(filename: string, value: unknown): void;
+declare function exportAsJSON(filename: string, value: unknown): void;

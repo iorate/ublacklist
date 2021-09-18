@@ -4,7 +4,7 @@ export function exportAsMessages(
   filename: string,
   messages: Partial<Record<MessageName, string>>,
 ): void {
-  exportAsJson(
+  exportAsJSON(
     filename,
     Object.fromEntries(
       Object.entries(messages).map(([messageName, message]) => [messageName, { message }]),

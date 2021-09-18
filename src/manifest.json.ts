@@ -1,6 +1,6 @@
 import { searchEngineMatches } from './common/search-engines';
 
-exportAsJson('manifest.json', {
+exportAsJSON('manifest.json', {
   background: {
     /* #if CHROME_MV3
     service_worker: 'background.js',
