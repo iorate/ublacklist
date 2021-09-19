@@ -23,6 +23,7 @@
 
 "guide_title_step_5" = "開啟 Google";
 "guide_desc_step_5" = "點選下方按鈕，使用 Safari 開啟 google.com。(你也可以手動來做這一步)\n\n然後點選位址列上的 'aA' 按鈕。";
+"guide_desc_step_pad_5" = "點選下方按鈕，使用 Safari 開啟 google.com。(你也可以手動來做這一步)\n\n然後點選位址列上的 '延伸功能' 按鈕。";
 "guide_button_step_5" = "開啟 Google.com";
 
 "guide_title_step_6" = "給予訪問許可權";

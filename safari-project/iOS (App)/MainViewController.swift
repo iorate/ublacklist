@@ -139,7 +139,11 @@ class MainViewController: UIViewController {
         
         // middle guides
         for index in 1...8 {
-            let imgName = "ios-guide-step-\(index)"
+            var imgName = "ios-guide-step-\(index)"
+            if UIDevice.isPad() {
+                imgName = "ios-guide-step-pad-\(index)"
+            }
+            
             let title = "guide_title_step_\(index)".localized()
             let desc = "guide_desc_step_\(index)".localized()
             let stepView = GuideStepView(imageName: imgName, title: title, desc: desc)
@@ -150,6 +154,10 @@ class MainViewController: UIViewController {
                 stepView.button.isHidden = false
                 stepView.button.setTitle("guide_button_step_5".localized(), for: .normal)
                 stepView.button.addTarget(self, action: #selector(onOpenGoogleButtonClick), for: .touchUpInside)
+                
+                if UIDevice.isPad() {
+                    stepView.descLabel.text = "guide_desc_step_pad_5".localized()
+                }
             }
         }
         

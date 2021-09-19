@@ -166,7 +166,7 @@ class FirstGuideView: GuideStepView {
             make.center.equalTo(guideImageView)
             make.height.equalTo(logoImageView.snp.width)
             make.width.equalTo(guideImageView).multipliedBy(0.35).priority(999)
-            make.width.lessThanOrEqualTo(250)
+            make.width.lessThanOrEqualTo(200)
         }
     }
     

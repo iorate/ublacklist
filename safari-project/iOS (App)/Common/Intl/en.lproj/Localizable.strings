@@ -23,6 +23,7 @@
 
 "guide_title_step_5" = "Open Google";
 "guide_desc_step_5" = "Tap the button below, open google.com by Safari. (you can also do this manually.)\n\nThen tap the 'aA' button on the address bar.";
+"guide_desc_step_pad_5" = "Tap the button below, open google.com by Safari. (you can also do this manually.)\n\nThen tap the 'Extensions' button on the address bar.";
 "guide_button_step_5" = "Open Google.com";
 
 "guide_title_step_6" = "Grant Access Permission";
