@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  uBlacklist for Safari
+
+  Created by Selina on 17/9/2021.
+  
+*/
+
+"guide_title_step_0" = "歡迎使用 uBlacklist";
+"guide_desc_step_0" = "uBlacklist 是一個用於 Chrome 和 Firefox 的谷歌搜尋過濾器。現在它來到了 iOS！\n\n首先，請按照指南來啟用 uBlacklist。";
+
+"guide_title_step_1" = "開啟 Safari 設定";
+"guide_desc_step_1" = "開啟系統設定, 找到並點選 Safari。";
+
+"guide_title_step_2" = "開啟擴充套件列表";
+"guide_desc_step_2" = "找到并点击 延伸功能。";
+
+"guide_title_step_3" = "開啟 uBlacklist 設定";
+"guide_desc_step_3" = "找到並點選 uBlacklist。";
+
+"guide_title_step_4" = "開啟 uBlacklist";
+"guide_desc_step_4" = "點選開關開啟 uBlacklist。";
+
+"guide_title_step_5" = "開啟 Google";
+"guide_desc_step_5" = "點選下方按鈕，使用 Safari 開啟 google.com。(你也可以手動來做這一步)\n\n然後點選位址列上的 'aA' 按鈕。";
+"guide_button_step_5" = "開啟 Google.com";
+
+"guide_title_step_6" = "給予訪問許可權";
+"guide_desc_step_6" = "點選選單中的 'uBlacklist'。（通常帶有黃色感嘆號）";
+
+"guide_title_step_7" = "給予訪問許可權";
+"guide_desc_step_7" = "點選 '始終允許'。";
+
+"guide_title_step_8" = "給予訪問許可權";
+"guide_desc_step_8" = "點選 '在所有網站上始終允許'。";
+
+"guide_title_step_done" = "基礎設定完成";
+"guide_desc_step_done" = "現在你可以正常使用 uBlacklist 了。\n\n想要了解更多 uBlacklist 的用法，請點選下方按鈕訪問 uBlacklist 的主頁。";
+"guide_button_step_done" = "開啟 uBlacklist 主頁";

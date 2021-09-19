@@ -1,18 +1,31 @@
-# Uncomment the next line to define a global platform for your project
-platform :osx, '10.14'
-
-target 'uBlacklist for Safari' do
-  # Comment the next line if you don't want to use dynamic frameworks
+target 'uBlacklist for Safari (iOS)' do
+  platform :ios, '15.0'
   use_frameworks!
 
-  # Pods for uBlacklist for Safari
+  # Pods for uBlacklist for Safari (iOS)
   pod 'SnapKit', '~> 5.0.0'
 end
 
-target 'uBlacklist for Safari Extension' do
-  # Comment the next line if you don't want to use dynamic frameworks
+target 'uBlacklist for Safari (macOS)' do
+  platform :osx, '10.14'
   use_frameworks!
 
-  # Pods for uBlacklist for Safari Extension
+  # Pods for uBlacklist for Safari (macOS)
+  pod 'SnapKit', '~> 5.0.0'
+end
+
+target 'uBlacklist for Safari Extension (iOS)' do
+  platform :ios, '15.0'
+  use_frameworks!
+
+  # Pods for uBlacklist for Safari Extension (iOS)
+
+end
+
+target 'uBlacklist for Safari Extension (macOS)' do
+  platform :osx, '10.14'
+  use_frameworks!
+
+  # Pods for uBlacklist for Safari Extension (macOS)
 
 end

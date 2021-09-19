@@ -1,0 +1,39 @@
+/* 
+  Localizable.strings
+  uBlacklist for Safari
+
+  Created by Selina on 17/9/2021.
+  
+*/
+
+"guide_title_step_0" = "Welcome to uBlacklist";
+"guide_desc_step_0" = "uBlacklist is a Google Search filter for Chrome and Firefox. Now it comes to iOS!\n\nFirst, please follow the guide to enable uBlacklist.";
+
+"guide_title_step_1" = "Open Safari Setting";
+"guide_desc_step_1" = "Open iOS Settings, find Safari and tap it.";
+
+"guide_title_step_2" = "Open Extension List";
+"guide_desc_step_2" = "Find Extensions and tap it.";
+
+"guide_title_step_3" = "Open uBlacklist Settings";
+"guide_desc_step_3" = "Find uBlacklist and tap it.";
+
+"guide_title_step_4" = "Enable uBlacklist";
+"guide_desc_step_4" = "Tap the switch to enable uBlacklist.";
+
+"guide_title_step_5" = "Open Google";
+"guide_desc_step_5" = "Tap the button below, open google.com by Safari. (you can also do this manually.)\n\nThen tap the 'aA' button on the address bar.";
+"guide_button_step_5" = "Open Google.com";
+
+"guide_title_step_6" = "Grant Access Permission";
+"guide_desc_step_6" = "Tap 'uBlacklist' in the menu. (Usually with a yellow exclamation mark)";
+
+"guide_title_step_7" = "Grant Access Permission";
+"guide_desc_step_7" = "Tap 'Always Allow'.";
+
+"guide_title_step_8" = "Grant Access Permission";
+"guide_desc_step_8" = "Tap 'Always Allow on Every Website'.";
+
+"guide_title_step_done" = "Basic Setup Complete";
+"guide_desc_step_done" = "Now you can use uBlacklist normally.\n\nTo learn more about uBlacklist usage, please tap the button below to visit the uBlacklist homepage.";
+"guide_button_step_done" = "Open uBlacklist Homepage";
