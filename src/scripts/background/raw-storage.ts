@@ -9,7 +9,7 @@ export type RawStorageItems = LocalStorageItems & {
   generalLastModified: string;
   appearanceLastModified: string;
   sync: boolean; // unused
-  syncCloudToken: CloudToken | null;
+  syncCloudToken: CloudToken | false | null;
   nextSubscriptionId: SubscriptionId;
   subscriptionsLastModified: string;
 };
@@ -25,7 +25,7 @@ const defaultRawStorageItems: Readonly<RawStorageItems> = {
   timestamp: timeZero,
   generalLastModified: timeZero,
   sync: false,
-  syncCloudToken: null,
+  syncCloudToken: false,
   appearanceLastModified: timeZero,
   nextSubscriptionId: 0,
   subscriptionsLastModified: timeZero,

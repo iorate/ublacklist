@@ -27,6 +27,8 @@ export const dropbox: Cloud = {
 
   modifiedTimePrecision: 'second',
 
+  shouldUseAltFlow: Helpers.shouldUseAltFlow(),
+
   // https://www.dropbox.com/developers/documentation/http/documentation
   authorize: Helpers.authorize('https://www.dropbox.com/oauth2/authorize', {
     client_id: APP_KEY,

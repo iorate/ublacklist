@@ -19,12 +19,12 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   highlightColors: ['#ddeeff'],
   dialogTheme: 'default',
 
-  syncCloudId: null,
+  syncCloudId: false,
   syncBlocklist: true,
   syncGeneral: false,
   syncAppearance: false,
   syncSubscriptions: false,
-  syncResult: null,
+  syncResult: false,
   syncInterval: 15,
 
   subscriptions: {},

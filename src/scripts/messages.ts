@@ -10,7 +10,7 @@ import {
 } from './types';
 
 type MessageSignatures = {
-  'connect-to-cloud': (id: CloudId) => boolean;
+  'connect-to-cloud': (id: CloudId, authorizationCode: string, useAltFlow: boolean) => boolean;
   'disconnect-from-cloud': () => void;
   'register-search-engine': (id: SearchEngineId) => void;
   'open-options-page': () => void;

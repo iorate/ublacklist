@@ -4,9 +4,9 @@
 export namespace apis {
   export namespace alarms {
     export type Alarm = chrome.alarms.Alarm;
-    export type AlarmCreateInfo = chrome.alarms.AlarmCreateInfo;
+    export type _CreateAlarmInfo = chrome.alarms.AlarmCreateInfo;
 
-    export function create(name: string, alarmInfo: AlarmCreateInfo): void {
+    export function create(name: string, alarmInfo: _CreateAlarmInfo): void {
       chrome.alarms.create(name, alarmInfo);
     }
 
@@ -29,6 +29,10 @@ export namespace apis {
     };
   }
 
+  export namespace extensionTypes {
+    export type InjectDetails = chrome.tabs.InjectDetails;
+  }
+
   export namespace i18n {
     export function getMessage(messageName: string, substitutions?: unknown): string {
       return chrome.i18n.getMessage(messageName, substitutions);
@@ -36,13 +40,13 @@ export namespace apis {
   }
 
   export namespace identity {
-    export type WebAuthFlowOptions = chrome.identity.WebAuthFlowOptions;
+    export type _LaunchWebAuthFlowDetails = chrome.identity.WebAuthFlowOptions;
 
     export function getRedirectURL(path?: string): string {
       return chrome.identity.getRedirectURL(path);
     }
 
-    export function launchWebAuthFlow(details: WebAuthFlowOptions): Promise<string> {
+    export function launchWebAuthFlow(details: _LaunchWebAuthFlowDetails): Promise<string> {
       return new Promise<string>((resolve, reject) => {
         chrome.identity.launchWebAuthFlow(details, responseUrl => {
           if (chrome.runtime.lastError) {
@@ -57,9 +61,10 @@ export namespace apis {
   }
 
   export namespace permissions {
+    export type AnyPermissions = chrome.permissions.Permissions;
     export type Permissions = chrome.permissions.Permissions;
 
-    export function contains(permissions: Permissions): Promise<boolean> {
+    export function contains(permissions: AnyPermissions): Promise<boolean> {
       return new Promise<boolean>((resolve, reject) => {
         chrome.permissions.contains(permissions, result => {
           if (chrome.runtime.lastError) {
@@ -85,9 +90,9 @@ export namespace apis {
   }
 
   export namespace runtime {
-    export type InstalledDetails = chrome.runtime.InstalledDetails;
     export type MessageSender = chrome.runtime.MessageSender;
     export type PlatformInfo = chrome.runtime.PlatformInfo;
+    export type _OnInstalledDetails = chrome.runtime.InstalledDetails;
 
     export function getPlatformInfo(): Promise<PlatformInfo> {
       return new Promise<PlatformInfo>((resolve, reject) => {
@@ -126,7 +131,7 @@ export namespace apis {
     }
 
     export const onInstalled = {
-      addListener(callback: (details: InstalledDetails) => void): void {
+      addListener(callback: (details: _OnInstalledDetails) => void): void {
         chrome.runtime.onInstalled.addListener(callback);
       },
     };
@@ -161,8 +166,6 @@ export namespace apis {
   }
 
   export namespace storage {
-    export type StorageChange = chrome.storage.StorageChange;
-
     export const local = {
       get(
         keys: string | string[] | Record<string, unknown> | null,
@@ -193,12 +196,29 @@ export namespace apis {
   }
 
   export namespace tabs {
-    export type InjectDetails = chrome.tabs.InjectDetails;
-    export type QueryInfo = chrome.tabs.QueryInfo;
     export type Tab = chrome.tabs.Tab;
-    export type TabChangeInfo = chrome.tabs.TabChangeInfo;
+    export type _CreateCreateProperties = chrome.tabs.CreateProperties;
+    export type _QueryQueryInfo = chrome.tabs.QueryInfo;
+    export type _UpdateUpdateProperties = chrome.tabs.UpdateProperties;
+    export type _OnRemovedRemoveInfo = chrome.tabs.TabRemoveInfo;
+    export type _OnUpdatedChangeInfo = chrome.tabs.TabChangeInfo;
 
-    export function executeScript(tabId: number, details: InjectDetails): Promise<unknown[]> {
+    export function create(createProperties: _CreateCreateProperties): Promise<Tab> {
+      return new Promise<Tab>((resolve, reject) => {
+        chrome.tabs.create(createProperties, tab => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(tab);
+          }
+        });
+      });
+    }
+
+    export function executeScript(
+      tabId: number,
+      details: extensionTypes.InjectDetails,
+    ): Promise<unknown[]> {
       return new Promise<unknown[]>((resolve, reject) => {
         chrome.tabs.executeScript(tabId, details, result => {
           if (chrome.runtime.lastError) {
@@ -222,7 +242,7 @@ export namespace apis {
       });
     }
 
-    export function insertCSS(tabId: number, details: InjectDetails): Promise<void> {
+    export function insertCSS(tabId: number, details: extensionTypes.InjectDetails): Promise<void> {
       return new Promise<void>((resolve, reject) => {
         chrome.tabs.insertCSS(tabId, details, () => {
           if (chrome.runtime.lastError) {
@@ -234,7 +254,7 @@ export namespace apis {
       });
     }
 
-    export function query(queryInfo: QueryInfo): Promise<Tab[]> {
+    export function query(queryInfo: _QueryQueryInfo): Promise<Tab[]> {
       return new Promise<Tab[]>((resolve, reject) => {
         chrome.tabs.query(queryInfo, result => {
           if (chrome.runtime.lastError) {
@@ -246,9 +266,50 @@ export namespace apis {
       });
     }
 
+    export function remove(tabIds: number | number[]): Promise<void> {
+      return new Promise<void>((resolve, reject) => {
+        chrome.tabs.remove(tabIds as number, () => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve();
+          }
+        });
+      });
+    }
+
+    export function update(tabId: number, updateProperties: _UpdateUpdateProperties): Promise<Tab> {
+      return new Promise<Tab>((resolve, reject) => {
+        chrome.tabs.update(tabId, updateProperties, tab => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            resolve(tab!);
+          }
+        });
+      });
+    }
+
+    export const onRemoved = {
+      addListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
+        chrome.tabs.onRemoved.addListener(callback);
+      },
+      removeListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
+        chrome.tabs.onRemoved.removeListener(callback);
+      },
+    };
+
     export const onUpdated = {
-      addListener(callback: (tabId: number, changeInfo: TabChangeInfo, tab: Tab) => void): void {
+      addListener(
+        callback: (tabId: number, changeInfo: _OnUpdatedChangeInfo, tab: Tab) => void,
+      ): void {
         chrome.tabs.onUpdated.addListener(callback);
+      },
+      removeListener(
+        callback: (tabId: number, changeInfo: _OnUpdatedChangeInfo, tab: Tab) => void,
+      ): void {
+        chrome.tabs.onUpdated.removeListener(callback);
       },
     };
   }

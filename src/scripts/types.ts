@@ -27,9 +27,11 @@ export type Cloud = {
   messageNames: { sync: MessageName0; syncDescription: MessageName0; syncTurnedOn: MessageName0 };
   modifiedTimePrecision: 'millisecond' | 'second';
 
-  authorize(): Promise<{ authorizationCode: string }>;
+  shouldUseAltFlow(os: string): boolean;
+  authorize(useAltFlow: boolean): Promise<{ authorizationCode: string }>;
   getAccessToken(
     authorizationCode: string,
+    useAltFlow: boolean,
   ): Promise<{ accessToken: string; expiresIn: number; refreshToken: string }>;
   refreshAccessToken(refreshToken: string): Promise<{ accessToken: string; expiresIn: number }>;
 
@@ -79,12 +81,12 @@ export type LocalStorageItems = {
   dialogTheme: DialogTheme | 'default';
 
   // sync
-  syncCloudId: CloudId | null;
+  syncCloudId: CloudId | false | null;
   syncBlocklist: boolean;
   syncGeneral: boolean;
   syncAppearance: boolean;
   syncSubscriptions: boolean;
-  syncResult: Result | null;
+  syncResult: Result | false | null;
   syncInterval: number;
 
   // subscriptions
@@ -147,7 +149,7 @@ export type Subscription = {
   name: string;
   url: string;
   blacklist: string;
-  updateResult: Result | null;
+  updateResult: Result | false | null;
 };
 
 export type Subscriptions = Record<SubscriptionId, Subscription>;
