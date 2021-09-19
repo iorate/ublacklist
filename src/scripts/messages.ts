@@ -25,7 +25,7 @@ type MessageSignatures = {
 
   sync: () => void;
   syncing: () => void;
-  synced: (result: Result) => void;
+  synced: (result: Result, updated: boolean) => void;
 
   'update-subscription': (id: SubscriptionId) => void;
   'update-all-subscriptions': () => void;

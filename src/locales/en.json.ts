@@ -239,6 +239,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The text that means sync is running right now.
   options_syncRunning: 'Syncing...',
 
+  // The text of the button to reload the options page after settings are downloaded from a cloud.
+  options_syncReloadButton: 'Reload',
+
   // The text of the button to sync now.
   options_syncNowButton: 'Sync now',
 

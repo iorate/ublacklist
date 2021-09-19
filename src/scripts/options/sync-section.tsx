@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import { StateUpdater, useEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
-import { Button } from '../components/button';
+import { Button, LinkButton } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
@@ -255,6 +255,7 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = prop
     initialItems: { syncResult: initialSyncResult },
   } = useOptionsContext();
   const [syncResult, setSyncResult] = useState(initialSyncResult);
+  const [updated, setUpdated] = useState(false);
   const [syncing, setSyncing] = useState(false);
   useEffect(
     () =>
@@ -262,8 +263,9 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = prop
         syncing: () => {
           setSyncing(true);
         },
-        synced: result => {
+        synced: (result, updated) => {
           setSyncResult(result);
+          setUpdated(updated);
           setSyncing(false);
         },
       }),
@@ -285,6 +287,18 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = prop
               ) : (
                 <FromNow time={dayjs(syncResult.timestamp)} />
               )}
+              {updated ? (
+                <>
+                  {' '}
+                  <LinkButton
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    {translate('options_syncReloadButton')}
+                  </LinkButton>
+                </>
+              ) : null}
             </SubLabel>
           </LabelWrapper>
         </RowItem>

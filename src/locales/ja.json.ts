@@ -84,6 +84,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_syncResult: '最後の同期',
   options_syncNever: 'まだ同期されていません',
   options_syncRunning: '同期中...',
+  options_syncReloadButton: '再読み込み',
   options_syncNowButton: '今すぐ同期',
   options_syncCategories: '同期する項目',
   options_syncBlocklist: 'ブロックするサイト',
