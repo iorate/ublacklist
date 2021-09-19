@@ -200,7 +200,9 @@ export const EmbeddedDialog = forwardRef(
       () =>
         css({
           background: theme.dialog.background,
+          // #if !SAFARI
           maxWidth: '100%',
+          // #endif
           outline: 'none',
           padding: '1.5em',
           width,
