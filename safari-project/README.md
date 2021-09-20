@@ -17,9 +17,9 @@ git checkout safari-port
 ### 2. Build uBlacklist
 To build uBlacklist, [Node.js](https://nodejs.org/en/) and [Yarn](https://classic.yarnpkg.com/en/) are required.
 ```
-yarn
+yarn install --immutable
 
-yarn build:safari:production
+yarn build safari production
 ```
 
 ### 3. Build uBlacklist for Safari project

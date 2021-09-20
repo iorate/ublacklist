@@ -8,14 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6A323BB97C87FED7657B9E9C /* Pods_uBlacklist_for_Safari__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F935002044BD70848B5D5DE4 /* Pods_uBlacklist_for_Safari__macOS_.framework */; };
-		6A501F9826F71FB900643E06 /* ios-guide-step-pad-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9026F71FB800643E06 /* ios-guide-step-pad-3.png */; };
-		6A501F9926F71FB900643E06 /* ios-guide-step-pad-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9126F71FB800643E06 /* ios-guide-step-pad-8.png */; };
-		6A501F9A26F71FB900643E06 /* ios-guide-step-pad-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9226F71FB800643E06 /* ios-guide-step-pad-5.png */; };
-		6A501F9B26F71FB900643E06 /* ios-guide-step-pad-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9326F71FB800643E06 /* ios-guide-step-pad-7.png */; };
-		6A501F9C26F71FB900643E06 /* ios-guide-step-pad-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9426F71FB800643E06 /* ios-guide-step-pad-4.png */; };
-		6A501F9D26F71FB900643E06 /* ios-guide-step-pad-6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9526F71FB800643E06 /* ios-guide-step-pad-6.png */; };
-		6A501F9E26F71FB900643E06 /* ios-guide-step-pad-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9626F71FB800643E06 /* ios-guide-step-pad-2.png */; };
-		6A501F9F26F71FB900643E06 /* ios-guide-step-pad-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A501F9726F71FB900643E06 /* ios-guide-step-pad-1.png */; };
 		6A6A3CE226F34D4F000B99BE /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDC26F34D4E000B99BE /* _locales */; };
 		6A6A3CE326F34D4F000B99BE /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDC26F34D4E000B99BE /* _locales */; };
 		6A6A3CE426F34D4F000B99BE /* pages in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3CDD26F34D4E000B99BE /* pages */; };
@@ -70,6 +62,14 @@
 		6AA45AFD26F34B4300D6629A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45ABB26F34B4300D6629A /* Assets.xcassets */; };
 		6AA45AFE26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
 		6AA45AFF26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
+		A18FF6CB26F8810600E46410 /* ios-guide-step-pad-8.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */; };
+		A18FF6CC26F8810600E46410 /* ios-guide-step-pad-3.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */; };
+		A18FF6CD26F8810600E46410 /* ios-guide-step-pad-1.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */; };
+		A18FF6CE26F8810600E46410 /* ios-guide-step-pad-7.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */; };
+		A18FF6CF26F8810600E46410 /* ios-guide-step-pad-6.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */; };
+		A18FF6D026F8810600E46410 /* ios-guide-step-pad-2.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */; };
+		A18FF6D126F8810600E46410 /* ios-guide-step-pad-4.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */; };
+		A18FF6D226F8810600E46410 /* ios-guide-step-pad-5.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */; };
 		D836345634856B8713781271 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */; };
 		DB53B6893AECB69B52825B52 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */; };
 		E1F45B853590D2A26481E422 /* Pods_uBlacklist_for_Safari__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */; };
@@ -122,14 +122,6 @@
 		0CEDCAAAFA33348D26976E3F /* Pods-uBlacklist for Safari Extension (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).release.xcconfig"; sourceTree = "<group>"; };
 		2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66F6D373CF9EF60C8ECEAF9A /* Pods-uBlacklist for Safari (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (iOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (iOS)/Pods-uBlacklist for Safari (iOS).release.xcconfig"; sourceTree = "<group>"; };
-		6A501F9026F71FB800643E06 /* ios-guide-step-pad-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-3.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-3.png"; sourceTree = "<group>"; };
-		6A501F9126F71FB800643E06 /* ios-guide-step-pad-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-8.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-8.png"; sourceTree = "<group>"; };
-		6A501F9226F71FB800643E06 /* ios-guide-step-pad-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-5.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-5.png"; sourceTree = "<group>"; };
-		6A501F9326F71FB800643E06 /* ios-guide-step-pad-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-7.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-7.png"; sourceTree = "<group>"; };
-		6A501F9426F71FB800643E06 /* ios-guide-step-pad-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-4.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-4.png"; sourceTree = "<group>"; };
-		6A501F9526F71FB800643E06 /* ios-guide-step-pad-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-6.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-6.png"; sourceTree = "<group>"; };
-		6A501F9626F71FB800643E06 /* ios-guide-step-pad-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-2.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-2.png"; sourceTree = "<group>"; };
-		6A501F9726F71FB900643E06 /* ios-guide-step-pad-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ios-guide-step-pad-1.png"; path = "../../../../../../../Downloads/UWfbuPJAQ1GF-SBlz2YKxw/ios-guide-step-pad-1.png"; sourceTree = "<group>"; };
 		6A6A3CDC26F34D4E000B99BE /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../dist/safari/production/_locales; sourceTree = "<group>"; };
 		6A6A3CDD26F34D4E000B99BE /* pages */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pages; path = ../../dist/safari/production/pages; sourceTree = "<group>"; };
 		6A6A3CDE26F34D4E000B99BE /* licenses.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = licenses.txt; path = ../../dist/safari/production/licenses.txt; sourceTree = "<group>"; };
@@ -187,6 +179,14 @@
 		6AA45AF126F34B4300D6629A /* uBlacklist for Safari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "uBlacklist for Safari.entitlements"; sourceTree = "<group>"; };
 		711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8962C7ADFD5631F7A2D4F66F /* Pods-uBlacklist for Safari (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-8.png"; sourceTree = "<group>"; };
+		A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-3.png"; sourceTree = "<group>"; };
+		A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-1.png"; sourceTree = "<group>"; };
+		A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-7.png"; sourceTree = "<group>"; };
+		A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-6.png"; sourceTree = "<group>"; };
+		A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-2.png"; sourceTree = "<group>"; };
+		A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-4.png"; sourceTree = "<group>"; };
+		A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-5.png"; sourceTree = "<group>"; };
 		AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -340,14 +340,14 @@
 		6A6A3D2326F47510000B99BE /* img */ = {
 			isa = PBXGroup;
 			children = (
-				6A501F9726F71FB900643E06 /* ios-guide-step-pad-1.png */,
-				6A501F9626F71FB800643E06 /* ios-guide-step-pad-2.png */,
-				6A501F9026F71FB800643E06 /* ios-guide-step-pad-3.png */,
-				6A501F9426F71FB800643E06 /* ios-guide-step-pad-4.png */,
-				6A501F9226F71FB800643E06 /* ios-guide-step-pad-5.png */,
-				6A501F9526F71FB800643E06 /* ios-guide-step-pad-6.png */,
-				6A501F9326F71FB800643E06 /* ios-guide-step-pad-7.png */,
-				6A501F9126F71FB800643E06 /* ios-guide-step-pad-8.png */,
+				A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */,
+				A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */,
+				A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */,
+				A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */,
+				A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */,
+				A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */,
+				A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */,
+				A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */,
 				6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */,
 				6A6A3D2826F49655000B99BE /* ios-guide-step-2.png */,
 				6A6A3D2A26F49655000B99BE /* ios-guide-step-3.png */,
@@ -642,25 +642,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A501F9926F71FB900643E06 /* ios-guide-step-pad-8.png in Resources */,
 				6A6A3D3326F49655000B99BE /* ios-guide-step-5.png in Resources */,
-				6A501F9A26F71FB900643E06 /* ios-guide-step-pad-5.png in Resources */,
+				A18FF6CB26F8810600E46410 /* ios-guide-step-pad-8.png in Resources */,
 				6A6A3D3026F49655000B99BE /* ios-guide-step-2.png in Resources */,
-				6A501F9B26F71FB900643E06 /* ios-guide-step-pad-7.png in Resources */,
 				6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */,
-				6A501F9D26F71FB900643E06 /* ios-guide-step-pad-6.png in Resources */,
-				6A501F9E26F71FB900643E06 /* ios-guide-step-pad-2.png in Resources */,
+				A18FF6CE26F8810600E46410 /* ios-guide-step-pad-7.png in Resources */,
+				A18FF6D026F8810600E46410 /* ios-guide-step-pad-2.png in Resources */,
+				A18FF6CD26F8810600E46410 /* ios-guide-step-pad-1.png in Resources */,
+				A18FF6D126F8810600E46410 /* ios-guide-step-pad-4.png in Resources */,
 				6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */,
-				6A501F9826F71FB900643E06 /* ios-guide-step-pad-3.png in Resources */,
 				6A6A3D2F26F49655000B99BE /* ios-guide-step-6.png in Resources */,
 				6A6A3D2E26F49655000B99BE /* ios-guide-step-8.png in Resources */,
 				6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */,
+				A18FF6CC26F8810600E46410 /* ios-guide-step-pad-3.png in Resources */,
 				6A6A3D3226F49655000B99BE /* ios-guide-step-3.png in Resources */,
 				6A6A3D3126F49655000B99BE /* ios-guide-step-7.png in Resources */,
-				6A501F9F26F71FB900643E06 /* ios-guide-step-pad-1.png in Resources */,
-				6A501F9C26F71FB900643E06 /* ios-guide-step-pad-4.png in Resources */,
+				A18FF6D226F8810600E46410 /* ios-guide-step-pad-5.png in Resources */,
 				6A6A3D3426F49655000B99BE /* ios-guide-step-1.png in Resources */,
 				6AA45AFC26F34B4300D6629A /* Assets.xcassets in Resources */,
+				A18FF6CF26F8810600E46410 /* ios-guide-step-pad-6.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
