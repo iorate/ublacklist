@@ -75,6 +75,7 @@ export type MessageName =
   | 'options_syncResult'
   | 'options_syncNever'
   | 'options_syncRunning'
+  | 'options_syncReloadButton'
   | 'options_syncNowButton'
   | 'options_syncCategories'
   | 'options_syncBlocklist'

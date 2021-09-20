@@ -298,7 +298,7 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
     }
     await saveToRawStorage({ syncResult: result });
 
-    postMessage('synced', result);
+    postMessage('synced', result, Object.keys(cloudItems).length !== 0);
   });
 }
 
