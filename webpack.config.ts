@@ -25,7 +25,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
   const mode = getEnv(env, 'mode', ['development', 'production'] as const);
   const typecheck = getEnv(env, 'typecheck', ['notypecheck', 'typecheck'] as const);
 
-  const target = ['chrome92', 'firefox91', 'safari14'];
+  const target = ['chrome90', 'firefox78', 'safari14'];
 
   return {
     cache:
