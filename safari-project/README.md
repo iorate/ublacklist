@@ -54,7 +54,7 @@ ruby add_locale.rb #{based_locale} #{target_locale}
 # Example: ruby add_locale.rb en ja
 ```
 
-Then translate ```Localizable.strings``` at ```safari-project/uBlacklist for Safari/Common/Intl/#{target_locale}.lproj```
+Then translate ```Localizable.strings``` at ```safari-project/iOS (App)/Common/Intl/#{target_locale}.lproj``` and ```safari-project/macOS (App)/Common/Intl/#{target_locale}.lproj```
 
 ### Option 2: Use Xcode
 
