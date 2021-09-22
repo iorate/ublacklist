@@ -26,10 +26,10 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   popup_unblockSiteButton: '移除',
   popup_openOptionsLink: '选项',
   options_generalTitle: '常规',
-  options_blacklistLabel: '在谷歌的搜索结果中将不会显示以下网站：',
+  options_blacklistLabel: '在谷歌的搜索结果中将不会显示以下网站',
   options_blacklistHelper:
     '你可以使用 [匹配模式](https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 或 [正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)。',
-  options_blacklistExample: '例如：$1',
+  options_blacklistExample: '例如: $1',
   options_blockByTitle: '要使用页面标题来屏蔽网站，请在正则表达式前添加「title」。',
   options_blacklistUpdated: '黑名单已更新',
   options_reloadBlacklistButton: '重新加载',
