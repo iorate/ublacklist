@@ -1,0 +1,62 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+platform :ios do
+  before_all do
+    cocoapods
+  end
+
+  lane :release do
+    build_ios_app(
+      workspace: "uBlacklist for Safari.xcworkspace",
+      scheme: "uBlacklist for Safari (iOS)",
+      configuration: "Release",
+      export_method: "app-store",
+      silent: true,
+      clean: true,
+      include_bitcode: true,
+      build_path: "./build/ios",
+      output_directory: "./build/ios/production",
+      output_name: "ios",
+      xcargs: "-allowProvisioningUpdates"
+    )
+
+    upload_to_testflight(skip_submission: true, skip_waiting_for_build_processing: true)
+  end
+end
+
+platform :mac do
+  before_all do
+    cocoapods
+  end
+
+  lane :release do
+    build_mac_app(
+      workspace: "uBlacklist for Safari.xcworkspace",
+      scheme: "uBlacklist for Safari (macOS)",
+      configuration: "Release",
+      export_method: "app-store",
+      silent: true,
+      clean: true,
+      include_bitcode: true,
+      build_path: "./build/mac",
+      output_directory: "./build/mac/production",
+      output_name: "mac",
+      xcargs: "-allowProvisioningUpdates"
+    )
+
+    upload_to_testflight(skip_submission: true, skip_waiting_for_build_processing: true)
+  end
+end
