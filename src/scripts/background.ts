@@ -25,9 +25,25 @@ function main() {
     'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
   });
 
-  SearchEngines.initialize();
-  Sync.initialize();
-  Subscriptions.initialize();
+  apis.runtime.onInstalled.addListener(() => {
+    void Sync.sync();
+    void Subscriptions.updateAll();
+  });
+
+  apis.runtime.onStartup.addListener(() => {
+    void Sync.sync();
+    void Subscriptions.updateAll();
+  });
+
+  apis.alarms.onAlarm.addListener(alarm => {
+    if (alarm.name === Sync.SYNC_ALARM_NAME) {
+      void Sync.sync();
+    } else if (alarm.name === Subscriptions.UPDATE_ALL_ALARM_NAME) {
+      void Subscriptions.updateAll();
+    }
+  });
+
+  SearchEngines.registerAll();
 }
 
 main();
