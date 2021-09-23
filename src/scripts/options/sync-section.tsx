@@ -261,6 +261,7 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = prop
     () =>
       addMessageListeners({
         syncing: () => {
+          setUpdated(false);
           setSyncing(true);
         },
         synced: (result, updated) => {

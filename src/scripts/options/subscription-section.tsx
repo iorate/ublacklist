@@ -50,7 +50,11 @@ import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';
 
-const PERMISSION_PASSLIST = ['*://*.githubusercontent.com/*'];
+const PERMISSION_PASSLIST = [
+  '*://*.githubusercontent.com/*',
+  // A third-party CDN service supporting GitHub, GitLab and BitBucket
+  '*://cdn.statically.io/*',
+];
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
