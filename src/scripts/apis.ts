@@ -329,7 +329,7 @@ export namespace apis {
   }
 
   export namespace windows {
-    export const WINDOW_ID_NONE = chrome.windows.WINDOW_ID_NONE;
+    export const WINDOW_ID_NONE = -1; // chrome.windows.WINDOW_ID_NONE
 
     export const onFocusChanged = {
       addListener(callback: (windowId: number) => void): void {
