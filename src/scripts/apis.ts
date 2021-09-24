@@ -307,6 +307,7 @@ export namespace apis {
       addListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
         chrome.tabs.onRemoved.addListener(callback);
       },
+
       removeListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
         chrome.tabs.onRemoved.removeListener(callback);
       },
@@ -318,6 +319,7 @@ export namespace apis {
       ): void {
         chrome.tabs.onUpdated.addListener(callback);
       },
+
       removeListener(
         callback: (tabId: number, changeInfo: _OnUpdatedChangeInfo, tab: Tab) => void,
       ): void {
