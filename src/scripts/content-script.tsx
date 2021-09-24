@@ -4,10 +4,11 @@ import { searchEngineMatches } from '../common/search-engines';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
+import { translate } from './locales';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { CSSAttribute, css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
-import { AltURL, MatchPattern, stringKeys, translate } from './utilities';
+import { AltURL, MatchPattern, stringKeys } from './utilities';
 
 const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick }) => {
   const class_ = useMemo(

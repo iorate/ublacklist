@@ -16,7 +16,7 @@ export async function register(id: SearchEngineId): Promise<void> {
 }
 
 // eslint-disable-next-line @typescript-eslint/require-await
-export function initialize(): void {
+export function registerAll(): void {
   // #if CHROME_MV3
   // #elif CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {

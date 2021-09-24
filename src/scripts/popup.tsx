@@ -3,7 +3,7 @@ import { apis } from './apis';
 import { Blacklist } from './blacklist';
 import { BlockPopup } from './block-dialog';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
-import { translate } from './utilities';
+import { translate } from './locales';
 
 async function main(): Promise<void> {
   const [{ title, url }] = await apis.tabs.query({ active: true, currentWindow: true });

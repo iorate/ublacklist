@@ -6,10 +6,6 @@ export namespace apis {
     export type Alarm = chrome.alarms.Alarm;
     export type _CreateAlarmInfo = chrome.alarms.AlarmCreateInfo;
 
-    export function create(name: string, alarmInfo: _CreateAlarmInfo): void {
-      chrome.alarms.create(name, alarmInfo);
-    }
-
     export function clear(name: string): Promise<boolean> {
       return new Promise<boolean>((resolve, reject) => {
         chrome.alarms.clear(name, wasCleared => {
@@ -17,6 +13,22 @@ export namespace apis {
             reject(new Error(chrome.runtime.lastError.message));
           } else {
             resolve(wasCleared);
+          }
+        });
+      });
+    }
+
+    export function create(name: string, alarmInfo: _CreateAlarmInfo): void {
+      chrome.alarms.create(name, alarmInfo);
+    }
+
+    export function get(name: string): Promise<Alarm | undefined> {
+      return new Promise<Alarm | undefined>((resolve, reject) => {
+        chrome.alarms.get(name, alarm => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(alarm);
           }
         });
       });
@@ -295,6 +307,7 @@ export namespace apis {
       addListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
         chrome.tabs.onRemoved.addListener(callback);
       },
+
       removeListener(callback: (tabId: number, removeInfo: _OnRemovedRemoveInfo) => void): void {
         chrome.tabs.onRemoved.removeListener(callback);
       },
@@ -306,10 +319,21 @@ export namespace apis {
       ): void {
         chrome.tabs.onUpdated.addListener(callback);
       },
+
       removeListener(
         callback: (tabId: number, changeInfo: _OnUpdatedChangeInfo, tab: Tab) => void,
       ): void {
         chrome.tabs.onUpdated.removeListener(callback);
+      },
+    };
+  }
+
+  export namespace windows {
+    export const WINDOW_ID_NONE = -1; // chrome.windows.WINDOW_ID_NONE
+
+    export const onFocusChanged = {
+      addListener(callback: (windowId: number) => void): void {
+        chrome.windows.onFocusChanged.addListener(callback);
       },
     };
   }

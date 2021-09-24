@@ -18,7 +18,7 @@ import {
 } from '../components/section';
 import { useCSS } from '../components/styles';
 import { saveToLocalStorage } from '../local-storage';
-import { translate } from '../utilities';
+import { translate } from '../locales';
 import { useOptionsContext } from './options-context';
 
 type ColorItemKey = 'linkColor' | 'blockColor';

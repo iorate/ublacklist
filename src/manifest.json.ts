@@ -122,5 +122,19 @@ exportAsJSON('manifest.json', {
     'storage',
   ],
 
-  version: '4.10.0',
+  version: '0.1.0',
+
+  // #if CHROME
+  web_accessible_resources: [
+    /* #if CHROME_MV3
+    {
+      matches: ['<all_urls>'],
+      resources: ['pages/options.html'],
+    },
+    */
+    // #else
+    'pages/options.html',
+    // #endif
+  ],
+  // #endif
 });

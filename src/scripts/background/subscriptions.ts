@@ -4,7 +4,7 @@ import { SubscriptionId } from '../types';
 import { HTTPError, errorResult, numberKeys, successResult } from '../utilities';
 import { loadFromRawStorage, modifyInRawStorage } from './raw-storage';
 
-const UPDATE_ALL_ALARM_NAME = 'update-all-subscriptions';
+export const UPDATE_ALL_ALARM_NAME = 'update-all-subscriptions';
 
 const updating = new Set<SubscriptionId>();
 
@@ -68,18 +68,4 @@ export async function updateAll(): Promise<void> {
   apis.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
 
   await Promise.all(numberKeys(subscriptions).map(update));
-}
-
-export function initialize(): void {
-  apis.runtime.onInstalled.addListener(() => {
-    void updateAll();
-  });
-  apis.runtime.onStartup.addListener(() => {
-    void updateAll();
-  });
-  apis.alarms.onAlarm.addListener(alarm => {
-    if (alarm.name === UPDATE_ALL_ALARM_NAME) {
-      void updateAll();
-    }
-  });
 }

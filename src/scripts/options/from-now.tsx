@@ -3,7 +3,7 @@ import dayjsRelativeTime from 'dayjs/plugin/relativeTime';
 import { FunctionComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import '../dayjs-locales';
-import { translate } from '../utilities';
+import { translate } from '../locales';
 
 dayjs.extend(dayjsRelativeTime);
 
