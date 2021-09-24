@@ -36,16 +36,10 @@ import {
 } from '../components/table';
 import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
+import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import {
-  AltURL,
-  MatchPattern,
-  isErrorResult,
-  numberEntries,
-  numberKeys,
-  translate,
-} from '../utilities';
+import { AltURL, MatchPattern, isErrorResult, numberEntries, numberKeys } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';

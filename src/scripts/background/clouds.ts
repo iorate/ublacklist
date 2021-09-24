@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
+import { translate } from '../locales';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { HTTPError, Mutex, translate } from '../utilities';
+import { HTTPError, Mutex } from '../utilities';
 import { loadFromRawStorage, saveToRawStorage } from './raw-storage';
 import { sync } from './sync';
 

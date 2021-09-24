@@ -6,7 +6,7 @@ import { Row, RowItem } from '../components/row';
 import { useCSS } from '../components/styles';
 import '../dayjs-locales';
 import { saveToLocalStorage } from '../local-storage';
-import { translate } from '../utilities';
+import { translate } from '../locales';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
 
