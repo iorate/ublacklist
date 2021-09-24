@@ -5,8 +5,7 @@ exportAsMessages('_locales/de/messages.json', {
   extensionName: 'uBlacklist',
 
   // The extension description.
-  extensionDescription:
-    'Blockiert Seiten damit diese nicht in den Suchergebnissen von Google auftauchen',
+  extensionDescription: 'Blockiert Seiten damit diese nicht in den Suchergebnissen von Google auftauchen',
 
   // The language code.
   lang: 'de',
@@ -91,8 +90,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_blacklistExample: 'Beispiel: $1',
 
   // The helper text to explain how to block sites by page title.
-  options_blockByTitle:
-    'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
+  options_blockByTitle: 'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
 
   // The text indicating that the blacklist is update outside the options page.
   options_blacklistUpdated: 'Aktualisiert',
@@ -131,15 +129,13 @@ exportAsMessages('_locales/de/messages.json', {
   options_importBlacklistDialog_importButton: 'Importieren',
 
   // The helper text for the textarea on the import-blacklist dialog.
-  options_importBlacklistDialog_helper:
-    'Einfügen der von der persönlichen Sperrliste exportierten Domänen.',
+  options_importBlacklistDialog_helper:'Einfügen der von der persönlichen Sperrliste exportierten Domänen.',
 
   // Other search engines support.
   options_otherSearchEngines: 'Andere Suchmaschinen',
 
   // The details for other search engines support.
-  options_otherSearchEnginesDescription:
-    'Sie können diese Erweiterung auf den nachfolgenden Suchmaschinen verwenden.',
+  options_otherSearchEnginesDescription: 'Sie können diese Erweiterung auf den nachfolgenden Suchmaschinen verwenden.',
 
   // The text of the button to enable this extension on a search engine.
   options_registerSearchEngine: 'Aktivieren',
@@ -175,8 +171,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_highlightColors: 'Die Farbe von hervorgehobenen Suchergebnissen',
 
   // The description of the highlighting feature.
-  options_highlightDescription:
-    'Um Suchergebnisse mit der Farbe N hervorzuheben, müssen Sie "@N" der Regel voranstellen.',
+  options_highlightDescription: 'Um Suchergebnisse mit der Farbe N hervorzuheben, müssen Sie "@N" der Regel voranstellen.',
 
   // The name of the nth color.
   options_highlightColorNth: 'Farbe $1',
@@ -203,14 +198,14 @@ exportAsMessages('_locales/de/messages.json', {
   options_syncTitle: 'Synchronisieren',
 
   // The text to indicate that the sync feature has been updated (version 3 -> 4).
-  options_syncFeatureUpdated:
+  options_syncFeatureUpdated: 
     'Die Funktion für das Synchronisieren wurde aktualisiert. Um die Synchronisation weiter verwenden zu können, drücken Sie auf "Synchronisation einschalten".',
 
   // The sync feature.
   options_syncFeature: 'Mit Cloud synchronisieren',
 
   // The description of the sync feature.
-  options_syncFeatureDescription:
+  options_syncFeatureDescription: 
     'Sie können Ihre Sperrlisten über die Cloud mit all Ihren Geräte synchronisieren.',
 
   // The text of the button to turn on sync.
@@ -221,6 +216,16 @@ exportAsMessages('_locales/de/messages.json', {
 
   // The text of the button to turn on sync.
   options_turnOnSyncDialog_turnOnSyncButton: 'Einschalten',
+
+  // The text to explain permission requests in the 'alternative' web auth flow.
+  // Currently it is used only in Safari.
+  // '$1' is expanded to 'iorate.github.io'.
+  options_turnOnSyncDialog_altFlowDescription:
+    'Sie werden vor der Authentifizierung möglicherweise nach Berechtigtungen für den Zugriff auf $1 geafragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.',
+
+  // The label for the textarea to input the authorization code returned by the 'alternative' web auth flow.
+  // Currently it is used only in Safari (probably only on iOS and iPadOS).
+  options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Autorisationsschlüssel',
 
   // The text of the button to turn off sync.
   options_turnOffSync: 'Ausschalten',
@@ -234,8 +239,26 @@ exportAsMessages('_locales/de/messages.json', {
   // The text that means sync is running right now.
   options_syncRunning: 'Synchronisiere...',
 
+  // The text of the button to reload the options page after settings are downloaded from a cloud.
+  options_syncReloadButton: 'Neu laden',
+
   // The text of the button to sync now.
   options_syncNowButton: 'Jetzt synchronisieren',
+
+  // The label of the list to choose what to sync.
+  options_syncCategories: 'Was synchronisiert wird',
+
+  // The label of the switch to sync the blocklist.
+  options_syncBlocklist: 'Blockierte Seiten',
+
+  // The label of the switch to sync the general settings.
+  options_syncGeneral: 'Allgemeine Einstellungen',
+
+  // The label of the switch to sync the appearance.
+  options_syncAppearance: 'Aussehen',
+
+  // The label of the switch to sync the subscriptions.
+  options_syncSubscriptions: 'Abonnements',
 
   // The label of the select to select a sync interval.
   options_syncInterval: 'Synchronisationsintervall',
