@@ -36,21 +36,19 @@ import {
 } from '../components/table';
 import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
+import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import {
-  AltURL,
-  MatchPattern,
-  isErrorResult,
-  numberEntries,
-  numberKeys,
-  translate,
-} from '../utilities';
+import { AltURL, MatchPattern, isErrorResult, numberEntries, numberKeys } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { SetIntervalItem } from './set-interval-item';
 
-const PERMISSION_PASSLIST = ['*://*.githubusercontent.com/*'];
+const PERMISSION_PASSLIST = [
+  '*://*.githubusercontent.com/*',
+  // A third-party CDN service supporting GitHub, GitLab and BitBucket
+  '*://cdn.statically.io/*',
+];
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
@@ -67,16 +65,34 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
 }
 
 const AddSubscriptionDialog: FunctionComponent<
-  { setSubscriptions: StateUpdater<Subscriptions> } & DialogProps
-> = ({ close, open, setSubscriptions }) => {
-  const [state, setState] = useState({
-    name: '',
-    nameValid: false,
-    url: '',
-    urlValid: false,
-  });
+  {
+    initialName: string;
+    initialURL: string;
+    setSubscriptions: StateUpdater<Subscriptions>;
+  } & DialogProps
+> = ({ close, open, initialName, initialURL, setSubscriptions }) => {
+  const [state, setState] = useState(() => ({
+    name: initialName,
+    // required
+    nameValid: initialName !== '',
+    url: initialURL,
+    urlValid: (() => {
+      // pattern="https?:.*"
+      // required
+      if (!initialURL || !/^https?:/.test(initialURL)) {
+        return false;
+      }
+      // type="url"
+      try {
+        new URL(initialURL);
+      } catch {
+        return false;
+      }
+      return true;
+    })(),
+  }));
   const prevOpen = usePrevious(open);
-  if (open && !prevOpen) {
+  if (open && prevOpen === false) {
     state.name = '';
     state.nameValid = false;
     state.url = '';
@@ -126,7 +142,7 @@ const AddSubscriptionDialog: FunctionComponent<
             {open && (
               <Input
                 id="subscriptionURL"
-                pattern="^https?:.*"
+                pattern="https?:.*"
                 required={true}
                 type="url"
                 value={state.url}
@@ -289,11 +305,16 @@ export const ManageSubscriptions: FunctionComponent<{
   subscriptions: Subscriptions;
   setSubscriptions: StateUpdater<Subscriptions>;
 }> = ({ subscriptions, setSubscriptions }) => {
+  const { query } = useOptionsContext();
+
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
-  const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(false);
+  const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(
+    query.addSubscriptionName != null || query.addSubscriptionURL != null,
+  );
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = useState(false);
   const [showSubscriptionDialogSubscription, setShowSubscriptionDialogSubscription] =
     useState<Subscription | null>(null);
+
   useEffect(
     () =>
       addMessageListeners({
@@ -410,6 +431,8 @@ export const ManageSubscriptions: FunctionComponent<{
       <Portal id="addSubscriptionDialogPortal">
         <AddSubscriptionDialog
           close={() => setAddSubscriptionDialogOpen(false)}
+          initialName={query.addSubscriptionName ?? ''}
+          initialURL={query.addSubscriptionURL ?? ''}
           open={addSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />

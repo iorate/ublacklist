@@ -1,22 +1,26 @@
 import dayjs from 'dayjs';
+import { translate } from '../locales';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { HTTPError, Mutex, translate } from '../utilities';
+import { HTTPError, Mutex } from '../utilities';
 import { loadFromRawStorage, saveToRawStorage } from './raw-storage';
 import { sync } from './sync';
 
 const mutex = new Mutex();
 
-export async function connect(id: CloudId): Promise<boolean> {
+export async function connect(
+  id: CloudId,
+  authorizationCode: string,
+  useAltFlow: boolean,
+): Promise<boolean> {
   const connected = await mutex.lock(async () => {
     const { syncCloudId: oldId } = await loadFromRawStorage(['syncCloudId']);
-    if (oldId != null) {
+    if (oldId) {
       return oldId === id;
     }
     const cloud = supportedClouds[id];
     try {
-      const { authorizationCode } = await cloud.authorize();
-      const token = await cloud.getAccessToken(authorizationCode);
+      const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
       await saveToRawStorage({
         syncCloudId: id,
         syncCloudToken: {
@@ -39,10 +43,10 @@ export async function connect(id: CloudId): Promise<boolean> {
 export function disconnect(): Promise<void> {
   return mutex.lock(async () => {
     const { syncCloudId: id } = await loadFromRawStorage(['syncCloudId']);
-    if (id == null) {
+    if (!id) {
       return;
     }
-    await saveToRawStorage({ syncCloudId: null, syncCloudToken: null });
+    await saveToRawStorage({ syncCloudId: false, syncCloudToken: false });
   });
 }
 
@@ -56,11 +60,11 @@ export function syncFile(
       'syncCloudId',
       'syncCloudToken',
     ]);
-    if (syncCloudId == null) {
+    if (!syncCloudId) {
       throw new Error('Not connected');
     }
     const cloud = supportedClouds[syncCloudId];
-    if (syncCloudToken == null) {
+    if (!syncCloudToken) {
       throw new Error(translate('unauthorizedError'));
     }
     let accessToken = syncCloudToken.accessToken;
@@ -76,7 +80,7 @@ export function syncFile(
         });
       } catch (e: unknown) {
         if (e instanceof HTTPError && e.status === 400) {
-          await saveToRawStorage({ syncCloudToken: null });
+          await saveToRawStorage({ syncCloudToken: false });
           throw new Error(translate('unauthorizedError'));
         } else {
           throw e;

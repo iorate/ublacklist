@@ -4,9 +4,15 @@ import { apis } from '../apis';
 import { loadAllFromLocalStorage } from '../local-storage';
 import { LocalStorageItems } from '../types';
 
+export type OptionsQuery = {
+  addSubscriptionName: string | null;
+  addSubscriptionURL: string | null;
+};
+
 export type OptionsContextValue = {
   initialItems: LocalStorageItems;
   platformInfo: apis.runtime.PlatformInfo;
+  query: OptionsQuery;
 };
 
 const OptionsContext = createContext<OptionsContextValue | null>(null);
@@ -19,7 +25,12 @@ export const OptionsContextProvider: FunctionComponent = props => {
         loadAllFromLocalStorage(),
         apis.runtime.getPlatformInfo(),
       ]);
-      setValue({ initialItems, platformInfo });
+      const searchParams = new URL(window.location.href).searchParams;
+      const query = {
+        addSubscriptionName: searchParams.get('addSubscriptionName'),
+        addSubscriptionURL: searchParams.get('addSubscriptionURL'),
+      };
+      setValue({ initialItems, platformInfo, query });
     })();
   }, []);
   return value && <OptionsContext.Provider value={value}>{props.children}</OptionsContext.Provider>;

@@ -26,6 +26,8 @@ export const googleDrive: Cloud = {
 
   modifiedTimePrecision: 'millisecond',
 
+  shouldUseAltFlow: Helpers.shouldUseAltFlow(),
+
   // https://developers.google.com/identity/protocols/oauth2/web-server
   authorize: Helpers.authorize('https://accounts.google.com/o/oauth2/v2/auth', {
     client_id: CLIENT_ID,

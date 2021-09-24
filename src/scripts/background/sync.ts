@@ -18,7 +18,8 @@ const SYNC_BLOCKLIST_FILENAME = 'uBlacklist.txt';
 const SYNC_GENERAL_FILENAME = 'general.json';
 const SYNC_APPEARANCE_FILENAME = 'appearance.json';
 const SYNC_SUBSCRIPTIONS_FILENAME = 'subscriptions.json';
-const SYNC_ALARM_NAME = 'sync';
+
+export const SYNC_ALARM_NAME = 'sync';
 
 export type SyncDirtyFlags = {
   blocklist?: boolean;
@@ -298,7 +299,7 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
     }
     await saveToRawStorage({ syncResult: result });
 
-    postMessage('synced', result);
+    postMessage('synced', result, Object.keys(cloudItems).length !== 0);
   });
 }
 
@@ -322,18 +323,4 @@ export function syncDelayed(flags: SyncDirtyFlags): void {
     timeoutId = null;
     dirtyFlags = null;
   }, SYNC_DELAY * 1000);
-}
-
-export function initialize(): void {
-  apis.runtime.onInstalled.addListener(() => {
-    void sync();
-  });
-  apis.runtime.onStartup.addListener(() => {
-    void sync();
-  });
-  apis.alarms.onAlarm.addListener(alarm => {
-    if (alarm.name === SYNC_ALARM_NAME) {
-      void sync();
-    }
-  });
 }

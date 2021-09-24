@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
-import { MessageName, MessageName0, MessageName1 } from '../common/locales';
-import { apis } from './apis';
 import { ErrorResult, Result, SuccessResult } from './types';
 
+// #region AltURL
 export class AltURL {
   readonly scheme: string;
   readonly host: string;
@@ -27,7 +26,9 @@ export function makeAltURL(url: string): AltURL | null {
     return null;
   }
 }
+// #endregion AltURL
 
+// #region Error
 export class HTTPError extends Error {
   constructor(readonly status: number, readonly statusText: string) {
     super(`${status}${statusText ? ' ' : ''}${statusText}`);
@@ -41,6 +42,7 @@ export class UnexpectedResponse extends Error {
     this.name = 'UnexpectedResponse';
   }
 }
+// #endregion Error
 
 // #region MatchPattern
 type SchemePattern = { type: 'any' } | { type: 'exact'; exact: string };
@@ -138,6 +140,7 @@ export class MatchPattern {
 }
 // #endregion MatchPattern
 
+// #region Mutex
 export class Mutex {
   private queue: (() => Promise<void>)[] = [];
 
@@ -165,6 +168,7 @@ export class Mutex {
     void this.dequeue();
   }
 }
+// #endregion Mutex
 
 // #region Result
 export function isErrorResult(result: Result): result is ErrorResult {
@@ -190,16 +194,6 @@ export function successResult(): SuccessResult {
 }
 // #endregion Result
 
-// #region string
-export function lines(s: string): string[] {
-  return s ? s.split('\n') : [];
-}
-
-export function unlines(ss: string[]): string {
-  return ss.join('\n');
-}
-// #endregion string
-
 // #region object
 export function stringKeys<Key extends string, Value>(record: Readonly<Record<Key, Value>>): Key[] {
   return Object.keys(record) as Key[];
@@ -222,8 +216,12 @@ export function numberEntries<Key extends number, Value>(
 }
 // #endregion object
 
-export function translate(messageName: MessageName0): string;
-export function translate(messageName: MessageName1, substitution1: string): string;
-export function translate(messageName: MessageName, ...substitutions: string[]): string {
-  return apis.i18n.getMessage(messageName, substitutions);
+// #region string
+export function lines(s: string): string[] {
+  return s ? s.split('\n') : [];
 }
+
+export function unlines(ss: string[]): string {
+  return ss.join('\n');
+}
+// #endregion string

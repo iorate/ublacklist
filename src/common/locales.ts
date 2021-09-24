@@ -68,11 +68,14 @@ export type MessageName =
   | 'options_syncFeatureDescription'
   | 'options_turnOnSync'
   | 'options_turnOnSyncDialog_title'
+  | 'options_turnOnSyncDialog_altFlowDescription'
+  | 'options_turnOnSyncDialog_altFlowAuthCodeLabel'
   | 'options_turnOnSyncDialog_turnOnSyncButton'
   | 'options_turnOffSync'
   | 'options_syncResult'
   | 'options_syncNever'
   | 'options_syncRunning'
+  | 'options_syncReloadButton'
   | 'options_syncNowButton'
   | 'options_syncCategories'
   | 'options_syncBlocklist'
@@ -116,6 +119,7 @@ export type MessageName1 =
   | 'error'
   | 'content_multipleSitesBlocked'
   | 'options_blacklistExample'
-  | 'options_highlightColorNth';
+  | 'options_highlightColorNth'
+  | 'options_turnOnSyncDialog_altFlowDescription';
 
 export type MessageName0 = Exclude<MessageName, MessageName1>;

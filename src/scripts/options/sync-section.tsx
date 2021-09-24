@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
-import { FunctionComponent, h } from 'preact';
+import { Fragment, FunctionComponent, h } from 'preact';
 import { StateUpdater, useEffect, useState } from 'preact/hooks';
 import { apis } from '../apis';
-import { Button } from '../components/button';
+import { Button, LinkButton } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
   DialogTitle,
 } from '../components/dialog';
 import { Indent } from '../components/indent';
-import { Label, LabelWrapper, SubLabel } from '../components/label';
+import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
 import { List, ListItem } from '../components/list';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
@@ -26,12 +26,15 @@ import {
   SectionTitle,
 } from '../components/section';
 import { Text } from '../components/text';
+import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
+import { ALT_FLOW_REDIRECT_URL } from '../constants';
 import '../dayjs-locales';
+import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
-import { isErrorResult, stringEntries, translate } from '../utilities';
+import { AltURL, isErrorResult, stringEntries } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
@@ -41,14 +44,22 @@ import { SetIntervalItem } from './set-interval-item';
 dayjs.extend(dayjsDuration);
 
 const TurnOnSyncDialog: FunctionComponent<
-  { setSyncCloudId: StateUpdater<CloudId | null> } & DialogProps
+  { setSyncCloudId: StateUpdater<CloudId | false | null> } & DialogProps
 > = ({ close, open, setSyncCloudId }) => {
+  const {
+    platformInfo: { os },
+  } = useOptionsContext();
+
   const [state, setState] = useState({
     selectedCloudId: 'googleDrive' as CloudId,
+    phase: 'none' as 'none' | 'auth' | 'auth-alt' | 'conn' | 'conn-alt',
+    authCode: '',
   });
   const prevOpen = usePrevious(open);
   if (open && !prevOpen) {
     state.selectedCloudId = 'googleDrive';
+    state.phase = 'none';
+    state.authCode = '';
   }
 
   return (
@@ -63,6 +74,7 @@ const TurnOnSyncDialog: FunctionComponent<
           <RowItem>
             <Select
               class={FOCUS_START_CLASS}
+              disabled={state.phase !== 'none'}
               value={state.selectedCloudId}
               onInput={e =>
                 setState(s => ({ ...s, selectedCloudId: e.currentTarget.value as CloudId }))
@@ -83,6 +95,41 @@ const TurnOnSyncDialog: FunctionComponent<
             </Text>
           </RowItem>
         </Row>
+        {supportedClouds[state.selectedCloudId].shouldUseAltFlow(os) ? (
+          <Row>
+            <RowItem expanded>
+              <Text>
+                {translate(
+                  'options_turnOnSyncDialog_altFlowDescription',
+                  new AltURL(ALT_FLOW_REDIRECT_URL).host,
+                )}
+              </Text>
+            </RowItem>
+          </Row>
+        ) : null}
+        {state.phase === 'auth-alt' || state.phase === 'conn-alt' ? (
+          <Row>
+            <RowItem expanded>
+              <LabelWrapper fullWidth>
+                <ControlLabel for="authCode">
+                  {translate('options_turnOnSyncDialog_altFlowAuthCodeLabel')}
+                </ControlLabel>
+              </LabelWrapper>
+              {open && (
+                <TextArea
+                  breakAll
+                  disabled={state.phase === 'conn-alt'}
+                  id="authCode"
+                  rows={2}
+                  value={state.authCode}
+                  onInput={e => {
+                    setState(s => ({ ...s, authCode: e.currentTarget.value }));
+                  }}
+                />
+              )}
+            </RowItem>
+          </Row>
+        ) : null}
       </DialogBody>
       <DialogFooter>
         <Row right>
@@ -92,18 +139,50 @@ const TurnOnSyncDialog: FunctionComponent<
           <RowItem>
             <Button
               class={FOCUS_END_CLASS}
+              disabled={state.phase !== 'none' && !(state.phase === 'auth-alt' && state.authCode)}
               primary
               onClick={() => {
                 void (async () => {
-                  const granted = await apis.permissions.request({
-                    origins: supportedClouds[state.selectedCloudId].hostPermissions,
-                  });
-                  if (!granted) {
-                    return;
+                  let useAltFlow: boolean;
+                  let authCode: string;
+                  if (state.phase === 'auth-alt') {
+                    useAltFlow = true;
+                    authCode = state.authCode;
+                  } else {
+                    const cloud = supportedClouds[state.selectedCloudId];
+                    useAltFlow = cloud.shouldUseAltFlow(os);
+                    setState(s => ({ ...s, phase: useAltFlow ? 'auth-alt' : 'auth' }));
+                    try {
+                      const granted = await apis.permissions.request({
+                        origins: [
+                          ...cloud.hostPermissions,
+                          ...(useAltFlow ? [ALT_FLOW_REDIRECT_URL] : []),
+                        ],
+                      });
+                      if (!granted) {
+                        throw new Error('Not granted');
+                      }
+                      authCode = (await cloud.authorize(useAltFlow)).authorizationCode;
+                    } catch {
+                      setState(s => ({ ...s, phase: 'none' }));
+                      return;
+                    }
                   }
-                  const connected = await sendMessage('connect-to-cloud', state.selectedCloudId);
-                  if (!connected) {
+                  setState(s => ({ ...s, phase: useAltFlow ? 'conn-alt' : 'conn' }));
+                  try {
+                    const connected = await sendMessage(
+                      'connect-to-cloud',
+                      state.selectedCloudId,
+                      authCode,
+                      useAltFlow,
+                    );
+                    if (!connected) {
+                      throw new Error('Not connected');
+                    }
+                  } catch {
                     return;
+                  } finally {
+                    setState(s => ({ ...s, phase: 'none' }));
                   }
                   setSyncCloudId(state.selectedCloudId);
                   close();
@@ -120,15 +199,15 @@ const TurnOnSyncDialog: FunctionComponent<
 };
 
 const TurnOnSync: FunctionComponent<{
-  syncCloudId: CloudId | null;
-  setSyncCloudId: StateUpdater<CloudId | null>;
+  syncCloudId: CloudId | false | null;
+  setSyncCloudId: StateUpdater<CloudId | false | null>;
 }> = ({ syncCloudId, setSyncCloudId }) => {
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
     <SectionItem>
       <Row>
         <RowItem expanded>
-          {syncCloudId != null ? (
+          {syncCloudId ? (
             <LabelWrapper>
               <Label>{translate(supportedClouds[syncCloudId].messageNames.syncTurnedOn)}</Label>
             </LabelWrapper>
@@ -140,11 +219,11 @@ const TurnOnSync: FunctionComponent<{
           )}
         </RowItem>
         <RowItem>
-          {syncCloudId != null ? (
+          {syncCloudId ? (
             <Button
               onClick={() => {
                 void sendMessage('disconnect-from-cloud');
-                setSyncCloudId(null);
+                setSyncCloudId(false);
               }}
             >
               {translate('options_turnOffSync')}
@@ -172,20 +251,23 @@ const TurnOnSync: FunctionComponent<{
   );
 };
 
-const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
+const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = props => {
   const {
     initialItems: { syncResult: initialSyncResult },
   } = useOptionsContext();
   const [syncResult, setSyncResult] = useState(initialSyncResult);
+  const [updated, setUpdated] = useState(false);
   const [syncing, setSyncing] = useState(false);
   useEffect(
     () =>
       addMessageListeners({
         syncing: () => {
+          setUpdated(false);
           setSyncing(true);
         },
-        synced: result => {
+        synced: (result, updated) => {
           setSyncResult(result);
+          setUpdated(updated);
           setSyncing(false);
         },
       }),
@@ -200,19 +282,31 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | null }> = props => {
             <SubLabel>
               {syncing ? (
                 translate('options_syncRunning')
-              ) : props.syncCloudId == null || syncResult == null ? (
+              ) : !props.syncCloudId || !syncResult ? (
                 translate('options_syncNever')
               ) : isErrorResult(syncResult) ? (
                 translate('error', syncResult.message)
               ) : (
                 <FromNow time={dayjs(syncResult.timestamp)} />
               )}
+              {updated ? (
+                <>
+                  {' '}
+                  <LinkButton
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    {translate('options_syncReloadButton')}
+                  </LinkButton>
+                </>
+              ) : null}
             </SubLabel>
           </LabelWrapper>
         </RowItem>
         <RowItem>
           <Button
-            disabled={syncing || props.syncCloudId == null}
+            disabled={syncing || !props.syncCloudId}
             onClick={() => {
               void sendMessage('sync');
             }}
@@ -275,11 +369,12 @@ const SyncCategories: FunctionComponent<{ disabled: boolean }> = ({ disabled }) 
 );
 
 export const SyncSection: FunctionComponent = () => {
-  // #if !SAFARI
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /* #if FIREFOX
     platformInfo: { os },
+    */
+    // #endif
   } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
   /* #if FIREFOX
@@ -296,10 +391,10 @@ export const SyncSection: FunctionComponent = () => {
       <SectionBody>
         <TurnOnSync setSyncCloudId={setSyncCloudId} syncCloudId={syncCloudId} />
         <SyncNow syncCloudId={syncCloudId} />
-        <SyncCategories disabled={syncCloudId == null} />
+        <SyncCategories disabled={!syncCloudId} />
         <SectionItem>
           <SetIntervalItem
-            disabled={syncCloudId == null}
+            disabled={!syncCloudId}
             itemKey="syncInterval"
             label={translate('options_syncInterval')}
             valueOptions={[5, 15, 30, 60, 120, 300]}
@@ -308,8 +403,4 @@ export const SyncSection: FunctionComponent = () => {
       </SectionBody>
     </Section>
   );
-  /* #else
-  return null;
-  */
-  // #endif
 };

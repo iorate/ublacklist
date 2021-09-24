@@ -22,10 +22,11 @@ import { StylesProvider, useCSS } from './components/styles';
 import { TextArea } from './components/textarea';
 import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
 import { usePrevious } from './components/utilities';
+import { translate } from './locales';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { DialogTheme } from './types';
-import { makeAltURL, translate } from './utilities';
+import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
   blacklist: Blacklist;

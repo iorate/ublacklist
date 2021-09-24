@@ -217,6 +217,16 @@ exportAsMessages('_locales/en/messages.json', {
   // The text of the button to turn on sync.
   options_turnOnSyncDialog_turnOnSyncButton: 'Turn on',
 
+  // The text to explain permission requests in the 'alternative' web auth flow.
+  // Currently it is used only in Safari.
+  // '$1' is expanded to 'iorate.github.io'.
+  options_turnOnSyncDialog_altFlowDescription:
+    'You may be asked for permission to access $1 before authentication, but your personal information will NOT be stored in that domain.',
+
+  // The label for the textarea to input the authorization code returned by the 'alternative' web auth flow.
+  // Currently it is used only in Safari (probably only on iOS and iPadOS).
+  options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Authorization code',
+
   // The text of the button to turn off sync.
   options_turnOffSync: 'Turn off',
 
@@ -228,6 +238,9 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The text that means sync is running right now.
   options_syncRunning: 'Syncing...',
+
+  // The text of the button to reload the options page after settings are downloaded from a cloud.
+  options_syncReloadButton: 'Reload',
 
   // The text of the button to sync now.
   options_syncNowButton: 'Sync now',
