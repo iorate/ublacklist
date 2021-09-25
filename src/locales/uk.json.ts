@@ -2,12 +2,10 @@ import { exportAsMessages } from './helpers';
 
 exportAsMessages('_locales/uk/messages.json', {
   extensionName: 'uBlacklist',
-  extensionDescription:
-    'Блокує визначені Вами сайти, що появляються в результатах пошуку Google',
+  extensionDescription: 'Блокує визначені Вами сайти, що появляються в результатах пошуку Google',
   lang: 'uk',
   error: 'Помилка: $1',
-  unauthorizedError:
-    'Не авторизовано. Вимкніть синхронізацію і спробуйте ще раз.',
+  unauthorizedError: 'Не авторизовано. Вимкніть синхронізацію і спробуйте ще раз.',
   cancelButton: 'Скасувати',
   okButton: 'Гаразд',
   content_singleSiteBlocked: 'uBlacklist заблокував 1 сайт',
@@ -28,8 +26,7 @@ exportAsMessages('_locales/uk/messages.json', {
   popup_unblockSiteButton: 'Розблокувати',
   popup_openOptionsLink: 'Параметри',
   options_generalTitle: 'Загальні',
-  options_blacklistLabel:
-    'Сайти, що вилучаються з пошукових результатів Google',
+  options_blacklistLabel: 'Сайти, що вилучаються з пошукових результатів Google',
   options_blacklistHelper:
     'Можна використовувати [зіставляння з маскою](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) або [регулярні вирази](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
   options_blacklistExample: 'Приклад: $1',
@@ -47,8 +44,7 @@ exportAsMessages('_locales/uk/messages.json', {
   options_importBlacklistDialog_pbLabel: 'Домени',
   options_importBlacklistDialog_append: 'Дописати до наявного списку',
   options_importBlacklistDialog_importButton: 'Імпорт',
-  options_importBlacklistDialog_helper:
-    'Вставте домени з Вашого особистого списку.',
+  options_importBlacklistDialog_helper: 'Вставте домени з Вашого особистого списку.',
   options_otherSearchEngines: 'Інші пошукові системи',
   options_otherSearchEnginesDescription:
     'Це розширення можна використовувати для перелічених нижче пошуковиків.',
@@ -56,8 +52,7 @@ exportAsMessages('_locales/uk/messages.json', {
   options_searchEngineRegistered: 'Дозволено',
   options_skipBlockDialogLabel: 'Пропускати вікно «Заблокувати цей сайт»',
   options_hideBlockLinksLabel: 'Сховати посилання «Заблокувати сайт»',
-  options_hideControlLabel:
-    'Ховати к-сть заблокованих сайтів і ланку «Показати»',
+  options_hideControlLabel: 'Ховати к-сть заблокованих сайтів і ланку «Показати»',
   options_appearanceTitle: 'Вигляд',
   options_linkColor: 'Колір посилань',
   options_blockColor: 'Колір заблокованих пошукових результатів',
