@@ -22,10 +22,10 @@ const SYNC_SUBSCRIPTIONS_FILENAME = 'subscriptions.json';
 export const SYNC_ALARM_NAME = 'sync';
 
 export type SyncDirtyFlags = {
-  blocklist?: boolean;
-  general?: boolean;
-  appearance?: boolean;
-  subscriptions?: boolean;
+  blocklist: boolean;
+  general: boolean;
+  appearance: boolean;
+  subscriptions: boolean;
 };
 
 type SyncSection = {
@@ -307,12 +307,16 @@ export function sync(): Promise<void> {
   return doSync({ blocklist: true, general: true, appearance: true, subscriptions: true }, true);
 }
 
-export function syncDelayed(flags: SyncDirtyFlags): void {
-  dirtyFlags ||= {};
-  dirtyFlags.blocklist ||= flags.blocklist;
-  dirtyFlags.general ||= flags.general;
-  dirtyFlags.appearance ||= flags.appearance;
-  dirtyFlags.subscriptions ||= flags.subscriptions;
+export function syncDelayed(dirtyFlagsUpdate: Partial<SyncDirtyFlags>): void {
+  dirtyFlags = {
+    ...(dirtyFlags || {
+      blocklist: false,
+      general: false,
+      appearance: false,
+      subscriptions: false,
+    }),
+    ...dirtyFlagsUpdate,
+  };
   if (timeoutId != null) {
     self.clearTimeout(timeoutId);
   }

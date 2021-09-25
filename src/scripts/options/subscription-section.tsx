@@ -161,13 +161,13 @@ const AddSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={!ok ? FOCUS_END_CLASS : undefined} onClick={close}>
+            <Button {...(!ok ? { class: FOCUS_END_CLASS } : {})} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              class={ok ? FOCUS_END_CLASS : undefined}
+              {...(ok ? { class: FOCUS_END_CLASS } : {})}
               disabled={!ok}
               primary
               onClick={async () => {

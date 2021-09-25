@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "module": "CommonJS",
-    "moduleResolution": "node",
-    "newLine": "LF",
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2019"

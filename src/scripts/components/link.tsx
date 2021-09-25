@@ -8,7 +8,7 @@ import { useTheme } from './theme';
 export type LinkProps = { disabled?: boolean } & JSX.IntrinsicElements['a'];
 
 export const Link = forwardRef(
-  ({ children, disabled, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
+  ({ children, disabled = false, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
     const css = useCSS();
     const theme = useTheme();
     const class_ = useMemo(
@@ -32,7 +32,7 @@ export const Link = forwardRef(
     return (
       <a
         {...applyClass(props, class_)}
-        href={disabled ? undefined : props.href}
+        {...(disabled ? {} : { href: props.href })}
         ref={ref}
         rel="noopener noreferrer"
         target="_blank"
@@ -43,7 +43,7 @@ export const Link = forwardRef(
   },
 );
 
-export function expandLinks(text: string, disabled?: boolean): VNode {
+export function expandLinks(text: string, disabled = false): VNode {
   const children: (string | VNode)[] = [];
   const split = text.split(/\[([^\]]*)]\(([^)]*)\)/g);
   for (let i = 0; i < split.length; ++i) {

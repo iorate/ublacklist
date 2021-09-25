@@ -8,7 +8,7 @@ import { TemplateIcon } from './icon';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-type SelectContextValue = { native?: boolean };
+type SelectContextValue = { native: boolean };
 
 const SelectContext = createContext<SelectContextValue | null>(null);
 
@@ -23,7 +23,7 @@ function useSelectContext(): SelectContextValue {
 export type SelectProps = { native?: boolean } & JSX.IntrinsicElements['select'];
 
 export const Select = forwardRef(
-  ({ native, ...props }: SelectProps, ref: Ref<HTMLSelectElement>) => {
+  ({ native = false, ...props }: SelectProps, ref: Ref<HTMLSelectElement>) => {
     const css = useCSS();
     const theme = useTheme();
     const wrapperClass = useMemo(
