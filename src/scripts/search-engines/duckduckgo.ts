@@ -19,11 +19,16 @@ function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void 
 export function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
-      '[data-ub-blocked="visible"], [data-ub-blocked="visible"] + .result__sitelinks--organics, [data-ub-blocked="visible"] .tile--img__sub':
-        {
-          backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
-        },
-      '[data-ub-blocked="visible"] .tile__body': {
+      [[
+        '[data-ub-blocked="visible"]',
+        // Override !important selectors in All and News
+        '.result.result.result.result.result[data-ub-blocked="visible"]',
+        '[data-ub-blocked="visible"] + .result__sitelinks--organics',
+        '[data-ub-blocked="visible"] .tile--img__sub',
+      ].join(', ')]: {
+        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+      },
+      '[data-ub-blocked="visible"] :is(.tile__media, .tile__body)': {
         backgroundColor: 'transparent !important',
       },
       '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
@@ -101,6 +106,7 @@ export function getSerpHandler(): SerpHandler {
         actionStyle: {
           display: 'block',
           marginTop: '2px',
+          order: 3,
         },
         actionButtonStyle: 'msg__all',
       },
