@@ -187,11 +187,11 @@ export const DialogFooter = forwardRef((props: DialogFooterProps, ref: Ref<HTMLD
 
 export type EmbeddedDialogProps = {
   close: () => void;
-  width?: string;
+  width: string;
 } & JSX.IntrinsicElements['div'];
 
 export const EmbeddedDialog = forwardRef(
-  ({ close, width = 'auto', ...props }: EmbeddedDialogProps, ref: Ref<HTMLDivElement>) => {
+  ({ close, width, ...props }: EmbeddedDialogProps, ref: Ref<HTMLDivElement>) => {
     const innerRef = useInnerRef(ref);
 
     const css = useCSS();

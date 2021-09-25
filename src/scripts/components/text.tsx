@@ -7,15 +7,17 @@ import { useTheme } from './theme';
 
 export type TextProps = { primary?: boolean } & JSX.IntrinsicElements['span'];
 
-export const Text = forwardRef(({ primary, ...props }: TextProps, ref: Ref<HTMLSpanElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: primary ? theme.text.primary : theme.text.secondary,
-      }),
-    [css, theme, primary],
-  );
-  return <span {...applyClass(props, class_)} ref={ref} />;
-});
+export const Text = forwardRef(
+  ({ primary = false, ...props }: TextProps, ref: Ref<HTMLSpanElement>) => {
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          color: primary ? theme.text.primary : theme.text.secondary,
+        }),
+      [css, theme, primary],
+    );
+    return <span {...applyClass(props, class_)} ref={ref} />;
+  },
+);

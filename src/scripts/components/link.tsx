@@ -8,7 +8,7 @@ import { useTheme } from './theme';
 export type LinkProps = { disabled?: boolean } & JSX.IntrinsicElements['a'];
 
 export const Link = forwardRef(
-  ({ children, disabled = false, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
+  ({ disabled = false, ...props }: LinkProps, ref: Ref<HTMLAnchorElement>) => {
     const css = useCSS();
     const theme = useTheme();
     const class_ = useMemo(
@@ -30,15 +30,14 @@ export const Link = forwardRef(
       [css, theme],
     );
     return (
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a
         {...applyClass(props, class_)}
         {...(disabled ? {} : { href: props.href })}
         ref={ref}
         rel="noopener noreferrer"
         target="_blank"
-      >
-        {children}
-      </a>
+      />
     );
   },
 );
