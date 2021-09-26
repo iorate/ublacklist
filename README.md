@@ -14,6 +14,8 @@ You can add rules on search result pages, or on sites to be blocked by clicking 
 
 To publish a blacklist as a subscription, place a blacklist file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is [an example](https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt) hosted on GitHub.
 
+In uBlacklist >=6.6.0 for Chrome, subscription URLs are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut: `https://iorate.github.io/ublacklist/subscribe?name={urlEncode(name)}&url={urlEncode(url)}`. Here is [an example](https://iorate.github.io/ublacklist/subscribe?name=Example&url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt).
+
 ## For developers
 
 ### Build
