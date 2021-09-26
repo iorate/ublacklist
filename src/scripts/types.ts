@@ -110,7 +110,7 @@ export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
 export type SerpControl = {
   scope: string;
   root: HTMLElement;
-  onRender?: () => void;
+  onRender: (() => void) | null;
 };
 
 export type SerpEntryProps = {
@@ -122,7 +122,7 @@ export type SerpEntry = {
   scope: string;
   root: HTMLElement;
   actionRoot: HTMLElement;
-  onActionRender?: () => void;
+  onActionRender: (() => void) | null;
   props: SerpEntryProps;
   state: number;
 };

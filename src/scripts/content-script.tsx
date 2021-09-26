@@ -275,7 +275,7 @@ class ContentScript {
             this.renderEntry(entry);
           }
         }}
-        onRender={control.onRender}
+        {...(control.onRender ? { onRender: control.onRender } : {})}
       />,
       control.root,
     );
@@ -311,7 +311,7 @@ class ContentScript {
             this.renderBlockDialog(entry.props.url.toString(), entry.props.title);
           }
         }}
-        onRender={entry.onActionRender}
+        {...(entry.onActionRender ? { onRender: entry.onActionRender } : {})}
       />,
       entry.actionRoot,
     );

@@ -9,7 +9,7 @@ import { SyncDirtyFlags, syncDelayed } from './sync';
 type LocalStorageSection = {
   beforeSave(
     items: Partial<RawStorageItems>,
-    syncDirtyFlags: SyncDirtyFlags,
+    dirtyFlagsUpdate: Partial<SyncDirtyFlags>,
     now: dayjs.Dayjs,
   ): void;
   afterSave?(items: Partial<RawStorageItems>, source: SaveSource): void;
@@ -18,10 +18,10 @@ type LocalStorageSection = {
 const localStorageSections: readonly LocalStorageSection[] = [
   // blocklist
   {
-    beforeSave(items, syncDirtyFlags, now) {
+    beforeSave(items, dirtyFlagsUpdate, now) {
       if (items.blacklist != null) {
         items.timestamp = now.toISOString();
-        syncDirtyFlags.blocklist = true;
+        dirtyFlagsUpdate.blocklist = true;
       }
     },
     afterSave(items, source) {
@@ -32,7 +32,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
   },
   // general
   {
-    beforeSave(items, syncDirtyFlags, now) {
+    beforeSave(items, dirtyFlagsUpdate, now) {
       if (
         items.skipBlockDialog != null ||
         items.hideBlockLinks != null ||
@@ -40,13 +40,13 @@ const localStorageSections: readonly LocalStorageSection[] = [
         items.enablePathDepth != null
       ) {
         items.generalLastModified = now.toISOString();
-        syncDirtyFlags.general = true;
+        dirtyFlagsUpdate.general = true;
       }
     },
   },
   // appearance
   {
-    beforeSave(items, syncDirtyFlags, now) {
+    beforeSave(items, dirtyFlagsUpdate, now) {
       if (
         items.linkColor != null ||
         items.blockColor != null ||
@@ -54,7 +54,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
         items.dialogTheme != null
       ) {
         items.appearanceLastModified = now.toISOString();
-        syncDirtyFlags.appearance = true;
+        dirtyFlagsUpdate.appearance = true;
       }
     },
   },
@@ -64,16 +64,16 @@ export async function save(
   items: Readonly<Partial<LocalStorageItemsSavable>>,
   source: SaveSource,
 ): Promise<void> {
-  const syncDirtyFlags: SyncDirtyFlags = {};
+  const dirtyFlagsUpdate: Partial<SyncDirtyFlags> = {};
   const now = dayjs();
   for (const section of localStorageSections) {
-    section.beforeSave(items, syncDirtyFlags, now);
+    section.beforeSave(items, dirtyFlagsUpdate, now);
   }
   await saveToRawStorage(items);
   for (const section of localStorageSections) {
     section.afterSave?.(items, source);
   }
-  syncDelayed(syncDirtyFlags);
+  syncDelayed(dirtyFlagsUpdate);
 }
 
 export async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {

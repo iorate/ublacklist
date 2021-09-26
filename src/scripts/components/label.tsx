@@ -6,7 +6,7 @@ import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-type LabelContextValue = { disabled?: boolean };
+type LabelContextValue = { disabled: boolean };
 
 const LabelContext = createContext<LabelContextValue | null>(null);
 
@@ -24,7 +24,10 @@ export type LabelWrapperProps = {
 } & JSX.IntrinsicElements['div'];
 
 export const LabelWrapper = forwardRef(
-  ({ disabled, fullWidth, ...props }: LabelWrapperProps, ref: Ref<HTMLDivElement>) => {
+  (
+    { disabled = false, fullWidth = false, ...props }: LabelWrapperProps,
+    ref: Ref<HTMLDivElement>,
+  ) => {
     const css = useCSS();
     const class_ = useMemo(
       () =>

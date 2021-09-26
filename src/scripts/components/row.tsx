@@ -7,7 +7,7 @@ import { useCSS } from './styles';
 export type RowProps = { multiline?: boolean; right?: boolean } & JSX.IntrinsicElements['div'];
 
 export const Row = forwardRef(
-  ({ multiline, right, ...props }: RowProps, ref: Ref<HTMLDivElement>) => {
+  ({ multiline = false, right = false, ...props }: RowProps, ref: Ref<HTMLDivElement>) => {
     const css = useCSS();
     const class_ = useMemo(
       () =>
@@ -29,7 +29,7 @@ export const Row = forwardRef(
 export type RowItemProps = { expanded?: boolean } & JSX.IntrinsicElements['div'];
 
 export const RowItem = forwardRef(
-  ({ expanded, ...props }: RowItemProps, ref: Ref<HTMLDivElement>) => {
+  ({ expanded = false, ...props }: RowItemProps, ref: Ref<HTMLDivElement>) => {
     const css = useCSS();
     const class_ = useMemo(
       () =>

@@ -131,7 +131,7 @@ const ImportBlacklistDialog: FunctionComponent<
         <Row right>
           <RowItem>
             <Button
-              class={state.source === 'pb' && !state.pb ? FOCUS_END_CLASS : undefined}
+              {...(state.source === 'pb' && !state.pb ? { class: FOCUS_END_CLASS } : {})}
               onClick={close}
             >
               {translate('cancelButton')}
@@ -165,7 +165,7 @@ const ImportBlacklistDialog: FunctionComponent<
               </Button>
             ) : (
               <Button
-                class={state.pb ? FOCUS_END_CLASS : undefined}
+                {...(state.pb ? { class: FOCUS_END_CLASS } : {})}
                 disabled={!state.pb}
                 primary
                 onClick={() => {

@@ -14,6 +14,10 @@ You can add rules on search result pages, or on sites to be blocked by clicking 
 
 To publish a blacklist as a subscription, place a blacklist file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is [an example](https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt) hosted on GitHub.
 
+In uBlacklist >=6.6.0 for Chrome, subscription URLs are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut to the options page:  
+`https://iorate.github.io/ublacklist/subscribe?name={urlEncode(name)}&url={urlEncode(url)}`  
+Here is [an example](https://iorate.github.io/ublacklist/subscribe?name=Example&url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt).
+
 ## For developers
 
 ### Build
@@ -59,7 +63,9 @@ To add a locale,
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
 1. Copy `src/locales/en.json.ts` to `src/locales/${languageCode}.json.ts` and translate entries.
 1. Open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
-1. To localize description and screenshots on Chrome Web Store and Firefox Add-ons, create `web-store-assets/${languageCode}/` and add files. Screenshots should be 1280x800.
+1. To localize description and screenshots on web stores, create `web-store-assets/${languageCode}/` and add files.
+   - Screenshot localization is available only on Chrome Web Store.
+   - Screenshots should be 1280x800.
 
 ## Author
 

@@ -12,7 +12,7 @@ export type ButtonProps = {
 } & JSX.IntrinsicElements['button'];
 
 export const Button = forwardRef(
-  ({ primary, ...props }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
+  ({ primary = false, ...props }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
     const css = useCSS();
     const theme = useTheme();
     const class_ = useMemo(() => {

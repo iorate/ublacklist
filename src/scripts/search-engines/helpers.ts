@@ -164,7 +164,7 @@ export function handleSerpElement({
       controls.push({
         scope,
         root: controlRoot,
-        onRender: buttonStyle != null ? handleRender(controlRoot, buttonStyle) : undefined,
+        onRender: buttonStyle != null ? handleRender(controlRoot, buttonStyle) : null,
       });
     }
     for (const {
@@ -244,7 +244,7 @@ export function handleSerpElement({
         root: entryRoot,
         actionRoot: entryActionRoot,
         onActionRender:
-          actionButtonStyle != null ? handleRender(entryActionRoot, actionButtonStyle) : undefined,
+          actionButtonStyle != null ? handleRender(entryActionRoot, actionButtonStyle) : null,
         props: {
           url: entryAltURL,
           title: entryTitle,
