@@ -128,7 +128,7 @@ exportAsJSON('manifest.json', {
   web_accessible_resources: [
     /* #if CHROME_MV3
     {
-      matches: ['<all_urls>'],
+      matches: ['https://iorate.github.io/*'],
       resources: ['pages/options.html'],
     },
     */
