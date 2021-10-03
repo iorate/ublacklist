@@ -87,16 +87,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '#rso, #main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
+    targets: '#taw, #main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
     controlHandlers: [
       {
-        target: '#rso',
+        target: '#taw',
         position: 'afterbegin',
         style: root => {
           const controlClass = css({
             display: 'block',
             fontSize: '14px',
-            padding: '12px  16px',
+            padding: '12px 16px',
             '& > .ub-button': iOSButtonStyle,
           });
           root.className = `mnr-c ${controlClass}`;
@@ -109,7 +109,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
-      // iOS
+      // Regular (iOS)
       {
         target: '.mnr-c.xpd',
         level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') || target,
@@ -119,7 +119,22 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: 'block',
           fontSize: '14px',
+          marginTop: '-4px',
           padding: '0 16px 12px 16px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
+      // Video (iOS)
+      {
+        target: '.mnr-c.PHap3c',
+        url: getURLFromPing('.C8nzq'),
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '',
+        actionStyle: {
+          display: 'block',
+          fontSize: '14px',
+          marginTop: '12px',
+          padding: '0 16px',
           '& > .ub-button': iOSButtonStyle,
         },
       },
@@ -175,7 +190,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: '.mnr-c.xpd',
+        innerTargets: '.mnr-c',
       },
     ],
   }),
