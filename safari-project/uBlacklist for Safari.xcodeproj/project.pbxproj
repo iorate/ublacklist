@@ -62,14 +62,14 @@
 		6AA45AFD26F34B4300D6629A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45ABB26F34B4300D6629A /* Assets.xcassets */; };
 		6AA45AFE26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
 		6AA45AFF26F34B4300D6629A /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */; };
-		A18FF6CB26F8810600E46410 /* ios-guide-step-pad-8.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */; };
-		A18FF6CC26F8810600E46410 /* ios-guide-step-pad-3.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */; };
-		A18FF6CD26F8810600E46410 /* ios-guide-step-pad-1.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */; };
-		A18FF6CE26F8810600E46410 /* ios-guide-step-pad-7.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */; };
-		A18FF6CF26F8810600E46410 /* ios-guide-step-pad-6.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */; };
-		A18FF6D026F8810600E46410 /* ios-guide-step-pad-2.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */; };
-		A18FF6D126F8810600E46410 /* ios-guide-step-pad-4.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */; };
-		A18FF6D226F8810600E46410 /* ios-guide-step-pad-5.png in Resources */ = {isa = PBXBuildFile; fileRef = A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */; };
+		A17B44E12709E86400410B9A /* ios-guide-step-pad-2.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44D92709E86400410B9A /* ios-guide-step-pad-2.png */; };
+		A17B44E22709E86400410B9A /* ios-guide-step-pad-6.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DA2709E86400410B9A /* ios-guide-step-pad-6.png */; };
+		A17B44E32709E86400410B9A /* ios-guide-step-pad-3.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DB2709E86400410B9A /* ios-guide-step-pad-3.png */; };
+		A17B44E42709E86400410B9A /* ios-guide-step-pad-4.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DC2709E86400410B9A /* ios-guide-step-pad-4.png */; };
+		A17B44E52709E86400410B9A /* ios-guide-step-pad-1.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DD2709E86400410B9A /* ios-guide-step-pad-1.png */; };
+		A17B44E62709E86400410B9A /* ios-guide-step-pad-5.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DE2709E86400410B9A /* ios-guide-step-pad-5.png */; };
+		A17B44E72709E86400410B9A /* ios-guide-step-pad-7.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44DF2709E86400410B9A /* ios-guide-step-pad-7.png */; };
+		A17B44E82709E86400410B9A /* ios-guide-step-pad-8.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44E02709E86400410B9A /* ios-guide-step-pad-8.png */; };
 		D836345634856B8713781271 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */; };
 		DB53B6893AECB69B52825B52 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */; };
 		E1F45B853590D2A26481E422 /* Pods_uBlacklist_for_Safari__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */; };
@@ -179,14 +179,14 @@
 		6AA45AF126F34B4300D6629A /* uBlacklist for Safari.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "uBlacklist for Safari.entitlements"; sourceTree = "<group>"; };
 		711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8962C7ADFD5631F7A2D4F66F /* Pods-uBlacklist for Safari (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).release.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).release.xcconfig"; sourceTree = "<group>"; };
-		A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-8.png"; sourceTree = "<group>"; };
-		A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-3.png"; sourceTree = "<group>"; };
-		A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-1.png"; sourceTree = "<group>"; };
-		A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-7.png"; sourceTree = "<group>"; };
-		A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-6.png"; sourceTree = "<group>"; };
-		A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-2.png"; sourceTree = "<group>"; };
-		A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-4.png"; sourceTree = "<group>"; };
-		A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-5.png"; sourceTree = "<group>"; };
+		A17B44D92709E86400410B9A /* ios-guide-step-pad-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-2.png"; sourceTree = "<group>"; };
+		A17B44DA2709E86400410B9A /* ios-guide-step-pad-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-6.png"; sourceTree = "<group>"; };
+		A17B44DB2709E86400410B9A /* ios-guide-step-pad-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-3.png"; sourceTree = "<group>"; };
+		A17B44DC2709E86400410B9A /* ios-guide-step-pad-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-4.png"; sourceTree = "<group>"; };
+		A17B44DD2709E86400410B9A /* ios-guide-step-pad-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-1.png"; sourceTree = "<group>"; };
+		A17B44DE2709E86400410B9A /* ios-guide-step-pad-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-5.png"; sourceTree = "<group>"; };
+		A17B44DF2709E86400410B9A /* ios-guide-step-pad-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-7.png"; sourceTree = "<group>"; };
+		A17B44E02709E86400410B9A /* ios-guide-step-pad-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-guide-step-pad-8.png"; sourceTree = "<group>"; };
 		AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -340,14 +340,14 @@
 		6A6A3D2326F47510000B99BE /* img */ = {
 			isa = PBXGroup;
 			children = (
-				A18FF6C526F8810600E46410 /* ios-guide-step-pad-1.png */,
-				A18FF6C826F8810600E46410 /* ios-guide-step-pad-2.png */,
-				A18FF6C426F8810600E46410 /* ios-guide-step-pad-3.png */,
-				A18FF6C926F8810600E46410 /* ios-guide-step-pad-4.png */,
-				A18FF6CA26F8810600E46410 /* ios-guide-step-pad-5.png */,
-				A18FF6C726F8810600E46410 /* ios-guide-step-pad-6.png */,
-				A18FF6C626F8810600E46410 /* ios-guide-step-pad-7.png */,
-				A18FF6C326F8810600E46410 /* ios-guide-step-pad-8.png */,
+				A17B44DD2709E86400410B9A /* ios-guide-step-pad-1.png */,
+				A17B44D92709E86400410B9A /* ios-guide-step-pad-2.png */,
+				A17B44DB2709E86400410B9A /* ios-guide-step-pad-3.png */,
+				A17B44DC2709E86400410B9A /* ios-guide-step-pad-4.png */,
+				A17B44DE2709E86400410B9A /* ios-guide-step-pad-5.png */,
+				A17B44DA2709E86400410B9A /* ios-guide-step-pad-6.png */,
+				A17B44DF2709E86400410B9A /* ios-guide-step-pad-7.png */,
+				A17B44E02709E86400410B9A /* ios-guide-step-pad-8.png */,
 				6A6A3D2C26F49655000B99BE /* ios-guide-step-1.png */,
 				6A6A3D2826F49655000B99BE /* ios-guide-step-2.png */,
 				6A6A3D2A26F49655000B99BE /* ios-guide-step-3.png */,
@@ -643,24 +643,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A6A3D3326F49655000B99BE /* ios-guide-step-5.png in Resources */,
-				A18FF6CB26F8810600E46410 /* ios-guide-step-pad-8.png in Resources */,
 				6A6A3D3026F49655000B99BE /* ios-guide-step-2.png in Resources */,
 				6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */,
-				A18FF6CE26F8810600E46410 /* ios-guide-step-pad-7.png in Resources */,
-				A18FF6D026F8810600E46410 /* ios-guide-step-pad-2.png in Resources */,
-				A18FF6CD26F8810600E46410 /* ios-guide-step-pad-1.png in Resources */,
-				A18FF6D126F8810600E46410 /* ios-guide-step-pad-4.png in Resources */,
 				6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */,
+				A17B44E42709E86400410B9A /* ios-guide-step-pad-4.png in Resources */,
 				6A6A3D2F26F49655000B99BE /* ios-guide-step-6.png in Resources */,
 				6A6A3D2E26F49655000B99BE /* ios-guide-step-8.png in Resources */,
 				6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */,
-				A18FF6CC26F8810600E46410 /* ios-guide-step-pad-3.png in Resources */,
+				A17B44E12709E86400410B9A /* ios-guide-step-pad-2.png in Resources */,
 				6A6A3D3226F49655000B99BE /* ios-guide-step-3.png in Resources */,
+				A17B44E62709E86400410B9A /* ios-guide-step-pad-5.png in Resources */,
+				A17B44E52709E86400410B9A /* ios-guide-step-pad-1.png in Resources */,
 				6A6A3D3126F49655000B99BE /* ios-guide-step-7.png in Resources */,
-				A18FF6D226F8810600E46410 /* ios-guide-step-pad-5.png in Resources */,
+				A17B44E32709E86400410B9A /* ios-guide-step-pad-3.png in Resources */,
 				6A6A3D3426F49655000B99BE /* ios-guide-step-1.png in Resources */,
+				A17B44E82709E86400410B9A /* ios-guide-step-pad-8.png in Resources */,
+				A17B44E22709E86400410B9A /* ios-guide-step-pad-6.png in Resources */,
+				A17B44E72709E86400410B9A /* ios-guide-step-pad-7.png in Resources */,
 				6AA45AFC26F34B4300D6629A /* Assets.xcassets in Resources */,
-				A18FF6CF26F8810600E46410 /* ios-guide-step-pad-6.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,7 +1053,7 @@
 			baseConfigurationReference = CEA00A4B5E243FD7A05EA2B7 /* Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -1065,7 +1065,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1085,7 +1085,7 @@
 			baseConfigurationReference = 0402E0A0F207CD885903154D /* Pods-uBlacklist for Safari Extension (iOS).release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -1097,7 +1097,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1121,7 +1121,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -1136,7 +1136,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1161,7 +1161,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -1176,7 +1176,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1200,7 +1200,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1213,7 +1213,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1233,7 +1233,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1246,7 +1246,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1269,7 +1269,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1283,7 +1283,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1308,7 +1308,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2021092303;
+				CURRENT_PROJECT_VERSION = 2021100301;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1322,7 +1322,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.5.0;
+				MARKETING_VERSION = 6.7.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
