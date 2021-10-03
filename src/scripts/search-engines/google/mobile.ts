@@ -223,8 +223,21 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '.dmFHw, #uGbavf, .isv-r',
+    targets: '.T1diZc, .dmFHw, .isv-r, .VFACy, #uGbavf',
     controlHandlers: [
+      {
+        target: '.T1diZc',
+        position: 'afterbegin',
+        style: {
+          backgroundColor: '#fff',
+          color: '#4d5156',
+          display: 'block',
+          fontSize: '12px',
+          marginBottom: '19px',
+          padding: '4px 12px 12px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
       {
         target: '.dmFHw',
         position: 'beforebegin',
@@ -238,6 +251,23 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
+      {
+        target: '.isv-r, .isv-r > .VFACy',
+        level: '.isv-r',
+        url: '.VFACy',
+        title: root => {
+          const a = root.querySelector<HTMLElement>('.VFACy');
+          return a?.firstChild?.textContent ?? null;
+        },
+        actionTarget: '',
+        actionStyle: {
+          display: 'block',
+          fontSize: '12px',
+          margin: '-8px 0 8px',
+          padding: '0 4px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
       {
         target: '.isv-r',
         url: getURLFromQuery('.iKjWAf'),
@@ -256,8 +286,21 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   // News
   nws: handleSerp({
     globalStyle: mobileGlobalStyle,
-    targets: '#main > div, .xpd',
+    targets: '#taw, #main > div, .S1FAPd, .xpd',
     controlHandlers: [
+      {
+        target: '#taw',
+        position: 'afterbegin',
+        style: root => {
+          const controlClass = css({
+            display: 'block',
+            fontSize: '12px',
+            padding: '12px',
+            '& > .ub-button': iOSButtonStyle,
+          });
+          root.className = `mnr-c ${controlClass}`;
+        },
+      },
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
@@ -265,6 +308,20 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     entryHandlers: [
+      {
+        target: '.S1FAPd',
+        level: '.WlydOe',
+        url: getURLFromPing(''),
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.S1FAPd',
+        actionStyle: {
+          display: 'inline-block',
+          fontSize: '12px',
+          marginLeft: '4px',
+          width: 0,
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
       {
         target: '.xpd',
         url: getURLFromQuery('.kCrYT > a'),
@@ -276,9 +333,27 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   }),
   // Videos
   vid: handleSerp({
-    globalStyle: mobileGlobalStyle,
-    targets: '#main > div, .xpd',
+    globalStyle: {
+      '.ucBsPc': {
+        height: '108px',
+      },
+      ...mobileGlobalStyle,
+    },
+    targets: '#taw, #main > div, video-voyager, .xpd',
     controlHandlers: [
+      {
+        target: '#taw',
+        position: 'afterbegin',
+        style: root => {
+          const controlClass = css({
+            display: 'block',
+            fontSize: '12px',
+            padding: '12px',
+            '& > .ub-button': iOSButtonStyle,
+          });
+          root.className = `mnr-c ${controlClass}`;
+        },
+      },
       {
         target: '#main > div:nth-child(4)',
         position: 'beforebegin',
@@ -287,11 +362,30 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
+        target: 'video-voyager',
+        url: 'a',
+        title: '.V82bz',
+        actionTarget: '.b5ZQcf',
+        actionStyle: {
+          display: 'block',
+          fontSize: '12px',
+          marginTop: '4px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
+      {
         target: '.xpd',
         url: getURLFromQuery('.kCrYT > a'),
         title: '.vvjwJb',
         actionTarget: '',
         actionStyle: mobileRegularActionStyle,
+      },
+    ],
+    pagerHandlers: [
+      // iOS
+      {
+        target: '[id^="arc-srp_"] > div',
+        innerTargets: 'video-voyager',
       },
     ],
   }),
