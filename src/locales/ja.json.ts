@@ -25,6 +25,9 @@ exportAsMessages('_locales/ja/messages.json', {
   popup_blockSiteButton: 'ブロック',
   popup_unblockSiteButton: 'ブロックを解除',
   popup_openOptionsLink: 'オプション',
+  popup_active: 'uBlacklist が有効です',
+  popup_inactive: 'uBlacklist が無効です',
+  popup_activateButton: '有効にする',
   options_generalTitle: '一般',
   options_blacklistLabel: 'Google の検索結果で表示されないようにするサイト',
   options_blacklistHelper:
