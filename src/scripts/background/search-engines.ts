@@ -27,11 +27,11 @@ export function registerAll(): void {
       const url = new AltURL(tab.url);
       for (const [id, matches] of stringEntries(searchEngineMatches)) {
         if (id !== 'google' && matches.some(match => new MatchPattern(match).test(url))) {
-          const [injected] = await apis.tabs.executeScript(tabId, {
-            file: '/scripts/content-script-injected.js',
+          const [active] = await apis.tabs.executeScript(tabId, {
+            file: '/scripts/active.js',
             runAt: 'document_start',
           });
-          if (injected === false) {
+          if (!active) {
             await apis.tabs.executeScript(tabId, {
               file: '/scripts/content-script.js',
               runAt: 'document_start',

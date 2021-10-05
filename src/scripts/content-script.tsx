@@ -348,6 +348,11 @@ class ContentScript {
 }
 
 function main() {
+  if (document.documentElement.dataset.ubActive) {
+    return;
+  }
+  document.documentElement.dataset.ubActive = '1';
+
   const url = new AltURL(window.location.href);
   const id = stringKeys(searchEngineMatches).find(id =>
     searchEngineMatches[id].some(match => new MatchPattern(match).test(url)),
