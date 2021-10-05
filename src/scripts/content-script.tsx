@@ -169,7 +169,7 @@ class ContentScript {
       };
       options.highlightColors.forEach((highlightColor, index) => {
         globalStyle[`[data-ub-highlight="${index + 1}"]`] = {
-          backgroundColor: `${options.highlightColors[index]} !important`,
+          backgroundColor: `${highlightColor} !important`,
         };
       });
       if (document.head) {
