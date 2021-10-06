@@ -119,6 +119,10 @@ exportAsJSON('manifest.json', {
     // #if !SAFARI
     'identity',
     // #endif
+    /* #if CHROME_MV3
+    'scripting',
+    */
+    // #endif
     'storage',
   ],
 

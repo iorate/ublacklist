@@ -39,10 +39,6 @@ export function handleSerpStart({
   targets: string | (() => HTMLElement[]);
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
 }): () => SerpHandlerResult {
-  /* #if CHROME_MV3 || FIREFOX
-  return () => ({ controls: [], entries: [] });
-  */
-  // #else
   return () => {
     const controls: SerpControl[] = [];
     const entries: SerpEntry[] = [];
@@ -55,7 +51,6 @@ export function handleSerpStart({
     }
     return { controls, entries };
   };
-  // #endif
 }
 
 export function handleSerpHead({

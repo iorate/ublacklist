@@ -75,6 +75,15 @@ exportAsMessages('_locales/en/messages.json', {
   // The text of the link to the options page.
   popup_openOptionsLink: 'Options',
 
+  // The text to indicate that this extension is active.
+  popup_active: 'uBlacklist is active',
+
+  // The text to indicate that this extension is inactive.
+  popup_inactive: 'uBlacklist is inactive',
+
+  // The text of the button to activate this extension.
+  popup_activateButton: 'Activate',
+
   // The title of the general section.
   options_generalTitle: 'General',
 

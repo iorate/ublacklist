@@ -105,7 +105,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
     optimization: {
       minimizer: [
         new ESBuildMinifyPlugin({
-          exclude: 'scripts/content-script-injected.js',
+          exclude: 'scripts/active.js',
           target,
         }),
       ],
