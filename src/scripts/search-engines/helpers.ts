@@ -1,5 +1,12 @@
 import { CSSAttribute, css, glob } from '../styles';
-import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from '../types';
+import {
+  DialogTheme,
+  SerpColors,
+  SerpControl,
+  SerpEntry,
+  SerpHandler,
+  SerpHandlerResult,
+} from '../types';
 import { makeAltURL } from '../utilities';
 
 export function getParentElement(element: HTMLElement, level = 1): HTMLElement {
@@ -56,13 +63,35 @@ export function handleSerpStart({
 export function handleSerpHead({
   globalStyle,
 }: {
-  globalStyle: CSSAttribute | (() => void);
-}): () => SerpHandlerResult {
-  return () => {
+  globalStyle: CSSAttribute | ((colors: SerpColors) => void);
+}): (colors: SerpColors) => SerpHandlerResult {
+  return colors => {
+    glob({
+      ':root': {
+        ...(colors.linkColor != null ? { '--ub-link-color': colors.linkColor } : {}),
+        ...(colors.blockColor != null ? { '--ub-block-color': colors.blockColor } : {}),
+        ...Object.fromEntries(
+          colors.highlightColors.map((highlightColor, i) => [
+            `--ub-highlight-color-${i + 1}`,
+            highlightColor,
+          ]),
+        ),
+      },
+    });
     if (typeof globalStyle === 'object') {
-      glob(globalStyle);
+      glob({
+        ...Object.fromEntries(
+          colors.highlightColors.map((_highlightColor, i) => [
+            `[data-ub-highlight="${i + 1}"]`,
+            {
+              backgroundColor: `var(--ub-highlight-color-${i + 1}) !important`,
+            },
+          ]),
+        ),
+        ...globalStyle,
+      });
     } else {
-      globalStyle();
+      globalStyle(colors);
     }
     return { controls: [], entries: [] };
   };
@@ -275,7 +304,7 @@ export function handleSerp({
   pagerHandlers = [],
   getDialogTheme = () => 'light',
 }: {
-  globalStyle: CSSAttribute | (() => void);
+  globalStyle: CSSAttribute | ((colors: SerpColors) => void);
   targets: string | (() => HTMLElement[]);
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];

@@ -14,28 +14,29 @@ export function getSerpHandler(): SerpHandler {
         textDecoration: 'underline',
       },
     },
-    targets: '.mainline-top, .mainline-results .result',
+    targets: 'body, .result',
     controlHandlers: [
       {
-        target: '.mainline-top',
+        target: 'body',
         position: 'afterbegin',
         style: {
           display: 'block',
           fontSize: '13px',
-          paddingRight: '1em',
+          padding: '9px 20px',
           textAlign: 'right',
         },
       },
     ],
     entryHandlers: [
       {
-        target: '.mainline-results .result',
+        target: '.result',
         url: 'a',
         title: 'a',
-        actionTarget: '',
+        actionTarget: '.result__body',
         actionStyle: {
           display: 'block',
           fontSize: '13px',
+          paddingTop: '5px',
         },
       },
     ],

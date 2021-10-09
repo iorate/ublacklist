@@ -26,6 +26,9 @@ exportAsMessages('_locales/de/messages.json', {
   popup_blockSiteButton: 'Blockieren',
   popup_unblockSiteButton: 'Aufheben',
   popup_openOptionsLink: 'Optionen',
+  popup_active: 'uBlacklist ist aktiv',
+  popup_inactive: 'uBlacklist ist inaktiv',
+  popup_activateButton: 'Aktivieren',
   options_generalTitle: 'Allgemein',
   options_blacklistLabel: 'Seiten die in den Suchergebnissen von Google blockiert sind',
   options_blacklistHelper:

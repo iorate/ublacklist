@@ -255,7 +255,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.RzdJxc',
         url: '.X5OiLe',
         title: '.fc9yUc',
-        actionTarget: '.pcJO7e',
+        actionTarget: '.hMJ0yc',
         actionStyle: {
           ...desktopInlineActionStyle,
           fontSize: '14px',
@@ -271,7 +271,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // News (COVID-19)
       {
-        target: '.WlydOe',
+        target: ':is(.XXW1wb, .ftSUBd) .WlydOe',
         level: target => target.closest('.ftSUBd') || target,
         url: root => {
           const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
@@ -501,7 +501,7 @@ function detectDesktopDarkTheme(): void {
   if (backgroundColor === 'rgb(32, 33, 36)') {
     desktopDarkTheme = true;
     glob({
-      '.ub-button': {
+      '.ub-button.ub-button': {
         color: 'var(--ub-link-color, rgb(138, 180, 248))',
       },
     });
@@ -515,8 +515,8 @@ export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
   const { onSerpStart, onSerpHead, onSerpElement } = desktopSerpHandlers[tbm];
   return {
     onSerpStart,
-    onSerpHead: () => {
-      const result = onSerpHead();
+    onSerpHead: colors => {
+      const result = onSerpHead(colors);
       detectDesktopDarkTheme();
       return result;
     },

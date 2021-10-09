@@ -87,7 +87,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '#taw, #main > div, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
+    targets: '#taw, #main > div, .mnr-c, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
     controlHandlers: [
       {
         target: '#taw',

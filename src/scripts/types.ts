@@ -132,11 +132,17 @@ export type SerpHandlerResult = {
   entries: SerpEntry[];
 };
 
+export type SerpColors = {
+  linkColor: string | null;
+  blockColor: string | null;
+  highlightColors: string[];
+};
+
 export type DialogTheme = 'light' | 'dark';
 
 export type SerpHandler = {
   onSerpStart: () => SerpHandlerResult;
-  onSerpHead: () => SerpHandlerResult;
+  onSerpHead: (colors: SerpColors) => SerpHandlerResult;
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
   getDialogTheme: () => DialogTheme;
 };

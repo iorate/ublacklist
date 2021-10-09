@@ -1,4 +1,4 @@
-import { CSSAttribute, css } from '../styles';
+import { CSSAttribute, css, glob } from '../styles';
 import { SerpHandler } from '../types';
 import { handleSerp, insertElement } from './helpers';
 
@@ -18,33 +18,49 @@ function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void 
 
 export function getSerpHandler(): SerpHandler {
   return handleSerp({
-    globalStyle: {
-      [[
-        '[data-ub-blocked="visible"]',
-        // Override !important selectors in All and News
-        '.result.result.result.result.result[data-ub-blocked="visible"]',
-        '[data-ub-blocked="visible"] + .result__sitelinks--organics',
-        '[data-ub-blocked="visible"] .tile--img__sub',
-      ].join(', ')]: {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
-      },
-      '[data-ub-blocked="visible"] :is(.tile__media, .tile__body)': {
-        backgroundColor: 'transparent !important',
-      },
-      '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
-        display: 'none !important',
-      },
-      '.ub-button.msg__all': {
-        color: 'var(--ub-link-color) !important',
-        display: 'inline',
-      },
-      '.ub-button:hover': {
-        textDecoration: 'underline',
-      },
-      // https://github.com/iorate/uBlacklist/issues/78
-      '.is-mobile .result--news.result--img .result__extras': {
-        bottom: 'calc(2.1em + 2px) !important',
-      },
+    globalStyle: colors => {
+      glob({
+        [[
+          '[data-ub-blocked="visible"]',
+          // Override !important selectors in All and News
+          '.result.result.result.result.result[data-ub-blocked="visible"]',
+          '[data-ub-blocked="visible"] + .result__sitelinks--organics',
+          '[data-ub-blocked="visible"] .tile--img__sub',
+        ].join(', ')]: {
+          backgroundColor: `${colors.blockColor ?? 'rgba(255, 192, 192, 0.5)'} !important`,
+        },
+        ...Object.fromEntries(
+          colors.highlightColors.map((highlightColor, i) => [
+            [
+              `[data-ub-highlight="${i + 1}"]`,
+              // Override !important selectors in All and News
+              `.result.result.result.result.result[data-ub-highlight="${i + 1}"]`,
+              `[data-ub-highlight="${i + 1}"] + .result__sitelinks--organics`,
+              `[data-ub-highlight="${i + 1}"] .tile--img__sub`,
+            ].join(', '),
+            {
+              backgroundColor: `${highlightColor} !important`,
+            },
+          ]),
+        ),
+        ':is([data-ub-blocked="visible"], [data-ub-highlight]) :is(.tile__media, .tile__body)': {
+          backgroundColor: 'transparent !important',
+        },
+        '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
+          display: 'none !important',
+        },
+        '.ub-button.result__a': {
+          ...(colors.linkColor != null ? { color: `${colors.linkColor} !important` } : {}),
+          display: 'inline',
+        },
+        '.ub-button:hover': {
+          textDecoration: 'underline',
+        },
+        // https://github.com/iorate/uBlacklist/issues/78
+        '.is-mobile .result--news.result--img .result__extras': {
+          bottom: 'calc(2.1em + 2px) !important',
+        },
+      });
     },
     targets:
       '#message, #zci-images, #zci-videos, .vertical--news, .result, .tile--img, .tile--vid, .result--news',
@@ -55,7 +71,7 @@ export function getSerpHandler(): SerpHandler {
         target: '#message',
         position: 'afterbegin',
         style: defaultControlStyle(),
-        buttonStyle: 'msg__all',
+        buttonStyle: 'result__a',
       },
       // Images
       {
@@ -68,7 +84,7 @@ export function getSerpHandler(): SerpHandler {
         style: defaultControlStyle({
           margin: '0 10px 0.5em',
         }),
-        buttonStyle: 'msg__all',
+        buttonStyle: 'result__a',
       },
       // Videos
       {
@@ -81,7 +97,7 @@ export function getSerpHandler(): SerpHandler {
         style: defaultControlStyle({
           margin: '0 10px 0.5em',
         }),
-        buttonStyle: 'msg__all',
+        buttonStyle: 'result__a',
       },
       // News
       {
@@ -92,7 +108,7 @@ export function getSerpHandler(): SerpHandler {
           return message && insertElement('span', message, 'afterbegin');
         },
         style: defaultControlStyle(),
-        buttonStyle: 'msg__all',
+        buttonStyle: 'result__a',
       },
     ],
     entryHandlers: [
@@ -108,7 +124,7 @@ export function getSerpHandler(): SerpHandler {
           marginTop: '2px',
           order: 3,
         },
-        actionButtonStyle: 'msg__all',
+        actionButtonStyle: 'result__a',
       },
       // Images
       {
@@ -120,7 +136,7 @@ export function getSerpHandler(): SerpHandler {
         actionStyle: {
           lineHeight: '1.5',
         },
-        actionButtonStyle: 'msg__all',
+        actionButtonStyle: 'result__a',
       },
       // Videos
       {
@@ -133,7 +149,7 @@ export function getSerpHandler(): SerpHandler {
           display: 'block',
           margin: '0.4em 0 -0.4em',
         },
-        actionButtonStyle: 'msg__all',
+        actionButtonStyle: 'result__a',
       },
       // News
       {
@@ -152,8 +168,21 @@ export function getSerpHandler(): SerpHandler {
             position: 'relative',
           },
         },
-        actionButtonStyle: 'msg__all',
+        actionButtonStyle: 'result__a',
       },
     ],
+    getDialogTheme: () => {
+      const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
+      const m = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(backgroundColor);
+      if (!m) {
+        return 'light';
+      }
+      const r = Number(m[1]);
+      const g = Number(m[2]);
+      const b = Number(m[3]);
+      // https://www.w3.org/WAI/ER/WD-AERT/#color-contrast
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness < 125 ? 'dark' : 'light';
+    },
   });
 }
