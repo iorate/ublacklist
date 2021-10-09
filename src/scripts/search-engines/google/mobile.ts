@@ -87,7 +87,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '#taw, #main > div, .mnr-c, .xpd, .BVG0Nb, .qxDOhb > div, .X7NTVe',
     controlHandlers: [
       {
         target: '#taw',
@@ -197,7 +196,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   // Books
   bks: handleSerp({
     globalStyle: mobileGlobalStyle,
-    targets: '#main > div, .xpd',
     controlHandlers: [
       {
         target: '#main > div:nth-child(4)',
@@ -223,7 +221,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets: '.T1diZc, .dmFHw, .isv-r, .VFACy, #uGbavf',
     controlHandlers: [
       {
         target: '.T1diZc',
@@ -288,7 +285,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   // News
   nws: handleSerp({
     globalStyle: mobileGlobalStyle,
-    targets: '#taw, #main > div, .S1FAPd, .xpd',
     controlHandlers: [
       {
         target: '#taw',
@@ -341,7 +337,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       ...mobileGlobalStyle,
     },
-    targets: '#taw, #main > div, video-voyager, .xpd',
     controlHandlers: [
       {
         target: '#taw',

@@ -305,12 +305,21 @@ export function handleSerp({
   getDialogTheme = () => 'light',
 }: {
   globalStyle: CSSAttribute | ((colors: SerpColors) => void);
-  targets: string | (() => HTMLElement[]);
+  targets?: () => HTMLElement[];
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
   pagerHandlers?: PagerHandler[];
   getDialogTheme?: () => DialogTheme;
 }): SerpHandler {
+  if (!targets) {
+    const selectors: string[] = [];
+    for (const { target } of [...controlHandlers, ...entryHandlers]) {
+      if (typeof target === 'string') {
+        selectors.push(target);
+      }
+    }
+    targets = () => [...document.querySelectorAll<HTMLElement>(selectors.join(', '))];
+  }
   const onSerpElement = handleSerpElement({ controlHandlers, entryHandlers, pagerHandlers });
   return {
     onSerpStart: handleSerpStart({ targets, onSerpElement }),

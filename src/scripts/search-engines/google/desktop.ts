@@ -54,8 +54,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         backgroundColor: 'transparent !important',
       },
     },
-    targets:
-      '#result-stats, #botabar, .IsZvec, .g, .kno-fb-ctx, .F4CzCf, .YwonT, .S1FAPd, .tYlW7b, .eejeod, .RzdJxc, .VibNM, .WlydOe, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -323,7 +321,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   // Books
   bks: handleSerp({
     globalStyle: desktopGlobalStyle,
-    targets: '#result-stats, .Yr5TG',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -342,7 +339,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   // Images
   isch: handleSerp({
     globalStyle: desktopGlobalStyle,
-    targets: '.cEPPT, .isv-r, .VFACy',
     controlHandlers: [
       {
         target: '.cEPPT',
@@ -396,7 +392,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   // News
   nws: handleSerp({
     globalStyle: desktopGlobalStyle,
-    targets: '#result-stats, .WlydOe, .dbsr, .F9rcV',
     controlHandlers: [
       {
         target: '#result-stats',
@@ -464,7 +459,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   // Videos
   vid: handleSerp({
     globalStyle: desktopGlobalStyle,
-    targets: '#result-stats, .IsZvec',
     controlHandlers: [
       {
         target: '#result-stats',

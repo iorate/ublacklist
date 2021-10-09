@@ -24,7 +24,6 @@ const controlStyle: CSSAttribute = {
 const serpHandlers: Record<string, SerpHandler | undefined> = {
   '/search': handleSerp({
     globalStyle,
-    targets: '#b_results, .b_algo',
     controlHandlers: [
       {
         target: '#b_results',
@@ -60,7 +59,6 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
         textDecoration: 'underline',
       },
     },
-    targets: '.dg_b, .infsd, .lnkw',
     controlHandlers: [
       {
         target: '.dg_b',
@@ -147,7 +145,6 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
         background: 'transparent !important',
       },
     },
-    targets: '#vm_res, .dg_u',
     controlHandlers: [
       {
         target: '#vm_res',
@@ -185,7 +182,6 @@ const serpHandlers: Record<string, SerpHandler | undefined> = {
   }),
   '/news/search': handleSerp({
     globalStyle,
-    targets: '#contentid, .source',
     controlHandlers: [
       {
         target: '#contentid',

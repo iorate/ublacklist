@@ -23,8 +23,6 @@ export function getSerpHandler(): SerpHandler {
         textDecoration: 'underline',
       },
     },
-    targets:
-      '.layout-web__inline-nav-container, .layout-images-nav-container, .layout-news__inline-nav-container, .layout-video__inline-nav-container, .w-gl__result, .image-container, .article, .vo-sp__link',
     controlHandlers: [
       // Web
       {
