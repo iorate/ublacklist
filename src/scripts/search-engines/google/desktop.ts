@@ -271,7 +271,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // News (COVID-19)
       {
-        target: '.WlydOe',
+        target: ':is(.XXW1wb, .ftSUBd) .WlydOe',
         level: target => target.closest('.ftSUBd') || target,
         url: root => {
           const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
