@@ -6,7 +6,7 @@ import { BlockDialog } from './block-dialog';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
-import { CSSAttribute, css, glob } from './styles';
+import { css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
 import { AltURL, MatchPattern, stringKeys } from './utilities';
 
@@ -89,6 +89,9 @@ class ContentScript {
     hideControls: boolean;
     hideActions: boolean;
     enablePathDepth: boolean;
+    linkColor: string | null;
+    blockColor: string | null;
+    highlightColors: string[];
     dialogTheme: DialogTheme | null;
   } | null = null;
   readonly controls: SerpControl[] = [];
@@ -96,16 +99,13 @@ class ContentScript {
   readonly scopeStates: Record<string, { blockedEntryCount: number; showBlockedEntries: boolean }> =
     {};
   blockDialogRoot: ShadowRoot | null = null;
-  globalStyle: CSSAttribute | null = null;
+  didSerpHead = false;
 
   constructor(readonly serpHandler: SerpHandler) {
     // onSerpStart
     this.onSerpStart();
 
     // onSerpHead, onSerpElement
-    if (document.head) {
-      this.onSerpHead();
-    }
     new MutationObserver(records => {
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
@@ -113,7 +113,7 @@ class ContentScript {
             // #if DEVELOPMENT
             console.debug(addedNode.cloneNode(true));
             // #endif
-            if (addedNode === document.head) {
+            if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
             this.onSerpElement(addedNode);
@@ -154,28 +154,14 @@ class ContentScript {
         hideControls: options.hideControl,
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
-        dialogTheme: options.dialogTheme === 'default' ? null : options.dialogTheme,
+        linkColor: options.linkColor !== 'default' ? options.linkColor : null,
+        blockColor: options.blockColor !== 'default' ? options.blockColor : null,
+        highlightColors: options.highlightColors,
+        dialogTheme: options.dialogTheme !== 'default' ? options.dialogTheme : null,
       };
 
-      const rootStyle: CSSAttribute = {};
-      if (options.linkColor !== 'default') {
-        rootStyle['--ub-link-color'] = options.linkColor;
-      }
-      if (options.blockColor !== 'default') {
-        rootStyle['--ub-block-color'] = options.blockColor;
-      }
-      const globalStyle: CSSAttribute = {
-        ':root': rootStyle,
-      };
-      options.highlightColors.forEach((highlightColor, index) => {
-        globalStyle[`[data-ub-highlight="${index + 1}"]`] = {
-          backgroundColor: `${highlightColor} !important`,
-        };
-      });
       if (document.head) {
-        glob(globalStyle);
-      } else {
-        this.globalStyle = globalStyle;
+        this.onSerpHead();
       }
 
       this.rejudgeAllEntries();
@@ -184,6 +170,11 @@ class ContentScript {
   }
 
   onSerpHead(): void {
+    if (this.didSerpHead || !document.head || !this.options) {
+      return;
+    }
+    this.didSerpHead = true;
+
     glob({
       '.ub-hidden': {
         display: 'none !important',
@@ -192,11 +183,13 @@ class ContentScript {
         display: 'none !important',
       },
     });
-    if (this.globalStyle) {
-      glob(this.globalStyle);
-      this.globalStyle = null;
-    }
-    this.handleResult(this.serpHandler.onSerpHead());
+    this.handleResult(
+      this.serpHandler.onSerpHead({
+        linkColor: this.options.linkColor,
+        blockColor: this.options.blockColor,
+        highlightColors: this.options.highlightColors,
+      }),
+    );
   }
 
   onSerpElement(element: HTMLElement): void {

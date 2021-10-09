@@ -501,7 +501,7 @@ function detectDesktopDarkTheme(): void {
   if (backgroundColor === 'rgb(32, 33, 36)') {
     desktopDarkTheme = true;
     glob({
-      '.ub-button': {
+      '.ub-button.ub-button': {
         color: 'var(--ub-link-color, rgb(138, 180, 248))',
       },
     });
@@ -515,8 +515,8 @@ export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
   const { onSerpStart, onSerpHead, onSerpElement } = desktopSerpHandlers[tbm];
   return {
     onSerpStart,
-    onSerpHead: () => {
-      const result = onSerpHead();
+    onSerpHead: colors => {
+      const result = onSerpHead(colors);
       detectDesktopDarkTheme();
       return result;
     },
