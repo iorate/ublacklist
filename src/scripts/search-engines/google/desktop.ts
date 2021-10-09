@@ -255,7 +255,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.RzdJxc',
         url: '.X5OiLe',
         title: '.fc9yUc',
-        actionTarget: '.pcJO7e',
+        actionTarget: '.hMJ0yc',
         actionStyle: {
           ...desktopInlineActionStyle,
           fontSize: '14px',
