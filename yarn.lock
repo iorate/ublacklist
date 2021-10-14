@@ -5451,6 +5451,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-unused-imports@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "eslint-plugin-unused-imports@npm:1.1.5"
+  dependencies:
+    eslint-rule-composer: ^0.3.0
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ^4.14.2
+    eslint: ^6.0.0 || ^7.0.0
+  peerDependenciesMeta:
+    "@typescript-eslint/eslint-plugin":
+      optional: true
+  checksum: fd1ef93fd414240594ea2f78cd7334523c244af12a610442c6dbf78b0058915c363ce78032730962f510fdd2792ded0607bc13adea9a724d1c5cec736704c99d
+  languageName: node
+  linkType: hard
+
+"eslint-rule-composer@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "eslint-rule-composer@npm:0.3.0"
+  checksum: c2f57cded8d1c8f82483e0ce28861214347e24fd79fd4144667974cd334d718f4ba05080aaef2399e3bbe36f7d6632865110227e6b176ed6daa2d676df9281b1
+  languageName: node
+  linkType: hard
+
 "eslint-scope@npm:5.1.1, eslint-scope@npm:^5.1.1":
   version: 5.1.1
   resolution: "eslint-scope@npm:5.1.1"
@@ -11968,6 +11990,7 @@ resolve@^2.0.0-next.3:
     eslint-plugin-jsx-a11y: ^6.4.1
     eslint-plugin-react: ^7.25.2
     eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-unused-imports: ^1.1.5
     fork-ts-checker-webpack-plugin: ^6.3.3
     glob: ^7.2.0
     goober: ^2.0.41

@@ -32,6 +32,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.25.2",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-unused-imports": "^1.1.5",
     "fork-ts-checker-webpack-plugin": "^6.3.3",
     "glob": "^7.2.0",
     "goober": "^2.0.41",
@@ -57,9 +58,8 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "plugin:import/errors",
+      "plugin:import/recommended",
       "plugin:import/typescript",
-      "plugin:import/warnings",
       "plugin:jsx-a11y/recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
@@ -69,18 +69,15 @@
       "/dist",
       "**/*.js"
     ],
-    "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "project": "./tsconfig.json"
     },
     "plugins": [
-      "@typescript-eslint"
+      "unused-imports"
     ],
     "rules": {
-      "object-shorthand": [
-        "warn",
-        "always"
-      ],
+      "@typescript-eslint/no-unused-vars": "off",
+      "object-shorthand": "warn",
       "sort-imports": [
         "warn",
         {
@@ -111,9 +108,9 @@
           ]
         }
       ],
-      "react/prop-types": [
-        "off"
-      ]
+      "react/prop-types": "off",
+      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-vars": "warn"
     },
     "settings": {
       "react": {

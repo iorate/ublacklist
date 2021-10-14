@@ -1,5 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* #if SAFARI
 import dayjs from 'dayjs';
+*/
+// #endif
 import { apis } from './apis';
 import * as Clouds from './background/clouds';
 import * as LocalStorage from './background/local-storage';

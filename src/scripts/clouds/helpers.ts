@@ -9,7 +9,7 @@ export type AuthorizeParams = {
 };
 
 export function shouldUseAltFlow(): (os: string) => boolean {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line unused-imports/no-unused-vars
   return os => {
     // #if CHROME
     return false;

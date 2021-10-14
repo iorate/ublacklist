@@ -3,7 +3,7 @@ import { apis } from '../apis';
 import { SearchEngineId } from '../types';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line unused-imports/no-unused-vars
 export async function register(id: SearchEngineId): Promise<void> {
   /* #if FIREFOX
   await browser.contentScripts.register({
