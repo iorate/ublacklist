@@ -1,1 +1,1 @@
-document.documentElement.dataset.ubActive
+document.documentElement.dataset.ubActive;
