@@ -66,8 +66,18 @@
       "prettier"
     ],
     "ignorePatterns": [
-      "/dist",
-      "**/*.js"
+      "/.yarn",
+      "/dist"
+    ],
+    "overrides": [
+      {
+        "env": {
+          "browser": true
+        },
+        "files": [
+          "src/scripts/*.js"
+        ]
+      }
     ],
     "parserOptions": {
       "project": "./tsconfig.json"
@@ -124,6 +134,7 @@
       "\\.tsx?$": "esbuild-jest"
     }
   },
+  "packageManager": "yarn@3.0.2",
   "prettier": {
     "arrowParens": "avoid",
     "printWidth": 100,
@@ -169,6 +180,9 @@
       ]
     ]
   },
+  "resolutions": {
+    "interpret@^2.2.0": "patch:interpret@npm:2.2.0#.yarn/patches/interpret-npm-2.2.0-3603a544e1"
+  },
   "scripts": {
     "_eslint": "eslint --color .",
     "_prettier": "prettier --color --loglevel warn .",
@@ -182,8 +196,5 @@
     "lint": "run-p _eslint \"_prettier --check\" \"_tsc --noEmit\"",
     "test": "jest",
     "watch": "npm-run-all \"_webpack --watch --env browser={1:=chrome} --env mode=development --env typecheck=notypecheck\" --"
-  },
-  "resolutions": {
-    "interpret@^2.2.0": "patch:interpret@npm:2.2.0#.yarn/patches/interpret-npm-2.2.0-3603a544e1"
   }
 }

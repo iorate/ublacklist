@@ -1,12 +1,7 @@
 /.env
+/.yarn/*
+!/.yarn/patches
+!/.yarn/plugins
+!/.yarn/releases
 /dist
 /node_modules
-
-# Yarn (not using Zero-Installs)
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
