@@ -205,7 +205,11 @@ export const EmbeddedDialog = forwardRef(
           // #endif
           outline: 'none',
           padding: '1.5em',
+          // #if SAFARI
+          minWidth: width,
+          // #else
           width,
+          // #endif
         }),
       [css, theme, width],
     );
