@@ -200,12 +200,17 @@ export const EmbeddedDialog = forwardRef(
       () =>
         css({
           background: theme.dialog.background,
-          // #if !SAFARI
-          maxWidth: '100%',
-          // #endif
           outline: 'none',
           padding: '1.5em',
+          // #if !SAFARI
+          maxWidth: '100%',
           width,
+          /* #else
+          [`@media (min-device-width: ${width})`]: {
+            minWidth: width,
+          },
+          */
+          // #endif
         }),
       [css, theme, width],
     );

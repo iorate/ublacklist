@@ -1,3 +1,2 @@
+/.yarn
 /dist
-/node_modules
-/src/scripts/*.js

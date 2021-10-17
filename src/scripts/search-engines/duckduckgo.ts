@@ -62,8 +62,6 @@ export function getSerpHandler(): SerpHandler {
         },
       });
     },
-    targets:
-      '#message, #zci-images, #zci-videos, .vertical--news, .result, .tile--img, .tile--vid, .result--news',
     controlHandlers: [
       // All
       {

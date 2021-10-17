@@ -14,7 +14,6 @@ export function getSerpHandler(): SerpHandler {
         textDecoration: 'underline',
       },
     },
-    targets: 'body, .result',
     controlHandlers: [
       {
         target: 'body',
