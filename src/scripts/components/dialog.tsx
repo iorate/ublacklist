@@ -206,7 +206,9 @@ export const EmbeddedDialog = forwardRef(
           outline: 'none',
           padding: '1.5em',
           // #if SAFARI
-          minWidth: width,
+          [`@media (min-device-width: ${width})`]: {
+            minWidth: width,
+          },
           // #else
           width,
           // #endif
