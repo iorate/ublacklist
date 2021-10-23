@@ -14,14 +14,13 @@ import { AutoThemeProvider } from './components/theme';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { sendMessage } from './messages';
-import { SearchEngineId } from './types';
 import { MatchPattern, makeAltURL, stringKeys } from './utilities';
 
 const ActivatePopup: FunctionComponent<{
   active: boolean;
-  searchEngineId: SearchEngineId;
+  origin: string;
   tabId: number;
-}> = ({ active, searchEngineId, tabId }) => (
+}> = ({ active, origin, tabId }) => (
   <AutoThemeProvider>
     <Baseline>
       <EmbeddedDialog close={() => window.close()} width="360px">
@@ -67,9 +66,7 @@ const ActivatePopup: FunctionComponent<{
                         // In Chrome, the popup is closed immediately after 'permissions.request'!
                         // https://bugs.chromium.org/p/chromium/issues/detail?id=952645
                         const [granted] = await Promise.all([
-                          apis.permissions.request({
-                            origins: searchEngineMatches[searchEngineId],
-                          }),
+                          apis.permissions.request({ origins: [origin] }),
                           /* #if CHROME_MV3
                           chrome.scripting.executeScript({
                             target: { tabId },
@@ -105,7 +102,7 @@ const ActivatePopup: FunctionComponent<{
   </AutoThemeProvider>
 );
 
-async function openActivatePopup(tabId: number, searchEngineId: SearchEngineId): Promise<void> {
+async function openActivatePopup(tabId: number, origin: string): Promise<void> {
   /* #if CHROME_MV3
   const [{ result: active }] = await chrome.scripting.executeScript({
     target: { tabId },
@@ -122,10 +119,7 @@ async function openActivatePopup(tabId: number, searchEngineId: SearchEngineId):
   // #endif
 
   document.documentElement.lang = translate('lang');
-  render(
-    <ActivatePopup active={!!active} searchEngineId={searchEngineId} tabId={tabId} />,
-    document.body,
-  );
+  render(<ActivatePopup active={!!active} origin={origin} tabId={tabId} />, document.body);
 }
 
 async function openBlockPopup(url: string, title: string | null): Promise<void> {
@@ -160,11 +154,11 @@ async function main(): Promise<void> {
 
   const altURL = makeAltURL(url);
   if (altURL) {
-    const searchEngineId = stringKeys(searchEngineMatches).find(id =>
+    const matched = stringKeys(searchEngineMatches).some(id =>
       searchEngineMatches[id].some(match => new MatchPattern(match).test(altURL)),
     );
-    if (searchEngineId != null) {
-      await openActivatePopup(tabId, searchEngineId);
+    if (matched) {
+      await openActivatePopup(tabId, `${altURL.scheme}://${altURL.host}/*`);
     } else {
       await openBlockPopup(url, title);
     }
