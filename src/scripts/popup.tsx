@@ -88,7 +88,7 @@ const ActivatePopup: FunctionComponent<{
                         if (!granted) {
                           return;
                         }
-                        await sendMessage('register-search-engine', searchEngineId);
+                        await sendMessage('activate');
                         window.close();
                       }}
                     >

@@ -33,8 +33,8 @@ import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { searchEngineMessageNames } from '../search-engines/message-names';
-import { MessageName0, SearchEngineId } from '../types';
-import { lines, stringEntries } from '../utilities';
+import { SearchEngineId } from '../types';
+import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
 import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
@@ -303,16 +303,19 @@ const SetBlacklist: FunctionComponent = () => {
 
 const RegisterSearchEngine: FunctionComponent<{
   id: SearchEngineId;
-  matches: string[];
-  messageNames: { name: MessageName0 };
-}> = ({ id, matches, messageNames }) => {
+}> = ({ id }) => {
+  const matches = searchEngineMatches[id];
+  const messageNames = searchEngineMessageNames[id];
+
   const [registered, setRegistered] = useState(false);
+
   useEffect(() => {
     void (async () => {
       const registered = await apis.permissions.contains({ origins: matches });
       setRegistered(registered);
     })();
   }, [matches]);
+
   return (
     <Row>
       <RowItem expanded>{translate(messageNames.name)}</RowItem>
@@ -326,7 +329,7 @@ const RegisterSearchEngine: FunctionComponent<{
                 origins: matches,
               });
               if (registered) {
-                void sendMessage('register-search-engine', id);
+                void sendMessage('activate');
               }
               setRegistered(registered);
             }}
@@ -360,15 +363,12 @@ const RegisterSearchEngines: FunctionComponent = () => {
         </RowItem>
         <RowItem expanded>
           <List>
-            {stringEntries(searchEngineMatches).map(
-              ([id, matches]) =>
+            {stringKeys(searchEngineMatches).map(
+              id =>
                 id !== 'google' && (
                   <ListItem key={id}>
-                    <RegisterSearchEngine
-                      id={id}
-                      matches={matches}
-                      messageNames={searchEngineMessageNames[id]}
-                    />
+                    {' '}
+                    <RegisterSearchEngine id={id} />{' '}
                   </ListItem>
                 ),
             )}

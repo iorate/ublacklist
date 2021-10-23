@@ -4,7 +4,6 @@ import {
   LocalStorageItemsSavable,
   Result,
   SaveSource,
-  SearchEngineId,
   Subscription,
   SubscriptionId,
 } from './types';
@@ -12,8 +11,6 @@ import {
 type MessageSignatures = {
   'connect-to-cloud': (id: CloudId, authorizationCode: string, useAltFlow: boolean) => boolean;
   'disconnect-from-cloud': () => void;
-  'register-search-engine': (id: SearchEngineId) => void;
-  'open-options-page': () => void;
 
   'save-to-local-storage': (
     items: Readonly<Partial<LocalStorageItemsSavable>>,
@@ -23,6 +20,8 @@ type MessageSignatures = {
   'add-subscription': (subscription: Subscription) => SubscriptionId;
   'remove-subscription': (id: SubscriptionId) => void;
 
+  activate: () => void;
+
   sync: () => void;
   syncing: () => void;
   synced: (result: Result, updated: boolean) => void;
@@ -31,6 +30,8 @@ type MessageSignatures = {
   'update-all-subscriptions': () => void;
   'subscription-updating': (id: SubscriptionId) => void;
   'subscription-updated': (id: SubscriptionId, subscription: Subscription) => void;
+
+  'open-options-page': () => void;
 };
 
 export type MessageTypes = keyof MessageSignatures;

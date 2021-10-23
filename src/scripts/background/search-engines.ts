@@ -1,58 +1,52 @@
 import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
-import { SearchEngineId } from '../types';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
-// eslint-disable-next-line unused-imports/no-unused-vars
-export async function register(id: SearchEngineId): Promise<void> {
-  /* #if FIREFOX
-  await browser.contentScripts.register({
-    js: [{ file: '/scripts/content-script.js' }],
-    matches: searchEngineMatches[id],
+export async function injectContentScript(tabId: number, url: string): Promise<void> {
+  // #if CHROME && !CHROME_MV3
+  const altURL = new AltURL(url);
+  const matched = stringEntries(searchEngineMatches)
+    .flatMap(([id, matches]) => (id === 'google' ? [] : matches))
+    .some(match => new MatchPattern(match).test(altURL));
+  if (!matched) {
+    return;
+  }
+  const [active] = await apis.tabs.executeScript(tabId, {
+    file: '/scripts/active.js',
     runAt: 'document_start',
   });
-  */
+  if (!active) {
+    await apis.tabs.executeScript(tabId, {
+      file: '/scripts/content-script.js',
+      runAt: 'document_start',
+    });
+  }
   // #endif
 }
 
+/* #if FIREFOX
+let registered: browser.contentScripts.RegisteredContentScript | null = null;
+*/
+// #endif
+
 // eslint-disable-next-line @typescript-eslint/require-await
-export function registerAll(): void {
-  // #if CHROME_MV3
-  // #elif CHROME
-  apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    void (async () => {
-      if (changeInfo.status !== 'loading' || tab.url == null) {
-        return;
-      }
-      const url = new AltURL(tab.url);
-      for (const [id, matches] of stringEntries(searchEngineMatches)) {
-        if (id !== 'google' && matches.some(match => new MatchPattern(match).test(url))) {
-          const [active] = await apis.tabs.executeScript(tabId, {
-            file: '/scripts/active.js',
-            runAt: 'document_start',
-          });
-          if (!active) {
-            await apis.tabs.executeScript(tabId, {
-              file: '/scripts/content-script.js',
-              runAt: 'document_start',
-            });
-          }
-          break;
-        }
-      }
-    })();
-  });
-  /* #elif FIREFOX
-  for (const [id, matches] of stringEntries(searchEngineMatches)) {
-    if (id === 'google') {
-      continue;
-    }
-    void (async () => {
-      if (await apis.permissions.contains({ origins: matches })) {
-        await register(id);
-      }
-    })();
+export async function registerContentScript(): Promise<void> {
+  /* #if FIREFOX
+  if (registered) {
+    await registered.unregister();
   }
+  const grantedMatches = await Promise.all(
+    stringEntries(searchEngineMatches)
+      .flatMap(([id, matches]) => (id === 'google' ? [] : matches))
+      .map(match =>
+        apis.permissions.contains({ origins: [match] }).then(granted => (granted ? match : null)),
+      ),
+  ).then(matches => matches.filter((match): match is string => match != null));
+  registered = await browser.contentScripts.register({
+    js: [{ file: '/scripts/content-script.js' }],
+    matches: grantedMatches,
+    runAt: 'document_start',
+  });
   */
   // #endif
 }
