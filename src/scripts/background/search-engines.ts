@@ -34,6 +34,7 @@ export async function registerContentScript(): Promise<void> {
   /* #if FIREFOX
   if (registered) {
     await registered.unregister();
+    registered = null;
   }
   const grantedMatches = await Promise.all(
     stringEntries(searchEngineMatches)
@@ -42,6 +43,9 @@ export async function registerContentScript(): Promise<void> {
         apis.permissions.contains({ origins: [match] }).then(granted => (granted ? match : null)),
       ),
   ).then(matches => matches.filter((match): match is string => match != null));
+  if (!grantedMatches.length) {
+    return;
+  }
   registered = await browser.contentScripts.register({
     js: [{ file: '/scripts/content-script.js' }],
     matches: grantedMatches,
