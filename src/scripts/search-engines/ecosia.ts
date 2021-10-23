@@ -31,7 +31,7 @@ export function getSerpHandler(): SerpHandler {
         target: '.result',
         url: 'a',
         title: 'a',
-        actionTarget: '.result__body',
+        actionTarget: root => root.querySelector('.result__body') || root,
         actionStyle: {
           display: 'block',
           fontSize: '13px',
