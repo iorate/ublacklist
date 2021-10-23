@@ -42,9 +42,10 @@ const serpHandler = handleSerp({
           },
         ]),
       ),
-      ':is([data-ub-blocked="visible"], [data-ub-highlight]) :is(.tile__media, .tile__body)': {
-        backgroundColor: 'transparent !important',
-      },
+      '[data-ub-blocked] .tile__media, [data-ub-highlight] .tile__media, [data-ub-blocked] .tile__body, [data-ub-highlight] .tile__body':
+        {
+          backgroundColor: 'transparent !important',
+        },
       '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
         display: 'none !important',
       },
