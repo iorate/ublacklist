@@ -50,9 +50,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   '': handleSerp({
     globalStyle: {
       ...desktopGlobalStyle,
-      ':is([data-ub-blocked], [data-ub-highlight]) :is(g-inner-card, .kp-blk)': {
-        backgroundColor: 'transparent !important',
-      },
+      '[data-ub-blocked] g-inner-card, [data-ub-highlight] g-inner-card, [data-ub-blocked] .kp-blk, [data-ub-highlight] .kp-blk':
+        {
+          backgroundColor: 'transparent !important',
+        },
     },
     controlHandlers: [
       {
@@ -269,7 +270,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // News (COVID-19)
       {
-        target: ':is(.XXW1wb, .ftSUBd) .WlydOe',
+        target: '.XXW1wb .WlydOe, .ftSUBd .WlydOe',
         level: target => target.closest('.ftSUBd') || target,
         url: root => {
           const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;

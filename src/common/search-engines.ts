@@ -208,13 +208,14 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
   ],
   duckduckgo: [
     '*://duckduckgo.com/',
-    '*://duckduckgo.com//',
     '*://duckduckgo.com/?*',
+    // #if CHROME
+    '*://html.duckduckgo.com/html/',
+    '*://html.duckduckgo.com/html/?*',
+    // #endif
     '*://safe.duckduckgo.com/',
-    '*://safe.duckduckgo.com//',
     '*://safe.duckduckgo.com/?*',
     '*://start.duckduckgo.com/',
-    '*://start.duckduckgo.com//',
     '*://start.duckduckgo.com/?*',
   ],
   ecosia: ['https://www.ecosia.org/search?*'],

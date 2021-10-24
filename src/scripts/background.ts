@@ -19,7 +19,7 @@ function main() {
     'add-subscription': LocalStorage.addSubscription,
     'remove-subscription': LocalStorage.removeSubscription,
 
-    'register-search-engine': SearchEngines.register,
+    activate: SearchEngines.registerContentScript,
 
     sync: Sync.sync,
 
@@ -28,6 +28,15 @@ function main() {
 
     'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
   });
+
+  // #if CHROME && !CHROME_MV3
+  apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status !== 'loading' || tab.url == null) {
+      return;
+    }
+    void SearchEngines.injectContentScript(tabId, tab.url);
+  });
+  // #endif
 
   apis.runtime.onInstalled.addListener(() => {
     void Sync.sync();
@@ -74,7 +83,7 @@ function main() {
   */
   // #endif
 
-  SearchEngines.registerAll();
+  void SearchEngines.registerContentScript();
 }
 
 main();
