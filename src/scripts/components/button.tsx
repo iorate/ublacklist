@@ -26,7 +26,7 @@ export const Button = forwardRef(
         font: 'inherit',
         height: '2.5em',
         outline: 'none',
-        padding: '0.5em 1em',
+        padding: primary ? '0.5em 1em' : 'calc(0.5em - 1px) 1em',
         '&:active': {
           background: buttonTheme.backgroundActive,
         },
