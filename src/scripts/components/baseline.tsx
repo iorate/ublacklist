@@ -3,6 +3,8 @@ import { useLayoutEffect, useMemo } from 'preact/hooks';
 import { useCSS, useGlob } from './styles';
 import { useTheme } from './theme';
 
+const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+
 export type BaseLineProps = { fontSize?: string };
 
 export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize = '13px' }) => {
@@ -14,7 +16,7 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
         background: theme.background,
         color: theme.text.primary,
         margin: 0,
-        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily,
         fontSize,
         lineHeight: 1.5,
       }),
@@ -51,7 +53,7 @@ export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
     () =>
       css({
         color: theme.text.primary,
-        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily,
         fontSize,
         lineHeight: 1.5,
         '& *, & *::before, & *::after': {
