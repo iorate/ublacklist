@@ -1,6 +1,6 @@
 import { CSSAttribute, css, glob } from '../styles';
 import { SerpHandler } from '../types';
-import { handleSerp, insertElement } from './helpers';
+import { getDialogThemeFromBody, handleSerp, insertElement } from './helpers';
 
 function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void {
   return root => {
@@ -169,19 +169,7 @@ const serpHandler = handleSerp({
       actionButtonStyle: 'result__a',
     },
   ],
-  getDialogTheme: () => {
-    const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
-    const m = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(backgroundColor);
-    if (!m) {
-      return 'light';
-    }
-    const r = Number(m[1]);
-    const g = Number(m[2]);
-    const b = Number(m[3]);
-    // https://www.w3.org/WAI/ER/WD-AERT/#color-contrast
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness < 125 ? 'dark' : 'light';
-  },
+  getDialogTheme: getDialogThemeFromBody(),
 });
 
 // #if CHROME
