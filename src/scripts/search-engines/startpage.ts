@@ -1,7 +1,6 @@
-import * as S from 'microstruct';
 import { CSSAttribute } from '../styles';
 import { SerpHandler } from '../types';
-import { handleSerp } from './helpers';
+import { getDialogThemeFromBody, handleSerp } from './helpers';
 
 const defaultControlStyle: CSSAttribute = {
   color: 'rgb(127, 134, 159)',
@@ -29,20 +28,25 @@ export function getSerpHandler(): SerpHandler {
         target: '.layout-web__inline-nav-container',
         style: defaultControlStyle,
       },
-      // Images
-      {
-        target: '.layout-images__inline-nav-container',
-        style: defaultControlStyle,
-      },
       // News
       {
         target: '.layout-news__inline-nav-container',
-        style: defaultControlStyle,
+        style: {
+          ...defaultControlStyle,
+          '@media (max-width: 989px)': {
+            padding: '0 2rem 0 1rem',
+          },
+        },
       },
       // Videos
       {
         target: '.layout-video__inline-nav-container',
-        style: defaultControlStyle,
+        style: {
+          ...defaultControlStyle,
+          '@media (max-width: 989px)': {
+            padding: '0 2rem 0 1rem',
+          },
+        },
       },
     ],
     entryHandlers: [
@@ -55,37 +59,6 @@ export function getSerpHandler(): SerpHandler {
         actionStyle: {
           display: 'block',
           marginTop: '4px',
-        },
-      },
-      // Images
-      {
-        target: '.image-container',
-        url: root => {
-          return root.dataset.imgMetadata != null
-            ? S.parse(root.dataset.imgMetadata, S.object({ displayUrl: S.string() }))?.displayUrl ??
-                null
-            : null;
-        },
-        title: root => {
-          return root.dataset.imgMetadata != null
-            ? S.parse(root.dataset.imgMetadata, S.object({ title: S.string() }))?.title.replace(
-                /<\/?b>/g,
-                '',
-              ) ?? null
-            : null;
-        },
-        actionTarget: root => {
-          const details = root.querySelector<HTMLElement>('.details');
-          if (details) {
-            details.style.bottom = '34px';
-          }
-          return root;
-        },
-        actionStyle: {
-          display: 'block',
-          fontSize: '12px',
-          height: '18px',
-          margin: '8px 0',
         },
       },
       // News
@@ -102,10 +75,10 @@ export function getSerpHandler(): SerpHandler {
       },
       // Videos
       {
-        target: '.vo-sp__link',
+        target: '.vo-yt__link',
         url: '',
-        title: 'h1',
-        actionTarget: '.vo-sp__details',
+        title: '.vo-yt__title',
+        actionTarget: '.vo-yt__details',
         actionStyle: {
           display: 'block',
           fontSize: '14px',
@@ -113,5 +86,6 @@ export function getSerpHandler(): SerpHandler {
         },
       },
     ],
+    getDialogTheme: getDialogThemeFromBody(),
   });
 }
