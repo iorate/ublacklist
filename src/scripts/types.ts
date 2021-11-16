@@ -73,6 +73,7 @@ export type LocalStorageItems = {
   hideBlockLinks: boolean;
   hideControl: boolean;
   enablePathDepth: boolean;
+  usePSL: boolean;
 
   // appearance
   linkColor: string;

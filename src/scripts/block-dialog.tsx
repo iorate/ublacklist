@@ -1,3 +1,4 @@
+import * as mpsl from 'mpsl';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
 import * as punycode from 'punycode/';
@@ -36,6 +37,7 @@ type BlockDialogContentProps = {
   open: boolean;
   title: string | null;
   url: string;
+  usePSL: boolean;
   onBlocked: () => void | Promise<void>;
 };
 
@@ -46,6 +48,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   open,
   title,
   url: entryURL,
+  usePSL,
   onBlocked,
 }) => {
   const [state, setState] = useState({
@@ -63,10 +66,10 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   if (open && !prevOpen) {
     const url = makeAltURL(entryURL);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = blacklist.createPatch({ url, title });
+      const patch = blacklist.createPatch({ url, title }, usePSL);
       state.disabled = false;
       state.unblock = patch.unblock;
-      state.host = punycode.toUnicode(url.host);
+      state.host = punycode.toUnicode(usePSL ? mpsl.get(url.host) ?? url.host : url.host);
       state.detailsOpen = false;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = '0';

@@ -89,6 +89,7 @@ class ContentScript {
     hideControls: boolean;
     hideActions: boolean;
     enablePathDepth: boolean;
+    usePSL: boolean;
     linkColor: string | null;
     blockColor: string | null;
     highlightColors: string[];
@@ -139,6 +140,7 @@ class ContentScript {
         'hideControl',
         'hideBlockLinks',
         'enablePathDepth',
+        'usePSL',
         'linkColor',
         'blockColor',
         'highlightColors',
@@ -154,6 +156,7 @@ class ContentScript {
         hideControls: options.hideControl,
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
+        usePSL: options.usePSL,
         linkColor: options.linkColor !== 'default' ? options.linkColor : null,
         blockColor: options.blockColor !== 'default' ? options.blockColor : null,
         highlightColors: options.highlightColors,
@@ -293,7 +296,7 @@ class ContentScript {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.blacklist.createPatch(entry.props);
+            this.options.blacklist.createPatch(entry.props, this.options.usePSL);
             this.options.blacklist.applyPatch();
             void saveToLocalStorage(
               { blacklist: this.options.blacklist.toString() },
@@ -324,6 +327,7 @@ class ContentScript {
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
         title={title}
         url={url}
+        usePSL={this.options.usePSL}
         onBlocked={() => {
           if (!this.options) {
             return;

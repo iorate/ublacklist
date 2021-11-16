@@ -123,7 +123,12 @@ async function openActivatePopup(tabId: number, match: string): Promise<void> {
 }
 
 async function openBlockPopup(url: string, title: string | null): Promise<void> {
-  const options = await loadFromLocalStorage(['blacklist', 'subscriptions', 'enablePathDepth']);
+  const options = await loadFromLocalStorage([
+    'blacklist',
+    'subscriptions',
+    'enablePathDepth',
+    'usePSL',
+  ]);
   const blacklist = new Blacklist(
     options.blacklist,
     Object.values(options.subscriptions).map(subscription => subscription.blacklist),
@@ -137,6 +142,7 @@ async function openBlockPopup(url: string, title: string | null): Promise<void> 
       enablePathDepth={options.enablePathDepth}
       title={title}
       url={url}
+      usePSL={options.usePSL}
       onBlocked={() => saveToLocalStorage({ blacklist: blacklist.toString() }, 'popup')}
     />,
     document.body,

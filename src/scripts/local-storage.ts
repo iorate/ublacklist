@@ -13,6 +13,7 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   hideBlockLinks: false,
   hideControl: false,
   enablePathDepth: false,
+  usePSL: false,
 
   linkColor: 'default',
   blockColor: 'default',
