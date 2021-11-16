@@ -1,5 +1,6 @@
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
+import * as punycode from 'punycode/';
 import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
@@ -65,7 +66,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
       const patch = blacklist.createPatch({ url, title });
       state.disabled = false;
       state.unblock = patch.unblock;
-      state.host = url.host;
+      state.host = punycode.toUnicode(url.host);
       state.detailsOpen = false;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = '0';
