@@ -1638,6 +1638,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/punycode@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/punycode@npm:2.1.0"
+  checksum: 6835698becab395eb9ac186970fd7879aeb522ea72d516ef9d681d787989653fcc2439ecc07d48280e1ca11862773b806efeec3fdbd1207528829a83b65d4275
+  languageName: node
+  linkType: hard
+
 "@types/responselike@npm:^1.0.0":
   version: 1.0.0
   resolution: "@types/responselike@npm:1.0.0"
@@ -9865,6 +9872,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"mpsl@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "mpsl@npm:2.0.0"
+  dependencies:
+    punycode: ^2.1.1
+  checksum: b649114fd6d73c5a6e38f6f10928680135b232f8dc02bb6a23782caa5a82ccd1927868a580dffb7d6010f5302d3a7698883420159141df0f81d4ef2d96b02389
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -11971,6 +11987,7 @@ resolve@^2.0.0-next.3:
     "@types/glob": ^7.1.4
     "@types/jest": ^27.0.1
     "@types/node": ^16.9.2
+    "@types/punycode": ^2.1.0
     "@typescript-eslint/eslint-plugin": ^4.31.1
     "@typescript-eslint/parser": ^4.31.1
     aggregate-error: ^3.0.0
@@ -12000,9 +12017,11 @@ resolve@^2.0.0-next.3:
     jest: ^27.2.0
     license-webpack-plugin: ^2.3.21
     microstruct: ^1.0.0
+    mpsl: ^2.0.0
     npm-run-all: ^4.1.5
     preact: 10.5.14
     prettier: ^2.4.1
+    punycode: ^2.1.1
     rimraf: ^3.0.2
     semantic-release: ^17.4.7
     semantic-release-chrome: ^1.1.3
