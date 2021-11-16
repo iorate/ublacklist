@@ -161,6 +161,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The label for the switch whether to hide the number of blocked sites and the 'Show' link.
   options_hideControlLabel: 'Hide the number of blocked sites and the "Show" link',
 
+  // The label for the switch whether to use the public suffix list to detect domains.
+  options_usePSL: 'Detect domains to be blocked using the Public Suffix List',
+
   // The title of the appearance section.
   options_appearanceTitle: 'Appearance',
 

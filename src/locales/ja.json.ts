@@ -56,6 +56,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_skipBlockDialogLabel: '「このサイトをブロックする」ダイアログをスキップする',
   options_hideBlockLinksLabel: '「このサイトをブロックする」リンクを非表示にする',
   options_hideControlLabel: 'ブロックしたサイトの数と「表示する」リンクを非表示にする',
+  options_usePSL: 'Public Suffix List を使ってブロックするドメインを検出する',
   options_appearanceTitle: '外観',
   options_linkColor: 'リンクの色',
   options_blockColor: 'ブロックされた検索結果の色',
