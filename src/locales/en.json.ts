@@ -161,8 +161,12 @@ exportAsMessages('_locales/en/messages.json', {
   // The label for the switch whether to hide the number of blocked sites and the 'Show' link.
   options_hideControlLabel: 'Hide the number of blocked sites and the "Show" link',
 
-  // The label for the switch whether to use the public suffix list to detect domains.
-  options_usePSL: 'Detect domains to be blocked using the Public Suffix List',
+  // The label for the switch whether to block a whole site by default.
+  options_blockWholeSiteLabel: 'Add rules blocking whole sites by default',
+
+  // The example of blocking a whole site.
+  options_blockWholeSiteDescription:
+    'For example, to block the page "https://a.b.example.uk.com/", a rule "*://*.example.uk.com/*" will be added.',
 
   // The title of the appearance section.
   options_appearanceTitle: 'Appearance',

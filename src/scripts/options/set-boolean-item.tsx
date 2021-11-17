@@ -1,6 +1,6 @@
 import { FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
-import { ControlLabel, LabelWrapper } from '../components/label';
+import { ControlLabel, LabelWrapper, SubLabel } from '../components/label';
 import { Row, RowItem } from '../components/row';
 import { useCSS } from '../components/styles';
 import { Switch } from '../components/switch';
@@ -16,7 +16,8 @@ export const SetBooleanItem: FunctionComponent<{
   disabled?: boolean;
   itemKey: BooleanItemKey;
   label: string;
-}> = ({ disabled = false, itemKey, label }) => {
+  subLabels?: readonly string[];
+}> = ({ disabled = false, itemKey, label, subLabels = [] }) => {
   const {
     initialItems: { [itemKey]: initialItem },
   } = useOptionsContext();
@@ -38,6 +39,9 @@ export const SetBooleanItem: FunctionComponent<{
       <RowItem expanded>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
+          {subLabels.map(subLabel => (
+            <SubLabel key={subLabel}>{subLabel}</SubLabel>
+          ))}
         </LabelWrapper>
       </RowItem>
       <RowItem>

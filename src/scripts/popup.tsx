@@ -127,7 +127,7 @@ async function openBlockPopup(url: string, title: string | null): Promise<void> 
     'blacklist',
     'subscriptions',
     'enablePathDepth',
-    'usePSL',
+    'blockWholeSite',
   ]);
   const blacklist = new Blacklist(
     options.blacklist,
@@ -138,11 +138,11 @@ async function openBlockPopup(url: string, title: string | null): Promise<void> 
   render(
     <BlockPopup
       blacklist={blacklist}
+      blockWholeSite={options.blockWholeSite}
       close={() => window.close()}
       enablePathDepth={options.enablePathDepth}
       title={title}
       url={url}
-      usePSL={options.usePSL}
       onBlocked={() => saveToLocalStorage({ blacklist: blacklist.toString() }, 'popup')}
     />,
     document.body,

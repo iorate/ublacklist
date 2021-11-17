@@ -401,7 +401,11 @@ export const GeneralSection: FunctionComponent = () => (
         <SetBooleanItem itemKey="hideControl" label={translate('options_hideControlLabel')} />
       </SectionItem>
       <SectionItem>
-        <SetBooleanItem itemKey="usePSL" label={translate('options_usePSL')} />
+        <SetBooleanItem
+          itemKey="blockWholeSite"
+          label={translate('options_blockWholeSiteLabel')}
+          subLabels={[translate('options_blockWholeSiteDescription')]}
+        />
       </SectionItem>
     </SectionBody>
   </Section>

@@ -32,23 +32,23 @@ import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
   blacklist: Blacklist;
+  blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
   open: boolean;
   title: string | null;
   url: string;
-  usePSL: boolean;
   onBlocked: () => void | Promise<void>;
 };
 
 const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   blacklist,
+  blockWholeSite,
   close,
   enablePathDepth,
   open,
   title,
   url: entryURL,
-  usePSL,
   onBlocked,
 }) => {
   const [state, setState] = useState({
@@ -66,10 +66,10 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   if (open && !prevOpen) {
     const url = makeAltURL(entryURL);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = blacklist.createPatch({ url, title }, usePSL);
+      const patch = blacklist.createPatch({ url, title }, blockWholeSite);
       state.disabled = false;
       state.unblock = patch.unblock;
-      state.host = punycode.toUnicode(usePSL ? mpsl.get(url.host) ?? url.host : url.host);
+      state.host = punycode.toUnicode(blockWholeSite ? mpsl.get(url.host) ?? url.host : url.host);
       state.detailsOpen = false;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = '0';

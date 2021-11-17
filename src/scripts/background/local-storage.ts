@@ -38,7 +38,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
         items.hideBlockLinks != null ||
         items.hideControl != null ||
         items.enablePathDepth != null ||
-        items.usePSL != null
+        items.blockWholeSite != null
       ) {
         items.generalLastModified = now.toISOString();
         dirtyFlagsUpdate.general = true;
