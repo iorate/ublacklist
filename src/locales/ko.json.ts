@@ -33,7 +33,8 @@ exportAsMessages('_locales/ko/messages.json', {
   options_blacklistHelper:
     '[일치 패턴](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 또는 [정규 표현식](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions)을 사용할 수 있습니다.',
   options_blacklistExample: '예시: $1',
-  options_blockByTitle: '페이지 제목으로 사이트를 차단하려면 정규 표현식 앞에 "title" 을 추가해주세요.',
+  options_blockByTitle:
+    '페이지 제목으로 사이트를 차단하려면 정규 표현식 앞에 "title" 을 추가해주세요.',
   options_blacklistUpdated: '업데이트 했습니다.',
   options_reloadBlacklistButton: '새로고침',
   options_importBlacklistButton: '가져오기',
@@ -77,7 +78,7 @@ exportAsMessages('_locales/ko/messages.json', {
   options_turnOnSync: '동기화 설정',
   options_turnOnSyncDialog_title: '동기화 설정',
   options_turnOnSyncDialog_turnOnSyncButton: '확인',
-  options_turnOnSyncDialog_altFlowDescription: 
+  options_turnOnSyncDialog_altFlowDescription:
     '인증 과정중에 $1에 대한 액세스 권한이 필요할 수 있지만, 개인 정보는 해당 도메인에 저장되지 않습니다.',
   options_turnOffSync: '동기화 중지',
   options_syncResult: '최근 동기화',
