@@ -251,6 +251,23 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Video
       {
+        target: '.dXiKIc',
+        level: '.g',
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.csDOgf',
+        actionPosition: 'afterend',
+        actionStyle: desktopAboutThisResultActionStyle,
+      },
+      {
+        target: '.dXiKIc',
+        level: '.g',
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
+      },
+      {
         target: '.RzdJxc',
         url: '.X5OiLe',
         title: '.fc9yUc',
@@ -260,13 +277,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginLeft: '4px',
         },
-      },
-      {
-        target: '.VibNM',
-        url: '.WpKAof',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.ocUPSd',
-        actionStyle: desktopRegularActionStyle,
       },
       // News (COVID-19)
       {
@@ -315,7 +325,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.IsZvec',
+        innerTargets: '.IsZvec, .dXiKIc',
       },
     ],
   }),
@@ -467,9 +477,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.g .IsZvec',
+        target: '.dXiKIc',
         level: '.g',
-        url: '.yuRUbf > a',
+        url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
         actionStyle: desktopRegularActionStyle,
@@ -478,8 +488,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     pagerHandlers: [
       // AutoPagerize
       {
-        target: '.autopagerize_page_info ~ .g',
-        innerTargets: '.IsZvec',
+        target: '.autopagerize_page_info ~ div',
+        innerTargets: '.dXiKIc',
       },
     ],
   }),
