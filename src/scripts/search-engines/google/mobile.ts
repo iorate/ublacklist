@@ -137,6 +137,21 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           '& > .ub-button': iOSButtonStyle,
         },
       },
+      // YouTube Channel (iOS)
+      {
+        target: '.XqIXXe > .mnr-c',
+        level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') ?? null,
+        url: getURLFromPing('h3 > a'),
+        title: 'h3',
+        actionTarget: '',
+        actionStyle: {
+          display: 'block',
+          fontSize: '14px',
+          marginTop: '-4px',
+          padding: '0 16px 12px 16px',
+          '& > .ub-button': iOSButtonStyle,
+        },
+      },
       // Regular, Featured Snippet, Video
       {
         target: '.xpd',

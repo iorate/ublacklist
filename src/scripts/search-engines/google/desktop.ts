@@ -278,6 +278,24 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           marginLeft: '4px',
         },
       },
+      // YouTube Channel
+      {
+        target: '.mnr-c > .krUaHe',
+        level: 1,
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.csDOgf',
+        actionPosition: 'afterend',
+        actionStyle: desktopAboutThisResultActionStyle,
+      },
+      {
+        target: '.mnr-c > .krUaHe',
+        level: 1,
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
+      },
       // News (COVID-19)
       {
         target: '.XXW1wb .WlydOe, .ftSUBd .WlydOe',
