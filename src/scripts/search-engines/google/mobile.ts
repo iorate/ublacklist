@@ -126,7 +126,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // Video (iOS)
       {
         target: '.mnr-c.PHap3c',
-        url: getURLFromPing('.C8nzq'),
+        url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
         actionStyle: {
