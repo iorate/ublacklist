@@ -51,6 +51,8 @@ export type MessageName =
   | 'options_skipBlockDialogLabel'
   | 'options_hideBlockLinksLabel'
   | 'options_hideControlLabel'
+  | 'options_blockWholeSiteLabel'
+  | 'options_blockWholeSiteDescription'
   | 'options_appearanceTitle'
   | 'options_linkColor'
   | 'options_blockColor'

@@ -100,6 +100,7 @@ const syncSections: readonly SyncSection[] = [
           hideBlockLinks: localItems.hideBlockLinks,
           hideControl: localItems.hideControl,
           enablePathDepth: localItems.enablePathDepth,
+          blockWholeSite: localItems.blockWholeSite,
         }),
         modifiedTime: dayjs(localItems.generalLastModified),
       };
@@ -112,6 +113,7 @@ const syncSections: readonly SyncSection[] = [
           hideBlockLinks: S.boolean(),
           hideControl: S.boolean(),
           enablePathDepth: S.boolean(),
+          blockWholeSite: S.optional(S.boolean()),
         }),
       );
       if (!items) {
@@ -121,6 +123,9 @@ const syncSections: readonly SyncSection[] = [
       cloudItems.hideBlockLinks = items.hideBlockLinks;
       cloudItems.hideControl = items.hideControl;
       cloudItems.enablePathDepth = items.enablePathDepth;
+      if (items.blockWholeSite != null) {
+        cloudItems.blockWholeSite = items.blockWholeSite;
+      }
       cloudItems.generalLastModified = cloudModifiedTime.toISOString();
     },
     afterDownloadAll(cloudItems, latestLocalItems) {
@@ -132,6 +137,7 @@ const syncSections: readonly SyncSection[] = [
         delete cloudItems.hideBlockLinks;
         delete cloudItems.hideControl;
         delete cloudItems.enablePathDepth;
+        delete cloudItems.blockWholeSite;
         delete cloudItems.generalLastModified;
       }
     },

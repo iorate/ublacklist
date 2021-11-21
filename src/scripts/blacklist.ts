@@ -1,3 +1,4 @@
+import * as mpsl from 'mpsl';
 import { SerpEntryProps } from './types';
 import { AltURL, MatchPattern, lines, unlines } from './utilities';
 
@@ -144,10 +145,16 @@ function findIndices<T>(xss: readonly T[][], predicate: (x: T) => boolean): [num
   return indices;
 }
 
-function suggestMatchPattern(url: AltURL, unblock: boolean): string {
+function suggestMatchPattern(url: AltURL, unblock: boolean, blockWholeSite: boolean): string {
   const at = unblock ? '@' : '';
   const scheme = url.scheme === 'http' || url.scheme === 'https' ? '*' : url.scheme;
-  const host = url.host;
+  let host;
+  if (blockWholeSite) {
+    const domain = mpsl.get(url.host);
+    host = domain != null ? `*.${domain}` : url.host;
+  } else {
+    host = url.host;
+  }
   const path = '/*';
   return `${at}${scheme}://${host}${path}`;
 }
@@ -184,7 +191,7 @@ export class Blacklist {
 
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
-  createPatch(props: SerpEntryProps): BlacklistPatch {
+  createPatch(props: SerpEntryProps, blockWholeSite: boolean): BlacklistPatch {
     const patch = { props } as BlacklistPatchInternal;
     const ruleIndices = findIndices(this.userFragment.rules, rule => rule.tester.test(props));
     if (ruleIndices.some(([i]) => i >= 1)) {
@@ -197,7 +204,7 @@ export class Blacklist {
       } else if (this.subscriptionFragments.some(fragment => fragment.test(props) >= 1)) {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(props.url, false);
+        patch.rulesToAdd = suggestMatchPattern(props.url, false, blockWholeSite);
       } else if (this.subscriptionFragments.some(fragment => fragment.test(props) === 0)) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
@@ -205,7 +212,7 @@ export class Blacklist {
       } else {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(props.url, false);
+        patch.rulesToAdd = suggestMatchPattern(props.url, false, blockWholeSite);
       }
       patch.ruleIndicesToRemove = ruleIndices.filter(([i]) => i >= 1);
       patch.rulesToRemove = unlines(
@@ -222,7 +229,7 @@ export class Blacklist {
         } else if (this.subscriptionFragments.some(fragment => fragment.test(props) === 0)) {
           // Add a user rule to unblock it.
           patch.requireRulesToAdd = true;
-          patch.rulesToAdd = suggestMatchPattern(props.url, true);
+          patch.rulesToAdd = suggestMatchPattern(props.url, true, blockWholeSite);
         } else {
           // No need to add a user rule to unblock it.
           patch.requireRulesToAdd = false;
@@ -237,7 +244,7 @@ export class Blacklist {
         // Add a user rule to block it.
         patch.unblock = false;
         patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(props.url, false);
+        patch.rulesToAdd = suggestMatchPattern(props.url, false, blockWholeSite);
         patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
       } else if (this.subscriptionFragments.some(fragment => fragment.test(props) === 0)) {
@@ -245,7 +252,7 @@ export class Blacklist {
         // Add a user rule to unblock it.
         patch.unblock = true;
         patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(props.url, true);
+        patch.rulesToAdd = suggestMatchPattern(props.url, true, blockWholeSite);
         patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
       } else {
@@ -253,7 +260,7 @@ export class Blacklist {
         // Add a user rule to block it.
         patch.unblock = false;
         patch.requireRulesToAdd = true;
-        patch.rulesToAdd = suggestMatchPattern(props.url, false);
+        patch.rulesToAdd = suggestMatchPattern(props.url, false, blockWholeSite);
         patch.ruleIndicesToRemove = [];
         patch.rulesToRemove = '';
       }

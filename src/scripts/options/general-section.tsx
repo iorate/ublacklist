@@ -390,6 +390,13 @@ export const GeneralSection: FunctionComponent = () => (
       <RegisterSearchEngines />
       <SectionItem>
         <SetBooleanItem
+          itemKey="blockWholeSite"
+          label={translate('options_blockWholeSiteLabel')}
+          subLabels={[translate('options_blockWholeSiteDescription')]}
+        />
+      </SectionItem>
+      <SectionItem>
+        <SetBooleanItem
           itemKey="skipBlockDialog"
           label={translate('options_skipBlockDialogLabel')}
         />

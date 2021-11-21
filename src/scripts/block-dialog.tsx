@@ -1,5 +1,7 @@
+import * as mpsl from 'mpsl';
 import { Fragment, FunctionComponent, h } from 'preact';
 import { useMemo, useState } from 'preact/hooks';
+import * as punycode from 'punycode/';
 import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
@@ -30,6 +32,7 @@ import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
   blacklist: Blacklist;
+  blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
   open: boolean;
@@ -40,6 +43,7 @@ type BlockDialogContentProps = {
 
 const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   blacklist,
+  blockWholeSite,
   close,
   enablePathDepth,
   open,
@@ -62,10 +66,10 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   if (open && !prevOpen) {
     const url = makeAltURL(entryURL);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = blacklist.createPatch({ url, title });
+      const patch = blacklist.createPatch({ url, title }, blockWholeSite);
       state.disabled = false;
       state.unblock = patch.unblock;
-      state.host = url.host;
+      state.host = punycode.toUnicode(blockWholeSite ? mpsl.get(url.host) ?? url.host : url.host);
       state.detailsOpen = false;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = '0';

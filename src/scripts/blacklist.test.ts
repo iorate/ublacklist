@@ -9,6 +9,26 @@ function makeProps(url: string, title?: string): SerpEntryProps {
   };
 }
 
+describe('psl', () => {
+  test('patch', () => {
+    const b1 = new Blacklist('', []);
+    const p11 = b1.createPatch(makeProps('https://www.library.city.chuo.tokyo.jp'), true);
+    expect(p11.unblock).toBe(false);
+    expect(p11.rulesToAdd).toBe(String.raw`*://*.city.chuo.tokyo.jp/*`);
+    expect(p11.rulesToRemove).toBe('');
+    b1.applyPatch();
+    expect(b1.toString()).toBe(String.raw`*://*.city.chuo.tokyo.jp/*`);
+
+    const b2 = new Blacklist('', [String.raw`*://*.example.com/*`]);
+    const p21 = b2.createPatch(makeProps('https://www.example.com/'), true);
+    expect(p21.unblock).toBe(true);
+    expect(p21.rulesToAdd).toBe(String.raw`@*://*.example.com/*`);
+    expect(p21.rulesToRemove).toBe('');
+    b2.applyPatch();
+    expect(b2.toString()).toBe(String.raw`@*://*.example.com/*`);
+  });
+});
+
 describe('title', () => {
   test('test', () => {
     const b1 = new Blacklist(
@@ -70,7 +90,7 @@ describe('highlight', () => {
 
   test('patch', () => {
     const b1 = new Blacklist(String.raw`@1*://example.com/*`, []);
-    const p11 = b1.createPatch(makeProps('https://example.com/'));
+    const p11 = b1.createPatch(makeProps('https://example.com/'), false);
     expect(p11.unblock).toBe(false);
     expect(p11.rulesToAdd).toBe(String.raw`*://example.com/*`);
     expect(p11.rulesToRemove).toBe(String.raw`@1*://example.com/*`);
@@ -83,7 +103,7 @@ describe('highlight', () => {
     expect(b1.toString()).toBe(String.raw`*://example.com/*`);
 
     const b2 = new Blacklist(String.raw`*://example.com/*`, [String.raw`*://example.com/*`]);
-    const p21 = b2.createPatch(makeProps('https://example.com'));
+    const p21 = b2.createPatch(makeProps('https://example.com'), false);
     expect(p21.unblock).toBe(true);
     expect(p21.rulesToAdd).toBe(String.raw`@*://example.com/*`);
     expect(p21.rulesToRemove).toBe(String.raw`*://example.com/*`);
@@ -129,7 +149,7 @@ describe('block and unblock', () => {
 
   test('patch', () => {
     const b1 = new Blacklist(BLACKLIST1, []);
-    const p1a = b1.createPatch(makeProps('https://www.example.edu/'));
+    const p1a = b1.createPatch(makeProps('https://www.example.edu/'), false);
     expect(p1a.unblock).toBe(false);
     expect(p1a.props.url.toString()).toBe('https://www.example.edu/');
     expect(p1a.rulesToAdd).toBe('*://www.example.edu/*');
@@ -143,7 +163,7 @@ describe('block and unblock', () => {
 https://*.example.edu/`);
 
     const b123 = new Blacklist(BLACKLIST1, [BLACKLIST2, BLACKLIST3]);
-    const p123a = b123.createPatch(makeProps('http://www.example.com/path'));
+    const p123a = b123.createPatch(makeProps('http://www.example.com/path'), false);
     expect(p123a.unblock).toBe(true);
     expect(p123a.props.url.toString()).toBe('http://www.example.com/path');
     expect(p123a.rulesToAdd).toBe('');
@@ -154,7 +174,7 @@ https://*.example.edu/`);
 # But unblock 'example.net'
 @*://example.net/*`);
 
-    const p123b = b123.createPatch(makeProps('https://example.net/'));
+    const p123b = b123.createPatch(makeProps('https://example.net/'), false);
     expect(p123b.unblock).toBe(false);
     expect(p123b.props.url.toString()).toBe('https://example.net/');
     expect(p123b.rulesToAdd).toBe('');
@@ -168,7 +188,7 @@ https://*.example.edu/`);
       b123.applyPatch();
     }).toThrow();
 
-    const p123e = b123.createPatch(makeProps('ftp://example.org/dir/file'));
+    const p123e = b123.createPatch(makeProps('ftp://example.org/dir/file'), false);
     expect(p123e.unblock).toBe(true);
     expect(p123e.props.url.toString()).toBe('ftp://example.org/dir/file');
     expect(p123e.rulesToAdd).toBe('@ftp://example.org/*');
@@ -179,7 +199,7 @@ https://*.example.edu/`);
 @*://example.net/*
 @ftp://example.org/*`);
 
-    b123.createPatch(makeProps('http://www.example.edu/foo/bar'));
+    b123.createPatch(makeProps('http://www.example.edu/foo/bar'), false);
     const p123f = b123.modifyPatch({
       rulesToAdd: String.raw`*://www.example.edu/*
 @/edu/`,

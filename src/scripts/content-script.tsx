@@ -89,6 +89,7 @@ class ContentScript {
     hideControls: boolean;
     hideActions: boolean;
     enablePathDepth: boolean;
+    blockWholeSite: boolean;
     linkColor: string | null;
     blockColor: string | null;
     highlightColors: string[];
@@ -139,6 +140,7 @@ class ContentScript {
         'hideControl',
         'hideBlockLinks',
         'enablePathDepth',
+        'blockWholeSite',
         'linkColor',
         'blockColor',
         'highlightColors',
@@ -154,6 +156,7 @@ class ContentScript {
         hideControls: options.hideControl,
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
+        blockWholeSite: options.blockWholeSite,
         linkColor: options.linkColor !== 'default' ? options.linkColor : null,
         blockColor: options.blockColor !== 'default' ? options.blockColor : null,
         highlightColors: options.highlightColors,
@@ -293,7 +296,7 @@ class ContentScript {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.blacklist.createPatch(entry.props);
+            this.options.blacklist.createPatch(entry.props, this.options.blockWholeSite);
             this.options.blacklist.applyPatch();
             void saveToLocalStorage(
               { blacklist: this.options.blacklist.toString() },
@@ -317,6 +320,7 @@ class ContentScript {
     render(
       <BlockDialog
         blacklist={this.options.blacklist}
+        blockWholeSite={this.options.blockWholeSite}
         close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
