@@ -28,6 +28,7 @@ export type Theme = {
   };
   colorPicker: {
     border: string;
+    popoverBackground: string;
   };
   dialog: {
     background: string;
@@ -107,6 +108,7 @@ export const darkTheme: Readonly<Theme> = {
   },
   colorPicker: {
     border: 'rgb(95, 99, 104)',
+    popoverBackground: 'rgb(41, 42, 45)',
   },
   dialog: {
     background: 'rgb(41, 42, 45)',
@@ -185,6 +187,7 @@ export const lightTheme: Readonly<Theme> = {
   },
   colorPicker: {
     border: 'rgb(218, 220, 224)',
+    popoverBackground: 'white',
   },
   dialog: {
     background: 'white',

@@ -99,12 +99,11 @@ const SetColorItem: React.VFC<{
           <ColorPicker
             aria-label={label}
             value={color}
-            onChange={e => {
+            onChange={value => {
               setSpecifyColor(true);
-              const color = e.currentTarget.value;
-              setColor(color);
+              setColor(value);
               void saveToLocalStorage(
-                { [itemKey]: color } as Partial<Record<ColorItemKey, string>>,
+                { [itemKey]: value } as Partial<Record<ColorItemKey, string>>,
                 'options',
               );
             }}
@@ -179,8 +178,8 @@ const SetHighlightColors: React.VFC = () => {
                     <ColorPicker
                       aria-labelledby={`highlightColor${index}`}
                       value={color}
-                      onChange={e => {
-                        colorsAndKeys[index] = [e.currentTarget.value, colorsAndKeys[index][1]];
+                      onChange={value => {
+                        colorsAndKeys[index] = [value, colorsAndKeys[index][1]];
                         setColorsAndKeys([...colorsAndKeys]);
                         void saveToLocalStorage(
                           { highlightColors: colorsAndKeys.map(([color]) => color) },
