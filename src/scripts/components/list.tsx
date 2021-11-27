@@ -1,13 +1,11 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
 export type ListProps = JSX.IntrinsicElements['ul'];
 
-export const List = forwardRef((props: ListProps, ref: Ref<HTMLUListElement>) => {
+export const List = React.forwardRef<HTMLUListElement, ListProps>(function List(props, ref) {
   const css = useCSS();
   const class_ = useMemo(
     () =>
@@ -23,7 +21,10 @@ export const List = forwardRef((props: ListProps, ref: Ref<HTMLUListElement>) =>
 
 export type ListItemProps = JSX.IntrinsicElements['li'];
 
-export const ListItem = forwardRef((props: ListItemProps, ref: Ref<HTMLLIElement>) => {
+export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(function ListItem(
+  props,
+  ref,
+) {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(

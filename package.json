@@ -14,6 +14,8 @@
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.7",
     "@types/punycode": "^2.1.0",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "aggregate-error": "^3.1.0",
@@ -29,6 +31,7 @@
     "esbuild-register": "^3.1.2",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.0",
@@ -111,24 +114,27 @@
           "callbacksLast": true
         }
       ],
-      "react/no-unknown-property": [
-        "error",
-        {
-          "ignore": [
-            "class",
-            "for",
-            "spellcheck"
-          ]
-        }
-      ],
       "react/prop-types": "off",
       "unused-imports/no-unused-imports": "warn",
       "unused-imports/no-unused-vars": "warn"
     },
     "settings": {
+      "import/resolver": {
+        "alias": {
+          "map": [
+            [
+              "react",
+              "preact/compat"
+            ],
+            [
+              "react-dom",
+              "preact/compat"
+            ]
+          ]
+        }
+      },
       "react": {
-        "pragma": "h",
-        "version": "16.0"
+        "version": "16"
       }
     }
   },

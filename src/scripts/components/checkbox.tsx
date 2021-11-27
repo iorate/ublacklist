@@ -1,6 +1,4 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
 import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
@@ -8,7 +6,10 @@ import { useTheme } from './theme';
 
 export type CheckBoxProps = JSX.IntrinsicElements['input'];
 
-export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
+export const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(function CheckBox(
+  props,
+  ref,
+) {
   const css = useCSS();
   const theme = useTheme();
   const wrapperClass = useMemo(
@@ -82,11 +83,11 @@ export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElem
   );
 
   return (
-    <div class={wrapperClass}>
+    <div className={wrapperClass}>
       <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
-      <div class={imageClass}>
-        <div class={boxClass} />
-        <div class={checkMarkClass} />
+      <div className={imageClass}>
+        <div className={boxClass} />
+        <div className={checkMarkClass} />
         <FocusCircle depth={1} />
       </div>
     </div>

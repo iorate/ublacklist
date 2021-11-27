@@ -1,5 +1,7 @@
-import { Fragment, FunctionComponent, h, render } from 'preact';
-import { useLayoutEffect, useMemo } from 'preact/hooks';
+/* eslint-disable import/no-duplicates */
+import React, { useLayoutEffect, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+/* eslint-enable */
 import { searchEngineMatches } from '../common/search-engines';
 import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
@@ -10,7 +12,10 @@ import { css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
 import { AltURL, MatchPattern, stringKeys } from './utilities';
 
-const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick }) => {
+const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
+  children,
+  onClick,
+}) => {
   const class_ = useMemo(
     () =>
       css({
@@ -27,7 +32,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   );
   return (
     <span
-      class={`ub-button ${class_}`}
+      className={`ub-button ${class_}`}
       role="button"
       tabIndex={0}
       onClick={e => {
@@ -48,7 +53,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   );
 };
 
-const Control: FunctionComponent<{
+const Control: React.VFC<{
   blockedEntryCount: number;
   showBlockedEntries: boolean;
   onClick: () => void;
@@ -69,7 +74,7 @@ const Control: FunctionComponent<{
   );
 };
 
-const Action: FunctionComponent<{
+const Action: React.VFC<{
   blocked: boolean;
   onClick: () => void;
   onRender?: () => void;
@@ -258,7 +263,7 @@ class ContentScript {
       'ub-hidden',
       this.options?.hideControls || !scopeState.blockedEntryCount,
     );
-    render(
+    ReactDOM.render(
       <Control
         blockedEntryCount={scopeState.blockedEntryCount}
         showBlockedEntries={scopeState.showBlockedEntries}
@@ -288,7 +293,7 @@ class ContentScript {
       entry.root.dataset.ubHighlight = String(entry.state - 1);
     }
     entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
-    render(
+    ReactDOM.render(
       <Action
         blocked={entry.state === 0}
         onClick={() => {
@@ -317,7 +322,7 @@ class ContentScript {
     if (!this.options || !this.blockDialogRoot) {
       return;
     }
-    render(
+    ReactDOM.render(
       <BlockDialog
         blacklist={this.options.blacklist}
         blockWholeSite={this.options.blockWholeSite}

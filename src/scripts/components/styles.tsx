@@ -1,27 +1,27 @@
-import * as goober from 'goober';
-import { FunctionComponent, createContext, h } from 'preact';
-import { useContext } from 'preact/hooks';
+import * as Goober from 'goober';
+import React, { useContext } from 'react';
 
 type StylesContextValue = {
-  css: typeof goober.css;
-  glob: typeof goober.glob;
+  css: typeof Goober.css;
+  glob: typeof Goober.glob;
 };
 
-const StylesContext = createContext<StylesContextValue>({
-  css: goober.css,
-  glob: goober.glob,
+const StylesContext = React.createContext<StylesContextValue>({
+  css: Goober.css,
+  glob: Goober.glob,
 });
 
 export type StylesProviderProps = {
+  children?: React.ReactNode;
   target: HTMLElement | ShadowRoot;
 };
 
-export const StylesProvider: FunctionComponent<StylesProviderProps> = ({ children, target }) => {
+export const StylesProvider: React.VFC<StylesProviderProps> = ({ children, target }) => {
   return (
     <StylesContext.Provider
       value={{
-        css: goober.css.bind({ target }),
-        glob: goober.css.bind({ g: 1, target }),
+        css: Goober.css.bind({ target }),
+        glob: Goober.css.bind({ g: 1, target }),
       }}
     >
       {children}
@@ -29,12 +29,12 @@ export const StylesProvider: FunctionComponent<StylesProviderProps> = ({ childre
   );
 };
 
-export function useCSS(): typeof goober.css {
+export function useCSS(): typeof Goober.css {
   const { css } = useContext(StylesContext);
   return css;
 }
 
-export function useGlob(): typeof goober.glob {
+export function useGlob(): typeof Goober.glob {
   const { glob } = useContext(StylesContext);
   return glob;
 }

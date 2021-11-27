@@ -1,6 +1,4 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
@@ -8,7 +6,7 @@ import { useTheme } from './theme';
 
 export type InputProps = JSX.IntrinsicElements['input'];
 
-export const Input = forwardRef((props: InputProps, ref: Ref<HTMLInputElement>) => {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(

@@ -1,44 +1,50 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
 export type DetailsProps = JSX.IntrinsicElements['details'];
 
-export const Details = forwardRef((props: DetailsProps, ref: Ref<HTMLDetailsElement>) => {
+export const Details = React.forwardRef<HTMLDetailsElement, DetailsProps>(function Details(
+  props,
+  ref,
+) {
   return <details {...props} ref={ref} />;
 });
 
 export type DetailsSummaryProps = JSX.IntrinsicElements['summary'];
 
-export const DetailsSummary = forwardRef((props: DetailsSummaryProps, ref: Ref<HTMLElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        cursor: 'pointer',
-        outline: 'none',
-        '&:focus': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        },
-        '&:focus:not(:focus-visible)': {
-          boxShadow: 'none',
-        },
-        '&:focus:not(:-moz-focusring)': {
-          boxShadow: 'none',
-        },
-      }),
-    [css, theme],
-  );
-  return <summary {...applyClass(props, class_)} ref={ref} />;
-});
+export const DetailsSummary = React.forwardRef<HTMLElement, DetailsSummaryProps>(
+  function DetailsSummary(props, ref) {
+    const css = useCSS();
+    const theme = useTheme();
+    const class_ = useMemo(
+      () =>
+        css({
+          cursor: 'pointer',
+          outline: 'none',
+          '&:focus': {
+            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+          },
+          '&:focus:not(:focus-visible)': {
+            boxShadow: 'none',
+          },
+          '&:focus:not(:-moz-focusring)': {
+            boxShadow: 'none',
+          },
+        }),
+      [css, theme],
+    );
+    return <summary {...applyClass(props, class_)} ref={ref} />;
+  },
+);
 
 export type DetailsBodyProps = JSX.IntrinsicElements['div'];
 
-export const DetailsBody = forwardRef((props: DetailsBodyProps, ref: Ref<HTMLDivElement>) => {
+export const DetailsBody = React.forwardRef<HTMLDivElement, DetailsBodyProps>(function DetailsBody(
+  props,
+  ref,
+) {
   const css = useCSS();
   const class_ = useMemo(
     () =>

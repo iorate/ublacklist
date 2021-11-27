@@ -1,5 +1,4 @@
-import { FunctionComponent, h } from 'preact';
-import { useMemo, useState } from 'preact/hooks';
+import React, { useMemo, useState } from 'react';
 import { ControlLabel, LabelWrapper, SubLabel } from '../components/label';
 import { Row, RowItem } from '../components/row';
 import { useCSS } from '../components/styles';
@@ -12,7 +11,7 @@ export type BooleanItemKey = keyof {
   [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key] ? Key : never]: boolean;
 };
 
-export const SetBooleanItem: FunctionComponent<{
+export const SetBooleanItem: React.VFC<{
   disabled?: boolean;
   itemKey: BooleanItemKey;
   label: string;
@@ -35,7 +34,7 @@ export const SetBooleanItem: FunctionComponent<{
   );
 
   return (
-    <Row class={rowClass}>
+    <Row className={rowClass}>
       <RowItem expanded>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
@@ -49,7 +48,7 @@ export const SetBooleanItem: FunctionComponent<{
           checked={item}
           disabled={disabled}
           id={itemKey}
-          onInput={e => {
+          onChange={e => {
             const value = e.currentTarget.checked;
             void saveToLocalStorage(
               { [itemKey]: value } as Partial<Record<BooleanItemKey, boolean>>,

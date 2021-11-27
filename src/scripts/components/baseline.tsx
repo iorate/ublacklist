@@ -1,13 +1,12 @@
-import { Fragment, FunctionComponent, h } from 'preact';
-import { useLayoutEffect, useMemo } from 'preact/hooks';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useCSS, useGlob } from './styles';
 import { useTheme } from './theme';
 
 const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 
-export type BaseLineProps = { fontSize?: string };
+export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize = '13px' }) => {
+export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
   const bodyClass = useMemo(
@@ -41,12 +40,9 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
   return <>{children}</>;
 };
 
-export type ScopedBaselineProps = { fontSize?: string };
+export type ScopedBaselineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
-  children,
-  fontSize = '13px',
-}) => {
+export const ScopedBaseline: React.VFC<ScopedBaselineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
@@ -62,5 +58,5 @@ export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
       }),
     [css, theme, fontSize],
   );
-  return <div class={class_}>{children}</div>;
+  return <div className={class_}>{children}</div>;
 };

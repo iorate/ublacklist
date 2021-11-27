@@ -1,5 +1,4 @@
-import { FunctionComponent, createContext, h } from 'preact';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 export type Theme = {
   background: string;
@@ -237,11 +236,11 @@ export const lightTheme: Readonly<Theme> = {
   },
 };
 
-export type ThemeProviderProps = { theme: Theme };
+export type ThemeProviderProps = { children?: React.ReactNode; theme: Theme };
 
-const ThemeContext = createContext<ThemeProviderProps>({ theme: lightTheme });
+const ThemeContext = React.createContext<ThemeProviderProps>({ theme: lightTheme });
 
-export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children, theme }) => {
+export const ThemeProvider: React.VFC<ThemeProviderProps> = ({ children, theme }) => {
   return <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>;
 };
 
@@ -250,7 +249,7 @@ export function useTheme(): Theme {
   return theme;
 }
 
-export const AutoThemeProvider: FunctionComponent = ({ children }) => {
+export const AutoThemeProvider: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
   const mql = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
   const [dark, setDark] = useState(mql.current.matches);
   useEffect(() => {

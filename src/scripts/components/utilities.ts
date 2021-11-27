@@ -1,4 +1,4 @@
-import { useRef } from 'preact/hooks';
+import { useRef } from 'react';
 
 export function usePrevious<T>(value: T): T | undefined;
 export function usePrevious<T>(value: T, defaultValue: T): T;
