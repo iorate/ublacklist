@@ -1,0 +1,21 @@
+name: stale
+
+on:
+  schedule:
+    - cron: 0 15 * * *
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/stale@v4
+        with:
+          days-before-issue-stale: 30
+          days-before-pr-stale: -1
+          days-before-issue-close: 7
+          days-before-pr-close: -1
+          stale-issue-message: This issue is stale because it has been open for 30 days with no activity.
+          close-issue-message: This issue was closed because it has been inactive for 7 days since being marked as stale.
+          stale-issue-label: stale
+          exempt-issue-labels: bug
