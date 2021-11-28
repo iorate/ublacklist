@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 export type Theme = {
+  name: string;
   background: string;
   button: {
     primary: {
@@ -81,6 +82,7 @@ export type Theme = {
 };
 
 export const darkTheme: Readonly<Theme> = {
+  name: 'dark',
   background: 'rgb(32, 33, 36)',
   button: {
     primary: {
@@ -160,6 +162,7 @@ export const darkTheme: Readonly<Theme> = {
 };
 
 export const lightTheme: Readonly<Theme> = {
+  name: 'light',
   background: 'rgb(248, 249, 250)',
   button: {
     primary: {
@@ -252,11 +255,11 @@ export function useTheme(): Theme {
   return theme;
 }
 
-export const AutoThemeProvider: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
-  const mql = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
-  const [dark, setDark] = useState(mql.current.matches);
+export const AutoThemeProvider: React.VFC<{ children?: React.ReactNode }> = ({ children }) => {
+  const preferDark = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
+  const [dark, setDark] = useState(preferDark.current.matches);
   useEffect(() => {
-    mql.current.addEventListener('change', e => {
+    preferDark.current.addEventListener('change', e => {
       setDark(e.matches);
     });
   }, []);

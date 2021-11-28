@@ -9,6 +9,13 @@ export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
+  const rootClass = useMemo(
+    () =>
+      css({
+        colorScheme: theme.name,
+      }),
+    [css, theme],
+  );
   const bodyClass = useMemo(
     () =>
       css({
@@ -22,11 +29,13 @@ export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px'
     [css, theme, fontSize],
   );
   useLayoutEffect(() => {
+    document.documentElement.classList.add(rootClass);
     document.body.classList.add(bodyClass);
     return () => {
+      document.documentElement.classList.remove(rootClass);
       document.body.classList.remove(bodyClass);
     };
-  }, [bodyClass]);
+  }, [rootClass, bodyClass]);
 
   const glob = useGlob();
   useLayoutEffect(() => {
@@ -49,6 +58,7 @@ export const ScopedBaseline: React.VFC<ScopedBaselineProps> = ({ children, fontS
     () =>
       css({
         color: theme.text.primary,
+        colorScheme: theme.name,
         fontFamily,
         fontSize,
         lineHeight: 1.5,
