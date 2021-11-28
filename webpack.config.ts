@@ -122,6 +122,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
 
       new DotEnv({
         defaults: true,
+        silent: true,
         systemvars: true,
       }),
 
