@@ -26,10 +26,14 @@ function moveFocus(body: HTMLDivElement, key: 'ArrowUp' | 'ArrowDown' | 'Home' |
   nextItem.focus();
 }
 
-export type MenuProps = { buttonLabel?: string; disabled?: boolean } & JSX.IntrinsicElements['div'];
+export type MenuProps = {
+  buttonLabel?: string;
+  children?: React.ReactNode;
+  disabled?: boolean;
+} & JSX.IntrinsicElements['div'];
 
 export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
-  { buttonLabel = '', disabled = false, ...props },
+  { buttonLabel, children, disabled = false, ...props },
   ref,
 ) {
   const [open, setOpen] = useState(false);
@@ -89,7 +93,7 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
         onClick={() => setOpen(!open)}
       />
       <div
-        {...applyClass(props, bodyClass)}
+        className={bodyClass}
         ref={bodyRef}
         role="menu"
         tabIndex={-1}
@@ -114,7 +118,9 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
             moveFocus(e.currentTarget, e.key);
           }
         }}
-      />
+      >
+        {children}
+      </div>
     </div>
   );
 });
