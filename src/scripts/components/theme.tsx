@@ -1,7 +1,7 @@
-import { FunctionComponent, createContext, h } from 'preact';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 export type Theme = {
+  name: string;
   background: string;
   button: {
     primary: {
@@ -29,6 +29,7 @@ export type Theme = {
   };
   colorPicker: {
     border: string;
+    popoverBackground: string;
   };
   dialog: {
     background: string;
@@ -81,6 +82,7 @@ export type Theme = {
 };
 
 export const darkTheme: Readonly<Theme> = {
+  name: 'dark',
   background: 'rgb(32, 33, 36)',
   button: {
     primary: {
@@ -108,6 +110,7 @@ export const darkTheme: Readonly<Theme> = {
   },
   colorPicker: {
     border: 'rgb(95, 99, 104)',
+    popoverBackground: 'rgb(41, 42, 45)',
   },
   dialog: {
     background: 'rgb(41, 42, 45)',
@@ -159,6 +162,7 @@ export const darkTheme: Readonly<Theme> = {
 };
 
 export const lightTheme: Readonly<Theme> = {
+  name: 'light',
   background: 'rgb(248, 249, 250)',
   button: {
     primary: {
@@ -186,6 +190,7 @@ export const lightTheme: Readonly<Theme> = {
   },
   colorPicker: {
     border: 'rgb(218, 220, 224)',
+    popoverBackground: 'white',
   },
   dialog: {
     background: 'white',
@@ -237,11 +242,11 @@ export const lightTheme: Readonly<Theme> = {
   },
 };
 
-export type ThemeProviderProps = { theme: Theme };
+export type ThemeProviderProps = { children?: React.ReactNode; theme: Theme };
 
-const ThemeContext = createContext<ThemeProviderProps>({ theme: lightTheme });
+const ThemeContext = React.createContext<ThemeProviderProps>({ theme: lightTheme });
 
-export const ThemeProvider: FunctionComponent<ThemeProviderProps> = ({ children, theme }) => {
+export const ThemeProvider: React.VFC<ThemeProviderProps> = ({ children, theme }) => {
   return <ThemeContext.Provider value={{ theme }}>{children}</ThemeContext.Provider>;
 };
 
@@ -250,11 +255,11 @@ export function useTheme(): Theme {
   return theme;
 }
 
-export const AutoThemeProvider: FunctionComponent = ({ children }) => {
-  const mql = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
-  const [dark, setDark] = useState(mql.current.matches);
+export const AutoThemeProvider: React.VFC<{ children?: React.ReactNode }> = ({ children }) => {
+  const preferDark = useRef(window.matchMedia('(prefers-color-scheme: dark)'));
+  const [dark, setDark] = useState(preferDark.current.matches);
   useEffect(() => {
-    mql.current.addEventListener('change', e => {
+    preferDark.current.addEventListener('change', e => {
       setDark(e.matches);
     });
   }, []);

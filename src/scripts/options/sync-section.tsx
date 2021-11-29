@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
-import { Fragment, FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useState } from 'preact/hooks';
+import React, { useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -43,8 +42,8 @@ import { SetIntervalItem } from './set-interval-item';
 
 dayjs.extend(dayjsDuration);
 
-const TurnOnSyncDialog: FunctionComponent<
-  { setSyncCloudId: StateUpdater<CloudId | false | null> } & DialogProps
+const TurnOnSyncDialog: React.VFC<
+  { setSyncCloudId: React.Dispatch<React.SetStateAction<CloudId | false | null>> } & DialogProps
 > = ({ close, open, setSyncCloudId }) => {
   const {
     platformInfo: { os },
@@ -73,10 +72,10 @@ const TurnOnSyncDialog: FunctionComponent<
         <Row>
           <RowItem>
             <Select
-              class={FOCUS_START_CLASS}
+              className={FOCUS_START_CLASS}
               disabled={state.phase !== 'none'}
               value={state.selectedCloudId}
-              onInput={e =>
+              onChange={e =>
                 setState(s => ({ ...s, selectedCloudId: e.currentTarget.value as CloudId }))
               }
             >
@@ -122,7 +121,7 @@ const TurnOnSyncDialog: FunctionComponent<
                   id="authCode"
                   rows={2}
                   value={state.authCode}
-                  onInput={e => {
+                  onChange={e => {
                     setState(s => ({ ...s, authCode: e.currentTarget.value }));
                   }}
                 />
@@ -138,7 +137,7 @@ const TurnOnSyncDialog: FunctionComponent<
           </RowItem>
           <RowItem>
             <Button
-              class={FOCUS_END_CLASS}
+              className={FOCUS_END_CLASS}
               disabled={state.phase !== 'none' && !(state.phase === 'auth-alt' && state.authCode)}
               primary
               onClick={() => {
@@ -198,9 +197,9 @@ const TurnOnSyncDialog: FunctionComponent<
   );
 };
 
-const TurnOnSync: FunctionComponent<{
+const TurnOnSync: React.VFC<{
   syncCloudId: CloudId | false | null;
-  setSyncCloudId: StateUpdater<CloudId | false | null>;
+  setSyncCloudId: React.Dispatch<React.SetStateAction<CloudId | false | null>>;
 }> = ({ syncCloudId, setSyncCloudId }) => {
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
@@ -251,7 +250,7 @@ const TurnOnSync: FunctionComponent<{
   );
 };
 
-const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = props => {
+const SyncNow: React.VFC<{ syncCloudId: CloudId | false | null }> = props => {
   const {
     initialItems: { syncResult: initialSyncResult },
   } = useOptionsContext();
@@ -319,7 +318,7 @@ const SyncNow: FunctionComponent<{ syncCloudId: CloudId | false | null }> = prop
   );
 };
 
-const SyncCategories: FunctionComponent<{ disabled: boolean }> = ({ disabled }) => (
+const SyncCategories: React.VFC<{ disabled: boolean }> = ({ disabled }) => (
   <SectionItem>
     <Row>
       <RowItem expanded>
@@ -368,7 +367,7 @@ const SyncCategories: FunctionComponent<{ disabled: boolean }> = ({ disabled }) 
   </SectionItem>
 );
 
-export const SyncSection: FunctionComponent = () => {
+export const SyncSection: React.VFC = () => {
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
     /* #if FIREFOX

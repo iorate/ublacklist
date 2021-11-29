@@ -1,27 +1,31 @@
-import { FunctionComponent, h } from 'preact';
-import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
+import React, { useLayoutEffect, useMemo, useRef } from 'react';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export function applyClass<Props extends { class?: string }>(props: Props, class_: string): Props {
+export function applyClass<Props extends { className?: string | undefined }>(
+  props: Props,
+  class_: string,
+): Props {
   return {
     ...props,
-    class: `${class_}${props.class != null ? ` ${props.class}` : ''}`,
+    className: `${class_}${props.className != null ? ` ${props.className}` : ''}`,
   };
 }
 
 // https://itnext.io/reusing-the-ref-from-forwardref-with-react-hooks-4ce9df693dd
-export function useInnerRef<T>(ref: Ref<T>): Ref<T | null> {
+export function useInnerRef<T>(
+  ref: ((instance: T | null) => void) | React.MutableRefObject<T | null> | null,
+): React.RefObject<T> {
   const innerRef = useRef<T>(null);
   useLayoutEffect(() => {
-    if (ref && innerRef.current != null) {
+    if (ref && typeof ref === 'object' && innerRef.current != null) {
       ref.current = innerRef.current;
     }
   }, [ref]);
   return innerRef;
 }
 
-export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }) => {
+export const FocusCircle: React.VFC<{ depth?: number }> = ({ depth = 0 }) => {
   const css = useCSS();
   const theme = useTheme();
   const focusCircleClass = useMemo(
@@ -46,5 +50,5 @@ export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }
       }),
     [css, theme, depth],
   );
-  return <div class={focusCircleClass} />;
+  return <div className={focusCircleClass} />;
 };

@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
-import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useMemo, useState } from 'preact/hooks';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -28,11 +27,11 @@ import { useCSS } from '../components/styles';
 import {
   Table,
   TableBody,
-  TableBodyCell,
-  TableBodyRow,
+  TableCell,
   TableHeader,
   TableHeaderCell,
   TableHeaderRow,
+  TableRow,
 } from '../components/table';
 import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
@@ -64,11 +63,11 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
   return origins.length ? apis.permissions.request({ origins }) : true;
 }
 
-const AddSubscriptionDialog: FunctionComponent<
+const AddSubscriptionDialog: React.VFC<
   {
     initialName: string;
     initialURL: string;
-    setSubscriptions: StateUpdater<Subscriptions>;
+    setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
 > = ({ close, open, initialName, initialURL, setSubscriptions }) => {
   const [state, setState] = useState(() => ({
@@ -117,11 +116,11 @@ const AddSubscriptionDialog: FunctionComponent<
             </LabelWrapper>
             {open && (
               <Input
-                class={FOCUS_START_CLASS}
+                className={FOCUS_START_CLASS}
                 id="subscriptionName"
                 required={true}
                 value={state.name}
-                onInput={e =>
+                onChange={e =>
                   setState(s => ({
                     ...s,
                     name: e.currentTarget.value,
@@ -146,7 +145,7 @@ const AddSubscriptionDialog: FunctionComponent<
                 required={true}
                 type="url"
                 value={state.url}
-                onInput={e =>
+                onChange={e =>
                   setState(s => ({
                     ...s,
                     url: e.currentTarget.value,
@@ -161,13 +160,13 @@ const AddSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button {...(!ok ? { class: FOCUS_END_CLASS } : {})} onClick={close}>
+            <Button {...(!ok ? { className: FOCUS_END_CLASS } : {})} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              {...(ok ? { class: FOCUS_END_CLASS } : {})}
+              {...(ok ? { className: FOCUS_END_CLASS } : {})}
               disabled={!ok}
               primary
               onClick={async () => {
@@ -194,9 +193,11 @@ const AddSubscriptionDialog: FunctionComponent<
   );
 };
 
-const ShowSubscriptionDialog: FunctionComponent<
-  { subscription: Subscription | null } & DialogProps
-> = ({ close, open, subscription }) => {
+const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & DialogProps> = ({
+  close,
+  open,
+  subscription,
+}) => {
   return (
     <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -208,7 +209,7 @@ const ShowSubscriptionDialog: FunctionComponent<
             {open && (
               <TextArea
                 aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
-                class={FOCUS_START_CLASS}
+                className={FOCUS_START_CLASS}
                 readOnly
                 rows={10}
                 value={subscription?.blacklist ?? ''}
@@ -221,7 +222,7 @@ const ShowSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={FOCUS_END_CLASS} primary onClick={close}>
+            <Button className={FOCUS_END_CLASS} primary onClick={close}>
               {translate('okButton')}
             </Button>
           </RowItem>
@@ -231,11 +232,11 @@ const ShowSubscriptionDialog: FunctionComponent<
   );
 };
 
-const ManageSubscription: FunctionComponent<{
+const ManageSubscription: React.VFC<{
   id: SubscriptionId;
-  setShowSubscriptionDialogOpen: StateUpdater<boolean>;
-  setShowSubscriptionDialogSubscription: StateUpdater<Subscription | null>;
-  setSubscriptions: StateUpdater<Subscriptions>;
+  setShowSubscriptionDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowSubscriptionDialogSubscription: React.Dispatch<React.SetStateAction<Subscription | null>>;
+  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   subscription: Subscription;
   updating: boolean;
 }> = ({
@@ -247,10 +248,10 @@ const ManageSubscription: FunctionComponent<{
   updating,
 }) => {
   return (
-    <TableBodyRow>
-      <TableBodyCell>{subscription.name}</TableBodyCell>
-      <TableBodyCell breakAll>{subscription.url}</TableBodyCell>
-      <TableBodyCell>
+    <TableRow>
+      <TableCell>{subscription.name}</TableCell>
+      <TableCell breakAll>{subscription.url}</TableCell>
+      <TableCell>
         {updating ? (
           translate('options_subscriptionUpdateRunning')
         ) : !subscription.updateResult ? (
@@ -260,8 +261,8 @@ const ManageSubscription: FunctionComponent<{
         ) : (
           <FromNow time={dayjs(subscription.updateResult.timestamp)} />
         )}
-      </TableBodyCell>
-      <TableBodyCell>
+      </TableCell>
+      <TableCell>
         <Menu buttonLabel={translate('options_subscriptionMenuButtonLabel')}>
           <MenuItem
             onClick={() => {
@@ -296,14 +297,14 @@ const ManageSubscription: FunctionComponent<{
             {translate('options_removeSubscriptionMenu')}
           </MenuItem>
         </Menu>
-      </TableBodyCell>
-    </TableBodyRow>
+      </TableCell>
+    </TableRow>
   );
 };
 
 export const ManageSubscriptions: FunctionComponent<{
   subscriptions: Subscriptions;
-  setSubscriptions: StateUpdater<Subscriptions>;
+  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
 }> = ({ subscriptions, setSubscriptions }) => {
   const { query } = useOptionsContext();
 
@@ -409,7 +410,7 @@ export const ManageSubscriptions: FunctionComponent<{
           </RowItem>
         </Row>
       ) : (
-        <Row class={emptyClass}>
+        <Row className={emptyClass}>
           <RowItem expanded>{translate('options_noSubscriptionsAdded')}</RowItem>
         </Row>
       )}

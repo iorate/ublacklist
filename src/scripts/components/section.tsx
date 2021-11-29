@@ -1,16 +1,11 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
-export type SectionProps = {
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-} & JSX.IntrinsicElements['section'];
+export type SectionProps = JSX.IntrinsicElements['section'];
 
-export const Section = forwardRef((props: SectionProps, ref: Ref<HTMLElement>) => {
+export const Section = React.forwardRef<HTMLElement, SectionProps>(function Section(props, ref) {
   const css = useCSS();
   const class_ = useMemo(
     () =>
@@ -28,8 +23,8 @@ export type SectionHeaderProps = {
   maxWidth?: string;
 } & JSX.IntrinsicElements['div'];
 
-export const SectionHeader = forwardRef(
-  ({ maxWidth = '640px', ...props }: SectionHeaderProps, ref: Ref<HTMLDivElement>) => {
+export const SectionHeader = React.forwardRef<HTMLDivElement, SectionHeaderProps>(
+  function SectionHeader({ maxWidth = '640px', ...props }, ref) {
     const css = useCSS();
     const class_ = useMemo(
       () =>
@@ -47,8 +42,8 @@ export const SectionHeader = forwardRef(
 
 export type SectionTitleProps = JSX.IntrinsicElements['h1'];
 
-export const SectionTitle = forwardRef(
-  ({ children, ...props }: SectionTitleProps, ref: Ref<HTMLHeadingElement>) => {
+export const SectionTitle = React.forwardRef<HTMLHeadingElement, SectionTitleProps>(
+  function SectionTitle({ children, ...props }, ref) {
     const css = useCSS();
     const class_ = useMemo(
       () =>
@@ -69,7 +64,10 @@ export const SectionTitle = forwardRef(
 
 export type SectionBodyProps = JSX.IntrinsicElements['div'];
 
-export const SectionBody = forwardRef((props: SectionBodyProps, ref: Ref<HTMLDivElement>) => {
+export const SectionBody = React.forwardRef<HTMLDivElement, SectionBodyProps>(function SectionBody(
+  props,
+  ref,
+) {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
@@ -86,7 +84,10 @@ export const SectionBody = forwardRef((props: SectionBodyProps, ref: Ref<HTMLDiv
 
 export type SectionItemProps = JSX.IntrinsicElements['div'];
 
-export const SectionItem = forwardRef((props: SectionItemProps, ref: Ref<HTMLDivElement>) => {
+export const SectionItem = React.forwardRef<HTMLDivElement, SectionItemProps>(function SectionItem(
+  props,
+  ref,
+) {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(

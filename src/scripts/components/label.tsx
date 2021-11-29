@@ -1,6 +1,4 @@
-import { JSX, createContext, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useContext, useMemo } from 'preact/hooks';
+import React, { useContext, useMemo } from 'react';
 import { DISABLED_OPACITY } from './constants';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
@@ -8,7 +6,7 @@ import { useTheme } from './theme';
 
 type LabelContextValue = { disabled: boolean };
 
-const LabelContext = createContext<LabelContextValue | null>(null);
+const LabelContext = React.createContext<LabelContextValue | null>(null);
 
 function useLabelContext(): LabelContextValue {
   const value = useContext(LabelContext);
@@ -23,11 +21,8 @@ export type LabelWrapperProps = {
   fullWidth?: boolean;
 } & JSX.IntrinsicElements['div'];
 
-export const LabelWrapper = forwardRef(
-  (
-    { disabled = false, fullWidth = false, ...props }: LabelWrapperProps,
-    ref: Ref<HTMLDivElement>,
-  ) => {
+export const LabelWrapper = React.forwardRef<HTMLDivElement, LabelWrapperProps>(
+  function LabelWrapper({ disabled = false, fullWidth = false, ...props }, ref) {
     const css = useCSS();
     const class_ = useMemo(
       () =>
@@ -47,7 +42,7 @@ export const LabelWrapper = forwardRef(
 
 export type LabelProps = JSX.IntrinsicElements['span'];
 
-export const Label = forwardRef((props: LabelProps, ref: Ref<HTMLSpanElement>) => {
+export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(function Label(props, ref) {
   const { disabled } = useLabelContext();
 
   const css = useCSS();
@@ -70,8 +65,8 @@ export const Label = forwardRef((props: LabelProps, ref: Ref<HTMLSpanElement>) =
 
 export type ControlLabelProps = { for: string } & JSX.IntrinsicElements['label'];
 
-export const ControlLabel = forwardRef(
-  ({ children, for: for_, ...props }: ControlLabelProps, ref: Ref<HTMLLabelElement>) => {
+export const ControlLabel = React.forwardRef<HTMLLabelElement, ControlLabelProps>(
+  function ControlLabel({ children, for: for_, ...props }, ref) {
     const { disabled } = useLabelContext();
 
     const css = useCSS();
@@ -87,7 +82,7 @@ export const ControlLabel = forwardRef(
 
     return (
       <div>
-        <label {...applyClass(props, class_)} for={for_} ref={ref}>
+        <label {...applyClass(props, class_)} htmlFor={for_} ref={ref}>
           {children}
         </label>
       </div>
@@ -97,7 +92,10 @@ export const ControlLabel = forwardRef(
 
 export type SubLabelProps = JSX.IntrinsicElements['span'];
 
-export const SubLabel = forwardRef((props: SubLabelProps, ref: Ref<HTMLSpanElement>) => {
+export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(function SubLabel(
+  props,
+  ref,
+) {
   const { disabled } = useLabelContext();
 
   const css = useCSS();

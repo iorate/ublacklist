@@ -122,6 +122,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
 
       new DotEnv({
         defaults: true,
+        silent: true,
         systemvars: true,
       }),
 
@@ -210,6 +211,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     ],
 
     resolve: {
+      alias: {
+        react: 'preact/compat',
+        'react-dom': 'preact/compat',
+        'react/jsx-runtime': 'preact/jsx-runtime',
+      },
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
   };

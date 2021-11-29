@@ -58,6 +58,9 @@ exportAsMessages('_locales/de/messages.json', {
   options_skipBlockDialogLabel: '"Diese Seite blockieren"-Dialog überspringen',
   options_hideBlockLinksLabel: '"Diese Seite blockieren"-Links ausblenden',
   options_hideControlLabel: 'Anzahl der blockierten Seiten und den "Anzeigen"-Link ausblenden',
+  options_blockWholeSiteLabel: 'Regeln hinzufügen, komplette Seiten standardmäßig zu blockieren',
+  options_blockWholeSiteDescription:
+    'Beispiel: Um die Seite "https://a.b.example.uk.com/" zu blockieren, wird die Regel "*://*.example.uk.com/*" hinzugefügt.',
   options_appearanceTitle: 'Aussehen',
   options_linkColor: 'Die Farbe von Links',
   options_blockColor: 'Die Farbe von blockierten Suchergebnissen',

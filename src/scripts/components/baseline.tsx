@@ -1,15 +1,21 @@
-import { Fragment, FunctionComponent, h } from 'preact';
-import { useLayoutEffect, useMemo } from 'preact/hooks';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useCSS, useGlob } from './styles';
 import { useTheme } from './theme';
 
 const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 
-export type BaseLineProps = { fontSize?: string };
+export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize = '13px' }) => {
+export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
+  const rootClass = useMemo(
+    () =>
+      css({
+        colorScheme: theme.name,
+      }),
+    [css, theme],
+  );
   const bodyClass = useMemo(
     () =>
       css({
@@ -23,11 +29,13 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
     [css, theme, fontSize],
   );
   useLayoutEffect(() => {
+    document.documentElement.classList.add(rootClass);
     document.body.classList.add(bodyClass);
     return () => {
+      document.documentElement.classList.remove(rootClass);
       document.body.classList.remove(bodyClass);
     };
-  }, [bodyClass]);
+  }, [rootClass, bodyClass]);
 
   const glob = useGlob();
   useLayoutEffect(() => {
@@ -41,18 +49,16 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
   return <>{children}</>;
 };
 
-export type ScopedBaselineProps = { fontSize?: string };
+export type ScopedBaselineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
-  children,
-  fontSize = '13px',
-}) => {
+export const ScopedBaseline: React.VFC<ScopedBaselineProps> = ({ children, fontSize = '13px' }) => {
   const css = useCSS();
   const theme = useTheme();
   const class_ = useMemo(
     () =>
       css({
         color: theme.text.primary,
+        colorScheme: theme.name,
         fontFamily,
         fontSize,
         lineHeight: 1.5,
@@ -62,5 +68,5 @@ export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
       }),
     [css, theme, fontSize],
   );
-  return <div class={class_}>{children}</div>;
+  return <div className={class_}>{children}</div>;
 };

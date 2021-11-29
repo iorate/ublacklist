@@ -1,13 +1,11 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { applyClass } from './helpers';
 import { useCSS } from './styles';
 import { useTheme } from './theme';
 
 export type TableProps = JSX.IntrinsicElements['table'];
 
-export const Table = forwardRef((props: TableProps, ref: Ref<HTMLTableElement>) => {
+export const Table = React.forwardRef<HTMLTableElement, TableProps>(function Table(props, ref) {
   const css = useCSS();
   const class_ = useMemo(
     () =>
@@ -23,16 +21,16 @@ export const Table = forwardRef((props: TableProps, ref: Ref<HTMLTableElement>) 
 
 export type TableHeaderProps = JSX.IntrinsicElements['thead'];
 
-export const TableHeader = forwardRef(
-  (props: TableHeaderProps, ref: Ref<HTMLTableSectionElement>) => {
+export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
+  function TableHeader(props, ref) {
     return <thead {...props} ref={ref} />;
   },
 );
 
 export type TableHeaderRowProps = JSX.IntrinsicElements['tr'];
 
-export const TableHeaderRow = forwardRef(
-  (props: TableHeaderRowProps, ref: Ref<HTMLTableRowElement>) => {
+export const TableHeaderRow = React.forwardRef<HTMLTableRowElement, TableHeaderRowProps>(
+  function TableHeaderRow(props, ref) {
     return <tr {...props} ref={ref} />;
   },
 );
@@ -42,11 +40,8 @@ export type TableHeaderCellProps = {
   width?: string;
 } & JSX.IntrinsicElements['th'];
 
-export const TableHeaderCell = forwardRef(
-  (
-    { breakAll, width = 'auto', ...props }: TableHeaderCellProps,
-    ref: Ref<HTMLTableHeaderCellElement>,
-  ) => {
+export const TableHeaderCell = React.forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
+  function TableHeaderCell({ breakAll, width = 'auto', ...props }, ref) {
     const css = useCSS();
     const theme = useTheme();
     const class_ = useMemo(
@@ -71,37 +66,41 @@ export const TableHeaderCell = forwardRef(
 
 export type TableBodyProps = JSX.IntrinsicElements['tbody'];
 
-export const TableBody = forwardRef((props: TableBodyProps, ref: Ref<HTMLTableSectionElement>) => {
-  return <tbody {...props} ref={ref} />;
+export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
+  function TableBody(props, ref) {
+    return <tbody {...props} ref={ref} />;
+  },
+);
+
+export type TableRowProps = JSX.IntrinsicElements['tr'];
+
+export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(function TableRow(
+  props,
+  ref,
+) {
+  return <tr {...props} ref={ref} />;
 });
 
-export type TableBodyRowProps = JSX.IntrinsicElements['tr'];
+export type TableCellProps = { breakAll?: boolean } & JSX.IntrinsicElements['td'];
 
-export const TableBodyRow = forwardRef(
-  (props: TableBodyRowProps, ref: Ref<HTMLTableRowElement>) => {
-    return <tr {...props} ref={ref} />;
-  },
-);
-
-export type TableBodyCellProps = { breakAll?: boolean } & JSX.IntrinsicElements['td'];
-
-export const TableBodyCell = forwardRef(
-  ({ breakAll, ...props }: TableBodyCellProps, ref: Ref<HTMLTableDataCellElement>) => {
-    const css = useCSS();
-    const theme = useTheme();
-    const class_ = useMemo(
-      () =>
-        css({
-          borderTop: `solid 1px ${theme.separator}`,
-          padding: '0.75em 0',
-          verticalAlign: 'middle',
-          wordBreak: breakAll ? 'break-all' : 'normal',
-          '&:not(:first-child)': {
-            paddingLeft: '0.75em',
-          },
-        }),
-      [css, theme, breakAll],
-    );
-    return <td {...applyClass(props, class_)} ref={ref} />;
-  },
-);
+export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(
+  { breakAll, ...props },
+  ref,
+) {
+  const css = useCSS();
+  const theme = useTheme();
+  const class_ = useMemo(
+    () =>
+      css({
+        borderTop: `solid 1px ${theme.separator}`,
+        padding: '0.75em 0',
+        verticalAlign: 'middle',
+        wordBreak: breakAll ? 'break-all' : 'normal',
+        '&:not(:first-child)': {
+          paddingLeft: '0.75em',
+        },
+      }),
+    [css, theme, breakAll],
+  );
+  return <td {...applyClass(props, class_)} ref={ref} />;
+});

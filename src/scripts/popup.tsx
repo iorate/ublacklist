@@ -1,4 +1,7 @@
-import { FunctionComponent, h, render } from 'preact';
+/* eslint-disable import/no-duplicates */
+import React from 'react';
+import ReactDOM from 'react-dom';
+/* eslint-enable */
 import { searchEngineMatches } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';
@@ -16,7 +19,7 @@ import { translate } from './locales';
 import { sendMessage } from './messages';
 import { MatchPattern, makeAltURL } from './utilities';
 
-const ActivatePopup: FunctionComponent<{
+const ActivatePopup: React.VFC<{
   active: boolean;
   match: string;
   tabId: number;
@@ -38,7 +41,7 @@ const ActivatePopup: FunctionComponent<{
           <Row multiline right>
             <RowItem expanded>
               <LinkButton
-                class={FOCUS_START_CLASS}
+                className={FOCUS_START_CLASS}
                 onClick={() => sendMessage('open-options-page')}
               >
                 {translate('popup_openOptionsLink')}
@@ -48,7 +51,7 @@ const ActivatePopup: FunctionComponent<{
               {active ? (
                 <Row>
                   <RowItem>
-                    <Button class={FOCUS_END_CLASS} primary onClick={() => window.close()}>
+                    <Button className={FOCUS_END_CLASS} primary onClick={() => window.close()}>
                       {translate('okButton')}
                     </Button>
                   </RowItem>
@@ -60,7 +63,7 @@ const ActivatePopup: FunctionComponent<{
                   </RowItem>
                   <RowItem>
                     <Button
-                      class={FOCUS_END_CLASS}
+                      className={FOCUS_END_CLASS}
                       primary
                       onClick={async () => {
                         // In Chrome, the popup is closed immediately after 'permissions.request'!
@@ -119,7 +122,7 @@ async function openActivatePopup(tabId: number, match: string): Promise<void> {
   // #endif
 
   document.documentElement.lang = translate('lang');
-  render(<ActivatePopup active={!!active} match={match} tabId={tabId} />, document.body);
+  ReactDOM.render(<ActivatePopup active={!!active} match={match} tabId={tabId} />, document.body);
 }
 
 async function openBlockPopup(url: string, title: string | null): Promise<void> {
@@ -135,7 +138,7 @@ async function openBlockPopup(url: string, title: string | null): Promise<void> 
   );
 
   document.documentElement.lang = translate('lang');
-  render(
+  ReactDOM.render(
     <BlockPopup
       blacklist={blacklist}
       blockWholeSite={options.blockWholeSite}

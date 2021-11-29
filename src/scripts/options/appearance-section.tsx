@@ -1,7 +1,6 @@
 import removeIconURL from '@mdi/svg/svg/delete.svg';
 import addIconURL from '@mdi/svg/svg/plus.svg';
-import { FunctionComponent, h } from 'preact';
-import { useMemo, useRef, useState } from 'preact/hooks';
+import React, { useMemo, useRef, useState } from 'react';
 import { ColorPicker } from '../components/color-picker';
 import { IconButton } from '../components/icon-button';
 import { Indent } from '../components/indent';
@@ -23,7 +22,7 @@ import { useOptionsContext } from './options-context';
 
 type ColorItemKey = 'linkColor' | 'blockColor';
 
-const SetColorItem: FunctionComponent<{
+const SetColorItem: React.VFC<{
   initialColor: string;
   itemKey: ColorItemKey;
   label: string;
@@ -50,7 +49,7 @@ const SetColorItem: FunctionComponent<{
               checked={!specifyColor}
               id={`${itemKey}UseDefault`}
               name={itemKey}
-              onInput={e => {
+              onChange={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(false);
                   void saveToLocalStorage(
@@ -77,7 +76,7 @@ const SetColorItem: FunctionComponent<{
               checked={specifyColor}
               id={`${itemKey}Specify`}
               name={itemKey}
-              onInput={e => {
+              onChange={e => {
                 if (e.currentTarget.checked) {
                   setSpecifyColor(true);
                   void saveToLocalStorage(
@@ -100,12 +99,11 @@ const SetColorItem: FunctionComponent<{
           <ColorPicker
             aria-label={label}
             value={color}
-            onInput={e => {
+            onChange={value => {
               setSpecifyColor(true);
-              const color = e.currentTarget.value;
-              setColor(color);
+              setColor(value);
               void saveToLocalStorage(
-                { [itemKey]: color } as Partial<Record<ColorItemKey, string>>,
+                { [itemKey]: value } as Partial<Record<ColorItemKey, string>>,
                 'options',
               );
             }}
@@ -116,7 +114,7 @@ const SetColorItem: FunctionComponent<{
   );
 };
 
-const SetHighlightColors: FunctionComponent = () => {
+const SetHighlightColors: React.VFC = () => {
   const {
     initialItems: { highlightColors: initialHighlightColors },
   } = useOptionsContext();
@@ -180,8 +178,8 @@ const SetHighlightColors: FunctionComponent = () => {
                     <ColorPicker
                       aria-labelledby={`highlightColor${index}`}
                       value={color}
-                      onInput={e => {
-                        colorsAndKeys[index] = [e.currentTarget.value, colorsAndKeys[index][1]];
+                      onChange={value => {
+                        colorsAndKeys[index] = [value, colorsAndKeys[index][1]];
                         setColorsAndKeys([...colorsAndKeys]);
                         void saveToLocalStorage(
                           { highlightColors: colorsAndKeys.map(([color]) => color) },
@@ -205,7 +203,7 @@ const SetHighlightColors: FunctionComponent = () => {
                         }}
                       />
                     ) : (
-                      <div class={spacerClass} />
+                      <div className={spacerClass} />
                     )}
                   </RowItem>
                 </Row>
@@ -218,7 +216,7 @@ const SetHighlightColors: FunctionComponent = () => {
   );
 };
 
-const SetDialogTheme: FunctionComponent = () => {
+const SetDialogTheme: React.VFC = () => {
   const {
     initialItems: { dialogTheme: initialDialogTheme },
   } = useOptionsContext();
@@ -240,7 +238,7 @@ const SetDialogTheme: FunctionComponent = () => {
               checked={dialogTheme === 'default'}
               id="dialogThemeDefault"
               name="dialogTheme"
-              onInput={e => {
+              onChange={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('default');
                   void saveToLocalStorage({ dialogTheme: 'default' }, 'options');
@@ -264,7 +262,7 @@ const SetDialogTheme: FunctionComponent = () => {
               checked={dialogTheme === 'light'}
               id="dialogThemeLight"
               name="dialogTheme"
-              onInput={e => {
+              onChange={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('light');
                   void saveToLocalStorage({ dialogTheme: 'light' }, 'options');
@@ -288,7 +286,7 @@ const SetDialogTheme: FunctionComponent = () => {
               checked={dialogTheme === 'dark'}
               id="dialogThemeDark"
               name="dialogTheme"
-              onInput={e => {
+              onChange={e => {
                 if (e.currentTarget.checked) {
                   setDialogTheme('dark');
                   void saveToLocalStorage({ dialogTheme: 'dark' }, 'options');
@@ -309,7 +307,7 @@ const SetDialogTheme: FunctionComponent = () => {
   );
 };
 
-export const AppearanceSection: FunctionComponent = () => (
+export const AppearanceSection: React.VFC = () => (
   <Section aria-labelledby="appearanceSectionTitle" id="appearance">
     <SectionHeader>
       <SectionTitle id="appearanceSectionTitle">

@@ -1,6 +1,4 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React, { useMemo } from 'react';
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
 import { FocusCircle, applyClass } from './helpers';
 import { useCSS } from './styles';
@@ -8,7 +6,7 @@ import { useTheme } from './theme';
 
 export type SwitchProps = JSX.IntrinsicElements['input'];
 
-export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>) => {
+export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(function Switch(props, ref) {
   const css = useCSS();
   const theme = useTheme();
   const wrapperClass = useMemo(
@@ -92,12 +90,12 @@ export const Switch = forwardRef((props: SwitchProps, ref: Ref<HTMLInputElement>
     [css, theme],
   );
   return (
-    <div class={wrapperClass}>
+    <div className={wrapperClass}>
       <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
-      <div class={backgroundClass}>
-        <div class={barClass} />
-        <div class={knobMoverClass}>
-          <div class={knobClass} />
+      <div className={backgroundClass}>
+        <div className={barClass} />
+        <div className={knobMoverClass}>
+          <div className={knobClass} />
           <FocusCircle depth={2} />
         </div>
       </div>
