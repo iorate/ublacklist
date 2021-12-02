@@ -1,7 +1,7 @@
 import dotsVertical from '@mdi/svg/svg/dots-vertical.svg';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from './constants';
-import { applyClassName } from './helpers';
+import { applyClassName, useInnerRef } from './helpers';
 import { IconButton } from './icon-button';
 import { useClassName } from './utilities';
 
@@ -25,18 +25,17 @@ function moveFocus(body: HTMLDivElement, key: 'ArrowUp' | 'ArrowDown' | 'Home' |
   nextItem.focus();
 }
 
-export type MenuProps = {
-  buttonLabel?: string;
+export type MenuProps = JSX.IntrinsicElements['button'] & {
   children?: React.ReactNode;
   disabled?: boolean;
-} & JSX.IntrinsicElements['div'];
+};
 
-export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
-  { buttonLabel, children, disabled = false, ...props },
+export const Menu = React.forwardRef<HTMLButtonElement, MenuProps>(function Menu(
+  { children, disabled = false, ...props },
   ref,
 ) {
   const [open, setOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useInnerRef(ref);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -67,8 +66,7 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
 
   return (
     <div
-      {...applyClassName(props, menuClassName)}
-      ref={ref}
+      className={menuClassName}
       tabIndex={-1 /* Capture focus when the button is clicked in Safari */}
       onBlurCapture={e => {
         if (!e.currentTarget.contains(e.relatedTarget as Element | null)) {
@@ -77,9 +75,9 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
       }}
     >
       <IconButton
+        {...props}
         aria-expanded={open}
         aria-haspopup="menu"
-        aria-label={buttonLabel}
         disabled={disabled}
         iconURL={dotsVertical}
         ref={buttonRef}

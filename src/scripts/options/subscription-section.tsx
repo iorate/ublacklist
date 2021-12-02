@@ -262,7 +262,7 @@ const ManageSubscription: React.VFC<{
         )}
       </TableCell>
       <TableCell>
-        <Menu buttonLabel={translate('options_subscriptionMenuButtonLabel')}>
+        <Menu aria-label={translate('options_subscriptionMenuButtonLabel')}>
           <MenuItem
             onClick={() => {
               requestAnimationFrame(() => {
