@@ -1,22 +1,18 @@
-import React, { useMemo } from 'react';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
-export type TextProps = { primary?: boolean } & JSX.IntrinsicElements['span'];
+export type TextProps = JSX.IntrinsicElements['span'] & { primary?: boolean };
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(function Text(
   { primary = false, ...props },
   ref,
 ) {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: primary ? theme.text.primary : theme.text.secondary,
-      }),
-    [css, theme, primary],
+  const className = useClassName(
+    theme => ({
+      color: primary ? theme.text.primary : theme.text.secondary,
+    }),
+    [primary],
   );
-  return <span {...applyClass(props, class_)} ref={ref} />;
+  return <span {...applyClassName(props, className)} ref={ref} />;
 });

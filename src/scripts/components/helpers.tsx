@@ -1,14 +1,13 @@
-import React, { useLayoutEffect, useMemo, useRef } from 'react';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React, { useLayoutEffect, useRef } from 'react';
+import { useClassName } from './utilities';
 
-export function applyClass<Props extends { className?: string | undefined }>(
+export function applyClassName<Props extends { className?: string | undefined }>(
   props: Props,
-  class_: string,
+  className: string,
 ): Props {
   return {
     ...props,
-    className: `${class_}${props.className != null ? ` ${props.className}` : ''}`,
+    className: `${className}${props.className != null ? ` ${props.className}` : ''}`,
   };
 }
 
@@ -26,29 +25,26 @@ export function useInnerRef<T>(
 }
 
 export const FocusCircle: React.VFC<{ depth?: number }> = ({ depth = 0 }) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const focusCircleClass = useMemo(
-    () =>
-      css({
-        borderRadius: '50%',
-        height: '40px',
-        left: `calc(50% - 20px)`,
-        pointerEvents: 'none',
-        position: 'absolute',
-        top: `calc(50% - 20px)`,
-        width: '40px',
-        [`:focus + ${'* > '.repeat(depth)}&`]: {
-          background: theme.focus.circle,
-        },
-        [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
-          background: 'transparent',
-        },
-        [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
-          background: 'transparent',
-        },
-      }),
-    [css, theme, depth],
+  const className = useClassName(
+    theme => ({
+      borderRadius: '50%',
+      height: '40px',
+      left: `calc(50% - 20px)`,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: `calc(50% - 20px)`,
+      width: '40px',
+      [`:focus + ${'* > '.repeat(depth)}&`]: {
+        background: theme.focus.circle,
+      },
+      [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
+        background: 'transparent',
+      },
+      [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
+        background: 'transparent',
+      },
+    }),
+    [depth],
   );
-  return <div className={focusCircleClass} />;
+  return <div className={className} />;
 };

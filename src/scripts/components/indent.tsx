@@ -1,17 +1,12 @@
-import React, { useMemo } from 'react';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type IndentProps = JSX.IntrinsicElements['div'];
 
 export const Indent = React.forwardRef<HTMLDivElement, IndentProps>(function Indent(props, ref) {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        width: '2.375em',
-      }),
-    [css],
-  );
-  return <div {...applyClass(props, class_)} ref={ref} />;
+  const className = useClassName({
+    width: '2.375em',
+  });
+  return <div {...applyClassName(props, className)} ref={ref} />;
 });

@@ -1,6 +1,6 @@
 import * as mpsl from 'mpsl';
 import * as punycode from 'punycode/';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import icon from '../icons/icon.svg';
 import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
@@ -19,10 +19,10 @@ import { Icon } from './components/icon';
 import { Input } from './components/input';
 import { ControlLabel, LabelWrapper } from './components/label';
 import { Row, RowItem } from './components/row';
-import { StylesProvider, useCSS } from './components/styles';
+import { StylesProvider } from './components/styles';
 import { TextArea } from './components/textarea';
 import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
-import { usePrevious } from './components/utilities';
+import { useClassName, usePrevious } from './components/utilities';
 import { translate } from './locales';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
@@ -89,14 +89,9 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
   }
   const ok = !state.disabled && state.rulesToAddValid;
 
-  const css = useCSS();
-  const hostClass = useMemo(
-    () =>
-      css({
-        wordBreak: 'break-all',
-      }),
-    [css],
-  );
+  const hostClass = useClassName({
+    wordBreak: 'break-all',
+  });
 
   return (
     <>

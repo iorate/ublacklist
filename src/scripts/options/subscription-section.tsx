@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -23,7 +23,6 @@ import {
   SectionItem,
   SectionTitle,
 } from '../components/section';
-import { useCSS } from '../components/styles';
 import {
   Table,
   TableBody,
@@ -34,7 +33,7 @@ import {
   TableRow,
 } from '../components/table';
 import { TextArea } from '../components/textarea';
-import { usePrevious } from '../components/utilities';
+import { useClassName, usePrevious } from '../components/utilities';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
@@ -332,15 +331,10 @@ export const ManageSubscriptions: FunctionComponent<{
     [subscriptions, setSubscriptions],
   );
 
-  const css = useCSS();
-  const emptyClass = useMemo(
-    () =>
-      css({
-        minHeight: '3em',
-        textAlign: 'center',
-      }),
-    [css],
-  );
+  const emptyClass = useClassName({
+    minHeight: '3em',
+    textAlign: 'center',
+  });
 
   return (
     <SectionItem>

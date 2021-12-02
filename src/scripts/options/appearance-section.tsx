@@ -1,6 +1,6 @@
 import removeIconURL from '@mdi/svg/svg/delete.svg';
 import addIconURL from '@mdi/svg/svg/plus.svg';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ColorPicker } from '../components/color-picker';
 import { IconButton } from '../components/icon-button';
 import { Indent } from '../components/indent';
@@ -15,7 +15,7 @@ import {
   SectionItem,
   SectionTitle,
 } from '../components/section';
-import { useCSS } from '../components/styles';
+import { useClassName } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { useOptionsContext } from './options-context';
@@ -123,15 +123,10 @@ const SetHighlightColors: React.VFC = () => {
   );
   const nextKey = useRef(initialHighlightColors.length);
 
-  const css = useCSS();
-  const spacerClass = useMemo(
-    () =>
-      css({
-        height: '36px',
-        width: '36px',
-      }),
-    [css],
-  );
+  const spacerClass = useClassName({
+    height: '36px',
+    width: '36px',
+  });
 
   return (
     <SectionItem>

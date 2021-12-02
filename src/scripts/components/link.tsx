@@ -1,38 +1,31 @@
-import React, { useMemo } from 'react';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
-export type LinkProps = { disabled?: boolean } & JSX.IntrinsicElements['a'];
+export type LinkProps = JSX.IntrinsicElements['a'] & { disabled?: boolean };
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   { disabled = false, ...props },
   ref,
 ) {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: theme.link.text,
-        outline: 'none',
-        textDecoration: 'none',
-        '&:focus': {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        },
-        '&:focus:not(:focus-visible)': {
-          boxShadow: 'none',
-        },
-        '&:focus:not(:-moz-focusring)': {
-          boxShadow: 'none',
-        },
-      }),
-    [css, theme],
-  );
+  const className = useClassName(theme => ({
+    color: theme.link.text,
+    outline: 'none',
+    textDecoration: 'none',
+    '&:focus': {
+      boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+    },
+    '&:focus:not(:focus-visible)': {
+      boxShadow: 'none',
+    },
+    '&:focus:not(:-moz-focusring)': {
+      boxShadow: 'none',
+    },
+  }));
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
-      {...applyClass(props, class_)}
+      {...applyClassName(props, className)}
       {...(disabled ? {} : { href: props.href })}
       ref={ref}
       rel="noopener noreferrer"

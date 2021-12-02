@@ -16,7 +16,7 @@ const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
   onClick,
 }) => {
-  const class_ = useMemo(
+  const className = useMemo(
     () =>
       css({
         cursor: 'pointer',
@@ -32,7 +32,7 @@ const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
   );
   return (
     <span
-      className={`ub-button ${class_}`}
+      className={`ub-button ${className}`}
       role="button"
       tabIndex={0}
       onClick={e => {

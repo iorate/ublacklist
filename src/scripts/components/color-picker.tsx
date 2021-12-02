@@ -1,16 +1,15 @@
 import { colord } from 'colord';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { HexColorInput, RgbaColorPicker } from 'react-colorful';
 import { COLOR_PICKER_Z_INDEX, DISABLED_OPACITY } from './constants';
-import { applyClass, useInnerRef } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import { applyClassName, useInnerRef } from './helpers';
+import { useClassName } from './utilities';
 
-export type ColorPickerProps = {
+export type ColorPickerProps = Omit<JSX.IntrinsicElements['button'], 'onChange'> & {
   disabled?: boolean;
   value: string;
   onChange: (value: string) => void;
-} & Omit<JSX.IntrinsicElements['button'], 'onChange'>;
+};
 
 export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>(
   function ColorPicker({ disabled = false, value, onChange, ...props }, ref) {
@@ -24,83 +23,71 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
       }
     }, [open]);
 
-    const css = useCSS();
-    const theme = useTheme();
-    const pickerClass = useMemo(
-      () =>
-        css({
-          height: '36px',
-          outline: 'none',
-          position: 'relative',
-          width: '36px',
-        }),
-      [css],
+    const pickerClassName = useClassName({
+      height: '36px',
+      outline: 'none',
+      position: 'relative',
+      width: '36px',
+    });
+    const swatchClassName = useClassName(
+      theme => ({
+        border: `solid 2px ${theme.colorPicker.border}`,
+        borderRadius: '25%',
+        cursor: disabled ? 'default' : 'pointer',
+        height: '36px',
+        opacity: disabled ? DISABLED_OPACITY : 1,
+        outline: 'none',
+        padding: 0,
+        width: '36px',
+        '&:focus': {
+          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        },
+        '&:focus:not(:focus-visible)': {
+          boxShadow: 'none',
+        },
+        '&:focus:not(:-moz-focusring)': {
+          boxShadow: 'none',
+        },
+      }),
+      [disabled],
     );
-    const swatchClass = useMemo(
-      () =>
-        css({
-          border: `solid 2px ${theme.colorPicker.border}`,
-          borderRadius: '25%',
-          cursor: disabled ? 'default' : 'pointer',
-          height: '36px',
-          opacity: disabled ? DISABLED_OPACITY : 1,
-          outline: 'none',
-          padding: 0,
-          width: '36px',
-          '&:focus': {
-            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-          },
-          '&:focus:not(:focus-visible)': {
-            boxShadow: 'none',
-          },
-          '&:focus:not(:-moz-focusring)': {
-            boxShadow: 'none',
-          },
-        }),
-      [css, theme, disabled],
+    const popoverClassName = useClassName(
+      theme => ({
+        backgroundColor: theme.colorPicker.popoverBackground,
+        borderRadius: '8px',
+        boxShadow: 'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px',
+        display: open ? 'block' : 'none',
+        outline: 'none',
+        padding: '0.75em',
+        position: 'absolute',
+        top: '100%',
+        right: 0,
+        zIndex: COLOR_PICKER_Z_INDEX,
+      }),
+      [open],
     );
-    const popoverClass = useMemo(
-      () =>
-        css({
-          backgroundColor: theme.colorPicker.popoverBackground,
-          borderRadius: '8px',
-          boxShadow: 'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px',
-          display: open ? 'block' : 'none',
-          outline: 'none',
-          padding: '0.75em',
-          position: 'absolute',
-          top: '100%',
-          right: 0,
-          zIndex: COLOR_PICKER_Z_INDEX,
-        }),
-      [css, theme, open],
-    );
-    const inputClass = useMemo(
-      () =>
-        css({
-          background: 'transparent',
-          border: `solid 1px ${theme.input.border}`,
-          borderRadius: '4px',
-          color: theme.text.primary,
-          display: 'block',
-          font: 'inherit',
-          height: '2.5em',
-          lineHeight: '1.5',
-          margin: '0.75em auto 0',
-          padding: '0.5em 0.625em',
-          textAlign: 'center',
-          width: '8em',
-          '&:focus': {
-            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-            outline: 'none',
-          },
-        }),
-      [css, theme],
-    );
+    const inputClassName = useClassName(theme => ({
+      background: 'transparent',
+      border: `solid 1px ${theme.input.border}`,
+      borderRadius: '4px',
+      color: theme.text.primary,
+      display: 'block',
+      font: 'inherit',
+      height: '2.5em',
+      lineHeight: '1.5',
+      margin: '0.75em auto 0',
+      padding: '0.5em 0.625em',
+      textAlign: 'center',
+      width: '8em',
+      '&:focus': {
+        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        outline: 'none',
+      },
+    }));
 
     return (
       <div
-        className={pickerClass}
+        className={pickerClassName}
         tabIndex={-1}
         onBlurCapture={e => {
           if (!e.currentTarget.contains(e.relatedTarget as Element | null)) {
@@ -109,7 +96,7 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
         }}
       >
         <button
-          {...applyClass(props, swatchClass)}
+          {...applyClassName(props, swatchClassName)}
           aria-expanded={open}
           aria-haspopup="dialog"
           ref={swatchRef}
@@ -119,7 +106,7 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
         />
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
-          className={popoverClass}
+          className={popoverClassName}
           ref={popoverRef}
           role="dialog"
           tabIndex={-1}
@@ -137,7 +124,7 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
           />
           <HexColorInput
             alpha
-            className={inputClass}
+            className={inputClassName}
             color={colord(value).toHex()}
             prefixed
             onChange={onChange}

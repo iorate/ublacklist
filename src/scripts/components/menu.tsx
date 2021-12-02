@@ -1,10 +1,9 @@
 import dotsVertical from '@mdi/svg/svg/dots-vertical.svg';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from './constants';
-import { applyClass } from './helpers';
+import { applyClassName } from './helpers';
 import { IconButton } from './icon-button';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import { useClassName } from './utilities';
 
 function moveFocus(body: HTMLDivElement, key: 'ArrowUp' | 'ArrowDown' | 'Home' | 'End') {
   const items = [...body.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}`)] as const;
@@ -39,42 +38,36 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+
   useLayoutEffect(() => {
     if (open) {
       bodyRef.current?.focus();
     }
   }, [open]);
 
-  const css = useCSS();
-  const theme = useTheme();
-  const menuClass = useMemo(
-    () =>
-      css({
-        outline: 'none',
-        position: 'relative',
-      }),
-    [css],
-  );
-  const bodyClass = useMemo(
-    () =>
-      css({
-        background: theme.menu.itemListBackground,
-        boxShadow: 'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px',
-        display: open ? 'block' : 'none',
-        minWidth: '10em',
-        outline: 'none',
-        padding: '0.75em 0',
-        position: 'absolute',
-        top: '100%',
-        right: 0,
-        zIndex: MENU_Z_INDEX,
-      }),
-    [css, theme, open],
+  const menuClassName = useClassName({
+    outline: 'none',
+    position: 'relative',
+  });
+  const bodyClassName = useClassName(
+    theme => ({
+      background: theme.menu.itemListBackground,
+      boxShadow: 'rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(0, 0, 0, 0.15) 0px 3px 6px 2px',
+      display: open ? 'block' : 'none',
+      minWidth: '10em',
+      outline: 'none',
+      padding: '0.75em 0',
+      position: 'absolute',
+      top: '100%',
+      right: 0,
+      zIndex: MENU_Z_INDEX,
+    }),
+    [open],
   );
 
   return (
     <div
-      {...applyClass(props, menuClass)}
+      {...applyClassName(props, menuClassName)}
       ref={ref}
       tabIndex={-1 /* Capture focus when the button is clicked in Safari */}
       onBlurCapture={e => {
@@ -93,7 +86,7 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>(function Menu(
         onClick={() => setOpen(!open)}
       />
       <div
-        className={bodyClass}
+        className={bodyClassName}
         ref={bodyRef}
         role="menu"
         tabIndex={-1}
@@ -131,32 +124,30 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(funct
   props,
   ref,
 ) {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        background: 'transparent',
-        border: 'none',
-        color: theme.text.primary,
-        cursor: 'pointer',
-        display: 'block',
-        font: 'inherit',
-        height: '2.5em',
-        padding: '0 2em',
-        textAlign: 'start',
-        width: '100%',
-        '&:focus': {
-          background: theme.menu.itemBackgroundFocused,
-          outline: 'none',
-        },
-        '&:hover:not(:focus)': {
-          background: theme.menu.itemBackgroundHovered,
-        },
-      }),
-    [css, theme],
-  );
+  const className = useClassName(theme => ({
+    background: 'transparent',
+    border: 'none',
+    color: theme.text.primary,
+    cursor: 'pointer',
+    display: 'block',
+    font: 'inherit',
+    height: '2.5em',
+    padding: '0 2em',
+    textAlign: 'start',
+    width: '100%',
+    '&:focus': {
+      background: theme.menu.itemBackgroundFocused,
+      outline: 'none',
+    },
+    '&:hover:not(:focus)': {
+      background: theme.menu.itemBackgroundHovered,
+    },
+  }));
   return (
-    <button {...applyClass(props, `${MENU_ITEM_CLASS} ${class_}`)} ref={ref} role="menuitem" />
+    <button
+      {...applyClassName(props, `${MENU_ITEM_CLASS} ${className}`)}
+      ref={ref}
+      role="menuitem"
+    />
   );
 });
