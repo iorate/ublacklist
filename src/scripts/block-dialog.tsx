@@ -2,7 +2,6 @@ import * as mpsl from 'mpsl';
 import * as punycode from 'punycode/';
 import React, { useState } from 'react';
 import icon from '../icons/icon.svg';
-import { Blacklist } from './blacklist';
 import { Baseline, ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
@@ -23,6 +22,7 @@ import { StylesProvider } from './components/styles';
 import { TextArea } from './components/textarea';
 import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
 import { useClassName, usePrevious } from './components/utilities';
+import { InteractiveRuleset } from './interactive-ruleset';
 import { translate } from './locales';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
@@ -30,7 +30,7 @@ import { DialogTheme } from './types';
 import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
-  blacklist: Blacklist;
+  ruleset: InteractiveRuleset;
   blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
@@ -41,7 +41,7 @@ type BlockDialogContentProps = {
 };
 
 const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
-  blacklist,
+  ruleset,
   blockWholeSite,
   close,
   enablePathDepth,
@@ -65,7 +65,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
   if (open && !prevOpen) {
     const url = makeAltURL(entryURL);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = blacklist.createPatch({ url, title }, blockWholeSite);
+      const patch = ruleset.createPatch({ url, title }, blockWholeSite);
       state.disabled = false;
       state.unblock = patch.unblock;
       state.host = punycode.toUnicode(blockWholeSite ? mpsl.get(url.host) ?? url.host : url.host);
@@ -157,7 +157,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
                               Number(depth),
                               state.unblock,
                             );
-                            const patch = blacklist.modifyPatch({ rulesToAdd });
+                            const patch = ruleset.modifyPatch({ rulesToAdd });
                             setState(s => ({
                               ...s,
                               depth,
@@ -203,7 +203,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
                         value={state.rulesToAdd}
                         onChange={e => {
                           const rulesToAdd = e.currentTarget.value;
-                          const patch = blacklist.modifyPatch({ rulesToAdd });
+                          const patch = ruleset.modifyPatch({ rulesToAdd });
                           setState(s => ({ ...s, rulesToAdd, rulesToAddValid: Boolean(patch) }));
                         }}
                       />
@@ -254,7 +254,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
                   disabled={!ok}
                   primary
                   onClick={async () => {
-                    blacklist.applyPatch();
+                    ruleset.applyPatch();
                     await Promise.resolve(onBlocked());
                     close();
                   }}

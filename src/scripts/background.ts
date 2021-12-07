@@ -39,11 +39,13 @@ function main() {
   // #endif
 
   apis.runtime.onInstalled.addListener(() => {
+    void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });
 
   apis.runtime.onStartup.addListener(() => {
+    void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });

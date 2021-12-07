@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import * as S from 'microstruct';
 import { apis } from '../apis';
 import { postMessage } from '../messages';
+import { Ruleset } from '../ruleset';
 import { Result } from '../types';
 import { Mutex, errorResult, numberKeys, successResult } from '../utilities';
 import { syncFile } from './clouds';
@@ -70,6 +71,7 @@ const syncSections: readonly SyncSection[] = [
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime) {
       cloudItems.blacklist = cloudContent;
+      cloudItems.compiledRules = Ruleset.compile(cloudItems.blacklist);
       cloudItems.timestamp = cloudModifiedTime.toISOString();
     },
     afterDownloadAll(cloudItems, latestLocalItems) {
@@ -78,6 +80,7 @@ const syncSections: readonly SyncSection[] = [
         dayjs(cloudItems.timestamp).isBefore(latestLocalItems.timestamp)
       ) {
         delete cloudItems.blacklist;
+        delete cloudItems.compiledRules;
         delete cloudItems.timestamp;
       }
     },

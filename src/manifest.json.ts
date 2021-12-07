@@ -1,3 +1,7 @@
+/* #if SAFARI
+import { parseMatchPattern } from './common/match-pattern';
+*/
+// #endif
 import { searchEngineMatches } from './common/search-engines';
 
 exportAsJSON('manifest.json', {
@@ -44,12 +48,11 @@ exportAsJSON('manifest.json', {
           Object.values(searchEngineMatches)
             .flat()
             .map((match: string) => {
-              const m = /^(\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*)$/.exec(match);
-              if (!m) {
+              const parsed = parseMatchPattern(match);
+              if (!parsed) {
                 throw new Error(`Invalid match pattern: ${match}`);
               }
-              const [, scheme, host] = m;
-              return `${scheme}://${host}/*`;
+              return `${parsed.scheme}://${parsed.host}/*`;
             }),
         ),
       ],
@@ -124,6 +127,7 @@ exportAsJSON('manifest.json', {
     */
     // #endif
     'storage',
+    'unlimitedStorage',
   ],
 
   version: '0.1.0',

@@ -3,10 +3,11 @@ import React, { useLayoutEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 /* eslint-enable */
 import { searchEngineMatches } from '../common/search-engines';
-import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
+import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
+import { Ruleset } from './ruleset';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
@@ -89,7 +90,7 @@ const Action: React.VFC<{
 
 class ContentScript {
   options: {
-    blacklist: Blacklist;
+    ruleset: InteractiveRuleset;
     skipBlockDialog: boolean;
     hideControls: boolean;
     hideActions: boolean;
@@ -140,6 +141,7 @@ class ContentScript {
     void (async () => {
       const options = await loadFromLocalStorage([
         'blacklist',
+        'compiledRules',
         'subscriptions',
         'skipBlockDialog',
         'hideControl',
@@ -153,9 +155,14 @@ class ContentScript {
       ]);
 
       this.options = {
-        blacklist: new Blacklist(
+        ruleset: new InteractiveRuleset(
           options.blacklist,
-          Object.values(options.subscriptions).map(subscription => subscription.blacklist),
+          options.compiledRules !== false
+            ? options.compiledRules
+            : Ruleset.compile(options.blacklist),
+          Object.values(options.subscriptions).map(
+            subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+          ),
         ),
         skipBlockDialog: options.skipBlockDialog,
         hideControls: options.hideControl,
@@ -225,7 +232,7 @@ class ContentScript {
     if (!this.options) {
       return;
     }
-    entry.state = this.options.blacklist.test(entry.props);
+    entry.state = this.options.ruleset.test(entry.props);
     if (entry.state === 0) {
       const scopeState = this.scopeStates[entry.scope] ?? {
         blockedEntryCount: 0,
@@ -301,10 +308,10 @@ class ContentScript {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.blacklist.createPatch(entry.props, this.options.blockWholeSite);
-            this.options.blacklist.applyPatch();
+            this.options.ruleset.createPatch(entry.props, this.options.blockWholeSite);
+            this.options.ruleset.applyPatch();
             void saveToLocalStorage(
-              { blacklist: this.options.blacklist.toString() },
+              { blacklist: this.options.ruleset.toString() },
               'content-script',
             );
             this.rejudgeAllEntries();
@@ -324,11 +331,11 @@ class ContentScript {
     }
     ReactDOM.render(
       <BlockDialog
-        blacklist={this.options.blacklist}
         blockWholeSite={this.options.blockWholeSite}
         close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
+        ruleset={this.options.ruleset}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
         title={title}
@@ -337,10 +344,7 @@ class ContentScript {
           if (!this.options) {
             return;
           }
-          void saveToLocalStorage(
-            { blacklist: this.options.blacklist.toString() },
-            'content-script',
-          );
+          void saveToLocalStorage({ blacklist: this.options.ruleset.toString() }, 'content-script');
           this.rejudgeAllEntries();
         }}
       />,
