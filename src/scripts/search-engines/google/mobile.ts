@@ -1,6 +1,6 @@
 import { CSSAttribute, css } from '../../styles';
 import { SerpHandler } from '../../types';
-import { handleSerp, insertElement } from '../helpers';
+import { handleSerp, hasDarkBackground, insertElement } from '../helpers';
 
 function getURLFromPing(selector: string): (root: HTMLElement) => string | null {
   return root => {
@@ -75,7 +75,12 @@ const mobileRegularActionStyle: CSSAttribute = {
 };
 
 const iOSButtonStyle: CSSAttribute = {
-  color: 'var(--ub-link-color, #1558d6)',
+  '& .ub-button': {
+    color: 'var(--ub-link-color, #1558d6)',
+  },
+  '[data-ub-dark="1"] & .ub-button': {
+    color: 'var(--ub-link-color, #609beb)',
+  },
 };
 
 const mobileSerpHandlers: Record<string, SerpHandler> = {
@@ -96,7 +101,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
             display: 'block',
             fontSize: '14px',
             padding: '12px 16px',
-            '& > .ub-button': iOSButtonStyle,
+            ...iOSButtonStyle,
           });
           root.className = `mnr-c ${controlClass}`;
         },
@@ -120,7 +125,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginTop: '-4px',
           padding: '0 16px 12px 16px',
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       // Video (iOS)
@@ -134,7 +139,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginTop: '12px',
           padding: '0 16px',
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       // YouTube Channel (iOS)
@@ -149,7 +154,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginTop: '-4px',
           padding: '0 16px 12px 16px',
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       // Regular, Featured Snippet, Video
@@ -247,7 +252,11 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '12px',
           marginBottom: '19px',
           padding: '4px 12px 12px',
-          '& > .ub-button': iOSButtonStyle,
+          '[data-ub-dark="1"] &': {
+            backgroundColor: '#303134',
+            color: '#e8eaed',
+          },
+          ...iOSButtonStyle,
         },
       },
       {
@@ -279,7 +288,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           overflow: 'hidden',
           padding: '0 4px',
           position: 'relative',
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       {
@@ -309,7 +318,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
             display: 'block',
             fontSize: '12px',
             padding: '12px',
-            '& > .ub-button': iOSButtonStyle,
+            ...iOSButtonStyle,
           });
           root.className = `mnr-c ${controlClass}`;
         },
@@ -332,7 +341,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '12px',
           marginLeft: '4px',
           width: 0,
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       {
@@ -361,7 +370,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
             display: 'block',
             fontSize: '12px',
             padding: '12px',
-            '& > .ub-button': iOSButtonStyle,
+            ...iOSButtonStyle,
           });
           root.className = `mnr-c ${controlClass}`;
         },
@@ -382,7 +391,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           display: 'block',
           fontSize: '12px',
           marginTop: '4px',
-          '& > .ub-button': iOSButtonStyle,
+          ...iOSButtonStyle,
         },
       },
       {
@@ -404,5 +413,74 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
 };
 
 export function getMobileSerpHandler(tbm: string): SerpHandler | null {
-  return mobileSerpHandlers[tbm] || null;
+  const serpHandler = mobileSerpHandlers[tbm];
+  if (!serpHandler) {
+    return null;
+  }
+  if (tbm === 'isch') {
+    const inspectBodyStyle = () => {
+      if (!document.body) {
+        return;
+      }
+      if (hasDarkBackground(document.body)) {
+        document.documentElement.dataset.ubDark = '1';
+      } else {
+        delete document.documentElement.dataset.ubDark;
+      }
+    };
+    const observeStyleElement = (styleElement: HTMLStyleElement): void => {
+      new MutationObserver(() => inspectBodyStyle()).observe(styleElement, { childList: true });
+    };
+    return {
+      onSerpStart() {
+        inspectBodyStyle();
+        const styleElement = document.querySelector<HTMLStyleElement>(
+          'style[data-href^="https://www.gstatic.com"]',
+        );
+        if (styleElement) {
+          observeStyleElement(styleElement);
+        }
+        return serpHandler.onSerpStart();
+      },
+      onSerpHead: serpHandler.onSerpHead,
+      onSerpElement(element: HTMLElement) {
+        if (
+          element instanceof HTMLStyleElement &&
+          element.dataset.href?.startsWith('https://www.gstatic.com')
+        ) {
+          inspectBodyStyle();
+          observeStyleElement(element);
+        } else if (element === document.body) {
+          inspectBodyStyle();
+        }
+        return serpHandler.onSerpElement(element);
+      },
+      getDialogTheme() {
+        return document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light';
+      },
+    };
+  } else {
+    return {
+      onSerpStart() {
+        if (document.querySelector('meta[name="color-scheme"][content="dark"]')) {
+          document.documentElement.dataset.ubDark = '1';
+        }
+        return serpHandler.onSerpStart();
+      },
+      onSerpHead: serpHandler.onSerpHead,
+      onSerpElement(element) {
+        if (
+          element instanceof HTMLMetaElement &&
+          element.name === 'color-scheme' &&
+          element.content === 'dark'
+        ) {
+          document.documentElement.dataset.ubDark = '1';
+        }
+        return serpHandler.onSerpElement(element);
+      },
+      getDialogTheme() {
+        return document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light';
+      },
+    };
+  }
 }

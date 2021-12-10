@@ -1,6 +1,6 @@
-import { CSSAttribute, css, glob } from '../../styles';
+import { CSSAttribute, css } from '../../styles';
 import { SerpHandler } from '../../types';
-import { handleSerp, insertElement } from '../helpers';
+import { handleSerp, hasDarkBackground, insertElement } from '../helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -8,6 +8,9 @@ const desktopGlobalStyle: CSSAttribute = {
   },
   '.ub-button': {
     color: 'var(--ub-link-color, rgb(26, 13, 171))',
+  },
+  '[data-ub-dark="1"] .ub-button': {
+    color: 'var(--ub-link-color, rgb(138, 180, 248))',
   },
   '.ub-button:hover': {
     textDecoration: 'underline',
@@ -513,47 +516,38 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   }),
 };
 
-let desktopDarkTheme = false;
-
-function detectDesktopDarkTheme(): void {
-  if (desktopDarkTheme || !document.body) {
+function updateDarkMode(): void {
+  if (!document.body) {
     return;
   }
-  const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
-  // Should we parse the color value?
-  if (backgroundColor === 'rgb(32, 33, 36)') {
-    desktopDarkTheme = true;
-    glob({
-      '.ub-button.ub-button': {
-        color: 'var(--ub-link-color, rgb(138, 180, 248))',
-      },
-    });
+  if (hasDarkBackground(document.body)) {
+    document.documentElement.dataset.ubDark = '1';
+  } else {
+    delete document.documentElement.dataset.ubDark;
   }
 }
 
 export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
+  const serpHandler = desktopSerpHandlers[tbm];
   if (!desktopSerpHandlers[tbm]) {
     return null;
   }
-  const { onSerpStart, onSerpHead, onSerpElement } = desktopSerpHandlers[tbm];
   return {
-    onSerpStart,
-    onSerpHead: colors => {
-      const result = onSerpHead(colors);
-      detectDesktopDarkTheme();
-      return result;
+    onSerpStart: () => {
+      updateDarkMode();
+      return serpHandler.onSerpStart();
     },
+    onSerpHead: serpHandler.onSerpHead,
     onSerpElement: element => {
-      const result = onSerpElement(element);
       if (
-        element instanceof HTMLLinkElement ||
+        (element instanceof HTMLLinkElement && element.relList.contains('stylesheet')) ||
         element instanceof HTMLStyleElement ||
         element === document.body
       ) {
-        detectDesktopDarkTheme();
+        updateDarkMode();
       }
-      return result;
+      return serpHandler.onSerpElement(element);
     },
-    getDialogTheme: () => (desktopDarkTheme ? 'dark' : 'light'),
+    getDialogTheme: () => (document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light'),
   };
 }

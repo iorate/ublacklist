@@ -329,18 +329,20 @@ export function handleSerp({
   };
 }
 
+export function hasDarkBackground(element: HTMLElement): boolean {
+  const rgba = window.getComputedStyle(element).backgroundColor;
+  const m = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(rgba);
+  if (!m) {
+    return false;
+  }
+  const r = Number(m[1]);
+  const g = Number(m[2]);
+  const b = Number(m[3]);
+  // https://www.w3.org/WAI/ER/WD-AERT/#color-contrast
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  return brightness < 125;
+}
+
 export function getDialogThemeFromBody(): () => DialogTheme {
-  return () => {
-    const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
-    const m = /^rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(backgroundColor);
-    if (!m) {
-      return 'light';
-    }
-    const r = Number(m[1]);
-    const g = Number(m[2]);
-    const b = Number(m[3]);
-    // https://www.w3.org/WAI/ER/WD-AERT/#color-contrast
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness < 125 ? 'dark' : 'light';
-  };
+  return () => (document.body && hasDarkBackground(document.body) ? 'light' : 'dark');
 }
