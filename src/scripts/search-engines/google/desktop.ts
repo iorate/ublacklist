@@ -152,14 +152,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.JJZKK',
         url: 'a',
         title: '[role="heading"][aria-level="4"]',
-        actionTarget: '.kno-fb-ctx',
+        actionTarget: '.S1FAPd',
         actionStyle: {
-          display: 'block',
-          fontSize: '12px',
-          margin: '-10px 0 10px',
-          padding: '0 16px',
-          position: 'relative',
-          zIndex: 1,
+          ...desktopInlineActionStyle,
+          marginLeft: '4px',
         },
       },
       // People Also Ask
@@ -203,7 +199,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target: 'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd',
+        target:
+          'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd, div > a > div > .ZJjs0c > .ZE0LJd > .S1FAPd',
         level: 5,
         url: 'a',
         title: '.mCBkyc',
@@ -211,28 +208,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           ...desktopInlineActionStyle,
           marginLeft: '4px',
-        },
-      },
-      {
-        target: 'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
-        level: 8,
-        url: 'a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.tYlW7b',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
-        },
-      },
-      {
-        target: 'div > div > .dbsr > a > div > div > .tYlW7b',
-        level: 6,
-        url: 'a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.tYlW7b',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
         },
       },
       // Twitter, Twitter Search
