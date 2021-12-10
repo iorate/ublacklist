@@ -58,7 +58,7 @@ exportAsMessages('_locales/ru/messages.json', {
   options_hideControlLabel: 'Скрывать количество заблокированных сайтов и ссылку "Показать"',
   options_blockWholeSiteLabel: 'Добавить правила, блокирующие целые сайты по умолчанию',
   options_blockWholeSiteDescription:
-    'For example, to block the page "https://a.b.example.uk.com/", a rule "*://*.example.uk.com/*" will be added.',
+    'Например, для блокировки страницы "https://a.b.example.uk.com/", необходимо добавить правило "*://*.example.uk.com/*".',
   options_appearanceTitle: 'Внешний вид',
   options_linkColor: 'Цвет ссылок',
   options_blockColor: 'Цвет заблокированных результатов поиска',
@@ -76,15 +76,15 @@ exportAsMessages('_locales/ru/messages.json', {
   options_dialogThemeDark: 'Темная',
   options_syncTitle: 'Синхронизация',
   options_syncFeatureUpdated:
-    'The sync feature has been updated. To continue using sync, press the "Turn on sync" button.',
+    'Функция синхронизации была обновлена. Чтобы продолжить использование синхронизации, нажмите кнопку "Включить синхронизацию".',
   options_syncFeature: 'Синхронизация с облаком',
   options_syncFeatureDescription:
-    'You can synchronize blacklists across your devices through a cloud.',
+    'Вы можете синхронизировать чёрные списки между Вашими устройствами.',
   options_turnOnSync: 'Включить синхронизацию',
   options_turnOnSyncDialog_title: 'Включить синхронизацию',
   options_turnOnSyncDialog_turnOnSyncButton: 'Включить',
   options_turnOnSyncDialog_altFlowDescription:
-    'You may be asked for permission to access $1 before authentication, but your personal information will NOT be stored in that domain.',
+    'У Вас могут попросить разрешение на доступ к $1 перед аутентификацией, но ваша личная информация НЕ будет храниться в этом домене.',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Код авторизации',
   options_turnOffSync: 'Отключить',
   options_syncResult: 'Последняя синхронизация',
