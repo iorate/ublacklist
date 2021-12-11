@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { ControlLabel, LabelWrapper } from '../components/label';
 import { Row, RowItem } from '../components/row';
-import { useCSS } from '../components/styles';
+import { useClassName } from '../components/utilities';
 import '../dayjs-locales';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
@@ -22,16 +22,11 @@ export const SetIntervalItem: React.VFC<{
   } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
 
-  const css = useCSS();
-  const rowClass = useMemo(
-    () =>
-      css({
-        '&&': {
-          minHeight: '2.5em',
-        },
-      }),
-    [css],
-  );
+  const rowClass = useClassName({
+    '&&': {
+      minHeight: '2.5em',
+    },
+  });
 
   return (
     <Row className={rowClass}>

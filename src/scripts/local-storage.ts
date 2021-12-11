@@ -9,6 +9,7 @@ import {
 
 export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   blacklist: '',
+  compiledRules: false,
   skipBlockDialog: false,
   hideBlockLinks: false,
   hideControl: false,

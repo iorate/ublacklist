@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { searchEngineMatches } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';
-import { Blacklist } from './blacklist';
 import { BlockPopup } from './block-dialog';
 import { Baseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
@@ -14,9 +13,11 @@ import { DialogFooter, DialogHeader, DialogTitle, EmbeddedDialog } from './compo
 import { Icon } from './components/icon';
 import { Row, RowItem } from './components/row';
 import { AutoThemeProvider } from './components/theme';
+import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { sendMessage } from './messages';
+import { Ruleset } from './ruleset';
 import { MatchPattern, makeAltURL } from './utilities';
 
 const ActivatePopup: React.VFC<{
@@ -128,25 +129,29 @@ async function openActivatePopup(tabId: number, match: string): Promise<void> {
 async function openBlockPopup(url: string, title: string | null): Promise<void> {
   const options = await loadFromLocalStorage([
     'blacklist',
+    'compiledRules',
     'subscriptions',
     'enablePathDepth',
     'blockWholeSite',
   ]);
-  const blacklist = new Blacklist(
+  const ruleset = new InteractiveRuleset(
     options.blacklist,
-    Object.values(options.subscriptions).map(subscription => subscription.blacklist),
+    options.compiledRules !== false ? options.compiledRules : Ruleset.compile(options.blacklist),
+    Object.values(options.subscriptions).map(
+      subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+    ),
   );
 
   document.documentElement.lang = translate('lang');
   ReactDOM.render(
     <BlockPopup
-      blacklist={blacklist}
       blockWholeSite={options.blockWholeSite}
       close={() => window.close()}
       enablePathDepth={options.enablePathDepth}
+      ruleset={ruleset}
       title={title}
       url={url}
-      onBlocked={() => saveToLocalStorage({ blacklist: blacklist.toString() }, 'popup')}
+      onBlocked={() => saveToLocalStorage({ blacklist: ruleset.toString() }, 'popup')}
     />,
     document.body,
   );

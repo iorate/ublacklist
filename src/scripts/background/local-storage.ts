@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { postMessage } from '../messages';
+import { Ruleset } from '../ruleset';
 import { LocalStorageItemsSavable, SaveSource, Subscription, SubscriptionId } from '../types';
 import { numberKeys } from '../utilities';
 import { RawStorageItems, modifyInRawStorage, saveToRawStorage } from './raw-storage';
@@ -20,6 +21,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
   {
     beforeSave(items, dirtyFlagsUpdate, now) {
       if (items.blacklist != null) {
+        items.compiledRules = Ruleset.compile(items.blacklist);
         items.timestamp = now.toISOString();
         dirtyFlagsUpdate.blocklist = true;
       }
@@ -75,6 +77,12 @@ export async function save(
     section.afterSave?.(items, source);
   }
   syncDelayed(dirtyFlagsUpdate);
+}
+
+export async function compileRules(): Promise<void> {
+  return modifyInRawStorage(['blacklist'], ({ blacklist }) => ({
+    compiledRules: Ruleset.compile(blacklist),
+  }));
 }
 
 export async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {

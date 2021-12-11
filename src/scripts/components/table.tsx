@@ -1,22 +1,16 @@
-import React, { useMemo } from 'react';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type TableProps = JSX.IntrinsicElements['table'];
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(function Table(props, ref) {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        borderSpacing: 0,
-        tableLayout: 'fixed',
-        width: '100%',
-      }),
-    [css],
-  );
-  return <table {...applyClass(props, class_)} ref={ref} />;
+  const className = useClassName({
+    borderSpacing: 0,
+    tableLayout: 'fixed',
+    width: '100%',
+  });
+  return <table {...applyClassName(props, className)} ref={ref} />;
 });
 
 export type TableHeaderProps = JSX.IntrinsicElements['thead'];
@@ -35,32 +29,29 @@ export const TableHeaderRow = React.forwardRef<HTMLTableRowElement, TableHeaderR
   },
 );
 
-export type TableHeaderCellProps = {
+export type TableHeaderCellProps = JSX.IntrinsicElements['th'] & {
   breakAll?: boolean;
   width?: string;
-} & JSX.IntrinsicElements['th'];
+};
 
 export const TableHeaderCell = React.forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   function TableHeaderCell({ breakAll, width = 'auto', ...props }, ref) {
-    const css = useCSS();
-    const theme = useTheme();
-    const class_ = useMemo(
-      () =>
-        css({
-          color: theme.text.secondary,
-          fontWeight: 'normal',
-          padding: '0.75em 0',
-          textAlign: 'start',
-          verticalAlign: 'middle',
-          width,
-          wordBreak: breakAll ? 'break-all' : 'normal',
-          '&:not(:first-child)': {
-            paddingLeft: '0.75em',
-          },
-        }),
-      [css, theme, breakAll, width],
+    const className = useClassName(
+      theme => ({
+        color: theme.text.secondary,
+        fontWeight: 'normal',
+        padding: '0.75em 0',
+        textAlign: 'start',
+        verticalAlign: 'middle',
+        width,
+        wordBreak: breakAll ? 'break-all' : 'normal',
+        '&:not(:first-child)': {
+          paddingLeft: '0.75em',
+        },
+      }),
+      [breakAll, width],
     );
-    return <th {...applyClass(props, class_)} ref={ref} />;
+    return <th {...applyClassName(props, className)} ref={ref} />;
   },
 );
 
@@ -87,20 +78,17 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   { breakAll, ...props },
   ref,
 ) {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        borderTop: `solid 1px ${theme.separator}`,
-        padding: '0.75em 0',
-        verticalAlign: 'middle',
-        wordBreak: breakAll ? 'break-all' : 'normal',
-        '&:not(:first-child)': {
-          paddingLeft: '0.75em',
-        },
-      }),
-    [css, theme, breakAll],
+  const className = useClassName(
+    theme => ({
+      borderTop: `solid 1px ${theme.separator}`,
+      padding: '0.75em 0',
+      verticalAlign: 'middle',
+      wordBreak: breakAll ? 'break-all' : 'normal',
+      '&:not(:first-child)': {
+        paddingLeft: '0.75em',
+      },
+    }),
+    [breakAll],
   );
-  return <td {...applyClass(props, class_)} ref={ref} />;
+  return <td {...applyClassName(props, className)} ref={ref} />;
 });

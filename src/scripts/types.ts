@@ -67,6 +67,7 @@ export type CloudToken = {
 export type LocalStorageItems = {
   // blocklist
   blacklist: string;
+  compiledRules: string | false;
 
   // general
   skipBlockDialog: boolean;
@@ -101,7 +102,7 @@ export type LocalStorageItemsFor<T extends readonly (keyof LocalStorageItems)[]>
 
 export type LocalStorageItemsSavable = Omit<
   LocalStorageItems,
-  'syncCloudId' | 'syncResult' | 'subscriptions'
+  'compiledRules' | 'syncCloudId' | 'syncResult' | 'subscriptions'
 >;
 
 export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
@@ -156,6 +157,7 @@ export type Subscription = {
   name: string;
   url: string;
   blacklist: string;
+  compiledRules?: string;
   updateResult: Result | false | null;
 };
 

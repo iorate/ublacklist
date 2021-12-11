@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type DetailsProps = JSX.IntrinsicElements['details'];
 
@@ -16,26 +15,20 @@ export type DetailsSummaryProps = JSX.IntrinsicElements['summary'];
 
 export const DetailsSummary = React.forwardRef<HTMLElement, DetailsSummaryProps>(
   function DetailsSummary(props, ref) {
-    const css = useCSS();
-    const theme = useTheme();
-    const class_ = useMemo(
-      () =>
-        css({
-          cursor: 'pointer',
-          outline: 'none',
-          '&:focus': {
-            boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-          },
-          '&:focus:not(:focus-visible)': {
-            boxShadow: 'none',
-          },
-          '&:focus:not(:-moz-focusring)': {
-            boxShadow: 'none',
-          },
-        }),
-      [css, theme],
-    );
-    return <summary {...applyClass(props, class_)} ref={ref} />;
+    const className = useClassName(theme => ({
+      cursor: 'pointer',
+      outline: 'none',
+      '&:focus': {
+        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+      },
+      '&:focus:not(:focus-visible)': {
+        boxShadow: 'none',
+      },
+      '&:focus:not(:-moz-focusring)': {
+        boxShadow: 'none',
+      },
+    }));
+    return <summary {...applyClassName(props, className)} ref={ref} />;
   },
 );
 
@@ -45,13 +38,8 @@ export const DetailsBody = React.forwardRef<HTMLDivElement, DetailsBodyProps>(fu
   props,
   ref,
 ) {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        marginTop: '1em',
-      }),
-    [css],
-  );
-  return <div {...applyClass(props, class_)} ref={ref} />;
+  const className = useClassName({
+    marginTop: '1em',
+  });
+  return <div {...applyClassName(props, className)} ref={ref} />;
 });

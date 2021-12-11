@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { parseMatchPattern } from '../common/match-pattern';
 import { ErrorResult, Result, SuccessResult } from './types';
 
 // #region AltURL
@@ -45,6 +46,8 @@ export class UnexpectedResponse extends Error {
 // #endregion Error
 
 // #region MatchPattern
+export { type MatchPatternScheme, parseMatchPattern } from '../common/match-pattern';
+
 type SchemePattern = { type: 'any' } | { type: 'exact'; exact: string };
 
 type HostPattern =
@@ -64,11 +67,11 @@ export class MatchPattern {
   private readonly pathPattern: PathPattern;
 
   constructor(mp: string) {
-    const m = /^(\*|https?|ftp):\/\/(\*|(?:\*\.)?[^/*]+)(\/.*)$/.exec(mp);
-    if (!m) {
+    const parsed = parseMatchPattern(mp);
+    if (!parsed) {
       throw new Error('Invalid match pattern');
     }
-    const [, scheme, host, path] = m;
+    const { scheme, host, path } = parsed;
     if (scheme === '*') {
       this.schemePattern = { type: 'any' };
     } else {
@@ -224,4 +227,6 @@ export function lines(s: string): string[] {
 export function unlines(ss: string[]): string {
   return ss.join('\n');
 }
+
+export const r = String.raw.bind(String);
 // #endregion string

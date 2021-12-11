@@ -18,4 +18,4 @@ jobs:
           stale-issue-message: This issue is stale because it has been open for 30 days with no activity.
           close-issue-message: This issue was closed because it has been inactive for 7 days since being marked as stale.
           stale-issue-label: stale
-          exempt-issue-labels: bug
+          exempt-issue-labels: bug, in progress, to do

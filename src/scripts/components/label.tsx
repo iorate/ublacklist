@@ -1,8 +1,7 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { DISABLED_OPACITY } from './constants';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 type LabelContextValue = { disabled: boolean };
 
@@ -16,25 +15,23 @@ function useLabelContext(): LabelContextValue {
   return value;
 }
 
-export type LabelWrapperProps = {
+export type LabelWrapperProps = JSX.IntrinsicElements['div'] & {
   disabled?: boolean;
   fullWidth?: boolean;
-} & JSX.IntrinsicElements['div'];
+};
 
 export const LabelWrapper = React.forwardRef<HTMLDivElement, LabelWrapperProps>(
   function LabelWrapper({ disabled = false, fullWidth = false, ...props }, ref) {
-    const css = useCSS();
-    const class_ = useMemo(
-      () =>
-        css({
-          marginBottom: fullWidth ? '0.5em' : 0,
-          opacity: disabled ? DISABLED_OPACITY : 1,
-        }),
-      [css, disabled, fullWidth],
+    const className = useClassName(
+      () => ({
+        marginBottom: fullWidth ? '0.5em' : 0,
+        opacity: disabled ? DISABLED_OPACITY : 1,
+      }),
+      [disabled, fullWidth],
     );
     return (
       <LabelContext.Provider value={{ disabled }}>
-        <div {...applyClass(props, class_)} ref={ref} />
+        <div {...applyClassName(props, className)} ref={ref} />
       </LabelContext.Provider>
     );
   },
@@ -45,20 +42,17 @@ export type LabelProps = JSX.IntrinsicElements['span'];
 export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(function Label(props, ref) {
   const { disabled } = useLabelContext();
 
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: theme.text.primary,
-        cursor: disabled ? 'default' : 'auto',
-      }),
-    [css, theme, disabled],
+  const className = useClassName(
+    theme => ({
+      color: theme.text.primary,
+      cursor: disabled ? 'default' : 'auto',
+    }),
+    [disabled],
   );
 
   return (
     <div>
-      <span {...applyClass(props, class_)} ref={ref} />
+      <span {...applyClassName(props, className)} ref={ref} />
     </div>
   );
 });
@@ -69,20 +63,17 @@ export const ControlLabel = React.forwardRef<HTMLLabelElement, ControlLabelProps
   function ControlLabel({ children, for: for_, ...props }, ref) {
     const { disabled } = useLabelContext();
 
-    const css = useCSS();
-    const theme = useTheme();
-    const class_ = useMemo(
-      () =>
-        css({
-          color: theme.text.primary,
-          cursor: disabled ? 'default' : 'pointer',
-        }),
-      [css, theme, disabled],
+    const className = useClassName(
+      theme => ({
+        color: theme.text.primary,
+        cursor: disabled ? 'default' : 'pointer',
+      }),
+      [disabled],
     );
 
     return (
       <div>
-        <label {...applyClass(props, class_)} htmlFor={for_} ref={ref}>
+        <label {...applyClassName(props, className)} htmlFor={for_} ref={ref}>
           {children}
         </label>
       </div>
@@ -98,20 +89,17 @@ export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(functio
 ) {
   const { disabled } = useLabelContext();
 
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: theme.text.secondary,
-        cursor: disabled ? 'default' : 'auto',
-      }),
-    [css, theme, disabled],
+  const className = useClassName(
+    theme => ({
+      color: theme.text.secondary,
+      cursor: disabled ? 'default' : 'auto',
+    }),
+    [disabled],
   );
 
   return (
     <div>
-      <span {...applyClass(props, class_)} ref={ref} />
+      <span {...applyClassName(props, className)} ref={ref} />
     </div>
   );
 });

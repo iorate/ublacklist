@@ -7,10 +7,10 @@ import * as Helpers from './helpers';
 
 dayjs.extend(dayjsUTC);
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 const APP_KEY = process.env.DROPBOX_API_KEY!;
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const APP_SECRET = process.env.DROPBOX_API_SECRET!;
+/* eslint-enable */
 
 function toISOStringSecond(time: dayjs.Dayjs): string {
   return time.utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
