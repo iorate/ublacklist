@@ -127,24 +127,23 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           );
         },
       },
-      // Featured Snippet (About this result)
-      {
-        target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
-        level: '.g',
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
       // Featured Snippet
       {
         target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
-        level: '.g',
+        level: target => target.parentElement?.closest('.g') ?? null,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        actionTarget: root =>
+          root.querySelector<HTMLElement>('.csDOgf') || root.querySelector<HTMLElement>('.eFM0qc'),
+        actionPosition: target =>
+          insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
+        actionStyle: actionRoot => {
+          actionRoot.className = css(
+            actionRoot.matches('.csDOgf + *')
+              ? desktopAboutThisResultActionStyle
+              : desktopRegularActionStyle,
+          );
+        },
       },
       // Latest, Top Story (Horizontal)
       {
