@@ -127,7 +127,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: 'block',
           fontSize: '14px',
-          marginTop: '-4px',
           padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },
@@ -156,7 +155,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: 'block',
           fontSize: '14px',
-          marginTop: '-4px',
           padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },
