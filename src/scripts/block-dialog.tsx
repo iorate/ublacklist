@@ -181,7 +181,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
                       id="pageTitle"
                       readOnly
                       rows={2}
-                      spellCheck={false}
+                      spellCheck="false"
                       value={title ?? ''}
                     />
                   </RowItem>
@@ -199,7 +199,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
                         disabled={state.disabled}
                         id="rulesToAdd"
                         rows={2}
-                        spellCheck={false}
+                        spellCheck="false"
                         value={state.rulesToAdd}
                         onChange={e => {
                           const rulesToAdd = e.currentTarget.value;

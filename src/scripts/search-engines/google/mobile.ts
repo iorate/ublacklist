@@ -88,9 +88,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   '': handleSerp({
     globalStyle: {
       ...mobileGlobalStyle,
-      '[data-ub-blocked="visible"] .ZINbbc': {
-        backgroundColor: 'transparent !important',
-      },
+      '[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01':
+        {
+          backgroundColor: 'transparent !important',
+        },
     },
     controlHandlers: [
       {
@@ -116,14 +117,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // Regular (iOS)
       {
         target: '.mnr-c.xpd',
-        level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') || target,
+        level: target =>
+          // Web Result with Site Links
+          target.parentElement?.closest<HTMLElement>('.mnr-c.g') ||
+          (target.querySelector('.mnr-c.xpd') ? null : target),
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
         actionStyle: {
           display: 'block',
           fontSize: '14px',
-          marginTop: '-4px',
           padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },
@@ -144,15 +147,14 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       // YouTube Channel (iOS)
       {
-        target: '.XqIXXe > .mnr-c',
-        level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') ?? null,
+        target: '.XqIXXe > .mnr-c h3 > a',
+        level: '.mnr-c',
         url: getURLFromPing('h3 > a'),
         title: 'h3',
         actionTarget: '',
         actionStyle: {
           display: 'block',
           fontSize: '14px',
-          marginTop: '-4px',
           padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },

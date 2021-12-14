@@ -102,7 +102,7 @@ const ImportBlacklistDialog: React.VFC<
               <TextArea
                 aria-label={translate('options_importBlacklistDialog_pbLabel')}
                 rows={5}
-                spellCheck={false}
+                spellCheck="false"
                 value={state.pb}
                 wrap="off"
                 onChange={e => setState(s => ({ ...s, pb: e.currentTarget.value }))}
@@ -225,7 +225,7 @@ const SetBlacklist: FunctionComponent = () => {
           <TextArea
             id="blacklist"
             rows={10}
-            spellCheck={false}
+            spellCheck="false"
             value={blacklist}
             wrap="off"
             onChange={e => {
