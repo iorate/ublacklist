@@ -116,7 +116,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // Regular (iOS)
       {
         target: '.mnr-c.xpd',
-        level: target => target.parentElement?.closest<HTMLElement>('.mnr-c') || target,
+        level: target =>
+          // Web Result with Site Links
+          target.parentElement?.closest<HTMLElement>('.mnr-c.g') ||
+          (target.querySelector('.mnr-c.xpd') ? null : target),
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',

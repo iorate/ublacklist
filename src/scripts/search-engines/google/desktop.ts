@@ -101,10 +101,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           if (outer_g.matches('.g-blk')) {
             // Featured Snippet
             return null;
-          } else {
+          }
+          if (outer_g.querySelector(':scope > h2')) {
             // Web Result with Sitelinks
             return outer_g;
           }
+          return inner_g;
         },
         url: 'a',
         title: 'h3',
