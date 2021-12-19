@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - website/**
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - website/**
+  workflow_dispatch:
 
 jobs:
   build:
