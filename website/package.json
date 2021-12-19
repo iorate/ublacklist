@@ -1,16 +1,16 @@
 {
-  "name": "website",
+  "name": "ublacklist-website",
   "version": "0.0.0",
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ],
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
     ]
   },
   "dependencies": {
@@ -27,18 +27,19 @@
     "@docusaurus/types": "2.0.0-beta.13",
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/react-router-dom": "^5.3.2",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.5.4"
   },
   "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
+    "build": "docusaurus build",
     "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "start": "docusaurus start",
+    "lint": "FORCE_COLOR=1 run-p -l \"lint:*\"",
+    "lint:prettier": "yarn workspace ublacklist prettier --check --loglevel warn website",
+    "lint:typecheck": "tsc",
+    "fix": "yarn fix:prettier",
+    "fix:prettier": "yarn workspace ublacklist prettier --write --loglevel warn website"
   }
 }

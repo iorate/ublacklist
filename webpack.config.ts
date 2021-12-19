@@ -187,6 +187,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
       }),
 
       new LicenseWebpackPlugin({
+        excludedPackageTest: packageName => packageName === 'ublacklist',
         licenseFileOverrides: {
           'preact-compat': '../LICENSE',
           'preact-hooks': '../LICENSE',

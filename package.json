@@ -1,4 +1,6 @@
 {
+  "name": "ublacklist",
+  "version": "0.0.0",
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
@@ -206,18 +208,20 @@
     "interpret@^2.2.0": "patch:interpret@npm:2.2.0#.yarn/patches/interpret-npm-2.2.0-3603a544e1"
   },
   "scripts": {
-    "_eslint": "eslint --color .",
-    "_prettier": "prettier --color --loglevel warn .",
-    "_tsc": "tsc",
-    "_webpack": "webpack --color",
+    "_webpack": "webpack",
+    "clean": "rimraf dist",
     "build": "npm-run-all \"_webpack --env browser={1:=chrome} --env mode={2:=development} --env typecheck={3:=notypecheck}\" --",
     "build-all": "run-p -l \"build chrome development typecheck\" \"build chrome production typecheck\" \"build chrome-mv3 development typecheck\" \"build chrome-mv3 production typecheck\" \"build firefox development typecheck\" \"build firefox production typecheck\" \"build safari development typecheck\" \"build safari production typecheck\"",
-    "clean": "rimraf \"dist/*\"",
-    "commit": "git-cz",
-    "fix": "run-s \"_eslint --fix\" \"_prettier --write\"",
-    "lint": "run-p _eslint \"_prettier --check\" \"_tsc --noEmit\"",
+    "watch": "npm-run-all \"_webpack --watch --env browser={1:=chrome} --env mode=development --env typecheck=notypecheck\" --",
+    "lint": "FORCE_COLOR=1 run-p -l \"lint:*\"",
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier --check --loglevel warn .",
+    "lint:typecheck": "tsc --noEmit",
+    "fix": "FORCE_COLOR=1 run-s -l fix:eslint fix:prettier",
+    "fix:eslint": "eslint --fix .",
+    "fix:prettier": "prettier --write --loglevel warn .",
     "test": "jest",
-    "watch": "npm-run-all \"_webpack --watch --env browser={1:=chrome} --env mode=development --env typecheck=notypecheck\" --"
+    "commit": "git-cz"
   },
   "workspaces": [
     "website"

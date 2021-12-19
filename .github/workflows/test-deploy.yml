@@ -26,4 +26,5 @@ jobs:
         working-directory: website
         run: |
           yarn install --immutable
+          yarn lint
           yarn build
