@@ -4,7 +4,7 @@
 const config = {
   title: 'uBlacklist',
   url: 'https://iorate.github.io',
-  baseUrl: '/uBlacklist/',
+  baseUrl: '/ublacklist/',
   favicon: 'img/icon.svg',
   trailingSlash: false,
   i18n: {
@@ -15,7 +15,7 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   tagline: 'Block the sites you specify from appearing in Google search results',
   organizationName: 'iorate',
-  projectName: 'uBlacklist',
+  projectName: 'ublacklist',
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -40,7 +40,7 @@ const config = {
           },
           {
             label: 'GitHub',
-            href: 'https://github.com/iorate/uBlacklist',
+            href: 'https://github.com/iorate/ublacklist',
             position: 'right',
           },
         ],
@@ -61,7 +61,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          editUrl: 'https://github.com/iorate/uBlacklist/edit/master/docs/',
+          editUrl: 'https://github.com/iorate/ublacklist/edit/master/website/',
           sidebarPath: require.resolve('./sidebars.js'),
         },
         theme: {
