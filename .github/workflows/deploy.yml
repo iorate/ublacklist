@@ -6,7 +6,6 @@ on:
       - master
     paths:
       - website/**
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -22,12 +21,16 @@ jobs:
           node-version: '16'
           cache: yarn
 
-      - name: Build website
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
         working-directory: website
-        run: |
-          yarn install --immutable
-          yarn lint
-          yarn build
+
+      - name: Build website
+        run: yarn build
+        working-directory: website
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

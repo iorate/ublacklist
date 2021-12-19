@@ -1,4 +1,4 @@
-name: Test deployment
+name: Build website
 
 on:
   pull_request:
@@ -6,11 +6,10 @@ on:
       - master
     paths:
       - website/**
-  workflow_dispatch:
 
 jobs:
-  test-deploy:
-    name: Test deployment
+  build:
+    name: Build website
 
     runs-on: ubuntu-latest
 
@@ -22,9 +21,13 @@ jobs:
           node-version: '16'
           cache: yarn
 
-      - name: Test build
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
         working-directory: website
-        run: |
-          yarn install --immutable
-          yarn lint
-          yarn build
+
+      - name: Build website
+        run: yarn build
+        working-directory: website
