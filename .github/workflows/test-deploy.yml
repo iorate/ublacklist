@@ -1,0 +1,29 @@
+name: Test deployment
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - website/**
+  workflow_dispatch:
+
+jobs:
+  test-deploy:
+    name: Test deployment
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Test build
+        working-directory: website
+        run: |
+          yarn install --immutable
+          yarn build

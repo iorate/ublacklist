@@ -1,0 +1,8 @@
+{
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable"],
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
