@@ -6,7 +6,7 @@ Blocks specific sites from appearing in Google search results
 
 ## Description
 
-This browser extension prevents blacklisted sites from appearing in Google search results.
+This browser extension prevents the sites you specify from appearing in Google search results.
 
 You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) (e.g. `/example\.(net|org)/`).
 
@@ -29,11 +29,17 @@ This extension is available in the below search engines.
 
 ## For subscription providers
 
-To publish a blacklist as a subscription, place a blacklist file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is [an example](https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt) hosted on GitHub.
+To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:<br>
+https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt
 
-In uBlacklist >=6.6.0 for Chrome, subscription URLs are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut to the options page:  
-`https://iorate.github.io/ublacklist/subscribe?name={urlEncode(name)}&url={urlEncode(url)}`  
-Here is [an example](https://iorate.github.io/ublacklist/subscribe?name=Example&url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt).
+In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut to the options page:
+
+```
+https://iorate.github.io/uBlacklist/subscribe?name={urlEncode(name)}&url={urlEncode(url)}
+```
+
+For the above example:<br>
+https://iorate.github.io/uBlacklist/subscribe?name=Example&url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
 
 ## For developers
 
