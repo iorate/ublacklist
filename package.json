@@ -7,7 +7,6 @@
   "devDependencies": {
     "@mdi/svg": "^6.5.95",
     "@types/chrome": "0.0.164",
-    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/dotenv-webpack": "^7.0.3",
     "@types/firefox-webext-browser": "^94.0.0",
     "@types/glob": "^7.2.0",

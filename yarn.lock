@@ -3424,17 +3424,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/copy-webpack-plugin@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@types/copy-webpack-plugin@npm:8.0.1"
-  dependencies:
-    "@types/node": "*"
-    tapable: ^2.0.0
-    webpack: ^5.1.0
-  checksum: e921a28fca72bf1708d51ffad06ee2a4b80b8de7e748639588681ea1912413b92dbd433627f3b7eb51c14b9254a1d9c13cf037f25ca08a718df005871454a696
-  languageName: node
-  linkType: hard
-
 "@types/cssnano@npm:^4.0.1":
   version: 4.0.1
   resolution: "@types/cssnano@npm:4.0.1"
@@ -17424,7 +17413,6 @@ resolve@^2.0.0-next.3:
   dependencies:
     "@mdi/svg": ^6.5.95
     "@types/chrome": 0.0.164
-    "@types/copy-webpack-plugin": ^8.0.1
     "@types/dotenv-webpack": ^7.0.3
     "@types/firefox-webext-browser": ^94.0.0
     "@types/glob": ^7.2.0
@@ -20465,7 +20453,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5, webpack@npm:^5.1.0, webpack@npm:^5.61.0, webpack@npm:^5.64.4":
+"webpack@npm:^5, webpack@npm:^5.61.0, webpack@npm:^5.64.4":
   version: 5.65.0
   resolution: "webpack@npm:5.65.0"
   dependencies:

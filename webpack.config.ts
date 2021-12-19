@@ -1,4 +1,5 @@
 import path from 'path';
+// eslint-disable-next-line import/default
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
 import { ESBuildMinifyPlugin } from 'esbuild-loader';
