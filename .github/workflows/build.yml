@@ -5,14 +5,20 @@ on:
     branches:
       - master
     paths-ignore:
+      - safari-icons/**
       - web-store-assets/**
       - website/**
+      - LICENSE.txt
+      - README.md
   pull_request:
     branches:
       - master
     paths-ignore:
+      - safari-icons/**
       - web-store-assets/**
       - website/**
+      - LICENSE.txt
+      - README.md
 
 jobs:
   build:
