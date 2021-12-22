@@ -52,22 +52,22 @@ git clone https://github.com/iorate/uBlacklist.git
 
 cd uBlacklist
 
-yarn install --immutable
+yarn
 
 # yarn build <browser:=chrome> <mode:=development> <typecheck:=notypecheck>
 yarn build firefox production
 ```
 
-Before opening a pull request, you should make sure that 'build-all', 'lint' and 'test' pass.
+Before opening a pull request, you should make sure that `yarn lint`, `yarn test`, and `yarn build-all` pass.
 
 ```shell
-yarn build-all
-
 yarn lint
 # Some lint errors can be fixed automatically
 # yarn fix
 
 yarn test
+
+yarn build-all
 ```
 
 **NOTE:** The API keys and secrets for the sync feature are not included in this repository. To develop the sync feature, set your own API keys and secrets in the `.env` file.
