@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
@@ -191,7 +191,7 @@ const ImportBlacklistDialog: React.VFC<
   );
 };
 
-const SetBlacklist: FunctionComponent = () => {
+const SetBlacklist: React.VFC = () => {
   const {
     initialItems: { blacklist: initialBlacklist },
   } = useOptionsContext();
@@ -303,7 +303,7 @@ const SetBlacklist: FunctionComponent = () => {
   );
 };
 
-const RegisterSearchEngine: FunctionComponent<{
+const RegisterSearchEngine: React.VFC<{
   id: SearchEngineId;
 }> = ({ id }) => {
   const matches = searchEngineMatches[id];
@@ -344,7 +344,7 @@ const RegisterSearchEngine: FunctionComponent<{
   );
 };
 
-const RegisterSearchEngines: FunctionComponent = () => {
+const RegisterSearchEngines: React.VFC = () => {
   /* #if CHROME_MV3 || SAFARI
   return null;
   */
@@ -382,7 +382,7 @@ const RegisterSearchEngines: FunctionComponent = () => {
   // #endif
 };
 
-export const GeneralSection: FunctionComponent = () => (
+export const GeneralSection: React.VFC = () => (
   <Section aria-labelledby="generalSectionTitle" id="general">
     <SectionHeader>
       <SectionTitle id="generalSectionTitle">{translate('options_generalTitle')}</SectionTitle>

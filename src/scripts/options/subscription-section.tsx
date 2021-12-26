@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button } from '../components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -301,7 +301,7 @@ const ManageSubscription: React.VFC<{
   );
 };
 
-export const ManageSubscriptions: FunctionComponent<{
+export const ManageSubscriptions: React.VFC<{
   subscriptions: Subscriptions;
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
 }> = ({ subscriptions, setSubscriptions }) => {
@@ -443,7 +443,7 @@ export const ManageSubscriptions: FunctionComponent<{
   );
 };
 
-export const SubscriptionSection: FunctionComponent = () => {
+export const SubscriptionSection: React.VFC = () => {
   const {
     initialItems: { subscriptions: initialSubscriptions },
   } = useOptionsContext();
