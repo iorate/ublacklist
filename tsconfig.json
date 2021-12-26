@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "module": "CommonJS",
     "skipLibCheck": true,
     "strict": true,
