@@ -5,4 +5,4 @@ Sie können Regeln auf Suchergebnissenseiten hinzufügen oder auf Seiten die dur
 Sie können Ihre Regeln mit all Ihren Geräten synchronisieren, in dem Sie Google Drive oder Dropbox verwenden. Weiterhin können Sie öffentlich zur Verfügung gestellte Regeln abonnieren.
 
 Änderungen:
-https://github.com/iorate/uBlacklist/releases
+https://github.com/iorate/ublacklist/releases

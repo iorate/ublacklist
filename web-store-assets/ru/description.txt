@@ -3,12 +3,12 @@
 Вы можете добавить правила на странице поисковой выдачи или на самом блокируемом сайте, нажав значок на панели инструментов. Правила могут быть заданы с помощью шаблонов соответствия (например, *://*.example.com/*) или регулярных выражений (например, /example\.(net|org)/).
 
 Вы можете использовать данное расширение в нескольких поисковых движках, помимо Google. Список поддерживаемых поисковиков доступен здесь:
-https://github.com/iorate/uBlacklist#supported-search-engines
+https://github.com/iorate/ublacklist#supported-search-engines
 
 Вы можете синхронизировать чёрные списки между Вашими устройствами с помощью Google Диска, а также подписаться на публичные чёрные списки.
 
 Как пользоваться:
-https://iorate.github.io/ublacklist/getting-started
+https://iorate.github.io/ublacklist/docs/getting-started
 
 Список изменений:
-https://github.com/iorate/uBlacklist/releases
+https://github.com/iorate/ublacklist/releases
