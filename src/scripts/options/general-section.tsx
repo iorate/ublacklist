@@ -35,6 +35,7 @@ import { searchEngineMessageNames } from '../search-engines/message-names';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
+import { RulesetEditor } from './ruleset-editor';
 import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
 
@@ -215,21 +216,18 @@ const SetBlacklist: React.VFC = () => {
       <Row>
         <RowItem expanded>
           <LabelWrapper fullWidth>
-            <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
+            <Label>{translate('options_blacklistLabel')}</Label>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
             <SubLabel>{translate('options_blockByTitle')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
-          <TextArea
-            id="blacklist"
-            rows={10}
-            spellCheck="false"
+          <RulesetEditor
+            height="200px"
             value={blacklist}
-            wrap="off"
-            onChange={e => {
-              setBlacklist(e.currentTarget.value);
+            onChange={value => {
+              setBlacklist(value);
               setBlacklistDirty(true);
             }}
           />

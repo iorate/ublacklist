@@ -32,7 +32,6 @@ import {
   TableHeaderRow,
   TableRow,
 } from '../components/table';
-import { TextArea } from '../components/textarea';
 import { useClassName, usePrevious } from '../components/utilities';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
@@ -40,6 +39,7 @@ import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { AltURL, MatchPattern, isErrorResult, numberEntries, numberKeys } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
+import { RulesetEditor } from './ruleset-editor';
 import { SetIntervalItem } from './set-interval-item';
 
 const PERMISSION_PASSLIST = [
@@ -206,13 +206,11 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
         <Row>
           <RowItem expanded>
             {open && (
-              <TextArea
-                aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
-                className={FOCUS_START_CLASS}
+              <RulesetEditor
+                focusStart
+                height="200px"
                 readOnly
-                rows={10}
                 value={subscription?.blacklist ?? ''}
-                wrap="off"
               />
             )}
           </RowItem>

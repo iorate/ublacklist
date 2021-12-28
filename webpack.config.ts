@@ -116,6 +116,11 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
       path: path.resolve(__dirname, 'dist', browser, mode),
     },
 
+    performance: {
+      maxAssetSize: 500000,
+      maxEntrypointSize: 500000,
+    },
+
     plugins: [
       new CopyPlugin({
         patterns: ['./icons/*.png', './scripts/*.js'],

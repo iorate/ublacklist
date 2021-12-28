@@ -34,6 +34,17 @@ export type Theme = {
   dialog: {
     background: string;
   };
+  editor: {
+    border: string;
+    background: string;
+    text: string;
+    lineNumber: string;
+    activeLineNumber: string;
+    selectionBackground: string;
+    annotation: string;
+    regexp: string;
+    comment: string;
+  };
   focus: {
     circle: string;
     shadow: string;
@@ -115,6 +126,18 @@ export const darkTheme: Readonly<Theme> = {
   dialog: {
     background: 'rgb(41, 42, 45)',
   },
+  // [hybrid.vim](https://github.com/w0ng/vim-hybrid)
+  editor: {
+    border: 'rgb(95, 99, 104)',
+    background: 'rgb(29, 31, 33)',
+    text: 'rgb(197, 200, 198)',
+    lineNumber: 'rgb(55, 59, 65)',
+    activeLineNumber: 'rgb(240, 198, 116)',
+    selectionBackground: 'rgb(55, 59, 65)',
+    annotation: 'rgb(129, 162, 190)',
+    regexp: 'rgb(181, 189, 104)',
+    comment: 'rgb(112, 120, 128)',
+  },
   focus: {
     shadow: 'rgba(138, 180, 248, 0.5)',
     circle: 'rgba(138, 180, 248, 0.4)',
@@ -194,6 +217,18 @@ export const lightTheme: Readonly<Theme> = {
   },
   dialog: {
     background: 'white',
+  },
+  // [hybrid.vim](https://github.com/w0ng/vim-hybrid)
+  editor: {
+    border: 'rgb(218, 220, 224)',
+    background: 'rgb(255, 255, 255)',
+    text: 'rgb(0, 0, 0)',
+    lineNumber: 'rgb(210, 210, 210)',
+    activeLineNumber: 'rgb(106, 106, 0)',
+    selectionBackground: 'rgb(210, 210, 210)',
+    annotation: 'rgb(0, 0, 106)',
+    regexp: 'rgb(0, 106, 0)',
+    comment: 'rgb(106, 106, 106)',
   },
   focus: {
     shadow: 'rgba(26, 115, 232, 0.4)',

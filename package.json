@@ -7,6 +7,14 @@
     }
   },
   "devDependencies": {
+    "@codemirror/commands": "^0.19.6",
+    "@codemirror/gutter": "^0.19.9",
+    "@codemirror/highlight": "^0.19.6",
+    "@codemirror/history": "^0.19.1",
+    "@codemirror/language": "^0.19.7",
+    "@codemirror/state": "^0.19.6",
+    "@codemirror/stream-parser": "^0.19.3",
+    "@codemirror/view": "^0.19.37",
     "@mdi/svg": "^6.5.95",
     "@types/chrome": "0.0.164",
     "@types/dotenv-webpack": "^7.0.3",
