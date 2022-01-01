@@ -174,10 +174,8 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         chunks: ['scripts/options'],
         filename: 'pages/options.html',
         meta: {
-          viewport:
-            browser === 'safari'
-              ? 'width=device-width, initial-scale=1, maximum-scale=1'
-              : 'width=device-width, initial-scale=1',
+          'color-scheme': 'dark light',
+          viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
         title: 'uBlacklist Options',
       }),
@@ -186,7 +184,8 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         chunks: ['scripts/popup'],
         filename: 'pages/popup.html',
         meta: {
-          viewport: 'width=device-width, initial-scale=1',
+          'color-scheme': 'dark light',
+          viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
         title: 'uBlacklist Popup',
       }),

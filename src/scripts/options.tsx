@@ -13,18 +13,18 @@ import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
 
 const Options: React.VFC = () => (
-  <OptionsContextProvider>
-    <AutoThemeProvider>
-      <Baseline>
+  <AutoThemeProvider>
+    <Baseline>
+      <OptionsContextProvider>
         <Container>
           <GeneralSection />
           <AppearanceSection />
           <SyncSection />
           <SubscriptionSection />
         </Container>
-      </Baseline>
-    </AutoThemeProvider>
-  </OptionsContextProvider>
+      </OptionsContextProvider>
+    </Baseline>
+  </AutoThemeProvider>
 );
 
 function main(): void {
