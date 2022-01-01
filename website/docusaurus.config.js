@@ -31,6 +31,10 @@ const config = {
             to: 'docs',
           },
           {
+            label: 'Subscriptions',
+            to: 'subscriptions',
+          },
+          {
             label: 'Privacy Policy',
             to: 'privacy-policy',
           },
