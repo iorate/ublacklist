@@ -6,9 +6,14 @@ Blocks specific sites from appearing in Google search results
 
 ## Description
 
-This browser extension prevents the sites you specify from appearing in Google search results.
+This extension prevents the sites you specify from appearing in Google search results.
 
-You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) (e.g. `/example\.(net|org)/`).
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://developer.mozilla.org/en-us/docs/mozilla/add-ons/webextensions/match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-us/docs/web/javascript/guide/regular_expressions) (e.g. `/example\.(net|org)/`).
+
+You can synchronize rulesets across devices via cloud storage. At the moment, Google Drive and Dropbox are supported.
+
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
+https://iorate.github.io/ublacklist/subscriptions
 
 ## Supported search engines
 

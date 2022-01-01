@@ -5,7 +5,10 @@
 Google 以外にもいくつかの検索エンジンに対応しています。対応している検索エンジンのリストは、以下の URL で確認できます:
 https://github.com/iorate/ublacklist#supported-search-engines (英語)
 
-ブロックするサイトのリストは、Google ドライブまたは Dropbox を使ってデバイス間で同期したり、指定した URL から定期的にダウンロードすることができます。
+ブロックするサイトのリストを、クラウドストレージを介してデバイス間で同期することができます。今のところ、Google ドライブと Dropbox に対応しています。
+
+また、公開されているリストを購読することもできます。一部のリストはウェブサイトに掲載されています:
+https://iorate.github.io/ublacklist/subscriptions (英語)
 
 使い方:
 https://iorate.github.io/ublacklist/docs/getting-started (英語)
