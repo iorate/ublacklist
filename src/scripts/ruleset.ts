@@ -38,7 +38,7 @@ export const RE_LINE = (() => {
   const firstChar = r`(?:[^*\\/[]|${backslashSequence}|${class_})`;
   const char = r`(?:[^\\/[]|${backslashSequence}|${class_})`;
   const pattern = r`(?<pattern>${firstChar}${char}*)`;
-  const flags = r`(?<flags>[iu]+)`;
+  const flags = r`(?<flags>iu?|ui?)`;
   const regularExpression = r`(?<regularExpression>${prop}?/${pattern}/${flags}?)`;
 
   const rule = r`(?<rule>(${highlight}${spaceAfterHighlight}?)?(?:${matchPattern}|${regularExpression}))`;
