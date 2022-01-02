@@ -2,7 +2,6 @@ import path from 'path';
 // eslint-disable-next-line import/default
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import glob from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -104,12 +103,10 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
     name: browser,
 
     optimization: {
-      minimizer: [
-        new ESBuildMinifyPlugin({
-          exclude: 'scripts/active.js',
-          target,
-        }),
-      ],
+      // https://developer.chrome.com/docs/webstore/review-process/
+      // Minification is allowed, but it can also make reviewing extension code more difficult.
+      // Where possible, consider submitting your code as authored.
+      minimize: false,
     },
 
     output: {
@@ -117,8 +114,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
     },
 
     performance: {
-      maxAssetSize: 500000,
-      maxEntrypointSize: 500000,
+      hints: false,
     },
 
     plugins: [
