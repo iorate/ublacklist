@@ -131,9 +131,12 @@ export type DialogHeaderProps = JSX.IntrinsicElements['div'];
 
 export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   function DialogHeader(props, ref) {
-    const className = useClassName({
-      marginBottom: '1em',
-    });
+    const className = useClassName(
+      () => ({
+        marginBottom: '1em',
+      }),
+      [],
+    );
     return <div {...applyClassName(props, className)} ref={ref} />;
   },
 );
@@ -142,11 +145,14 @@ export type DialogTitleProps = JSX.IntrinsicElements['h1'];
 
 export const DialogTitle = React.forwardRef<HTMLHeadingElement, DialogTitleProps>(
   function DialogTitle({ children, ...props }, ref) {
-    const className = useClassName({
-      fontSize: '1.125em',
-      fontWeight: 'normal',
-      margin: 0,
-    });
+    const className = useClassName(
+      () => ({
+        fontSize: '1.125em',
+        fontWeight: 'normal',
+        margin: 0,
+      }),
+      [],
+    );
     return (
       <h1 {...applyClassName(props, className)} ref={ref}>
         {children}
@@ -168,9 +174,12 @@ export type DialogFooterProps = JSX.IntrinsicElements['div'];
 
 export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   function DialogFooter(props, ref) {
-    const className = useClassName({
-      marginTop: '2em',
-    });
+    const className = useClassName(
+      () => ({
+        marginTop: '2em',
+      }),
+      [],
+    );
     return <div {...applyClassName(props, className)} ref={ref} />;
   },
 );

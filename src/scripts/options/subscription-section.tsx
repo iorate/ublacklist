@@ -350,10 +350,13 @@ export const ManageSubscriptions: React.VFC<{
     [subscriptions, setSubscriptions],
   );
 
-  const emptyClass = useClassName({
-    minHeight: '3em',
-    textAlign: 'center',
-  });
+  const emptyClass = useClassName(
+    () => ({
+      minHeight: '3em',
+      textAlign: 'center',
+    }),
+    [],
+  );
 
   return (
     <SectionItem>

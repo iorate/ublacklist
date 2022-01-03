@@ -14,25 +14,31 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
   ref,
 ) {
   const theme = useTheme();
-  const wrapperClassName = useClassName({
-    position: 'relative',
-  });
-  const buttonClassName = useClassName({
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    display: 'block',
-    height: '36px',
-    padding: '6px',
-    width: '36px',
-    '&:disabled': {
-      cursor: 'default',
-      opacity: DISABLED_OPACITY,
-    },
-    '&:focus': {
-      outline: 'none',
-    },
-  });
+  const wrapperClassName = useClassName(
+    () => ({
+      position: 'relative',
+    }),
+    [],
+  );
+  const buttonClassName = useClassName(
+    () => ({
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'block',
+      height: '36px',
+      padding: '6px',
+      width: '36px',
+      '&:disabled': {
+        cursor: 'default',
+        opacity: DISABLED_OPACITY,
+      },
+      '&:focus': {
+        outline: 'none',
+      },
+    }),
+    [],
+  );
   return (
     <div className={wrapperClassName}>
       <button {...applyClassName(props, buttonClassName)} ref={ref}>

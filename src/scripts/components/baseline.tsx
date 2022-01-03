@@ -7,9 +7,12 @@ const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Ar
 export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 
 export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
-  const rootClassName = useClassName(theme => ({
-    colorScheme: theme.name,
-  }));
+  const rootClassName = useClassName(
+    theme => ({
+      colorScheme: theme.name,
+    }),
+    [],
+  );
   const bodyClassName = useClassName(
     theme => ({
       background: theme.background,

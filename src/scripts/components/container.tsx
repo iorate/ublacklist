@@ -8,14 +8,17 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(functi
   { width = '640px', ...props },
   ref,
 ) {
-  const wrapperClassName = useClassName({
-    bottom: 0,
-    left: 0,
-    overflow: 'auto',
-    position: 'fixed',
-    right: 0,
-    top: 0,
-  });
+  const wrapperClassName = useClassName(
+    () => ({
+      bottom: 0,
+      left: 0,
+      overflow: 'auto',
+      position: 'fixed',
+      right: 0,
+      top: 0,
+    }),
+    [],
+  );
   const containerClassName = useClassName(
     () => ({
       margin: '0 auto',

@@ -89,9 +89,12 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
   }
   const ok = !state.disabled && state.rulesToAddValid;
 
-  const hostClass = useClassName({
-    wordBreak: 'break-all',
-  });
+  const hostClass = useClassName(
+    () => ({
+      wordBreak: 'break-all',
+    }),
+    [],
+  );
 
   return (
     <>

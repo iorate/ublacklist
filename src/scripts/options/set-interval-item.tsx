@@ -22,11 +22,14 @@ export const SetIntervalItem: React.VFC<{
   } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
 
-  const rowClass = useClassName({
-    '&&': {
-      minHeight: '2.5em',
-    },
-  });
+  const rowClass = useClassName(
+    () => ({
+      '&&': {
+        minHeight: '2.5em',
+      },
+    }),
+    [],
+  );
 
   return (
     <Row className={rowClass}>

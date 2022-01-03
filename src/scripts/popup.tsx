@@ -22,10 +22,13 @@ import { Ruleset } from './ruleset';
 import { MatchPattern, makeAltURL } from './utilities';
 
 const Loading: React.VFC = () => {
-  const className = useClassName({
-    height: 'calc(12.5em + 24px)', // The height of `BlockEmbeddedDialog`
-    width: '360px',
-  });
+  const className = useClassName(
+    () => ({
+      height: 'calc(12.5em + 24px)', // The height of `BlockEmbeddedDialog`
+      width: '360px',
+    }),
+    [],
+  );
   return <div className={className} />;
 };
 
