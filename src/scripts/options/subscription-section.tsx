@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button } from '../components/button';
+import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
@@ -13,6 +14,7 @@ import {
 } from '../components/dialog';
 import { Input } from '../components/input';
 import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
+import { Link } from '../components/link';
 import { Menu, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
@@ -205,13 +207,15 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
       <DialogBody>
         <Row>
           <RowItem expanded>
+            <Link breakAll className={FOCUS_START_CLASS} href={subscription?.url}>
+              {subscription?.url}
+            </Link>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem expanded>
             {open && (
-              <RulesetEditor
-                focusStart
-                height="200px"
-                readOnly
-                value={subscription?.blacklist ?? ''}
-              />
+              <RulesetEditor height="200px" readOnly value={subscription?.blacklist ?? ''} />
             )}
           </RowItem>
         </Row>
@@ -246,8 +250,24 @@ const ManageSubscription: React.VFC<{
 }) => {
   return (
     <TableRow>
+      <TableCell>
+        <CheckBox
+          aria-label={translate('options_subscriptionCheckBoxLabel')}
+          checked={subscription.enabled ?? true}
+          onChange={async e => {
+            const enabled = e.currentTarget.checked;
+            await sendMessage('enable-subscription', id, enabled);
+            setSubscriptions(subscriptions => {
+              const newSubscriptions = { ...subscriptions };
+              if (subscriptions[id]) {
+                newSubscriptions[id] = { ...subscriptions[id], enabled };
+              }
+              return newSubscriptions;
+            });
+          }}
+        />
+      </TableCell>
       <TableCell>{subscription.name}</TableCell>
-      <TableCell breakAll>{subscription.url}</TableCell>
       <TableCell>
         {updating ? (
           translate('options_subscriptionUpdateRunning')
@@ -272,6 +292,7 @@ const ManageSubscription: React.VFC<{
             {translate('options_showSubscriptionMenu')}
           </MenuItem>
           <MenuItem
+            disabled={!(subscription.enabled ?? true)}
             onClick={async () => {
               if (!(await requestPermission([subscription.url]))) {
                 return;
@@ -360,17 +381,15 @@ export const ManageSubscriptions: React.VFC<{
             <Table>
               <TableHeader>
                 <TableHeaderRow>
-                  <TableHeaderCell width="20%">
-                    {translate('options_subscriptionNameHeader')}
-                  </TableHeaderCell>
+                  <TableHeaderCell width="36px" />
                   {
                     // #if !SAFARI
-                    <TableHeaderCell width="calc(60% - 0.75em - 36px)">
-                      {translate('options_subscriptionURLHeader')}
+                    <TableHeaderCell width="calc(80% - 72px - 0.75em)">
+                      {translate('options_subscriptionNameHeader')}
                     </TableHeaderCell>
                     /* #else
-                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.6 - 0.75em - 36px)">
-                      {translate('options_subscriptionURLHeader')}
+                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.8 - 72px - 0.75em)">
+                      {translate('options_subscriptionNameHeader')}
                     </TableHeaderCell>
                     */
                     // #endif
@@ -409,7 +428,10 @@ export const ManageSubscriptions: React.VFC<{
       <Row right>
         <RowItem>
           <Button
-            disabled={!numberKeys(subscriptions).length}
+            disabled={
+              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
+                .length
+            }
             onClick={async () => {
               if (!(await requestPermission(Object.values(subscriptions).map(s => s.url)))) {
                 return;

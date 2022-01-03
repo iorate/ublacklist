@@ -203,24 +203,32 @@ const syncSections: readonly SyncSection[] = [
       return {
         filename: SYNC_SUBSCRIPTIONS_FILENAME,
         content: JSON.stringify(
-          Object.values(localItems.subscriptions).map(s => ({ name: s.name, url: s.url })),
+          Object.values(localItems.subscriptions).map(s => ({
+            name: s.name,
+            url: s.url,
+            enabled: s.enabled ?? true,
+          })),
         ),
         modifiedTime: dayjs(localItems.subscriptionsLastModified),
       };
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime, localItems) {
-      const items = S.parse(cloudContent, S.array(S.object({ name: S.string(), url: S.string() })));
+      const items = S.parse(
+        cloudContent,
+        S.array(S.object({ name: S.string(), url: S.string(), enabled: S.optional(S.boolean()) })),
+      );
       if (!items) {
         throw new Error(`File corrupted: ${SYNC_SUBSCRIPTIONS_FILENAME}`);
       }
       cloudItems.subscriptions = {};
       cloudItems.nextSubscriptionId = localItems.nextSubscriptionId;
-      for (const { name, url } of items) {
+      for (const { name, url, enabled } of items) {
         cloudItems.subscriptions[cloudItems.nextSubscriptionId++] = {
           name,
           url,
           blacklist: '',
           updateResult: null,
+          enabled: enabled ?? true,
         };
       }
       cloudItems.subscriptionsLastModified = cloudModifiedTime.toISOString();

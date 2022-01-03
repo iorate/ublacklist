@@ -26,7 +26,7 @@ export function update(id: SubscriptionId): Promise<void> {
     const {
       subscriptions: { [id]: subscription },
     } = await loadFromRawStorage(['subscriptions']);
-    if (!subscription) {
+    if (!subscription || !(subscription.enabled ?? true)) {
       return;
     }
 

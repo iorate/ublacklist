@@ -2,26 +2,30 @@ import React from 'react';
 import { applyClassName } from './helpers';
 import { useClassName } from './utilities';
 
-export type LinkProps = JSX.IntrinsicElements['a'] & { disabled?: boolean };
+export type LinkProps = JSX.IntrinsicElements['a'] & { breakAll?: boolean; disabled?: boolean };
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { disabled = false, ...props },
+  { breakAll = false, disabled = false, ...props },
   ref,
 ) {
-  const className = useClassName(theme => ({
-    color: theme.link.text,
-    outline: 'none',
-    textDecoration: 'none',
-    '&:focus': {
-      boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-    },
-    '&:focus:not(:focus-visible)': {
-      boxShadow: 'none',
-    },
-    '&:focus:not(:-moz-focusring)': {
-      boxShadow: 'none',
-    },
-  }));
+  const className = useClassName(
+    theme => ({
+      color: theme.link.text,
+      outline: 'none',
+      textDecoration: 'none',
+      wordBreak: breakAll ? 'break-all' : 'normal',
+      '&:focus': {
+        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+      },
+      '&:focus:not(:focus-visible)': {
+        boxShadow: 'none',
+      },
+      '&:focus:not(:-moz-focusring)': {
+        boxShadow: 'none',
+      },
+    }),
+    [breakAll],
+  );
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a

@@ -19,6 +19,7 @@ type MessageSignatures = {
   'blocklist-saved': (blacklist: string, source: SaveSource) => void;
   'add-subscription': (subscription: Subscription) => SubscriptionId;
   'remove-subscription': (id: SubscriptionId) => void;
+  'enable-subscription': (id: SubscriptionId, enabled: boolean) => void;
 
   activate: () => void;
 

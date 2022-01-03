@@ -117,3 +117,14 @@ export async function removeSubscription(id: SubscriptionId): Promise<void> {
   });
   syncDelayed({ subscriptions: true });
 }
+
+export async function enableSubscription(id: SubscriptionId, enabled: boolean): Promise<void> {
+  await modifyInRawStorage(['subscriptions'], ({ subscriptions }) => {
+    const newSubscriptions = { ...subscriptions };
+    if (subscriptions[id]) {
+      newSubscriptions[id] = { ...subscriptions[id], enabled };
+    }
+    return { subscriptions: newSubscriptions, subscriptionsLastModified: dayjs().toISOString() };
+  });
+  syncDelayed({ subscriptions: true });
+}

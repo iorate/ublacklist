@@ -6,7 +6,9 @@ import { IconButton } from './icon-button';
 import { useClassName } from './utilities';
 
 function moveFocus(body: HTMLDivElement, key: 'ArrowUp' | 'ArrowDown' | 'Home' | 'End') {
-  const items = [...body.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}`)] as const;
+  const items = [
+    ...body.querySelectorAll<HTMLElement>(`.${MENU_ITEM_CLASS}:not(:disabled)`),
+  ] as const;
   if (!items.length) {
     return;
   }
@@ -133,11 +135,15 @@ export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(funct
     padding: '0 2em',
     textAlign: 'start',
     width: '100%',
+    '&:disabled': {
+      cursor: 'default',
+      opacity: 0.65,
+    },
     '&:focus': {
       background: theme.menu.itemBackgroundFocused,
       outline: 'none',
     },
-    '&:hover:not(:focus)': {
+    '&:hover:not(:disabled):not(:focus)': {
       background: theme.menu.itemBackgroundHovered,
     },
   }));
