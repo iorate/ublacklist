@@ -174,11 +174,12 @@ const AddSubscriptionDialog: React.VFC<
                 if (!(await requestPermission([state.url]))) {
                   return;
                 }
-                const subscription = {
+                const subscription: Subscription = {
                   name: state.name,
                   url: state.url,
                   blacklist: '',
                   updateResult: null,
+                  enabled: true,
                 };
                 const id = await sendMessage('add-subscription', subscription);
                 setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
