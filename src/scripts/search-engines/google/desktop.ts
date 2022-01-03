@@ -1,6 +1,6 @@
 import { CSSAttribute, css } from '../../styles';
 import { SerpHandler } from '../../types';
-import { handleSerp, hasDarkBackground, insertElement } from '../helpers';
+import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from '../helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -46,6 +46,22 @@ const desktopNewsActionStyle: CSSAttribute = {
   ...desktopInlineActionStyle,
   fontSize: '12px',
   marginLeft: '6px',
+};
+
+const insertActionNextToBreadcrumb: Readonly<
+  Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'>
+> = {
+  actionTarget: root =>
+    root.querySelector<HTMLElement>('.csDOgf') || root.querySelector<HTMLElement>('.eFM0qc'),
+  actionPosition: target =>
+    insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
+  actionStyle: actionRoot => {
+    actionRoot.className = css(
+      actionRoot.matches('.csDOgf + *')
+        ? desktopAboutThisResultActionStyle
+        : desktopRegularActionStyle,
+    );
+  },
 };
 
 const desktopSerpHandlers: Record<string, SerpHandler> = {
@@ -135,17 +151,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: target => target.parentElement?.closest('.g') ?? null,
         url: 'a',
         title: 'h3',
-        actionTarget: root =>
-          root.querySelector<HTMLElement>('.csDOgf') || root.querySelector<HTMLElement>('.eFM0qc'),
-        actionPosition: target =>
-          insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
-        actionStyle: actionRoot => {
-          actionRoot.className = css(
-            actionRoot.matches('.csDOgf + *')
-              ? desktopAboutThisResultActionStyle
-              : desktopRegularActionStyle,
-          );
-        },
+        ...insertActionNextToBreadcrumb,
       },
       // Latest, Top Story (Horizontal)
       {
@@ -234,17 +240,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
-      {
-        target: '.dXiKIc',
-        level: '.g',
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        ...insertActionNextToBreadcrumb,
       },
       {
         target: '.RzdJxc',
@@ -263,17 +259,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
-      {
-        target: '.mnr-c > .krUaHe',
-        level: 1,
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        ...insertActionNextToBreadcrumb,
       },
       // News (COVID-19)
       {
