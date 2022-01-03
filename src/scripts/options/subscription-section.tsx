@@ -200,6 +200,12 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
   open,
   subscription,
 }) => {
+  const urlClassName = useClassName(
+    () => ({
+      wordBreak: 'break-all',
+    }),
+    [],
+  );
   return (
     <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -208,9 +214,11 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <Link breakAll className={FOCUS_START_CLASS} href={subscription?.url}>
-              {subscription?.url}
-            </Link>
+            <span className={urlClassName}>
+              <Link className={FOCUS_START_CLASS} href={subscription?.url}>
+                {subscription?.url}
+              </Link>
+            </span>
           </RowItem>
         </Row>
         <Row>
