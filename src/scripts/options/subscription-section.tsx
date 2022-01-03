@@ -483,7 +483,10 @@ export const SubscriptionSection: React.VFC = () => {
         <ManageSubscriptions setSubscriptions={setSubscriptions} subscriptions={subscriptions} />
         <SectionItem>
           <SetIntervalItem
-            disabled={!numberKeys(subscriptions).length}
+            disabled={
+              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
+                .length
+            }
             itemKey="updateInterval"
             label={translate('options_updateInterval')}
             valueOptions={[5, 15, 30, 60, 120, 300]}
