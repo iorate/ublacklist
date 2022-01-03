@@ -1,28 +1,22 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React from 'react';
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
-import { FocusCircle, applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import { FocusCircle, applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type RadioButtonProps = JSX.IntrinsicElements['input'];
 
-export const RadioButton = forwardRef((props: RadioButtonProps, ref: Ref<HTMLInputElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const wrapperClass = useMemo(
-    () =>
-      css({
+export const RadioButton = React.forwardRef<HTMLInputElement, RadioButtonProps>(
+  function RadioButton(props, ref) {
+    const wrapperClassName = useClassName(
+      () => ({
         height: '16px',
         position: 'relative',
         width: '16px',
       }),
-    [css],
-  );
-  const inputClass = useMemo(
-    () =>
-      css({
+      [],
+    );
+    const inputClassName = useClassName(
+      () => ({
         cursor: 'pointer',
         height: '100%',
         margin: 0,
@@ -34,20 +28,18 @@ export const RadioButton = forwardRef((props: RadioButtonProps, ref: Ref<HTMLInp
           cursor: 'default',
         },
       }),
-    [css],
-  );
-  const imageClass = useMemo(
-    () =>
-      css({
+      [],
+    );
+    const imageClassName = useClassName(
+      () => ({
         ':disabled + &': {
           opacity: DISABLED_OPACITY,
         },
       }),
-    [css],
-  );
-  const circleClass = useMemo(
-    () =>
-      css({
+      [],
+    );
+    const circleClassName = useClassName(
+      theme => ({
         border: `solid 2px ${theme.radioButton.unchecked}`,
         borderRadius: '50%',
         height: '16px',
@@ -59,11 +51,10 @@ export const RadioButton = forwardRef((props: RadioButtonProps, ref: Ref<HTMLInp
           borderColor: theme.radioButton.checked,
         },
       }),
-    [css, theme],
-  );
-  const dotClass = useMemo(
-    () =>
-      css({
+      [],
+    );
+    const dotClassName = useClassName(
+      theme => ({
         borderRadius: '50%',
         height: '8px',
         left: '4px',
@@ -74,17 +65,17 @@ export const RadioButton = forwardRef((props: RadioButtonProps, ref: Ref<HTMLInp
           backgroundColor: theme.radioButton.checked,
         },
       }),
-    [css, theme],
-  );
-
-  return (
-    <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} ref={ref} type="radio" />
-      <div class={imageClass}>
-        <div class={circleClass} />
-        <div class={dotClass} />
-        <FocusCircle depth={1} />
+      [],
+    );
+    return (
+      <div className={wrapperClassName}>
+        <input {...applyClassName(props, inputClassName)} ref={ref} type="radio" />
+        <div className={imageClassName}>
+          <div className={circleClassName} />
+          <div className={dotClassName} />
+          <FocusCircle depth={1} />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

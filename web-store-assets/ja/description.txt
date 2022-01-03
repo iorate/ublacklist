@@ -3,13 +3,16 @@
 ブロックするサイトは、検索結果から指定したり、サイトを開いた状態でツールバーのアイコンをクリックして指定することができます。マッチパターン (例: *://*.example.com/*) か正規表現 (例: /example\.(net|org)/) を使って指定できます。
 
 Google 以外にもいくつかの検索エンジンに対応しています。対応している検索エンジンのリストは、以下の URL で確認できます:
-https://github.com/iorate/uBlacklist#supported-search-engines (英語)
+https://github.com/iorate/ublacklist#supported-search-engines (英語)
 
-ブロックするサイトのリストは、Google ドライブまたは Dropbox を使ってデバイス間で同期したり、指定した URL から定期的にダウンロードすることができます。
+ブロックするサイトのリストを、クラウドストレージを介してデバイス間で同期することができます。今のところ、Google ドライブと Dropbox に対応しています。
+
+また、公開されているリストを購読することもできます。一部のリストはウェブサイトに掲載されています:
+https://iorate.github.io/ublacklist/subscriptions (英語)
 
 使い方:
-https://iorate.github.io/ublacklist/getting-started (英語)
+https://iorate.github.io/ublacklist/docs/getting-started (英語)
 https://qiita.com/iorate/items/9ff65360fbdf4082476a
 
 更新履歴:
-https://github.com/iorate/uBlacklist/releases (英語)
+https://github.com/iorate/ublacklist/releases (英語)

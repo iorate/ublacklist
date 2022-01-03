@@ -1,15 +1,29 @@
-name: build
+name: Build extension
 
 on:
   push:
     branches:
       - master
+    paths-ignore:
+      - safari-icons/**
+      - web-store-assets/**
+      - website/**
+      - LICENSE.txt
+      - README.md
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - safari-icons/**
+      - web-store-assets/**
+      - website/**
+      - LICENSE.txt
+      - README.md
 
 jobs:
   build:
+    name: Build extension
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,18 +34,22 @@ jobs:
           node-version: '16'
           cache: yarn
 
-      - run: yarn install --immutable
+      - name: Install packages
+        run: yarn install --immutable
 
-      - run: yarn build-all
+      - name: Lint
+        run: yarn lint
+
+      - name: Test
+        run: yarn test
+
+      - name: Build extension
+        run: yarn build-all
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
-
-      - run: yarn lint
-
-      - run: yarn test
 
       - uses: actions/upload-artifact@v2
         with:

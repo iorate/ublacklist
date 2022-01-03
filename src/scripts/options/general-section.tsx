@@ -1,5 +1,4 @@
-import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useState } from 'preact/hooks';
+import React, { useEffect, useState } from 'react';
 import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
@@ -36,11 +35,15 @@ import { searchEngineMessageNames } from '../search-engines/message-names';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
+import { RulesetEditor } from './ruleset-editor';
 import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
 
-const ImportBlacklistDialog: FunctionComponent<
-  { setBlacklist: StateUpdater<string>; setBlacklistDirty: StateUpdater<boolean> } & DialogProps
+const ImportBlacklistDialog: React.VFC<
+  {
+    setBlacklist: React.Dispatch<React.SetStateAction<string>>;
+    setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
+  } & DialogProps
 > = ({ close, open, setBlacklist, setBlacklistDirty }) => {
   const [state, setState] = useState({
     source: 'file' as 'file' | 'pb',
@@ -75,9 +78,9 @@ const ImportBlacklistDialog: FunctionComponent<
         <Row>
           <RowItem>
             <Select
-              class={FOCUS_START_CLASS}
+              className={FOCUS_START_CLASS}
               value={state.source}
-              onInput={e =>
+              onChange={e =>
                 setState(s => ({ ...s, source: e.currentTarget.value as 'file' | 'pb' }))
               }
             >
@@ -100,10 +103,10 @@ const ImportBlacklistDialog: FunctionComponent<
               <TextArea
                 aria-label={translate('options_importBlacklistDialog_pbLabel')}
                 rows={5}
-                spellcheck={false}
+                spellCheck="false"
                 value={state.pb}
                 wrap="off"
-                onInput={e => setState(s => ({ ...s, pb: e.currentTarget.value }))}
+                onChange={e => setState(s => ({ ...s, pb: e.currentTarget.value }))}
               />
             </RowItem>
           </Row>
@@ -114,7 +117,7 @@ const ImportBlacklistDialog: FunctionComponent<
               <CheckBox
                 checked={state.append}
                 id="append"
-                onInput={e => setState(s => ({ ...s, append: e.currentTarget.checked }))}
+                onChange={e => setState(s => ({ ...s, append: e.currentTarget.checked }))}
               />
             </Indent>
           </RowItem>
@@ -131,7 +134,7 @@ const ImportBlacklistDialog: FunctionComponent<
         <Row right>
           <RowItem>
             <Button
-              {...(state.source === 'pb' && !state.pb ? { class: FOCUS_END_CLASS } : {})}
+              {...(state.source === 'pb' && !state.pb ? { className: FOCUS_END_CLASS } : {})}
               onClick={close}
             >
               {translate('cancelButton')}
@@ -140,7 +143,7 @@ const ImportBlacklistDialog: FunctionComponent<
           <RowItem>
             {state.source === 'file' ? (
               <Button
-                class={FOCUS_END_CLASS}
+                className={FOCUS_END_CLASS}
                 primary
                 onClick={() => {
                   const fileInput = document.createElement('input');
@@ -165,7 +168,7 @@ const ImportBlacklistDialog: FunctionComponent<
               </Button>
             ) : (
               <Button
-                {...(state.pb ? { class: FOCUS_END_CLASS } : {})}
+                {...(state.pb ? { className: FOCUS_END_CLASS } : {})}
                 disabled={!state.pb}
                 primary
                 onClick={() => {
@@ -189,7 +192,7 @@ const ImportBlacklistDialog: FunctionComponent<
   );
 };
 
-const SetBlacklist: FunctionComponent = () => {
+const SetBlacklist: React.VFC = () => {
   const {
     initialItems: { blacklist: initialBlacklist },
   } = useOptionsContext();
@@ -213,21 +216,18 @@ const SetBlacklist: FunctionComponent = () => {
       <Row>
         <RowItem expanded>
           <LabelWrapper fullWidth>
-            <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
+            <Label>{translate('options_blacklistLabel')}</Label>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
             <SubLabel>{translate('options_blockByTitle')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
-          <TextArea
-            id="blacklist"
-            rows={10}
-            spellcheck={false}
+          <RulesetEditor
+            height="200px"
             value={blacklist}
-            wrap="off"
-            onInput={e => {
-              setBlacklist(e.currentTarget.value);
+            onChange={value => {
+              setBlacklist(value);
               setBlacklistDirty(true);
             }}
           />
@@ -301,7 +301,7 @@ const SetBlacklist: FunctionComponent = () => {
   );
 };
 
-const RegisterSearchEngine: FunctionComponent<{
+const RegisterSearchEngine: React.VFC<{
   id: SearchEngineId;
 }> = ({ id }) => {
   const matches = searchEngineMatches[id];
@@ -342,7 +342,7 @@ const RegisterSearchEngine: FunctionComponent<{
   );
 };
 
-const RegisterSearchEngines: FunctionComponent = () => {
+const RegisterSearchEngines: React.VFC = () => {
   /* #if CHROME_MV3 || SAFARI
   return null;
   */
@@ -380,7 +380,7 @@ const RegisterSearchEngines: FunctionComponent = () => {
   // #endif
 };
 
-export const GeneralSection: FunctionComponent = () => (
+export const GeneralSection: React.VFC = () => (
   <Section aria-labelledby="generalSectionTitle" id="general">
     <SectionHeader>
       <SectionTitle id="generalSectionTitle">{translate('options_generalTitle')}</SectionTitle>

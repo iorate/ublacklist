@@ -1,6 +1,6 @@
-import { CSSAttribute, css, glob } from '../../styles';
+import { CSSAttribute, css } from '../../styles';
 import { SerpHandler } from '../../types';
-import { handleSerp, insertElement } from '../helpers';
+import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from '../helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -8,6 +8,9 @@ const desktopGlobalStyle: CSSAttribute = {
   },
   '.ub-button': {
     color: 'var(--ub-link-color, rgb(26, 13, 171))',
+  },
+  '[data-ub-dark="1"] .ub-button': {
+    color: 'var(--ub-link-color, rgb(138, 180, 248))',
   },
   '.ub-button:hover': {
     textDecoration: 'underline',
@@ -43,6 +46,22 @@ const desktopNewsActionStyle: CSSAttribute = {
   ...desktopInlineActionStyle,
   fontSize: '12px',
   marginLeft: '6px',
+};
+
+const insertActionNextToBreadcrumb: Readonly<
+  Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'>
+> = {
+  actionTarget: root =>
+    root.querySelector<HTMLElement>('.csDOgf') || root.querySelector<HTMLElement>('.eFM0qc'),
+  actionPosition: target =>
+    insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
+  actionStyle: actionRoot => {
+    actionRoot.className = css(
+      actionRoot.matches('.csDOgf + *')
+        ? desktopAboutThisResultActionStyle
+        : desktopRegularActionStyle,
+    );
+  },
 };
 
 const desktopSerpHandlers: Record<string, SerpHandler> = {
@@ -98,10 +117,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           if (outer_g.matches('.g-blk')) {
             // Featured Snippet
             return null;
-          } else {
+          }
+          if (outer_g.querySelector(':scope > h2')) {
             // Web Result with Sitelinks
             return outer_g;
           }
+          return inner_g;
         },
         url: 'a',
         title: 'h3',
@@ -124,24 +145,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           );
         },
       },
-      // Featured Snippet (About this result)
-      {
-        target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
-        level: '.g',
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
       // Featured Snippet
       {
         target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
-        level: '.g',
+        level: target => target.parentElement?.closest('.g') ?? null,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        ...insertActionNextToBreadcrumb,
       },
       // Latest, Top Story (Horizontal)
       {
@@ -149,14 +159,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.JJZKK',
         url: 'a',
         title: '[role="heading"][aria-level="4"]',
-        actionTarget: '.kno-fb-ctx',
+        actionTarget: '.S1FAPd',
         actionStyle: {
-          display: 'block',
-          fontSize: '12px',
-          margin: '-10px 0 10px',
-          padding: '0 16px',
-          position: 'relative',
-          zIndex: 1,
+          ...desktopInlineActionStyle,
+          marginLeft: '4px',
         },
       },
       // People Also Ask
@@ -200,7 +206,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target: 'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd',
+        target:
+          'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd, div > a > div > .ZJjs0c > .ZE0LJd > .S1FAPd',
         level: 5,
         url: 'a',
         title: '.mCBkyc',
@@ -208,28 +215,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           ...desktopInlineActionStyle,
           marginLeft: '4px',
-        },
-      },
-      {
-        target: 'div > div > div > lazy-load-item > .dbsr > a > .P5BnJb > .Od9uAe > .tYlW7b',
-        level: 8,
-        url: 'a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.tYlW7b',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
-        },
-      },
-      {
-        target: 'div > div > .dbsr > a > div > div > .tYlW7b',
-        level: 6,
-        url: 'a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.tYlW7b',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
         },
       },
       // Twitter, Twitter Search
@@ -255,17 +240,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
-      {
-        target: '.dXiKIc',
-        level: '.g',
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        ...insertActionNextToBreadcrumb,
       },
       {
         target: '.RzdJxc',
@@ -284,17 +259,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        actionTarget: '.csDOgf',
-        actionPosition: 'afterend',
-        actionStyle: desktopAboutThisResultActionStyle,
-      },
-      {
-        target: '.mnr-c > .krUaHe',
-        level: 1,
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionStyle: desktopRegularActionStyle,
+        ...insertActionNextToBreadcrumb,
       },
       // News (COVID-19)
       {
@@ -513,47 +478,38 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   }),
 };
 
-let desktopDarkTheme = false;
-
-function detectDesktopDarkTheme(): void {
-  if (desktopDarkTheme || !document.body) {
+function updateDarkMode(): void {
+  if (!document.body) {
     return;
   }
-  const backgroundColor = window.getComputedStyle(document.body).backgroundColor;
-  // Should we parse the color value?
-  if (backgroundColor === 'rgb(32, 33, 36)') {
-    desktopDarkTheme = true;
-    glob({
-      '.ub-button.ub-button': {
-        color: 'var(--ub-link-color, rgb(138, 180, 248))',
-      },
-    });
+  if (hasDarkBackground(document.body)) {
+    document.documentElement.dataset.ubDark = '1';
+  } else {
+    delete document.documentElement.dataset.ubDark;
   }
 }
 
 export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
+  const serpHandler = desktopSerpHandlers[tbm];
   if (!desktopSerpHandlers[tbm]) {
     return null;
   }
-  const { onSerpStart, onSerpHead, onSerpElement } = desktopSerpHandlers[tbm];
   return {
-    onSerpStart,
-    onSerpHead: colors => {
-      const result = onSerpHead(colors);
-      detectDesktopDarkTheme();
-      return result;
+    onSerpStart: () => {
+      updateDarkMode();
+      return serpHandler.onSerpStart();
     },
+    onSerpHead: serpHandler.onSerpHead,
     onSerpElement: element => {
-      const result = onSerpElement(element);
       if (
-        element instanceof HTMLLinkElement ||
+        (element instanceof HTMLLinkElement && element.relList.contains('stylesheet')) ||
         element instanceof HTMLStyleElement ||
         element === document.body
       ) {
-        detectDesktopDarkTheme();
+        updateDarkMode();
       }
-      return result;
+      return serpHandler.onSerpElement(element);
     },
-    getDialogTheme: () => (desktopDarkTheme ? 'dark' : 'light'),
+    getDialogTheme: () => (document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light'),
   };
 }

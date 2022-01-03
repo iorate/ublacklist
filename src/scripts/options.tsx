@@ -1,4 +1,7 @@
-import { FunctionComponent, h, render } from 'preact';
+/* eslint-disable import/no-duplicates */
+import React from 'react';
+import ReactDOM from 'react-dom';
+/* eslint-enable */
 import { Baseline } from './components/baseline';
 import { Container } from './components/container';
 import { AutoThemeProvider } from './components/theme';
@@ -9,24 +12,24 @@ import { OptionsContextProvider } from './options/options-context';
 import { SubscriptionSection } from './options/subscription-section';
 import { SyncSection } from './options/sync-section';
 
-const Options: FunctionComponent = () => (
-  <OptionsContextProvider>
-    <AutoThemeProvider>
-      <Baseline>
+const Options: React.VFC = () => (
+  <AutoThemeProvider>
+    <Baseline>
+      <OptionsContextProvider>
         <Container>
           <GeneralSection />
           <AppearanceSection />
           <SyncSection />
           <SubscriptionSection />
         </Container>
-      </Baseline>
-    </AutoThemeProvider>
-  </OptionsContextProvider>
+      </OptionsContextProvider>
+    </Baseline>
+  </AutoThemeProvider>
 );
 
 function main(): void {
   document.documentElement.lang = translate('lang');
-  render(<Options />, document.body.appendChild(document.createElement('div')));
+  ReactDOM.render(<Options />, document.body.appendChild(document.createElement('div')));
 }
 
 main();

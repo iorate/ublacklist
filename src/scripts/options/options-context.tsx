@@ -1,5 +1,4 @@
-import { FunctionComponent, createContext, h } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import React, { useContext, useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { loadAllFromLocalStorage } from '../local-storage';
 import { LocalStorageItems } from '../types';
@@ -15,9 +14,9 @@ export type OptionsContextValue = {
   query: OptionsQuery;
 };
 
-const OptionsContext = createContext<OptionsContextValue | null>(null);
+const OptionsContext = React.createContext<OptionsContextValue | null>(null);
 
-export const OptionsContextProvider: FunctionComponent = props => {
+export const OptionsContextProvider: React.VFC<{ children: React.ReactNode }> = props => {
   const [value, setValue] = useState<OptionsContextValue | null>(null);
   useEffect(() => {
     void (async () => {

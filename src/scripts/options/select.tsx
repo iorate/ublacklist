@@ -1,16 +1,15 @@
-import { FunctionComponent, h } from 'preact';
-import * as select from '../components/select';
+import React from 'react';
+import * as _Select from '../components/select';
 import { useOptionsContext } from './options-context';
 
-export type { SelectProps, SelectOptionProps } from '../components/select';
+export type { SelectOptionProps } from '../components/select';
 export { SelectOption } from '../components/select';
 
-export const Select: FunctionComponent<select.SelectProps> = props => {
+export type SelectProps = { ref?: React.Ref<HTMLSelectElement> } & _Select.SelectProps;
+
+export const Select: React.VFC<SelectProps> = props => {
   const {
     platformInfo: { os },
   } = useOptionsContext();
-  // https://github.com/preactjs/preact/pull/3214
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return <select.Select {...props} native={os !== 'win'} />;
+  return <_Select.Select {...props} native={os !== 'win'} />;
 };

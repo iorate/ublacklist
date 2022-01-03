@@ -1,50 +1,50 @@
-import { FunctionComponent, h } from 'preact';
-import { Ref, useLayoutEffect, useMemo, useRef } from 'preact/hooks';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React, { useLayoutEffect, useRef } from 'react';
+import { useClassName } from './utilities';
 
-export function applyClass<Props extends { class?: string }>(props: Props, class_: string): Props {
+export function applyClassName<Props extends { className?: string | undefined }>(
+  props: Props,
+  className: string,
+): Props {
   return {
     ...props,
-    class: `${class_}${props.class != null ? ` ${props.class}` : ''}`,
+    className: `${className}${props.className != null ? ` ${props.className}` : ''}`,
   };
 }
 
 // https://itnext.io/reusing-the-ref-from-forwardref-with-react-hooks-4ce9df693dd
-export function useInnerRef<T>(ref: Ref<T>): Ref<T | null> {
+export function useInnerRef<T>(
+  ref: ((instance: T | null) => void) | React.MutableRefObject<T | null> | null,
+): React.RefObject<T> {
   const innerRef = useRef<T>(null);
   useLayoutEffect(() => {
-    if (ref && innerRef.current != null) {
+    if (ref && typeof ref === 'object' && innerRef.current != null) {
       ref.current = innerRef.current;
     }
   }, [ref]);
   return innerRef;
 }
 
-export const FocusCircle: FunctionComponent<{ depth?: number }> = ({ depth = 0 }) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const focusCircleClass = useMemo(
-    () =>
-      css({
-        borderRadius: '50%',
-        height: '40px',
-        left: `calc(50% - 20px)`,
-        pointerEvents: 'none',
-        position: 'absolute',
-        top: `calc(50% - 20px)`,
-        width: '40px',
-        [`:focus + ${'* > '.repeat(depth)}&`]: {
-          background: theme.focus.circle,
-        },
-        [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
-          background: 'transparent',
-        },
-        [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
-          background: 'transparent',
-        },
-      }),
-    [css, theme, depth],
+export const FocusCircle: React.VFC<{ depth?: number }> = ({ depth = 0 }) => {
+  const className = useClassName(
+    theme => ({
+      borderRadius: '50%',
+      height: '40px',
+      left: `calc(50% - 20px)`,
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: `calc(50% - 20px)`,
+      width: '40px',
+      [`:focus + ${'* > '.repeat(depth)}&`]: {
+        background: theme.focus.circle,
+      },
+      [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
+        background: 'transparent',
+      },
+      [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
+        background: 'transparent',
+      },
+    }),
+    [depth],
   );
-  return <div class={focusCircleClass} />;
+  return <div className={className} />;
 };

@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
-import { FunctionComponent, h } from 'preact';
-import { useMemo, useState } from 'preact/hooks';
+import React, { useState } from 'react';
 import { ControlLabel, LabelWrapper } from '../components/label';
 import { Row, RowItem } from '../components/row';
-import { useCSS } from '../components/styles';
+import { useClassName } from '../components/utilities';
 import '../dayjs-locales';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
@@ -12,7 +11,7 @@ import { Select, SelectOption } from './select';
 
 export type IntervalItemKey = 'syncInterval' | 'updateInterval';
 
-export const SetIntervalItem: FunctionComponent<{
+export const SetIntervalItem: React.VFC<{
   disabled?: boolean;
   itemKey: IntervalItemKey;
   label: string;
@@ -23,19 +22,17 @@ export const SetIntervalItem: FunctionComponent<{
   } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
 
-  const css = useCSS();
-  const rowClass = useMemo(
-    () =>
-      css({
-        '&&': {
-          minHeight: '2.5em',
-        },
-      }),
-    [css],
+  const rowClass = useClassName(
+    () => ({
+      '&&': {
+        minHeight: '2.5em',
+      },
+    }),
+    [],
   );
 
   return (
-    <Row class={rowClass}>
+    <Row className={rowClass}>
       <RowItem expanded>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
@@ -46,7 +43,7 @@ export const SetIntervalItem: FunctionComponent<{
           disabled={disabled}
           id={itemKey}
           value={item}
-          onInput={e => {
+          onChange={e => {
             const value = Number(e.currentTarget.value);
             void saveToLocalStorage(
               { [itemKey]: value } as Partial<Record<IntervalItemKey, number>>,

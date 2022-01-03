@@ -8,5 +8,6 @@ export const DISABLED_OPACITY = 0.38;
 
 // Z indices
 export const INPUT_Z_INDEX = 1;
+export const COLOR_PICKER_Z_INDEX = 2;
 export const MENU_Z_INDEX = 2;
 export const DIALOG_Z_INDEX = 100000;

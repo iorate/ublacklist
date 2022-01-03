@@ -18,6 +18,7 @@ function main() {
     'save-to-local-storage': LocalStorage.save,
     'add-subscription': LocalStorage.addSubscription,
     'remove-subscription': LocalStorage.removeSubscription,
+    'enable-subscription': LocalStorage.enableSubscription,
 
     activate: SearchEngines.registerContentScript,
 
@@ -39,11 +40,13 @@ function main() {
   // #endif
 
   apis.runtime.onInstalled.addListener(() => {
+    void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });
 
   apis.runtime.onStartup.addListener(() => {
+    void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });

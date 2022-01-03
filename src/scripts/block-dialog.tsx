@@ -1,10 +1,8 @@
 import * as mpsl from 'mpsl';
-import { Fragment, FunctionComponent, h } from 'preact';
-import { useMemo, useState } from 'preact/hooks';
 import * as punycode from 'punycode/';
+import React, { useState } from 'react';
 import icon from '../icons/icon.svg';
-import { Blacklist } from './blacklist';
-import { Baseline, ScopedBaseline } from './components/baseline';
+import { ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { Details, DetailsBody, DetailsSummary } from './components/details';
@@ -20,10 +18,11 @@ import { Icon } from './components/icon';
 import { Input } from './components/input';
 import { ControlLabel, LabelWrapper } from './components/label';
 import { Row, RowItem } from './components/row';
-import { StylesProvider, useCSS } from './components/styles';
+import { StylesProvider } from './components/styles';
 import { TextArea } from './components/textarea';
-import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
-import { usePrevious } from './components/utilities';
+import { ThemeProvider, darkTheme, lightTheme } from './components/theme';
+import { useClassName, usePrevious } from './components/utilities';
+import { InteractiveRuleset } from './interactive-ruleset';
 import { translate } from './locales';
 import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
@@ -31,7 +30,7 @@ import { DialogTheme } from './types';
 import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
-  blacklist: Blacklist;
+  ruleset: InteractiveRuleset;
   blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
@@ -41,8 +40,8 @@ type BlockDialogContentProps = {
   onBlocked: () => void | Promise<void>;
 };
 
-const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
-  blacklist,
+const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
+  ruleset,
   blockWholeSite,
   close,
   enablePathDepth,
@@ -66,7 +65,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   if (open && !prevOpen) {
     const url = makeAltURL(entryURL);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = blacklist.createPatch({ url, title }, blockWholeSite);
+      const patch = ruleset.createPatch({ url, title }, blockWholeSite);
       state.disabled = false;
       state.unblock = patch.unblock;
       state.host = punycode.toUnicode(blockWholeSite ? mpsl.get(url.host) ?? url.host : url.host);
@@ -90,13 +89,11 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
   }
   const ok = !state.disabled && state.rulesToAddValid;
 
-  const css = useCSS();
-  const hostClass = useMemo(
-    () =>
-      css({
-        wordBreak: 'break-all',
-      }),
-    [css],
+  const hostClass = useClassName(
+    () => ({
+      wordBreak: 'break-all',
+    }),
+    [],
   );
 
   return (
@@ -116,16 +113,18 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <span class={hostClass}>{state.host}</span>
+            <span className={hostClass}>{state.host}</span>
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             <Details
               open={state.detailsOpen}
-              onToggle={e => setState(s => ({ ...s, detailsOpen: e.currentTarget.open }))}
+              onToggle={e =>
+                setState(s => ({ ...s, detailsOpen: (e.currentTarget as HTMLDetailsElement).open }))
+              }
             >
-              <DetailsSummary class={FOCUS_START_CLASS}>
+              <DetailsSummary className={FOCUS_START_CLASS}>
                 {translate('popup_details')}
               </DetailsSummary>
               <DetailsBody>
@@ -151,7 +150,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                           min={0}
                           type="number"
                           value={state.depth}
-                          onInput={e => {
+                          onChange={e => {
                             const depth = e.currentTarget.value;
                             if (!state.pathDepth || !depth || !e.currentTarget.validity.valid) {
                               setState(s => ({ ...s, depth }));
@@ -161,7 +160,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                               Number(depth),
                               state.unblock,
                             );
-                            const patch = blacklist.modifyPatch({ rulesToAdd });
+                            const patch = ruleset.modifyPatch({ rulesToAdd });
                             setState(s => ({
                               ...s,
                               depth,
@@ -185,7 +184,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                       id="pageTitle"
                       readOnly
                       rows={2}
-                      spellcheck={false}
+                      spellCheck="false"
                       value={title ?? ''}
                     />
                   </RowItem>
@@ -203,11 +202,11 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                         disabled={state.disabled}
                         id="rulesToAdd"
                         rows={2}
-                        spellcheck={false}
+                        spellCheck="false"
                         value={state.rulesToAdd}
-                        onInput={e => {
+                        onChange={e => {
                           const rulesToAdd = e.currentTarget.value;
-                          const patch = blacklist.modifyPatch({ rulesToAdd });
+                          const patch = ruleset.modifyPatch({ rulesToAdd });
                           setState(s => ({ ...s, rulesToAdd, rulesToAddValid: Boolean(patch) }));
                         }}
                       />
@@ -258,7 +257,7 @@ const BlockDialogContent: FunctionComponent<BlockDialogContentProps> = ({
                   disabled={!ok}
                   primary
                   onClick={async () => {
-                    blacklist.applyPatch();
+                    ruleset.applyPatch();
                     await Promise.resolve(onBlocked());
                     close();
                   }}
@@ -279,7 +278,7 @@ export type BlockDialogProps = {
   theme: DialogTheme;
 } & BlockDialogContentProps;
 
-export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, theme, ...props }) => (
+export const BlockDialog: React.VFC<BlockDialogProps> = ({ target, theme, ...props }) => (
   <StylesProvider target={target}>
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <ScopedBaseline>
@@ -291,14 +290,10 @@ export const BlockDialog: FunctionComponent<BlockDialogProps> = ({ target, theme
   </StylesProvider>
 );
 
-export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
+export type BlockEmbeddedDialogProps = Omit<BlockDialogContentProps, 'open'>;
 
-export const BlockPopup: FunctionComponent<BlockPopupProps> = props => (
-  <AutoThemeProvider>
-    <Baseline>
-      <EmbeddedDialog close={props.close} width="360px">
-        <BlockDialogContent open={true} {...props} />
-      </EmbeddedDialog>
-    </Baseline>
-  </AutoThemeProvider>
+export const BlockEmbeddedDialog: React.VFC<BlockEmbeddedDialogProps> = props => (
+  <EmbeddedDialog close={props.close} width="360px">
+    <BlockDialogContent open={true} {...props} />
+  </EmbeddedDialog>
 );

@@ -5,4 +5,4 @@
 本瀏覽器擴充套件還提供了黑名單的同步功能，可以通過 Google Drive 和 Dropbox 將黑名單列表在不同裝置之間同步。除此之外，你還可以通過訂閱一些公開的黑名單列表，隨時獲取最新的網站黑名單。
 
 更新內容：
-https://github.com/iorate/uBlacklist/releases
+https://github.com/iorate/ublacklist/releases

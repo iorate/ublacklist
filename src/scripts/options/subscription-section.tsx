@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
-import { FunctionComponent, h } from 'preact';
-import { StateUpdater, useEffect, useMemo, useState } from 'preact/hooks';
+import React, { useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button } from '../components/button';
+import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
@@ -14,6 +14,7 @@ import {
 } from '../components/dialog';
 import { Input } from '../components/input';
 import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
+import { Link } from '../components/link';
 import { Menu, MenuItem } from '../components/menu';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
@@ -24,24 +25,23 @@ import {
   SectionItem,
   SectionTitle,
 } from '../components/section';
-import { useCSS } from '../components/styles';
 import {
   Table,
   TableBody,
-  TableBodyCell,
-  TableBodyRow,
+  TableCell,
   TableHeader,
   TableHeaderCell,
   TableHeaderRow,
+  TableRow,
 } from '../components/table';
-import { TextArea } from '../components/textarea';
-import { usePrevious } from '../components/utilities';
+import { useClassName, usePrevious } from '../components/utilities';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { Subscription, SubscriptionId, Subscriptions } from '../types';
 import { AltURL, MatchPattern, isErrorResult, numberEntries, numberKeys } from '../utilities';
 import { FromNow } from './from-now';
 import { useOptionsContext } from './options-context';
+import { RulesetEditor } from './ruleset-editor';
 import { SetIntervalItem } from './set-interval-item';
 
 const PERMISSION_PASSLIST = [
@@ -64,11 +64,11 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
   return origins.length ? apis.permissions.request({ origins }) : true;
 }
 
-const AddSubscriptionDialog: FunctionComponent<
+const AddSubscriptionDialog: React.VFC<
   {
     initialName: string;
     initialURL: string;
-    setSubscriptions: StateUpdater<Subscriptions>;
+    setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
 > = ({ close, open, initialName, initialURL, setSubscriptions }) => {
   const [state, setState] = useState(() => ({
@@ -117,11 +117,11 @@ const AddSubscriptionDialog: FunctionComponent<
             </LabelWrapper>
             {open && (
               <Input
-                class={FOCUS_START_CLASS}
+                className={FOCUS_START_CLASS}
                 id="subscriptionName"
                 required={true}
                 value={state.name}
-                onInput={e =>
+                onChange={e =>
                   setState(s => ({
                     ...s,
                     name: e.currentTarget.value,
@@ -146,7 +146,7 @@ const AddSubscriptionDialog: FunctionComponent<
                 required={true}
                 type="url"
                 value={state.url}
-                onInput={e =>
+                onChange={e =>
                   setState(s => ({
                     ...s,
                     url: e.currentTarget.value,
@@ -161,24 +161,25 @@ const AddSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button {...(!ok ? { class: FOCUS_END_CLASS } : {})} onClick={close}>
+            <Button {...(!ok ? { className: FOCUS_END_CLASS } : {})} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              {...(ok ? { class: FOCUS_END_CLASS } : {})}
+              {...(ok ? { className: FOCUS_END_CLASS } : {})}
               disabled={!ok}
               primary
               onClick={async () => {
                 if (!(await requestPermission([state.url]))) {
                   return;
                 }
-                const subscription = {
+                const subscription: Subscription = {
                   name: state.name,
                   url: state.url,
                   blacklist: '',
                   updateResult: null,
+                  enabled: true,
                 };
                 const id = await sendMessage('add-subscription', subscription);
                 setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
@@ -194,9 +195,11 @@ const AddSubscriptionDialog: FunctionComponent<
   );
 };
 
-const ShowSubscriptionDialog: FunctionComponent<
-  { subscription: Subscription | null } & DialogProps
-> = ({ close, open, subscription }) => {
+const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & DialogProps> = ({
+  close,
+  open,
+  subscription,
+}) => {
   return (
     <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -205,15 +208,15 @@ const ShowSubscriptionDialog: FunctionComponent<
       <DialogBody>
         <Row>
           <RowItem expanded>
+            <Link breakAll className={FOCUS_START_CLASS} href={subscription?.url}>
+              {subscription?.url}
+            </Link>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem expanded>
             {open && (
-              <TextArea
-                aria-label={translate('options_showSubscriptionDialog_blacklistLabel')}
-                class={FOCUS_START_CLASS}
-                readOnly
-                rows={10}
-                value={subscription?.blacklist ?? ''}
-                wrap="off"
-              />
+              <RulesetEditor height="200px" readOnly value={subscription?.blacklist ?? ''} />
             )}
           </RowItem>
         </Row>
@@ -221,7 +224,7 @@ const ShowSubscriptionDialog: FunctionComponent<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button class={FOCUS_END_CLASS} primary onClick={close}>
+            <Button className={FOCUS_END_CLASS} primary onClick={close}>
               {translate('okButton')}
             </Button>
           </RowItem>
@@ -231,11 +234,11 @@ const ShowSubscriptionDialog: FunctionComponent<
   );
 };
 
-const ManageSubscription: FunctionComponent<{
+const ManageSubscription: React.VFC<{
   id: SubscriptionId;
-  setShowSubscriptionDialogOpen: StateUpdater<boolean>;
-  setShowSubscriptionDialogSubscription: StateUpdater<Subscription | null>;
-  setSubscriptions: StateUpdater<Subscriptions>;
+  setShowSubscriptionDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowSubscriptionDialogSubscription: React.Dispatch<React.SetStateAction<Subscription | null>>;
+  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   subscription: Subscription;
   updating: boolean;
 }> = ({
@@ -247,10 +250,26 @@ const ManageSubscription: FunctionComponent<{
   updating,
 }) => {
   return (
-    <TableBodyRow>
-      <TableBodyCell>{subscription.name}</TableBodyCell>
-      <TableBodyCell breakAll>{subscription.url}</TableBodyCell>
-      <TableBodyCell>
+    <TableRow>
+      <TableCell>
+        <CheckBox
+          aria-label={translate('options_subscriptionCheckBoxLabel')}
+          checked={subscription.enabled ?? true}
+          onChange={async e => {
+            const enabled = e.currentTarget.checked;
+            await sendMessage('enable-subscription', id, enabled);
+            setSubscriptions(subscriptions => {
+              const newSubscriptions = { ...subscriptions };
+              if (subscriptions[id]) {
+                newSubscriptions[id] = { ...subscriptions[id], enabled };
+              }
+              return newSubscriptions;
+            });
+          }}
+        />
+      </TableCell>
+      <TableCell>{subscription.name}</TableCell>
+      <TableCell>
         {updating ? (
           translate('options_subscriptionUpdateRunning')
         ) : !subscription.updateResult ? (
@@ -260,9 +279,9 @@ const ManageSubscription: FunctionComponent<{
         ) : (
           <FromNow time={dayjs(subscription.updateResult.timestamp)} />
         )}
-      </TableBodyCell>
-      <TableBodyCell>
-        <Menu buttonLabel={translate('options_subscriptionMenuButtonLabel')}>
+      </TableCell>
+      <TableCell>
+        <Menu aria-label={translate('options_subscriptionMenuButtonLabel')}>
           <MenuItem
             onClick={() => {
               requestAnimationFrame(() => {
@@ -274,6 +293,7 @@ const ManageSubscription: FunctionComponent<{
             {translate('options_showSubscriptionMenu')}
           </MenuItem>
           <MenuItem
+            disabled={!(subscription.enabled ?? true)}
             onClick={async () => {
               if (!(await requestPermission([subscription.url]))) {
                 return;
@@ -296,14 +316,14 @@ const ManageSubscription: FunctionComponent<{
             {translate('options_removeSubscriptionMenu')}
           </MenuItem>
         </Menu>
-      </TableBodyCell>
-    </TableBodyRow>
+      </TableCell>
+    </TableRow>
   );
 };
 
-export const ManageSubscriptions: FunctionComponent<{
+export const ManageSubscriptions: React.VFC<{
   subscriptions: Subscriptions;
-  setSubscriptions: StateUpdater<Subscriptions>;
+  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
 }> = ({ subscriptions, setSubscriptions }) => {
   const { query } = useOptionsContext();
 
@@ -331,14 +351,12 @@ export const ManageSubscriptions: FunctionComponent<{
     [subscriptions, setSubscriptions],
   );
 
-  const css = useCSS();
-  const emptyClass = useMemo(
-    () =>
-      css({
-        minHeight: '3em',
-        textAlign: 'center',
-      }),
-    [css],
+  const emptyClass = useClassName(
+    () => ({
+      minHeight: '3em',
+      textAlign: 'center',
+    }),
+    [],
   );
 
   return (
@@ -367,17 +385,15 @@ export const ManageSubscriptions: FunctionComponent<{
             <Table>
               <TableHeader>
                 <TableHeaderRow>
-                  <TableHeaderCell width="20%">
-                    {translate('options_subscriptionNameHeader')}
-                  </TableHeaderCell>
+                  <TableHeaderCell width="36px" />
                   {
                     // #if !SAFARI
-                    <TableHeaderCell width="calc(60% - 0.75em - 36px)">
-                      {translate('options_subscriptionURLHeader')}
+                    <TableHeaderCell width="calc(80% - 72px - 0.75em)">
+                      {translate('options_subscriptionNameHeader')}
                     </TableHeaderCell>
                     /* #else
-                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.6 - 0.75em - 36px)">
-                      {translate('options_subscriptionURLHeader')}
+                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.8 - 72px - 0.75em)">
+                      {translate('options_subscriptionNameHeader')}
                     </TableHeaderCell>
                     */
                     // #endif
@@ -409,14 +425,17 @@ export const ManageSubscriptions: FunctionComponent<{
           </RowItem>
         </Row>
       ) : (
-        <Row class={emptyClass}>
+        <Row className={emptyClass}>
           <RowItem expanded>{translate('options_noSubscriptionsAdded')}</RowItem>
         </Row>
       )}
       <Row right>
         <RowItem>
           <Button
-            disabled={!numberKeys(subscriptions).length}
+            disabled={
+              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
+                .length
+            }
             onClick={async () => {
               if (!(await requestPermission(Object.values(subscriptions).map(s => s.url)))) {
                 return;
@@ -448,7 +467,7 @@ export const ManageSubscriptions: FunctionComponent<{
   );
 };
 
-export const SubscriptionSection: FunctionComponent = () => {
+export const SubscriptionSection: React.VFC = () => {
   const {
     initialItems: { subscriptions: initialSubscriptions },
   } = useOptionsContext();
@@ -464,7 +483,10 @@ export const SubscriptionSection: FunctionComponent = () => {
         <ManageSubscriptions setSubscriptions={setSubscriptions} subscriptions={subscriptions} />
         <SectionItem>
           <SetIntervalItem
-            disabled={!numberKeys(subscriptions).length}
+            disabled={
+              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
+                .length
+            }
             itemKey="updateInterval"
             label={translate('options_updateInterval')}
             valueOptions={[5, 15, 30, 60, 120, 300]}

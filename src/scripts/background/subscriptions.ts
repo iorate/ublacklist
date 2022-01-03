@@ -1,5 +1,6 @@
 import { apis } from '../apis';
 import { postMessage } from '../messages';
+import { Ruleset } from '../ruleset';
 import { SubscriptionId } from '../types';
 import { HTTPError, errorResult, numberKeys, successResult } from '../utilities';
 import { loadFromRawStorage, modifyInRawStorage } from './raw-storage';
@@ -25,7 +26,7 @@ export function update(id: SubscriptionId): Promise<void> {
     const {
       subscriptions: { [id]: subscription },
     } = await loadFromRawStorage(['subscriptions']);
-    if (!subscription) {
+    if (!subscription || !(subscription.enabled ?? true)) {
       return;
     }
 
@@ -35,6 +36,7 @@ export function update(id: SubscriptionId): Promise<void> {
       const response = await fetch(subscription.url);
       if (response.ok) {
         subscription.blacklist = await response.text();
+        subscription.compiledRules = Ruleset.compile(subscription.blacklist);
         subscription.updateResult = successResult();
       } else {
         subscription.updateResult = errorResult(

@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - website/**
+      - '!website/README.md'
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
+
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+        working-directory: website
+
+      - name: Build website
+        run: yarn build
+        working-directory: website
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website/build

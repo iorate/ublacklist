@@ -1,9 +1,11 @@
-name: release
+name: Release to web stores
 
 on: workflow_dispatch
 
 jobs:
   release:
+    name: Release to web stores
+
     runs-on: ubuntu-latest
 
     steps:
@@ -14,16 +16,19 @@ jobs:
           node-version: '16'
           cache: yarn
 
-      - run: yarn install --immutable
+      - name: Install packages
+        run: yarn install --immutable
 
-      - run: yarn run-p -l "build chrome production" "build firefox production"
+      - name: Build extension
+        run: yarn run-p -l "build chrome production" "build firefox production"
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
-      - run: yarn semantic-release
+      - name: Release to web stores
+        run: yarn semantic-release
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

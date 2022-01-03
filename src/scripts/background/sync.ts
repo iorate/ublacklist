@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import * as S from 'microstruct';
 import { apis } from '../apis';
 import { postMessage } from '../messages';
+import { Ruleset } from '../ruleset';
 import { Result } from '../types';
 import { Mutex, errorResult, numberKeys, successResult } from '../utilities';
 import { syncFile } from './clouds';
@@ -70,6 +71,7 @@ const syncSections: readonly SyncSection[] = [
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime) {
       cloudItems.blacklist = cloudContent;
+      cloudItems.compiledRules = Ruleset.compile(cloudItems.blacklist);
       cloudItems.timestamp = cloudModifiedTime.toISOString();
     },
     afterDownloadAll(cloudItems, latestLocalItems) {
@@ -78,6 +80,7 @@ const syncSections: readonly SyncSection[] = [
         dayjs(cloudItems.timestamp).isBefore(latestLocalItems.timestamp)
       ) {
         delete cloudItems.blacklist;
+        delete cloudItems.compiledRules;
         delete cloudItems.timestamp;
       }
     },
@@ -200,24 +203,32 @@ const syncSections: readonly SyncSection[] = [
       return {
         filename: SYNC_SUBSCRIPTIONS_FILENAME,
         content: JSON.stringify(
-          Object.values(localItems.subscriptions).map(s => ({ name: s.name, url: s.url })),
+          Object.values(localItems.subscriptions).map(s => ({
+            name: s.name,
+            url: s.url,
+            enabled: s.enabled ?? true,
+          })),
         ),
         modifiedTime: dayjs(localItems.subscriptionsLastModified),
       };
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime, localItems) {
-      const items = S.parse(cloudContent, S.array(S.object({ name: S.string(), url: S.string() })));
+      const items = S.parse(
+        cloudContent,
+        S.array(S.object({ name: S.string(), url: S.string(), enabled: S.optional(S.boolean()) })),
+      );
       if (!items) {
         throw new Error(`File corrupted: ${SYNC_SUBSCRIPTIONS_FILENAME}`);
       }
       cloudItems.subscriptions = {};
       cloudItems.nextSubscriptionId = localItems.nextSubscriptionId;
-      for (const { name, url } of items) {
+      for (const { name, url, enabled } of items) {
         cloudItems.subscriptions[cloudItems.nextSubscriptionId++] = {
           name,
           url,
           blacklist: '',
           updateResult: null,
+          enabled: enabled ?? true,
         };
       }
       cloudItems.subscriptionsLastModified = cloudModifiedTime.toISOString();

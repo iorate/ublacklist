@@ -1,17 +1,23 @@
-import { Fragment, FunctionComponent, h, render } from 'preact';
-import { useLayoutEffect, useMemo } from 'preact/hooks';
+/* eslint-disable import/no-duplicates */
+import React, { useLayoutEffect, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+/* eslint-enable */
 import { searchEngineMatches } from '../common/search-engines';
-import { Blacklist } from './blacklist';
 import { BlockDialog } from './block-dialog';
+import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
+import { Ruleset } from './ruleset';
 import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
 import { css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
 import { AltURL, MatchPattern, stringKeys } from './utilities';
 
-const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick }) => {
-  const class_ = useMemo(
+const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
+  children,
+  onClick,
+}) => {
+  const className = useMemo(
     () =>
       css({
         cursor: 'pointer',
@@ -27,7 +33,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   );
   return (
     <span
-      class={`ub-button ${class_}`}
+      className={`ub-button ${className}`}
       role="button"
       tabIndex={0}
       onClick={e => {
@@ -48,7 +54,7 @@ const Button: FunctionComponent<{ onClick: () => void }> = ({ children, onClick 
   );
 };
 
-const Control: FunctionComponent<{
+const Control: React.VFC<{
   blockedEntryCount: number;
   showBlockedEntries: boolean;
   onClick: () => void;
@@ -69,7 +75,7 @@ const Control: FunctionComponent<{
   );
 };
 
-const Action: FunctionComponent<{
+const Action: React.VFC<{
   blocked: boolean;
   onClick: () => void;
   onRender?: () => void;
@@ -84,7 +90,7 @@ const Action: FunctionComponent<{
 
 class ContentScript {
   options: {
-    blacklist: Blacklist;
+    ruleset: InteractiveRuleset;
     skipBlockDialog: boolean;
     hideControls: boolean;
     hideActions: boolean;
@@ -135,6 +141,7 @@ class ContentScript {
     void (async () => {
       const options = await loadFromLocalStorage([
         'blacklist',
+        'compiledRules',
         'subscriptions',
         'skipBlockDialog',
         'hideControl',
@@ -148,9 +155,16 @@ class ContentScript {
       ]);
 
       this.options = {
-        blacklist: new Blacklist(
+        ruleset: new InteractiveRuleset(
           options.blacklist,
-          Object.values(options.subscriptions).map(subscription => subscription.blacklist),
+          options.compiledRules !== false
+            ? options.compiledRules
+            : Ruleset.compile(options.blacklist),
+          Object.values(options.subscriptions)
+            .filter(subscription => subscription.enabled ?? true)
+            .map(
+              subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+            ),
         ),
         skipBlockDialog: options.skipBlockDialog,
         hideControls: options.hideControl,
@@ -220,7 +234,7 @@ class ContentScript {
     if (!this.options) {
       return;
     }
-    entry.state = this.options.blacklist.test(entry.props);
+    entry.state = this.options.ruleset.test(entry.props);
     if (entry.state === 0) {
       const scopeState = this.scopeStates[entry.scope] ?? {
         blockedEntryCount: 0,
@@ -258,7 +272,7 @@ class ContentScript {
       'ub-hidden',
       this.options?.hideControls || !scopeState.blockedEntryCount,
     );
-    render(
+    ReactDOM.render(
       <Control
         blockedEntryCount={scopeState.blockedEntryCount}
         showBlockedEntries={scopeState.showBlockedEntries}
@@ -288,7 +302,7 @@ class ContentScript {
       entry.root.dataset.ubHighlight = String(entry.state - 1);
     }
     entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
-    render(
+    ReactDOM.render(
       <Action
         blocked={entry.state === 0}
         onClick={() => {
@@ -296,10 +310,10 @@ class ContentScript {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.blacklist.createPatch(entry.props, this.options.blockWholeSite);
-            this.options.blacklist.applyPatch();
+            this.options.ruleset.createPatch(entry.props, this.options.blockWholeSite);
+            this.options.ruleset.applyPatch();
             void saveToLocalStorage(
-              { blacklist: this.options.blacklist.toString() },
+              { blacklist: this.options.ruleset.toString() },
               'content-script',
             );
             this.rejudgeAllEntries();
@@ -317,13 +331,13 @@ class ContentScript {
     if (!this.options || !this.blockDialogRoot) {
       return;
     }
-    render(
+    ReactDOM.render(
       <BlockDialog
-        blacklist={this.options.blacklist}
         blockWholeSite={this.options.blockWholeSite}
         close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
+        ruleset={this.options.ruleset}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
         title={title}
@@ -332,10 +346,7 @@ class ContentScript {
           if (!this.options) {
             return;
           }
-          void saveToLocalStorage(
-            { blacklist: this.options.blacklist.toString() },
-            'content-script',
-          );
+          void saveToLocalStorage({ blacklist: this.options.ruleset.toString() }, 'content-script');
           this.rejudgeAllEntries();
         }}
       />,

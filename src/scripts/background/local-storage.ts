@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { postMessage } from '../messages';
+import { Ruleset } from '../ruleset';
 import { LocalStorageItemsSavable, SaveSource, Subscription, SubscriptionId } from '../types';
 import { numberKeys } from '../utilities';
 import { RawStorageItems, modifyInRawStorage, saveToRawStorage } from './raw-storage';
@@ -20,6 +21,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
   {
     beforeSave(items, dirtyFlagsUpdate, now) {
       if (items.blacklist != null) {
+        items.compiledRules = Ruleset.compile(items.blacklist);
         items.timestamp = now.toISOString();
         dirtyFlagsUpdate.blocklist = true;
       }
@@ -77,6 +79,12 @@ export async function save(
   syncDelayed(dirtyFlagsUpdate);
 }
 
+export async function compileRules(): Promise<void> {
+  return modifyInRawStorage(['blacklist'], ({ blacklist }) => ({
+    compiledRules: Ruleset.compile(blacklist),
+  }));
+}
+
 export async function addSubscription(subscription: Subscription): Promise<SubscriptionId> {
   let id!: SubscriptionId;
   let first!: boolean;
@@ -105,6 +113,17 @@ export async function removeSubscription(id: SubscriptionId): Promise<void> {
   await modifyInRawStorage(['subscriptions'], ({ subscriptions }) => {
     const newSubscriptions = { ...subscriptions };
     delete newSubscriptions[id];
+    return { subscriptions: newSubscriptions, subscriptionsLastModified: dayjs().toISOString() };
+  });
+  syncDelayed({ subscriptions: true });
+}
+
+export async function enableSubscription(id: SubscriptionId, enabled: boolean): Promise<void> {
+  await modifyInRawStorage(['subscriptions'], ({ subscriptions }) => {
+    const newSubscriptions = { ...subscriptions };
+    if (subscriptions[id]) {
+      newSubscriptions[id] = { ...subscriptions[id], enabled };
+    }
     return { subscriptions: newSubscriptions, subscriptionsLastModified: dayjs().toISOString() };
   });
   syncDelayed({ subscriptions: true });

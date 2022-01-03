@@ -1,92 +1,84 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
+import React from 'react';
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
-import { FocusCircle, applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import { FocusCircle, applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type CheckBoxProps = JSX.IntrinsicElements['input'];
 
-export const CheckBox = forwardRef((props: CheckBoxProps, ref: Ref<HTMLInputElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const wrapperClass = useMemo(
-    () =>
-      css({
-        height: '16px',
-        position: 'relative',
-        width: '16px',
-      }),
-    [css],
+export const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(function CheckBox(
+  props,
+  ref,
+) {
+  const wrapperClassName = useClassName(
+    () => ({
+      height: '16px',
+      position: 'relative',
+      width: '16px',
+    }),
+    [],
   );
-  const inputClass = useMemo(
-    () =>
-      css({
-        cursor: 'pointer',
-        height: '100%',
-        margin: 0,
-        opacity: 0,
-        position: 'absolute',
-        width: '100%',
-        zIndex: INPUT_Z_INDEX,
-        '&:disabled': {
-          cursor: 'default',
-        },
-      }),
-    [css],
+  const inputClassName = useClassName(
+    () => ({
+      cursor: 'pointer',
+      height: '100%',
+      margin: 0,
+      opacity: 0,
+      position: 'absolute',
+      width: '100%',
+      zIndex: INPUT_Z_INDEX,
+      '&:disabled': {
+        cursor: 'default',
+      },
+    }),
+    [],
   );
-  const imageClass = useMemo(
-    () =>
-      css({
-        ':disabled + &': {
-          opacity: DISABLED_OPACITY,
-        },
-      }),
-    [css],
+  const imageClassName = useClassName(
+    () => ({
+      ':disabled + &': {
+        opacity: DISABLED_OPACITY,
+      },
+    }),
+    [],
   );
-  const boxClass = useMemo(
-    () =>
-      css({
-        border: `solid 2px ${theme.checkBox.border}`,
-        borderRadius: '2px',
-        height: '16px',
-        left: 0,
-        position: 'absolute',
-        top: 0,
-        width: '16px',
-        ':checked + * > &': {
-          background: theme.checkBox.box,
-          border: 'none',
-        },
-      }),
-    [css, theme],
+  const boxClassNmae = useClassName(
+    theme => ({
+      border: `solid 2px ${theme.checkBox.border}`,
+      borderRadius: '2px',
+      height: '16px',
+      left: 0,
+      position: 'absolute',
+      top: 0,
+      width: '16px',
+      ':checked + * > &': {
+        background: theme.checkBox.box,
+        border: 'none',
+      },
+    }),
+    [],
   );
-  const checkMarkClass = useMemo(
-    () =>
-      css({
-        borderColor: 'transparent',
-        borderStyle: 'solid',
-        borderWidth: '0 0 3px 3px',
-        height: '8px',
-        left: 0,
-        position: 'absolute',
-        top: '3px',
-        transform: 'rotate(-45deg) scale(0.75)',
-        width: '16px',
-        ':checked + * > &': {
-          borderColor: theme.checkBox.checkMark,
-        },
-      }),
-    [css, theme],
+  const checkMarkClassName = useClassName(
+    theme => ({
+      borderColor: 'transparent',
+      borderStyle: 'solid',
+      borderWidth: '0 0 3px 3px',
+      height: '8px',
+      left: 0,
+      position: 'absolute',
+      top: '3px',
+      transform: 'rotate(-45deg) scale(0.75)',
+      width: '16px',
+      ':checked + * > &': {
+        borderColor: theme.checkBox.checkMark,
+      },
+    }),
+    [],
   );
-
   return (
-    <div class={wrapperClass}>
-      <input {...applyClass(props, inputClass)} ref={ref} type="checkbox" />
-      <div class={imageClass}>
-        <div class={boxClass} />
-        <div class={checkMarkClass} />
+    <div className={wrapperClassName}>
+      <input {...applyClassName(props, inputClassName)} ref={ref} type="checkbox" />
+      <div className={imageClassName}>
+        <div className={boxClassNmae} />
+        <div className={checkMarkClassName} />
         <FocusCircle depth={1} />
       </div>
     </div>

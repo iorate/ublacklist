@@ -1,24 +1,22 @@
-import { JSX, h } from 'preact';
-import { forwardRef } from 'preact/compat';
-import { Ref, useMemo } from 'preact/hooks';
-import { applyClass } from './helpers';
-import { useCSS } from './styles';
-import { useTheme } from './theme';
+import React from 'react';
+import { applyClassName } from './helpers';
+import { useClassName } from './utilities';
 
 export type DetailsProps = JSX.IntrinsicElements['details'];
 
-export const Details = forwardRef((props: DetailsProps, ref: Ref<HTMLDetailsElement>) => {
+export const Details = React.forwardRef<HTMLDetailsElement, DetailsProps>(function Details(
+  props,
+  ref,
+) {
   return <details {...props} ref={ref} />;
 });
 
 export type DetailsSummaryProps = JSX.IntrinsicElements['summary'];
 
-export const DetailsSummary = forwardRef((props: DetailsSummaryProps, ref: Ref<HTMLElement>) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
+export const DetailsSummary = React.forwardRef<HTMLElement, DetailsSummaryProps>(
+  function DetailsSummary(props, ref) {
+    const className = useClassName(
+      theme => ({
         cursor: 'pointer',
         outline: 'none',
         '&:focus': {
@@ -31,21 +29,23 @@ export const DetailsSummary = forwardRef((props: DetailsSummaryProps, ref: Ref<H
           boxShadow: 'none',
         },
       }),
-    [css, theme],
-  );
-  return <summary {...applyClass(props, class_)} ref={ref} />;
-});
+      [],
+    );
+    return <summary {...applyClassName(props, className)} ref={ref} />;
+  },
+);
 
 export type DetailsBodyProps = JSX.IntrinsicElements['div'];
 
-export const DetailsBody = forwardRef((props: DetailsBodyProps, ref: Ref<HTMLDivElement>) => {
-  const css = useCSS();
-  const class_ = useMemo(
-    () =>
-      css({
-        marginTop: '1em',
-      }),
-    [css],
+export const DetailsBody = React.forwardRef<HTMLDivElement, DetailsBodyProps>(function DetailsBody(
+  props,
+  ref,
+) {
+  const className = useClassName(
+    () => ({
+      marginTop: '1em',
+    }),
+    [],
   );
-  return <div {...applyClass(props, class_)} ref={ref} />;
+  return <div {...applyClassName(props, className)} ref={ref} />;
 });

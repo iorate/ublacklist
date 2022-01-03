@@ -1,33 +1,37 @@
-import { Fragment, FunctionComponent, h } from 'preact';
-import { useLayoutEffect, useMemo } from 'preact/hooks';
-import { useCSS, useGlob } from './styles';
-import { useTheme } from './theme';
+import React, { useLayoutEffect } from 'react';
+import { useGlob } from './styles';
+import { useClassName } from './utilities';
 
 const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 
-export type BaseLineProps = { fontSize?: string };
+export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize = '13px' }) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const bodyClass = useMemo(
-    () =>
-      css({
-        background: theme.background,
-        color: theme.text.primary,
-        margin: 0,
-        fontFamily,
-        fontSize,
-        lineHeight: 1.5,
-      }),
-    [css, theme, fontSize],
+export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
+  const rootClassName = useClassName(
+    theme => ({
+      colorScheme: theme.name,
+    }),
+    [],
+  );
+  const bodyClassName = useClassName(
+    theme => ({
+      background: theme.background,
+      color: theme.text.primary,
+      margin: 0,
+      fontFamily,
+      fontSize,
+      lineHeight: 1.5,
+    }),
+    [fontSize],
   );
   useLayoutEffect(() => {
-    document.body.classList.add(bodyClass);
+    document.documentElement.classList.add(rootClassName);
+    document.body.classList.add(bodyClassName);
     return () => {
-      document.body.classList.remove(bodyClass);
+      document.documentElement.classList.remove(rootClassName);
+      document.body.classList.remove(bodyClassName);
     };
-  }, [bodyClass]);
+  }, [rootClassName, bodyClassName]);
 
   const glob = useGlob();
   useLayoutEffect(() => {
@@ -41,26 +45,21 @@ export const Baseline: FunctionComponent<BaseLineProps> = ({ children, fontSize 
   return <>{children}</>;
 };
 
-export type ScopedBaselineProps = { fontSize?: string };
+export type ScopedBaselineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const ScopedBaseline: FunctionComponent<ScopedBaselineProps> = ({
-  children,
-  fontSize = '13px',
-}) => {
-  const css = useCSS();
-  const theme = useTheme();
-  const class_ = useMemo(
-    () =>
-      css({
-        color: theme.text.primary,
-        fontFamily,
-        fontSize,
-        lineHeight: 1.5,
-        '& *, & *::before, & *::after': {
-          boxSizing: 'border-box',
-        },
-      }),
-    [css, theme, fontSize],
+export const ScopedBaseline: React.VFC<ScopedBaselineProps> = ({ children, fontSize = '13px' }) => {
+  const className = useClassName(
+    theme => ({
+      color: theme.text.primary,
+      colorScheme: theme.name,
+      fontFamily,
+      fontSize,
+      lineHeight: 1.5,
+      '& *, & *::before, & *::after': {
+        boxSizing: 'border-box',
+      },
+    }),
+    [fontSize],
   );
-  return <div class={class_}>{children}</div>;
+  return <div className={className}>{children}</div>;
 };

@@ -95,6 +95,7 @@ export type MessageName =
   | 'options_subscriptionNameHeader'
   | 'options_subscriptionURLHeader'
   | 'options_subscriptionUpdateResultHeader'
+  | 'options_subscriptionCheckBoxLabel'
   | 'options_subscriptionMenuButtonLabel'
   | 'options_noSubscriptionsAdded'
   | 'options_subscriptionUpdateRunning'

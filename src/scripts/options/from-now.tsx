@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import dayjsRelativeTime from 'dayjs/plugin/relativeTime';
-import { FunctionComponent, h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import React, { useEffect, useState } from 'react';
 import '../dayjs-locales';
 import { translate } from '../locales';
 
@@ -11,7 +10,7 @@ export type FromNowProps = {
   time: dayjs.Dayjs;
 };
 
-export const FromNow: FunctionComponent<Readonly<FromNowProps>> = ({ time }) => {
+export const FromNow: React.VFC<FromNowProps> = ({ time }) => {
   const [, setState] = useState(0);
   useEffect(() => {
     const intervalId = setInterval(() => {
