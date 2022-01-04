@@ -3,7 +3,7 @@ import { highlightActiveLineGutter, lineNumbers } from '@codemirror/gutter';
 import { HighlightStyle, tags as t } from '@codemirror/highlight';
 import { history, historyKeymap } from '@codemirror/history';
 import { language } from '@codemirror/language';
-import { Compartment, EditorState } from '@codemirror/state';
+import { Compartment, EditorState, Transaction } from '@codemirror/state';
 import { StreamLanguage, StreamParser } from '@codemirror/stream-parser';
 import { EditorView, highlightSpecialChars, keymap } from '@codemirror/view';
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
@@ -161,7 +161,12 @@ export function Editor<ParserState>({
       effects: updateListenerCompartment.current.reconfigure(
         onChange
           ? EditorView.updateListener.of(viewUpdate => {
-              if (viewUpdate.docChanged) {
+              if (
+                viewUpdate.docChanged &&
+                viewUpdate.transactions.some(
+                  transaction => transaction.annotation(Transaction.userEvent) != null,
+                )
+              ) {
                 onChange(viewUpdate.state.doc.toString());
               }
             })
