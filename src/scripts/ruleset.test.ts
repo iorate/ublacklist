@@ -107,6 +107,12 @@ describe('Match patterns', () => {
   testTest(r`https://*zilla.org/`, [['https://mozilla.org/', -1]]);
   testTest(r`http*://mozilla.org/`, [['https://mozilla.org/', -1]]);
   testTest(r`https://mozilla.org:80/`, [['https://mozilla.org:80/', -1]]);
+  // Schemes and hosts are case-insensitive
+  testTest(r`HTTPS://*.EXAMPLE.com/PATH/*`, [
+    ['https://example.com/PATH/', 0],
+    ['HTTPS://WWW.EXAMPLE.COM/PATH/TO/DIR', 0],
+    ['https://example.com/path/', -1],
+  ]);
 });
 
 describe('Regular expressions', () => {

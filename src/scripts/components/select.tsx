@@ -25,37 +25,46 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
   ref,
 ) {
   const theme = useTheme();
-  const wrapperClassName = useClassName({
-    position: 'relative',
-  });
-  const selectClassName = useClassName(theme => ({
-    appearance: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: `solid 1px ${theme.select.border}`,
-    borderRadius: '4px',
-    color: theme.text.primary,
-    cursor: 'pointer',
-    display: 'block',
-    font: 'inherit',
-    lineHeight: '1.5',
-    padding: `0.5em calc(0.625em + 24px) 0.5em 0.625em`,
-    width: '15em',
-    '&:disabled': {
-      cursor: 'default',
-      opacity: DISABLED_OPACITY,
-    },
-    '&:focus': {
-      boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-      outline: 'none',
-    },
-  }));
-  const arrowClassName = useClassName({
-    pointerEvents: 'none',
-    position: 'absolute',
-    right: '1px',
-    top: 'calc((100% - 24px) / 2)',
-  });
+  const wrapperClassName = useClassName(
+    () => ({
+      position: 'relative',
+    }),
+    [],
+  );
+  const selectClassName = useClassName(
+    theme => ({
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      background: 'transparent',
+      border: `solid 1px ${theme.select.border}`,
+      borderRadius: '4px',
+      color: theme.text.primary,
+      cursor: 'pointer',
+      display: 'block',
+      font: 'inherit',
+      lineHeight: '1.5',
+      padding: `0.5em calc(0.625em + 24px) 0.5em 0.625em`,
+      width: '15em',
+      '&:disabled': {
+        cursor: 'default',
+        opacity: DISABLED_OPACITY,
+      },
+      '&:focus': {
+        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+        outline: 'none',
+      },
+    }),
+    [],
+  );
+  const arrowClassName = useClassName(
+    () => ({
+      pointerEvents: 'none',
+      position: 'absolute',
+      right: '1px',
+      top: 'calc((100% - 24px) / 2)',
+    }),
+    [],
+  );
   return (
     <SelectContext.Provider value={{ native }}>
       <div className={wrapperClassName}>

@@ -23,12 +23,15 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
       }
     }, [open]);
 
-    const pickerClassName = useClassName({
-      height: '36px',
-      outline: 'none',
-      position: 'relative',
-      width: '36px',
-    });
+    const pickerClassName = useClassName(
+      () => ({
+        height: '36px',
+        outline: 'none',
+        position: 'relative',
+        width: '36px',
+      }),
+      [],
+    );
     const swatchClassName = useClassName(
       theme => ({
         border: `solid 2px ${theme.colorPicker.border}`,
@@ -66,24 +69,27 @@ export const ColorPicker = React.forwardRef<HTMLButtonElement, ColorPickerProps>
       }),
       [open],
     );
-    const inputClassName = useClassName(theme => ({
-      background: 'transparent',
-      border: `solid 1px ${theme.input.border}`,
-      borderRadius: '4px',
-      color: theme.text.primary,
-      display: 'block',
-      font: 'inherit',
-      height: '2.5em',
-      lineHeight: '1.5',
-      margin: '0.75em auto 0',
-      padding: '0.5em 0.625em',
-      textAlign: 'center',
-      width: '8em',
-      '&:focus': {
-        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        outline: 'none',
-      },
-    }));
+    const inputClassName = useClassName(
+      theme => ({
+        background: 'transparent',
+        border: `solid 1px ${theme.input.border}`,
+        borderRadius: '4px',
+        color: theme.text.primary,
+        display: 'block',
+        font: 'inherit',
+        height: '2.5em',
+        lineHeight: '1.5',
+        margin: '0.75em auto 0',
+        padding: '0.5em 0.625em',
+        textAlign: 'center',
+        width: '8em',
+        '&:focus': {
+          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+          outline: 'none',
+        },
+      }),
+      [],
+    );
 
     return (
       <div

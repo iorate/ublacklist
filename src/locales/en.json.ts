@@ -301,6 +301,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The header text of the update-result row of the subscriptions table.
   options_subscriptionUpdateResultHeader: 'Last update',
 
+  // The label for the check box of the subscription table (for a11y only).
+  options_subscriptionCheckBoxLabel: 'Enabled',
+
   // The label for the menu buttons of the subscriptions table (for a11y only).
   options_subscriptionMenuButtonLabel: 'Menu',
 

@@ -1,5 +1,5 @@
 import { SerpEntryProps } from './types';
-import { MatchPatternScheme, lines, parseMatchPattern } from './utilities';
+import { MatchPatternScheme, lines, r } from './utilities';
 
 export type RegularExpressionProp = 'url' | 'title';
 
@@ -19,45 +19,67 @@ export type ParsedRule =
       value: number;
     };
 
+export const RE_LINE = (() => {
+  const spaceBeforeRuleOrComment = r`(?<spaceBeforeRuleOrComment>\s+)`;
+
+  const color = r`(?<color>0|[1-9]\d*)`;
+  const highlight = r`(?<highlight>@${color}?)`;
+  const spaceAfterHighlight = r`(?<spaceAfterHighlight>\s+)`;
+
+  const scheme = r`(?<scheme>\*|[Hh][Tt][Tt][Pp][Ss]?|[Ff][Tt][Pp])`;
+  const label = r`(?:[0-9A-Za-z](?:[-0-9A-Za-z]*[0-9A-Za-z])?)`;
+  const host = r`(?<host>(?:\*|${label})(?:\.${label})*)`;
+  const path = r`(?<path>/(?:\*|[-0-9A-Za-z._~:/?[\]@!$&'()+,;=]|%[0-9A-Fa-f]{2})*)`;
+  const matchPattern = r`(?<matchPattern>${scheme}://${host}${path})`;
+
+  const prop = r`(?<prop>u(?:rl?)?|t(?:i(?:t(?:le?)?)?)?)`;
+  const backslashSequence = r`(?:\\.)`;
+  const class_ = r`(?:\[(?:[^\]\\]|${backslashSequence})*])`;
+  const firstChar = r`(?:[^*\\/[]|${backslashSequence}|${class_})`;
+  const char = r`(?:[^\\/[]|${backslashSequence}|${class_})`;
+  const pattern = r`(?<pattern>${firstChar}${char}*)`;
+  const flags = r`(?<flags>iu?|ui?)`;
+  const regularExpression = r`(?<regularExpression>${prop}?/${pattern}/${flags}?)`;
+
+  const rule = r`(?<rule>(${highlight}${spaceAfterHighlight}?)?(?:${matchPattern}|${regularExpression}))`;
+  const spaceAfterRule = r`(?<spaceAfterRule>\s+)`;
+
+  const comment = r`(?<comment>#.*)`;
+
+  const line = r`^${spaceBeforeRuleOrComment}?(?:${rule}${spaceAfterRule}?)?${comment}?$`;
+
+  return new RegExp(line);
+})();
+
 export function parseRule(input: string): ParsedRule | null {
-  input = input.trim();
-  if (!input || input.startsWith('#')) {
+  const groups = RE_LINE.exec(input)?.groups;
+  if (!groups?.rule) {
     return null;
   }
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const [, at, atNumber, rest] = /^(@(\d*)\s*)?(.*)$/.exec(input)!;
   // *://example.com/*   -> 0 (block)
   // @*://example.com/*  -> 1 (unblock)
   // @1*://example.com/* -> 2 (highlight-1)
   // @2*://example.com/* -> 3 (highlight-2)
   // ...
-  const value = at ? (atNumber ? Number(atNumber) + 1 : 1) : 0;
-  input = rest;
-
-  const mp = parseMatchPattern(input);
-  if (mp) {
-    return { type: 'mp', ...mp, value };
-  }
-
-  const m =
-    /^(\w*)\/((?:[^*\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])(?:[^\\/[]|\\.|\[(?:[^\]\\]|\\.)*\])*)\/(.*)$/.exec(
-      input,
-    );
-  if (!m) {
-    return null;
-  }
-  const [, shortProp, pattern, flags] = m;
-  const prop = 'url'.startsWith(shortProp) // '' -> 'url'
-    ? 'url'
-    : 'title'.startsWith(shortProp)
-    ? 'title'
-    : null;
-  if (prop == null) {
-    return null;
-  }
-  return { type: 're', prop, pattern, flags, value };
+  const value = groups.highlight ? (groups.color ? Number(groups.color) + 1 : 1) : 0;
+  return groups.matchPattern
+    ? {
+        type: 'mp',
+        scheme: groups.scheme.toLowerCase() as MatchPatternScheme,
+        host: groups.host.toLowerCase(),
+        path: groups.path,
+        value,
+      }
+    : {
+        type: 're',
+        prop: groups.prop && 'title'.startsWith(groups.prop) ? 'title' : 'url',
+        pattern: groups.pattern,
+        flags: groups.flags || '',
+        value,
+      };
 }
 // #endregion rule
+
 type CompiledMatchPatternISPV<RT> =
   | number
   | [

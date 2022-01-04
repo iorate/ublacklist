@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
@@ -35,6 +35,7 @@ import { searchEngineMessageNames } from '../search-engines/message-names';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
+import { RulesetEditor } from './ruleset-editor';
 import { Select, SelectOption } from './select';
 import { SetBooleanItem } from './set-boolean-item';
 
@@ -191,7 +192,7 @@ const ImportBlacklistDialog: React.VFC<
   );
 };
 
-const SetBlacklist: FunctionComponent = () => {
+const SetBlacklist: React.VFC = () => {
   const {
     initialItems: { blacklist: initialBlacklist },
   } = useOptionsContext();
@@ -215,21 +216,18 @@ const SetBlacklist: FunctionComponent = () => {
       <Row>
         <RowItem expanded>
           <LabelWrapper fullWidth>
-            <ControlLabel for="blacklist">{translate('options_blacklistLabel')}</ControlLabel>
+            <Label>{translate('options_blacklistLabel')}</Label>
             <SubLabel>{expandLinks(translate('options_blacklistHelper'))}</SubLabel>
             <SubLabel>{translate('options_blockByTitle')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '*://*.example.com/*')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', '/example\\.(net|org)/')}</SubLabel>
             <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
-          <TextArea
-            id="blacklist"
-            rows={10}
-            spellCheck="false"
+          <RulesetEditor
+            height="200px"
             value={blacklist}
-            wrap="off"
-            onChange={e => {
-              setBlacklist(e.currentTarget.value);
+            onChange={value => {
+              setBlacklist(value);
               setBlacklistDirty(true);
             }}
           />
@@ -303,7 +301,7 @@ const SetBlacklist: FunctionComponent = () => {
   );
 };
 
-const RegisterSearchEngine: FunctionComponent<{
+const RegisterSearchEngine: React.VFC<{
   id: SearchEngineId;
 }> = ({ id }) => {
   const matches = searchEngineMatches[id];
@@ -344,7 +342,7 @@ const RegisterSearchEngine: FunctionComponent<{
   );
 };
 
-const RegisterSearchEngines: FunctionComponent = () => {
+const RegisterSearchEngines: React.VFC = () => {
   /* #if CHROME_MV3 || SAFARI
   return null;
   */
@@ -382,7 +380,7 @@ const RegisterSearchEngines: FunctionComponent = () => {
   // #endif
 };
 
-export const GeneralSection: FunctionComponent = () => (
+export const GeneralSection: React.VFC = () => (
   <Section aria-labelledby="generalSectionTitle" id="general">
     <SectionHeader>
       <SectionTitle id="generalSectionTitle">{translate('options_generalTitle')}</SectionTitle>

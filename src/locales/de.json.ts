@@ -108,6 +108,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_subscriptionNameHeader: 'Name',
   options_subscriptionURLHeader: 'URL',
   options_subscriptionUpdateResultHeader: 'Letzte Aktualisierung',
+  options_subscriptionCheckBoxLabel: 'Aktiviert',
   options_subscriptionMenuButtonLabel: 'Menü',
   options_noSubscriptionsAdded: 'Keine Abonnements hinzugefügt',
   options_subscriptionUpdateRunning: 'Aktualisiere...',

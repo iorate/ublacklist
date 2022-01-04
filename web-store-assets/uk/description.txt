@@ -5,4 +5,4 @@
 Ви можете синхронізувати набори правил між своїми пристроями через Google Drive або Dropbox, і також можете підписатися на публічні набори правил.
 
 Список змін:
-https://github.com/iorate/uBlacklist/releases
+https://github.com/iorate/ublacklist/releases

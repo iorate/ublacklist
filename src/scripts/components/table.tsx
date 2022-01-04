@@ -5,11 +5,14 @@ import { useClassName } from './utilities';
 export type TableProps = JSX.IntrinsicElements['table'];
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(function Table(props, ref) {
-  const className = useClassName({
-    borderSpacing: 0,
-    tableLayout: 'fixed',
-    width: '100%',
-  });
+  const className = useClassName(
+    () => ({
+      borderSpacing: 0,
+      tableLayout: 'fixed',
+      width: '100%',
+    }),
+    [],
+  );
   return <table {...applyClassName(props, className)} ref={ref} />;
 });
 

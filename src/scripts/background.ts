@@ -18,6 +18,7 @@ function main() {
     'save-to-local-storage': LocalStorage.save,
     'add-subscription': LocalStorage.addSubscription,
     'remove-subscription': LocalStorage.removeSubscription,
+    'enable-subscription': LocalStorage.enableSubscription,
 
     activate: SearchEngines.registerContentScript,
 

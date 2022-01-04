@@ -2,7 +2,7 @@ import * as mpsl from 'mpsl';
 import * as punycode from 'punycode/';
 import React, { useState } from 'react';
 import icon from '../icons/icon.svg';
-import { Baseline, ScopedBaseline } from './components/baseline';
+import { ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { Details, DetailsBody, DetailsSummary } from './components/details';
@@ -20,7 +20,7 @@ import { ControlLabel, LabelWrapper } from './components/label';
 import { Row, RowItem } from './components/row';
 import { StylesProvider } from './components/styles';
 import { TextArea } from './components/textarea';
-import { AutoThemeProvider, ThemeProvider, darkTheme, lightTheme } from './components/theme';
+import { ThemeProvider, darkTheme, lightTheme } from './components/theme';
 import { useClassName, usePrevious } from './components/utilities';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { translate } from './locales';
@@ -89,9 +89,12 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
   }
   const ok = !state.disabled && state.rulesToAddValid;
 
-  const hostClass = useClassName({
-    wordBreak: 'break-all',
-  });
+  const hostClass = useClassName(
+    () => ({
+      wordBreak: 'break-all',
+    }),
+    [],
+  );
 
   return (
     <>
@@ -287,14 +290,10 @@ export const BlockDialog: React.VFC<BlockDialogProps> = ({ target, theme, ...pro
   </StylesProvider>
 );
 
-export type BlockPopupProps = Omit<BlockDialogContentProps, 'open'>;
+export type BlockEmbeddedDialogProps = Omit<BlockDialogContentProps, 'open'>;
 
-export const BlockPopup: React.VFC<BlockPopupProps> = props => (
-  <AutoThemeProvider>
-    <Baseline>
-      <EmbeddedDialog close={props.close} width="360px">
-        <BlockDialogContent open={true} {...props} />
-      </EmbeddedDialog>
-    </Baseline>
-  </AutoThemeProvider>
+export const BlockEmbeddedDialog: React.VFC<BlockEmbeddedDialogProps> = props => (
+  <EmbeddedDialog close={props.close} width="360px">
+    <BlockDialogContent open={true} {...props} />
+  </EmbeddedDialog>
 );

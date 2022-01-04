@@ -160,9 +160,11 @@ class ContentScript {
           options.compiledRules !== false
             ? options.compiledRules
             : Ruleset.compile(options.blacklist),
-          Object.values(options.subscriptions).map(
-            subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
-          ),
+          Object.values(options.subscriptions)
+            .filter(subscription => subscription.enabled ?? true)
+            .map(
+              subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+            ),
         ),
         skipBlockDialog: options.skipBlockDialog,
         hideControls: options.hideControl,

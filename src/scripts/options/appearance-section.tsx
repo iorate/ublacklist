@@ -123,10 +123,13 @@ const SetHighlightColors: React.VFC = () => {
   );
   const nextKey = useRef(initialHighlightColors.length);
 
-  const spacerClass = useClassName({
-    height: '36px',
-    width: '36px',
-  });
+  const spacerClass = useClassName(
+    () => ({
+      height: '36px',
+      width: '36px',
+    }),
+    [],
+  );
 
   return (
     <SectionItem>

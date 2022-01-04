@@ -159,6 +159,7 @@ export type Subscription = {
   blacklist: string;
   compiledRules?: string;
   updateResult: Result | false | null;
+  enabled?: boolean;
 };
 
 export type Subscriptions = Record<SubscriptionId, Subscription>;

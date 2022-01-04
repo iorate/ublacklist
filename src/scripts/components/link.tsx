@@ -8,20 +8,23 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
   { disabled = false, ...props },
   ref,
 ) {
-  const className = useClassName(theme => ({
-    color: theme.link.text,
-    outline: 'none',
-    textDecoration: 'none',
-    '&:focus': {
-      boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-    },
-    '&:focus:not(:focus-visible)': {
-      boxShadow: 'none',
-    },
-    '&:focus:not(:-moz-focusring)': {
-      boxShadow: 'none',
-    },
-  }));
+  const className = useClassName(
+    theme => ({
+      color: theme.link.text,
+      outline: 'none',
+      textDecoration: 'none',
+      '&:focus': {
+        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+      },
+      '&:focus:not(:focus-visible)': {
+        boxShadow: 'none',
+      },
+      '&:focus:not(:-moz-focusring)': {
+        boxShadow: 'none',
+      },
+    }),
+    [],
+  );
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a

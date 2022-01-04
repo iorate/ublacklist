@@ -5,4 +5,4 @@
 本浏览器扩展还提供了黑名单的同步功能，可以通过 Google Drive 和 Dropbox 将黑名单列表在不同设备之间同步。除此之外，你还可以通过订阅一些公开的黑名单列表，随时获取最新的网站黑名单。
 
 更新日志：
-https://github.com/iorate/uBlacklist/releases
+https://github.com/iorate/ublacklist/releases

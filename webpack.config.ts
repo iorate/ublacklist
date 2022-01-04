@@ -1,7 +1,7 @@
 import path from 'path';
+// eslint-disable-next-line import/default
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import glob from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -103,16 +103,18 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
     name: browser,
 
     optimization: {
-      minimizer: [
-        new ESBuildMinifyPlugin({
-          exclude: 'scripts/active.js',
-          target,
-        }),
-      ],
+      // https://developer.chrome.com/docs/webstore/review-process/
+      // Minification is allowed, but it can also make reviewing extension code more difficult.
+      // Where possible, consider submitting your code as authored.
+      minimize: false,
     },
 
     output: {
       path: path.resolve(__dirname, 'dist', browser, mode),
+    },
+
+    performance: {
+      hints: false,
     },
 
     plugins: [
@@ -168,10 +170,8 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         chunks: ['scripts/options'],
         filename: 'pages/options.html',
         meta: {
-          viewport:
-            browser === 'safari'
-              ? 'width=device-width, initial-scale=1, maximum-scale=1'
-              : 'width=device-width, initial-scale=1',
+          'color-scheme': 'dark light',
+          viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
         title: 'uBlacklist Options',
       }),
@@ -180,12 +180,14 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         chunks: ['scripts/popup'],
         filename: 'pages/popup.html',
         meta: {
-          viewport: 'width=device-width, initial-scale=1',
+          'color-scheme': 'dark light',
+          viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
         title: 'uBlacklist Popup',
       }),
 
       new LicenseWebpackPlugin({
+        excludedPackageTest: packageName => packageName === 'ublacklist',
         licenseFileOverrides: {
           'preact-compat': '../LICENSE',
           'preact-hooks': '../LICENSE',
@@ -214,7 +216,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       alias: {
         react: 'preact/compat',
         'react-dom': 'preact/compat',
-        'react/jsx-runtime': 'preact/jsx-runtime',
       },
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },

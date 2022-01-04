@@ -106,6 +106,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_subscriptionNameHeader: '名前',
   options_subscriptionURLHeader: 'URL',
   options_subscriptionUpdateResultHeader: '最後の更新',
+  options_subscriptionCheckBoxLabel: '有効',
   options_subscriptionMenuButtonLabel: 'メニュー',
   options_noSubscriptionsAdded: '購読が追加されていません',
   options_subscriptionUpdateRunning: '更新中...',

@@ -1,4 +1,4 @@
-name: stale
+name: Warn and close stale issues
 
 on:
   schedule:
@@ -6,6 +6,8 @@ on:
 
 jobs:
   stale:
+    name: Warn and close stale issues
+
     runs-on: ubuntu-latest
 
     steps:

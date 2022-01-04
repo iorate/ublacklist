@@ -5,11 +5,14 @@ import { useClassName } from './utilities';
 export type SectionProps = JSX.IntrinsicElements['section'];
 
 export const Section = React.forwardRef<HTMLElement, SectionProps>(function Section(props, ref) {
-  const className = useClassName({
-    '&:not(:first-child)': {
-      marginTop: '2em',
-    },
-  });
+  const className = useClassName(
+    () => ({
+      '&:not(:first-child)': {
+        marginTop: '2em',
+      },
+    }),
+    [],
+  );
   return <section {...applyClassName(props, className)} ref={ref} />;
 });
 
@@ -34,11 +37,14 @@ export type SectionTitleProps = JSX.IntrinsicElements['h1'];
 
 export const SectionTitle = React.forwardRef<HTMLHeadingElement, SectionTitleProps>(
   function SectionTitle({ children, ...props }, ref) {
-    const className = useClassName({
-      fontSize: '1.125em',
-      fontWeight: 'normal',
-      margin: 0,
-    });
+    const className = useClassName(
+      () => ({
+        fontSize: '1.125em',
+        fontWeight: 'normal',
+        margin: 0,
+      }),
+      [],
+    );
     return (
       <h1 {...applyClassName(props, className)} ref={ref}>
         {children}
@@ -53,11 +59,14 @@ export const SectionBody = React.forwardRef<HTMLDivElement, SectionBodyProps>(fu
   props,
   ref,
 ) {
-  const className = useClassName(theme => ({
-    background: theme.section.background,
-    borderRadius: '4px',
-    boxShadow: `0 1px 2px 0 ${theme.section.shadow1}, 0 1px 3px 1px ${theme.section.shadow2}`,
-  }));
+  const className = useClassName(
+    theme => ({
+      background: theme.section.background,
+      borderRadius: '4px',
+      boxShadow: `0 1px 2px 0 ${theme.section.shadow1}, 0 1px 3px 1px ${theme.section.shadow2}`,
+    }),
+    [],
+  );
   return <div {...applyClassName(props, className)} ref={ref} />;
 });
 
@@ -67,11 +76,14 @@ export const SectionItem = React.forwardRef<HTMLDivElement, SectionItemProps>(fu
   props,
   ref,
 ) {
-  const className = useClassName(theme => ({
-    padding: '0.75em 1.25em',
-    '&:not(:first-child)': {
-      borderTop: `solid 1px ${theme.separator}`,
-    },
-  }));
+  const className = useClassName(
+    theme => ({
+      padding: '0.75em 1.25em',
+      '&:not(:first-child)': {
+        borderTop: `solid 1px ${theme.separator}`,
+      },
+    }),
+    [],
+  );
   return <div {...applyClassName(props, className)} ref={ref} />;
 });
