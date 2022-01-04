@@ -393,19 +393,8 @@ export const ManageSubscriptions: React.VFC<{
             <Table>
               <TableHeader>
                 <TableHeaderRow>
-                  <TableHeaderCell width="36px" />
-                  {
-                    // #if !SAFARI
-                    <TableHeaderCell width="calc(80% - 72px - 0.75em)">
-                      {translate('options_subscriptionNameHeader')}
-                    </TableHeaderCell>
-                    /* #else
-                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.8 - 72px - 0.75em)">
-                      {translate('options_subscriptionNameHeader')}
-                    </TableHeaderCell>
-                    */
-                    // #endif
-                  }
+                  <TableHeaderCell width="2.25em" />
+                  <TableHeaderCell>{translate('options_subscriptionNameHeader')}</TableHeaderCell>
                   <TableHeaderCell width="20%">
                     {translate('options_subscriptionUpdateResultHeader')}
                   </TableHeaderCell>
