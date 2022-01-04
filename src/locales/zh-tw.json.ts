@@ -54,6 +54,9 @@ exportAsMessages('_locales/zh_TW/messages.json', {
   options_skipBlockDialogLabel: '加入封鎖清單時不顯示確定提示。',
   options_hideBlockLinksLabel: '隱藏「封鎖這個網站」的連結',
   options_hideControlLabel: '不在搜尋結果網頁頂部顯示已被封鎖的網站數量和「顯示」的連結',
+  options_blockWholeSiteLabel: '預設情況下新增封鎖整個網站的規則',
+  options_blockWholeSiteDescription:
+    '例如封鎖 "https://a.b.example.uk.com/", 會新增 "*://*.example.uk.com/*" 規則',
   options_appearanceTitle: '外觀',
   options_linkColor: '連結的顏色',
   options_blockColor: '被封鎖的搜尋結果的顏色',
@@ -92,6 +95,7 @@ exportAsMessages('_locales/zh_TW/messages.json', {
   options_subscriptionNameHeader: '名稱',
   options_subscriptionURLHeader: 'URL 網址',
   options_subscriptionUpdateResultHeader: '最近更新',
+  options_subscriptionCheckBoxLabel: '啟用',
   options_noSubscriptionsAdded: '沒有加入訂閱',
   options_subscriptionUpdateRunning: '更新中...',
   options_showSubscriptionMenu: '顯示',
