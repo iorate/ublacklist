@@ -1,4 +1,4 @@
-export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'startpage';
+export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'startpage' | 'brave_search';
 
 export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
   google: [
@@ -224,4 +224,5 @@ export const searchEngineMatches: Readonly<Record<SearchEngineId, string[]>> = {
     'https://*.startpage.com/rvd/*',
     'https://*.startpage.com/sp/*',
   ],
+  brave_search: ['https://search.brave.com/search?*']
 };
