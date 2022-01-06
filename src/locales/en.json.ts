@@ -374,6 +374,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Ecosia.
   searchEngines_ecosiaName: 'Ecosia',
 
+  // The localized name of Qwant.
+  searchEngines_qwantName: 'Qwant',
+
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',
 });

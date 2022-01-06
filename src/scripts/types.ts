@@ -146,6 +146,7 @@ export type SerpHandler = {
   onSerpStart: () => SerpHandlerResult;
   onSerpHead: (colors: SerpColors) => SerpHandlerResult;
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
+  onSerpElementDelay?: number;
   getDialogTheme: () => DialogTheme;
 };
 // #endregion SearchEngines

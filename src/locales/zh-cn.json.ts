@@ -121,5 +121,6 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   searchEngines_bingName: '必应',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
 });
