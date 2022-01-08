@@ -123,7 +123,6 @@ class ContentScript {
             if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
-
             this.onSerpElement(addedNode);
           }
         }
