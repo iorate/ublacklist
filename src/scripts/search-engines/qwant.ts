@@ -1,5 +1,4 @@
 import { SerpHandler } from '../types';
-import { AltURL, MatchPattern } from '../utilities';
 import { handleSerp } from './helpers';
 
 export function getSerpHandler(): SerpHandler {
@@ -23,7 +22,7 @@ export function getSerpHandler(): SerpHandler {
     },
     controlHandlers: [
       {
-        target: '[class*=SearchFilter-module__SearchFilter]',
+        target: 'body',
         position: 'afterbegin',
         style: {
           display: 'block',
@@ -32,31 +31,11 @@ export function getSerpHandler(): SerpHandler {
           textAlign: 'right',
         },
       },
-      {
-        target: '[data-testid=buttonShowMore]',
-        position: 'afterbegin',
-        style: {
-          display: 'block',
-          fontSize: '13px',
-          padding: '9px 20px',
-          textAlign: 'right',
-        },
-      },
-      {
-        target: '[class*=SearchHeader-module__SearchHeaderNavBar]',
-        position: 'afterend',
-        style: {
-          display: 'block',
-          fontSize: '13px',
-          padding: '9px 20px',
-          textAlign: 'right',
-        },
-      }
     ],
     entryHandlers: [
       {
         scope: 'web',
-        target: '[domain]',
+        target: '[class*=SearchLayout-module__content] > [class*=Web-module__container], section > [class*=Stack-module__VerticalStack]',
         url: 'a',
         title: 'a',
         actionTarget: '[class*=WebResult-module__permalink]',
@@ -116,21 +95,17 @@ export function getSerpHandler(): SerpHandler {
         innerTargets: '[class*=Stack-module__VerticalStack]',
       },
       {
-        target: '[class*=SearchLayout-module__content]',
-        innerTargets: '[class*=Web-module__container]'
+        target: '[class*=Web-module__container]',
+        innerTargets: '[class*=Web-module__containerWeb]'
       }
     ],
     getDialogTheme: () => document.body.dataset.theme === 'dark' || document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light'
   });
 
-  const url = new AltURL(window.location.href);
-  const needsAsyncInject = new MatchPattern('https://www.qwant.com/*').test(url)
-
   return {
     onSerpStart: serpHandler.onSerpStart,
     onSerpHead: serpHandler.onSerpHead,
     onSerpElement: serpHandler.onSerpElement,
-    onSerpElementDelay: needsAsyncInject ? 1000 : 0,
     getDialogTheme: serpHandler.getDialogTheme
   };
 }

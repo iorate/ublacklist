@@ -118,19 +118,17 @@ class ContentScript {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {
             // #if DEVELOPMENT
-            console.debug(addedNode.cloneNode(true));
+            console.debug(addedNode, addedNode.cloneNode(true));
             // #endif
             if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
 
-            setTimeout(() => {
-              this.onSerpElement(addedNode);
-            }, this.serpHandler.onSerpElementDelay || 0);
+            this.onSerpElement(addedNode);
           }
         }
       }
-    }).observe(document.documentElement, { childList: true, subtree: true });
+    }).observe(document.querySelector('#root') || document.documentElement, { childList: true, subtree: true });
 
     // onSerpEnd
     if (document.readyState === 'loading') {
