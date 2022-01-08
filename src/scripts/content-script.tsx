@@ -128,7 +128,10 @@ class ContentScript {
           }
         }
       }
-    }).observe(document.querySelector('#root') || document.documentElement, { childList: true, subtree: true });
+    }).observe(document.querySelector('#root') || document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
 
     // onSerpEnd
     if (document.readyState === 'loading') {

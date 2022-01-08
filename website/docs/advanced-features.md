@@ -94,7 +94,6 @@ For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not sup
 
 ### Qwant
 
-
 ### Startpage.com
 
 ![startpage](/img/advanced-features/startpage.png)

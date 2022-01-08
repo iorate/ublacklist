@@ -12,7 +12,7 @@ export function getSerpHandler(): SerpHandler {
       }, // Lite Qwant
       '.theme-dark .ub-button': {
         color: 'var(--ub-link-color, rgb(122, 140, 109))',
-      },// Standard Qwant
+      }, // Standard Qwant
       '[data-theme="dark"] .ub-button': {
         color: 'var(--ub-link-color, rgb(122, 140, 109))',
       },
@@ -35,7 +35,8 @@ export function getSerpHandler(): SerpHandler {
     entryHandlers: [
       {
         scope: 'web',
-        target: '[class*=SearchLayout-module__content] > [class*=Web-module__container], section > [class*=Stack-module__VerticalStack]',
+        target:
+          '[class*=SearchLayout-module__content] > [class*=Web-module__container], section > [class*=Stack-module__VerticalStack]',
         url: 'a',
         title: 'a',
         actionTarget: '[class*=WebResult-module__permalink]',
@@ -87,7 +88,7 @@ export function getSerpHandler(): SerpHandler {
           fontSize: '13px',
           paddingLeft: '5px',
         },
-      }
+      },
     ],
     pagerHandlers: [
       {
@@ -96,16 +97,20 @@ export function getSerpHandler(): SerpHandler {
       },
       {
         target: '[class*=Web-module__container]',
-        innerTargets: '[class*=Web-module__containerWeb]'
-      }
+        innerTargets: '[class*=Web-module__containerWeb]',
+      },
     ],
-    getDialogTheme: () => document.body.dataset.theme === 'dark' || document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light'
+    getDialogTheme: () =>
+      document.body.dataset.theme === 'dark' ||
+      document.documentElement.classList.contains('theme-dark')
+        ? 'dark'
+        : 'light',
   });
 
   return {
     onSerpStart: serpHandler.onSerpStart,
     onSerpHead: serpHandler.onSerpHead,
     onSerpElement: serpHandler.onSerpElement,
-    getDialogTheme: serpHandler.getDialogTheme
+    getDialogTheme: serpHandler.getDialogTheme,
   };
 }
