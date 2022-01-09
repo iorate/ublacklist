@@ -16,6 +16,7 @@ export type EditorProps<ParserState> = {
   parser?: StreamParser<ParserState>;
   height?: string;
   readOnly?: boolean;
+  resizable?: boolean;
   value?: string;
   onChange?: (value: string) => void;
 };
@@ -24,12 +25,15 @@ export function Editor<ParserState>({
   focusStart = false,
   focusEnd = false,
   parser,
-  height,
+  height = '200px',
   readOnly = false,
+  resizable = false,
   value = '',
   onChange,
 }: EditorProps<ParserState>): JSX.Element {
   const view = useRef<EditorView | null>(null);
+  const resizeObserver = useRef<ResizeObserver | null>(null);
+
   const highlightStyleCompartment = useRef(new Compartment());
   const languageCompartment = useRef(new Compartment());
   const readOnlyCompartment = useRef(new Compartment());
@@ -57,8 +61,13 @@ export function Editor<ParserState>({
         }),
         parent,
       });
+      resizeObserver.current = new ResizeObserver(() => {
+        view.current?.requestMeasure();
+      });
+      resizeObserver.current.observe(view.current.dom);
     } else {
       // unmount
+      resizeObserver.current?.disconnect();
       view.current?.destroy();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,7 +130,9 @@ export function Editor<ParserState>({
               backgroundColor: theme.editor.background,
               border: `1px solid ${theme.editor.border}`,
               color: theme.editor.text,
-              height: height ?? 'auto',
+              height,
+              overflow: 'hidden',
+              resize: resizable ? 'vertical' : 'none',
             },
             '&.cm-editor.cm-focused': {
               boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
@@ -154,7 +165,7 @@ export function Editor<ParserState>({
         ),
       ),
     });
-  }, [height, theme]);
+  }, [height, resizable, theme]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
