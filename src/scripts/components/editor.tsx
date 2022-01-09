@@ -2,35 +2,34 @@ import { standardKeymap } from '@codemirror/commands';
 import { highlightActiveLineGutter, lineNumbers } from '@codemirror/gutter';
 import { HighlightStyle, tags as t } from '@codemirror/highlight';
 import { history, historyKeymap } from '@codemirror/history';
-import { language } from '@codemirror/language';
+import { Language, language } from '@codemirror/language';
 import { Compartment, EditorState, Transaction } from '@codemirror/state';
-import { StreamLanguage, StreamParser } from '@codemirror/stream-parser';
 import { EditorView, highlightSpecialChars, keymap } from '@codemirror/view';
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
 import { useTheme } from './theme';
 
-export type EditorProps<ParserState> = {
+export type EditorProps = {
   focusStart?: boolean;
   focusEnd?: boolean;
-  parser?: StreamParser<ParserState>;
   height?: string;
+  language?: Language;
   readOnly?: boolean;
   resizable?: boolean;
   value?: string;
   onChange?: (value: string) => void;
 };
 
-export function Editor<ParserState>({
+export const Editor: React.VFC<EditorProps> = ({
   focusStart = false,
   focusEnd = false,
-  parser,
   height = '200px',
+  language: lang,
   readOnly = false,
   resizable = false,
   value = '',
   onChange,
-}: EditorProps<ParserState>): JSX.Element {
+}) => {
   const view = useRef<EditorView | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
 
@@ -109,11 +108,9 @@ export function Editor<ParserState>({
 
   useLayoutEffect(() => {
     view.current?.dispatch({
-      effects: languageCompartment.current.reconfigure(
-        parser ? language.of(StreamLanguage.define(parser)) : [],
-      ),
+      effects: languageCompartment.current.reconfigure(lang ? language.of(lang) : []),
     });
-  }, [parser]);
+  }, [lang]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
@@ -204,4 +201,4 @@ export function Editor<ParserState>({
   }, [value]);
 
   return <div ref={parentCallback} />;
-}
+};
