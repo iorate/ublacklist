@@ -109,7 +109,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
         level: target => target.parentElement?.closest('.g') ?? null,
-        url: 'a',
+        url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
         actionStyle: desktopRegularActionStyle,
