@@ -219,7 +219,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Twitter, Twitter Search
       {
-        target: '.eejeod, .g',
+        target: '.eejeod',
         url: 'g-link > a',
         title: 'a > h3',
         actionTarget: root =>
