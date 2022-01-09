@@ -123,9 +123,7 @@ class ContentScript {
             if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
-            setTimeout(() => {
-              this.onSerpElement(addedNode);
-            }, 0);
+            this.onSerpElement(addedNode);
           }
         }
       }
