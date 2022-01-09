@@ -20,12 +20,14 @@ const desktopGlobalStyle: CSSAttribute = {
 const desktopActionStyle: CSSAttribute = {
   '&::before': {
     content: '" · "',
-    padding: '0 2px 0 4px',
   },
 };
 
 const desktopRegularActionStyle: CSSAttribute = {
-  ...desktopActionStyle,
+  '&::before': {
+    content: '" · "',
+    padding: '0 2px 0 4px',
+  },
   // next to triangle
   '.eFM0qc > span:not([class]) + &::before': {
     content: 'none',
