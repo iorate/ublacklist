@@ -1,7 +1,7 @@
 import * as S from 'microstruct';
-import { CSSAttribute, css } from '../../styles';
-import { SerpHandler } from '../../types';
-import { getParentElement, handleSerp } from '../helpers';
+import { CSSAttribute, css } from '../styles';
+import { SerpHandler } from '../types';
+import { getParentElement, handleSerp } from './helpers';
 
 const globalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {

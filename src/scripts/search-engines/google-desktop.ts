@@ -1,6 +1,6 @@
-import { CSSAttribute, css } from '../../styles';
-import { SerpHandler } from '../../types';
-import { handleSerp, hasDarkBackground, insertElement } from '../helpers';
+import { CSSAttribute, css } from '../styles';
+import { SerpHandler } from '../types';
+import { handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
