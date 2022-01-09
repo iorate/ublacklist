@@ -19,6 +19,10 @@ export function getSerpHandler(): SerpHandler {
       '.ub-button:hover': {
         textDecoration: 'underline',
       },
+      'div[class*=WebResult-module__permalink]': {
+        display: 'flex',
+        maxWidth: 'auto',
+      },
     },
     controlHandlers: [
       {
@@ -35,8 +39,7 @@ export function getSerpHandler(): SerpHandler {
     entryHandlers: [
       {
         scope: 'web',
-        target:
-          '[class*=SearchLayout-module__content] > [class*=Web-module__container], section > [class*=Stack-module__VerticalStack]',
+        target: '[domain]',
         url: 'a',
         title: 'a',
         actionTarget: '[class*=WebResult-module__permalink]',
@@ -92,12 +95,16 @@ export function getSerpHandler(): SerpHandler {
     ],
     pagerHandlers: [
       {
-        target: '[data-testid=sectionWeb]',
-        innerTargets: '[class*=Stack-module__VerticalStack]',
+        target: '[class*=Web-module], [class*=Stack-module__VerticalStack], div:empty',
+        innerTargets: '[domain]',
       },
       {
-        target: '[class*=Web-module__container]',
-        innerTargets: '[class*=Web-module__containerWeb]',
+        target: '[class*=News-module], [class*=Stack-module__VerticalStack], div:empty',
+        innerTargets: '[class*=News-module__NewsList] > div',
+      },
+      {
+        target: '[class*=Images-module], [class*=Stack-module__VerticalStack], div:empty',
+        innerTargets: '[data-testid=imageResult]',
       },
     ],
     getDialogTheme: () =>

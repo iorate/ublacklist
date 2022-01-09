@@ -118,12 +118,14 @@ class ContentScript {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {
             // #if DEVELOPMENT
-            console.debug(addedNode.cloneNode(true));
+            console.debug(addedNode, addedNode.cloneNode(true));
             // #endif
             if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
-            this.onSerpElement(addedNode);
+            setTimeout(() => {
+              this.onSerpElement(addedNode);
+            }, 0);
           }
         }
       }

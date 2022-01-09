@@ -94,6 +94,9 @@ For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not sup
 
 ### Qwant
 
+"Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
+On Chrome, refreshing the page will make disappear the action buttons.
+
 ### Startpage.com
 
 ![startpage](/img/advanced-features/startpage.png)
