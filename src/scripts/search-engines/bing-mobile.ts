@@ -1,6 +1,6 @@
-import { CSSAttribute, glob } from '../../styles';
-import { SerpColors, SerpHandler } from '../../types';
-import { getDialogThemeFromBody, handleSerp } from '../helpers';
+import { CSSAttribute, glob } from '../styles';
+import { SerpColors, SerpHandler } from '../types';
+import { getDialogThemeFromBody, handleSerp } from './helpers';
 
 function applyGlobalStyle(extraStyles?: CSSAttribute): (colors: SerpColors) => void {
   return colors => {

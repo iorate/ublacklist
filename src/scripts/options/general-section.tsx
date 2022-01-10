@@ -225,6 +225,7 @@ const SetBlacklist: React.VFC = () => {
           </LabelWrapper>
           <RulesetEditor
             height="200px"
+            resizable
             value={blacklist}
             onChange={value => {
               setBlacklist(value);

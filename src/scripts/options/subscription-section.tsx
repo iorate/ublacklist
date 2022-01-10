@@ -224,7 +224,12 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
         <Row>
           <RowItem expanded>
             {open && (
-              <RulesetEditor height="200px" readOnly value={subscription?.blacklist ?? ''} />
+              <RulesetEditor
+                height="200px"
+                readOnly
+                resizable
+                value={subscription?.blacklist ?? ''}
+              />
             )}
           </RowItem>
         </Row>

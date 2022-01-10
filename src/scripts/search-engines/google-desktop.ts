@@ -1,6 +1,6 @@
-import { CSSAttribute, css } from '../../styles';
-import { SerpHandler } from '../../types';
-import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from '../helpers';
+import { CSSAttribute, css } from '../styles';
+import { SerpHandler } from '../types';
+import { handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -17,51 +17,25 @@ const desktopGlobalStyle: CSSAttribute = {
   },
 };
 
-const desktopInlineActionStyle: CSSAttribute = {
-  display: 'inline-block',
-  width: 0,
+const desktopActionStyle: CSSAttribute = {
+  '&::before': {
+    content: '" · "',
+  },
 };
 
 const desktopRegularActionStyle: CSSAttribute = {
-  ...desktopInlineActionStyle,
-  fontSize: '14px',
-  marginLeft: '4px',
-  '.fl + &': {
-    marginLeft: '6px',
+  '&::before': {
+    content: '" · "',
+    padding: '0 2px 0 4px',
   },
-  'span:not([class]) + &': {
-    marginLeft: 0,
+  // next to triangle
+  '.eFM0qc > span:not([class]) + &::before': {
+    content: 'none',
+    padding: 0,
   },
-};
-
-const desktopAboutThisResultActionStyle: CSSAttribute = {
-  ...desktopInlineActionStyle,
   fontSize: '14px',
-  left: '52px',
-  position: 'relative',
+  lineHeight: 1.3,
   visibility: 'visible',
-};
-
-const desktopNewsActionStyle: CSSAttribute = {
-  ...desktopInlineActionStyle,
-  fontSize: '12px',
-  marginLeft: '6px',
-};
-
-const insertActionNextToBreadcrumb: Readonly<
-  Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'>
-> = {
-  actionTarget: root =>
-    root.querySelector<HTMLElement>('.csDOgf') || root.querySelector<HTMLElement>('.eFM0qc'),
-  actionPosition: target =>
-    insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
-  actionStyle: actionRoot => {
-    actionRoot.className = css(
-      actionRoot.matches('.csDOgf + *')
-        ? desktopAboutThisResultActionStyle
-        : desktopRegularActionStyle,
-    );
-  },
 };
 
 const desktopSerpHandlers: Record<string, SerpHandler> = {
@@ -126,22 +100,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: root =>
-          root.querySelector<HTMLElement>('.csDOgf') ||
-          root.querySelector<HTMLElement>('.eFM0qc') ||
-          root,
-        actionPosition: target =>
-          insertElement('span', target, target.matches('.csDOgf') ? 'afterend' : 'beforeend'),
+        actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') || root,
         actionStyle: actionRoot => {
           actionRoot.className = css(
-            actionRoot.matches('.csDOgf + *')
-              ? desktopAboutThisResultActionStyle
-              : actionRoot.matches('.eFM0qc > *')
-              ? desktopRegularActionStyle
-              : {
-                  fontSize: '14px',
-                  marginTop: '4px',
-                },
+            actionRoot.matches('.eFM0qc > *') ? desktopRegularActionStyle : { marginTop: '4px' },
           );
         },
       },
@@ -149,9 +111,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
         level: target => target.parentElement?.closest('.g') ?? null,
-        url: 'a',
+        url: '.yuRUbf > a',
         title: 'h3',
-        ...insertActionNextToBreadcrumb,
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
       // Latest, Top Story (Horizontal)
       {
@@ -160,10 +123,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: '[role="heading"][aria-level="4"]',
         actionTarget: '.S1FAPd',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          marginLeft: '4px',
-        },
+        actionStyle: desktopActionStyle,
       },
       // People Also Ask
       {
@@ -172,13 +132,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         actionTarget: '.eFM0qc',
-        actionStyle: {
-          ...desktopRegularActionStyle,
-          '& > .ub-button': {
-            display: 'inline-block',
-            overflowY: 'hidden',
-          },
-        },
+        actionStyle: desktopRegularActionStyle,
       },
       // Quote in the News
       {
@@ -206,30 +160,42 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target:
-          'div > a > div > .iRPxbe > .ZE0LJd > .S1FAPd, div > a > div > .ZJjs0c > .ZE0LJd > .S1FAPd',
-        level: 5,
-        url: 'a',
+        target: '.yG4QQe .WlydOe',
+        level: 1,
+        url: '.WlydOe',
         title: '.mCBkyc',
         actionTarget: '.S1FAPd',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          marginLeft: '4px',
+        actionStyle: actionRoot => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          actionRoot.parentElement!.style.whiteSpace = 'nowrap';
+          actionRoot.className = css(desktopActionStyle);
         },
       },
       // Twitter, Twitter Search
       {
-        target: '.eejeod, .g',
+        target: '.eejeod',
         url: 'g-link > a',
         title: 'a > h3',
-        actionTarget: root =>
-          root.querySelector<HTMLElement>('.oERM6') || root.querySelector<HTMLElement>('.ellip'),
-        actionPosition: target =>
-          insertElement('span', target, target.matches('.oERM6') ? 'afterend' : 'beforeend'),
+        actionTarget: root => {
+          const aboutThisResult = root.querySelector<HTMLElement>('.ellip > .oERM6');
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return aboutThisResult ? aboutThisResult.parentElement! : root.querySelector('.ellip');
+        },
+        actionPosition: target => {
+          const aboutThisResult = target.querySelector<HTMLElement>(':scope > .oERM6');
+          return aboutThisResult
+            ? insertElement('span', aboutThisResult, 'beforebegin')
+            : insertElement('span', target, 'beforeend');
+        },
         actionStyle: actionRoot => {
           actionRoot.className = css(
-            actionRoot.matches('.oERM6 + *')
-              ? desktopAboutThisResultActionStyle
+            actionRoot.matches('.Y3iVZd *')
+              ? // With "About this result" and single tweet
+                {
+                  ...desktopRegularActionStyle,
+                  display: 'inline-block',
+                  marginTop: '7px',
+                }
               : desktopRegularActionStyle,
           );
         },
@@ -240,18 +206,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        ...insertActionNextToBreadcrumb,
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
       {
         target: '.RzdJxc',
         url: '.X5OiLe',
         title: '.fc9yUc',
         actionTarget: '.hMJ0yc',
-        actionStyle: {
-          ...desktopInlineActionStyle,
-          fontSize: '14px',
-          marginLeft: '4px',
-        },
+        actionStyle: desktopActionStyle,
       },
       // YouTube Channel
       {
@@ -259,7 +222,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        ...insertActionNextToBreadcrumb,
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
       // News (COVID-19)
       {
@@ -270,40 +234,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return a instanceof HTMLAnchorElement ? a.href : null;
         },
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.CEMjEf',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
-        level: 1,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
-        level: 4,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="2"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: '.nChh6e > div > .dbsr',
-        level: 2,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="2"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
+        actionTarget: '.S1FAPd',
+        actionStyle: desktopActionStyle,
       },
     ],
     pagerHandlers: [
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets:
-          '.YwonT, .IsZvec, .kno-fb-ctx, .g, .WlydOe, .dbsr, .F9rcV, .tYlW7b, .RzdJxc, .VibNM',
+        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
       },
       // AutoPagerize
       {
@@ -401,32 +340,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return a instanceof HTMLAnchorElement ? a.href : null;
         },
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.CEMjEf',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: 'div > .XBBQi + .dbsr, div > .AxkxJb + .dbsr',
-        level: 1,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: 'div > .nChh6e > div > div > div:not(.XBBQi):not(.AxkxJb) + .dbsr',
-        level: 4,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="2"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
-      },
-      {
-        target: '.nChh6e > div > .dbsr',
-        level: 2,
-        url: '.dbsr > a',
-        title: '[role="heading"][aria-level="2"]',
-        actionTarget: '.XTjFC',
-        actionStyle: desktopNewsActionStyle,
+        actionTarget: '.S1FAPd',
+        actionStyle: desktopActionStyle,
       },
       // People Also Search For
       {
@@ -446,7 +361,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.WlydOe, .dbsr',
+        innerTargets: '.WlydOe',
       },
     ],
   }),
