@@ -96,6 +96,8 @@ For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not sup
 
 "Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
 
+With the lite version of Qwant, the extension only work with web search not news, images, videos as the link used a proxy.
+
 ### Startpage.com
 
 ![startpage](/img/advanced-features/startpage.png)
