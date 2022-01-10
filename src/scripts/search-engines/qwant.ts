@@ -62,7 +62,7 @@ export function getSerpHandler(): SerpHandler {
         title: 'a',
         actionTarget: '[class*=WebResult-module__permalink]',
         actionStyle: {
-          fontSize: '14px',
+          fontSize: '13px',
           paddingLeft: '5px',
         },
       },
