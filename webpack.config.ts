@@ -143,7 +143,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
                     delete assets[name];
                     const exportAsJSON = (filename: string, value: unknown): void => {
                       assets[filename] = new webpack.sources.RawSource(
-                        JSON.stringify(value, null, mode === 'development' ? 2 : 0),
+                        JSON.stringify(value, null, 2),
                       );
                     };
                     // eslint-disable-next-line @typescript-eslint/no-implied-eval
