@@ -13,6 +13,9 @@ export const searchEngineMessageNames: Readonly<Record<SearchEngineId, { name: M
   ecosia: {
     name: 'searchEngines_ecosiaName',
   },
+  qwant: {
+    name: 'searchEngines_qwantName',
+  },
   startpage: {
     name: 'searchEngines_startpageName',
   },

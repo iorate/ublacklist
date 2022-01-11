@@ -74,7 +74,7 @@ By default, only `@1` (blue) is available. To change or add highlighting colors,
 
 ## Other search engines
 
-This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -91,6 +91,12 @@ This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecos
 For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not supported.
 
 ![ecosia](/img/advanced-features/ecosia.png)
+
+### Qwant
+
+"Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
+
+With the lite version of Qwant, the extension only work with web search not news, images, videos as the link used a proxy.
 
 ### Startpage.com
 

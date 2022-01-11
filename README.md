@@ -29,8 +29,12 @@ This extension is available in the below search engines.
 | DuckDuckGo (iOS) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Ecosia           | :heavy_check_mark: |                    |                    |                    |
 | Ecosia (iOS)     | :heavy_check_mark: |                    |                    |                    |
+| Qwant            | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
+| Qwant (iOS)      | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
 | Startpage        | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage (iOS)  | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+
+\*1 Works only if you turn off "Always play videos on Qwant.com"
 
 ## For subscription providers
 

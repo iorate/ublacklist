@@ -18,7 +18,7 @@ export async function injectContentScript(tabId: number, url: string): Promise<v
   if (!active) {
     await apis.tabs.executeScript(tabId, {
       file: '/scripts/content-script.js',
-      runAt: 'document_start',
+      runAt: 'document_idle',
     });
   }
   // #endif
@@ -49,7 +49,7 @@ export async function registerContentScript(): Promise<void> {
   registered = await browser.contentScripts.register({
     js: [{ file: '/scripts/content-script.js' }],
     matches: grantedMatches,
-    runAt: 'document_start',
+    runAt: 'document_idle',
   });
   */
   // #endif
