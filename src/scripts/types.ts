@@ -1,5 +1,6 @@
 import type dayjs from 'dayjs';
 import type { MessageName0 } from '../common/locales';
+import type { SearchEngine as _SearchEngine } from '../common/search-engines';
 import type { AltURL } from './utilities';
 
 export type { MessageName, MessageName0, MessageName1 } from '../common/locales';
@@ -147,6 +148,13 @@ export type SerpHandler = {
   onSerpHead: (colors: SerpColors) => SerpHandlerResult;
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
   getDialogTheme: () => DialogTheme;
+};
+
+export type SearchEngine = _SearchEngine & {
+  messageNames: {
+    name: MessageName0;
+  };
+  getSerpHandler(): SerpHandler | null;
 };
 // #endregion SearchEngines
 

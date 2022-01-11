@@ -1,9 +1,16 @@
 import mobile from 'is-mobile';
-import { SerpHandler } from '../types';
+import { SEARCH_ENGINES } from '../../common/search-engines';
+import { SearchEngine } from '../types';
 import { getDesktopSerpHandler } from './bing-desktop';
 import { getMobileSerpHandler } from './bing-mobile';
 
-export function getSerpHandler(): SerpHandler | null {
-  const path = new URL(window.location.href).pathname;
-  return mobile({ tablet: true }) ? getMobileSerpHandler(path) : getDesktopSerpHandler(path);
-}
+export const bing: Readonly<SearchEngine> = {
+  ...SEARCH_ENGINES.bing,
+  messageNames: {
+    name: 'searchEngines_bingName',
+  },
+  getSerpHandler() {
+    const path = new URL(window.location.href).pathname;
+    return mobile({ tablet: true }) ? getMobileSerpHandler(path) : getDesktopSerpHandler(path);
+  },
+};

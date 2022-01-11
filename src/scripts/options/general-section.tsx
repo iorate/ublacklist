@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { searchEngineMatches } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
@@ -31,7 +30,7 @@ import { usePrevious } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
-import { searchEngineMessageNames } from '../search-engines/message-names';
+import { SEARCH_ENGINES } from '../search-engines';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
@@ -305,8 +304,8 @@ const SetBlacklist: React.VFC = () => {
 const RegisterSearchEngine: React.VFC<{
   id: SearchEngineId;
 }> = ({ id }) => {
-  const matches = searchEngineMatches[id];
-  const messageNames = searchEngineMessageNames[id];
+  const { contentScripts, messageNames } = SEARCH_ENGINES[id];
+  const matches = contentScripts.flatMap(({ matches }) => matches);
 
   const [registered, setRegistered] = useState(false);
 
@@ -364,12 +363,11 @@ const RegisterSearchEngines: React.VFC = () => {
         </RowItem>
         <RowItem expanded>
           <List>
-            {stringKeys(searchEngineMatches).map(
+            {stringKeys(SEARCH_ENGINES).map(
               id =>
                 id !== 'google' && (
                   <ListItem key={id}>
-                    {' '}
-                    <RegisterSearchEngine id={id} />{' '}
+                    <RegisterSearchEngine id={id} />
                   </ListItem>
                 ),
             )}

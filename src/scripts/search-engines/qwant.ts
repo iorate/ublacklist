@@ -1,7 +1,8 @@
-import { SerpHandler } from '../types';
+import { SEARCH_ENGINES } from '../../common/search-engines';
+import { SearchEngine, SerpHandler } from '../types';
 import { handleSerp } from './helpers';
 
-export function getSerpHandler(): SerpHandler {
+function getSerpHandler(): SerpHandler {
   const serpHandler = handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
@@ -144,3 +145,11 @@ export function getSerpHandler(): SerpHandler {
     getDialogTheme: serpHandler.getDialogTheme,
   };
 }
+
+export const qwant: Readonly<SearchEngine> = {
+  ...SEARCH_ENGINES.qwant,
+  messageNames: {
+    name: 'searchEngines_qwantName',
+  },
+  getSerpHandler,
+};
