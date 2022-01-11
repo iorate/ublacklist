@@ -45,11 +45,32 @@ function getSerpHandler(): SerpHandler {
     },
     controlHandlers: [
       {
-        target: '[class*=SearchFilter-module__SearchFilter___]',
+        scope: 'web',
+        target: '[class*=Web-module__container___] [class*=SearchFilter-module__SearchFilter___]',
         position: 'beforeend',
         style: 'qwant-control',
       },
       {
+        scope: 'news',
+        target: '[class*=News-module__NewsLayout___] [class*=SearchFilter-module__SearchFilter___]',
+        position: 'beforeend',
+        style: 'qwant-control',
+      },
+      {
+        scope: 'images',
+        target:
+          '[class*=Images-module__ImagesLayout___] [class*=SearchFilter-module__SearchFilter___]',
+        position: 'beforeend',
+        style: 'qwant-control',
+      },
+      {
+        scope: 'videos',
+        target: '[data-testid=videosList] [class*=SearchFilter-module__SearchFilter___]',
+        position: 'beforeend',
+        style: 'qwant-control',
+      },
+      {
+        scope: 'lite',
         target: 'section.content',
         position: 'afterbegin',
         style: 'qwant-lite-control',
@@ -57,7 +78,7 @@ function getSerpHandler(): SerpHandler {
     ],
     entryHandlers: [
       {
-        // Web
+        scope: 'web',
         target: '[domain]',
         url: 'a',
         title: 'a',
@@ -68,7 +89,7 @@ function getSerpHandler(): SerpHandler {
         },
       },
       {
-        // News
+        scope: 'news',
         target: '[class*=News-module__NewsList] > div',
         url: 'a',
         title: 'a [class*=News-module__NewsTitle]',
@@ -79,7 +100,7 @@ function getSerpHandler(): SerpHandler {
         },
       },
       {
-        // Images
+        scope: 'images',
         target: '[data-testid=imageResult]',
         url: root => `https://${root.querySelector('cite')?.textContent || ''}`,
         title: 'h2',
@@ -90,7 +111,7 @@ function getSerpHandler(): SerpHandler {
         },
       },
       {
-        // Videos
+        scope: 'videos',
         target: '[class*=Videos-module__VideoCard]',
         url: root => root.getAttribute('href'),
         title: '[class*=Videos-module__VideoCardTitle]',
@@ -101,7 +122,7 @@ function getSerpHandler(): SerpHandler {
         },
       },
       {
-        // Lite
+        scope: 'lite',
         target: 'article',
         url: root => root.querySelector('.url')?.textContent || null,
         title: 'a',
@@ -114,17 +135,22 @@ function getSerpHandler(): SerpHandler {
     ],
     pagerHandlers: [
       {
-        target: '[class*=Web-module], [class*=Stack-module__VerticalStack]',
-        innerTargets: '[domain], [class*=SearchFilter-module__SearchFilter___]',
-      },
-      {
-        target: '[class*=News-module], [class*=Stack-module__VerticalStack]',
+        target:
+          '[class*=Web-module], [class*=Web-module__container___] [class*=Stack-module__VerticalStack]',
         innerTargets:
-          '[class*=News-module__NewsList] > div, [class*=SearchFilter-module__SearchFilter___]',
+          '[domain], [class*=Web-module__container___] [class*=SearchFilter-module__SearchFilter___]',
       },
       {
-        target: '[class*=Images-module], [class*=Stack-module__VerticalStack]',
-        innerTargets: '[data-testid=imageResult], [class*=SearchFilter-module__SearchFilter___]',
+        target:
+          '[class*=News-module], [class*=News-module__NewsLayout___] [class*=Stack-module__VerticalStack]',
+        innerTargets:
+          '[class*=News-module__NewsList] > div, [class*=News-module__NewsLayout___] [class*=SearchFilter-module__SearchFilter___]',
+      },
+      {
+        target:
+          '[class*=Images-module], [class*=Images-module__ImagesLayout___] [class*=Stack-module__VerticalStack]',
+        innerTargets:
+          '[data-testid=imageResult], [class*=Images-module__ImagesLayout___] [class*=SearchFilter-module__SearchFilter___]',
       },
       {
         target: '[data-testid=videosList]',
