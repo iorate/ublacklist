@@ -113,16 +113,16 @@ export function getSerpHandler(): SerpHandler {
     ],
     pagerHandlers: [
       {
-        target: '[class*=Web-module], [class*=Stack-module__VerticalStack], div:empty',
+        target: '[class*=Web-module], [class*=Stack-module__VerticalStack]',
         innerTargets: '[domain], [class*=SearchFilter-module__SearchFilter___]',
       },
       {
-        target: '[class*=News-module], [class*=Stack-module__VerticalStack], div:empty',
+        target: '[class*=News-module], [class*=Stack-module__VerticalStack]',
         innerTargets:
           '[class*=News-module__NewsList] > div, [class*=SearchFilter-module__SearchFilter___]',
       },
       {
-        target: '[class*=Images-module], [class*=Stack-module__VerticalStack], div:empty',
+        target: '[class*=Images-module], [class*=Stack-module__VerticalStack]',
         innerTargets: '[data-testid=imageResult], [class*=SearchFilter-module__SearchFilter___]',
       },
       {
