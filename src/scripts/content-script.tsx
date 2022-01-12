@@ -100,8 +100,8 @@ class ContentScript {
     highlightColors: string[];
     dialogTheme: DialogTheme | null;
   } | null = null;
-  readonly controls: SerpControl[] = [];
-  readonly entries: SerpEntry[] = [];
+  controls: SerpControl[] = [];
+  entries: SerpEntry[] = [];
   readonly scopeStates: Record<string, { blockedEntryCount: number; showBlockedEntries: boolean }> =
     {};
   blockDialogRoot: ShadowRoot | null = null;
@@ -113,6 +113,19 @@ class ContentScript {
 
     // onSerpHead, onSerpElement
     new MutationObserver(records => {
+      if (
+        serpHandler.observeRemoval &&
+        records
+          .flatMap(record => [...record.removedNodes])
+          .some(node => node instanceof HTMLElement)
+      ) {
+        this.controls = this.controls.filter(control => control.root.isConnected);
+        const prevEntryCount = this.entries.length;
+        this.entries = this.entries.filter(entry => entry.root.isConnected);
+        if (this.entries.length < prevEntryCount) {
+          this.rejudgeAllEntries();
+        }
+      }
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {

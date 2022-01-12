@@ -148,6 +148,7 @@ export type SerpHandler = {
   onSerpHead: (colors: SerpColors) => SerpHandlerResult;
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
   getDialogTheme: () => DialogTheme;
+  observeRemoval: boolean;
 };
 
 export type SearchEngine = _SearchEngine & {

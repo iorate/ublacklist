@@ -3,7 +3,7 @@ import { SearchEngine, SerpHandler } from '../types';
 import { handleSerp } from './helpers';
 
 function getSerpHandler(): SerpHandler {
-  const serpHandler = handleSerp({
+  return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
@@ -136,14 +136,8 @@ function getSerpHandler(): SerpHandler {
       document.documentElement.classList.contains('theme-dark')
         ? 'dark'
         : 'light',
+    observeRemoval: true,
   });
-
-  return {
-    onSerpStart: serpHandler.onSerpStart,
-    onSerpHead: serpHandler.onSerpHead,
-    onSerpElement: serpHandler.onSerpElement,
-    getDialogTheme: serpHandler.getDialogTheme,
-  };
 }
 
 export const qwant: Readonly<SearchEngine> = {
