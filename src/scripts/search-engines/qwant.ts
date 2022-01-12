@@ -113,22 +113,32 @@ function getSerpHandler(): SerpHandler {
       },
     ],
     pagerHandlers: [
+      // Top page -> Web
       {
-        target: '[class*=Web-module], [class*=Stack-module__VerticalStack]',
-        innerTargets: '[domain], [class*=SearchFilter-module__SearchFilter___]',
+        target: '[class*=SearchLayout-module__container___]',
+        innerTargets: '[class*=SearchFilter-module__SearchFilter___]',
       },
       {
-        target: '[class*=News-module], [class*=Stack-module__VerticalStack]',
+        target: '[class*=Web-module__container___]',
+        innerTargets: '[class*=SearchFilter-module__SearchFilter___], [domain]',
+      },
+      {
+        target: '[class*=News-module__NewsLayout___]',
         innerTargets:
-          '[class*=News-module__NewsList] > div, [class*=SearchFilter-module__SearchFilter___]',
+          '[class*=SearchFilter-module__SearchFilter___], [class*=News-module__NewsList___] > div',
       },
       {
-        target: '[class*=Images-module], [class*=Stack-module__VerticalStack]',
-        innerTargets: '[data-testid=imageResult], [class*=SearchFilter-module__SearchFilter___]',
+        target: '[class*=Images-module__ImagesLayout___]',
+        innerTargets: '[class*=SearchFilter-module__SearchFilter___], [data-testid=imageResult]',
       },
       {
         target: '[data-testid=videosList]',
-        innerTargets: '[class*=SearchFilter-module__SearchFilter___]',
+        innerTargets:
+          '[class*=SearchFilter-module__SearchFilter___], [class*=Videos-module__VideoCard]',
+      },
+      {
+        target: '[class*=Stack-module__VerticalStack]',
+        innerTargets: '[domain], [class*=News-module__NewsList___] > div',
       },
     ],
     getDialogTheme: () =>
