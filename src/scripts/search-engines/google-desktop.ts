@@ -410,11 +410,11 @@ export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
     return null;
   }
   return {
+    ...serpHandler,
     onSerpStart: () => {
       updateDarkMode();
       return serpHandler.onSerpStart();
     },
-    onSerpHead: serpHandler.onSerpHead,
     onSerpElement: element => {
       if (
         (element instanceof HTMLLinkElement && element.relList.contains('stylesheet')) ||
