@@ -81,7 +81,10 @@ function getSerpHandler(): SerpHandler {
       {
         // Images
         target: '[data-testid=imageResult]',
-        url: root => `https://${root.querySelector('cite')?.textContent || ''}`,
+        url: root => {
+          const host = root.querySelector('cite')?.textContent;
+          return host != null ? `https://${host}/` : null;
+        },
         title: 'h2',
         actionTarget: '[class*=Text-module__permaLink]',
         actionStyle: {
@@ -103,7 +106,7 @@ function getSerpHandler(): SerpHandler {
       {
         // Lite
         target: 'article',
-        url: root => root.querySelector('.url')?.textContent || null,
+        url: root => root.querySelector('.url')?.textContent ?? null,
         title: 'a',
         actionTarget: '.url',
         actionStyle: {
