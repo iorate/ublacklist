@@ -74,7 +74,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '.IsZvec',
+        target: '.IsZvec, [data-content-feature]',
         level: target => {
           const inner_g = target.closest<HTMLElement>('.g');
           if (!inner_g) {
@@ -242,12 +242,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
+        innerTargets:
+          '.YwonT, .IsZvec, [data-content-feature], .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
       },
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.IsZvec, .dXiKIc',
+        innerTargets: '.IsZvec, [data-content-feature], .dXiKIc',
       },
     ],
   }),
