@@ -74,7 +74,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '.IsZvec, [data-content-feature]',
+        target: '[data-content-feature="1"]',
+        level: 2,
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
+      },
+      {
+        target: '.IsZvec',
         level: target => {
           const inner_g = target.closest<HTMLElement>('.g');
           if (!inner_g) {
@@ -100,12 +108,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') || root,
-        actionStyle: actionRoot => {
-          actionRoot.className = css(
-            actionRoot.matches('.eFM0qc > *') ? desktopRegularActionStyle : { marginTop: '4px' },
-          );
-        },
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
       // Featured Snippet
       {
@@ -243,12 +247,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, .IsZvec, [data-content-feature], .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
+          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
       },
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.IsZvec, [data-content-feature], .dXiKIc',
+        innerTargets: '[data-content-feature="1"], .IsZvec, .dXiKIc',
       },
     ],
   }),
