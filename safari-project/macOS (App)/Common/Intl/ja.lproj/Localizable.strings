@@ -1,0 +1,26 @@
+/* 
+  Localizable.strings
+  uBlacklist for Safari
+
+  Created by Selina on 3/2/2021.
+  
+*/
+
+"step_enable_title" = "Enable uBlacklist";
+"step_enable_desc" = "Go to Safari Extention Preference and Enable uBlacklist for Safari";
+
+"step_permission_title" = "Grant Access Permissions";
+"step_permission_desc" = "Click uBlacklist icon on Safari ToolBar, then click 'Always Allow on Every Website'";
+
+"step_check_title" = "Check for Validity";
+"step_check_desc" = "Open the search engine and check if the plugin is in effect";
+"permission_guide_title" = "How to grant permission";
+
+"support_title" = "Support";
+
+"manual_title" = "Manual";
+"basic_btn_title" = "Basic";
+"advanced_btn_title" = "Advanced";
+
+"homepage_title" = "Homepage";
+"feedback_title" = "Feedback";
