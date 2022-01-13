@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 /* eslint-enable */
-import { searchEngineMatches } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';
 import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
@@ -19,6 +18,7 @@ import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { sendMessage } from './messages';
 import { Ruleset } from './ruleset';
+import { SEARCH_ENGINES } from './search-engines';
 import { MatchPattern, makeAltURL } from './utilities';
 
 const Loading: React.VFC = () => {
@@ -96,9 +96,6 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
                       // #else
                       apis.tabs.executeScript(tabId, {
                         file: '/scripts/content-script.js',
-                        // #if !SAFARI
-                        runAt: 'document_start',
-                        // #endif
                       }),
                       // #endif
                     ]);
@@ -138,8 +135,8 @@ const Popup: React.VFC = () => {
       const altURL = makeAltURL(url);
       const match =
         altURL &&
-        Object.values(searchEngineMatches)
-          .flat()
+        Object.values(SEARCH_ENGINES)
+          .flatMap(({ contentScripts }) => contentScripts.flatMap(({ matches }) => matches))
           .find(match => new MatchPattern(match).test(altURL));
       if (match != null) {
         /* #if CHROME_MV3
@@ -151,9 +148,6 @@ const Popup: React.VFC = () => {
         // #else
         const [active] = await apis.tabs.executeScript(tabId, {
           file: '/scripts/active.js',
-          // #if !SAFARI
-          runAt: 'document_start',
-          // #endif
         });
         // #endif
         setState({

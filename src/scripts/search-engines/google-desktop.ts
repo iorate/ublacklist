@@ -74,6 +74,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
+        target: '[data-content-feature="1"]',
+        level: 2,
+        url: 'a',
+        title: 'h3',
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
+      },
+      {
         target: '.IsZvec',
         level: target => {
           const inner_g = target.closest<HTMLElement>('.g');
@@ -100,12 +108,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: root => root.querySelector<HTMLElement>('.eFM0qc') || root,
-        actionStyle: actionRoot => {
-          actionRoot.className = css(
-            actionRoot.matches('.eFM0qc > *') ? desktopRegularActionStyle : { marginTop: '4px' },
-          );
-        },
+        actionTarget: '.eFM0qc',
+        actionStyle: desktopRegularActionStyle,
       },
       // Featured Snippet
       {
@@ -242,12 +246,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
-        innerTargets: '.YwonT, .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
+        innerTargets:
+          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
       },
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.IsZvec, .dXiKIc',
+        innerTargets: '[data-content-feature="1"], .IsZvec, .dXiKIc',
       },
     ],
   }),
@@ -410,11 +415,11 @@ export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
     return null;
   }
   return {
+    ...serpHandler,
     onSerpStart: () => {
       updateDarkMode();
       return serpHandler.onSerpStart();
     },
-    onSerpHead: serpHandler.onSerpHead,
     onSerpElement: element => {
       if (
         (element instanceof HTMLLinkElement && element.relList.contains('stylesheet')) ||

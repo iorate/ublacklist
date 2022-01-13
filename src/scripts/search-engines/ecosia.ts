@@ -1,7 +1,8 @@
-import { SerpHandler } from '../types';
+import { SEARCH_ENGINES } from '../../common/search-engines';
+import { SearchEngine, SerpHandler } from '../types';
 import { handleSerp } from './helpers';
 
-export function getSerpHandler(): SerpHandler {
+function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
@@ -41,3 +42,11 @@ export function getSerpHandler(): SerpHandler {
     ],
   });
 }
+
+export const ecosia: Readonly<SearchEngine> = {
+  ...SEARCH_ENGINES.ecosia,
+  messageNames: {
+    name: 'searchEngines_ecosiaName',
+  },
+  getSerpHandler,
+};

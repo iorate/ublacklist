@@ -130,5 +130,6 @@ exportAsMessages('_locales/ru/messages.json', {
   searchEngines_bingName: 'Bing',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
 });

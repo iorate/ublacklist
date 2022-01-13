@@ -119,6 +119,7 @@ export type MessageName =
   | 'searchEngines_bingName'
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
+  | 'searchEngines_qwantName'
   | 'searchEngines_startpageName';
 
 export type MessageName1 =

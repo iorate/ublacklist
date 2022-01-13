@@ -252,5 +252,7 @@ exportAsMessages('_locales/es/messages.json', {
 
   searchEngines_ecosiaName: 'Ecosia',
 
+  searchEngines_qwantName: 'Qwant',
+
   searchEngines_startpageName: 'Startpage.com',
 });

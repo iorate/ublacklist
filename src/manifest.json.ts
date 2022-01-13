@@ -2,7 +2,7 @@
 import { parseMatchPattern } from './common/match-pattern';
 */
 // #endif
-import { searchEngineMatches } from './common/search-engines';
+import { SEARCH_ENGINES } from './common/search-engines';
 
 exportAsJSON('manifest.json', {
   background: {
@@ -34,33 +34,41 @@ exportAsJSON('manifest.json', {
     default_popup: 'pages/popup.html',
   },
 
-  content_scripts: [
-    {
+  /* #if CHROME_MV3
+  content_scripts: Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
+    contentScripts.map(({ matches, runAt }) => ({
       js: ['scripts/content-script.js'],
-      /* #if CHROME_MV3
-      matches: Object.values(searchEngineMatches).flat(),
-      */
-      // #elif !SAFARI
-      matches: searchEngineMatches.google,
-      /* #else
+      matches,
+      run_at: runAt,
+    })),
+  ),
+  */
+  // #elif !SAFARI
+  content_scripts: SEARCH_ENGINES.google.contentScripts.map(({ matches, runAt }) => ({
+    js: ['scripts/content-script.js'],
+    matches,
+    run_at: runAt,
+  })),
+  /* #else
+  content_scripts: Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
+    contentScripts.map(({ matches, runAt }) => ({
+      js: ['scripts/content-script.js'],
       matches: [
         ...new Set(
-          Object.values(searchEngineMatches)
-            .flat()
-            .map((match: string) => {
-              const parsed = parseMatchPattern(match);
-              if (!parsed) {
-                throw new Error(`Invalid match pattern: ${match}`);
-              }
-              return `${parsed.scheme}://${parsed.host}/*`;
-            }),
+          matches.map(match => {
+            const parsed = parseMatchPattern(match);
+            if (!parsed) {
+              throw new Error(`Invalid match pattern: ${match}`);
+            }
+            return `${parsed.scheme}://${parsed.host}/*`;
+          }),
         ),
       ],
-      */
-      // #endif
-      run_at: 'document_start',
-    },
-  ],
+      run_at: runAt,
+    })),
+  ),
+  */
+  // #endif
 
   // #if !CHROME_MV3 && DEVELOPMENT
   content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self';",
