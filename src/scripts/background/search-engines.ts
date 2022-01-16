@@ -1,5 +1,5 @@
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
-import { SEARCH_ENGINES } from '../search-engines';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {

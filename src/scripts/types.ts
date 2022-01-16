@@ -152,9 +152,6 @@ export type SerpHandler = {
 };
 
 export type SearchEngine = _SearchEngine & {
-  messageNames: {
-    name: MessageName0;
-  };
   getSerpHandler(): SerpHandler | null;
 };
 // #endregion SearchEngines

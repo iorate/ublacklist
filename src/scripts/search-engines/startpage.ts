@@ -93,8 +93,5 @@ function getSerpHandler(): SerpHandler {
 
 export const startpage: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.startpage,
-  messageNames: {
-    name: 'searchEngines_startpageName',
-  },
   getSerpHandler,
 };

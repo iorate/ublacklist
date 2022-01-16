@@ -45,8 +45,5 @@ function getSerpHandler(): SerpHandler {
 
 export const ecosia: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.ecosia,
-  messageNames: {
-    name: 'searchEngines_ecosiaName',
-  },
   getSerpHandler,
 };

@@ -6,9 +6,6 @@ import { getMobileSerpHandler } from './bing-mobile';
 
 export const bing: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.bing,
-  messageNames: {
-    name: 'searchEngines_bingName',
-  },
   getSerpHandler() {
     const path = new URL(window.location.href).pathname;
     return mobile({ tablet: true }) ? getMobileSerpHandler(path) : getDesktopSerpHandler(path);

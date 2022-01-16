@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 /* eslint-enable */
+import { SEARCH_ENGINES } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';
 import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
@@ -18,7 +19,6 @@ import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { sendMessage } from './messages';
 import { Ruleset } from './ruleset';
-import { SEARCH_ENGINES } from './search-engines';
 import { MatchPattern, makeAltURL } from './utilities';
 
 const Loading: React.VFC = () => {
