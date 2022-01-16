@@ -3900,6 +3900,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prettier@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "@types/prettier@npm:2.4.3"
+  checksum: b240434daabac54700c862b0bb52a83fec396e0e9c847447119ba41fd8404d79aadfa174e6306fb094b29efadac586344b7606c3a71c286b71755ab2579d54df
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*":
   version: 15.7.4
   resolution: "@types/prop-types@npm:15.7.4"
@@ -19208,7 +19215,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"terser-webpack-plugin@npm:^5.1.3, terser-webpack-plugin@npm:^5.2.4":
+"terser-webpack-plugin@npm:^5.1.3, terser-webpack-plugin@npm:^5.2.4, terser-webpack-plugin@npm:^5.3.0":
   version: 5.3.0
   resolution: "terser-webpack-plugin@npm:5.3.0"
   dependencies:
@@ -19799,6 +19806,7 @@ resolve@^2.0.0-next.3:
     "@types/glob": ^7.2.0
     "@types/jest": ^27.0.3
     "@types/node": ^16.11.17
+    "@types/prettier": ^2.4.3
     "@types/punycode": ^2.1.0
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
@@ -19843,6 +19851,7 @@ resolve@^2.0.0-next.3:
     semantic-release: ^17.4.7
     semantic-release-chrome: ^1.1.3
     semantic-release-firefox-add-on: ^0.2.8
+    terser-webpack-plugin: ^5.3.0
     typescript: ^4.5.4
     webpack: ^5.65.0
     webpack-cli: ^4.9.1
