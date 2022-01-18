@@ -160,7 +160,10 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
       minimizer: [
         new TerserPlugin({
           terserOptions: {
-            compress: false,
+            compress: {
+              defaults: false,
+              unused: true,
+            },
             mangle: false,
           },
         }),
