@@ -255,6 +255,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       alias: {
         dayjs: 'dayjs/esm',
         goober: path.resolve(__dirname, 'node_modules/goober/src'),
+        mpsl: path.resolve(__dirname, 'node_modules/mpsl/src/mpsl.ts'),
         preact$: path.resolve(__dirname, 'node_modules/preact/src'),
         'preact/hooks': path.resolve(__dirname, 'node_modules/preact/hooks/src'),
         react: path.resolve(__dirname, 'node_modules/preact/compat/src'),
