@@ -1,7 +1,5 @@
-/* eslint-disable import/no-duplicates */
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
 import { SEARCH_ENGINES } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';

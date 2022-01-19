@@ -42,7 +42,6 @@
     "esbuild-register": "^3.3.1",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
@@ -76,8 +75,6 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "plugin:import/recommended",
-      "plugin:import/typescript",
       "plugin:jsx-a11y/recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
@@ -102,6 +99,7 @@
       "project": "./tsconfig.json"
     },
     "plugins": [
+      "import",
       "unused-imports"
     ],
     "rules": {
@@ -138,20 +136,6 @@
       "unused-imports/no-unused-vars": "warn"
     },
     "settings": {
-      "import/resolver": {
-        "alias": {
-          "map": [
-            [
-              "react",
-              "preact/compat"
-            ],
-            [
-              "react-dom",
-              "preact/compat"
-            ]
-          ]
-        }
-      },
       "react": {
         "version": "16"
       }

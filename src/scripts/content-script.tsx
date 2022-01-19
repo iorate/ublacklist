@@ -1,7 +1,5 @@
-/* eslint-disable import/no-duplicates */
 import React, { useLayoutEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
 import { BlockDialog } from './block-dialog';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';

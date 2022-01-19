@@ -1,5 +1,4 @@
 import path from 'path';
-// eslint-disable-next-line import/default
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
