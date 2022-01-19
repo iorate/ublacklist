@@ -7,7 +7,6 @@ import glob from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { LicenseWebpackPlugin } from 'license-webpack-plugin';
 import prettier from 'prettier';
-import TerserPlugin from 'terser-webpack-plugin';
 import webpack from 'webpack';
 
 function getEnv<Value extends string>(
@@ -57,7 +56,7 @@ class PrettierPlugin implements webpack.WebpackPluginInstance {
     compiler.hooks.compilation.tap('PrettierPlugin', compilation => {
       compilation.hooks.processAssets.tap(
         {
-          name: 'ExportAsJSONPlugin',
+          name: 'PrettierPlugin',
           // Run after html-webpack-plugin
           stage: webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE + 1,
         },
@@ -67,11 +66,22 @@ class PrettierPlugin implements webpack.WebpackPluginInstance {
             throw new Error('No prettier config was found');
           }
           for (const [name, source] of Object.entries(assets)) {
-            if (/\.(html|js|json)$/.test(name)) {
+            const parser: prettier.RequiredOptions['parser'] | null = name.endsWith('.html')
+              ? 'html'
+              : name.endsWith('.js')
+              ? (text, { babel }) => {
+                  const ast = babel(text) as { comments?: unknown };
+                  delete ast.comments;
+                  return ast;
+                }
+              : name.endsWith('.json')
+              ? 'json'
+              : null;
+            if (parser) {
               compilation.updateAsset(
                 name,
                 new webpack.sources.RawSource(
-                  prettier.format(source.source().toString(), { ...options, filepath: name }),
+                  prettier.format(source.source().toString(), { ...options, parser }),
                 ),
               );
             }
@@ -157,17 +167,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
       // https://developer.chrome.com/docs/webstore/review-process/
       // Minification is allowed, but it can also make reviewing extension code more difficult.
       // Where possible, consider submitting your code as authored.
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            compress: {
-              defaults: false,
-              unused: true,
-            },
-            mangle: false,
-          },
-        }),
-      ],
+      minimize: false,
     },
 
     output: {
