@@ -102,6 +102,7 @@
       "import",
       "unused-imports"
     ],
+    "reportUnusedDisableDirectives": true,
     "rules": {
       "@typescript-eslint/no-unused-vars": "off",
       "object-shorthand": "warn",

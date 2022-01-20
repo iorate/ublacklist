@@ -29,7 +29,6 @@ let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] =
 */
 // #endif
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function registerContentScript(): Promise<void> {
   /* #if FIREFOX
   await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));
