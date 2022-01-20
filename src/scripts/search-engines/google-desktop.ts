@@ -165,7 +165,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Top Story (Vertical)
       {
         target: '.yG4QQe .WlydOe',
-        level: 1,
+        level: target => {
+          if (target.matches('.JJZKK *')) {
+            // Latest, Top story (Horizontal)
+            return null;
+          }
+          return target.parentElement;
+        },
         url: '.WlydOe',
         title: '.mCBkyc',
         actionTarget: '.S1FAPd',
