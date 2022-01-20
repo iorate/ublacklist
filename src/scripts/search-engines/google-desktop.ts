@@ -181,12 +181,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'g-link > a',
         title: 'a > h3',
         actionTarget: root => {
-          const aboutThisResult = root.querySelector<HTMLElement>('.ellip > .oERM6');
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          return aboutThisResult ? aboutThisResult.parentElement! : root.querySelector('.ellip');
+          const aboutThisResult = root.querySelector<HTMLElement>('.ellip > .hzVK5c');
+          return aboutThisResult ? aboutThisResult.parentElement : root.querySelector('.ellip');
         },
         actionPosition: target => {
-          const aboutThisResult = target.querySelector<HTMLElement>(':scope > .oERM6');
+          const aboutThisResult = target.querySelector<HTMLElement>(':scope > .hzVK5c');
           return aboutThisResult
             ? insertElement('span', aboutThisResult, 'beforebegin')
             : insertElement('span', target, 'beforeend');
