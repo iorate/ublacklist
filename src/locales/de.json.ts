@@ -86,7 +86,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_turnOnSyncDialog_title: 'Synchronisation einschalten',
   options_turnOnSyncDialog_turnOnSyncButton: 'Einschalten',
   options_turnOnSyncDialog_altFlowDescription:
-    'Sie werden vor der Authentifizierung möglicherweise nach Berechtigtungen für den Zugriff auf $1 geafragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.',
+    'Sie werden vor der Authentifizierung möglicherweise nach Berechtigungen für den Zugriff auf $1 geafragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Autorisationsschlüssel',
   options_turnOffSync: 'Ausschalten',
   options_syncResult: 'Letzte Synchronisation',
@@ -103,7 +103,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_subscriptionTitle: 'Abonnement',
   options_subscriptionFeature: 'Sperrlisten abonnieren',
   options_subscriptionFeatureDescription:
-    'Wenn Sie ein Abonnement hinzufügen, werdne die Sperrlisten regelmäßig von der festgelegten URL heruntergeladen.',
+    'Wenn Sie ein Abonnement hinzufügen, werden die Sperrlisten regelmäßig von der festgelegten URL heruntergeladen.',
   options_addSubscriptionButton: 'Add a subscription',
   options_subscriptionNameHeader: 'Name',
   options_subscriptionURLHeader: 'URL',

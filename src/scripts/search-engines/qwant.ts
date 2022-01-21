@@ -155,8 +155,5 @@ function getSerpHandler(): SerpHandler {
 
 export const qwant: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.qwant,
-  messageNames: {
-    name: 'searchEngines_qwantName',
-  },
   getSerpHandler,
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
@@ -30,7 +31,6 @@ import { usePrevious } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
-import { SEARCH_ENGINES } from '../search-engines';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';

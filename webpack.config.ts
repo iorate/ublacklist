@@ -1,11 +1,11 @@
 import path from 'path';
-// eslint-disable-next-line import/default
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import glob from 'glob';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { LicenseWebpackPlugin } from 'license-webpack-plugin';
+import prettier from 'prettier';
 import webpack from 'webpack';
 
 function getEnv<Value extends string>(
@@ -18,6 +18,77 @@ function getEnv<Value extends string>(
     throw new Error(`${key} shall be one of: ${possibleValues.join(', ')}`);
   }
   return value as Value;
+}
+
+// Generate *.json from *.json.js
+class ExportAsJSONPlugin implements webpack.WebpackPluginInstance {
+  apply(compiler: webpack.Compiler): void {
+    compiler.hooks.compilation.tap('ExportAsJSONPlugin', compilation => {
+      compilation.hooks.processAssets.tap(
+        {
+          name: 'ExportAsJSONPlugin',
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_DERIVED,
+        },
+        assets => {
+          for (const [name, source] of Object.entries(assets)) {
+            if (name.endsWith('.json.js')) {
+              compilation.deleteAsset(name);
+              const exportAsJSON = (filename: string, value: unknown): void => {
+                compilation.emitAsset(
+                  filename,
+                  new webpack.sources.RawSource(JSON.stringify(value, null, 2)),
+                );
+              };
+              // eslint-disable-next-line @typescript-eslint/no-implied-eval
+              new Function('exportAsJSON', source.source().toString())(exportAsJSON);
+            }
+          }
+        },
+      );
+    });
+  }
+}
+
+// Format *.html, *.js, and *.json
+class PrettierPlugin implements webpack.WebpackPluginInstance {
+  apply(compiler: webpack.Compiler): void {
+    compiler.hooks.compilation.tap('PrettierPlugin', compilation => {
+      compilation.hooks.processAssets.tap(
+        {
+          name: 'PrettierPlugin',
+          // Run after html-webpack-plugin
+          stage: webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE + 1,
+        },
+        assets => {
+          const options = prettier.resolveConfig.sync(__filename);
+          if (!options) {
+            throw new Error('No prettier config was found');
+          }
+          for (const [name, source] of Object.entries(assets)) {
+            const parser: prettier.RequiredOptions['parser'] | null = name.endsWith('.html')
+              ? 'html'
+              : name.endsWith('.js')
+              ? (text, { babel }) => {
+                  const ast = babel(text) as { comments?: unknown };
+                  delete ast.comments;
+                  return ast;
+                }
+              : name.endsWith('.json')
+              ? 'json'
+              : null;
+            if (parser) {
+              compilation.updateAsset(
+                name,
+                new webpack.sources.RawSource(
+                  prettier.format(source.source().toString(), { ...options, parser }),
+                ),
+              );
+            }
+          }
+        },
+      );
+    });
+  }
 }
 
 export default (env: Readonly<Record<string, unknown>>): webpack.Configuration => {
@@ -117,33 +188,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         systemvars: true,
       }),
 
-      // ExportAsJSONPlugin: *.json.js -> *.json
-      {
-        apply(compiler: webpack.Compiler): void {
-          compiler.hooks.compilation.tap('ExportAsJSONPlugin', compilation => {
-            compilation.hooks.processAssets.tap(
-              {
-                name: 'ExportAsJSONPlugin',
-                stage: webpack.Compilation.PROCESS_ASSETS_STAGE_PRE_PROCESS,
-              },
-              assets => {
-                for (const [name, source] of Object.entries(assets)) {
-                  if (name.endsWith('.json.js')) {
-                    delete assets[name];
-                    const exportAsJSON = (filename: string, value: unknown): void => {
-                      assets[filename] = new webpack.sources.RawSource(
-                        JSON.stringify(value, null, 2),
-                      );
-                    };
-                    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-                    new Function('exportAsJSON', source.source().toString())(exportAsJSON);
-                  }
-                }
-              },
-            );
-          });
-        },
-      },
+      new ExportAsJSONPlugin(),
 
       ...(typecheck === 'typecheck'
         ? [
@@ -162,6 +207,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
           'color-scheme': 'dark light',
           viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
+        minify: false,
         title: 'uBlacklist Options',
       }),
 
@@ -172,6 +218,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
           'color-scheme': 'dark light',
           viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         },
+        minify: false,
         title: 'uBlacklist Popup',
       }),
 
@@ -199,12 +246,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         },
         perChunkOutput: false,
       }) as unknown as webpack.WebpackPluginInstance,
+
+      ...(mode === 'production' ? [new PrettierPlugin()] : []),
     ],
 
     resolve: {
       alias: {
-        react: 'preact/compat',
-        'react-dom': 'preact/compat',
+        dayjs: 'dayjs/esm',
+        goober: path.resolve(__dirname, 'node_modules/goober/src'),
+        mpsl: path.resolve(__dirname, 'node_modules/mpsl/src/mpsl.ts'),
+        preact$: path.resolve(__dirname, 'node_modules/preact/src'),
+        'preact/hooks': path.resolve(__dirname, 'node_modules/preact/hooks/src'),
+        react: path.resolve(__dirname, 'node_modules/preact/compat/src'),
+        'react-dom': path.resolve(__dirname, 'node_modules/preact/compat/src'),
       },
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },

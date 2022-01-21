@@ -1,3 +1,5 @@
+import { MessageName0 } from './locales';
+
 export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage';
 
 export type SearchEngine = {
@@ -5,6 +7,9 @@ export type SearchEngine = {
     matches: string[];
     runAt: 'document_start' | 'document_end' | 'document_idle';
   }[];
+  messageNames: {
+    name: MessageName0;
+  };
 };
 
 export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngine>>> = {
@@ -209,6 +214,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_googleName',
+    },
   },
   bing: {
     contentScripts: [
@@ -226,6 +234,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_bingName',
+    },
   },
   duckduckgo: {
     contentScripts: [
@@ -245,6 +256,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_duckduckgoName',
+    },
   },
   ecosia: {
     contentScripts: [
@@ -253,6 +267,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_ecosiaName',
+    },
   },
   qwant: {
     contentScripts: [
@@ -266,6 +283,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_qwantName',
+    },
   },
   startpage: {
     contentScripts: [
@@ -278,5 +298,8 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         runAt: 'document_start',
       },
     ],
+    messageNames: {
+      name: 'searchEngines_startpageName',
+    },
   },
 };

@@ -1,5 +1,5 @@
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
-import { SEARCH_ENGINES } from '../search-engines';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
@@ -29,7 +29,6 @@ let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] =
 */
 // #endif
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function registerContentScript(): Promise<void> {
   /* #if FIREFOX
   await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));

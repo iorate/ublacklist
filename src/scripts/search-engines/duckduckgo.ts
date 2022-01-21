@@ -214,9 +214,6 @@ const htmlSerpHandler = handleSerp({
 
 export const duckduckgo: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.duckduckgo,
-  messageNames: {
-    name: 'searchEngines_duckduckgoName',
-  },
   getSerpHandler() {
     // #if CHROME
     return new URL(window.location.href).hostname === 'html.duckduckgo.com'

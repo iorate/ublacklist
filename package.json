@@ -22,6 +22,7 @@
     "@types/glob": "^7.2.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.17",
+    "@types/prettier": "^2.4.3",
     "@types/punycode": "^2.1.0",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -41,7 +42,6 @@
     "esbuild-register": "^3.3.1",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
@@ -56,7 +56,7 @@
     "jest": "^27.4.5",
     "license-webpack-plugin": "^4.0.0",
     "microstruct": "^1.0.0",
-    "mpsl": "^3.0.3",
+    "mpsl": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "preact": "10.6.4",
     "prettier": "^2.5.1",
@@ -75,8 +75,6 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "plugin:import/recommended",
-      "plugin:import/typescript",
       "plugin:jsx-a11y/recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
@@ -101,8 +99,10 @@
       "project": "./tsconfig.json"
     },
     "plugins": [
+      "import",
       "unused-imports"
     ],
+    "reportUnusedDisableDirectives": true,
     "rules": {
       "@typescript-eslint/no-unused-vars": "off",
       "object-shorthand": "warn",
@@ -137,20 +137,6 @@
       "unused-imports/no-unused-vars": "warn"
     },
     "settings": {
-      "import/resolver": {
-        "alias": {
-          "map": [
-            [
-              "react",
-              "preact/compat"
-            ],
-            [
-              "react-dom",
-              "preact/compat"
-            ]
-          ]
-        }
-      },
       "react": {
         "version": "16"
       }
