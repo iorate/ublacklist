@@ -161,13 +161,13 @@ const AddSubscriptionDialog: React.VFC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button {...(!ok ? { className: FOCUS_END_CLASS } : {})} onClick={close}>
+            <Button className={!ok ? FOCUS_END_CLASS : ''} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              {...(ok ? { className: FOCUS_END_CLASS } : {})}
+              className={ok ? FOCUS_END_CLASS : ''}
               disabled={!ok}
               primary
               onClick={async () => {
