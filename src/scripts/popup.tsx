@@ -6,7 +6,7 @@ import { apis } from './apis';
 import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
 import { Baseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
+import { FOCUS_DEFAULT_CLASS, FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { DialogFooter, DialogHeader, DialogTitle, EmbeddedDialog } from './components/dialog';
 import { Icon } from './components/icon';
 import { Row, RowItem } from './components/row';
@@ -66,7 +66,11 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
           {active ? (
             <Row>
               <RowItem>
-                <Button className={FOCUS_END_CLASS} primary onClick={() => window.close()}>
+                <Button
+                  className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
+                  primary
+                  onClick={() => window.close()}
+                >
                   {translate('okButton')}
                 </Button>
               </RowItem>
@@ -78,7 +82,7 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
               </RowItem>
               <RowItem>
                 <Button
-                  className={FOCUS_END_CLASS}
+                  className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
                   primary
                   onClick={async () => {
                     // In Chrome, the popup is closed immediately after 'permissions.request'!

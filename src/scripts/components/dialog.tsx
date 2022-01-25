@@ -1,8 +1,31 @@
 import * as Goober from 'goober';
 import React, { useLayoutEffect, useMemo, useRef } from 'react';
-import { DIALOG_Z_INDEX, FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
+import {
+  DIALOG_Z_INDEX,
+  FOCUS_DEFAULT_CLASS,
+  FOCUS_END_CLASS,
+  FOCUS_START_CLASS,
+} from './constants';
 import { applyClassName, useInnerRef } from './helpers';
 import { useClassName } from './utilities';
+
+function getFocusedElement(dialog: HTMLElement): Element | null {
+  return (dialog.getRootNode() as Document | ShadowRoot).activeElement;
+}
+
+function focusDefaultOrStart(dialog: HTMLDivElement): void {
+  const defaultOrStart =
+    dialog.querySelector(`.${FOCUS_DEFAULT_CLASS}`) ||
+    dialog.querySelector(`.${FOCUS_START_CLASS}`);
+  if (defaultOrStart instanceof HTMLElement || defaultOrStart instanceof SVGElement) {
+    defaultOrStart.focus();
+    if (getFocusedElement(dialog) !== defaultOrStart) {
+      dialog.focus();
+    }
+  } else {
+    dialog.focus();
+  }
+}
 
 function handleKeyDown(
   e: React.KeyboardEvent<HTMLDivElement>,
@@ -55,9 +78,11 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
 
   useLayoutEffect(() => {
     if (open) {
-      prevFocus.current = document.activeElement;
-      innerRef.current?.querySelector<HTMLElement>(`.${FOCUS_START_CLASS}`)?.focus();
       document.documentElement.classList.add(rootClassName);
+      prevFocus.current = document.activeElement;
+      if (innerRef.current) {
+        focusDefaultOrStart(innerRef.current);
+      }
     } else {
       if (prevFocus.current instanceof HTMLElement || prevFocus.current instanceof SVGElement) {
         prevFocus.current.focus();
@@ -69,8 +94,7 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
   }, [open]);
   useLayoutEffect(() => {
     if (open && innerRef.current) {
-      const currFocus = (innerRef.current.getRootNode() as Document | ShadowRoot).activeElement;
-      if (!innerRef.current.contains(currFocus)) {
+      if (!innerRef.current.contains(getFocusedElement(innerRef.current))) {
         innerRef.current.focus();
       }
     }
@@ -202,6 +226,13 @@ export type EmbeddedDialogProps = JSX.IntrinsicElements['div'] & {
 export const EmbeddedDialog = React.forwardRef<HTMLDivElement, EmbeddedDialogProps>(
   function EmbeddedDialog({ close, width, ...props }, ref) {
     const innerRef = useInnerRef(ref);
+    useLayoutEffect(() => {
+      if (innerRef.current) {
+        focusDefaultOrStart(innerRef.current);
+      }
+      // 'innerRef' does not change between renders.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const className = useClassName(
       theme => ({
