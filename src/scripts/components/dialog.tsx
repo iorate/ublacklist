@@ -9,7 +9,6 @@ function handleKeyDown(
   dialog: HTMLDivElement,
   close: () => void,
 ): void {
-  e.stopPropagation();
   if (e.nativeEvent.isComposing) {
     return;
   }
@@ -68,6 +67,14 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
     // 'innerRef' and 'rootClass' do not change between renders.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
+  useLayoutEffect(() => {
+    if (open && innerRef.current) {
+      const currFocus = (innerRef.current.getRootNode() as Document | ShadowRoot).activeElement;
+      if (!innerRef.current.contains(currFocus)) {
+        innerRef.current.focus();
+      }
+    }
+  });
 
   const wrapperClassName = useClassName(
     () => ({
@@ -91,6 +98,7 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
       boxShadow: '0 0 16px rgba(0, 0, 0, 0.12), 0 16px 16px rgba(0, 0, 0, 0.24)',
       maxHeight: '100%',
       maxWidth: '100%',
+      outline: 'none',
       overflowY: 'auto',
       padding: '1.5em',
       position: 'relative',
@@ -100,28 +108,30 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
   );
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className={wrapperClassName}
       tabIndex={-1}
-      onClick={e => {
+      onPointerDown={e => {
         if (e.target === e.currentTarget) {
           close();
         }
       }}
-      onKeyDown={e => {
-        if (innerRef.current) {
-          handleKeyDown(e, innerRef.current, close);
-        }
-      }}
-      onKeyPress={e => e.stopPropagation()}
-      onKeyUp={e => e.stopPropagation()}
     >
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <div
         {...applyClassName(props, dialogClassName)}
         aria-modal={open}
         ref={innerRef}
         role="dialog"
+        tabIndex={-1}
+        onKeyDown={e => {
+          e.stopPropagation();
+          if (innerRef.current) {
+            handleKeyDown(e, innerRef.current, close);
+          }
+        }}
+        onKeyPress={e => e.stopPropagation()}
+        onKeyUp={e => e.stopPropagation()}
       />
     </div>
   );
@@ -202,10 +212,10 @@ export const EmbeddedDialog = React.forwardRef<HTMLDivElement, EmbeddedDialogPro
         maxWidth: '100%',
         width,
         /* #else
-          [`@media (min-device-width: ${width})`]: {
-            minWidth: width,
-          },
-          */
+        [`@media (min-device-width: ${width})`]: {
+          minWidth: width,
+        },
+        */
         // #endif
       }),
       [width],
