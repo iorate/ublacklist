@@ -247,13 +247,13 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
           <RowItem>
             <Row>
               <RowItem>
-                <Button {...(!ok ? { class: FOCUS_END_CLASS } : {})} onClick={close}>
+                <Button className={!ok ? FOCUS_END_CLASS : ''} onClick={close}>
                   {translate('cancelButton')}
                 </Button>
               </RowItem>
               <RowItem>
                 <Button
-                  {...(ok ? { class: FOCUS_END_CLASS } : {})}
+                  className={ok ? FOCUS_END_CLASS : ''}
                   disabled={!ok}
                   primary
                   onClick={async () => {
