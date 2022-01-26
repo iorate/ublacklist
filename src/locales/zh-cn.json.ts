@@ -55,6 +55,9 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   options_skipBlockDialogLabel: '加入黑名单时不显示确认提示框。',
   options_hideBlockLinksLabel: '不在搜索结果中显示「加入黑名单」按钮',
   options_hideControlLabel: '不在搜索结果页面顶部显示已被屏蔽的网站数量和「显示」按钮',
+  options_blockWholeSiteLabel: '默认添加屏蔽整个网站的规则',
+  options_blockWholeSiteDescription:
+    '例如屏蔽 "https://a.b.example.uk.com/", 会添加 "*://*.example.uk.com/*" 规则',
   options_appearanceTitle: '外观',
   options_linkColor: '链接的颜色',
   options_blockColor: '被屏蔽的搜索结果的颜色',
@@ -98,6 +101,7 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   options_subscriptionNameHeader: '名称',
   options_subscriptionURLHeader: '订阅源地址',
   options_subscriptionUpdateResultHeader: '最近更新',
+  options_subscriptionCheckBoxLabel: '启用',
   options_subscriptionMenuButtonLabel: '菜单',
   options_noSubscriptionsAdded: '未添加任何订阅',
   options_subscriptionUpdateRunning: '正在更新...',
@@ -121,5 +125,6 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   searchEngines_bingName: '必应',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
 });

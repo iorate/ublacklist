@@ -2,34 +2,37 @@ import { standardKeymap } from '@codemirror/commands';
 import { highlightActiveLineGutter, lineNumbers } from '@codemirror/gutter';
 import { HighlightStyle, tags as t } from '@codemirror/highlight';
 import { history, historyKeymap } from '@codemirror/history';
-import { language } from '@codemirror/language';
-import { Compartment, EditorState } from '@codemirror/state';
-import { StreamLanguage, StreamParser } from '@codemirror/stream-parser';
+import { Language, language } from '@codemirror/language';
+import { Compartment, EditorState, Transaction } from '@codemirror/state';
 import { EditorView, highlightSpecialChars, keymap } from '@codemirror/view';
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
 import { useTheme } from './theme';
 
-export type EditorProps<ParserState> = {
+export type EditorProps = {
   focusStart?: boolean;
   focusEnd?: boolean;
-  parser?: StreamParser<ParserState>;
   height?: string;
+  language?: Language;
   readOnly?: boolean;
+  resizable?: boolean;
   value?: string;
   onChange?: (value: string) => void;
 };
 
-export function Editor<ParserState>({
+export const Editor: React.VFC<EditorProps> = ({
   focusStart = false,
   focusEnd = false,
-  parser,
-  height,
+  height = '200px',
+  language: lang,
   readOnly = false,
+  resizable = false,
   value = '',
   onChange,
-}: EditorProps<ParserState>): JSX.Element {
+}) => {
   const view = useRef<EditorView | null>(null);
+  const resizeObserver = useRef<ResizeObserver | null>(null);
+
   const highlightStyleCompartment = useRef(new Compartment());
   const languageCompartment = useRef(new Compartment());
   const readOnlyCompartment = useRef(new Compartment());
@@ -57,8 +60,13 @@ export function Editor<ParserState>({
         }),
         parent,
       });
+      resizeObserver.current = new ResizeObserver(() => {
+        view.current?.requestMeasure();
+      });
+      resizeObserver.current.observe(view.current.dom);
     } else {
       // unmount
+      resizeObserver.current?.disconnect();
       view.current?.destroy();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,11 +108,9 @@ export function Editor<ParserState>({
 
   useLayoutEffect(() => {
     view.current?.dispatch({
-      effects: languageCompartment.current.reconfigure(
-        parser ? language.of(StreamLanguage.define(parser)) : [],
-      ),
+      effects: languageCompartment.current.reconfigure(lang ? language.of(lang) : []),
     });
-  }, [parser]);
+  }, [lang]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
@@ -121,7 +127,9 @@ export function Editor<ParserState>({
               backgroundColor: theme.editor.background,
               border: `1px solid ${theme.editor.border}`,
               color: theme.editor.text,
-              height: height ?? 'auto',
+              height,
+              overflow: 'hidden',
+              resize: resizable ? 'vertical' : 'none',
             },
             '&.cm-editor.cm-focused': {
               boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
@@ -154,14 +162,19 @@ export function Editor<ParserState>({
         ),
       ),
     });
-  }, [height, theme]);
+  }, [height, resizable, theme]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
       effects: updateListenerCompartment.current.reconfigure(
         onChange
           ? EditorView.updateListener.of(viewUpdate => {
-              if (viewUpdate.docChanged) {
+              if (
+                viewUpdate.docChanged &&
+                viewUpdate.transactions.some(
+                  transaction => transaction.annotation(Transaction.userEvent) != null,
+                )
+              ) {
                 onChange(viewUpdate.state.doc.toString());
               }
             })
@@ -188,4 +201,4 @@ export function Editor<ParserState>({
   }, [value]);
 
   return <div ref={parentCallback} />;
-}
+};

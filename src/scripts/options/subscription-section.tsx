@@ -161,13 +161,13 @@ const AddSubscriptionDialog: React.VFC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button {...(!ok ? { className: FOCUS_END_CLASS } : {})} onClick={close}>
+            <Button className={!ok ? FOCUS_END_CLASS : ''} onClick={close}>
               {translate('cancelButton')}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              {...(ok ? { className: FOCUS_END_CLASS } : {})}
+              className={ok ? FOCUS_END_CLASS : ''}
               disabled={!ok}
               primary
               onClick={async () => {
@@ -200,6 +200,12 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
   open,
   subscription,
 }) => {
+  const urlClassName = useClassName(
+    () => ({
+      wordBreak: 'break-all',
+    }),
+    [],
+  );
   return (
     <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
       <DialogHeader>
@@ -208,15 +214,22 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
       <DialogBody>
         <Row>
           <RowItem expanded>
-            <Link breakAll className={FOCUS_START_CLASS} href={subscription?.url}>
-              {subscription?.url}
-            </Link>
+            <span className={urlClassName}>
+              <Link className={FOCUS_START_CLASS} href={subscription?.url}>
+                {subscription?.url}
+              </Link>
+            </span>
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             {open && (
-              <RulesetEditor height="200px" readOnly value={subscription?.blacklist ?? ''} />
+              <RulesetEditor
+                height="200px"
+                readOnly
+                resizable
+                value={subscription?.blacklist ?? ''}
+              />
             )}
           </RowItem>
         </Row>
@@ -385,19 +398,8 @@ export const ManageSubscriptions: React.VFC<{
             <Table>
               <TableHeader>
                 <TableHeaderRow>
-                  <TableHeaderCell width="36px" />
-                  {
-                    // #if !SAFARI
-                    <TableHeaderCell width="calc(80% - 72px - 0.75em)">
-                      {translate('options_subscriptionNameHeader')}
-                    </TableHeaderCell>
-                    /* #else
-                    <TableHeaderCell width="calc((min(640px, 100vw) - 1.25em * 2) * 0.8 - 72px - 0.75em)">
-                      {translate('options_subscriptionNameHeader')}
-                    </TableHeaderCell>
-                    */
-                    // #endif
-                  }
+                  <TableHeaderCell width="2.25em" />
+                  <TableHeaderCell>{translate('options_subscriptionNameHeader')}</TableHeaderCell>
                   <TableHeaderCell width="20%">
                     {translate('options_subscriptionUpdateResultHeader')}
                   </TableHeaderCell>

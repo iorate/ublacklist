@@ -7,7 +7,7 @@ export function applyClassName<Props extends { className?: string | undefined }>
 ): Props {
   return {
     ...props,
-    className: `${className}${props.className != null ? ` ${props.className}` : ''}`,
+    className: `${className}${props.className ? ` ${props.className}` : ''}`,
   };
 }
 

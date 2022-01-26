@@ -1,5 +1,6 @@
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { CSSAttribute, css, glob } from '../styles';
-import { SerpHandler } from '../types';
+import { SearchEngine } from '../types';
 import { getDialogThemeFromBody, handleSerp, insertElement } from './helpers';
 
 function defaultControlStyle(style?: CSSAttribute): (root: HTMLElement) => void {
@@ -211,13 +212,16 @@ const htmlSerpHandler = handleSerp({
 });
 // #endif
 
-export function getSerpHandler(): SerpHandler {
-  // #if CHROME
-  return new URL(window.location.href).hostname === 'html.duckduckgo.com'
-    ? htmlSerpHandler
-    : serpHandler;
-  /* #else
-  return serpHandler;
-  */
-  // #endif
-}
+export const duckduckgo: Readonly<SearchEngine> = {
+  ...SEARCH_ENGINES.duckduckgo,
+  getSerpHandler() {
+    // #if CHROME
+    return new URL(window.location.href).hostname === 'html.duckduckgo.com'
+      ? htmlSerpHandler
+      : serpHandler;
+    /* #else
+    return serpHandler;
+    */
+    // #endif
+  },
+};

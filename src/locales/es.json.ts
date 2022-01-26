@@ -153,7 +153,7 @@ exportAsMessages('_locales/es/messages.json', {
   options_syncFeature: 'Sincronización con la nube',
 
   options_syncFeatureDescription:
-    'Puedes sincronizar las listas negras entre tus dispositivos a través de una nube.',
+    'Puedes sincronizar las listas de filtros entre tus dispositivos a través de una nube.',
 
   options_turnOnSync: 'Activar la sincronización',
 
@@ -192,10 +192,10 @@ exportAsMessages('_locales/es/messages.json', {
 
   options_subscriptionTitle: 'Suscripción',
 
-  options_subscriptionFeature: 'Suscribirse a las listas negras',
+  options_subscriptionFeature: 'Suscribirse a las listas de filtros',
 
   options_subscriptionFeatureDescription:
-    'Si añade una suscripción, las listas negras se descargarán regularmente desde la URL especificada.',
+    'Si añade una suscripción, las listas de filtros se descargarán regularmente desde la URL especificada.',
 
   options_addSubscriptionButton: 'Añadir una suscripción',
 
@@ -251,6 +251,8 @@ exportAsMessages('_locales/es/messages.json', {
   searchEngines_duckduckgoName: 'DuckDuckGo',
 
   searchEngines_ecosiaName: 'Ecosia',
+
+  searchEngines_qwantName: 'Qwant',
 
   searchEngines_startpageName: 'Startpage.com',
 });

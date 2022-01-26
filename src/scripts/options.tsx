@@ -1,7 +1,5 @@
-/* eslint-disable import/no-duplicates */
 import React from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
 import { Baseline } from './components/baseline';
 import { Container } from './components/container';
 import { AutoThemeProvider } from './components/theme';

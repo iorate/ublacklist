@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchEngineMatches } from '../../common/search-engines';
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
@@ -31,7 +31,6 @@ import { usePrevious } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
-import { searchEngineMessageNames } from '../search-engines/message-names';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
@@ -134,7 +133,7 @@ const ImportBlacklistDialog: React.VFC<
         <Row right>
           <RowItem>
             <Button
-              {...(state.source === 'pb' && !state.pb ? { className: FOCUS_END_CLASS } : {})}
+              className={state.source === 'pb' && !state.pb ? FOCUS_END_CLASS : ''}
               onClick={close}
             >
               {translate('cancelButton')}
@@ -168,7 +167,7 @@ const ImportBlacklistDialog: React.VFC<
               </Button>
             ) : (
               <Button
-                {...(state.pb ? { className: FOCUS_END_CLASS } : {})}
+                className={state.pb ? FOCUS_END_CLASS : ''}
                 disabled={!state.pb}
                 primary
                 onClick={() => {
@@ -225,6 +224,7 @@ const SetBlacklist: React.VFC = () => {
           </LabelWrapper>
           <RulesetEditor
             height="200px"
+            resizable
             value={blacklist}
             onChange={value => {
               setBlacklist(value);
@@ -304,8 +304,8 @@ const SetBlacklist: React.VFC = () => {
 const RegisterSearchEngine: React.VFC<{
   id: SearchEngineId;
 }> = ({ id }) => {
-  const matches = searchEngineMatches[id];
-  const messageNames = searchEngineMessageNames[id];
+  const { contentScripts, messageNames } = SEARCH_ENGINES[id];
+  const matches = contentScripts.flatMap(({ matches }) => matches);
 
   const [registered, setRegistered] = useState(false);
 
@@ -363,12 +363,11 @@ const RegisterSearchEngines: React.VFC = () => {
         </RowItem>
         <RowItem expanded>
           <List>
-            {stringKeys(searchEngineMatches).map(
+            {stringKeys(SEARCH_ENGINES).map(
               id =>
                 id !== 'google' && (
                   <ListItem key={id}>
-                    {' '}
-                    <RegisterSearchEngine id={id} />{' '}
+                    <RegisterSearchEngine id={id} />
                   </ListItem>
                 ),
             )}

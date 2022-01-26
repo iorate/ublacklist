@@ -1,17 +1,14 @@
-/* eslint-disable import/no-duplicates */
 import React, { useLayoutEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
-import { searchEngineMatches } from '../common/search-engines';
 import { BlockDialog } from './block-dialog';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
 import { Ruleset } from './ruleset';
-import { searchEngineSerpHandlers } from './search-engines/serp-handlers';
+import { SEARCH_ENGINES } from './search-engines';
 import { css, glob } from './styles';
 import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
-import { AltURL, MatchPattern, stringKeys } from './utilities';
+import { AltURL, MatchPattern } from './utilities';
 
 const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
@@ -101,8 +98,8 @@ class ContentScript {
     highlightColors: string[];
     dialogTheme: DialogTheme | null;
   } | null = null;
-  readonly controls: SerpControl[] = [];
-  readonly entries: SerpEntry[] = [];
+  controls: SerpControl[] = [];
+  entries: SerpEntry[] = [];
   readonly scopeStates: Record<string, { blockedEntryCount: number; showBlockedEntries: boolean }> =
     {};
   blockDialogRoot: ShadowRoot | null = null;
@@ -114,6 +111,19 @@ class ContentScript {
 
     // onSerpHead, onSerpElement
     new MutationObserver(records => {
+      if (
+        serpHandler.observeRemoval &&
+        records
+          .flatMap(record => [...record.removedNodes])
+          .some(node => node instanceof HTMLElement)
+      ) {
+        this.controls = this.controls.filter(control => control.root.isConnected);
+        const prevEntryCount = this.entries.length;
+        this.entries = this.entries.filter(entry => entry.root.isConnected);
+        if (this.entries.length < prevEntryCount) {
+          this.rejudgeAllEntries();
+        }
+      }
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {
@@ -362,14 +372,15 @@ function main() {
   document.documentElement.dataset.ubActive = '1';
 
   const url = new AltURL(window.location.href);
-  const id = stringKeys(searchEngineMatches).find(id =>
-    searchEngineMatches[id].some(match => new MatchPattern(match).test(url)),
-  );
-  if (id) {
-    const serpHandler = searchEngineSerpHandlers[id]();
-    if (serpHandler) {
-      new ContentScript(serpHandler);
-    }
+  const serpHandler = Object.values(SEARCH_ENGINES)
+    .find(({ contentScripts }) =>
+      contentScripts
+        .flatMap(({ matches }) => matches)
+        .some(match => new MatchPattern(match).test(url)),
+    )
+    ?.getSerpHandler();
+  if (serpHandler) {
+    new ContentScript(serpHandler);
   }
 }
 

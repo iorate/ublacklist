@@ -1,56 +1,61 @@
-import { searchEngineMatches } from '../../common/search-engines';
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
   // #if CHROME && !CHROME_MV3
   const altURL = new AltURL(url);
-  const matched = stringEntries(searchEngineMatches)
-    .flatMap(([id, matches]) => (id === 'google' ? [] : matches))
-    .some(match => new MatchPattern(match).test(altURL));
-  if (!matched) {
+  const contentScript = stringEntries(SEARCH_ENGINES)
+    .flatMap(([id, { contentScripts }]) => (id === 'google' ? [] : contentScripts))
+    .find(({ matches }) => matches.some(match => new MatchPattern(match).test(altURL)));
+  if (!contentScript) {
     return;
   }
   const [active] = await apis.tabs.executeScript(tabId, {
     file: '/scripts/active.js',
-    runAt: 'document_start',
+    runAt: contentScript.runAt,
   });
   if (!active) {
     await apis.tabs.executeScript(tabId, {
       file: '/scripts/content-script.js',
-      runAt: 'document_start',
+      runAt: contentScript.runAt,
     });
   }
   // #endif
 }
 
 /* #if FIREFOX
-let registered: browser.contentScripts.RegisteredContentScript | null = null;
+let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] = [];
 */
 // #endif
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function registerContentScript(): Promise<void> {
   /* #if FIREFOX
-  if (registered) {
-    await registered.unregister();
-    registered = null;
-  }
-  const grantedMatches = await Promise.all(
-    stringEntries(searchEngineMatches)
-      .flatMap(([id, matches]) => (id === 'google' ? [] : matches))
-      .map(match =>
-        apis.permissions.contains({ origins: [match] }).then(granted => (granted ? match : null)),
-      ),
-  ).then(matches => matches.filter((match): match is string => match != null));
-  if (!grantedMatches.length) {
-    return;
-  }
-  registered = await browser.contentScripts.register({
-    js: [{ file: '/scripts/content-script.js' }],
-    matches: grantedMatches,
-    runAt: 'document_start',
-  });
+  await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));
+  registeredContentScripts = [];
+  await Promise.all(
+    stringEntries(SEARCH_ENGINES)
+      .flatMap(([id, { contentScripts }]) => (id === 'google' ? [] : contentScripts))
+      .map(async ({ matches, runAt }) => {
+        const grantedMatches = await Promise.all(
+          matches.map(match =>
+            apis.permissions
+              .contains({ origins: [match] })
+              .then(granted => (granted ? match : null)),
+          ),
+        ).then(matches => matches.filter((match): match is string => match != null));
+        if (!grantedMatches.length) {
+          return;
+        }
+        registeredContentScripts.push(
+          await browser.contentScripts.register({
+            js: [{ file: '/scripts/content-script.js' }],
+            matches: grantedMatches,
+            runAt,
+          }),
+        );
+      }),
+  );
   */
   // #endif
 }

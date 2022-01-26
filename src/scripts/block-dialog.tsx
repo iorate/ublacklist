@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import icon from '../icons/icon.svg';
 import { ScopedBaseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
+import { FOCUS_DEFAULT_CLASS, FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { Details, DetailsBody, DetailsSummary } from './components/details';
 import {
   Dialog,
@@ -247,13 +247,13 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
           <RowItem>
             <Row>
               <RowItem>
-                <Button {...(!ok ? { class: FOCUS_END_CLASS } : {})} onClick={close}>
+                <Button className={!ok ? FOCUS_END_CLASS : ''} onClick={close}>
                   {translate('cancelButton')}
                 </Button>
               </RowItem>
               <RowItem>
                 <Button
-                  {...(ok ? { class: FOCUS_END_CLASS } : {})}
+                  className={ok ? `${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}` : FOCUS_DEFAULT_CLASS}
                   disabled={!ok}
                   primary
                   onClick={async () => {

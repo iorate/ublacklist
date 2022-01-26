@@ -1,6 +1,6 @@
-import { CSSAttribute, css } from '../../styles';
-import { SerpHandler } from '../../types';
-import { handleSerp, hasDarkBackground, insertElement } from '../helpers';
+import { CSSAttribute, css } from '../styles';
+import { SerpHandler } from '../types';
+import { handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 function getURLFromPing(selector: string): (root: HTMLElement) => string | null {
   return root => {
@@ -434,6 +434,7 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
       new MutationObserver(() => inspectBodyStyle()).observe(styleElement, { childList: true });
     };
     return {
+      ...serpHandler,
       onSerpStart() {
         inspectBodyStyle();
         const styleElement = document.querySelector<HTMLStyleElement>(
@@ -444,7 +445,6 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
         }
         return serpHandler.onSerpStart();
       },
-      onSerpHead: serpHandler.onSerpHead,
       onSerpElement(element: HTMLElement) {
         if (
           element instanceof HTMLStyleElement &&
@@ -463,13 +463,13 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
     };
   } else {
     return {
+      ...serpHandler,
       onSerpStart() {
         if (document.querySelector('meta[name="color-scheme"][content="dark"]')) {
           document.documentElement.dataset.ubDark = '1';
         }
         return serpHandler.onSerpStart();
       },
-      onSerpHead: serpHandler.onSerpHead,
       onSerpElement(element) {
         if (
           element instanceof HTMLMetaElement &&

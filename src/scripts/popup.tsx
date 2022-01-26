@@ -1,14 +1,12 @@
-/* eslint-disable import/no-duplicates */
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
-import { searchEngineMatches } from '../common/search-engines';
+import { SEARCH_ENGINES } from '../common/search-engines';
 import icon from '../icons/icon.svg';
 import { apis } from './apis';
 import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
 import { Baseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
+import { FOCUS_DEFAULT_CLASS, FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
 import { DialogFooter, DialogHeader, DialogTitle, EmbeddedDialog } from './components/dialog';
 import { Icon } from './components/icon';
 import { Row, RowItem } from './components/row';
@@ -68,7 +66,11 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
           {active ? (
             <Row>
               <RowItem>
-                <Button className={FOCUS_END_CLASS} primary onClick={() => window.close()}>
+                <Button
+                  className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
+                  primary
+                  onClick={() => window.close()}
+                >
                   {translate('okButton')}
                 </Button>
               </RowItem>
@@ -80,7 +82,7 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
               </RowItem>
               <RowItem>
                 <Button
-                  className={FOCUS_END_CLASS}
+                  className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
                   primary
                   onClick={async () => {
                     // In Chrome, the popup is closed immediately after 'permissions.request'!
@@ -96,9 +98,6 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
                       // #else
                       apis.tabs.executeScript(tabId, {
                         file: '/scripts/content-script.js',
-                        // #if !SAFARI
-                        runAt: 'document_start',
-                        // #endif
                       }),
                       // #endif
                     ]);
@@ -138,8 +137,8 @@ const Popup: React.VFC = () => {
       const altURL = makeAltURL(url);
       const match =
         altURL &&
-        Object.values(searchEngineMatches)
-          .flat()
+        Object.values(SEARCH_ENGINES)
+          .flatMap(({ contentScripts }) => contentScripts.flatMap(({ matches }) => matches))
           .find(match => new MatchPattern(match).test(altURL));
       if (match != null) {
         /* #if CHROME_MV3
@@ -151,9 +150,6 @@ const Popup: React.VFC = () => {
         // #else
         const [active] = await apis.tabs.executeScript(tabId, {
           file: '/scripts/active.js',
-          // #if !SAFARI
-          runAt: 'document_start',
-          // #endif
         });
         // #endif
         setState({

@@ -2,10 +2,10 @@ import React from 'react';
 import { applyClassName } from './helpers';
 import { useClassName } from './utilities';
 
-export type LinkProps = JSX.IntrinsicElements['a'] & { breakAll?: boolean; disabled?: boolean };
+export type LinkProps = JSX.IntrinsicElements['a'] & { disabled?: boolean };
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { breakAll = false, disabled = false, ...props },
+  { disabled = false, ...props },
   ref,
 ) {
   const className = useClassName(
@@ -13,7 +13,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
       color: theme.link.text,
       outline: 'none',
       textDecoration: 'none',
-      wordBreak: breakAll ? 'break-all' : 'normal',
       '&:focus': {
         boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
       },
@@ -24,7 +23,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         boxShadow: 'none',
       },
     }),
-    [breakAll],
+    [],
   );
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content

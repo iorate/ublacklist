@@ -1,7 +1,5 @@
-/* eslint-disable import/no-duplicates */
 import React from 'react';
 import ReactDOM from 'react-dom';
-/* eslint-enable */
 
 export type PortalProps = { children?: React.ReactNode; id: string };
 

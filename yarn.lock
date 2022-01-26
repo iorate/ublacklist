@@ -3900,6 +3900,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prettier@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "@types/prettier@npm:2.4.3"
+  checksum: b240434daabac54700c862b0bb52a83fec396e0e9c847447119ba41fd8404d79aadfa174e6306fb094b29efadac586344b7606c3a71c286b71755ab2579d54df
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*":
   version: 15.7.4
   resolution: "@types/prop-types@npm:15.7.4"
@@ -8701,15 +8708,6 @@ __metadata:
   bin:
     eslint-config-prettier: bin/cli.js
   checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
-  languageName: node
-  linkType: hard
-
-"eslint-import-resolver-alias@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "eslint-import-resolver-alias@npm:1.1.2"
-  peerDependencies:
-    eslint-plugin-import: ">=1.4.0"
-  checksum: 3fbb9aeda98335060bb438ed8446a060d282f80a365838a82edb1f8743b1d54c89303009c7717e3c915d5d722e57148082c5ada4455e811acdc8ed3a65059fa1
   languageName: node
   linkType: hard
 
@@ -14315,12 +14313,12 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mpsl@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "mpsl@npm:3.0.3"
+"mpsl@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "mpsl@npm:3.1.0"
   dependencies:
     punycode: ^2.1.1
-  checksum: 650c1bc5c5b5ff37471a37acf47919114baa1f125461de20aa17f08a7d2f3bfdd82fb5f7273babe151df36429706d4d1f6e53a7fe8c9d0b197b5ac6126e8b18d
+  checksum: 10ee1c950f224f14b4f10807cd8b73b8a875d6f326898b117e7c3d7dd3d3b6e1ff071bbc3c7c8c27047671836cd21a68d6da5b3bad9f44d74ac81ccec4bbe403
   languageName: node
   linkType: hard
 
@@ -19799,6 +19797,7 @@ resolve@^2.0.0-next.3:
     "@types/glob": ^7.2.0
     "@types/jest": ^27.0.3
     "@types/node": ^16.11.17
+    "@types/prettier": ^2.4.3
     "@types/punycode": ^2.1.0
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
@@ -19818,7 +19817,6 @@ resolve@^2.0.0-next.3:
     esbuild-register: ^3.3.1
     eslint: ^8.5.0
     eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-alias: ^1.1.2
     eslint-plugin-import: ^2.25.3
     eslint-plugin-jsx-a11y: ^6.5.1
     eslint-plugin-react: ^7.28.0
@@ -19833,7 +19831,7 @@ resolve@^2.0.0-next.3:
     jest: ^27.4.5
     license-webpack-plugin: ^4.0.0
     microstruct: ^1.0.0
-    mpsl: ^3.0.3
+    mpsl: ^3.1.0
     npm-run-all: ^4.1.5
     preact: 10.6.4
     prettier: ^2.5.1

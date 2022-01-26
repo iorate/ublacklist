@@ -72,9 +72,23 @@ For example, you can highlight GitHub by `@1*://github.com/*`.
 
 By default, only `@1` (blue) is available. To change or add highlighting colors, see the "Appearance" section in the options page.
 
+### Comments
+
+Comments begin with `#`. Although any line that cannot be interpreted as a rule is effectively a comment, a `#` comment is better in two ways.
+
+1. `#` comments are guaranteed to be comments even if new syntax is introduced in the future.
+1. `#` comments can be placed after rules.
+
+```
+# Block pages which URLs are hosted at example.com or its subdomain
+*://*.example.com/*
+
+/example\.(net|org)/ # Block pages which URLs contain example.net or example.org
+```
+
 ## Other search engines
 
-This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -91,6 +105,12 @@ This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecos
 For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not supported.
 
 ![ecosia](/img/advanced-features/ecosia.png)
+
+### Qwant
+
+"Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
+
+With the lite version of Qwant, the extension only work with web search not news, images, videos as the link used a proxy.
 
 ### Startpage.com
 

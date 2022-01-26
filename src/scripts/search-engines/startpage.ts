@@ -1,5 +1,6 @@
+import { SEARCH_ENGINES } from '../../common/search-engines';
 import { CSSAttribute } from '../styles';
-import { SerpHandler } from '../types';
+import { SearchEngine, SerpHandler } from '../types';
 import { getDialogThemeFromBody, handleSerp } from './helpers';
 
 const defaultControlStyle: CSSAttribute = {
@@ -9,7 +10,7 @@ const defaultControlStyle: CSSAttribute = {
   marginTop: '8px',
 };
 
-export function getSerpHandler(): SerpHandler {
+function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
@@ -89,3 +90,8 @@ export function getSerpHandler(): SerpHandler {
     getDialogTheme: getDialogThemeFromBody(),
   });
 }
+
+export const startpage: Readonly<SearchEngine> = {
+  ...SEARCH_ENGINES.startpage,
+  getSerpHandler,
+};

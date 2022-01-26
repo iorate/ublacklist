@@ -1,13 +1,11 @@
-import type { StreamParser } from '@codemirror/stream-parser';
+import { StreamLanguage } from '@codemirror/stream-parser';
 import React from 'react';
 import { Editor, EditorProps } from '../components/editor';
 import { RE_LINE } from '../ruleset';
 
-type ParserState = {
+const rulesetLanguage = StreamLanguage.define<{
   tokens: (readonly [number, string | null])[];
-};
-
-const parser: StreamParser<ParserState> = {
+}>({
   token(stream, state) {
     if (stream.sol()) {
       const groups = RE_LINE.exec(stream.string)?.groups;
@@ -53,10 +51,10 @@ const parser: StreamParser<ParserState> = {
   copyState(state) {
     return { tokens: [...state.tokens] };
   },
-};
+});
 
-export type RulesetEditorProps = Omit<EditorProps<ParserState>, 'parser'>;
+export type RulesetEditorProps = Omit<EditorProps, 'language'>;
 
 export const RulesetEditor: React.VFC<RulesetEditorProps> = props => (
-  <Editor parser={parser} {...props} />
+  <Editor language={rulesetLanguage} {...props} />
 );
