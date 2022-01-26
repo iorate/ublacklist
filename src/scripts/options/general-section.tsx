@@ -133,7 +133,7 @@ const ImportBlacklistDialog: React.VFC<
         <Row right>
           <RowItem>
             <Button
-              {...(state.source === 'pb' && !state.pb ? { className: FOCUS_END_CLASS } : {})}
+              className={state.source === 'pb' && !state.pb ? FOCUS_END_CLASS : ''}
               onClick={close}
             >
               {translate('cancelButton')}
@@ -167,7 +167,7 @@ const ImportBlacklistDialog: React.VFC<
               </Button>
             ) : (
               <Button
-                {...(state.pb ? { className: FOCUS_END_CLASS } : {})}
+                className={state.pb ? FOCUS_END_CLASS : ''}
                 disabled={!state.pb}
                 primary
                 onClick={() => {

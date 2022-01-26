@@ -72,7 +72,7 @@ const TurnOnSyncDialog: React.VFC<
         <Row>
           <RowItem>
             <Select
-              className={FOCUS_START_CLASS}
+              className={state.phase === 'none' ? FOCUS_START_CLASS : ''}
               disabled={state.phase !== 'none'}
               value={state.selectedCloudId}
               onChange={e =>
@@ -114,18 +114,17 @@ const TurnOnSyncDialog: React.VFC<
                   {translate('options_turnOnSyncDialog_altFlowAuthCodeLabel')}
                 </ControlLabel>
               </LabelWrapper>
-              {open && (
-                <TextArea
-                  breakAll
-                  disabled={state.phase === 'conn-alt'}
-                  id="authCode"
-                  rows={2}
-                  value={state.authCode}
-                  onChange={e => {
-                    setState(s => ({ ...s, authCode: e.currentTarget.value }));
-                  }}
-                />
-              )}
+              <TextArea
+                breakAll
+                className={state.phase === 'auth-alt' ? FOCUS_START_CLASS : ''}
+                disabled={state.phase !== 'auth-alt'}
+                id="authCode"
+                rows={2}
+                value={state.authCode}
+                onChange={e => {
+                  setState(s => ({ ...s, authCode: e.currentTarget.value }));
+                }}
+              />
             </RowItem>
           </Row>
         ) : null}
@@ -133,12 +132,27 @@ const TurnOnSyncDialog: React.VFC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button onClick={close}>{translate('cancelButton')}</Button>
+            <Button
+              className={
+                state.phase === 'auth' || state.phase === 'conn' || state.phase === 'conn-alt'
+                  ? `${FOCUS_START_CLASS} ${FOCUS_END_CLASS}`
+                  : state.phase === 'auth-alt' && !state.authCode
+                  ? FOCUS_END_CLASS
+                  : ''
+              }
+              onClick={close}
+            >
+              {translate('cancelButton')}
+            </Button>
           </RowItem>
           <RowItem>
             <Button
-              className={FOCUS_END_CLASS}
-              disabled={state.phase !== 'none' && !(state.phase === 'auth-alt' && state.authCode)}
+              className={
+                state.phase === 'none' || (state.phase === 'auth-alt' && state.authCode)
+                  ? FOCUS_END_CLASS
+                  : ''
+              }
+              disabled={!(state.phase === 'none' || (state.phase === 'auth-alt' && state.authCode))}
               primary
               onClick={() => {
                 void (async () => {
