@@ -62,7 +62,10 @@ class PrettierPlugin implements webpack.WebpackPluginInstance {
         assets => {
           const options = prettier.resolveConfig.sync(__filename);
           if (!options) {
-            throw new Error('No prettier config was found');
+            compilation.errors.push(
+              new webpack.WebpackError('PrettierPlugin: no prettier config was found'),
+            );
+            return;
           }
           for (const [name, source] of Object.entries(assets)) {
             const parser: prettier.RequiredOptions['parser'] | null = name.endsWith('.html')
