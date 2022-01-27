@@ -225,15 +225,17 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         title: 'uBlacklist Popup',
       }),
 
-      new LicenseWebpackPlugin({
-        excludedPackageTest: packageName => packageName === 'ublacklist',
-        licenseFileOverrides: {
-          'preact-compat': '../LICENSE',
-          'preact-hooks': '../LICENSE',
-        },
-        licenseTextOverrides: {
-          // https://github.com/juliangruber/is-mobile/blob/master/README.md
-          'is-mobile': `(MIT)
+      ...(mode === 'production'
+        ? [
+            new LicenseWebpackPlugin({
+              excludedPackageTest: packageName => packageName === 'ublacklist',
+              licenseFileOverrides: {
+                'preact-compat': '../LICENSE',
+                'preact-hooks': '../LICENSE',
+              },
+              licenseTextOverrides: {
+                // https://github.com/juliangruber/is-mobile/blob/master/README.md
+                'is-mobile': `(MIT)
 
 Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
 
@@ -243,14 +245,15 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 `,
-        },
-        licenseTypeOverrides: {
-          goober: 'MIT',
-        },
-        perChunkOutput: false,
-      }) as unknown as webpack.WebpackPluginInstance,
-
-      ...(mode === 'production' ? [new PrettierPlugin()] : []),
+              },
+              licenseTypeOverrides: {
+                goober: 'MIT',
+              },
+              perChunkOutput: false,
+            }) as unknown as webpack.WebpackPluginInstance,
+            new PrettierPlugin(),
+          ]
+        : []),
     ],
 
     resolve: {
