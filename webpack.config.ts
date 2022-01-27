@@ -23,7 +23,7 @@ function getEnv<Value extends string>(
 // Generate *.json from *.json.js
 class ExportAsJSONPlugin implements webpack.WebpackPluginInstance {
   apply(compiler: webpack.Compiler): void {
-    compiler.hooks.compilation.tap('ExportAsJSONPlugin', compilation => {
+    compiler.hooks.thisCompilation.tap('ExportAsJSONPlugin', compilation => {
       compilation.hooks.processAssets.tap(
         {
           name: 'ExportAsJSONPlugin',
@@ -52,7 +52,7 @@ class ExportAsJSONPlugin implements webpack.WebpackPluginInstance {
 // Format *.html, *.js, and *.json
 class PrettierPlugin implements webpack.WebpackPluginInstance {
   apply(compiler: webpack.Compiler): void {
-    compiler.hooks.compilation.tap('PrettierPlugin', compilation => {
+    compiler.hooks.thisCompilation.tap('PrettierPlugin', compilation => {
       compilation.hooks.processAssets.tap(
         {
           name: 'PrettierPlugin',
