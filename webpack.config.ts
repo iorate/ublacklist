@@ -71,8 +71,8 @@ class PrettierPlugin implements webpack.WebpackPluginInstance {
             const parser: prettier.RequiredOptions['parser'] | null = name.endsWith('.html')
               ? 'html'
               : name.endsWith('.js')
-              ? (text, { babel }) => {
-                  const ast = babel(text) as { comments?: unknown };
+              ? (text, { meriyah }) => {
+                  const ast = meriyah(text) as { comments?: unknown };
                   delete ast.comments;
                   return ast;
                 }
