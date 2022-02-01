@@ -1,6 +1,6 @@
 import { MessageName0 } from './locales';
 
-export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage';
+export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage' | 'searx';
 
 export type SearchEngine = {
   contentScripts: {
@@ -301,5 +301,17 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     messageNames: {
       name: 'searchEngines_startpageName',
     },
+  searx: {
+    contentScripts: [
+      {
+        matches: [
+          'https://*.searx.be/*',
+        ],
+        runAt: 'document_start',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_searxName',
+    },     
   },
 };
