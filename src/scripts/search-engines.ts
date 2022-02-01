@@ -4,6 +4,7 @@ import { ecosia } from './search-engines/ecosia';
 import { google } from './search-engines/google';
 import { qwant } from './search-engines/qwant';
 import { startpage } from './search-engines/startpage';
+import { searx } from './search-engines/searx';
 import { SearchEngine, SearchEngineId } from './types';
 
 export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngine>>> = {
@@ -13,4 +14,5 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
   ecosia,
   qwant,
   startpage,
+  searx,
 };
