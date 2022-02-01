@@ -120,7 +120,8 @@ export type MessageName =
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'
-  | 'searchEngines_startpageName';
+  | 'searchEngines_startpageName'
+  | 'searchEngines_searxName';
 
 export type MessageName1 =
   | 'error'
