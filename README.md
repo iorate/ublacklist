@@ -1,5 +1,9 @@
 # uBlacklist
 
+THIS IS A FORK OF uBlacklist EXTENSION. THE IDEA IS TO ADD SUPPORT FOR SEARX SEARCH ENGINE.
+
+
+
 Blocks specific sites from appearing in Google search results
 
 [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (for macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
