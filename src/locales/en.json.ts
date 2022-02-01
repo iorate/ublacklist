@@ -380,6 +380,6 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',
   
-    // The localized name of SearX.
-  searchEngines_startpageName: 'SearX',
+    // The localized name of Searx.
+  searchEngines_searxName: 'Searx',
 });
