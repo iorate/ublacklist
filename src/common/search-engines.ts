@@ -318,7 +318,8 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://*.searx.info/*',
           'https://*.searx.bar/*',
           'https://*.searx.com/*',
-		  //note that only vainilla domains will be matched.
+	//note that only vainilla domains will be matched.
+	//Searx is a free metasearch engine and users deploy it with different domains names.
         ],
         runAt: 'document_start',
       },
