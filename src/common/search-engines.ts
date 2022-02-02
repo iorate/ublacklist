@@ -306,6 +306,19 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
       {
         matches: [
           'https://*.searx.be/*',
+          'https://*.searx.xyz/*',
+          'https://*.searx.net/*',
+          'https://*.searx.org/*',
+          'https://*.searx.io/*',
+          'https://*.searx.de/*',
+          'https://*.searx.fr/*',
+          'https://*.searx.tf/*',
+          'https://*.searx.fi/*',
+          'https://*.searx.pt/*',
+          'https://*.searx.info/*',
+          'https://*.searx.bar/*',
+          'https://*.searx.com/*',
+		  //note that only vainilla domains will be matched.
         ],
         runAt: 'document_start',
       },
