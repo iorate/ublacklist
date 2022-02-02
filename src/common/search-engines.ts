@@ -320,6 +320,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://*.searx.com/*',
 	//note that only vainilla domains will be matched.
 	//Searx is a free metasearch engine and users deploy it with different domains names.
+	//only way to workaround this would be to add an "all sites" matching pattern with a "search*" ending path.
         ],
         runAt: 'document_start',
       },
