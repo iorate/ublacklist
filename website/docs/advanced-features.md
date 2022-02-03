@@ -88,7 +88,7 @@ Comments begin with `#`. Although any line that cannot be interpreted as a rule 
 
 ## Other search engines
 
-This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom) and [Searx](#searx) public instances. This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -115,6 +115,11 @@ With the lite version of Qwant, the extension only work with web search not news
 ### Startpage.com
 
 ![startpage](/img/advanced-features/startpage.png)
+
+### Searx
+
+Searx is supported only for the google-enabled public instances right now.
+As this engine is run by users around the globe, it is very difficult to match the different domain names that users change.
 
 ## Sync
 
