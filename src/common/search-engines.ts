@@ -318,7 +318,6 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
         'https://*.searx.info/*',
         'https://*.searx.bar/*',
 	'https://*.searx.com/*',
-	//note that only vainilla domains will be matched above.
 	'https://searx.tiekoetter.com/*',
 	'https://paulgo.io/*',	
 	'https://northboot.xyz/*',	
@@ -340,9 +339,9 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
 	'https://jsearch.pw/*',	
 	'https://search.neet.works/*',
 	'https://search.zdechov.net/*',
-		  //New public domains will have to be supported by the community.
-		  //Just add the searx domain here.
         ],
+		//New public domains will have to be supported by the community.
+		//Just add the searx domain above.
         runAt: 'document_start',
       },
     ],
