@@ -36,7 +36,6 @@ function getSerpHandler(): SerpHandler {
         actionStyle: {
           display: 'block',
           fontSize: '13px',
-          paddingTop: '5px',
         },
       },
     ],
