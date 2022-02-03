@@ -32,7 +32,7 @@ function getSerpHandler(): SerpHandler {
         target: '.result',
         url: 'a',
         title: 'a',
-        actionTarget: root => root.querySelector('.result__body') || root,
+        actionTarget: ''
         actionStyle: {
           display: 'block',
           fontSize: '13px',
