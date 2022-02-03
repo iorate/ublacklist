@@ -1,6 +1,13 @@
 import { MessageName0 } from './locales';
 
-export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage' | 'searx';
+export type SearchEngineId =
+  | 'google'
+  | 'bing'
+  | 'duckduckgo'
+  | 'ecosia'
+  | 'qwant'
+  | 'startpage'
+  | 'searx';
 
 export type SearchEngine = {
   contentScripts: {
@@ -301,52 +308,53 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     messageNames: {
       name: 'searchEngines_startpageName',
     },
+   },
   searx: {
-    contentScripts: [
-      {
-        matches: [
-        'https://*.searx.be/*',
-        'https://*.searx.xyz/*',
-        'https://*.searx.net/*',
-        'https://*.searx.org/*',
-        'https://*.searx.io/*',
-        'https://*.searx.de/*',
-        'https://*.searx.fr/*',
-        'https://*.searx.tf/*',
-        'https://*.searx.fi/*',
-        'https://*.searx.pt/*',
-        'https://*.searx.info/*',
-        'https://*.searx.bar/*',
-	'https://*.searx.com/*',
-	'https://searx.tiekoetter.com/*',
-	'https://paulgo.io/*',	
-	'https://northboot.xyz/*',	
-	'https://search.disroot.org/*',	
-	'https://anon.sx/*',	
-	'https://s.zhaocloud.net/*',	
-	'https://searx.bissisoft.com/*',	
-	'https://procurx.pt/*',	
-	'https://searx.rasp.fr/*',	
-	'https://searx.tuxcloud.net/*',	
-	'https://searx.mha.fi/*',	
-	'https://searx.zackptg5.com/*',	
-	'https://searx.gnous.eu/*',	
-	'https://darmarit.org/searx/*',	
-	'https://suche.uferwerk.org/*',	
-	'https://searx.run/*',	
-	'https://search.antonkling.se/*',	
-	'https://searx.mxchange.org/*',	
-	'https://jsearch.pw/*',	
-	'https://search.neet.works/*',
-	'https://search.zdechov.net/*',
-        ],
-		//New public domains will have to be supported by the community.
-		//Just add the searx domain above.
-        runAt: 'document_start',
-      },
-    ],
-    messageNames: {
-      name: 'searchEngines_searxName',
-    },     
-  },
+      contentScripts: [
+        {
+          matches: [
+            'https://*.searx.be/*',
+            'https://*.searx.xyz/*',
+            'https://*.searx.net/*',
+            'https://*.searx.org/*',
+            'https://*.searx.io/*',
+            'https://*.searx.de/*',
+            'https://*.searx.fr/*',
+            'https://*.searx.tf/*',
+            'https://*.searx.fi/*',
+            'https://*.searx.pt/*',
+            'https://*.searx.info/*',
+            'https://*.searx.bar/*',
+            'https://*.searx.com/*',
+            'https://searx.tiekoetter.com/*',
+            'https://paulgo.io/*',
+            'https://northboot.xyz/*',
+            'https://search.disroot.org/*',
+            'https://anon.sx/*',
+            'https://s.zhaocloud.net/*',
+            'https://searx.bissisoft.com/*',
+            'https://procurx.pt/*',
+            'https://searx.rasp.fr/*',
+            'https://searx.tuxcloud.net/*',
+            'https://searx.mha.fi/*',
+            'https://searx.zackptg5.com/*',
+            'https://searx.gnous.eu/*',
+            'https://darmarit.org/searx/*',
+            'https://suche.uferwerk.org/*',
+            'https://searx.run/*',
+            'https://search.antonkling.se/*',
+            'https://searx.mxchange.org/*',
+            'https://jsearch.pw/*',
+            'https://search.neet.works/*',
+            'https://search.zdechov.net/*',
+         ],
+          //New public domains will have to be supported by the community.
+          //Just add the searx domain above.
+          runAt: 'document_start',
+        },
+	],
+      messageNames: {
+        name: 'searchEngines_searxName',
+		},
+	},
 };
