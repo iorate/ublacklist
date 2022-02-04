@@ -88,7 +88,7 @@ Comments begin with `#`. Although any line that cannot be interpreted as a rule 
 
 ## Other search engines
 
-This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant) and [Startpage.com](#startpagecom). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom) and [Searx](#searx) public instances. This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -115,6 +115,12 @@ With the lite version of Qwant, the extension only work with web search not news
 ### Startpage.com
 
 ![startpage](/img/advanced-features/startpage.png)
+
+### Searx
+
+Searx is supported only for the google-enabled public instances right now; this is because IMO you want to use searx to be able to use Google with a privacy wall protecting you. You can filter those on https://searx.space/ by ticking "Google response time".
+As this engine is run by users around the globe, it is very difficult to match the different domain names that users change, thus the support is limited. 
+The good news is that users can add the domains needed easily by adding the needed domains to the file "src/scripts/search-engines/searx.ts" (no programming skills needed, just copy the format) and making a pull request. Devs will check everything is OK after that.
 
 ## Sync
 
