@@ -18,23 +18,26 @@ https://iorate.github.io/ublacklist/subscriptions
 ## Supported search engines
 
 This extension is available in the below search engines.
+|                                | Web                | Images             | Videos             | News               |
+| -------------------------------| ------------------ | ------------------ | ------------------ | ------------------ |
+| Google                         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Google (iOS)                   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Bing                           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Bing (iOS)                     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| DuckDuckGo                     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| DuckDuckGo (iOS)               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Ecosia                         | :heavy_check_mark: |                    |                    |                    |
+| Ecosia (iOS)                   | :heavy_check_mark: |                    |                    |                    |
+| Qwant                          | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
+| Qwant (iOS)                    | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
+| Startpage                      | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Startpage (iOS)                | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Searx \*2                      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-|                  | Web                | Images             | Videos             | News               |
-| ---------------- | ------------------ | ------------------ | ------------------ | ------------------ |
-| Google           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Google (iOS)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Bing             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Bing (iOS)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| DuckDuckGo       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| DuckDuckGo (iOS) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Ecosia           | :heavy_check_mark: |                    |                    |                    |
-| Ecosia (iOS)     | :heavy_check_mark: |                    |                    |                    |
-| Qwant            | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
-| Qwant (iOS)      | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
-| Startpage        | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
-| Startpage (iOS)  | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+\*1 Works only if you turn off "Always play videos on Qwant.com".
 
-\*1 Works only if you turn off "Always play videos on Qwant.com"
+\*2 Only for *public instances that support google* (check https://searx.space/). **Only POST method is supported within the sites. This is for privacy reasons, you should not use GET method**. 
+
 
 ## For subscription providers
 
