@@ -313,7 +313,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     contentScripts: [
       {
         matches: [
-          'https://*.searx.be/search'
+          'https://*.searx.be/search',
           'https://*.searx.xyz/search',
           'https://*.searx.net/search',
           'https://*.searx.org/search',
