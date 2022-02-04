@@ -356,7 +356,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://search.antonkling.se/search?*',
           'https://searx.mxchange.org/search?*',
           'https://jsearch.pw/search?*',
-          'https://searx.org/search?*',         
+          'https://searx.org/search?*',
           'https://search.neet.works/search?*',
         ],
         //New public domains will have to be supported by the community.
