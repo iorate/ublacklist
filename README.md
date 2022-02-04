@@ -36,8 +36,7 @@ This extension is available in the below search engines.
 
 \*1 Works only if you turn off "Always play videos on Qwant.com".
 
-\*2 Only for *public instances that support google* (check https://searx.space/). **Only POST method is supported within the sites. This is for privacy reasons, you should not use GET method**. 
-
+\*2 Only for *public instances that support google* (check https://searx.space/).
 
 ## For subscription providers
 
