@@ -83,6 +83,7 @@ exportAsMessages('_locales/ja/messages.json', {
   options_turnOnSync: '同期を有効にする',
   options_turnOnSyncDialog_title: '同期を有効にする',
   options_turnOnSyncDialog_turnOnSyncButton: '有効にする',
+  options_turnOnSyncDialog_useAltFlow: '新しいタブで認証ページを開く',
   options_turnOnSyncDialog_altFlowDescription:
     '認証中に $1 へのアクセス権限が求められることがありますが、個人情報がこのドメインに保存されることはありません。',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: '認証コード',

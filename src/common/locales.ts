@@ -73,6 +73,7 @@ export type MessageName =
   | 'options_syncFeatureDescription'
   | 'options_turnOnSync'
   | 'options_turnOnSyncDialog_title'
+  | 'options_turnOnSyncDialog_useAltFlow'
   | 'options_turnOnSyncDialog_altFlowDescription'
   | 'options_turnOnSyncDialog_altFlowAuthCodeLabel'
   | 'options_turnOnSyncDialog_turnOnSyncButton'

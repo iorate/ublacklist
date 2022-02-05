@@ -233,8 +233,11 @@ exportAsMessages('_locales/en/messages.json', {
   // The text of the button to turn on sync.
   options_turnOnSyncDialog_turnOnSyncButton: 'Turn on',
 
+  // The label of the check box whether to use the 'alternative' web auth flow.
+  // In this flow, the authentication page will be opened not in a new window, but in a new tab.
+  options_turnOnSyncDialog_useAltFlow: 'Open the authentication page in a new tab',
+
   // The text to explain permission requests in the 'alternative' web auth flow.
-  // Currently it is used only in Safari.
   // '$1' is expanded to 'iorate.github.io'.
   options_turnOnSyncDialog_altFlowDescription:
     'You may be asked for permission to access $1 before authentication, but your personal information will NOT be stored in that domain.',
