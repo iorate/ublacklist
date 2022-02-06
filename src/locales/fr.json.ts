@@ -44,7 +44,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_importBlacklistDialog_title: 'Import',
   options_importBlacklistDialog_fromFile: 'Importer depuis un fichier',
   options_importBlacklistDialog_selectFile: 'Sélectionner un fichier',
-  options_importBlacklistDialog_fromPB: 'Importer depuis une Blacklist personnelle',
+  options_importBlacklistDialog_fromPB: 'Importer depuis une Blocklist personnelle',
   options_importBlacklistDialog_pbLabel: 'Domaines',
   options_importBlacklistDialog_append: 'Ajouter à la liste existante',
   options_importBlacklistDialog_importButton: 'Importer',
@@ -87,7 +87,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_turnOnSyncDialog_title: 'Activer la synchronisation',
   options_turnOnSyncDialog_turnOnSyncButton: 'Activer',
   options_turnOnSyncDialog_altFlowDescription:
-    "Il se peut que l'on vous demande les permission pour accéder à $1 avant l'authentification, avant l'authentification, mais vos informations personnelles ne seront PAS enregistrées dans ce domaine.",
+    "Il se peut que l'on vous demande les permissions pour accéder à $1 avant l'authentification, mais vos informations personnelles ne seront PAS enregistrées dans ce domaine.",
   options_turnOnSyncDialog_altFlowAuthCodeLabel: "Code d'autorisation",
   options_turnOffSync: 'Désactiver',
   options_syncResult: 'Dernière synchronisation',
