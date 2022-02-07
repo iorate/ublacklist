@@ -3,7 +3,7 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/fr/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription:
-    "Empêche des sites spécifié d'apparaître dans les résultats de recherche Google",
+    "Empêche des sites spécifiés d'apparaître dans les résultats de recherche Google",
   lang: 'fr',
   error: 'Erreur: $1',
   unauthorizedError: 'Accès refusé. Veuillez désactiver et réactiver la synchronisation.',
@@ -46,10 +46,10 @@ exportAsMessages('_locales/fr/messages.json', {
   options_importBlacklistDialog_selectFile: 'Sélectionner un fichier',
   options_importBlacklistDialog_fromPB: 'Importer depuis une Blocklist personnelle',
   options_importBlacklistDialog_pbLabel: 'Domaines',
-  options_importBlacklistDialog_append: 'Ajouter a la liste existante',
+  options_importBlacklistDialog_append: 'Ajouter à la liste existante',
   options_importBlacklistDialog_importButton: 'Importer',
   options_importBlacklistDialog_helper:
-    'Coller les domaines exportées depuis une Blocklist personnelle.',
+    'Coller les domaines exportés depuis une Blacklist personnelle.',
   options_otherSearchEngines: "Support d'autres moteurs de recherche",
   options_otherSearchEnginesDescription:
     'Vous pouvez utiliser cette extension sur les moteurs de recherche suivants.',
@@ -87,7 +87,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_turnOnSyncDialog_title: 'Activer la synchronisation',
   options_turnOnSyncDialog_turnOnSyncButton: 'Activer',
   options_turnOnSyncDialog_altFlowDescription:
-    "Vous serez peut être demandé d'accepter les permissions pour accéder à $1 avant l'authentification, mais vous données personnelles ne seront PAS enregistrées dans ce domaine.",
+    "Il se peut que l'on vous demande les permissions pour accéder à $1 avant l'authentification, mais vos informations personnelles ne seront PAS enregistrées dans ce domaine.",
   options_turnOnSyncDialog_altFlowAuthCodeLabel: "Code d'autorisation",
   options_turnOffSync: 'Désactiver',
   options_syncResult: 'Dernière synchronisation',
@@ -104,7 +104,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_subscriptionTitle: 'Abonnement',
   options_subscriptionFeature: "S'abonner à une blacklists",
   options_subscriptionFeatureDescription:
-    "Si vous ajouté un abonnement, les blacklists seront régulièrement téléchargées depuis l'URL spécifié.",
+    "Si vous ajoutez un abonnement, les blacklists seront régulièrement téléchargées depuis l'URL spécifié.",
   options_addSubscriptionButton: 'Ajouter un abonnement',
   options_subscriptionNameHeader: 'Nom',
   options_subscriptionURLHeader: 'URL',
@@ -123,13 +123,13 @@ exportAsMessages('_locales/fr/messages.json', {
   options_addSubscriptionDialog_addButton: 'Ajouter',
   options_showSubscriptionDialog_blacklistLabel: 'Règles',
   options_updateInterval: 'Intervalle de mise à jour',
-  clouds_googleDriveSync: 'Synchroniser avec Google Drive',
+  clouds_googleDriveSync: 'Synchronisation avec Google Drive',
   clouds_googleDriveSyncDescription:
-    "Un fichier sera crée dans le dossier des données de l'application, cacher pour l'utilisateur.",
-  clouds_googleDriveSyncTurnedOn: 'Synchroniser avec Google Drive',
-  clouds_dropboxSync: 'Synchroniser avec Dropbox',
+    "Un fichier caché à l'utilisateur sera créé dans le dossier de données de l'application.",
+  clouds_googleDriveSyncTurnedOn: 'Synchronisé avec Google Drive',
+  clouds_dropboxSync: 'Synchronisation avec Dropbox',
   clouds_dropboxSyncDescription: 'un fichier sera crée dans "/Apps/uBlacklist/".',
-  clouds_dropboxSyncTurnedOn: 'Synchronisé avec Google Drive',
+  clouds_dropboxSyncTurnedOn: 'Synchronisé avec Dropbox',
   searchEngines_googleName: 'Google',
   searchEngines_bingName: 'Bing',
   searchEngines_duckduckgoName: 'DuckDuckGo',
