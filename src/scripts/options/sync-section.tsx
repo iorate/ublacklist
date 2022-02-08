@@ -3,6 +3,7 @@ import dayjsDuration from 'dayjs/plugin/duration';
 import React, { useEffect, useState } from 'react';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
+import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
 import {
   Dialog,
@@ -50,16 +51,19 @@ const TurnOnSyncDialog: React.VFC<
   } = useOptionsContext();
 
   const [state, setState] = useState({
-    selectedCloudId: 'googleDrive' as CloudId,
     phase: 'none' as 'none' | 'auth' | 'auth-alt' | 'conn' | 'conn-alt',
+    selectedCloudId: 'googleDrive' as CloudId,
+    useAltFlow: false,
     authCode: '',
   });
   const prevOpen = usePrevious(open);
   if (open && !prevOpen) {
-    state.selectedCloudId = 'googleDrive';
     state.phase = 'none';
+    state.selectedCloudId = 'googleDrive';
+    state.useAltFlow = false;
     state.authCode = '';
   }
+  const forceAltFlow = supportedClouds[state.selectedCloudId].shouldUseAltFlow(os);
 
   return (
     <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open}>
@@ -94,7 +98,26 @@ const TurnOnSyncDialog: React.VFC<
             </Text>
           </RowItem>
         </Row>
-        {supportedClouds[state.selectedCloudId].shouldUseAltFlow(os) ? (
+        <Row>
+          <RowItem>
+            <Indent>
+              <CheckBox
+                checked={forceAltFlow || state.useAltFlow}
+                disabled={state.phase !== 'none' || forceAltFlow}
+                id="useAltFlow"
+                onChange={e => setState(s => ({ ...s, useAltFlow: e.currentTarget.checked }))}
+              />
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper disabled={state.phase !== 'none' || forceAltFlow}>
+              <ControlLabel for="useAltFlow">
+                {translate('options_turnOnSyncDialog_useAltFlow')}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+        </Row>
+        {(forceAltFlow || state.useAltFlow) && (
           <Row>
             <RowItem expanded>
               <Text>
@@ -105,7 +128,7 @@ const TurnOnSyncDialog: React.VFC<
               </Text>
             </RowItem>
           </Row>
-        ) : null}
+        )}
         {state.phase === 'auth-alt' || state.phase === 'conn-alt' ? (
           <Row>
             <RowItem expanded>
@@ -163,7 +186,7 @@ const TurnOnSyncDialog: React.VFC<
                     authCode = state.authCode;
                   } else {
                     const cloud = supportedClouds[state.selectedCloudId];
-                    useAltFlow = cloud.shouldUseAltFlow(os);
+                    useAltFlow = forceAltFlow || state.useAltFlow;
                     setState(s => ({ ...s, phase: useAltFlow ? 'auth-alt' : 'auth' }));
                     try {
                       const granted = await apis.permissions.request({
