@@ -78,6 +78,7 @@ exportAsMessages('_locales/zh_TW/messages.json', {
   options_turnOnSync: '啟用同步',
   options_turnOnSyncDialog_title: '啟用同步',
   options_turnOnSyncDialog_turnOnSyncButton: '啟用',
+  options_turnOnSyncDialog_useAltFlow: '在新標籤頁中開啟認證頁面',
   options_turnOnSyncDialog_altFlowDescription:
     '在認證之前，您可能會被要求獲得訪問 $1 的許可，但您的個人資訊不會被儲存在該域中。',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: '認證碼',
