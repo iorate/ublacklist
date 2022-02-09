@@ -79,6 +79,7 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   options_turnOnSync: '开启同步',
   options_turnOnSyncDialog_title: '开启同步',
   options_turnOnSyncDialog_turnOnSyncButton: '开启',
+  options_turnOnSyncDialog_useAltFlow: '在新标签页中打开认证页面',
   options_turnOnSyncDialog_altFlowDescription:
     '在认证之前，您可能会被要求获得访问 $1 的许可，但您的个人信息不会被存储在该域中。',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: '认证码',
