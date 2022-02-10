@@ -85,6 +85,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_turnOnSync: 'Synchronisation einschalten',
   options_turnOnSyncDialog_title: 'Synchronisation einschalten',
   options_turnOnSyncDialog_turnOnSyncButton: 'Einschalten',
+  options_turnOnSyncDialog_useAltFlow: 'Authentifizierungsseite in neuem Tab öffnen',
   options_turnOnSyncDialog_altFlowDescription:
     'Sie werden vor der Authentifizierung möglicherweise nach Berechtigungen für den Zugriff auf $1 geafragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Autorisationsschlüssel',
