@@ -66,7 +66,7 @@
   },
   "eslintConfig": {
     "env": {
-      "es2019": true,
+      "es2021": true,
       "node": true
     },
     "extends": [
@@ -83,14 +83,6 @@
     "overrides": [
       {
         "files": [
-          "src/scripts/*.js"
-        ],
-        "env": {
-          "browser": true
-        }
-      },
-      {
-        "files": [
           "**/*.ts",
           "**/*.tsx"
         ],
@@ -101,6 +93,20 @@
         ],
         "parserOptions": {
           "project": "./tsconfig.json"
+        },
+        "rules": {
+          "@typescript-eslint/no-unused-vars": "off"
+        }
+      },
+      {
+        "files": [
+          "src/scripts/*.js"
+        ],
+        "env": {
+          "browser": true,
+          "es2019": true,
+          "es2021": false,
+          "node": false
         }
       }
     ],
@@ -110,7 +116,6 @@
     ],
     "reportUnusedDisableDirectives": true,
     "rules": {
-      "@typescript-eslint/no-unused-vars": "off",
       "object-shorthand": "warn",
       "sort-imports": [
         "warn",

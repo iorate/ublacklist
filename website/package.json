@@ -43,7 +43,8 @@
     "lint-eslint": "yarn g:eslint .",
     "lint-prettier": "yarn g:prettier --check --loglevel warn .",
     "lint-typecheck": "tsc",
-    "fix": "yarn fix-prettier",
+    "fix": "FORCE_COLOR=1 run-s -l fix-eslint fix-prettier",
+    "fix-eslint": "yarn g:eslint --fix .",
     "fix-prettier": "yarn g:prettier --write --loglevel warn ."
   }
 }
