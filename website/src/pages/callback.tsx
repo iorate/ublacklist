@@ -1,7 +1,7 @@
-import React from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import CodeBlock from '@theme/CodeBlock';
 import Layout from '@theme/Layout';
+import React from 'react';
 
 function Callback(): JSX.Element {
   return (
