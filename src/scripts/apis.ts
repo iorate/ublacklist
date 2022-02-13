@@ -47,7 +47,7 @@ export namespace apis {
 
   export namespace i18n {
     export function getMessage(messageName: string, substitutions?: unknown): string {
-      return chrome.i18n.getMessage(messageName, substitutions);
+      return chrome.i18n.getMessage(messageName, substitutions as string | string[] | undefined);
     }
   }
 
