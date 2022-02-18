@@ -15,7 +15,7 @@ export class LicensePlugin implements webpack.WebpackPluginInstance {
 
   constructor(options: Readonly<LicensePluginOptions> = {}) {
     this.options = {
-      filename: options.filename ?? 'credits.txt',
+      filename: options.filename ?? 'third-party-notices.txt',
       overrides: options.overrides || {},
     };
   }
