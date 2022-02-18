@@ -53,7 +53,7 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
           filePath => [filePath.slice(0, -3), `./${filePath}`],
         ),
       ),
-      [browser === 'chrome-mv3' ? 'background' : 'scripts/background']: './scripts/background.ts',
+      'scripts/background': './scripts/background.ts',
       'scripts/content-script': './scripts/content-script.tsx',
       'scripts/options': './scripts/options.tsx',
       'scripts/popup': './scripts/popup.tsx',
