@@ -123,6 +123,13 @@ exportAsMessages('_locales/de/messages.json', {
   options_addSubscriptionDialog_addButton: 'Hinzufügen',
   options_showSubscriptionDialog_blacklistLabel: 'Regeln',
   options_updateInterval: 'Aktualisierungsintervall',
+  options_aboutTitle: 'Über uBlacklist',
+  options_aboutVersion: 'Version',
+  options_aboutDocumentation: '[Dokumentation](https://iorate.github.io/ublacklist/docs)',
+  options_aboutReleaseNotes: 'Versionshinweise',
+  options_aboutPrivacyPolicy:
+    '[Datenschutzbestimmungen](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutThirdPartyNotices: 'Hinweise von Drittanbietern',
   clouds_googleDriveSync: 'Mit Google Drive synchronisieren',
   clouds_googleDriveSyncDescription:
     'Im Datenverzeichnis der Anwendung wird eine vor dem Benutzer versteckte Datei erstellt.',
