@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 // #if CHROME
+export namespace _manifest {
+  export type WebExtensionManifest = chrome.runtime.Manifest;
+}
+
 export namespace apis {
   export namespace alarms {
     export type Alarm = chrome.alarms.Alarm;
@@ -47,7 +51,7 @@ export namespace apis {
 
   export namespace i18n {
     export function getMessage(messageName: string, substitutions?: unknown): string {
-      return chrome.i18n.getMessage(messageName, substitutions);
+      return chrome.i18n.getMessage(messageName, substitutions as string | string[] | undefined);
     }
   }
 
@@ -106,6 +110,10 @@ export namespace apis {
     export type PlatformInfo = chrome.runtime.PlatformInfo;
     export type _OnInstalledDetails = chrome.runtime.InstalledDetails;
 
+    export function getManifest(): _manifest.WebExtensionManifest {
+      return chrome.runtime.getManifest();
+    }
+
     export function getPlatformInfo(): Promise<PlatformInfo> {
       return new Promise<PlatformInfo>((resolve, reject) => {
         chrome.runtime.getPlatformInfo(platformInfo => {
@@ -116,6 +124,10 @@ export namespace apis {
           }
         });
       });
+    }
+
+    export function getURL(path: string): string {
+      return chrome.runtime.getURL(path);
     }
 
     export function openOptionsPage(): Promise<void> {

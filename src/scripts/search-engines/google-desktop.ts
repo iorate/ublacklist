@@ -17,6 +17,14 @@ const desktopGlobalStyle: CSSAttribute = {
   },
 };
 
+function insertActionBeforeMenu(target: HTMLElement): HTMLElement | null {
+  const menuParent = target.querySelector<HTMLElement>(':scope > span:not([class])');
+  if (menuParent?.querySelector('.action-menu')?.querySelector('svg')) {
+    return insertElement('span', menuParent, 'beforebegin');
+  }
+  return insertElement('span', target, 'beforeend');
+}
+
 const desktopActionStyle: CSSAttribute = {
   '&::before': {
     content: '" · "',
@@ -43,10 +51,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   '': handleSerp({
     globalStyle: {
       ...desktopGlobalStyle,
-      '[data-ub-blocked] g-inner-card, [data-ub-highlight] g-inner-card, [data-ub-blocked] .kp-blk, [data-ub-highlight] .kp-blk':
-        {
-          backgroundColor: 'transparent !important',
-        },
+      [[
+        '.dG2XIf', // Featured Snippet
+        'g-inner-card',
+      ]
+        .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
+        .join(', ')]: {
+        backgroundColor: 'transparent !important',
+      },
     },
     controlHandlers: [
       {
@@ -79,6 +91,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       {
@@ -109,24 +122,26 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Featured Snippet
       {
-        target: '.g > .kp-blk > .xpdopen > .ifM9O .g',
+        target: '.g .xpdopen .ifM9O .g',
         level: target => target.parentElement?.closest('.g') ?? null,
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Latest, Top Story (Horizontal)
       {
-        target: '.JJZKK .kno-fb-ctx',
+        target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
         level: '.JJZKK',
         url: 'a',
         title: '[role="heading"][aria-level="4"]',
-        actionTarget: '.S1FAPd',
+        actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
       // People Also Ask
@@ -136,6 +151,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Quote in the News
@@ -164,17 +180,18 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target: '.yG4QQe .WlydOe',
+        target: '.yG4QQe .WlydOe .ZE0LJd, .yG4QQe .WlydOe .S1FAPd',
         level: target => {
           if (target.matches('.JJZKK *')) {
             // Latest, Top story (Horizontal)
             return null;
           }
-          return target.parentElement;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return target.closest('.WlydOe')!.parentElement;
         },
         url: '.WlydOe',
         title: '.mCBkyc',
-        actionTarget: '.S1FAPd',
+        actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: actionRoot => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           actionRoot.parentElement!.style.whiteSpace = 'nowrap';
@@ -216,10 +233,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       {
-        target: '.RzdJxc',
+        target: '.RzdJxc .hMJ0yc',
+        level: '.RzdJxc',
         url: '.X5OiLe',
         title: '.fc9yUc',
         actionTarget: '.hMJ0yc',
@@ -232,27 +251,34 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // News (COVID-19)
       {
-        target: '.XXW1wb .WlydOe, .ftSUBd .WlydOe',
-        level: target => target.closest('.ftSUBd') || target,
+        target:
+          '.XXW1wb .WlydOe .ZE0LJd, .XXW1wb .WlydOe .S1FAPd, .ftSUBd .WlydOe .ZE0LJd, .ftSUBd .WlydOe .S1FAPd',
+        level: target => target.closest('.ftSUBd') || target.closest('.WlydOe'),
         url: root => {
           const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
           return a instanceof HTMLAnchorElement ? a.href : null;
         },
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.S1FAPd',
+        actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
     ],
     pagerHandlers: [
+      // People Also Ask
+      {
+        target: '[jsname="Cpkphb"]',
+        innerTargets: '.g',
+      },
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .g, .WlydOe, .F9rcV, .RzdJxc',
+          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
       // AutoPagerize
       {
@@ -275,6 +301,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.bHexk > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
     ],
@@ -343,14 +370,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular
       {
-        target: '.WlydOe',
-        level: target => target.closest('.ftSUBd') || target,
+        target: '.WlydOe .ZE0LJd, .WlydOe .S1FAPd',
+        level: target => target.closest('.ftSUBd') || target.closest('.WlydOe'),
         url: root => {
           const a = root.matches('.ftSUBd') ? root.querySelector<HTMLElement>('.WlydOe') : root;
           return a instanceof HTMLAnchorElement ? a.href : null;
         },
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.S1FAPd',
+        actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
       // People Also Search For
@@ -371,7 +398,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.WlydOe',
+        innerTargets: '.ZE0LJd, .S1FAPd',
       },
     ],
   }),
@@ -390,6 +417,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
     ],

@@ -121,6 +121,13 @@ exportAsMessages('_locales/ja/messages.json', {
   options_addSubscriptionDialog_addButton: '追加',
   options_showSubscriptionDialog_blacklistLabel: 'ルールのリスト',
   options_updateInterval: '更新の間隔',
+  options_aboutTitle: 'uBlacklist について',
+  options_aboutVersion: 'バージョン',
+  options_aboutDocumentation: '[ドキュメント](https://iorate.github.io/ublacklist/docs)',
+  options_aboutReleaseNotes: 'リリースノート',
+  options_aboutPrivacyPolicy:
+    '[プライバシーポリシー](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutThirdPartyNotices: 'サードパーティに関する通知',
   clouds_googleDriveSync: 'Google ドライブと同期する',
   clouds_googleDriveSyncDescription: '非表示のアプリデータフォルダにファイルが作成されます。',
   clouds_googleDriveSyncTurnedOn: 'Google ドライブと同期しています',

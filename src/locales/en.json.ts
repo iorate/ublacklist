@@ -346,6 +346,25 @@ exportAsMessages('_locales/en/messages.json', {
   // The label of the select to select an update interval.
   options_updateInterval: 'Update interval',
 
+  // The title of the about section.
+  options_aboutTitle: 'About uBlacklist',
+
+  // Version.
+  options_aboutVersion: 'Version',
+
+  // The link to the documentation.
+  options_aboutDocumentation: '[Documentation](https://iorate.github.io/ublacklist/docs)',
+
+  // The text of the link to the release notes.
+  options_aboutReleaseNotes: 'Release Notes',
+
+  // The link to the privacy policy.
+  options_aboutPrivacyPolicy:
+    '[Privacy Policy](https://iorate.github.io/ublacklist/privacy-policy)',
+
+  // The text of the link to the third-party notices.
+  options_aboutThirdPartyNotices: 'Third-Party Notices',
+
   // The label of the radio button to sync with Google Drive.
   clouds_googleDriveSync: 'Sync with Google Drive',
 

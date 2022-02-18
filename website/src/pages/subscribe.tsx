@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-function Subscribe(): JSX.Element {
+const Subscribe: React.VFC = () => {
   useEffect(() => {
     const optionsURL = new URL(
       'chrome-extension://pncfbmialoiaghdehhbnbhkkgmjanfhe/pages/options.html',
@@ -15,6 +15,6 @@ function Subscribe(): JSX.Element {
     window.location.href = optionsURL.toString();
   }, []);
   return null;
-}
+};
 
 export default Subscribe;
