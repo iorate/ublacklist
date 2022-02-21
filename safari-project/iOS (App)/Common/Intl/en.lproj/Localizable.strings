@@ -7,7 +7,7 @@
 */
 
 "guide_title_step_0" = "Welcome to uBlacklist";
-"guide_desc_step_0" = "uBlacklist is a Search filter for Chrome and Firefox. Now it comes to iOS!\n\nFirst, please follow the guide to enable uBlacklist.";
+"guide_desc_step_0" = "uBlacklist is a Search filter for Chrome and Firefox. Now it comes to Safari!\n\nFirst, please follow the guide to enable uBlacklist.";
 
 "guide_title_step_1" = "Open Safari Setting";
 "guide_desc_step_1" = "Open iOS Settings, find Safari and tap it.";

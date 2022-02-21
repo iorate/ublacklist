@@ -7,7 +7,7 @@
 */
 
 "guide_title_step_0" = "uBlacklistへようこそ";
-"guide_desc_step_0" = "ublacklistは、検索フィルタ。 ChromeとFirefoxで提供されていましたが、それがiOSにやってきました!\n\nまず、uBlacklistを有効にするためのガイドに従ってください。";
+"guide_desc_step_0" = "ublacklistは、検索フィルタ。 ChromeとFirefoxで提供されていましたが、それがSafariにやってきました!\n\nまず、uBlacklistを有効にするためのガイドに従ってください。";
 
 "guide_title_step_1" = "Safariの設定を開く";
 "guide_desc_step_1" = "iOSの「設定」を開き、Safariを探し、タップします。";
