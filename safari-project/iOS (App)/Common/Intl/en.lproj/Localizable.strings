@@ -7,7 +7,7 @@
 */
 
 "guide_title_step_0" = "Welcome to uBlacklist";
-"guide_desc_step_0" = "uBlacklist is a Google Search filter for Chrome and Firefox. Now it comes to iOS!\n\nFirst, please follow the guide to enable uBlacklist.";
+"guide_desc_step_0" = "uBlacklist is a Search filter for Chrome and Firefox. Now it comes to iOS!\n\nFirst, please follow the guide to enable uBlacklist.";
 
 "guide_title_step_1" = "Open Safari Setting";
 "guide_desc_step_1" = "Open iOS Settings, find Safari and tap it.";
@@ -19,7 +19,7 @@
 "guide_desc_step_3" = "Find uBlacklist and tap it.";
 
 "guide_title_step_4" = "Enable uBlacklist";
-"guide_desc_step_4" = "Tap the switch to enable uBlacklist.";
+"guide_desc_step_4" = "Tap the switch to enable uBlacklist.\n\nThe next page describes how to enable uBlacklist on Google. You can also enable Bing,DuckDuckGo,Ecosia,Qwant, Startpage in the same way.";
 
 "guide_title_step_5" = "Open Google";
 "guide_desc_step_5" = "Tap the button below, open google.com by Safari. (you can also do this manually.)\n\nThen tap the 'aA' button on the address bar.";

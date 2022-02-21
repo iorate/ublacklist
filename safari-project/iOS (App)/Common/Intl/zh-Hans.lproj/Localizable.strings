@@ -7,7 +7,7 @@
 */
 
 "guide_title_step_0" = "欢迎使用 uBlacklist";
-"guide_desc_step_0" = "uBlacklist 是一个用于 Chrome 和 Firefox 的谷歌搜索过滤器。现在它来到了 iOS！\n\n首先，请按照指南来启用 uBlacklist。";
+"guide_desc_step_0" = "uBlacklist 是一个用于 Chrome 和 Firefox 的搜索过滤器。现在它来到了 iOS！\n\n首先，请按照指南来启用 uBlacklist。";
 
 "guide_title_step_1" = "打开 Safari 设置";
 "guide_desc_step_1" = "打开系统设置, 找到并点击 Safari。";
@@ -19,7 +19,7 @@
 "guide_desc_step_3" = "找到并点击 uBlacklist。";
 
 "guide_title_step_4" = "开启 uBlacklist";
-"guide_desc_step_4" = "点击开关开启 uBlacklist。";
+"guide_desc_step_4" = "点击开关开启 uBlacklist。\n\n下一页将介绍如何在Google上启用uBlacklist。您也可以以相同的方式启用Bing、DuckDuckGo、Ecosia、Qwant、Startpage。";
 
 "guide_title_step_5" = "打开谷歌";
 "guide_desc_step_5" = "点击下方按钮，使用 Safari 打开 google.com。(你也可以手动来做这一步)\n\n然后点击地址栏上的 'aA' 按钮。";
