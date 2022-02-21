@@ -433,7 +433,7 @@ export const SyncSection: React.VFC = () => {
             disabled={!syncCloudId}
             itemKey="syncInterval"
             label={translate('options_syncInterval')}
-            valueOptions={[5, 15, 30, 60, 120, 300]}
+            valueOptions={[5, 10, 15, 30, 60, 120]}
           />
         </SectionItem>
       </SectionBody>

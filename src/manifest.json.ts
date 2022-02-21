@@ -7,7 +7,7 @@ import { SEARCH_ENGINES } from './common/search-engines';
 exportAsJSON('manifest.json', {
   background: {
     /* #if CHROME_MV3
-    service_worker: 'background.js',
+    service_worker: 'scripts/background.js',
     */
     // #else
     // #if CHROME || SAFARI

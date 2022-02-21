@@ -17,6 +17,14 @@ const desktopGlobalStyle: CSSAttribute = {
   },
 };
 
+function insertActionBeforeMenu(target: HTMLElement): HTMLElement | null {
+  const menuParent = target.querySelector<HTMLElement>(':scope > span:not([class])');
+  if (menuParent?.querySelector('.action-menu')?.querySelector('svg')) {
+    return insertElement('span', menuParent, 'beforebegin');
+  }
+  return insertElement('span', target, 'beforeend');
+}
+
 const desktopActionStyle: CSSAttribute = {
   '&::before': {
     content: '" · "',
@@ -83,6 +91,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       {
@@ -113,6 +122,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Featured Snippet
@@ -122,6 +132,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Latest, Top Story (Horizontal)
@@ -140,6 +151,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // Quote in the News
@@ -221,6 +233,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       {
@@ -238,6 +251,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
       // News (COVID-19)
@@ -287,6 +301,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.bHexk > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
     ],
@@ -402,6 +417,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a',
         title: 'h3',
         actionTarget: '.eFM0qc',
+        actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
       },
     ],

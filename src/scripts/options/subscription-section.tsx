@@ -491,7 +491,7 @@ export const SubscriptionSection: React.VFC = () => {
             }
             itemKey="updateInterval"
             label={translate('options_updateInterval')}
-            valueOptions={[5, 15, 30, 60, 120, 300]}
+            valueOptions={[60, 120, 180, 360, 720, 1440]}
           />
         </SectionItem>
       </SectionBody>

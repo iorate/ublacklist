@@ -4,6 +4,7 @@ import { Baseline } from './components/baseline';
 import { Container } from './components/container';
 import { AutoThemeProvider } from './components/theme';
 import { translate } from './locales';
+import { AboutSection } from './options/about-section';
 import { AppearanceSection } from './options/appearance-section';
 import { GeneralSection } from './options/general-section';
 import { OptionsContextProvider } from './options/options-context';
@@ -19,6 +20,7 @@ const Options: React.VFC = () => (
           <AppearanceSection />
           <SyncSection />
           <SubscriptionSection />
+          <AboutSection />
         </Container>
       </OptionsContextProvider>
     </Baseline>

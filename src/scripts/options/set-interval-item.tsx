@@ -15,12 +15,14 @@ export const SetIntervalItem: React.VFC<{
   disabled?: boolean;
   itemKey: IntervalItemKey;
   label: string;
-  valueOptions: number[];
+  valueOptions: readonly number[];
 }> = ({ disabled = false, itemKey, label, valueOptions }) => {
   const {
     initialItems: { [itemKey]: initialItem },
   } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
+
+  valueOptions = [...new Set([...valueOptions, initialItem])].sort((a, b) => a - b);
 
   const rowClass = useClassName(
     () => ({
