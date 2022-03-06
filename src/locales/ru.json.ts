@@ -83,6 +83,7 @@ exportAsMessages('_locales/ru/messages.json', {
   options_turnOnSync: 'Включить синхронизацию',
   options_turnOnSyncDialog_title: 'Включить синхронизацию',
   options_turnOnSyncDialog_turnOnSyncButton: 'Включить',
+  options_turnOnSyncDialog_useAltFlow: 'Открыть страницу аутентификации в новой вкладке',
   options_turnOnSyncDialog_altFlowDescription:
     'У Вас могут попросить разрешение на доступ к $1 перед аутентификацией, но ваша личная информация НЕ будет храниться в этом домене.',
   options_turnOnSyncDialog_altFlowAuthCodeLabel: 'Код авторизации',
@@ -119,6 +120,13 @@ exportAsMessages('_locales/ru/messages.json', {
   options_addSubscriptionDialog_addButton: 'Добавить',
   options_showSubscriptionDialog_blacklistLabel: 'Список правил подписки',
   options_updateInterval: 'Интервал обновления',
+  options_aboutTitle: 'О uBlacklist',
+  options_aboutVersion: 'Версия',
+  options_aboutDocumentation: '[Документация](https://iorate.github.io/ublacklist/docs)',
+  options_aboutReleaseNotes: 'Примечания к выпуску',
+  options_aboutPrivacyPolicy:
+    '[Политика конфиденциальности](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutThirdPartyNotices: 'Уведомления третьих лиц',
   clouds_googleDriveSync: 'Синхронизировать с Google Диском',
   clouds_googleDriveSyncDescription:
     'Файл будет создан в папке данных приложения, скрытой от пользователя.',
