@@ -401,4 +401,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',
+
+  // The localized name of Yandex.
+  searchEngines_yandexName: 'Yandex',
 });

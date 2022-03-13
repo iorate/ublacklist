@@ -1,6 +1,13 @@
 import { MessageName0 } from './locales';
 
-export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage';
+export type SearchEngineId =
+  | 'google'
+  | 'bing'
+  | 'duckduckgo'
+  | 'ecosia'
+  | 'qwant'
+  | 'startpage'
+  | 'yandex';
 
 export type SearchEngine = {
   contentScripts: {
@@ -300,6 +307,94 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_startpageName',
+    },
+  },
+  yandex: {
+    contentScripts: [
+      {
+        matches: [
+          // Web
+          'https://yandex.com/search/?*',
+          'https://yandex.ru/search/?*',
+          'https://yandex.ua/search/?*',
+          'https://yandex.by/search/?*',
+          'https://yandex.kz/search/?*',
+          'https://yandex.uz/search/?*',
+          'https://yandex.com.tr/search/?*',
+          'https://yandex.fr/search/?*',
+          'https://yandex.az/search/?*',
+          'https://yandex.com.ge/search/?*',
+          'https://yandex.com.am/search/?*',
+          'https://yandex.co.il/search/?*',
+          'https://yandex.lv/search/?*',
+          'https://yandex.lt/search/?*',
+          'https://yandex.ee/search/?*',
+          'https://yandex.md/search/?*',
+          'https://yandex.tm/search/?*',
+          'https://yandex.tj/search/?*',
+          // Images
+          'https://yandex.com/images/search?*',
+          'https://yandex.ru/images/search?*',
+          'https://yandex.ua/images/search?*',
+          'https://yandex.by/images/search?*',
+          'https://yandex.kz/images/search?*',
+          'https://yandex.uz/images/search?*',
+          'https://yandex.com.tr/images/search?*',
+          'https://yandex.fr/images/search?*',
+          'https://yandex.az/images/search?*',
+          'https://yandex.com.ge/images/search?*',
+          'https://yandex.com.am/images/search?*',
+          'https://yandex.co.il/images/search?*',
+          'https://yandex.lv/images/search?*',
+          'https://yandex.lt/images/search?*',
+          'https://yandex.ee/images/search?*',
+          'https://yandex.md/images/search?*',
+          'https://yandex.tm/images/search?*',
+          'https://yandex.tj/images/search?*',
+          // Videos
+          'https://yandex.com/video/search?*',
+          'https://yandex.ru/video/search?*',
+          'https://yandex.ua/video/search?*',
+          'https://yandex.by/video/search?*',
+          'https://yandex.kz/video/search?*',
+          'https://yandex.uz/video/search?*',
+          'https://yandex.com.tr/video/search?*',
+          'https://yandex.fr/video/search?*',
+          'https://yandex.az/video/search?*',
+          'https://yandex.com.ge/video/search?*',
+          'https://yandex.com.am/video/search?*',
+          'https://yandex.co.il/video/search?*',
+          'https://yandex.lv/video/search?*',
+          'https://yandex.lt/video/search?*',
+          'https://yandex.ee/video/search?*',
+          'https://yandex.md/video/search?*',
+          'https://yandex.tm/video/search?*',
+          'https://yandex.tj/video/search?*',
+          // News
+          'https://newssearch.yandex.com/news/search?*',
+          'https://newssearch.yandex.ru/news/search?*',
+          'https://newssearch.yandex.ua/news/search?*',
+          'https://newssearch.yandex.by/news/search?*',
+          'https://newssearch.yandex.kz/news/search?*',
+          'https://newssearch.yandex.uz/news/search?*',
+          'https://newssearch.yandex.com.tr/news/search?*',
+          'https://newssearch.yandex.fr/news/search?*',
+          'https://newssearch.yandex.az/news/search?*',
+          'https://newssearch.yandex.com.ge/news/search?*',
+          'https://newssearch.yandex.com.am/news/search?*',
+          'https://newssearch.yandex.co.il/news/search?*',
+          'https://newssearch.yandex.lv/news/search?*',
+          'https://newssearch.yandex.lt/news/search?*',
+          'https://newssearch.yandex.ee/news/search?*',
+          'https://newssearch.yandex.md/news/search?*',
+          'https://newssearch.yandex.tm/news/search?*',
+          'https://newssearch.yandex.tj/news/search?*',
+        ],
+        runAt: 'document_idle',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_yandexName',
     },
   },
 };
