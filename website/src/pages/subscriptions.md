@@ -49,7 +49,7 @@ title: Subscriptions
 - [ublacklist-programming-school](https://github.com/108EAA0A/ublacklist-programming-school) by [@108EAA0A](https://github.com/108EAA0A)
   - "プログラミングスクールやその卒業生の低質な記事、スクール紹介サイトなどを除外する用"
 - [ublacklist-search-result](https://github.com/munierujp/ublacklist-search-result) by [@munierujp](https://github.com/munierujp)
-  - "SNSやショッピングサイトなどの検索結果ページを除外するための、uBlacklistのブラックリスト"
+  - "SNS やショッピングサイトなどの検索結果ページを除外するための、uBlacklist のブラックリスト"
 
 ## Other subscription lists
 
