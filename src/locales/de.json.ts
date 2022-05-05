@@ -105,7 +105,7 @@ exportAsMessages('_locales/de/messages.json', {
   options_subscriptionFeature: 'Sperrlisten abonnieren',
   options_subscriptionFeatureDescription:
     'Wenn Sie ein Abonnement hinzufügen, werden die Sperrlisten regelmäßig von der festgelegten URL heruntergeladen.',
-  options_addSubscriptionButton: 'Add a subscription',
+  options_addSubscriptionButton: 'Abonnement hinzufügen',
   options_subscriptionNameHeader: 'Name',
   options_subscriptionURLHeader: 'URL',
   options_subscriptionUpdateResultHeader: 'Letzte Aktualisierung',

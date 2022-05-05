@@ -347,5 +347,5 @@ export function hasDarkBackground(element: HTMLElement): boolean {
 }
 
 export function getDialogThemeFromBody(): () => DialogTheme {
-  return () => (document.body && hasDarkBackground(document.body) ? 'light' : 'dark');
+  return () => (document.body && hasDarkBackground(document.body) ? 'dark' : 'light');
 }
