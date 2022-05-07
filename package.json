@@ -92,6 +92,14 @@
           "project": "./tsconfig.json"
         },
         "rules": {
+          "@typescript-eslint/no-misused-promises": [
+            "error",
+            {
+              "checksVoidReturn": {
+                "attributes": false
+              }
+            }
+          ],
           "@typescript-eslint/no-unused-vars": "off"
         }
       },
