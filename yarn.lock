@@ -2672,7 +2672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdi/svg@npm:^6.5.95":
+"@mdi/svg@npm:^6.6.96":
   version: 6.6.96
   resolution: "@mdi/svg@npm:6.6.96"
   checksum: a20f2fac49ee6353ce7082e05a08a9be316ce3fe3030aedc89e9b47457090530cb7cd77a19ec432f8d34fe35f0ab4e6fbf2eab795c445c618ca9bef0692a3706
@@ -3493,13 +3493,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:0.0.178":
-  version: 0.0.178
-  resolution: "@types/chrome@npm:0.0.178"
+"@types/chrome@npm:0.0.184":
+  version: 0.0.184
+  resolution: "@types/chrome@npm:0.0.184"
   dependencies:
     "@types/filesystem": "*"
     "@types/har-format": "*"
-  checksum: 6b38bd864c146e6f0f4ec1d3f1dfc2f96c1ad32c36f8adf84b820ea9c6379d3bbe4f5de273d53aaaba804bb1f237b8dc7bd8bd12e5a3284ebe2e706e37a40791
+  checksum: fe4afa0b4dcedde029c75d2ba31f64e1a93b5ad499cdfb48cee4017c32277ac11a6b0bde121f63d9ff6b8a333dca4d6eb446504bc4a1cd84f23552c320f2d8b1
   languageName: node
   linkType: hard
 
@@ -3689,7 +3689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.4.0":
+"@types/jest@npm:^27.5.0":
   version: 27.5.0
   resolution: "@types/jest@npm:27.5.0"
   dependencies:
@@ -3759,7 +3759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.24":
+"@types/node@npm:^16.11.33":
   version: 16.11.33
   resolution: "@types/node@npm:16.11.33"
   checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
@@ -3787,7 +3787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.4.4":
+"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.6.0":
   version: 2.6.0
   resolution: "@types/prettier@npm:2.6.0"
   checksum: 946f1f82ce6f31664e023a5d65931c31b7d677b454f528f67dce851d72e7fcfe713076f4251b16c3646eecf1545f5f5b909b4962966341ed9ddf5b80113b3674
@@ -3822,7 +3822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.11":
+"@types/react-dom@npm:^17.0.16":
   version: 17.0.16
   resolution: "@types/react-dom@npm:17.0.16"
   dependencies:
@@ -3874,7 +3874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17, @types/react@npm:^17.0.39":
+"@types/react@npm:^17, @types/react@npm:^17.0.45":
   version: 17.0.45
   resolution: "@types/react@npm:17.0.45"
   dependencies:
@@ -4002,7 +4002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.11.0":
+"@typescript-eslint/eslint-plugin@npm:^5.22.0":
   version: 5.22.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.22.0"
   dependencies:
@@ -4025,7 +4025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.11.0":
+"@typescript-eslint/parser@npm:^5.22.0":
   version: 5.22.0
   resolution: "@typescript-eslint/parser@npm:5.22.0"
   dependencies:
@@ -7271,7 +7271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^2.6.19":
+"csstype@npm:^2.6.20":
   version: 2.6.20
   resolution: "csstype@npm:2.6.20"
   checksum: cb5d5ded49c3390909e93b20b285d4a63d0ba5b10294bdfbc4cf911f80e91d6cf367ea671f99f09570762535c14ea7074a2c7fa73f02008203f01328dea8968b
@@ -7319,7 +7319,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.10.7":
+"dayjs@npm:^1.11.2":
   version: 1.11.2
   resolution: "dayjs@npm:1.11.2"
   checksum: 78f8bd04a9e5f5554aa06eacda65a7d59e162d39f621a46fd34fb3b51367c3662426d86b4e2f4ac535f81e0c4d5af3e8a83b37e672412eb556267d726c61f8f3
@@ -8367,7 +8367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.14.21, esbuild@npm:^0.14.6":
+"esbuild@npm:^0.14.38, esbuild@npm:^0.14.6":
   version: 0.14.38
   resolution: "esbuild@npm:0.14.38"
   dependencies:
@@ -8499,7 +8499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
+"eslint-config-prettier@npm:^8.5.0":
   version: 8.5.0
   resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
@@ -8530,7 +8530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.25.4":
+"eslint-plugin-import@npm:^2.26.0":
   version: 2.26.0
   resolution: "eslint-plugin-import@npm:2.26.0"
   dependencies:
@@ -8584,7 +8584,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.3.0":
+"eslint-plugin-react-hooks@npm:^4.5.0":
   version: 4.5.0
   resolution: "eslint-plugin-react-hooks@npm:4.5.0"
   peerDependencies:
@@ -8593,7 +8593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.28.0":
+"eslint-plugin-react@npm:^7.29.4":
   version: 7.29.4
   resolution: "eslint-plugin-react@npm:7.29.4"
   dependencies:
@@ -8754,7 +8754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.9.0":
+"eslint@npm:^8.15.0":
   version: 8.15.0
   resolution: "eslint@npm:8.15.0"
   dependencies:
@@ -9567,7 +9567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.1":
+"fork-ts-checker-webpack-plugin@npm:^7.2.11":
   version: 7.2.11
   resolution: "fork-ts-checker-webpack-plugin@npm:7.2.11"
   dependencies:
@@ -10185,7 +10185,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"goober@npm:^2.1.7":
+"goober@npm:^2.1.9":
   version: 2.1.9
   resolution: "goober@npm:2.1.9"
   peerDependencies:
@@ -11488,7 +11488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-mobile@npm:^3.0.0":
+"is-mobile@npm:^3.1.1":
   version: 3.1.1
   resolution: "is-mobile@npm:3.1.1"
   checksum: b7c549020ac4674520378623afc4976694ff686eb3761cfad12da936ba9c2d675687bdc3c82eadf5a25147ce51c682800679bf835e31de272f05c026cd2b2f14
@@ -13083,7 +13083,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.3":
+"lint-staged@npm:^12.4.1":
   version: 12.4.1
   resolution: "lint-staged@npm:12.4.1"
   dependencies:
@@ -14067,7 +14067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mpsl@npm:^3.1.5":
+"mpsl@npm:^3.1.12":
   version: 3.1.12
   resolution: "mpsl@npm:3.1.12"
   dependencies:
@@ -15959,10 +15959,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact@npm:10.6.5":
-  version: 10.6.5
-  resolution: "preact@npm:10.6.5"
-  checksum: 020718a187e12d73cfb036dabb29fb64914c166633f255867ebcf6afca43d61a984d02375f90fe16fa93be662256a05c273e808cf60b08562c4440d2744d9b66
+"preact@npm:10.7.2":
+  version: 10.7.2
+  resolution: "preact@npm:10.7.2"
+  checksum: 2f0655e0430f1c6927b40cb4abffb2c0ee4fe63e3201d44e37d0992c0ab534346f206cf23c0405572b70908e3eba2f7f60ab8e4531f409ebcbc35af06920cd60
   languageName: node
   linkType: hard
 
@@ -15994,7 +15994,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.5.1":
+"prettier@npm:^2.6.2":
   version: 2.6.2
   resolution: "prettier@npm:2.6.2"
   bin:
@@ -19296,7 +19296,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.5":
+"typescript@npm:^4.6.4":
   version: 4.6.4
   resolution: "typescript@npm:4.6.4"
   bin:
@@ -19306,7 +19306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.5.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
   version: 4.6.4
   resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=bda367"
   bin:
@@ -19339,7 +19339,7 @@ __metadata:
     prism-react-renderer: ^1.3.1
     react: ^17.0.2
     react-dom: ^17.0.2
-    typescript: ^4.5.5
+    typescript: ^4.6.4
   languageName: unknown
   linkType: soft
 
@@ -19352,49 +19352,49 @@ __metadata:
     "@codemirror/state": ^0.20.0
     "@codemirror/view": ^0.20.4
     "@lezer/highlight": ^0.16.0
-    "@mdi/svg": ^6.5.95
-    "@types/chrome": 0.0.178
+    "@mdi/svg": ^6.6.96
+    "@types/chrome": 0.0.184
     "@types/dotenv-webpack": ^7.0.3
     "@types/firefox-webext-browser": ^94.0.1
     "@types/glob": ^7.2.0
-    "@types/jest": ^27.4.0
-    "@types/node": ^16.11.24
-    "@types/prettier": ^2.4.4
+    "@types/jest": ^27.5.0
+    "@types/node": ^16.11.33
+    "@types/prettier": ^2.6.0
     "@types/punycode": ^2.1.0
-    "@types/react": ^17.0.39
-    "@types/react-dom": ^17.0.11
-    "@typescript-eslint/eslint-plugin": ^5.11.0
-    "@typescript-eslint/parser": ^5.11.0
+    "@types/react": ^17.0.45
+    "@types/react-dom": ^17.0.16
+    "@typescript-eslint/eslint-plugin": ^5.22.0
+    "@typescript-eslint/parser": ^5.22.0
     aggregate-error: ^3.1.0
     colord: ^2.9.2
     copy-webpack-plugin: ^10.2.4
-    csstype: ^2.6.19
-    dayjs: ^1.10.7
+    csstype: ^2.6.20
+    dayjs: ^1.11.2
     dotenv-webpack: ^7.1.0
-    esbuild: ^0.14.21
+    esbuild: ^0.14.38
     esbuild-jest: ^0.5.0
     esbuild-loader: ^2.18.0
     esbuild-register: ^3.3.2
-    eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-import: ^2.25.4
+    eslint: ^8.15.0
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-import: ^2.26.0
     eslint-plugin-jsx-a11y: ^6.5.1
-    eslint-plugin-react: ^7.28.0
-    eslint-plugin-react-hooks: ^4.3.0
+    eslint-plugin-react: ^7.29.4
+    eslint-plugin-react-hooks: ^4.5.0
     eslint-plugin-unused-imports: ^2.0.0
-    fork-ts-checker-webpack-plugin: ^7.2.1
+    fork-ts-checker-webpack-plugin: ^7.2.11
     globby: ^13.1.1
-    goober: ^2.1.7
+    goober: ^2.1.9
     html-webpack-plugin: ^5.5.0
     if-webpack-loader: ^2.0.0
-    is-mobile: ^3.0.0
+    is-mobile: ^3.1.1
     jest: ^27.5.1
-    lint-staged: ^12.3.3
+    lint-staged: ^12.4.1
     microstruct: ^1.0.0
-    mpsl: ^3.1.5
+    mpsl: ^3.1.12
     npm-run-all: ^4.1.5
-    preact: 10.6.5
-    prettier: ^2.5.1
+    preact: 10.7.2
+    prettier: ^2.6.2
     punycode: ^2.1.1
     react-colorful: ^5.5.1
     rimraf: ^3.0.2
@@ -19402,8 +19402,8 @@ __metadata:
     semantic-release-chrome: ^1.1.3
     semantic-release-firefox-add-on: ^0.2.8
     simple-git-hooks: ^2.7.0
-    typescript: ^4.5.5
-    webpack: ^5.68.0
+    typescript: ^4.6.4
+    webpack: ^5.72.0
     webpack-cli: ^4.9.2
   languageName: unknown
   linkType: soft
@@ -20294,7 +20294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5, webpack@npm:^5.68.0, webpack@npm:^5.72.0":
+"webpack@npm:^5, webpack@npm:^5.72.0":
   version: 5.72.0
   resolution: "webpack@npm:5.72.0"
   dependencies:
