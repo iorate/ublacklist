@@ -4,6 +4,10 @@ import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
   // #if CHROME && !CHROME_MV3
+  const granted = await apis.permissions.contains({ origins: [url] });
+  if (!granted) {
+    return;
+  }
   const altURL = new AltURL(url);
   const contentScript = stringEntries(SEARCH_ENGINES)
     .flatMap(([id, { contentScripts }]) => (id === 'google' ? [] : contentScripts))
