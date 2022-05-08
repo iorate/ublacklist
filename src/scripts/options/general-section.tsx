@@ -342,7 +342,7 @@ const SetBlacklist: React.VFC = () => {
             <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
           <RulesetEditor
-            height="200px"
+            height="300px"
             resizable
             value={blacklist}
             onChange={value => {
