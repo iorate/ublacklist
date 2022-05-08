@@ -421,10 +421,7 @@ const SetBlacklist: React.VFC = () => {
 };
 
 const RegisterSearchEngines: React.VFC = () => {
-  /* #if CHROME_MV3 || SAFARI
-  return null;
-  */
-  // #else
+  // #if !SAFARI
   const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
@@ -447,6 +444,9 @@ const RegisterSearchEngines: React.VFC = () => {
       </Portal>
     </SectionItem>
   );
+  /* #else
+  return null;
+  */
   // #endif
 };
 

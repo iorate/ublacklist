@@ -30,7 +30,7 @@ function main() {
     'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
   });
 
-  // #if CHROME && !CHROME_MV3
+  // #if CHROME
   apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status !== 'loading' || tab.url == null) {
       return;

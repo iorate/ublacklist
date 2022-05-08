@@ -34,16 +34,7 @@ exportAsJSON('manifest.json', {
     default_popup: 'pages/popup.html',
   },
 
-  /* #if CHROME_MV3
-  content_scripts: Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
-    contentScripts.map(({ matches, runAt }) => ({
-      js: ['scripts/content-script.js'],
-      matches,
-      run_at: runAt,
-    })),
-  ),
-  */
-  // #elif !SAFARI
+  // #if !SAFARI
   content_scripts: SEARCH_ENGINES.google.contentScripts.map(({ matches, runAt }) => ({
     js: ['scripts/content-script.js'],
     matches,
@@ -104,7 +95,7 @@ exportAsJSON('manifest.json', {
   name: '__MSG_extensionName__',
 
   /* #if CHROME_MV3
-  host_permissions: ['*://*\/*'],
+  optional_host_permissions: ['*://*\/*'],
   */
   // #else
   optional_permissions: ['*://*/*'],

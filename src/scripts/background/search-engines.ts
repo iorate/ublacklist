@@ -3,7 +3,7 @@ import { apis } from '../apis';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
-  // #if CHROME && !CHROME_MV3
+  // #if CHROME
   const granted = await apis.permissions.contains({ origins: [url] });
   if (!granted) {
     return;
@@ -15,15 +15,31 @@ export async function injectContentScript(tabId: number, url: string): Promise<v
   if (!contentScript) {
     return;
   }
+  /* #if CHROME_MV3
+  const [{ result: active }] = await chrome.scripting.executeScript({
+    target: { tabId },
+    files: ['/scripts/active.js'],
+  });
+  */
+  // #else
   const [active] = await apis.tabs.executeScript(tabId, {
     file: '/scripts/active.js',
     runAt: contentScript.runAt,
   });
+  // #endif
   if (!active) {
+    /* #if CHROME_MV3
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['/scripts/content-script.js'],
+    });
+    */
+    // #else
     await apis.tabs.executeScript(tabId, {
       file: '/scripts/content-script.js',
       runAt: contentScript.runAt,
     });
+    // #endif
   }
   // #endif
 }
