@@ -1,5 +1,6 @@
 import { MessageName0 } from './locales';
 
+// TODO: Add 'yahooJapan'
 export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage';
 
 export type SearchEngine = {
@@ -302,4 +303,5 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
       name: 'searchEngines_startpageName',
     },
   },
+  // TODO: Add yahooJapan
 };

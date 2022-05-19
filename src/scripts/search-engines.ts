@@ -13,4 +13,5 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
   ecosia,
   qwant,
   startpage,
+  // TODO: Add yahooJapan
 };
