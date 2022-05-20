@@ -13,6 +13,9 @@ const webHandler = handleSerp({
   controlHandlers: [
     {
       target: '.SearchTool',
+      style: {
+        color: '#666',
+      },
     },
   ],
   entryHandlers: [

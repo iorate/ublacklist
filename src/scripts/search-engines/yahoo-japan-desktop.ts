@@ -18,6 +18,7 @@ const webHandler = handleSerp({
     {
       target: '.Hits__item',
       style: {
+        color: '#666',
         marginLeft: '8px',
       },
     },
