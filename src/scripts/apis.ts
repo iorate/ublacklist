@@ -103,6 +103,18 @@ export namespace apis {
         });
       });
     }
+
+    export function remove(permissions: Permissions): Promise<boolean> {
+      return new Promise<boolean>((resolve, reject) => {
+        chrome.permissions.remove(permissions, removed => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message));
+          } else {
+            resolve(removed);
+          }
+        });
+      });
+    }
   }
 
   export namespace runtime {

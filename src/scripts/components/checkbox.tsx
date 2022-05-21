@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from './constants';
-import { FocusCircle, applyClassName } from './helpers';
+import { FocusCircle, applyClassName, useInnerRef } from './helpers';
 import { useClassName } from './utilities';
 
-export type CheckBoxProps = JSX.IntrinsicElements['input'];
+export type CheckBoxProps = JSX.IntrinsicElements['input'] & {
+  indeterminate?: boolean;
+};
 
 export const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(function CheckBox(
-  props,
+  { indeterminate = false, ...props },
   ref,
 ) {
+  const innerRef = useInnerRef(ref);
+
+  useLayoutEffect(() => {
+    if (innerRef.current) {
+      innerRef.current.indeterminate = indeterminate;
+    }
+  });
+
   const wrapperClassName = useClassName(
     () => ({
       height: '16px',
@@ -49,7 +59,7 @@ export const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(functi
       position: 'absolute',
       top: 0,
       width: '16px',
-      ':checked + * > &': {
+      ':checked + * > &, :indeterminate + * > &': {
         background: theme.checkBox.box,
         border: 'none',
       },
@@ -67,18 +77,32 @@ export const CheckBox = React.forwardRef<HTMLInputElement, CheckBoxProps>(functi
       top: '3px',
       transform: 'rotate(-45deg) scale(0.75)',
       width: '16px',
-      ':checked + * > &': {
+      ':checked:not(:indeterminate) + * > &': {
         borderColor: theme.checkBox.checkMark,
+      },
+    }),
+    [],
+  );
+  const indeterminateClassName = useClassName(
+    theme => ({
+      height: '2px',
+      left: '3px',
+      position: 'absolute',
+      top: '7px',
+      width: '10px',
+      ':indeterminate + * > &': {
+        backgroundColor: theme.checkBox.checkMark,
       },
     }),
     [],
   );
   return (
     <div className={wrapperClassName}>
-      <input {...applyClassName(props, inputClassName)} ref={ref} type="checkbox" />
+      <input {...applyClassName(props, inputClassName)} ref={innerRef} type="checkbox" />
       <div className={imageClassName}>
         <div className={boxClassNmae} />
         <div className={checkMarkClassName} />
+        <div className={indeterminateClassName} />
         <FocusCircle depth={1} />
       </div>
     </div>
