@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SEARCH_ENGINES } from '../../common/search-engines';
 import { apis } from '../apis';
 import { Button, LinkButton } from '../components/button';
@@ -15,7 +15,6 @@ import {
 import { Indent } from '../components/indent';
 import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
 import { expandLinks } from '../components/link';
-import { List, ListItem } from '../components/list';
 import { Portal } from '../components/portal';
 import { Row, RowItem } from '../components/row';
 import {
@@ -30,7 +29,7 @@ import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
-import { addMessageListeners, sendMessage } from '../messages';
+import { addMessageListeners } from '../messages';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
@@ -191,6 +190,126 @@ const ImportBlacklistDialog: React.VFC<
   );
 };
 
+const RegisterSearchEnginesDialog: React.VFC<DialogProps> = ({ close, open }) => {
+  type ID = Exclude<SearchEngineId, 'google'>;
+  type State = 'none' | 'partial' | 'full';
+
+  const ids = useMemo(
+    () => stringKeys(SEARCH_ENGINES).filter(id => id !== 'google') as readonly ID[],
+    [],
+  );
+  const matches = useMemo(
+    () =>
+      Object.fromEntries(
+        ids.map(id => [
+          id,
+          SEARCH_ENGINES[id].contentScripts.flatMap(
+            contentScript => contentScript.matches,
+          ) as readonly string[],
+        ]),
+      ) as Readonly<Record<ID, readonly string[]>>,
+    [ids],
+  );
+  const defaultStates = useMemo(
+    () => Object.fromEntries(ids.map(id => [id, 'none'])) as Readonly<Record<ID, State>>,
+    [ids],
+  );
+  const [states, setStates] = useState(defaultStates);
+
+  const prevOpen = usePrevious(open);
+  useEffect(() => {
+    if (open && !prevOpen) {
+      void (async () => {
+        const regitrationEntries = await Promise.all(
+          ids.map(async id => {
+            const permissions = await Promise.all(
+              matches[id].map(match => apis.permissions.contains({ origins: [match] })),
+            );
+            const [allowed, denied] = permissions.reduce(
+              ([a, d], p) => [a || p, d || !p],
+              [false, false],
+            );
+            return [id, allowed ? (!denied ? 'full' : 'partial') : 'none'] as const;
+          }),
+        );
+        setStates(Object.fromEntries(regitrationEntries) as Record<ID, State>);
+      })();
+    }
+  }, [open, prevOpen, ids, matches]);
+
+  return (
+    <Dialog aria-labelledby="registerSearchEnginesDialogTitle" close={close} open={open}>
+      <DialogHeader>
+        <DialogTitle id="registerSearchEnginesDialogTitle">
+          {translate('options_otherSearchEngines')}
+        </DialogTitle>
+      </DialogHeader>
+      <DialogBody>
+        {ids.map((id, index) => (
+          <Row key={id}>
+            <RowItem>
+              <Indent>
+                <CheckBox
+                  checked={states[id] === 'full'}
+                  className={index === 0 ? FOCUS_START_CLASS : ''}
+                  id={id}
+                  indeterminate={states[id] === 'partial'}
+                  onChange={e => {
+                    setStates(states => ({
+                      ...states,
+                      [id]: e.currentTarget.checked ? 'full' : 'none',
+                    }));
+                  }}
+                />
+              </Indent>
+            </RowItem>
+            <RowItem expanded>
+              <LabelWrapper>
+                <ControlLabel for={id}>
+                  {translate(SEARCH_ENGINES[id].messageNames.name)}
+                </ControlLabel>
+              </LabelWrapper>
+            </RowItem>
+          </Row>
+        ))}
+      </DialogBody>
+      <DialogFooter>
+        <Row right>
+          <RowItem>
+            <Button onClick={close}>{translate('cancelButton')}</Button>
+          </RowItem>
+          <RowItem>
+            <Button
+              className={FOCUS_END_CLASS}
+              primary
+              onClick={async () => {
+                const originsToRequest = ids.flatMap(id =>
+                  states[id] === 'full' ? matches[id] : [],
+                );
+                if (originsToRequest.length) {
+                  const granted = await apis.permissions.request({ origins: originsToRequest });
+                  if (!granted) {
+                    return;
+                  }
+                }
+                const originsToRemove = ids.flatMap(id =>
+                  states[id] === 'none' ? matches[id] : [],
+                );
+                if (originsToRemove.length) {
+                  await apis.permissions.remove({ origins: originsToRemove });
+                }
+                close();
+              }}
+            >
+              {translate('options_registerSearchEngine')}
+            </Button>
+          </RowItem>
+        </Row>
+      </DialogFooter>
+    </Dialog>
+  );
+};
+
 const SetBlacklist: React.VFC = () => {
   const {
     initialItems: { blacklist: initialBlacklist },
@@ -223,7 +342,7 @@ const SetBlacklist: React.VFC = () => {
             <SubLabel>{translate('options_blacklistExample', 'title/Example Domain/')}</SubLabel>
           </LabelWrapper>
           <RulesetEditor
-            height="200px"
+            height="300px"
             resizable
             value={blacklist}
             onChange={value => {
@@ -301,52 +420,10 @@ const SetBlacklist: React.VFC = () => {
   );
 };
 
-const RegisterSearchEngine: React.VFC<{
-  id: SearchEngineId;
-}> = ({ id }) => {
-  const { contentScripts, messageNames } = SEARCH_ENGINES[id];
-  const matches = contentScripts.flatMap(({ matches }) => matches);
-
-  const [registered, setRegistered] = useState(false);
-
-  useEffect(() => {
-    void (async () => {
-      const registered = await apis.permissions.contains({ origins: matches });
-      setRegistered(registered);
-    })();
-  }, [matches]);
-
-  return (
-    <Row>
-      <RowItem expanded>{translate(messageNames.name)}</RowItem>
-      <RowItem>
-        {registered ? (
-          <Button disabled>{translate('options_searchEngineRegistered')}</Button>
-        ) : (
-          <Button
-            onClick={async () => {
-              const registered = await apis.permissions.request({
-                origins: matches,
-              });
-              if (registered) {
-                void sendMessage('activate');
-              }
-              setRegistered(registered);
-            }}
-          >
-            {translate('options_registerSearchEngine')}
-          </Button>
-        )}
-      </RowItem>
-    </Row>
-  );
-};
-
 const RegisterSearchEngines: React.VFC = () => {
-  /* #if CHROME_MV3 || SAFARI
-  return null;
-  */
-  // #else
+  // #if !SAFARI
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <SectionItem>
       <Row>
@@ -356,26 +433,20 @@ const RegisterSearchEngines: React.VFC = () => {
             <SubLabel>{translate('options_otherSearchEnginesDescription')}</SubLabel>
           </LabelWrapper>
         </RowItem>
-      </Row>
-      <Row>
         <RowItem>
-          <Indent />
-        </RowItem>
-        <RowItem expanded>
-          <List>
-            {stringKeys(SEARCH_ENGINES).map(
-              id =>
-                id !== 'google' && (
-                  <ListItem key={id}>
-                    <RegisterSearchEngine id={id} />
-                  </ListItem>
-                ),
-            )}
-          </List>
+          <Button onClick={() => setDialogOpen(true)}>
+            {translate('options_registerSearchEngine')}
+          </Button>
         </RowItem>
       </Row>
+      <Portal id="registerSearchEnginesDialogPortal">
+        <RegisterSearchEnginesDialog close={() => setDialogOpen(false)} open={dialogOpen} />
+      </Portal>
     </SectionItem>
   );
+  /* #else
+  return null;
+  */
   // #endif
 };
 

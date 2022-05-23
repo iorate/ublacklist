@@ -1,4 +1,4 @@
-import { StreamLanguage } from '@codemirror/stream-parser';
+import { StreamLanguage } from '@codemirror/language';
 import React from 'react';
 import { Editor, EditorProps } from '../components/editor';
 import { RE_LINE } from '../ruleset';

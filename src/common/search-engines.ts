@@ -1,6 +1,13 @@
 import { MessageName0 } from './locales';
 
-export type SearchEngineId = 'google' | 'bing' | 'duckduckgo' | 'ecosia' | 'qwant' | 'startpage';
+export type SearchEngineId =
+  | 'google'
+  | 'bing'
+  | 'duckduckgo'
+  | 'ecosia'
+  | 'qwant'
+  | 'startpage'
+  | 'yahooJapan';
 
 export type SearchEngine = {
   contentScripts: {
@@ -300,6 +307,17 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_startpageName',
+    },
+  },
+  yahooJapan: {
+    contentScripts: [
+      {
+        matches: ['https://search.yahoo.co.jp/search?*'],
+        runAt: 'document_idle',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_yahooJapanName',
     },
   },
 };

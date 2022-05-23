@@ -33,6 +33,7 @@ This extension is available in the below search engines.
 | Qwant (iOS)      | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
 | Startpage        | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage (iOS)  | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
+| Yahoo! JAPAN     | :heavy_check_mark: |                    |                    |                    |
 
 \*1 Works only if you turn off "Always play videos on Qwant.com"
 
