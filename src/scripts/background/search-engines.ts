@@ -81,10 +81,6 @@ let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] =
 
 export async function registerContentScripts(): Promise<void> {
   // #if CHROME_MV3
-  if (!browser.scripting.registerContentScripts || !browser.scripting.unregisterContentScripts) {
-    // Chrome < 102
-    return;
-  }
   await browser.scripting.unregisterContentScripts();
   await browser.scripting.registerContentScripts(
     (
