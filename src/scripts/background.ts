@@ -2,12 +2,12 @@
 import dayjs from 'dayjs';
 */
 // #endif
-import { apis } from './apis';
 import * as Clouds from './background/clouds';
 import * as LocalStorage from './background/local-storage';
 import * as SearchEngines from './background/search-engines';
 import * as Subscriptions from './background/subscriptions';
 import * as Sync from './background/sync';
+import { browser } from './browser';
 import { addMessageListeners } from './messages';
 
 function main() {
@@ -20,38 +20,39 @@ function main() {
     'remove-subscription': LocalStorage.removeSubscription,
     'enable-subscription': LocalStorage.enableSubscription,
 
-    activate: SearchEngines.registerContentScript,
+    'register-content-scripts': SearchEngines.registerContentScripts,
 
     sync: Sync.sync,
 
     'update-subscription': Subscriptions.update,
     'update-all-subscriptions': Subscriptions.updateAll,
 
-    'open-options-page': apis.runtime.openOptionsPage.bind(apis.runtime),
+    'open-options-page': browser.runtime.openOptionsPage,
   });
 
-  // #if CHROME
-  apis.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  /* #if CHROME && !CHROME_MV3
+  browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status !== 'loading' || tab.url == null) {
       return;
     }
     void SearchEngines.injectContentScript(tabId, tab.url);
   });
+  */
   // #endif
 
-  apis.runtime.onInstalled.addListener(() => {
+  browser.runtime.onInstalled.addListener(() => {
     void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });
 
-  apis.runtime.onStartup.addListener(() => {
+  browser.runtime.onStartup.addListener(() => {
     void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
   });
 
-  apis.alarms.onAlarm.addListener(alarm => {
+  browser.alarms.onAlarm.addListener(alarm => {
     if (alarm.name === Sync.SYNC_ALARM_NAME) {
       void Sync.sync();
     } else if (alarm.name === Subscriptions.UPDATE_ALL_ALARM_NAME) {
@@ -60,19 +61,19 @@ function main() {
   });
 
   /* #if SAFARI
-  apis.windows.onFocusChanged.addListener(windowId => {
-    if (windowId === apis.windows.WINDOW_ID_NONE) {
+  browser.windows.onFocusChanged.addListener(windowId => {
+    if (windowId === browser.windows.WINDOW_ID_NONE) {
       return;
     }
     void (async () => {
-      if ((await apis.runtime.getPlatformInfo()).os !== 'ios') {
+      if ((await browser.runtime.getPlatformInfo()).os !== 'ios') {
         return;
       }
       // Sync and update-all may be fired as expected. Wait for them to recreate alarms.
       await new Promise(resolve => setTimeout(resolve, 5000));
       const [syncAlarm, updateAllAlarm] = await Promise.all([
-        apis.alarms.get(Sync.SYNC_ALARM_NAME),
-        apis.alarms.get(Subscriptions.UPDATE_ALL_ALARM_NAME),
+        browser.alarms.get(Sync.SYNC_ALARM_NAME),
+        browser.alarms.get(Subscriptions.UPDATE_ALL_ALARM_NAME),
       ]);
       const now = dayjs();
       if (syncAlarm && dayjs(syncAlarm.scheduledTime).isBefore(now)) {
@@ -86,7 +87,7 @@ function main() {
   */
   // #endif
 
-  void SearchEngines.registerContentScript();
+  void SearchEngines.registerContentScripts();
 }
 
 main();

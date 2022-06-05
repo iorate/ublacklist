@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import icon from '../../icons/icon.svg';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { Icon } from '../components/icon';
 import { Indent } from '../components/indent';
 import { Label, LabelWrapper, SubLabel } from '../components/label';
@@ -18,9 +18,9 @@ import { useClassName } from '../components/utilities';
 import { translate } from '../locales';
 
 export const AboutSection: React.VFC = () => {
-  const version = useMemo(() => apis.runtime.getManifest().version, []);
+  const version = useMemo(() => browser.runtime.getManifest().version, []);
   /* #if PRODUCTION
-  const thirdPartyNoticesURL = useMemo(() => apis.runtime.getURL('third-party-notices.txt'), []);
+  const thirdPartyNoticesURL = useMemo(() => browser.runtime.getURL('third-party-notices.txt'), []);
   */
   // #endif
   const nameClassName = useClassName(

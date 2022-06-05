@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { defaultLocalStorageItems } from '../local-storage';
 import { CloudToken, LocalStorageItems, SubscriptionId } from '../types';
 import { Mutex } from '../utilities';
@@ -40,17 +40,17 @@ export function loadFromRawStorage<T extends readonly (keyof RawStorageItems)[]>
   for (const key of keys) {
     defaultItemsForKeys[key] = defaultRawStorageItems[key];
   }
-  return apis.storage.local.get(defaultItemsForKeys) as Promise<RawStorageItemsFor<T>>;
+  return browser.storage.local.get(defaultItemsForKeys) as Promise<RawStorageItemsFor<T>>;
 }
 
 export function loadAllFromRawStorage(): Promise<RawStorageItems> {
-  return apis.storage.local.get(defaultRawStorageItems) as Promise<RawStorageItems>;
+  return browser.storage.local.get(defaultRawStorageItems) as Promise<RawStorageItems>;
 }
 
 export function saveToRawStorage<Items extends Partial<RawStorageItems>>(
   items: Exclude<keyof Items, keyof RawStorageItems> extends never ? Readonly<Items> : never,
 ): Promise<void> {
-  return mutex.lock(() => apis.storage.local.set(items));
+  return mutex.lock(() => browser.storage.local.set(items));
 }
 
 export function modifyInRawStorage<
@@ -65,7 +65,7 @@ export function modifyInRawStorage<
   return mutex.lock(async () => {
     const oldItems = await loadFromRawStorage(keys);
     const newItems = callback(oldItems);
-    await apis.storage.local.set(newItems);
+    await browser.storage.local.set(newItems);
   });
 }
 
@@ -77,6 +77,6 @@ export function modifyAllInRawStorage<Items extends Partial<RawStorageItems>>(
   return mutex.lock(async () => {
     const oldItems = await loadAllFromRawStorage();
     const newItems = callback(oldItems);
-    await apis.storage.local.set(newItems);
+    await browser.storage.local.set(newItems);
   });
 }

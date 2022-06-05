@@ -1,5 +1,5 @@
 import * as S from 'microstruct';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { ALT_FLOW_REDIRECT_URL } from '../constants';
 import { HTTPError, UnexpectedResponse } from '../utilities';
 
@@ -24,11 +24,11 @@ export function shouldUseAltFlow(): (os: string) => boolean {
 }
 
 async function launchAltFlow(params: { url: string }): Promise<string> {
-  const [{ id: openerTabId }] = await apis.tabs.query({ active: true, currentWindow: true });
+  const [{ id: openerTabId }] = await browser.tabs.query({ active: true, currentWindow: true });
   if (openerTabId == null) {
     throw new Error('failed to get the current tab');
   }
-  const { id: authorizationTabId } = await apis.tabs.create({
+  const { id: authorizationTabId } = await browser.tabs.create({
     openerTabId,
     url: params.url,
   });
@@ -37,25 +37,27 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
   }
   return new Promise<string>((resolve, reject) => {
     const [onUpdated, onRemoved] = [
-      (tabId: number, _changeInfo: apis.tabs._OnUpdatedChangeInfo, tab: apis.tabs.Tab) => {
+      (tabId: number, _changeInfo: unknown, tab: browser.tabs.Tab) => {
         if (tabId === authorizationTabId && tab.url?.startsWith(ALT_FLOW_REDIRECT_URL)) {
           resolve(tab.url);
-          apis.tabs.onUpdated.removeListener(onUpdated);
-          apis.tabs.onRemoved.removeListener(onRemoved);
-          void apis.tabs.update(openerTabId, { active: true }).then(() => apis.tabs.remove(tabId));
+          browser.tabs.onUpdated.removeListener(onUpdated);
+          browser.tabs.onRemoved.removeListener(onRemoved);
+          void browser.tabs
+            .update(openerTabId, { active: true })
+            .then(() => browser.tabs.remove(tabId));
         }
       },
       (tabId: number) => {
         if (tabId === authorizationTabId) {
           reject(new Error('the authorization tab was closed'));
-          apis.tabs.onUpdated.removeListener(onUpdated);
-          apis.tabs.onRemoved.removeListener(onRemoved);
-          void apis.tabs.update(openerTabId, { active: true });
+          browser.tabs.onUpdated.removeListener(onUpdated);
+          browser.tabs.onRemoved.removeListener(onRemoved);
+          void browser.tabs.update(openerTabId, { active: true });
         }
       },
     ];
-    apis.tabs.onUpdated.addListener(onUpdated);
-    apis.tabs.onRemoved.addListener(onRemoved);
+    browser.tabs.onUpdated.addListener(onUpdated);
+    browser.tabs.onRemoved.addListener(onRemoved);
   });
 }
 
@@ -67,15 +69,16 @@ export function authorize(
     const authorizationURL = new URL(url);
     authorizationURL.search = new URLSearchParams({
       response_type: 'code',
-      redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : apis.identity.getRedirectURL(),
+      redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : browser.identity.getRedirectURL(),
       ...params,
     }).toString();
-    const redirectURL = await (useAltFlow
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const redirectURL = (await (useAltFlow
       ? launchAltFlow({ url: authorizationURL.toString() })
-      : apis.identity.launchWebAuthFlow({
+      : browser.identity.launchWebAuthFlow({
           url: authorizationURL.toString(),
           interactive: true,
-        }));
+        })))!;
     const redirectParams: Record<string, string> = {};
     for (const [key, value] of new URL(redirectURL).searchParams.entries()) {
       redirectParams[key] = value;
@@ -109,7 +112,7 @@ export function getAccessToken(
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code: authorizationCode,
-        redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : apis.identity.getRedirectURL(),
+        redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : browser.identity.getRedirectURL(),
         ...params,
       }),
     });

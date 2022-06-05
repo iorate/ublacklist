@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import * as S from 'microstruct';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { postMessage } from '../messages';
 import { Ruleset } from '../ruleset';
 import { Result } from '../types';
@@ -259,12 +259,12 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
 
     if (localItems.syncCloudId == null) {
       if (repeat) {
-        await apis.alarms.clear(SYNC_ALARM_NAME);
+        await browser.alarms.clear(SYNC_ALARM_NAME);
       }
       return;
     }
     if (repeat) {
-      apis.alarms.create(SYNC_ALARM_NAME, { periodInMinutes: localItems.syncInterval });
+      browser.alarms.create(SYNC_ALARM_NAME, { periodInMinutes: localItems.syncInterval });
     }
 
     const cloudItems: Partial<RawStorageItems> = {};
