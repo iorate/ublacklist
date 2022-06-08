@@ -145,6 +145,6 @@ export namespace browser {
   }
 }
 /* #else
-export const browser = globalThis.browser;
+export import browser = globalThis.browser;
 */
 // #endif
