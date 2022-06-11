@@ -87,8 +87,8 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     ],
     pagerHandlers: [
       {
-        target: 'div.serp-item',
-        innerTargets: '.serp-item__sitelinks',
+        target: 'div.serp-controller__content > div',
+        innerTargets: 'div.serp-item',
       },
     ],
   }),
