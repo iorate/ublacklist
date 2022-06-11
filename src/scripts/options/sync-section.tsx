@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import dayjsDuration from 'dayjs/plugin/duration';
 import React, { useEffect, useState } from 'react';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -189,7 +189,7 @@ const TurnOnSyncDialog: React.VFC<
                     useAltFlow = forceAltFlow || state.useAltFlow;
                     setState(s => ({ ...s, phase: useAltFlow ? 'auth-alt' : 'auth' }));
                     try {
-                      const granted = await apis.permissions.request({
+                      const granted = await browser.permissions.request({
                         origins: [
                           ...cloud.hostPermissions,
                           ...(useAltFlow ? [ALT_FLOW_REDIRECT_URL] : []),

@@ -114,10 +114,10 @@ const serpHandler = handleSerp({
     // All
     {
       scope: 'all',
-      target: '.result:not(.result--ad):not(.result--news)',
-      url: '.result__a',
-      title: '.result__a',
-      actionTarget: '.result__body',
+      target: '.results > .nrn-react-div',
+      url: 'a[data-testid="result-extras-url-link"]',
+      title: 'a[data-testid="result-title-a"]',
+      actionTarget: 'article[data-testid="result"]',
       actionStyle: {
         display: 'block',
         marginTop: '2px',

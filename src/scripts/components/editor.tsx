@@ -1,10 +1,14 @@
-import { standardKeymap } from '@codemirror/commands';
-import { highlightActiveLineGutter, lineNumbers } from '@codemirror/gutter';
-import { HighlightStyle, tags as t } from '@codemirror/highlight';
-import { history, historyKeymap } from '@codemirror/history';
-import { Language, language } from '@codemirror/language';
+import { history, historyKeymap, standardKeymap } from '@codemirror/commands';
+import { HighlightStyle, Language, language, syntaxHighlighting } from '@codemirror/language';
 import { Compartment, EditorState, Transaction } from '@codemirror/state';
-import { EditorView, highlightSpecialChars, keymap } from '@codemirror/view';
+import {
+  EditorView,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  keymap,
+  lineNumbers,
+} from '@codemirror/view';
+import { tags as t } from '@lezer/highlight';
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
 import { useTheme } from './theme';
@@ -84,24 +88,26 @@ export const Editor: React.VFC<EditorProps> = ({
   useLayoutEffect(() => {
     view.current?.dispatch({
       effects: highlightStyleCompartment.current.reconfigure(
-        HighlightStyle.define([
-          {
-            tag: t.annotation,
-            color: theme.editor.annotation,
-          },
-          {
-            tag: t.regexp,
-            color: theme.editor.regexp,
-          },
-          {
-            tag: t.comment,
-            color: theme.editor.comment,
-          },
-          {
-            tag: t.invalid,
-            color: theme.editor.comment,
-          },
-        ]),
+        syntaxHighlighting(
+          HighlightStyle.define([
+            {
+              tag: t.annotation,
+              color: theme.editor.annotation,
+            },
+            {
+              tag: t.regexp,
+              color: theme.editor.regexp,
+            },
+            {
+              tag: t.comment,
+              color: theme.editor.comment,
+            },
+            {
+              tag: t.invalid,
+              color: theme.editor.comment,
+            },
+          ]),
+        ),
       ),
     });
   }, [theme]);

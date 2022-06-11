@@ -7,7 +7,8 @@ export type SearchEngineId =
   | 'ecosia'
   | 'qwant'
   | 'startpage'
-  | 'yandex';
+  | 'yandex'
+  | 'yahooJapan';
 
 export type SearchEngine = {
   contentScripts: {
@@ -395,6 +396,17 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_yandexName',
+    },
+  },
+  yahooJapan: {
+    contentScripts: [
+      {
+        matches: ['https://search.yahoo.co.jp/search?*'],
+        runAt: 'document_idle',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_yahooJapanName',
     },
   },
 };
