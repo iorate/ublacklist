@@ -42,56 +42,6 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       },
     ],
   }),
-  '/images/search': handleSerp({
-    globalStyle,
-    controlHandlers: [
-      {
-        target: '.serp-controller__content',
-        position: 'afterend',
-        style: {
-          display: 'block',
-        },
-      },
-    ],
-    entryHandlers: [
-      {
-        target: 'div.serp-item',
-        url: '.polaroid2__url',
-        title: '.polaroid2__title',
-        actionTarget: '.polaroid2__content',
-        actionStyle: {
-          display: 'block',
-        },
-      },
-    ],
-  }),
-  '/video/search': handleSerp({
-    globalStyle,
-    controlHandlers: [
-      {
-        target: '.serp-controller__content',
-        position: 'beforebegin',
-        style: {
-          display: 'block',
-          marginBottom: '10px',
-        },
-      },
-    ],
-    entryHandlers: [
-      {
-        target: 'div.serp-item',
-        url: '.serp-url__link',
-        title: '.serp-item__title',
-        actionTarget: '.serp-item__sitelinks',
-      },
-    ],
-    pagerHandlers: [
-      {
-        target: 'div.serp-controller__content > div',
-        innerTargets: 'div.serp-item',
-      },
-    ],
-  }),
   '/news/search': handleSerp({
     globalStyle,
     controlHandlers: [
