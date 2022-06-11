@@ -88,7 +88,7 @@ Comments begin with `#`. Although any line that cannot be interpreted as a rule 
 
 ## Other search engines
 
-This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom) and [Yahoo! JAPAN](#yahoo-japan) (partially). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom), [Yahoo! JAPAN](#yahoo-japan) (partially) and [Yandex](#yandex) (partially). This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -119,6 +119,10 @@ With the lite version of Qwant, the extension only work with web search not news
 ### Yahoo! JAPAN
 
 ![yahoo-japan](/img/advanced-features/yahoo-japan.png)
+
+### Yandex
+
+![yandex](/img/advanced-features/yandex.png)
 
 ## Sync
 
