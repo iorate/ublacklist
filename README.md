@@ -22,17 +22,11 @@ This extension is available in the below search engines.
 |                  | Web                | Images             | Videos             | News               |
 | ---------------- | ------------------ | ------------------ | ------------------ | ------------------ |
 | Google           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Google (iOS)     | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Bing             | \*1                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Bing (iOS)       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | DuckDuckGo       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| DuckDuckGo (iOS) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Ecosia           | :heavy_check_mark: |                    |                    |                    |
-| Ecosia (iOS)     | :heavy_check_mark: |                    |                    |                    |
 | Qwant            | :heavy_check_mark: | :heavy_check_mark: | \*2                | :heavy_check_mark: |
-| Qwant (iOS)      | :heavy_check_mark: | :heavy_check_mark: | \*2                | :heavy_check_mark: |
 | Startpage        | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
-| Startpage (iOS)  | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Yahoo! JAPAN     | :heavy_check_mark: |                    |                    |                    |
 
 \*1 In Firefox, only if "Open links in new tab" is turned off  
