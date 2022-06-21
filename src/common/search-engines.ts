@@ -7,8 +7,8 @@ export type SearchEngineId =
   | 'ecosia'
   | 'qwant'
   | 'startpage'
-  | 'yandex'
-  | 'yahooJapan';
+  | 'yahooJapan'
+  | 'yandex';
 
 export type SearchEngine = {
   contentScripts: {
@@ -310,6 +310,17 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
       name: 'searchEngines_startpageName',
     },
   },
+  yahooJapan: {
+    contentScripts: [
+      {
+        matches: ['https://search.yahoo.co.jp/search?*'],
+        runAt: 'document_idle',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_yahooJapanName',
+    },
+  },
   yandex: {
     contentScripts: [
       {
@@ -358,17 +369,6 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_yandexName',
-    },
-  },
-  yahooJapan: {
-    contentScripts: [
-      {
-        matches: ['https://search.yahoo.co.jp/search?*'],
-        runAt: 'document_idle',
-      },
-    ],
-    messageNames: {
-      name: 'searchEngines_yahooJapanName',
     },
   },
 };

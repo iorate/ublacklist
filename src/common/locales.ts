@@ -128,8 +128,8 @@ export type MessageName =
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'
   | 'searchEngines_startpageName'
-  | 'searchEngines_yandexName'
-  | 'searchEngines_yahooJapanName';
+  | 'searchEngines_yahooJapanName'
+  | 'searchEngines_yandexName';
 
 export type MessageName1 =
   | 'error'
