@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { loadAllFromLocalStorage } from '../local-storage';
 import { LocalStorageItems } from '../types';
 
@@ -10,7 +10,7 @@ export type OptionsQuery = {
 
 export type OptionsContextValue = {
   initialItems: LocalStorageItems;
-  platformInfo: apis.runtime.PlatformInfo;
+  platformInfo: browser.runtime.PlatformInfo;
   query: OptionsQuery;
 };
 
@@ -22,7 +22,7 @@ export const OptionsContextProvider: React.VFC<{ children: React.ReactNode }> = 
     void (async () => {
       const [initialItems, platformInfo] = await Promise.all([
         loadAllFromLocalStorage(),
-        apis.runtime.getPlatformInfo(),
+        browser.runtime.getPlatformInfo(),
       ]);
       const searchParams = new URL(window.location.href).searchParams;
       const query = {

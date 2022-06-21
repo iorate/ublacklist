@@ -7,7 +7,8 @@ export type SearchEngineId =
   | 'ecosia'
   | 'qwant'
   | 'startpage'
-  | 'yahooJapan';
+  | 'yahooJapan'
+  | 'yandex';
 
 export type SearchEngine = {
   contentScripts: {
@@ -237,6 +238,14 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://cn.bing.com/images/search?*',
           'https://cn.bing.com/videos/search?*',
           'https://cn.bing.com/news/search?*',
+          'https://www2.bing.com/search?*',
+          'https://www2.bing.com/images/search?*',
+          'https://www2.bing.com/videos/search?*',
+          'https://www2.bing.com/news/search?*',
+          'https://www4.bing.com/search?*',
+          'https://www4.bing.com/images/search?*',
+          'https://www4.bing.com/videos/search?*',
+          'https://www4.bing.com/news/search?*',
         ],
         runAt: 'document_start',
       },
@@ -318,6 +327,56 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_yahooJapanName',
+    },
+  },
+  yandex: {
+    contentScripts: [
+      {
+        matches: [
+          // Web
+          'https://yandex.com/search/?*',
+          'https://yandex.ru/search/?*',
+          'https://yandex.ua/search/?*',
+          'https://yandex.by/search/?*',
+          'https://yandex.kz/search/?*',
+          'https://yandex.uz/search/?*',
+          'https://yandex.com.tr/search/?*',
+          'https://yandex.fr/search/?*',
+          'https://yandex.az/search/?*',
+          'https://yandex.com.ge/search/?*',
+          'https://yandex.com.am/search/?*',
+          'https://yandex.co.il/search/?*',
+          'https://yandex.lv/search/?*',
+          'https://yandex.lt/search/?*',
+          'https://yandex.ee/search/?*',
+          'https://yandex.md/search/?*',
+          'https://yandex.tm/search/?*',
+          'https://yandex.tj/search/?*',
+          // News
+          'https://newssearch.yandex.com/news/search?*',
+          'https://newssearch.yandex.ru/news/search?*',
+          'https://newssearch.yandex.ua/news/search?*',
+          'https://newssearch.yandex.by/news/search?*',
+          'https://newssearch.yandex.kz/news/search?*',
+          'https://newssearch.yandex.uz/news/search?*',
+          'https://newssearch.yandex.com.tr/news/search?*',
+          'https://newssearch.yandex.fr/news/search?*',
+          'https://newssearch.yandex.az/news/search?*',
+          'https://newssearch.yandex.com.ge/news/search?*',
+          'https://newssearch.yandex.com.am/news/search?*',
+          'https://newssearch.yandex.co.il/news/search?*',
+          'https://newssearch.yandex.lv/news/search?*',
+          'https://newssearch.yandex.lt/news/search?*',
+          'https://newssearch.yandex.ee/news/search?*',
+          'https://newssearch.yandex.md/news/search?*',
+          'https://newssearch.yandex.tm/news/search?*',
+          'https://newssearch.yandex.tj/news/search?*',
+        ],
+        runAt: 'document_idle',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_yandexName',
     },
   },
 };

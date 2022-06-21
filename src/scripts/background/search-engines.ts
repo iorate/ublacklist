@@ -1,10 +1,10 @@
 import { SEARCH_ENGINES } from '../../common/search-engines';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { AltURL, MatchPattern, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
   // #if CHROME
-  const granted = await apis.permissions.contains({ origins: [url] });
+  const granted = await browser.permissions.contains({ origins: [url] });
   if (!granted) {
     return;
   }
@@ -15,66 +15,90 @@ export async function injectContentScript(tabId: number, url: string): Promise<v
   if (!contentScript) {
     return;
   }
-  /* #if CHROME_MV3
-  const [{ result: active }] = await chrome.scripting.executeScript({
+  // #if CHROME_MV3
+  const [{ result: active }] = await browser.scripting.executeScript({
     target: { tabId },
     files: ['/scripts/active.js'],
   });
-  */
-  // #else
-  const [active] = await apis.tabs.executeScript(tabId, {
+  /* #else
+  const [active] = await browser.tabs.executeScript(tabId, {
     file: '/scripts/active.js',
     runAt: contentScript.runAt,
   });
+  */
   // #endif
   if (!active) {
-    /* #if CHROME_MV3
-    await chrome.scripting.executeScript({
+    // #if CHROME_MV3
+    await browser.scripting.executeScript({
       target: { tabId },
       files: ['/scripts/content-script.js'],
     });
-    */
-    // #else
-    await apis.tabs.executeScript(tabId, {
+    /* #else
+    await browser.tabs.executeScript(tabId, {
       file: '/scripts/content-script.js',
       runAt: contentScript.runAt,
     });
+    */
     // #endif
   }
   // #endif
 }
+
+// #if CHROME_MV3 || FIREFOX
+async function getRegisterableContentScripts(): Promise<
+  { id: string; matches: string[]; runAt: 'document_start' | 'document_end' | 'document_idle' }[]
+> {
+  return (
+    await Promise.all(
+      stringEntries(SEARCH_ENGINES)
+        .flatMap(([id, { contentScripts }]) =>
+          id !== 'google'
+            ? contentScripts.map((contentScript, index) => ({
+                id: id + String(index),
+                ...contentScript,
+              }))
+            : [],
+        )
+        .map(async ({ id, matches, runAt }) => {
+          const grantedMatches = (
+            await Promise.all(
+              matches.map(async match =>
+                (await browser.permissions.contains({ origins: [match] })) ? [match] : [],
+              ),
+            )
+          ).flat();
+          return grantedMatches.length ? [{ id, matches: grantedMatches, runAt }] : [];
+        }),
+    )
+  ).flat();
+}
+// #endif
 
 /* #if FIREFOX
 let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] = [];
 */
 // #endif
 
-export async function registerContentScript(): Promise<void> {
-  /* #if FIREFOX
+export async function registerContentScripts(): Promise<void> {
+  // #if CHROME_MV3
+  await browser.scripting.unregisterContentScripts();
+  await browser.scripting.registerContentScripts(
+    (
+      await getRegisterableContentScripts()
+    ).map(contentScript => ({ ...contentScript, js: ['scripts/content-script.js'] })),
+  );
+  /* #elif FIREFOX
   await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));
-  registeredContentScripts = [];
-  await Promise.all(
-    stringEntries(SEARCH_ENGINES)
-      .flatMap(([id, { contentScripts }]) => (id === 'google' ? [] : contentScripts))
-      .map(async ({ matches, runAt }) => {
-        const grantedMatches = await Promise.all(
-          matches.map(match =>
-            apis.permissions
-              .contains({ origins: [match] })
-              .then(granted => (granted ? match : null)),
-          ),
-        ).then(matches => matches.filter((match): match is string => match != null));
-        if (!grantedMatches.length) {
-          return;
-        }
-        registeredContentScripts.push(
-          await browser.contentScripts.register({
-            js: [{ file: '/scripts/content-script.js' }],
-            matches: grantedMatches,
-            runAt,
-          }),
-        );
+  registeredContentScripts = await Promise.all(
+    (
+      await getRegisterableContentScripts()
+    ).map(({ matches, runAt }) =>
+      browser.contentScripts.register({
+        js: [{ file: '/scripts/content-script.js' }],
+        matches,
+        runAt,
       }),
+    ),
   );
   */
   // #endif

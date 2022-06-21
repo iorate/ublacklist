@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { SEARCH_ENGINES } from '../common/search-engines';
 import icon from '../icons/icon.svg';
-import { apis } from './apis';
 import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
+import { browser } from './browser';
 import { Baseline } from './components/baseline';
 import { Button, LinkButton } from './components/button';
 import { FOCUS_DEFAULT_CLASS, FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
@@ -88,23 +88,23 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
                     // In Chrome, the popup is closed immediately after 'permissions.request'!
                     // https://bugs.chromium.org/p/chromium/issues/detail?id=952645
                     const [granted] = await Promise.all([
-                      apis.permissions.request({ origins: [match] }),
-                      /* #if CHROME_MV3
-                      chrome.scripting.executeScript({
+                      browser.permissions.request({ origins: [match] }),
+                      // #if CHROME_MV3
+                      browser.scripting.executeScript({
                         target: { tabId },
                         files: ['/scripts/content-script.js'],
                       }),
-                      */
-                      // #else
-                      apis.tabs.executeScript(tabId, {
+                      /* #else
+                      browser.tabs.executeScript(tabId, {
                         file: '/scripts/content-script.js',
                       }),
+                      */
                       // #endif
                     ]);
                     if (!granted) {
                       return;
                     }
-                    await sendMessage('activate');
+                    await sendMessage('register-content-scripts');
                     window.close();
                   }}
                 >
@@ -127,7 +127,7 @@ const Popup: React.VFC = () => {
   >({ type: 'loading' });
   useEffect(() => {
     void (async () => {
-      const [{ id: tabId, url, title = null }] = await apis.tabs.query({
+      const [{ id: tabId, url, title = null }] = await browser.tabs.query({
         active: true,
         currentWindow: true,
       });
@@ -141,16 +141,16 @@ const Popup: React.VFC = () => {
           .flatMap(({ contentScripts }) => contentScripts.flatMap(({ matches }) => matches))
           .find(match => new MatchPattern(match).test(altURL));
       if (match != null) {
-        /* #if CHROME_MV3
-        const [{ result: active }] = await chrome.scripting.executeScript({
+        // #if CHROME_MV3
+        const [{ result: active }] = await browser.scripting.executeScript({
           target: { tabId },
           files: ['/scripts/active.js'],
         });
-        */
-        // #else
-        const [active] = await apis.tabs.executeScript(tabId, {
+        /* #else
+        const [active] = await browser.tabs.executeScript(tabId, {
           file: '/scripts/active.js',
         });
+        */
         // #endif
         setState({
           type: 'activate',

@@ -1,4 +1,4 @@
-import { apis } from './apis';
+import { browser } from './browser';
 import {
   CloudId,
   LocalStorageItemsSavable,
@@ -21,7 +21,7 @@ type MessageSignatures = {
   'remove-subscription': (id: SubscriptionId) => void;
   'enable-subscription': (id: SubscriptionId, enabled: boolean) => void;
 
-  activate: () => void;
+  'register-content-scripts': () => void;
 
   sync: () => void;
   syncing: () => void;
@@ -45,7 +45,7 @@ export function postMessage<Type extends MessageTypes>(
 ): void {
   void (async () => {
     try {
-      await apis.runtime.sendMessage({ type, args });
+      await browser.runtime.sendMessage({ type, args });
     } catch (e: unknown) {
       if (
         e instanceof Error &&
@@ -63,7 +63,7 @@ export async function sendMessage<Type extends MessageTypes>(
   type: Type,
   ...args: MessageParameters<Type>
 ): Promise<MessageReturnType<Type>> {
-  return (await apis.runtime.sendMessage({ type, args })) as MessageReturnType<Type>;
+  return await browser.runtime.sendMessage({ type, args });
 }
 
 export type MessageListeners = {
@@ -89,7 +89,7 @@ function invokeListener(
 export function addMessageListeners(listeners: Readonly<MessageListeners>): () => void {
   const listener = (
     message: unknown,
-    sender: apis.runtime.MessageSender,
+    _sender: browser.runtime.MessageSender,
     sendResponse: (response: unknown) => void | boolean,
   ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
@@ -97,8 +97,8 @@ export function addMessageListeners(listeners: Readonly<MessageListeners>): () =
       return invokeListener(listeners[type] as (...args: unknown[]) => unknown, args, sendResponse);
     }
   };
-  apis.runtime.onMessage.addListener(listener);
+  browser.runtime.onMessage.addListener(listener);
   return () => {
-    apis.runtime.onMessage.removeListener(listener);
+    browser.runtime.onMessage.removeListener(listener);
   };
 }
