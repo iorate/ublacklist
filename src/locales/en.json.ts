@@ -404,4 +404,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The localized name of Yahoo! JAPAN.
   searchEngines_yahooJapanName: 'Yahoo! JAPAN',
+
+  // The localized name of Yandex.
+  searchEngines_yandexName: 'Yandex',
 });
