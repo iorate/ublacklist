@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SEARCH_ENGINES } from '../../common/search-engines';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { Button, LinkButton } from '../components/button';
 import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -29,7 +29,7 @@ import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
 import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
-import { addMessageListeners } from '../messages';
+import { addMessageListeners, sendMessage } from '../messages';
 import { SearchEngineId } from '../types';
 import { lines, stringKeys } from '../utilities';
 import { useOptionsContext } from './options-context';
@@ -223,7 +223,7 @@ const RegisterSearchEnginesDialog: React.VFC<DialogProps> = ({ close, open }) =>
         const regitrationEntries = await Promise.all(
           ids.map(async id => {
             const permissions = await Promise.all(
-              matches[id].map(match => apis.permissions.contains({ origins: [match] })),
+              matches[id].map(match => browser.permissions.contains({ origins: [match] })),
             );
             const [allowed, denied] = permissions.reduce(
               ([a, d], p) => [a || p, d || !p],
@@ -287,7 +287,7 @@ const RegisterSearchEnginesDialog: React.VFC<DialogProps> = ({ close, open }) =>
                   states[id] === 'full' ? matches[id] : [],
                 );
                 if (originsToRequest.length) {
-                  const granted = await apis.permissions.request({ origins: originsToRequest });
+                  const granted = await browser.permissions.request({ origins: originsToRequest });
                   if (!granted) {
                     return;
                   }
@@ -296,8 +296,9 @@ const RegisterSearchEnginesDialog: React.VFC<DialogProps> = ({ close, open }) =>
                   states[id] === 'none' ? matches[id] : [],
                 );
                 if (originsToRemove.length) {
-                  await apis.permissions.remove({ origins: originsToRemove });
+                  await browser.permissions.remove({ origins: originsToRemove });
                 }
+                await sendMessage('register-content-scripts');
                 close();
               }}
             >

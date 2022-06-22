@@ -1,4 +1,4 @@
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { postMessage } from '../messages';
 import { Ruleset } from '../ruleset';
 import { SubscriptionId } from '../types';
@@ -64,10 +64,10 @@ export async function updateAll(): Promise<void> {
   ]);
 
   if (!numberKeys(subscriptions).length) {
-    await apis.alarms.clear(UPDATE_ALL_ALARM_NAME);
+    await browser.alarms.clear(UPDATE_ALL_ALARM_NAME);
     return;
   }
-  apis.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
+  browser.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
 
   await Promise.all(numberKeys(subscriptions).map(update));
 }

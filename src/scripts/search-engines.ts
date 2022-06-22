@@ -5,6 +5,7 @@ import { google } from './search-engines/google';
 import { qwant } from './search-engines/qwant';
 import { startpage } from './search-engines/startpage';
 import { yahooJapan } from './search-engines/yahoo-japan';
+import { yandex } from './search-engines/yandex';
 import { SearchEngine, SearchEngineId } from './types';
 
 export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngine>>> = {
@@ -15,4 +16,5 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
   qwant,
   startpage,
   yahooJapan,
+  yandex,
 };

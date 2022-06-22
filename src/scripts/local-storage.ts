@@ -1,4 +1,4 @@
-import { apis } from './apis';
+import { browser } from './browser';
 import { sendMessage } from './messages';
 import {
   LocalStorageItems,
@@ -40,11 +40,11 @@ export function loadFromLocalStorage<Keys extends (keyof LocalStorageItems)[]>(
   for (const key of keys) {
     defaultItemsForKeys[key] = defaultLocalStorageItems[key];
   }
-  return apis.storage.local.get(defaultItemsForKeys) as Promise<LocalStorageItemsFor<Keys>>;
+  return browser.storage.local.get(defaultItemsForKeys) as Promise<LocalStorageItemsFor<Keys>>;
 }
 
 export function loadAllFromLocalStorage(): Promise<LocalStorageItems> {
-  return apis.storage.local.get(defaultLocalStorageItems) as Promise<LocalStorageItems>;
+  return browser.storage.local.get(defaultLocalStorageItems) as Promise<LocalStorageItems>;
 }
 
 export function saveToLocalStorage<Items extends Partial<LocalStorageItemsSavable>>(

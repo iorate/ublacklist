@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import { apis } from '../apis';
+import { browser } from '../browser';
 import { Button } from '../components/button';
 import { CheckBox } from '../components/checkbox';
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
@@ -61,7 +61,7 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
     origins.push(`${u.scheme}://${u.host}/*`);
   }
   // Don't call `permissions.request` when unnecessary. re #110
-  return origins.length ? apis.permissions.request({ origins }) : true;
+  return origins.length ? browser.permissions.request({ origins }) : true;
 }
 
 const AddSubscriptionDialog: React.VFC<

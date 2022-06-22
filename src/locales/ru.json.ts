@@ -140,4 +140,5 @@ exportAsMessages('_locales/ru/messages.json', {
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
+  searchEngines_yandexName: 'Яндекс',
 });
