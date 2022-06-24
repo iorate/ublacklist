@@ -3,6 +3,7 @@ import { MessageName0 } from './locales';
 export type SearchEngineId =
   | 'google'
   | 'bing'
+  | 'brave'
   | 'duckduckgo'
   | 'ecosia'
   | 'qwant'
@@ -252,6 +253,17 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_bingName',
+    },
+  },
+  brave: {
+    contentScripts: [
+      {
+        matches: ['https://search.brave.com/search?*'],
+        runAt: 'document_start',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_braveName',
     },
   },
   duckduckgo: {

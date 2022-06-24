@@ -122,6 +122,7 @@ exportAsMessages('_locales/uk/messages.json', {
   clouds_dropboxSyncTurnedOn: 'Синхронізовано з Dropbox',
   searchEngines_googleName: 'Google',
   searchEngines_bingName: 'Bing',
+  searchEngines_braveName: 'Brave',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
