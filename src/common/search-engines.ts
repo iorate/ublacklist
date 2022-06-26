@@ -262,6 +262,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://search.brave.com/search?*',
           'https://search.brave.com/images?*',
           'https://search.brave.com/news?*',
+          'https://search.brave.com/videos?*',
         ],
         runAt: 'document_start',
       },

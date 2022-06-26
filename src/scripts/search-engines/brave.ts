@@ -23,6 +23,9 @@ function getSerpHandler(): SerpHandler {
       '[data-ub-blocked="visible"] > .img-url': {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
       },
+      '.center-horizontally': {
+        flexWrap: 'wrap',
+      },
     },
     controlHandlers: [
       {
@@ -55,6 +58,16 @@ function getSerpHandler(): SerpHandler {
           position: 'relative',
           top: '30px',
           fontSize: 'var(--text-sm-2)',
+        },
+      },
+      // Videos
+      {
+        target: '#results.section > .card',
+        url: 'a',
+        title: '.card-body > .title',
+        actionTarget: '.card-body > div',
+        actionStyle: {
+          fontSize: 'var(--text-sm)',
         },
       },
       // News
