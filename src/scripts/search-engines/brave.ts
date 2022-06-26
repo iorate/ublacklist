@@ -1,6 +1,6 @@
 import { SEARCH_ENGINES } from '../../common/search-engines';
 import { SearchEngine, SerpHandler } from '../types';
-import { handleSerp } from './helpers';
+import { getDialogThemeFromBody, handleSerp } from './helpers';
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
@@ -40,7 +40,7 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '#results.section > .fdb',
+        target: '#results.section > .snippet',
         url: '.result-header',
         title: '.snippet-title',
         actionTarget: '.result-header',
@@ -78,6 +78,7 @@ function getSerpHandler(): SerpHandler {
         actionTarget: '.news-header',
       },
     ],
+    getDialogTheme: getDialogThemeFromBody(),
   });
 }
 
