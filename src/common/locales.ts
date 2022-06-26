@@ -124,6 +124,7 @@ export type MessageName =
   | 'clouds_dropboxSyncTurnedOn'
   | 'searchEngines_googleName'
   | 'searchEngines_bingName'
+  | 'searchEngines_braveName'
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'

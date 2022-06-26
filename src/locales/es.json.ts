@@ -248,6 +248,8 @@ exportAsMessages('_locales/es/messages.json', {
 
   searchEngines_bingName: 'Bing',
 
+  searchEngines_braveName: 'Brave',
+
   searchEngines_duckduckgoName: 'DuckDuckGo',
 
   searchEngines_ecosiaName: 'Ecosia',

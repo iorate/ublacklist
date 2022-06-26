@@ -130,6 +130,7 @@ exportAsMessages('_locales/zh_CN/messages.json', {
   clouds_dropboxSyncTurnedOn: '已使用 Dropbox 同步',
   searchEngines_googleName: '谷歌',
   searchEngines_bingName: '必应',
+  searchEngines_braveName: 'Brave',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
