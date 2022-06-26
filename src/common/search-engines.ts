@@ -258,7 +258,11 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
   brave: {
     contentScripts: [
       {
-        matches: ['https://search.brave.com/search?*', 'https://search.brave.com/images?*'],
+        matches: [
+          'https://search.brave.com/search?*',
+          'https://search.brave.com/images?*',
+          'https://search.brave.com/news?*',
+        ],
         runAt: 'document_start',
       },
     ],

@@ -57,6 +57,13 @@ function getSerpHandler(): SerpHandler {
           fontSize: 'var(--text-sm-2)',
         },
       },
+      // News
+      {
+        target: '#results.section > [data-macro="news"]',
+        url: '.result-header',
+        title: '.snippet-title',
+        actionTarget: '.news-header',
+      },
     ],
   });
 }
