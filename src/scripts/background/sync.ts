@@ -257,7 +257,7 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
   return mutex.lock(async () => {
     const localItems = await loadAllFromRawStorage();
 
-    if (localItems.syncCloudId == null) {
+    if (!localItems.syncCloudId) {
       if (repeat) {
         await browser.alarms.clear(SYNC_ALARM_NAME);
       }
