@@ -27,7 +27,7 @@ function main() {
     'update-subscription': Subscriptions.update,
     'update-all-subscriptions': Subscriptions.updateAll,
 
-    'open-options-page': browser.runtime.openOptionsPage,
+    'open-options-page': browser.runtime.openOptionsPage.bind(browser.runtime),
   });
 
   /* #if CHROME && !CHROME_MV3
