@@ -27,12 +27,7 @@ function main() {
     'update-subscription': Subscriptions.update,
     'update-all-subscriptions': Subscriptions.updateAll,
 
-    // #if !SAFARI
-    'open-options-page': browser.runtime.openOptionsPage,
-    /* #else
     'open-options-page': browser.runtime.openOptionsPage.bind(browser.runtime),
-    */
-    // #endif
   });
 
   /* #if CHROME && !CHROME_MV3
