@@ -139,6 +139,7 @@ exportAsMessages('_locales/de/messages.json', {
   clouds_dropboxSyncTurnedOn: 'Mit Dropbox synchronisiert',
   searchEngines_googleName: 'Google',
   searchEngines_bingName: 'Bing',
+  searchEngines_braveName: 'Brave',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
