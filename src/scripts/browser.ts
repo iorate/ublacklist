@@ -46,7 +46,6 @@ declare global {
 
     namespace tabs {
       function executeScript(tabId: number, details: InjectDetails): Promise<unknown[]>;
-      function insertCSS(tabId: number, details: InjectDetails): Promise<void>;
     }
     */
     // #endif
@@ -85,32 +84,31 @@ export namespace browser {
   export import tabs = chrome.tabs;
   /* #else
   export namespace alarms {
-    export const clear = promisify(chrome.alarms?.clear);
-    export const create = chrome.alarms?.create;
-    export const get = promisify(chrome.alarms?.get);
+    export const clear = promisify(chrome.alarms?.clear.bind(chrome.alarms));
+    export const create = chrome.alarms?.create.bind(chrome.alarms);
 
     export const onAlarm = chrome.alarms?.onAlarm;
   }
 
   export namespace i18n {
-    export const getMessage = chrome.i18n.getMessage;
+    export const getMessage = chrome.i18n.getMessage.bind(chrome.i18n);
   }
 
   export namespace permissions {
-    export const contains = promisify(chrome.permissions?.contains);
-    export const remove = promisify(chrome.permissions?.remove);
-    export const request = promisify(chrome.permissions?.request);
+    export const contains = promisify(chrome.permissions?.contains.bind(chrome.permissions));
+    export const remove = promisify(chrome.permissions?.remove.bind(chrome.permissions));
+    export const request = promisify(chrome.permissions?.request.bind(chrome.permissions));
   }
 
   export namespace runtime {
     export type MessageSender = chrome.runtime.MessageSender;
     export type PlatformInfo = chrome.runtime.PlatformInfo;
 
-    export const getManifest = chrome.runtime.getManifest;
-    export const getPlatformInfo = promisify(chrome.runtime.getPlatformInfo);
-    export const getURL = chrome.runtime.getURL;
-    export const openOptionsPage = promisify(chrome.runtime.openOptionsPage);
-    export const sendMessage = promisify(chrome.runtime.sendMessage);
+    export const getManifest = chrome.runtime.getManifest.bind(chrome.runtime);
+    export const getPlatformInfo = promisify(chrome.runtime.getPlatformInfo?.bind(chrome.runtime));
+    export const getURL = chrome.runtime.getURL.bind(chrome.runtime);
+    export const openOptionsPage = promisify(chrome.runtime.openOptionsPage?.bind(chrome.runtime));
+    export const sendMessage = promisify(chrome.runtime.sendMessage.bind(chrome.runtime));
 
     export const onInstalled = chrome.runtime.onInstalled;
     export const onMessage = chrome.runtime.onMessage;
@@ -125,13 +123,11 @@ export namespace browser {
   }
 
   export namespace tabs {
-    export const create = promisify(chrome.tabs?.create);
-    export const executeScript = promisify(chrome.tabs?.executeScript);
-    export const get = promisify(chrome.tabs?.get);
-    export const insertCSS = promisify(chrome.tabs?.insertCSS);
-    export const query = promisify(chrome.tabs?.query);
-    export const remove = promisify(chrome.tabs?.remove);
-    export const update = promisify(chrome.tabs?.update);
+    export const create = promisify(chrome.tabs?.create.bind(chrome.tabs));
+    export const executeScript = promisify(chrome.tabs?.executeScript.bind(chrome.tabs));
+    export const query = promisify(chrome.tabs?.query.bind(chrome.tabs));
+    export const remove = promisify(chrome.tabs?.remove.bind(chrome.tabs));
+    export const update = promisify(chrome.tabs?.update.bind(chrome.tabs));
 
     export const onRemoved = chrome.tabs?.onRemoved;
     export const onUpdated = chrome.tabs?.onUpdated;
@@ -140,8 +136,10 @@ export namespace browser {
   // #endif
 
   export namespace identity {
-    export const getRedirectURL = chrome.identity?.getRedirectURL;
-    export const launchWebAuthFlow = promisify(chrome.identity?.launchWebAuthFlow);
+    export const getRedirectURL = chrome.identity?.getRedirectURL.bind(chrome.identity);
+    export const launchWebAuthFlow = promisify(
+      chrome.identity?.launchWebAuthFlow.bind(chrome.identity),
+    );
   }
 }
 /* #else
