@@ -402,6 +402,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Qwant.
   searchEngines_qwantName: 'Qwant',
 
+  // The localized name of SearXNG.
+  searchEngines_searxngName: 'SearXNG',
+
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',
 

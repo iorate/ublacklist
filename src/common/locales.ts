@@ -128,6 +128,7 @@ export type MessageName =
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'
+  | 'searchEngines_searxngName'
   | 'searchEngines_startpageName'
   | 'searchEngines_yahooJapanName'
   | 'searchEngines_yandexName';

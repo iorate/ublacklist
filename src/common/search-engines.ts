@@ -7,6 +7,7 @@ export type SearchEngineId =
   | 'duckduckgo'
   | 'ecosia'
   | 'qwant'
+  | 'searxng'
   | 'startpage'
   | 'yahooJapan'
   | 'yandex';
@@ -318,6 +319,24 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_qwantName',
+    },
+  },
+  searxng: {
+    contentScripts: [
+      {
+        matches: [
+          // Selected the four most active instances from https://searx.space/
+          // POST method is also supported.
+          'https://searx.tiekoetter.com/search*',
+          'https://searx.be/search*',
+          'https://searxng.tordenskjold.de/search*',
+          'https://serx.ml/search*',
+        ],
+        runAt: 'document_start',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_searxngName',
     },
   },
   startpage: {

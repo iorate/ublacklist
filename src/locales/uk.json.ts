@@ -126,5 +126,6 @@ exportAsMessages('_locales/uk/messages.json', {
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
+  searchEngines_searxngName: 'SearXNG',
   searchEngines_startpageName: 'Startpage.com',
 });
