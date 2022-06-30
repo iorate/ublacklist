@@ -116,11 +116,11 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular (iOS)
       {
-        target: '.mnr-c.xpd',
+        target: '.xpd',
         level: target =>
           // Web Result with Site Links
           target.parentElement?.closest<HTMLElement>('.mnr-c.g') ||
-          (target.querySelector('.mnr-c.xpd') ? null : target),
+          (target.querySelector('.xpd') ? null : target),
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
@@ -211,7 +211,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: '.mnr-c',
+        innerTargets: '.xpd',
       },
     ],
   }),
