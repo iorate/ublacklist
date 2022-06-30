@@ -385,7 +385,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       {
         target: 'video-voyager',
-        url: 'a',
+        url: 'a[ping]',
         title: '.V82bz',
         actionTarget: '.b5ZQcf',
         actionStyle: {
