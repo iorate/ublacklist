@@ -333,16 +333,15 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.S1FAPd',
-        level: '.WlydOe',
-        url: getURLFromPing(''),
+        target: '.mnr-c',
+        url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.S1FAPd',
+        actionTarget: '',
         actionStyle: {
-          display: 'inline-block',
+          display: 'block',
           fontSize: '12px',
-          marginLeft: '4px',
-          width: 0,
+          marginTop: '-8px',
+          padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },
       },
