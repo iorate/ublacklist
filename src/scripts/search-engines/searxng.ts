@@ -16,15 +16,24 @@ function getSerpHandler(): SerpHandler {
       },
     },
     controlHandlers: [
+      // Web (Simple Theme)
       {
         target: '.search_filters',
         style: {
           height: '2.4rem',
         },
       },
+      // Web (Oscar Theme)
+      {
+        target: '#search_form',
+        style: {
+          height: '1.2rem',
+          textTransform: 'none',
+        },
+      },
     ],
     entryHandlers: [
-      // Web
+      // Web (Simple Theme)
       {
         target: '#urls > .result',
         url: 'a',
@@ -32,6 +41,17 @@ function getSerpHandler(): SerpHandler {
         actionTarget: '.url_wrapper',
         actionStyle: {
           fontSize: '.9em',
+        },
+      },
+      // Web (Oscar theme)
+      {
+        target: '#main_results > .result',
+        url: '.result_header > a',
+        title: '.result_header > a',
+        actionTarget: '.result_header',
+        actionStyle: {
+          fontSize: '85%',
+          marginLeft: '.9em',
         },
       },
     ],
