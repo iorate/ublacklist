@@ -116,11 +116,11 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular (iOS)
       {
-        target: '.mnr-c.xpd',
+        target: '.xpd',
         level: target =>
           // Web Result with Site Links
           target.parentElement?.closest<HTMLElement>('.mnr-c.g') ||
-          (target.querySelector('.mnr-c.xpd') ? null : target),
+          (target.querySelector('.xpd') ? null : target),
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
@@ -211,7 +211,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: '.mnr-c',
+        innerTargets: '.xpd',
       },
     ],
   }),
@@ -247,18 +247,17 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.T1diZc',
         position: 'afterbegin',
-        style: {
-          backgroundColor: '#fff',
-          color: '#4d5156',
-          display: 'block',
-          fontSize: '12px',
-          marginBottom: '19px',
-          padding: '4px 12px 12px',
-          '[data-ub-dark="1"] &': {
-            backgroundColor: '#303134',
-            color: '#e8eaed',
-          },
-          ...iOSButtonStyle,
+        style: root => {
+          const controlClass = css({
+            display: 'block',
+            fontSize: '12px',
+            padding: '12px 16px',
+            '&&&': {
+              borderRadius: 0,
+            },
+            ...iOSButtonStyle,
+          });
+          root.className = `mnr-c ${controlClass}`;
         },
       },
       {
@@ -288,7 +287,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '12px',
           margin: '-8px 0 8px',
           overflow: 'hidden',
-          padding: '0 4px',
           position: 'relative',
           ...iOSButtonStyle,
         },
@@ -333,16 +331,15 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.S1FAPd',
-        level: '.WlydOe',
-        url: getURLFromPing(''),
+        target: '.mnr-c',
+        url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.S1FAPd',
+        actionTarget: '',
         actionStyle: {
-          display: 'inline-block',
+          display: 'block',
           fontSize: '12px',
-          marginLeft: '4px',
-          width: 0,
+          marginTop: '-8px',
+          padding: '0 16px 12px 16px',
           ...iOSButtonStyle,
         },
       },
@@ -386,7 +383,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       {
         target: 'video-voyager',
-        url: 'a',
+        url: 'a[ping]',
         title: '.V82bz',
         actionTarget: '.b5ZQcf',
         actionStyle: {

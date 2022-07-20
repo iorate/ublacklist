@@ -390,6 +390,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Bing.
   searchEngines_bingName: 'Bing',
 
+  // The localized name of Brave
+  searchEngines_braveName: 'Brave',
+
   // The localized name of DuckDuckGo.
   searchEngines_duckduckgoName: 'DuckDuckGo',
 

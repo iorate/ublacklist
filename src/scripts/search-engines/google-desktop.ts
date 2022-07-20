@@ -4,7 +4,7 @@ import { handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
-    backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
+    backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
   },
   '.ub-button': {
     color: 'var(--ub-link-color, rgb(26, 13, 171))',
