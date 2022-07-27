@@ -1,4 +1,5 @@
 import BrowserOnly from '@docusaurus/BrowserOnly';
+import Translate from '@docusaurus/Translate';
 import CodeBlock from '@theme/CodeBlock';
 import Layout from '@theme/Layout';
 import React from 'react';
@@ -11,14 +12,22 @@ const Callback: React.VFC = () => (
           const params = Object.fromEntries(new URL(window.location.href).searchParams);
           return params.code != null ? (
             <>
-              <h1>Authetication Succeeded</h1>
-              <p>Please copy the authorization code below and paste it in the options page.</p>
+              <h1>
+                <Translate id="pages.callback.success.title" />
+              </h1>
+              <p>
+                <Translate id="pages.callback.success.copyCode" />
+              </p>
               <CodeBlock>{params.code}</CodeBlock>
             </>
           ) : (
             <>
-              <h1>Authentication Failed</h1>
-              <p>Please check the error message below.</p>
+              <h1>
+                <Translate id="pages.callback.failure.title" />
+              </h1>
+              <p>
+                <Translate id="pages.callback.failure.checkError" />
+              </p>
               <CodeBlock className="language-json">{JSON.stringify(params, null, 2)}</CodeBlock>
             </>
           );

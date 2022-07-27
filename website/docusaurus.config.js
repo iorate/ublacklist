@@ -9,7 +9,7 @@ const config = {
   trailingSlash: false,
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ja'],
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -27,15 +27,15 @@ const config = {
         },
         items: [
           {
-            label: 'Docs',
+            label: 'docs',
             to: 'docs',
           },
           {
-            label: 'Subscriptions',
+            label: 'subscriptions',
             to: 'subscriptions',
           },
           {
-            label: 'Privacy Policy',
+            label: 'privacyPolicy',
             to: 'privacy-policy',
           },
           {
@@ -53,7 +53,6 @@ const config = {
         hideOnScroll: true,
       },
       footer: {
-        copyright: `Copyright © ${new Date().getFullYear()} iorate. Built with Docusaurus.`,
         style: 'dark',
       },
       prism: {

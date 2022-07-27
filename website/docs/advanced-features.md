@@ -3,7 +3,7 @@ title: Advanced Features
 sidebar_position: 2
 ---
 
-## Rules
+## Rules {#rules}
 
 You can edit rules to block sites in the options page, as well as in the "Block this site" dialog.
 
@@ -11,7 +11,7 @@ You can edit rules to block sites in the options page, as well as in the "Block 
 
 You can write rules by [match patterns](#match-patterns) or [regular expressions](#regular-expressions).
 
-### Match patterns
+### Match patterns {#match-patterns}
 
 Match patterns are URLs including wildcards. You can see the details in [MDN web docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns).
 
@@ -30,7 +30,7 @@ Here are examples of **invalid** match patterns.
 | `*://www.qinterest.*/` | `*` is not at the start. Use [regular expressions](#regular-expressions) instead. |
 | `<all_urls>`           | Not supported.                                                                    |
 
-### Regular expressions
+### Regular expressions {#regular-expressions}
 
 You can write more flexible rules by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
 
@@ -50,19 +50,19 @@ Here are examples of **invalid** regular expressions.
 | `^https?:\/\/example\.com\/` | Not surrounded by `/`.     |
 | `/^https?://example\.com//`  | Inner `/` are not escaped. |
 
-### Regular expressions for page titles
+### Regular expressions for page titles {#regular-expressions-for-page-titles}
 
 To block sites with specific titles, use regular expressions preceded by `title`.
 
 For example, `title/example domain/i` blocks sites which titles include "example domain" in a case-insensitive manner.
 
-### Unblock rules
+### Unblock rules {#unblock-rules}
 
 Match patterns or regular expressions preceded by `@` mean that the specified sites are not blocked.
 
 They can be used to unblock sites that are blocked by [subscriptions](#subscription). For example, if `http://example.com/` is blocked by a subscription, you can unblock it by `@*://example.com/*`.
 
-### Highlighting rules
+### Highlighting rules {#highlighting-rules}
 
 Match patterns or regular expressions preceded by `@N` (N=1,2,3,...) mean that the specified sites are highlighted.
 
@@ -72,7 +72,7 @@ For example, you can highlight GitHub by `@1*://github.com/*`.
 
 By default, only `@1` (blue) is available. To change or add highlighting colors, see the "Appearance" section in the options page.
 
-### Comments
+### Comments {#comments}
 
 Comments begin with `#`. Although any line that cannot be interpreted as a rule is effectively a comment, a `#` comment is better in two ways.
 
@@ -86,57 +86,51 @@ Comments begin with `#`. Although any line that cannot be interpreted as a rule 
 /example\.(net|org)/ # Block pages which URLs contain example.net or example.org
 ```
 
-## Other search engines
+## Other search engines {#other-search-engines}
 
 This extension supports [Bing](#bing), [Brave](#brave) (partially), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom), [Yahoo! JAPAN](#yahoo-japan) (partially) and [Yandex](#yandex) (partially). This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
-### Bing
+You can also enable it by clicking the toolbar icon when a search result page is open.
+
+### Bing {#bing}
 
 ![bing](/img/advanced-features/bing.png)
 
-### Brave
+### Brave {#brave}
 
 ![brave](/img/advanced-features/brave.png)
 
-### DuckDuckGo
+### DuckDuckGo {#duckduckgo}
 
 ![duckduckgo](/img/advanced-features/duckduckgo.png)
 
-### Ecosia
-
-For now, search scopes other than "Web" (e.g. "Images" and "Videos") are not supported.
+### Ecosia {#ecosia}
 
 ![ecosia](/img/advanced-features/ecosia.png)
 
-### Qwant
+### Qwant {#qwant}
 
 "Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
 
-With the lite version of Qwant, the extension only work with web search not news, images, videos as the link used a proxy.
+With the lite version of Qwant, the extension only work with "Web" search.
 
-### Startpage.com
+### Startpage.com {#startpagecom}
 
 ![startpage](/img/advanced-features/startpage.png)
 
-### Yahoo! JAPAN
+### Yahoo! JAPAN {#yahoo-japan}
 
 ![yahoo-japan](/img/advanced-features/yahoo-japan.png)
 
-### Yandex
+### Yandex {#yandex}
 
 ![yandex](/img/advanced-features/yandex.png)
 
-## Sync
+## Sync {#sync}
 
 You can synchronize rulesets among devices using Google Drive or Dropbox.
-
-:::note
-
-For technical reasons, sync is not available in Firefox for Android.
-
-:::
 
 To turn on sync, click the "Turn on sync" button in the options page and select a cloud.
 
@@ -148,17 +142,17 @@ Follow the instructions on the dialog to authenticate.
 
 Once authentication succeeds, your ruleset will be regularly synchronized with the selected cloud.
 
-### Google Drive
+### Google Drive {#google-drive}
 
 If you use Firefox or its derivative, you will be required to permit access to `https://www.googleapis.com`.
 
 The ruleset is saved in the application data folder on your Google Drive. It is hidden from you, although you can delete it in the settings page of Google Drive.
 
-### Dropbox
+### Dropbox {#dropbox}
 
 The ruleset is saved in the `/Apps/uBlacklist/` folder on your Dropbox. The folder name may be different depending on your language.
 
-## Subscription
+## Subscription {#subscription}
 
 You can subscribe to public rulesets.
 
@@ -170,7 +164,7 @@ You can show, update or remove a subscription.
 
 ![manage subscription](/img/advanced-features/subscription-2.png)
 
-### Publish a subscription
+### Publish a subscription {#publish-a-subscription}
 
 To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL.
 
