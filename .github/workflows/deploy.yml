@@ -7,6 +7,7 @@ on:
     paths:
       - website/**
       - '!website/README.md'
+  workflow_dispatch:
 
 jobs:
   deploy:
