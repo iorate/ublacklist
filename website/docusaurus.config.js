@@ -42,8 +42,10 @@ const config = {
             type: 'localeDropdown',
             position: 'right',
           },
+          // https://github.com/facebook/docusaurus/issues/2634#issuecomment-1159596930
           {
-            label: 'GitHub',
+            'aria-label': 'GitHub repository',
+            className: 'header-github-link',
             href: 'https://github.com/iorate/ublacklist',
             position: 'right',
           },
