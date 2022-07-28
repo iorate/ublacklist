@@ -125,10 +125,9 @@ exportAsMessages('_locales/de/messages.json', {
   options_updateInterval: 'Aktualisierungsintervall',
   options_aboutTitle: 'Über uBlacklist',
   options_aboutVersion: 'Version',
-  options_aboutDocumentation: '[Dokumentation](https://iorate.github.io/ublacklist/docs)',
+  options_aboutDocumentation: 'Dokumentation',
   options_aboutReleaseNotes: 'Versionshinweise',
-  options_aboutPrivacyPolicy:
-    '[Datenschutzbestimmungen](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutPrivacyPolicy: 'Datenschutzbestimmungen',
   options_aboutThirdPartyNotices: 'Hinweise von Drittanbietern',
   clouds_googleDriveSync: 'Mit Google Drive synchronisieren',
   clouds_googleDriveSyncDescription:
