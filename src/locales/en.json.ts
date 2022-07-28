@@ -10,6 +10,10 @@ exportAsMessages('_locales/en/messages.json', {
   // The language code.
   lang: 'en',
 
+  // The locale of the website.
+  // Do not translate this message until you have translated the website.
+  websiteLocale: 'en',
+
   // The text that means an error occurred.
   // '$1' is expanded to the message.
   error: 'Error: $1',
@@ -352,15 +356,14 @@ exportAsMessages('_locales/en/messages.json', {
   // Version.
   options_aboutVersion: 'Version',
 
-  // The link to the documentation.
-  options_aboutDocumentation: '[Documentation](https://iorate.github.io/ublacklist/docs)',
+  // The text of the link to the documentation.
+  options_aboutDocumentation: 'Documentation',
 
   // The text of the link to the release notes.
   options_aboutReleaseNotes: 'Release Notes',
 
-  // The link to the privacy policy.
-  options_aboutPrivacyPolicy:
-    '[Privacy Policy](https://iorate.github.io/ublacklist/privacy-policy)',
+  // The text of the link to the privacy policy.
+  options_aboutPrivacyPolicy: 'Privacy Policy',
 
   // The text of the link to the third-party notices.
   options_aboutThirdPartyNotices: 'Third-Party Notices',

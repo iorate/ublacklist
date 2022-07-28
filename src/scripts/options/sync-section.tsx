@@ -28,9 +28,8 @@ import {
 import { Text } from '../components/text';
 import { TextArea } from '../components/textarea';
 import { usePrevious } from '../components/utilities';
-import { ALT_FLOW_REDIRECT_URL } from '../constants';
 import '../dayjs-locales';
-import { translate } from '../locales';
+import { getWebsiteURL, translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { supportedClouds } from '../supported-clouds';
 import { CloudId } from '../types';
@@ -42,6 +41,8 @@ import { SetBooleanItem } from './set-boolean-item';
 import { SetIntervalItem } from './set-interval-item';
 
 dayjs.extend(dayjsDuration);
+
+const altFlowRedirectURL = getWebsiteURL('/callback');
 
 const TurnOnSyncDialog: React.VFC<
   { setSyncCloudId: React.Dispatch<React.SetStateAction<CloudId | false | null>> } & DialogProps
@@ -123,7 +124,7 @@ const TurnOnSyncDialog: React.VFC<
               <Text>
                 {translate(
                   'options_turnOnSyncDialog_altFlowDescription',
-                  new AltURL(ALT_FLOW_REDIRECT_URL).host,
+                  new AltURL(altFlowRedirectURL).host,
                 )}
               </Text>
             </RowItem>
@@ -192,7 +193,7 @@ const TurnOnSyncDialog: React.VFC<
                       const granted = await browser.permissions.request({
                         origins: [
                           ...cloud.hostPermissions,
-                          ...(useAltFlow ? [ALT_FLOW_REDIRECT_URL] : []),
+                          ...(useAltFlow ? [altFlowRedirectURL] : []),
                         ],
                       });
                       if (!granted) {

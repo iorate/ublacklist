@@ -1,0 +1,14 @@
+{
+  "pages.callback.success.title": {
+    "message": "Authetication Succeeded"
+  },
+  "pages.callback.success.copyCode": {
+    "message": "Please copy the authorization code below and paste it in the options page."
+  },
+  "pages.callback.failure.title": {
+    "message": "Authentication Failed"
+  },
+  "pages.callback.failure.checkError": {
+    "message": "Please check the error message below."
+  }
+}

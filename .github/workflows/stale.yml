@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/stale@v4
+      - uses: actions/stale@v5
         with:
           days-before-issue-stale: 30
           days-before-pr-stale: -1

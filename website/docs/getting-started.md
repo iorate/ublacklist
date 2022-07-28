@@ -5,13 +5,15 @@ sidebar_position: 1
 
 ## Install
 
-You can install uBlacklist from [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe/), [Firefox Add-ons](https://addons.mozilla.org/en/firefox/addon/ublacklist/) or [Mac App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640).
+You can install uBlacklist from [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe/), [Firefox Add-ons](https://addons.mozilla.org/en/firefox/addon/ublacklist/) or [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640).
 
-<p class="notice--warning">
-<strong>NOTE:</strong> uBlacklist requires many site permissions on install. They are necessary to support all domains where Google Search is provided (google.com, google.ac, google.ad, ...).
-</p>
+:::note
 
-## Block a site in search result page
+uBlacklist requires many site permissions on install. They are necessary to support all domains where Google Search is provided (google.com, google.ac, google.ad, ...).
+
+:::
+
+## Block a site in search result page {#block-a-site-in-search-result-page}
 
 To block a site in search result page, click the "Block this site" link in the search result.
 
@@ -31,19 +33,19 @@ If you click the "Show" link, blocked sites will appear temporarily.
 
 To unblock a blocked site, click the "Unblock this site" link.
 
-## Block a current site
+## Block a current site {#block-a-current-site}
 
 To block a site that you are looking at from appearing in search result page, click the toolbar icon. A "Block this site" dialog will be shown.
 
 ![toolbar icon](/img/getting-started/block-current-1.png)
 
-In recent versions of Chrome, the toolbar icon may be hidden by default. If so, first click the puzzle piece icon.
+In Chrome, the toolbar icon may be hidden by default. If so, first click the puzzle piece icon.
 
 ![hidden toolbar icon](/img/getting-started/block-current-2.png)
 
 To unblock a blocked site, click the toolbar icon again.
 
-## Edit blocked sites
+## Edit blocked sites {#edit-blocked-sites}
 
 To see and edit blocked sites, open the options page. It can be accessed from the toolbar icon.
 

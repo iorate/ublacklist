@@ -1,0 +1,14 @@
+{
+  "pages.callback.success.title": {
+    "message": "認証成功"
+  },
+  "pages.callback.success.copyCode": {
+    "message": "下の認可コードをコピーし、オプションページに戻ってペーストしてください。"
+  },
+  "pages.callback.failure.title": {
+    "message": "認証失敗"
+  },
+  "pages.callback.failure.checkError": {
+    "message": "エラーメッセージを確認してください。"
+  }
+}

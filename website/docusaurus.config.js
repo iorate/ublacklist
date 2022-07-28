@@ -9,7 +9,7 @@ const config = {
   trailingSlash: false,
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ja'],
   },
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -27,23 +27,25 @@ const config = {
         },
         items: [
           {
-            label: 'Docs',
+            label: 'docs',
             to: 'docs',
           },
           {
-            label: 'Subscriptions',
+            label: 'subscriptions',
             to: 'subscriptions',
           },
           {
-            label: 'Privacy Policy',
+            label: 'privacyPolicy',
             to: 'privacy-policy',
           },
           {
             type: 'localeDropdown',
             position: 'right',
           },
+          // https://github.com/facebook/docusaurus/issues/2634#issuecomment-1159596930
           {
-            label: 'GitHub',
+            'aria-label': 'GitHub repository',
+            className: 'header-github-link',
             href: 'https://github.com/iorate/ublacklist',
             position: 'right',
           },
@@ -51,7 +53,6 @@ const config = {
         hideOnScroll: true,
       },
       footer: {
-        copyright: `Copyright © ${new Date().getFullYear()} iorate. Built with Docusaurus.`,
         style: 'dark',
       },
       prism: {

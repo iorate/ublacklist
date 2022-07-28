@@ -123,10 +123,9 @@ exportAsMessages('_locales/uk/messages.json', {
   options_updateInterval: 'Період оновлення',
   options_aboutTitle: 'Про uBlacklist',
   options_aboutVersion: 'Версія',
-  options_aboutDocumentation: '[Документація](https://iorate.github.io/ublacklist/docs)',
+  options_aboutDocumentation: 'Документація',
   options_aboutReleaseNotes: 'Нотатки до випуску',
-  options_aboutPrivacyPolicy:
-    '[Політика приватності](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutPrivacyPolicy: 'Політика приватності',
   options_aboutThirdPartyNotices: 'Сторонні примітки',
   clouds_googleDriveSync: 'Синхр. з Google Drive',
   clouds_googleDriveSyncDescription:
