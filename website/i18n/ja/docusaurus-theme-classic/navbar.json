@@ -1,0 +1,14 @@
+{
+  "title": {
+    "message": "uBlacklist"
+  },
+  "item.label.docs": {
+    "message": "ドキュメント"
+  },
+  "item.label.subscriptions": {
+    "message": "購読リスト"
+  },
+  "item.label.privacyPolicy": {
+    "message": "プライバシーポリシー"
+  }
+}

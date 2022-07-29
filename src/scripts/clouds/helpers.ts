@@ -1,6 +1,6 @@
 import * as S from 'microstruct';
 import { browser } from '../browser';
-import { ALT_FLOW_REDIRECT_URL } from '../constants';
+import { getWebsiteURL } from '../locales';
 import { HTTPError, UnexpectedResponse } from '../utilities';
 
 export type AuthorizeParams = {
@@ -23,6 +23,8 @@ export function shouldUseAltFlow(): (os: string) => boolean {
   };
 }
 
+const altFlowRedirectURL = getWebsiteURL('/callback');
+
 async function launchAltFlow(params: { url: string }): Promise<string> {
   const [{ id: openerTabId }] = await browser.tabs.query({ active: true, currentWindow: true });
   if (openerTabId == null) {
@@ -38,7 +40,7 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const [onUpdated, onRemoved] = [
       (tabId: number, _changeInfo: unknown, tab: browser.tabs.Tab) => {
-        if (tabId === authorizationTabId && tab.url?.startsWith(ALT_FLOW_REDIRECT_URL)) {
+        if (tabId === authorizationTabId && tab.url?.startsWith(altFlowRedirectURL)) {
           resolve(tab.url);
           browser.tabs.onUpdated.removeListener(onUpdated);
           browser.tabs.onRemoved.removeListener(onRemoved);
@@ -69,7 +71,7 @@ export function authorize(
     const authorizationURL = new URL(url);
     authorizationURL.search = new URLSearchParams({
       response_type: 'code',
-      redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : browser.identity.getRedirectURL(),
+      redirect_uri: useAltFlow ? altFlowRedirectURL : browser.identity.getRedirectURL(),
       ...params,
     }).toString();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -112,7 +114,7 @@ export function getAccessToken(
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code: authorizationCode,
-        redirect_uri: useAltFlow ? ALT_FLOW_REDIRECT_URL : browser.identity.getRedirectURL(),
+        redirect_uri: useAltFlow ? altFlowRedirectURL : browser.identity.getRedirectURL(),
         ...params,
       }),
     });

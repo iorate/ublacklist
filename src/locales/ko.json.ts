@@ -121,10 +121,9 @@ exportAsMessages('_locales/ko/messages.json', {
   options_updateInterval: '업데이트 주기',
   options_aboutTitle: 'uBlacklist 에 관하여',
   options_aboutVersion: '버전',
-  options_aboutDocumentation: '[문서](https://iorate.github.io/ublacklist/docs)',
+  options_aboutDocumentation: '문서',
   options_aboutReleaseNotes: '릴리즈 노트',
-  options_aboutPrivacyPolicy:
-    '[개인정보처리방침](https://iorate.github.io/ublacklist/privacy-policy)',
+  options_aboutPrivacyPolicy: '개인정보처리방침',
   options_aboutThirdPartyNotices: '서드 파티 고지',
   clouds_googleDriveSync: 'Google Drive 와 동기화',
   clouds_googleDriveSyncDescription: '숨겨진 앱 데이터 공간에 파일이 생성됩니다.',

@@ -8,11 +8,10 @@ https://github.com/iorate/ublacklist#supported-search-engines (英語)
 ブロックするサイトのリストを、クラウドストレージを介してデバイス間で同期することができます。今のところ、Google ドライブと Dropbox に対応しています。
 
 また、公開されているリストを購読することもできます。一部のリストはウェブサイトに掲載されています:
-https://iorate.github.io/ublacklist/subscriptions (英語)
+https://iorate.github.io/ublacklist/ja/subscriptions
 
 使い方:
-https://iorate.github.io/ublacklist/docs/getting-started (英語)
-https://qiita.com/iorate/items/9ff65360fbdf4082476a
+https://iorate.github.io/ublacklist/ja/docs/getting-started
 
 更新履歴:
 https://github.com/iorate/ublacklist/releases (英語)

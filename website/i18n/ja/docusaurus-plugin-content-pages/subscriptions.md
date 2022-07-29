@@ -1,24 +1,24 @@
 ---
-title: Subscriptions
+title: 購読リスト
 ---
 
-# Subscriptions
+# 購読リスト
 
-[Add your subscription](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
+[このページに購読を追加する](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
 
-## Copycat sites {#copycat-sites}
+## コピーサイト {#copycat-sites}
 
-- [uBlacklist GitHub Translation](https://github.com/arosh/ublacklist-github-translation) by [Sho Iizuka](https://github.com/arosh)
-  - "Exclude domains that serve machine-translated pages of READMEs, Issues, Pull requests, etc. on GitHub from Google search."
-- [uBlacklist Stack Overflow Translation](https://github.com/arosh/ublacklist-stackoverflow-translation) by [Sho Iizuka](https://github.com/arosh)
-  - "Filter that enables excluding the machine-translated sites of Stack Overflow."
+- [GitHub の機械翻訳サイトの除外用フィルタ](https://github.com/arosh/ublacklist-github-translation) by [Sho Iizuka](https://github.com/arosh)
+  - "GitHub の README、Issue、Pull request などを機械翻訳したページを配信しているドメインを Google 検索の結果から除外するためのフィルタです。"
+- [Stack Overflow の機械翻訳サイトの除外用フィルタ](https://github.com/arosh/ublacklist-stackoverflow-translation) by [Sho Iizuka](https://github.com/arosh)
+  - "Stack Overflow の機械翻訳に過ぎないサイトを Google 検索の結果から除外するためのフィルタです。"
 
-## Specific sites {#specific-sites}
+## 特定のサイト {#specific-sites}
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
 
-## Chinese {#chinese}
+## 中国語 {#chinese}
 
 - [uBlacklist subscription compilation](https://github.com/eallion/uBlacklist-subscription-compilation) by [Charles Chin](https://github.com/eallion)
   - "这是一个 uBlacklist 订阅地址合集，搜集了网上大部分的订阅地址合并成一个。"
@@ -36,7 +36,7 @@ title: Subscriptions
 - [电脑技术类型的白名单 whitelist](https://github.com/bcaso/Google-Chinese-Results-Whitelist) by [bcaso](https://github.com/bcaso)
   - "白名单比更名单更高效，但是黑名单不能与白名单同时使用。"
 
-## Japanese {#japanese}
+## 日本語 {#japanese}
 
 - [uBlacklistRule](https://github.com/ncaq/uBlacklistRule) by [ncaq](https://github.com/ncaq)
   - "技術系スパムサイト"
@@ -51,7 +51,7 @@ title: Subscriptions
 - [ublacklist-search-result](https://github.com/munierujp/ublacklist-search-result) by [@munierujp](https://github.com/munierujp)
   - "SNS やショッピングサイトなどの検索結果ページを除外するための、uBlacklist のブラックリスト"
 
-## Other subscription lists {#other-subscription-lists}
+## ほかの購読リスト {#other-subscription-lists}
 
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
   - "Awesome list of uBlacklist subscriptions to block search results from google, bing, duckduckgo."
