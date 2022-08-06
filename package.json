@@ -173,7 +173,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{css,json,md,yaml,yml}": "prettier --write"
+    "*.{css,json,md,mdx,yaml,yml}": "prettier --write"
   },
   "packageManager": "yarn@3.2.2",
   "prettier": {
