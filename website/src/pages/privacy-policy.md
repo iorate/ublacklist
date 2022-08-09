@@ -11,7 +11,7 @@ title: Privacy Policy
 <!--
 :::note
 
-In the event of discrepancy between [the English version](https://iorate.github.io/ublacklist/privacy-policy) and this translated version, the English version shall prevail.
+In the event of discrepancy between [the English version](pathname://../privacy-policy) and this translated version, the English version shall prevail.
 
 :::
 -->
