@@ -276,7 +276,7 @@ title/domain/i`,
   // Empty, comment and invalid rules
   testExecAndTest(
     r`  *://*.example.com/*bar*
-ti/quux$/
+t/quux$/
 
 # Invalid rule
 example\.(net|org)
