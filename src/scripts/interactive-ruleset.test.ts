@@ -56,8 +56,8 @@ title/Example/
     const rs2 = makeInteractiveRuleset(
       r`/example\.net/
 u/example\.org/
-ti/Example/
-@titl/allowed/i`,
+t/Example/
+@t/allowed/i`,
     );
     expect(rs2.test(makeProps('http://example.net', 'Net'))).toBe(0);
     expect(rs2.test(makeProps('https://example.edu', 'Example Domain'))).toBe(0);
