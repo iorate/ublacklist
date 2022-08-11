@@ -20,7 +20,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build extension
-        run: yarn run-p -l "build chrome production" "build firefox production"
+        run: yarn run-p -l "build chrome-mv3 production" "build firefox production"
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}

@@ -190,8 +190,8 @@
       [
         "semantic-release-chrome",
         {
-          "asset": "ublacklist-chrome.zip",
-          "distFolder": "dist/chrome/production",
+          "asset": "ublacklist-chrome-mv3.zip",
+          "distFolder": "dist/chrome-mv3/production",
           "extensionId": "pncfbmialoiaghdehhbnbhkkgmjanfhe"
         }
       ],
@@ -209,8 +209,8 @@
         {
           "assets": [
             {
-              "name": "ublacklist-${nextRelease.gitTag}-chrome.zip",
-              "path": "ublacklist-chrome.zip"
+              "name": "ublacklist-${nextRelease.gitTag}-chrome-mv3.zip",
+              "path": "ublacklist-chrome-mv3.zip"
             },
             {
               "name": "ublacklist-${nextRelease.gitTag}-firefox.xpi",
@@ -226,9 +226,9 @@
   },
   "scripts": {
     "postinstall": "simple-git-hooks",
-    "build": "npm-run-all \"webpack --env browser={1:=chrome} --env mode={2:=development} --env typecheck={3:=notypecheck}\" --",
+    "build": "npm-run-all \"webpack --env browser={1:=chrome-mv3} --env mode={2:=development} --env typecheck={3:=notypecheck}\" --",
     "build-all": "run-p -l \"build chrome development typecheck\" \"build chrome production typecheck\" \"build chrome-mv3 development typecheck\" \"build chrome-mv3 production typecheck\" \"build firefox development typecheck\" \"build firefox production typecheck\" \"build safari development typecheck\" \"build safari production typecheck\"",
-    "watch": "npm-run-all \"webpack --watch --env browser={1:=chrome} --env mode=development --env typecheck=notypecheck\" --",
+    "watch": "npm-run-all \"webpack --watch --env browser={1:=chrome-mv3} --env mode=development --env typecheck=notypecheck\" --",
     "clean": "rimraf dist",
     "lint": "FORCE_COLOR=1 run-p -l lint-eslint lint-prettier lint-typecheck",
     "lint-eslint": "eslint . --ignore-pattern /website",
