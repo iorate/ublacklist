@@ -10,6 +10,6 @@ title: プライバシーポリシー
 
 :::note
 
-[英語版](https://iorate.github.io/ublacklist/privacy-policy)とこの翻訳版の間に齟齬がある場合は、英語版が優先されます。
+[英語版](pathname://../privacy-policy)とこの翻訳版の間に齟齬がある場合は、英語版が優先されます。
 
 :::

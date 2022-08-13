@@ -32,7 +32,7 @@ export const RE_LINE = (() => {
   const path = r`(?<path>/(?:\*|[-0-9A-Za-z._~:/?[\]@!$&'()+,;=]|%[0-9A-Fa-f]{2})*)`;
   const matchPattern = r`(?<matchPattern>${scheme}://${host}${path})`;
 
-  const prop = r`(?<prop>u(?:rl?)?|t(?:i(?:t(?:le?)?)?)?)`;
+  const prop = r`(?<prop>u(?:rl)?|t(?:itle)?)`;
   const backslashSequence = r`(?:\\.)`;
   const class_ = r`(?:\[(?:[^\]\\]|${backslashSequence})*])`;
   const firstChar = r`(?:[^*\\/[]|${backslashSequence}|${class_})`;
@@ -72,7 +72,7 @@ export function parseRule(input: string): ParsedRule | null {
       }
     : {
         type: 're',
-        prop: groups.prop && 'title'.startsWith(groups.prop) ? 'title' : 'url',
+        prop: groups.prop === 't' || groups.prop === 'title' ? 'title' : 'url',
         pattern: groups.pattern,
         flags: groups.flags || '',
         value,

@@ -40,16 +40,20 @@ function main() {
   */
   // #endif
 
-  browser.runtime.onInstalled.addListener(() => {
-    void LocalStorage.compileRules();
-    void Sync.sync();
-    void Subscriptions.updateAll();
+  browser.runtime.onInstalled.addListener(({ reason }) => {
+    if (reason === 'install' || reason === 'update') {
+      void LocalStorage.compileRules();
+      void Sync.sync();
+      void Subscriptions.updateAll();
+      void SearchEngines.registerContentScripts();
+    }
   });
 
   browser.runtime.onStartup.addListener(() => {
     void LocalStorage.compileRules();
     void Sync.sync();
     void Subscriptions.updateAll();
+    void SearchEngines.registerContentScripts();
   });
 
   browser.alarms.onAlarm.addListener(alarm => {
@@ -86,8 +90,6 @@ function main() {
   });
   */
   // #endif
-
-  void SearchEngines.registerContentScripts();
 }
 
 main();

@@ -1,6 +1,6 @@
 import { SEARCH_ENGINES } from '../../common/search-engines';
 import { browser } from '../browser';
-import { AltURL, MatchPattern, stringEntries } from '../utilities';
+import { AltURL, MatchPattern, Mutex, stringEntries } from '../utilities';
 
 export async function injectContentScript(tabId: number, url: string): Promise<void> {
   // #if CHROME
@@ -45,6 +45,12 @@ export async function injectContentScript(tabId: number, url: string): Promise<v
 }
 
 // #if CHROME_MV3 || FIREFOX
+const mutex = new Mutex();
+/* #if FIREFOX
+let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] = [];
+*/
+// #endif
+
 async function getRegisterableContentScripts(): Promise<
   { id: string; matches: string[]; runAt: 'document_start' | 'document_end' | 'document_idle' }[]
 > {
@@ -72,34 +78,34 @@ async function getRegisterableContentScripts(): Promise<
     )
   ).flat();
 }
-// #endif
-
-/* #if FIREFOX
-let registeredContentScripts: browser.contentScripts.RegisteredContentScript[] = [];
-*/
-// #endif
 
 export async function registerContentScripts(): Promise<void> {
-  // #if CHROME_MV3
-  await browser.scripting.unregisterContentScripts();
-  await browser.scripting.registerContentScripts(
-    (
-      await getRegisterableContentScripts()
-    ).map(contentScript => ({ ...contentScript, js: ['scripts/content-script.js'] })),
-  );
-  /* #elif FIREFOX
-  await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));
-  registeredContentScripts = await Promise.all(
-    (
-      await getRegisterableContentScripts()
-    ).map(({ matches, runAt }) =>
-      browser.contentScripts.register({
-        js: [{ file: '/scripts/content-script.js' }],
-        matches,
-        runAt,
-      }),
-    ),
-  );
-  */
-  // #endif
+  return mutex.lock(async () => {
+    // #if CHROME_MV3
+    await browser.scripting.unregisterContentScripts();
+    await browser.scripting.registerContentScripts(
+      (
+        await getRegisterableContentScripts()
+      ).map(contentScript => ({ ...contentScript, js: ['scripts/content-script.js'] })),
+    );
+    /* #elif FIREFOX
+    await Promise.all(registeredContentScripts.map(contentScript => contentScript.unregister()));
+    registeredContentScripts = await Promise.all(
+      (
+        await getRegisterableContentScripts()
+      ).map(({ matches, runAt }) =>
+        browser.contentScripts.register({
+          js: [{ file: '/scripts/content-script.js' }],
+          matches,
+          runAt,
+        }),
+      ),
+    );
+    */
+    // #endif
+  });
 }
+/* #else
+export async function registerContentScripts(): Promise<void> {}
+*/
+// #endif

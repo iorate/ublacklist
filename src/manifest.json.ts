@@ -95,6 +95,10 @@ exportAsJSON('manifest.json', {
   */
   // #endif
 
+  // #if CHROME_MV3
+  minimum_chrome_version: '102',
+  // #endif
+
   name: '__MSG_extensionName__',
 
   // #if CHROME_MV3
