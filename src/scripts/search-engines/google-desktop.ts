@@ -244,9 +244,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionTarget: '.hMJ0yc',
         actionStyle: desktopActionStyle,
       },
-      // YouTube Channel
+      // YouTube and TikTok Channel
       {
-        target: '.mnr-c > .krUaHe',
+        target: '.d3zsgb, .rULfzc',
         level: 1,
         url: 'a',
         title: 'h3',
