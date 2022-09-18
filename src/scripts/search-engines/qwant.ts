@@ -20,9 +20,9 @@ function getSerpHandler(): SerpHandler {
       '.ub-button:hover': {
         textDecoration: 'underline',
       },
-      'div[class*=WebResult-module__permalink]': {
+      'div[class*=Text-module__permaLink]': {
         display: 'flex',
-        maxWidth: 'auto',
+        maxWidth: 'none !important',
       },
       '.qwant-control': {
         display: 'block',
@@ -61,7 +61,7 @@ function getSerpHandler(): SerpHandler {
         target: '[domain]',
         url: 'a',
         title: 'a',
-        actionTarget: '[class*=WebResult-module__permalink]',
+        actionTarget: '[class*=Text-module__permaLink]',
         actionStyle: {
           fontSize: '13px',
           paddingLeft: '5px',
