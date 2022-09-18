@@ -1,6 +1,7 @@
 import * as S from 'microstruct';
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
+import { makeAltURL } from '../utilities';
 import { getParentElement, handleSerp } from './helpers';
 
 const globalStyle: CSSAttribute = {
@@ -37,7 +38,18 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     entryHandlers: [
       {
         target: '.b_algo',
-        url: 'h2 > a',
+        url: root => {
+          const url = root.querySelector<HTMLAnchorElement>('h2 > a')?.href;
+          if (!url) {
+            return null;
+          }
+          const u = makeAltURL(url);
+          if (!u || u.host === 'www.bing.com') {
+            // "Open links from search results in a new tab or window" is turned on
+            return null;
+          }
+          return url;
+        },
         title: 'h2',
         actionTarget: '.b_attribution',
         actionStyle: {

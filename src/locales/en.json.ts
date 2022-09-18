@@ -393,6 +393,10 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Bing.
   searchEngines_bingName: 'Bing',
 
+  // The description for Bing in Firefox.
+  searchEngines_bingDescription_firefox:
+    'Turn off "Open links from search results in a new tab or window".',
+
   // The localized name of Brave
   searchEngines_braveName: 'Brave',
 
@@ -404,6 +408,9 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The localized name of Qwant.
   searchEngines_qwantName: 'Qwant',
+
+  // The description for Qwant.
+  searchEngines_qwantDescription: 'Turn off "Always play videos on Qwant.com".',
 
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',

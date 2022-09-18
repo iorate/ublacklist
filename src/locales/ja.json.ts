@@ -128,6 +128,9 @@ exportAsMessages('_locales/ja/messages.json', {
   options_aboutReleaseNotes: 'リリースノート',
   options_aboutPrivacyPolicy: 'プライバシーポリシー',
   options_aboutThirdPartyNotices: 'サードパーティに関する通知',
+  searchEngines_bingDescription_firefox:
+    '「新しいタブまたはウィンドウに検索結果のリンク先を開きます」を無効にして下さい。',
+  searchEngines_qwantDescription: '"Always play videos on Qwant.com" を無効にして下さい。',
   clouds_googleDriveSync: 'Google ドライブと同期する',
   clouds_googleDriveSyncDescription: '非表示のアプリデータフォルダにファイルが作成されます。',
   clouds_googleDriveSyncTurnedOn: 'Google ドライブと同期しています',
