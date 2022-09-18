@@ -268,6 +268,10 @@ const RegisterSearchEnginesDialog: React.VFC<DialogProps> = ({ close, open }) =>
                 <ControlLabel for={id}>
                   {translate(SEARCH_ENGINES[id].messageNames.name)}
                 </ControlLabel>
+                {SEARCH_ENGINES[id].messageNames.description && (
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  <SubLabel>{translate(SEARCH_ENGINES[id].messageNames.description!)}</SubLabel>
+                )}
               </LabelWrapper>
             </RowItem>
           </Row>
