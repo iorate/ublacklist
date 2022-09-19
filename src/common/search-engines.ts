@@ -18,6 +18,7 @@ export type SearchEngine = {
   }[];
   messageNames: {
     name: MessageName0;
+    description?: MessageName0;
   };
 };
 
@@ -253,6 +254,10 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_bingName',
+      /* #if FIREFOX
+      description: 'searchEngines_bingDescription_firefox',
+      */
+      // #endif
     },
   },
   brave: {
@@ -318,6 +323,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_qwantName',
+      description: 'searchEngines_qwantDescription',
     },
   },
   startpage: {

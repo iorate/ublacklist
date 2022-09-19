@@ -86,7 +86,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '[data-content-feature="1"]',
+        target: '[data-content-feature="1"], [data-header-feature="0"] + .Z26q7c',
         level: 2,
         url: 'a',
         title: 'h3',

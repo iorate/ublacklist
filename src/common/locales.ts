@@ -125,10 +125,12 @@ export type MessageName =
   | 'clouds_dropboxSyncTurnedOn'
   | 'searchEngines_googleName'
   | 'searchEngines_bingName'
+  | 'searchEngines_bingDescription_firefox'
   | 'searchEngines_braveName'
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'
+  | 'searchEngines_qwantDescription'
   | 'searchEngines_startpageName'
   | 'searchEngines_yahooJapanName'
   | 'searchEngines_yandexName';
