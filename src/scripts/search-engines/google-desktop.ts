@@ -59,6 +59,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         .join(', ')]: {
         backgroundColor: 'transparent !important',
       },
+      // Remove remaining space when hiding nested results
+      '@supports selector(:has(a))': {
+        '.FxLDp:has(> .MYVUIe:only-child [data-ub-blocked="hidden"])': {
+          display: 'none',
+        },
+      },
     },
     controlHandlers: [
       {
