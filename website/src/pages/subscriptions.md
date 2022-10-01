@@ -33,6 +33,8 @@ title: Subscriptions
     - "清单中的网站大多为根据 IP 所在国家/地理位置 来屏蔽普通用户的网站且不能认定内容有区域版权限制。"
 - [uBlacklist-Subscription](https://github.com/scyrte/uBlacklist-Subscription) by [Scyrte](https://github.com/scyrte)
   - "使用它可以屏蔽一些垃圾网站占据你的搜索结果，比如卡饭教程、CSDN 等等。"
+- [終結內容農場 uBlacklist 黑名單](https://danny0838.github.io/content-farm-terminator/zh/subscriptions-ublacklist)
+  - 「終結內容農場」瀏覽器套件現在也提供 uBlacklist 格式的黑名單，包括標準內容農場、類內容農場、擴充內容農場、劣質複製農場等。
 - [电脑技术类型的白名单 whitelist](https://github.com/bcaso/Google-Chinese-Results-Whitelist) by [bcaso](https://github.com/bcaso)
   - "白名单比更名单更高效，但是黑名单不能与白名单同时使用。"
 
