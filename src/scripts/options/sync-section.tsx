@@ -298,17 +298,23 @@ const SyncNow: React.VFC<{ syncCloudId: CloudId | false | null }> = props => {
   useEffect(
     () =>
       addMessageListeners({
-        syncing: () => {
+        syncing: id => {
+          if (id !== props.syncCloudId) {
+            return;
+          }
           setUpdated(false);
           setSyncing(true);
         },
-        synced: (result, updated) => {
+        synced: (id, result, updated) => {
+          if (id !== props.syncCloudId) {
+            return;
+          }
           setSyncResult(result);
           setUpdated(updated);
           setSyncing(false);
         },
       }),
-    [],
+    [props.syncCloudId],
   );
   return (
     <SectionItem>

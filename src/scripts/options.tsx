@@ -6,6 +6,7 @@ import { AutoThemeProvider } from './components/theme';
 import { translate } from './locales';
 import { AboutSection } from './options/about-section';
 import { AppearanceSection } from './options/appearance-section';
+import { BackupRestoreSection } from './options/backup-restore-section';
 import { GeneralSection } from './options/general-section';
 import { OptionsContextProvider } from './options/options-context';
 import { SubscriptionSection } from './options/subscription-section';
@@ -20,6 +21,7 @@ const Options: React.VFC = () => (
           <AppearanceSection />
           <SyncSection />
           <SubscriptionSection />
+          <BackupRestoreSection />
           <AboutSection />
         </Container>
       </OptionsContextProvider>

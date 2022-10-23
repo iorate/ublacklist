@@ -350,6 +350,33 @@ exportAsMessages('_locales/en/messages.json', {
   // The label of the select to select an update interval.
   options_updateInterval: 'Update interval',
 
+  // The title of the backup and restore section.
+  options_backupRestoreTitle: 'Backup and restore',
+
+  // Backup settings.
+  options_backupSettingsLabel: 'Backup settings',
+
+  // The text of the button to backup settings.
+  options_backupSettingsButton: 'Backup',
+
+  // Restore settings.
+  options_restoreSettingsLabel: 'Restore settings',
+
+  // The text of the button to restore settings.
+  options_restoreSettingsButton: 'Restore',
+
+  // The error message that is shown when the backup file is invalid.
+  options_restoreSettingsInvalidFile: 'The file format is invalid.',
+
+  // Initialize settings.
+  options_initializeSettingsLabel: 'Initialize settings',
+
+  // The text of the button to initialize settings.
+  options_initializeSettingsButton: 'Initialize',
+
+  // The confirmation message to initialize settings.
+  options_initializeSettingsConfirmation: 'Do you really want to initialize your settings?',
+
   // The title of the about section.
   options_aboutTitle: 'About uBlacklist',
 

@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 */
 // #endif
+import * as BackupRestore from './background/backup-restore';
 import * as Clouds from './background/clouds';
 import * as LocalStorage from './background/local-storage';
 import * as SearchEngines from './background/search-engines';
@@ -28,6 +29,10 @@ function main() {
     'update-all-subscriptions': Subscriptions.updateAll,
 
     'open-options-page': browser.runtime.openOptionsPage.bind(browser.runtime),
+
+    'backup-settings': BackupRestore.backup,
+    'restore-settings': BackupRestore.restore,
+    'initialize-settings': BackupRestore.initialize,
   });
 
   /* #if CHROME && !CHROME_MV3

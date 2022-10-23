@@ -107,6 +107,28 @@ export type LocalStorageItemsSavable = Omit<
 >;
 
 export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
+
+export type LocalStorageItemsBackupRestore = Pick<
+  LocalStorageItems,
+  | 'blacklist'
+  | 'blockWholeSite'
+  | 'skipBlockDialog'
+  | 'hideBlockLinks'
+  | 'hideControl'
+  | 'enablePathDepth'
+  | 'linkColor'
+  | 'blockColor'
+  | 'highlightColors'
+  | 'dialogTheme'
+  | 'syncBlocklist'
+  | 'syncGeneral'
+  | 'syncAppearance'
+  | 'syncSubscriptions'
+  | 'syncInterval'
+  | 'updateInterval'
+> & {
+  subscriptions: readonly { name: string; url: string; enabled: boolean }[];
+};
 // #endregion LocalStorage
 
 // #region SearchEngines

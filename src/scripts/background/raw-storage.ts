@@ -80,3 +80,16 @@ export function modifyAllInRawStorage<Items extends Partial<RawStorageItems>>(
     await browser.storage.local.set(newItems);
   });
 }
+
+export function resetAllInRawStorage<Items extends Partial<RawStorageItems>>(
+  callback: Exclude<keyof Items, keyof RawStorageItems> extends never
+    ? (items: Readonly<RawStorageItems>) => Items
+    : never,
+): Promise<void> {
+  return mutex.lock(async () => {
+    const oldItems = await loadAllFromRawStorage();
+    const newItems = callback(oldItems);
+    await browser.storage.local.clear();
+    await browser.storage.local.set(newItems);
+  });
+}
