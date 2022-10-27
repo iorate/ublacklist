@@ -230,3 +230,34 @@ export function unlines(ss: string[]): string {
 
 export const r = String.raw.bind(String);
 // #endregion string
+
+export function downloadTextFile(filename: string, mimeType: string, content: string): void {
+  const a = document.createElement('a');
+  a.href = `data:${mimeType},${encodeURIComponent(content)}`;
+  a.download = filename;
+  a.click();
+}
+
+export function uploadTextFile(mimeType: string): Promise<string | null> {
+  return new Promise<string | null>(resolve => {
+    const fileInput = document.createElement('input');
+    fileInput.accept = mimeType;
+    fileInput.type = 'file';
+    fileInput.addEventListener('input', () => {
+      const file = fileInput.files?.[0];
+      if (!file) {
+        resolve(null);
+        return;
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener('load', () => {
+        resolve(fileReader.result as string);
+      });
+      fileReader.addEventListener('error', () => {
+        resolve(null);
+      });
+      fileReader.readAsText(file);
+    });
+    fileInput.click();
+  });
+}

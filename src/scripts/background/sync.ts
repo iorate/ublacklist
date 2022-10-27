@@ -296,12 +296,15 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
       return;
     }
 
-    postMessage('syncing');
+    postMessage('syncing', localItems.syncCloudId);
 
     let result: Result;
     try {
       await Promise.all(promises);
       await modifyAllInRawStorage(latestLocalItems => {
+        if (latestLocalItems.syncCloudId !== localItems.syncCloudId) {
+          return {};
+        }
         for (const section of syncSections) {
           section.afterDownloadAll(cloudItems, latestLocalItems);
         }
@@ -316,7 +319,7 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
     }
     await saveToRawStorage({ syncResult: result });
 
-    postMessage('synced', result, Object.keys(cloudItems).length !== 0);
+    postMessage('synced', localItems.syncCloudId, result, Object.keys(cloudItems).length !== 0);
   });
 }
 

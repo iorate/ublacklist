@@ -1,6 +1,7 @@
 import { browser } from './browser';
 import {
   CloudId,
+  LocalStorageItemsBackupRestore,
   LocalStorageItemsSavable,
   Result,
   SaveSource,
@@ -24,8 +25,8 @@ type MessageSignatures = {
   'register-content-scripts': () => void;
 
   sync: () => void;
-  syncing: () => void;
-  synced: (result: Result, updated: boolean) => void;
+  syncing: (id: CloudId) => void;
+  synced: (id: CloudId, result: Result, updated: boolean) => void;
 
   'update-subscription': (id: SubscriptionId) => void;
   'update-all-subscriptions': () => void;
@@ -33,6 +34,10 @@ type MessageSignatures = {
   'subscription-updated': (id: SubscriptionId, subscription: Subscription) => void;
 
   'open-options-page': () => void;
+
+  'backup-settings': () => LocalStorageItemsBackupRestore;
+  'restore-settings': (items: Readonly<Partial<LocalStorageItemsBackupRestore>>) => void;
+  'initialize-settings': () => void;
 };
 
 export type MessageTypes = keyof MessageSignatures;
