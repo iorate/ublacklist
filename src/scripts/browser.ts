@@ -117,6 +117,7 @@ export namespace browser {
 
   export namespace storage {
     export const local = {
+      clear: promisify(chrome.storage.local.clear.bind(chrome.storage.local)),
       get: promisify(chrome.storage.local.get.bind(chrome.storage.local)),
       set: promisify(chrome.storage.local.set.bind(chrome.storage.local)),
     };

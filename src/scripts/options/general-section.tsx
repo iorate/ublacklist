@@ -31,7 +31,7 @@ import { saveToLocalStorage } from '../local-storage';
 import { translate } from '../locales';
 import { addMessageListeners, sendMessage } from '../messages';
 import { SearchEngineId } from '../types';
-import { lines, stringKeys } from '../utilities';
+import { downloadTextFile, lines, stringKeys, uploadTextFile } from '../utilities';
 import { useOptionsContext } from './options-context';
 import { RulesetEditor } from './ruleset-editor';
 import { Select, SelectOption } from './select';
@@ -143,23 +143,13 @@ const ImportBlacklistDialog: React.VFC<
               <Button
                 className={FOCUS_END_CLASS}
                 primary
-                onClick={() => {
-                  const fileInput = document.createElement('input');
-                  fileInput.accept = 'text/plain';
-                  fileInput.type = 'file';
-                  fileInput.addEventListener('input', () => {
-                    const file = fileInput.files?.[0];
-                    if (!file) {
-                      return;
-                    }
-                    const fileReader = new FileReader();
-                    fileReader.addEventListener('load', () => {
-                      replaceOrAppend(fileReader.result as string);
-                    });
-                    fileReader.readAsText(file);
-                    close();
-                  });
-                  fileInput.click();
+                onClick={async () => {
+                  const text = await uploadTextFile('text/plain');
+                  if (text == null) {
+                    return;
+                  }
+                  replaceOrAppend(text);
+                  close();
                 }}
               >
                 {translate('options_importBlacklistDialog_selectFile')}
@@ -388,10 +378,7 @@ const SetBlacklist: React.VFC = () => {
             <RowItem>
               <Button
                 onClick={() => {
-                  const a = document.createElement('a');
-                  a.href = `data:text/plain;charset=UTF-8,${encodeURIComponent(blacklist)}`;
-                  a.download = 'uBlacklist.txt';
-                  a.click();
+                  downloadTextFile('uBlacklist.txt', 'text/plain;charset=UTF-8', blacklist);
                 }}
               >
                 {translate('options_exportBlacklistButton')}
