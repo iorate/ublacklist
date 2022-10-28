@@ -38,7 +38,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "globby": "^13.1.2",
-    "goober": "^2.1.11",
+    "goober": "2.1.10",
     "html-webpack-plugin": "^5.5.0",
     "if-webpack-loader": "^2.0.0",
     "is-mobile": "^3.1.1",
