@@ -10219,12 +10219,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"goober@npm:^2.1.11":
-  version: 2.1.11
-  resolution: "goober@npm:2.1.11"
+"goober@npm:2.1.10":
+  version: 2.1.10
+  resolution: "goober@npm:2.1.10"
   peerDependencies:
     csstype: ^3.0.10
-  checksum: c37c14f476f65f7c66d94ac1a1686a130b4fa42fc512175444e3c708fa1815f6ea579e1b23567e57d41de2e62ff8b5913915ec829f05a3b995d1a7a0016c0bdf
+  checksum: 55a353a477665ea3ae748153132a32184a6a0db42b24ec66cdca97d1e046a2b63af29f698e245fe2f51c05d0eaefeda2cce4a106bc2b6293ea67490c39b6b5c8
   languageName: node
   linkType: hard
 
@@ -19243,7 +19243,7 @@ __metadata:
     eslint-plugin-unused-imports: ^2.0.0
     fork-ts-checker-webpack-plugin: ^7.2.13
     globby: ^13.1.2
-    goober: ^2.1.11
+    goober: 2.1.10
     html-webpack-plugin: ^5.5.0
     if-webpack-loader: ^2.0.0
     is-mobile: ^3.1.1
