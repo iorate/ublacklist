@@ -6,8 +6,8 @@ export type SearchEngineId =
   | 'brave'
   | 'duckduckgo'
   | 'ecosia'
-  | 'searx'
   | 'qwant'
+  | 'searx'
   | 'startpage'
   | 'yahooJapan'
   | 'yandex';
@@ -310,6 +310,23 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
       name: 'searchEngines_ecosiaName',
     },
   },
+  qwant: {
+    contentScripts: [
+      {
+        matches: ['https://www.qwant.com/?*'],
+        // https://github.com/iorate/ublacklist/pull/179
+        runAt: 'document_idle',
+      },
+      {
+        matches: ['https://lite.qwant.com/?*'],
+        runAt: 'document_start',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_qwantName',
+      description: 'searchEngines_qwantDescription',
+    },
+  },
   searx: {
     contentScripts: [
       {
@@ -353,23 +370,6 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_searxName',
-    },
-  },
-  qwant: {
-    contentScripts: [
-      {
-        matches: ['https://www.qwant.com/?*'],
-        // https://github.com/iorate/ublacklist/pull/179
-        runAt: 'document_idle',
-      },
-      {
-        matches: ['https://lite.qwant.com/?*'],
-        runAt: 'document_start',
-      },
-    ],
-    messageNames: {
-      name: 'searchEngines_qwantName',
-      description: 'searchEngines_qwantDescription',
     },
   },
   startpage: {
