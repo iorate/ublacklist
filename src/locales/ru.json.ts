@@ -138,6 +138,7 @@ exportAsMessages('_locales/ru/messages.json', {
   searchEngines_braveName: 'Brave',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_searxName: 'SearX',
   searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
   searchEngines_yandexName: 'Яндекс',

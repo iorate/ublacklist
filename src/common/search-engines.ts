@@ -6,6 +6,7 @@ export type SearchEngineId =
   | 'brave'
   | 'duckduckgo'
   | 'ecosia'
+  | 'searx'
   | 'qwant'
   | 'startpage'
   | 'yahooJapan'
@@ -307,6 +308,51 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_ecosiaName',
+    },
+  },
+  searx: {
+    contentScripts: [
+      {
+        matches: [
+          '*://searx.fmac.xyz/search*',
+          '*://northboot.xyz/search*',
+          '*://search.unlocked.link/search*',
+          '*://searx.priv.pw/search*',
+          '*://searx.tiekoetter.com/search*',
+          '*://search.sapti.me/search*',
+          '*://search.ononoki.org/search*',
+          '*://paulgo.io/search*',
+          '*://swag.pw/search*',
+          '*://searx.work/search*',
+          '*://search.chemicals-in-the-water.eu/search*',
+          '*://notsearch.uk/search*',
+          '*://trydex.tk/searxng/search*',
+          '*://search.rabbit-company.com/search*',
+          '*://searxng.nicfab.eu/searxng/search*',
+          '*://priv.au/search*',
+          '*://sh0.it/search*',
+          '*://search.rhscz.eu/search*',
+          '*://searx.mha.fi/search*',
+          '*://de.xcxc.ml/search*',
+          '*://search.gcomm.ch/searx/search*',
+          '*://search.rowie.at/search*',
+          '*://searx.ebnar.xyz/search*',
+          '*://searxng.zackptg5.com/search*',
+          '*://search.projectsegfau.lt/search*',
+          '*://search.smnz.de/search*',
+          '*://searx.prvcy.eu/search*',
+          '*://searx.ericaftereric.top/search*',
+          '*://xo.wtf/search*',
+          '*://s.frlt.one/search*',
+          '*://search.bus-hit.me/search*',
+          '*://searx.baczek.me/search*',
+          '*://ooglester.com/search*',
+        ],
+        runAt: 'document_start',
+      },
+    ],
+    messageNames: {
+      name: 'searchEngines_searxName',
     },
   },
   qwant: {

@@ -134,6 +134,7 @@ exportAsMessages('_locales/fr/messages.json', {
   searchEngines_bingName: 'Bing',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_searxName: 'SearX',
   searchEngines_qwantName: 'Qwant',
   searchEngines_startpageName: 'Startpage.com',
 });

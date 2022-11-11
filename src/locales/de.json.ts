@@ -152,6 +152,7 @@ exportAsMessages('_locales/de/messages.json', {
   searchEngines_braveName: 'Brave',
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
+  searchEngines_searxName: 'SearX',
   searchEngines_qwantName: 'Qwant',
   searchEngines_qwantDescription: '"Immer Videos auf Qwant.com abspielen" deaktivieren.',
   searchEngines_startpageName: 'Startpage.com',

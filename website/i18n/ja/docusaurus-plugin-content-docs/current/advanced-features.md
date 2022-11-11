@@ -88,7 +88,7 @@ sidebar_position: 2
 
 ## Google 以外の検索エンジン {#other-search-engines}
 
-[Bing](#bing)、[Brave](#brave)、[DuckDuckGo](#duckduckgo)、[Ecosia](#ecosia)、[Qwant](#qwant)、[Startpage.com](#startpagecom)、[Yahoo! JAPAN](#yahoo-japan)、[Yandex](#yandex) がサポートされています。この機能はデフォルトで無効ですが、オプションページで有効にすることができます。
+[Bing](#bing)、[Brave](#brave)、[DuckDuckGo](#duckduckgo)、[Ecosia](#ecosia)、[SearX](#searx)、[Qwant](#qwant)、[Startpage.com](#startpagecom)、[Yahoo! JAPAN](#yahoo-japan)、[Yandex](#yandex) がサポートされています。この機能はデフォルトで無効ですが、オプションページで有効にすることができます。
 
 ![その他の検索エンジン](/img/advanced-features/other-search-engines-1.png)
 
@@ -109,6 +109,10 @@ sidebar_position: 2
 ### Ecosia {#ecosia}
 
 ![ecosia](/img/advanced-features/ecosia.png)
+
+### SearX {#searx}
+
+![searx](/img/advanced-features/searx.png)
 
 ### Qwant {#qwant}
 

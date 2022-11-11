@@ -138,6 +138,7 @@ export type MessageName =
   | 'searchEngines_braveName'
   | 'searchEngines_duckduckgoName'
   | 'searchEngines_ecosiaName'
+  | 'searchEngines_searxName'
   | 'searchEngines_qwantName'
   | 'searchEngines_qwantDescription'
   | 'searchEngines_startpageName'

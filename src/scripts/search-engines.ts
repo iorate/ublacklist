@@ -4,6 +4,7 @@ import { duckduckgo } from './search-engines/duckduckgo';
 import { ecosia } from './search-engines/ecosia';
 import { google } from './search-engines/google';
 import { qwant } from './search-engines/qwant';
+import { searx } from './search-engines/searx';
 import { startpage } from './search-engines/startpage';
 import { yahooJapan } from './search-engines/yahoo-japan';
 import { yandex } from './search-engines/yandex';
@@ -15,6 +16,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
   brave,
   duckduckgo,
   ecosia,
+  searx,
   qwant,
   startpage,
   yahooJapan,
