@@ -336,6 +336,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           '*://search.unlocked.link/search*',
           '*://searx.priv.pw/search*',
           '*://searx.tiekoetter.com/search*',
+          '*://searx.be/search*',
           '*://search.sapti.me/search*',
           '*://search.ononoki.org/search*',
           '*://paulgo.io/search*',
