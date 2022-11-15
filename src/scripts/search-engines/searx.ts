@@ -1,22 +1,6 @@
 import { SEARCH_ENGINES } from '../../common/search-engines';
-import { CSSAttribute } from '../styles';
 import { SearchEngine, SerpHandler } from '../types';
 import { getDialogThemeFromBody, handleSerp } from './helpers';
-
-const desktopRegularActionStyle: CSSAttribute = {
-  '&::before': {
-    content: '" · "',
-    padding: '0 2px 0 4px',
-  },
-  // next to triangle
-  '.eFM0qc > span:not([class]) + &::before': {
-    content: 'none',
-    padding: 0,
-  },
-  fontSize: '14px',
-  lineHeight: 1.3,
-  visibility: 'visible',
-};
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
@@ -25,14 +9,17 @@ function getSerpHandler(): SerpHandler {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
       },
       '.ub-button': {
-        color: 'var(--ub-link-color, rgb(101, 115, 255))',
+        color: 'var(--color-categories-item-selected-font)',
       },
       '.ub-button:hover': {
         textDecoration: 'underline',
       },
+      '.result-images': {
+        padding: '.5rem .5rem 4.5rem .5rem',
+      },
     },
     controlHandlers: [
-      // Text
+      // Global
       {
         target: '.search_filters',
         style: {
@@ -45,14 +32,28 @@ function getSerpHandler(): SerpHandler {
       {
         target: '.result',
         url: 'a',
-        title: 'a',
+        title: 'h3',
         actionTarget: '.url_i2',
-        actionStyle: desktopRegularActionStyle,
-        /*  actionStyle: {
+        actionStyle: {
+          '&::before': {
+            content: '" · "',
+            padding: '0 2px 0 4px',
+          },
+          fontSize: '1rem',
+        },
+      },
+      // Images
+      {
+        target: '.result-images',
+        url: 'a',
+        title: '.title',
+        actionTarget: 'a',
+        actionStyle: {
+          fontSize: '.7em',
           display: 'block',
-          fontSize: '13px',
-          order: 1,
-        },*/
+          position: 'absolute',
+          padding: '3.1rem 0 0 0',
+        },
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
