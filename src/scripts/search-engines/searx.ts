@@ -24,6 +24,7 @@ function getSerpHandler(): SerpHandler {
         target: '.search_filters',
         style: {
           marginTop: '8px',
+          order: 1,
         },
       },
     ],
