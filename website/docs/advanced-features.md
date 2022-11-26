@@ -88,7 +88,7 @@ Comments begin with `#`. Although any line that cannot be interpreted as a rule 
 
 ## Other search engines {#other-search-engines}
 
-This extension supports [Bing](#bing), [Brave](#brave) (partially), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [Startpage.com](#startpagecom), [Yahoo! JAPAN](#yahoo-japan) (partially) and [Yandex](#yandex) (partially). This feature is disabled by default and can be enabled in the options page.
+This extension supports [Bing](#bing), [Brave](#brave) (partially), [DuckDuckGo](#duckduckgo), [Ecosia](#ecosia) (partially), [Qwant](#qwant), [SearX](#searx) (partially), [Startpage.com](#startpagecom), [Yahoo! JAPAN](#yahoo-japan) (partially) and [Yandex](#yandex) (partially). This feature is disabled by default and can be enabled in the options page.
 
 ![other search engines](/img/advanced-features/other-search-engines-1.png)
 
@@ -115,6 +115,10 @@ You can also enable it by clicking the toolbar icon when a search result page is
 "Videos" search will only work if you disable qwant custom links by clicking on "Always read on Qwant.com".
 
 With the lite version of Qwant, the extension only work with "Web" search.
+
+### SearX {#searx}
+
+![searx](/img/advanced-features/searx.png)
 
 ### Startpage.com {#startpagecom}
 

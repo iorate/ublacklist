@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  build:
+    name: Build
 
     runs-on: ubuntu-latest
 
@@ -30,12 +30,31 @@ jobs:
         run: yarn lint
         working-directory: website
 
-      - name: Build website
+      - name: Build
         run: yarn build
         working-directory: website
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
+          path: website/build
+
+  deploy:
+    name: Deploy to GitHub Pages
+
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

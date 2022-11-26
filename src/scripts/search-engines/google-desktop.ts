@@ -94,6 +94,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 2,
         url: 'a',
         title: 'h3',
+        actionTarget: '.m7Ijp',
+        actionPosition: 'beforebegin',
+        actionStyle: desktopRegularActionStyle,
+      },
+      {
+        target: '[data-content-feature="1"], [data-header-feature="0"] + .Z26q7c',
+        level: 2,
+        url: 'a',
+        title: 'h3',
         actionTarget: '.eFM0qc',
         actionPosition: insertActionBeforeMenu,
         actionStyle: desktopRegularActionStyle,
@@ -331,15 +340,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.VFACy',
         title: root => {
           const a = root.querySelector<HTMLElement>('.VFACy');
-          return a?.firstChild?.textContent ?? null;
+          return a?.title ?? null;
         },
         actionTarget: '',
         actionStyle: actionRoot => {
           const style: CSSAttribute = {
             display: 'block',
             fontSize: '11px',
-            lineHeight: '16px',
-            padding: '0 4px',
+            marginTop: '-8px',
+            position: 'relative',
           };
           if (actionRoot.matches('[jsname="BWRNE"] *')) {
             // Related images

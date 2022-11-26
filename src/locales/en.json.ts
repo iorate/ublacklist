@@ -436,6 +436,9 @@ exportAsMessages('_locales/en/messages.json', {
   // The localized name of Qwant.
   searchEngines_qwantName: 'Qwant',
 
+  // The localized name of SearX.
+  searchEngines_searxName: 'SearX',
+
   // The description for Qwant.
   searchEngines_qwantDescription: 'Turn off "Always play videos on Qwant.com".',
 

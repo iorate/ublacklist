@@ -140,6 +140,7 @@ export type MessageName =
   | 'searchEngines_ecosiaName'
   | 'searchEngines_qwantName'
   | 'searchEngines_qwantDescription'
+  | 'searchEngines_searxName'
   | 'searchEngines_startpageName'
   | 'searchEngines_yahooJapanName'
   | 'searchEngines_yandexName';
