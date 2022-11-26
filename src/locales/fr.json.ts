@@ -135,5 +135,6 @@ exportAsMessages('_locales/fr/messages.json', {
   searchEngines_duckduckgoName: 'DuckDuckGo',
   searchEngines_ecosiaName: 'Ecosia',
   searchEngines_qwantName: 'Qwant',
+  searchEngines_searxName: 'SearX',
   searchEngines_startpageName: 'Startpage.com',
 });
