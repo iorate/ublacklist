@@ -347,8 +347,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           const style: CSSAttribute = {
             display: 'block',
             fontSize: '11px',
-            lineHeight: '16px',
-            padding: '0 4px',
+            marginTop: '-8px',
+            position: 'relative',
           };
           if (actionRoot.matches('[jsname="BWRNE"] *')) {
             // Related images
