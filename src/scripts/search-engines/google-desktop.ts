@@ -340,7 +340,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.VFACy',
         title: root => {
           const a = root.querySelector<HTMLElement>('.VFACy');
-          return a?.firstChild?.textContent ?? null;
+          return a?.title ?? null;
         },
         actionTarget: '',
         actionStyle: actionRoot => {
