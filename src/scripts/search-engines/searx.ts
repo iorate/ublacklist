@@ -9,7 +9,7 @@ function getSerpHandler(): SerpHandler {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
       },
       '.ub-button': {
-        color: 'var(--color-categories-item-selected-font)',
+        color: 'var(--ub-link-color, var(--color-categories-item-selected-font))',
       },
       '.ub-button:hover': {
         textDecoration: 'underline',
