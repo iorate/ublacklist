@@ -90,7 +90,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '[data-content-feature="1"], [data-header-feature="0"] + .Z26q7c',
+        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
         level: 2,
         url: 'a',
         title: 'h3',
@@ -99,7 +99,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: desktopRegularActionStyle,
       },
       {
-        target: '[data-content-feature="1"], [data-header-feature="0"] + .Z26q7c',
+        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
         level: 2,
         url: 'a',
         title: 'h3',
@@ -291,12 +291,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
+          '.YwonT, [data-content-feature], .Z26q7c, .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '[data-content-feature="1"], .IsZvec, .dXiKIc',
+        innerTargets: '[data-content-feature], .Z26q7c, .IsZvec, .dXiKIc',
       },
     ],
   }),
