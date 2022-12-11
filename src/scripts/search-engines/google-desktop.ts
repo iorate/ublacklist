@@ -53,7 +53,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       ...desktopGlobalStyle,
       [[
         '.dG2XIf', // Featured Snippet
-        'g-inner-card',
+        '.kno-fb-ctx', // Latest, Top Story (Horizontal)
       ]
         .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
         .join(', ')]: {
@@ -118,6 +118,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             // People Also Ask
             return null;
           }
+          if (inner_g.matches('.VjDLd')) {
+            // Knowledge Panel
+            return null;
+          }
           const outer_g = inner_g.parentElement?.closest<HTMLElement>('.g');
           if (!outer_g) {
             return inner_g;
@@ -141,7 +145,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Featured Snippet
       {
         target: '.g .xpdopen .ifM9O .g',
-        level: target => target.parentElement?.closest('.g') ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',

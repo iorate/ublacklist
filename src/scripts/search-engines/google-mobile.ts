@@ -79,7 +79,7 @@ const iOSButtonStyle: CSSAttribute = {
     color: 'var(--ub-link-color, #1558d6)',
   },
   '[data-ub-dark="1"] & .ub-button': {
-    color: 'var(--ub-link-color, #609beb)',
+    color: 'var(--ub-link-color, #8ab4f8)',
   },
 };
 
