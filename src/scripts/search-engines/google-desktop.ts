@@ -118,6 +118,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             // People Also Ask
             return null;
           }
+          if (inner_g.matches('.VjDLd')) {
+            // Knowledge Panel
+            return null;
+          }
           const outer_g = inner_g.parentElement?.closest<HTMLElement>('.g');
           if (!outer_g) {
             return inner_g;
