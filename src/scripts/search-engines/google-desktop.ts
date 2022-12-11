@@ -53,7 +53,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       ...desktopGlobalStyle,
       [[
         '.dG2XIf', // Featured Snippet
-        'g-inner-card',
+        '.kno-fb-ctx', // Latest, Top Story (Horizontal)
       ]
         .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
         .join(', ')]: {
