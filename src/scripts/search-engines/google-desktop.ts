@@ -141,7 +141,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Featured Snippet
       {
         target: '.g .xpdopen .ifM9O .g',
-        level: target => target.parentElement?.closest('.g') ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
         url: '.yuRUbf > a',
         title: 'h3',
         actionTarget: '.eFM0qc',
