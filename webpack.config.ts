@@ -5,9 +5,9 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { globbySync } from 'globby';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
-import { ExportAsJSONPlugin } from './lib/export-as-json-plugin';
-import { LicensePlugin } from './lib/license-plugin';
-import { PrettierPlugin } from './lib/prettier-plugin';
+import { ExportAsJSONPlugin } from './lib/webpack/export-as-json-plugin';
+import { LicensePlugin } from './lib/webpack/license-plugin';
+import { PrettierPlugin } from './lib/webpack/prettier-plugin';
 
 function getEnv<Value extends string>(
   env: Readonly<Record<string, unknown>>,
