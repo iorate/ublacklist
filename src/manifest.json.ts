@@ -34,7 +34,7 @@ exportAsJSON('manifest.json', {
     // #endif
   },
 
-  /* #if FIREFOX && DEVELOPMENT
+  /* #if FIREFOX
   browser_specific_settings: {
     gecko: {
       id: '@ublacklist',
