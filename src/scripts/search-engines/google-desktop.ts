@@ -1,6 +1,6 @@
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
-import { handleSerp, hasDarkBackground, insertElement } from './helpers';
+import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -44,6 +44,26 @@ const desktopRegularActionStyle: CSSAttribute = {
   fontSize: '14px',
   lineHeight: 1.3,
   visibility: 'visible',
+};
+
+const regularEntryHandler: Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'> = {
+  actionTarget: root => root.querySelector('.rnBE4e, .m7Ijp, .eFM0qc') || root,
+  actionPosition: target => {
+    if (target.matches('.rnBE4e, .m7Ijp')) {
+      return insertElement('span', target, 'beforebegin');
+    } else if (target.matches('.eFM0qc')) {
+      return insertActionBeforeMenu(target);
+    } else {
+      const actionRoot = insertElement('span', target, 'beforeend');
+      actionRoot.dataset.ubFallback = '1';
+      return actionRoot;
+    }
+  },
+  actionStyle: actionRoot => {
+    if (!actionRoot.dataset.ubFallback) {
+      actionRoot.className = css(desktopRegularActionStyle);
+    }
+  },
 };
 
 const desktopSerpHandlers: Record<string, SerpHandler> = {
@@ -94,18 +114,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 2,
         url: 'a',
         title: 'h3',
-        actionTarget: '.m7Ijp',
-        actionPosition: 'beforebegin',
-        actionStyle: desktopRegularActionStyle,
-      },
-      {
-        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
-        level: 2,
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.IsZvec',
@@ -138,9 +147,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Featured Snippet
       {
@@ -149,9 +156,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
         url: '.yuRUbf > a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Latest, Top Story (Horizontal)
       {
@@ -168,9 +173,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.related-question-pair',
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Quote in the News
       {
@@ -250,9 +253,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.RzdJxc .hMJ0yc',
@@ -268,9 +269,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // News (COVID-19)
       {
@@ -302,6 +301,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.autopagerize_page_info ~ div',
         innerTargets: '[data-content-feature], .Z26q7c, .IsZvec, .dXiKIc',
+      },
+      // Continuous scrolling (US)
+      {
+        target: '[id^="arc-srp"] > div',
+        // Regular, YouTube and TikTok channel
+        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .d3zsgb, .rULfzc',
       },
     ],
   }),
