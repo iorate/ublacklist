@@ -303,16 +303,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets:
           '.YwonT, [data-content-feature], .Z26q7c, .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
-      // AutoPagerize
+      // AutoPagerize and Continuous scrolling (US)
       {
-        target: '.autopagerize_page_info ~ div',
-        innerTargets: '[data-content-feature], .Z26q7c, .IsZvec, .dXiKIc',
-      },
-      // Continuous scrolling (US)
-      {
-        target: '[id^="arc-srp"] > div',
-        // Regular, YouTube and TikTok channel
-        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .d3zsgb, .rULfzc',
+        target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
+        // Regular, Video, and YouTube and TikTok channel
+        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
       },
     ],
   }),
