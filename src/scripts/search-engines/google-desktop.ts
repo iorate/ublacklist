@@ -74,6 +74,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       [[
         '.dG2XIf', // Featured Snippet
         '.kno-fb-ctx', // Latest, Top Story (Horizontal)
+        'g-inner-card', // Recipe
       ]
         .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
         .join(', ')]: {
