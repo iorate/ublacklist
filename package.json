@@ -196,7 +196,7 @@
       [
         "@semantic-release/exec",
         {
-          "prepareCmd": "./lib/semantic-release/firefox-prepare.sh ${nextRelease.version}"
+          "prepareCmd": "chmod +x ./lib/semantic-release/firefox-prepare.sh && ./lib/semantic-release/firefox-prepare.sh ${nextRelease.version}"
         }
       ],
       [
