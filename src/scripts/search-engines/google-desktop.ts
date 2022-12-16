@@ -163,7 +163,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
         level: '.JJZKK',
         url: 'a',
-        title: '[role="heading"][aria-level="4"]',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
