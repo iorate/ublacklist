@@ -244,7 +244,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   display: 'inline-block',
                   marginTop: '7px',
                 }
-              : desktopRegularActionStyle,
+              : {
+                  ...desktopRegularActionStyle,
+                  // Generate new stacking context
+                  position: 'relative',
+                  zIndex: 1,
+                },
           );
         },
       },
