@@ -1,6 +1,6 @@
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
-import { handleSerp, hasDarkBackground, insertElement } from './helpers';
+import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -46,6 +46,26 @@ const desktopRegularActionStyle: CSSAttribute = {
   visibility: 'visible',
 };
 
+const regularEntryHandler: Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'> = {
+  actionTarget: root => root.querySelector('.rnBE4e, .m7Ijp, .eFM0qc') || root,
+  actionPosition: target => {
+    if (target.matches('.rnBE4e, .m7Ijp')) {
+      return insertElement('span', target, 'beforebegin');
+    } else if (target.matches('.eFM0qc')) {
+      return insertActionBeforeMenu(target);
+    } else {
+      const actionRoot = insertElement('span', target, 'beforeend');
+      actionRoot.dataset.ubFallback = '1';
+      return actionRoot;
+    }
+  },
+  actionStyle: actionRoot => {
+    if (!actionRoot.dataset.ubFallback) {
+      actionRoot.className = css(desktopRegularActionStyle);
+    }
+  },
+};
+
 const desktopSerpHandlers: Record<string, SerpHandler> = {
   // All
   '': handleSerp({
@@ -54,6 +74,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       [[
         '.dG2XIf', // Featured Snippet
         '.kno-fb-ctx', // Latest, Top Story (Horizontal)
+        'g-inner-card', // Recipe
       ]
         .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
         .join(', ')]: {
@@ -94,18 +115,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 2,
         url: 'a',
         title: 'h3',
-        actionTarget: '.m7Ijp',
-        actionPosition: 'beforebegin',
-        actionStyle: desktopRegularActionStyle,
-      },
-      {
-        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
-        level: 2,
-        url: 'a',
-        title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.IsZvec',
@@ -138,9 +148,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Featured Snippet
       {
@@ -149,16 +157,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
         url: '.yuRUbf > a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Latest, Top Story (Horizontal)
       {
         target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
         level: '.JJZKK',
         url: 'a',
-        title: '[role="heading"][aria-level="4"]',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
@@ -168,9 +174,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.related-question-pair',
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Quote in the News
       {
@@ -240,7 +244,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   display: 'inline-block',
                   marginTop: '7px',
                 }
-              : desktopRegularActionStyle,
+              : {
+                  ...desktopRegularActionStyle,
+                  // Generate new stacking context
+                  position: 'relative',
+                  zIndex: 1,
+                },
           );
         },
       },
@@ -250,9 +259,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.RzdJxc .hMJ0yc',
@@ -268,9 +275,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // News (COVID-19)
       {
@@ -298,10 +303,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets:
           '.YwonT, [data-content-feature], .Z26q7c, .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
-      // AutoPagerize
+      // AutoPagerize and Continuous scrolling (US)
       {
-        target: '.autopagerize_page_info ~ div',
-        innerTargets: '[data-content-feature], .Z26q7c, .IsZvec, .dXiKIc',
+        target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
+        // Regular, Video, and YouTube and TikTok channel
+        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
       },
     ],
   }),

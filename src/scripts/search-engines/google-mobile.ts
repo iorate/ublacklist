@@ -331,7 +331,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.mnr-c',
+        target: '.Ww4FFb, .mnr-c',
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
