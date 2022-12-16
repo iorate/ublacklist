@@ -188,7 +188,7 @@
       [
         "semantic-release-chrome",
         {
-          "asset": "ublacklist-v${nextRelease.version}-chrome-mv3.zip",
+          "asset": "ublacklist-chrome-mv3.zip",
           "distFolder": "dist/chrome-mv3/production",
           "extensionId": "pncfbmialoiaghdehhbnbhkkgmjanfhe"
         }
@@ -203,8 +203,14 @@
         "@semantic-release/github",
         {
           "assets": [
-            "ublacklist-v${nextRelease.version}-chrome-mv3.zip",
-            "ublacklist-v${nextRelease.version}-firefox.zip"
+            {
+              "path": "ublacklist-chrome-mv3.zip",
+              "name": "ublacklist-${nextRelease.gitTag}-chrome-mv3.zip"
+            },
+            {
+              "path": "ublacklist-firefox.zip",
+              "name": "ublacklist-${nextRelease.gitTag}-firefox.zip"
+            }
           ]
         }
       ]
