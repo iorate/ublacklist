@@ -66,7 +66,7 @@ exportAsMessages('_locales/zh_TW/messages.json', {
   options_colorSpecify: '自訂',
   options_highlightColors: '強調顯示的搜尋結果顏色',
   options_highlightDescription: '若要使用「顏色 N」來強調顯示某筆搜尋結果，請在規則前加上「@N」。',
-  options_highlightColorNth: '顏色 $1',
+  options_highlightColorNth: '色彩 $1',
   options_highlightColorAdd: '增加',
   options_highlightColorRemove: '刪除',
   options_dialogTheme: '搜尋結果中，「封鎖這個網站」對話框的主題',
