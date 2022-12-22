@@ -50,7 +50,7 @@ exportAsMessages('_locales/zh_TW/messages.json', {
   options_importBlacklistDialog_importButton: '匯入',
   options_importBlacklistDialog_helper: '貼上從 Personal Blocklist 匯出的網域清單。',
   options_otherSearchEngines: '其他搜尋引擎',
-  options_otherSearchEnginesDescription: '您可以針對下列搜尋引擎也使用本擴充套件。',
+  options_otherSearchEnginesDescription: '您可以針對其他搜尋引擎也使用本擴充套件。',
   options_registerSearchEngine: '啟用',
   options_searchEngineRegistered: '已啟用',
   options_skipBlockDialogLabel: '加入封鎖清單時，不顯示「封鎖這個網站」對話框',
