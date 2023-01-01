@@ -18,6 +18,11 @@ assignees: ''
 
 ## Specifications
 
-- OS:
 - Browser:
-- Other extensions that might interfere:
+- Other extensions/add-ons:
+
+<!-- If the problem occurs on search engine result pages -->
+
+- Search engine:
+- Language:
+- Region:

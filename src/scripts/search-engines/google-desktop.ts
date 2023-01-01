@@ -1,6 +1,6 @@
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
-import { handleSerp, hasDarkBackground, insertElement } from './helpers';
+import { EntryHandler, handleSerp, hasDarkBackground, insertElement } from './helpers';
 
 const desktopGlobalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -46,6 +46,26 @@ const desktopRegularActionStyle: CSSAttribute = {
   visibility: 'visible',
 };
 
+const regularEntryHandler: Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'> = {
+  actionTarget: root => root.querySelector('.rnBE4e, .m7Ijp, .eFM0qc') || root,
+  actionPosition: target => {
+    if (target.matches('.rnBE4e, .m7Ijp')) {
+      return insertElement('span', target, 'beforebegin');
+    } else if (target.matches('.eFM0qc')) {
+      return insertActionBeforeMenu(target);
+    } else {
+      const actionRoot = insertElement('span', target, 'beforeend');
+      actionRoot.dataset.ubFallback = '1';
+      return actionRoot;
+    }
+  },
+  actionStyle: actionRoot => {
+    if (!actionRoot.dataset.ubFallback) {
+      actionRoot.className = css(desktopRegularActionStyle);
+    }
+  },
+};
+
 const desktopSerpHandlers: Record<string, SerpHandler> = {
   // All
   '': handleSerp({
@@ -53,7 +73,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       ...desktopGlobalStyle,
       [[
         '.dG2XIf', // Featured Snippet
-        'g-inner-card',
+        '.kno-fb-ctx', // Latest, Top Story (Horizontal)
+        'g-inner-card', // Recipe
       ]
         .flatMap(s => [`[data-ub-blocked] ${s}`, `[data-ub-highlight] ${s}`])
         .join(', ')]: {
@@ -90,13 +111,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '[data-content-feature="1"], [data-header-feature="0"] + .Z26q7c',
+        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
         level: 2,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.IsZvec',
@@ -107,6 +126,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           }
           if (inner_g.matches('.related-question-pair *')) {
             // People Also Ask
+            return null;
+          }
+          if (inner_g.matches('.VjDLd')) {
+            // Knowledge Panel
             return null;
           }
           const outer_g = inner_g.parentElement?.closest<HTMLElement>('.g');
@@ -125,26 +148,23 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Featured Snippet
       {
         target: '.g .xpdopen .ifM9O .g',
-        level: target => target.parentElement?.closest('.g') ?? null,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
         url: '.yuRUbf > a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Latest, Top Story (Horizontal)
       {
         target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
         level: '.JJZKK',
         url: 'a',
-        title: '[role="heading"][aria-level="4"]',
+        title: '[role="heading"][aria-level="3"]',
         actionTarget: '.ZE0LJd, .S1FAPd',
         actionStyle: desktopActionStyle,
       },
@@ -154,9 +174,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.related-question-pair',
         url: '.yuRUbf > a',
         title: root => root.querySelector('h3')?.textContent ?? null,
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // Quote in the News
       {
@@ -226,7 +244,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   display: 'inline-block',
                   marginTop: '7px',
                 }
-              : desktopRegularActionStyle,
+              : {
+                  ...desktopRegularActionStyle,
+                  // Generate new stacking context
+                  position: 'relative',
+                  zIndex: 1,
+                },
           );
         },
       },
@@ -236,9 +259,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       {
         target: '.RzdJxc .hMJ0yc',
@@ -254,9 +275,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: 1,
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
       // News (COVID-19)
       {
@@ -282,12 +301,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, [data-content-feature="1"], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
+          '.YwonT, [data-content-feature], .Z26q7c, .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
-      // AutoPagerize
+      // AutoPagerize and Continuous scrolling (US)
       {
-        target: '.autopagerize_page_info ~ div',
-        innerTargets: '[data-content-feature="1"], .IsZvec, .dXiKIc',
+        target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
+        // Regular, Video, and YouTube and TikTok channel
+        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
       },
     ],
   }),
@@ -331,15 +351,15 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: '.VFACy',
         title: root => {
           const a = root.querySelector<HTMLElement>('.VFACy');
-          return a?.firstChild?.textContent ?? null;
+          return a?.title ?? null;
         },
         actionTarget: '',
         actionStyle: actionRoot => {
           const style: CSSAttribute = {
             display: 'block',
             fontSize: '11px',
-            lineHeight: '16px',
-            padding: '0 4px',
+            marginTop: '-8px',
+            position: 'relative',
           };
           if (actionRoot.matches('[jsname="BWRNE"] *')) {
             // Related images
