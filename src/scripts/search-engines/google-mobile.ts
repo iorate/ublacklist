@@ -5,13 +5,17 @@ import { handleSerp, hasDarkBackground, insertElement } from './helpers';
 function getURLFromPing(selector: string): (root: HTMLElement) => string | null {
   return root => {
     const a = selector ? root.querySelector(selector) : root;
-    if (!(a instanceof HTMLAnchorElement) || !a.ping) {
+    if (!(a instanceof HTMLAnchorElement)) {
       return null;
     }
-    try {
-      return new URL(a.ping, window.location.href).searchParams.get('url');
-    } catch {
-      return null;
+    if (a.ping) {
+      try {
+        return new URL(a.ping, window.location.href).searchParams.get('url');
+      } catch {
+        return null;
+      }
+    } else {
+      return a.href;
     }
   };
 }
