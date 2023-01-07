@@ -7,12 +7,13 @@ on:
     paths:
       - website/**
       - '!website/README.md'
+  workflow_dispatch:
 
 jobs:
   build:
     name: Build website
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3

@@ -21,12 +21,13 @@ on:
       - website/**
       - LICENSE.txt
       - README.md
+  workflow_dispatch:
 
 jobs:
   build:
     name: Build extension
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3

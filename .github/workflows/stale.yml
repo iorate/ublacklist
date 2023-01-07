@@ -8,7 +8,7 @@ jobs:
   stale:
     name: Warn and close stale issues
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/stale@v6
