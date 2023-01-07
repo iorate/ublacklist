@@ -12307,12 +12307,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"microstruct@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "microstruct@npm:1.0.0"
+"microstruct@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "microstruct@npm:2.0.3"
   peerDependencies:
     typescript: ">=4.1.2"
-  checksum: aef8470ea3614e98e97ae5c37d2d77c958db5f59cf9594185e07403908d6cd1f33133b65a3314c6ba0544fdbacec37c010658a54aac0d77718b8f04a47877113
+  checksum: 2f47e3afd7194aed569f1d2f6b1df0e2cd1435da2c401b72a5d7df1ef217732f8ae8a3edf057aacd989c2cd84b2298e9124e9839122f8558cb7ce3d473148d9b
   languageName: node
   linkType: hard
 
@@ -17235,7 +17235,7 @@ __metadata:
     is-mobile: ^3.1.1
     jest: ^29.3.1
     lint-staged: ^13.1.0
-    microstruct: ^1.0.0
+    microstruct: ^2.0.3
     mpsl: ^3.1.22
     npm-run-all: ^4.1.5
     preact: ^10.11.3

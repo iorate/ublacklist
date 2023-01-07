@@ -106,9 +106,9 @@ ${content}\r
       if (
         !S.is(
           responseBody,
-          S.object({
+          S.type({
             files: S.array(
-              S.object({
+              S.type({
                 id: S.string(),
                 modifiedTime: S.string(),
               }),
