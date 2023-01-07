@@ -177,7 +177,7 @@
     ],
     "*.{css,json,md,mdx,yaml,yml}": "prettier --write"
   },
-  "packageManager": "yarn@3.3.0",
+  "packageManager": "yarn@3.3.1",
   "prettier": {
     "arrowParens": "avoid",
     "printWidth": 100,
