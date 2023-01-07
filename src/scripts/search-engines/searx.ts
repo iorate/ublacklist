@@ -9,7 +9,7 @@ function getSerpHandler(): SerpHandler {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
       },
       '.ub-button': {
-        color: 'var(--ub-link-color, var(--color-categories-item-selected-font))',
+        color: 'var(--ub-link-color, var(--color-categories-item-selected-font, #41a2ce))',
       },
       '.ub-button:hover': {
         textDecoration: 'underline',
@@ -19,6 +19,7 @@ function getSerpHandler(): SerpHandler {
       },
     },
     controlHandlers: [
+      //#region simple theme
       // Global
       {
         target: '.search_filters',
@@ -27,14 +28,43 @@ function getSerpHandler(): SerpHandler {
           order: 1,
         },
       },
+      //#endregion
+
+      //#region oscar theme
+      //Global
+      {
+        target: '.searx-navbar',
+        style: {
+          order: 1,
+          color: '#fff', // Force white text
+        },
+      },
+      {
+        target: '.searxng-navbar',
+        style: {
+          order: 1,
+          color: '#fff', // Force white text
+        },
+      },
+      //#endregion
+
+      //#region murena
+      //Global
+      {
+        target: '.etheme_links',
+        style: {
+          order: 1,
+        },
+      },
+      //#endregion
     ],
     entryHandlers: [
       // Web
       {
-        target: '.result',
+        target: '.result-default',
         url: 'a',
         title: 'h3',
-        actionTarget: '.url_i2',
+        actionTarget: 'a',
         actionStyle: {
           '&::before': {
             content: '" · "',
@@ -54,6 +84,48 @@ function getSerpHandler(): SerpHandler {
           display: 'block',
           position: 'absolute',
           padding: '3.1rem 0 0 0',
+        },
+      },
+      // Videos
+      {
+        target: '.result-videos',
+        url: 'a',
+        title: 'h3',
+        actionTarget: 'a',
+        actionStyle: {
+          '&::before': {
+            content: '" · "',
+            padding: '0 2px 0 4px',
+          },
+          fontSize: '1rem',
+        },
+      },
+      // Maps
+      {
+        target: '.result-map',
+        url: 'a',
+        title: 'h3',
+        actionTarget: 'a',
+        actionStyle: {
+          '&::before': {
+            content: '" · "',
+            padding: '0 2px 0 4px',
+          },
+          fontSize: '1rem',
+        },
+      },
+      // Files
+      {
+        target: '.result-torrent',
+        url: 'a',
+        title: 'h3',
+        actionTarget: 'a',
+        actionStyle: {
+          '&::before': {
+            content: '" · "',
+            padding: '0 2px 0 4px',
+          },
+          fontSize: '1rem',
         },
       },
     ],
