@@ -59,6 +59,10 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
   },
+  "engines": {
+    "node": ">=16",
+    "npm": "use_yarn_instead_of_npm"
+  },
   "eslintConfig": {
     "env": {
       "es2021": true,
