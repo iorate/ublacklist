@@ -1,7 +1,6 @@
 import path from 'path';
 import CopyPlugin from 'copy-webpack-plugin';
 import DotEnv from 'dotenv-webpack';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { globbySync } from 'globby';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
@@ -24,7 +23,6 @@ function getEnv<Value extends string>(
 export default (env: Readonly<Record<string, unknown>>): webpack.Configuration => {
   const browser = getEnv(env, 'browser', ['chrome', 'chrome-mv3', 'firefox', 'safari'] as const);
   const mode = getEnv(env, 'mode', ['development', 'production'] as const);
-  const typecheck = getEnv(env, 'typecheck', ['notypecheck', 'typecheck'] as const);
 
   return {
     cache:
@@ -120,15 +118,6 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
         systemvars: true,
       }),
       new ExportAsJSONPlugin(),
-      ...(typecheck === 'typecheck'
-        ? [
-            new ForkTsCheckerWebpackPlugin({
-              typescript: {
-                configFile: path.resolve(__dirname, 'tsconfig.json'),
-              },
-            }),
-          ]
-        : []),
       new HtmlWebpackPlugin({
         chunks: ['scripts/options'],
         filename: 'pages/options.html',
