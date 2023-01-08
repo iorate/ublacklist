@@ -135,7 +135,6 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(function Dia
     <div
       className={wrapperClassName}
       tabIndex={-1}
-      /* eslint-disable-next-line react/no-unknown-property */
       onPointerDown={e => {
         if (e.target === e.currentTarget) {
           close();

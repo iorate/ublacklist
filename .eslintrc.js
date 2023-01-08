@@ -58,7 +58,7 @@ const config = {
   },
   settings: {
     react: {
-      version: '16',
+      version: '17.0',
     },
   },
 };
