@@ -185,43 +185,6 @@
     "trailingComma": "all"
   },
   "private": true,
-  "release": {
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "semantic-release-chrome",
-        {
-          "asset": "ublacklist-${nextRelease.gitTag}-chrome-mv3.zip",
-          "distFolder": "dist/chrome-mv3/production",
-          "extensionId": "pncfbmialoiaghdehhbnbhkkgmjanfhe"
-        }
-      ],
-      [
-        "semantic-release-amo",
-        {
-          "addonId": "@ublacklist",
-          "addonDirPath": "dist/firefox/production",
-          "addonZipPath": "ublacklist-${nextRelease.gitTag}-firefox.zip",
-          "approvalNotes": "To build this add-on, Node.js and Yarn are required.\nNOTE: Node.js 16 or later is required. Node.js 14 cannot build this add-on.\n\n$ yarn\n$ yarn build firefox production\n\nThe add-on will be built into dist/firefox/production.",
-          "compatibility": [
-            "firefox",
-            "android"
-          ],
-          "submitReleaseNotes": true,
-          "submitSource": true
-        }
-      ],
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            "*.zip"
-          ]
-        }
-      ]
-    ]
-  },
   "scripts": {
     "postinstall": "simple-git-hooks",
     "build": "npm-run-all \"webpack --env browser={1:=chrome-mv3} --env mode={2:=development} --env typecheck={3:=notypecheck}\" --",
