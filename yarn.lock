@@ -3765,6 +3765,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/eslint@npm:^8.4.10":
+  version: 8.4.10
+  resolution: "@types/eslint@npm:8.4.10"
+  dependencies:
+    "@types/estree": "*"
+    "@types/json-schema": "*"
+  checksum: 21e009ed9ed9bc8920fdafc6e11ff321c4538b4cc18a56fdd59dc5184ea7bbf363c71638c9bdb59fc1254dddcdd567485136ed68b0ee4750948d4e32cb79c689
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:*, @types/estree@npm:^0.0.51":
   version: 0.0.51
   resolution: "@types/estree@npm:0.0.51"
@@ -17361,6 +17371,7 @@ __metadata:
     "@mdi/svg": ^7.1.96
     "@types/chrome": 0.0.206
     "@types/dotenv-webpack": ^7.0.3
+    "@types/eslint": ^8.4.10
     "@types/firefox-webext-browser": ^94.0.1
     "@types/jest": ^29.2.5
     "@types/node": ^16.18.11
