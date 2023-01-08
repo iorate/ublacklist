@@ -3755,17 +3755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*":
-  version: 8.4.2
-  resolution: "@types/eslint@npm:8.4.2"
-  dependencies:
-    "@types/estree": "*"
-    "@types/json-schema": "*"
-  checksum: e81268cdeb8d64d84af649344df88f064ece0f05db62072657c976b6162ffe16f94b6480a5367d627c629272c2d86d0ee8c24f7095e98f8e743b16f98500673b
-  languageName: node
-  linkType: hard
-
-"@types/eslint@npm:^8.4.10":
+"@types/eslint@npm:*, @types/eslint@npm:^8.4.10":
   version: 8.4.10
   resolution: "@types/eslint@npm:8.4.10"
   dependencies:
@@ -8803,17 +8793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.7":
-  version: 1.15.0
-  resolution: "follow-redirects@npm:1.15.0"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: eaec81c3e0ae57aae2422e38ad3539d0e7279b3a63f9681eeea319bb683dea67502c4e097136b8ce9721542b4e236e092b6b49e34e326cdd7733c274f0a3f378
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.7, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -15796,9 +15776,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-release-amo@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "semantic-release-amo@npm:0.1.0"
+"semantic-release-amo@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "semantic-release-amo@npm:1.0.1"
   dependencies:
     "@semantic-release/error": ^3.0.0
     aggregate-error: ^4.0.1
@@ -15811,7 +15791,7 @@ __metadata:
     zip-dir: ^2.0.0
   peerDependencies:
     semantic-release: "*"
-  checksum: 2b459897939f75a68eff045c92a2f60784d94cd68413eddd75842fa16ef85e5d66eb2c4f42227504eddf082dfb94dd33b0390469ba2184658e8d42cb5f68d239
+  checksum: a89c72b5a58d0ac260deb8ae15de790775c91b59f8a464e17c0e29943a854602fbc3f2ee8912e1c611c32388482398e970ac74adf3393e6321501d86df120e57
   languageName: node
   linkType: hard
 
@@ -15910,18 +15890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.0.0, semver@npm:^7.1.1, semver@npm:^7.1.2, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7":
-  version: 7.3.7
-  resolution: "semver@npm:7.3.7"
-  dependencies:
-    lru-cache: ^6.0.0
-  bin:
-    semver: bin/semver.js
-  checksum: 2fa3e877568cd6ce769c75c211beaed1f9fce80b28338cadd9d0b6c40f2e2862bafd62c19a6cff42f3d54292b7c623277bcab8816a2b5521cf15210d43e75232
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.3.8":
+"semver@npm:^7.0.0, semver@npm:^7.1.1, semver@npm:^7.1.2, semver@npm:^7.3.2, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
   version: 7.3.8
   resolution: "semver@npm:7.3.8"
   dependencies:
@@ -17414,7 +17383,7 @@ __metadata:
     react-colorful: ^5.6.1
     rimraf: ^3.0.2
     semantic-release: ^19.0.5
-    semantic-release-amo: ^0.1.0
+    semantic-release-amo: ^1.0.1
     semantic-release-chrome: ^3.1.0
     simple-git-hooks: ^2.8.1
     typescript: ^4.9.4
