@@ -1,8 +1,17 @@
-此瀏覽器擴充套件可以幫你在 Google 搜尋結果中隱藏一些你不想看到的網站。
+此瀏覽器擴充套件可以幫您在 Google 搜尋結果中隱藏一些您不想看到的網站。
 
-你可以通過在搜尋結果頁面中直接隱藏某個網站，也可以通過點選本擴充套件的圖示將當前網站新增到黑名單。規則同時支援「匹配模式」（比如 *://*.example.com/*）和「正規表示式」（比如 /example\.(net|org)/）的語法。
+您可以透過在搜尋結果頁面中直接隱藏某個網站，也可以透過點選本擴充套件的圖示將當下瀏覽中的網站新增到黑名單。同時支援「匹配模式」（比如 *://*.example.com/*）和「正規表示式」（比如 /example\.(net|org)/）的封鎖規則語法。
 
-本瀏覽器擴充套件還提供了黑名單的同步功能，可以通過 Google Drive 和 Dropbox 將黑名單列表在不同裝置之間同步。除此之外，你還可以通過訂閱一些公開的黑名單列表，隨時獲取最新的網站黑名單。
+除了 Google 之外，您還可以將此擴充套件使用於幾套其他的搜尋引擎。您可在下列網址找到支援的搜尋引擎清單：
+https://github.com/iorate/ublacklist#supported-search-engines
 
-更新內容：
+您可以透過雲端儲存空間來同步要封鎖的黑名單規則集。目前支援透過 Google Drive 和 Dropbox 進行同步。
+
+除此之外，您還可以透過訂閱一些公開的黑名單規則集，下列網址有一些可訂閱的項目清單：
+https://iorate.github.io/ublacklist/subscriptions
+
+使用方式：
+https://iorate.github.io/ublacklist/docs/getting-started
+
+更新記錄：
 https://github.com/iorate/ublacklist/releases

@@ -7,7 +7,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import { ExportAsJSONPlugin } from './lib/webpack/export-as-json-plugin';
 import { LicensePlugin } from './lib/webpack/license-plugin';
-import { PrettierPlugin } from './lib/webpack/prettier-plugin';
+import { PrettierRemoveCommentsPlugin } from './lib/webpack/prettier-remove-comments-plugin';
 
 function getEnv<Value extends string>(
   env: Readonly<Record<string, unknown>>,
@@ -178,7 +178,7 @@ SOFTWARE.
 `,
               },
             }),
-            new PrettierPlugin(),
+            new PrettierRemoveCommentsPlugin(),
           ]
         : []),
     ],

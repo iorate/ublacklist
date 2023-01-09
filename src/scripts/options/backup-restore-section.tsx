@@ -75,7 +75,7 @@ export const BackupRestoreSection: React.VFC = () => {
                   }
                   const items = S.parse(
                     text,
-                    S.object({
+                    S.type({
                       blacklist: S.optional(S.string()),
                       blockWholeSite: S.optional(S.boolean()),
                       skipBlockDialog: S.optional(S.boolean()),
@@ -93,7 +93,7 @@ export const BackupRestoreSection: React.VFC = () => {
                       syncInterval: S.optional(S.number()),
                       subscriptions: S.optional(
                         S.array(
-                          S.object({ name: S.string(), url: S.string(), enabled: S.boolean() }),
+                          S.type({ name: S.string(), url: S.string(), enabled: S.boolean() }),
                         ),
                       ),
                       updateInterval: S.optional(S.number()),

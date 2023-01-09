@@ -85,9 +85,9 @@ export function authorize(
     for (const [key, value] of new URL(redirectURL).searchParams.entries()) {
       redirectParams[key] = value;
     }
-    if (S.is(redirectParams, S.object({ code: S.string() }))) {
+    if (S.is(redirectParams, S.type({ code: S.string() }))) {
       return { authorizationCode: redirectParams.code };
-    } else if (S.is(redirectParams, S.object({ error: S.string() }))) {
+    } else if (S.is(redirectParams, S.type({ error: S.string() }))) {
       throw new Error(redirectParams.error);
     } else {
       throw new UnexpectedResponse(redirectParams);
@@ -123,7 +123,7 @@ export function getAccessToken(
       if (
         !S.is(
           responseBody,
-          S.object({
+          S.type({
             access_token: S.string(),
             expires_in: S.number(),
             refresh_token: S.string(),
@@ -164,7 +164,7 @@ export function refreshAccessToken(
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      if (!S.is(responseBody, S.object({ access_token: S.string(), expires_in: S.number() }))) {
+      if (!S.is(responseBody, S.type({ access_token: S.string(), expires_in: S.number() }))) {
         throw new UnexpectedResponse(responseBody);
       }
       return { accessToken: responseBody.access_token, expiresIn: responseBody.expires_in };

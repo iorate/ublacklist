@@ -102,7 +102,7 @@ export const dropbox: Cloud = {
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      if (!S.is(responseBody, S.object({ id: S.string(), client_modified: S.string() }))) {
+      if (!S.is(responseBody, S.type({ id: S.string(), client_modified: S.string() }))) {
         throw new UnexpectedResponse(responseBody);
       }
       return { id: responseBody.id, modifiedTime: dayjs(responseBody.client_modified) };
@@ -111,10 +111,10 @@ export const dropbox: Cloud = {
       if (
         !S.is(
           responseBody,
-          S.object({
-            error: S.object({
+          S.type({
+            error: S.type({
               '.tag': S.literal('path'),
-              path: S.object({ '.tag': S.string() }),
+              path: S.type({ '.tag': S.string() }),
             }),
           }),
         )

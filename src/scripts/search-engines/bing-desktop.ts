@@ -87,11 +87,11 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         level: '.dgControl_list > li',
         url: root => {
           const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
-          return m != null ? S.parse(m, S.object({ purl: S.string() }))?.purl ?? null : null;
+          return m != null ? S.parse(m, S.type({ purl: S.string() }))?.purl ?? null : null;
         },
         title: root => {
           const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
-          return m != null ? S.parse(m, S.object({ t: S.string() }))?.t ?? null : null;
+          return m != null ? S.parse(m, S.type({ t: S.string() }))?.t ?? null : null;
         },
         actionTarget: root =>
           root.querySelector<HTMLElement>('.infnmpt') ??
@@ -182,7 +182,7 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         target: '.dg_u',
         url: root => {
           const vrhm = root.querySelector<HTMLElement>('.vrhdata')?.getAttribute('vrhm');
-          return vrhm != null ? S.parse(vrhm, S.object({ murl: S.string() }))?.murl ?? null : null;
+          return vrhm != null ? S.parse(vrhm, S.type({ murl: S.string() }))?.murl ?? null : null;
         },
         title: '.mc_vtvc_title',
         actionTarget: '.mc_vtvc_meta',
