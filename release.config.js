@@ -14,7 +14,7 @@ const chrome = [
 const firefox = [
   'semantic-release-amo',
   {
-    addonId: '@ublacklist',
+    addonId: 'ublacklist',
     addonDirPath: 'dist/firefox/production',
     addonZipPath: 'ublacklist-${nextRelease.gitTag}-firefox.zip',
     approvalNotes: `To build this add-on, Node.js and Yarn are required.
@@ -38,7 +38,7 @@ const config = {
     '@semantic-release/release-notes-generator',
     ...(process.env.RELEASE_CHROME === 'true' ? [chrome] : []),
     ...(process.env.RELEASE_FIREFOX === 'true' ? [firefox] : []),
-    ['@semantic-release/github', { assets: ['*.zip'] }],
+    ['@semantic-release/github', { assets: ['*.zip'], addReleases: 'bottom' }],
   ],
 };
 
