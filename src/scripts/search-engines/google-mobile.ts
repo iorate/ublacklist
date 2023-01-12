@@ -126,7 +126,8 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
             // Firefox
             return null;
           }
-          const webResultWithSiteLinks = target.parentElement?.closest<HTMLElement>('.mnr-c.g');
+          const webResultWithSiteLinks =
+            target.parentElement?.closest<HTMLElement>('.Ww4FFb.g, .mnr-c.g');
           if (webResultWithSiteLinks) {
             return webResultWithSiteLinks;
           }
