@@ -63,7 +63,7 @@ cd ublacklist
 
 yarn
 
-# yarn build <browser:=chrome-mv3> <mode:=development> <typecheck:=notypecheck>
+# yarn build <browser:=chrome-mv3> <mode:=development>
 yarn build firefox production
 ```
 

@@ -121,10 +121,21 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // Regular (iOS)
       {
         target: '.xpd',
-        level: target =>
-          // Web Result with Site Links
-          target.parentElement?.closest<HTMLElement>('.mnr-c.g') ||
-          (target.querySelector('.xpd') ? null : target),
+        level: target => {
+          if (target.querySelector('.kCrYT')) {
+            // Firefox
+            return null;
+          }
+          const webResultWithSiteLinks =
+            target.parentElement?.closest<HTMLElement>('.Ww4FFb.g, .mnr-c.g');
+          if (webResultWithSiteLinks) {
+            return webResultWithSiteLinks;
+          }
+          if (target.querySelector('.xpd')) {
+            return null;
+          }
+          return target;
+        },
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',

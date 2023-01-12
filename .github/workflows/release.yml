@@ -1,6 +1,16 @@
 name: Release to web stores
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      chrome:
+        type: boolean
+        description: Chrome
+        default: true
+      firefox:
+        type: boolean
+        description: Firefox
+        default: true
 
 jobs:
   release:
@@ -36,3 +46,5 @@ jobs:
           AMO_API_KEY: ${{ secrets.AMO_API_KEY }}
           AMO_API_SECRET: ${{ secrets.AMO_API_SECRET }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_CHROME: ${{ inputs.chrome }}
+          RELEASE_FIREFOX: ${{ inputs.firefox }}
