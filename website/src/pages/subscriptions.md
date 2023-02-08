@@ -12,6 +12,8 @@ title: Subscriptions
   - "Exclude domains that serve machine-translated pages of READMEs, Issues, Pull requests, etc. on GitHub from Google search."
 - [uBlacklist Stack Overflow Translation](https://github.com/arosh/ublacklist-stackoverflow-translation) by [Sho Iizuka](https://github.com/arosh)
   - "Filter that enables excluding the machine-translated sites of Stack Overflow."
+- [wikivncopy](https://codeberg.org/Recommendations/wikivncopy) by [Recommendations](https://codeberg.org/Recommendations)
+  - "An uBlacklist filter list for blocking Vietnamese Wikipedia™ copycat sites"
 
 ## Specific sites {#specific-sites}
 
