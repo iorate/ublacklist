@@ -32,7 +32,7 @@ This extension is available in the below search engines.
 | Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
 | Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 
-\*1 In Firefox, only if "Open links in new tab" is turned off<br>
+\*1 In Firefox and Edge, only if "Open links in new tab" is turned off<br>
 \*2 Only if "Always play videos on Qwant.com" is turned off<br>
 \*3 Only certain public instances are supported
 
