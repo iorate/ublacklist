@@ -12,8 +12,6 @@ title: Subscriptions
   - "Exclude domains that serve machine-translated pages of READMEs, Issues, Pull requests, etc. on GitHub from Google search."
 - [uBlacklist Stack Overflow Translation](https://github.com/arosh/ublacklist-stackoverflow-translation) by [Sho Iizuka](https://github.com/arosh)
   - "Filter that enables excluding the machine-translated sites of Stack Overflow."
-- [wikivncopy](https://codeberg.org/Recommendations/wikivncopy) by [Recommendations](https://codeberg.org/Recommendations)
-  - "An uBlacklist filter list for blocking Vietnamese Wikipedia™ copycat sites"
 
 ## Specific sites {#specific-sites}
 
@@ -54,6 +52,11 @@ title: Subscriptions
   - "プログラミングスクールやその卒業生の低質な記事、スクール紹介サイトなどを除外する用"
 - [ublacklist-search-result](https://github.com/munierujp/ublacklist-search-result) by [@munierujp](https://github.com/munierujp)
   - "SNS やショッピングサイトなどの検索結果ページを除外するための、uBlacklist のブラックリスト"
+
+## Vietnamese {#vietnamese}
+
+- [wikivncopy](https://codeberg.org/Recommendations/wikivncopy) by [Recommendations](https://codeberg.org/Recommendations)
+  - "An uBlacklist filter list for blocking Vietnamese Wikipedia™ copycat sites"
 
 ## Other subscription lists {#other-subscription-lists}
 
