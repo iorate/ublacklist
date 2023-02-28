@@ -44,15 +44,36 @@ const desktopRegularActionStyle: CSSAttribute = {
   fontSize: '14px',
   lineHeight: 1.3,
   visibility: 'visible',
+  // next to two-line header (`.TbwUpd.NJjxre.iUh30.ojE3Fb`)
+  '.ojE3Fb + &': {
+    fontSize: '12px',
+    lineHeight: 1.5,
+    marginTop: '20px',
+  },
+  // under two-line header
+  '.ojE3Fb &': {
+    fontSize: '12px',
+    lineHeight: 1.5,
+  },
+  // next to "translate this page" (`.fl.iUh30`)
+  '.fl + &': {
+    paddingTop: '1px',
+  },
+  // next to "translate this language" under two-line header
+  '.ojE3Fb .fl + &': {
+    paddingTop: 0,
+  },
 };
 
 const regularEntryHandler: Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'> = {
-  actionTarget: root => root.querySelector('.rnBE4e, .m7Ijp, .eFM0qc') || root,
+  // An entry has `a > .TbwUpd` and `div > .TbwUpd`...
+  actionTarget: root =>
+    root.querySelector('.eFM0qc') || root.querySelector('div > .TbwUpd') || root,
   actionPosition: target => {
-    if (target.matches('.rnBE4e, .m7Ijp')) {
-      return insertElement('span', target, 'beforebegin');
-    } else if (target.matches('.eFM0qc')) {
+    if (target.matches('.eFM0qc')) {
       return insertActionBeforeMenu(target);
+    } else if (target.matches('.TbwUpd')) {
+      return insertElement('span', target, 'afterend');
     } else {
       const actionRoot = insertElement('span', target, 'beforeend');
       actionRoot.dataset.ubFallback = '1';
@@ -111,7 +132,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     entryHandlers: [
       // Regular, Web Result
       {
-        target: '[data-header-feature] + [data-content-feature], [data-header-feature] + .Z26q7c',
+        // The first child should be the header...
+        target: '[data-sokoban-feature]:nth-child(2), [data-content-feature]:nth-child(2)',
         level: 2,
         url: 'a',
         title: 'h3',
@@ -301,13 +323,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, [data-content-feature], .Z26q7c, .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
+          '.YwonT, [data-sokoban-feature], [data-content-feature], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
       // AutoPagerize and Continuous scrolling (US)
       {
         target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
         // Regular, Video, and YouTube and TikTok channel
-        innerTargets: '[data-context-feature], .Z26q7c, .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
+        innerTargets:
+          '[data-sokoban-feature], [data-content-feature], .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
       },
     ],
   }),

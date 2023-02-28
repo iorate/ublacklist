@@ -53,6 +53,11 @@ title: Subscriptions
 - [ublacklist-search-result](https://github.com/munierujp/ublacklist-search-result) by [@munierujp](https://github.com/munierujp)
   - "SNS やショッピングサイトなどの検索結果ページを除外するための、uBlacklist のブラックリスト"
 
+## Vietnamese {#vietnamese}
+
+- [wikivncopy](https://codeberg.org/Recommendations/wikivncopy) by [Recommendations](https://codeberg.org/Recommendations)
+  - "An uBlacklist filter list for blocking Vietnamese Wikipedia™ copycat sites"
+
 ## Other subscription lists {#other-subscription-lists}
 
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
