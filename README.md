@@ -36,7 +36,7 @@ This extension is available in the below search engines.
 
 \*1 In Firefox, only if "Open links in new tab" is turned off<br>
 \*2 Only if "Always play videos on Qwant.com" is turned off<br>
-\*3 Only certain public instances are supported
+\*3 Only certain public instances are supported. If you want to add support to your own SearX/SearXNG search engine, please edit `src/common/search-engines.ts`, and then build the browser plugin manually. 
 
 ## For subscription providers
 
