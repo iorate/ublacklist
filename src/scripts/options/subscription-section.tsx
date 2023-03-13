@@ -50,6 +50,21 @@ const PERMISSION_PASSLIST = [
   '*://cdn.statically.io/*',
 ];
 
+const UPDATE_INTERVAL_OPTIONS = [
+  60, // an hour
+  120, // 2 hours
+  180, // 3 hours
+  360, // 6 hours
+  720, // 12 hours
+  1440, // a day
+  10080, // 7 days
+  20160, // 14 days
+  43200, // a month
+  86400, // 2 months
+  259200, // 6 months
+  525600, // a year
+];
+
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
   const passlist = PERMISSION_PASSLIST.map(pass => new MatchPattern(pass));
@@ -491,7 +506,7 @@ export const SubscriptionSection: React.VFC = () => {
             }
             itemKey="updateInterval"
             label={translate('options_updateInterval')}
-            valueOptions={[60, 120, 180, 360, 720, 1440]}
+            valueOptions={UPDATE_INTERVAL_OPTIONS}
           />
         </SectionItem>
       </SectionBody>
