@@ -16,12 +16,22 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache .yarn/cache
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn-cache
+        with:
+          path: .yarn/cache
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}
 
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: yarn
 
       - name: Install packages
         run: yarn install --immutable
