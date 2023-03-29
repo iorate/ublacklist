@@ -133,7 +133,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Regular, Web Result
       {
         // The first child should be the header...
-        target: '[data-sokoban-feature]:nth-child(2), [data-content-feature]:nth-child(2)',
+        target:
+          '[data-snf]:nth-child(2), [data-sokoban-feature]:nth-child(2), [data-content-feature]:nth-child(2)',
         level: 2,
         url: 'a',
         title: 'h3',
@@ -323,14 +324,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.yl > div',
         innerTargets:
-          '.YwonT, [data-sokoban-feature], [data-content-feature], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
+          '.YwonT, [data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .kno-fb-ctx, .ZE0LJd, .S1FAPd, .g, .F9rcV, .hMJ0yc',
       },
       // AutoPagerize and Continuous scrolling (US)
       {
         target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
         // Regular, Video, and YouTube and TikTok channel
         innerTargets:
-          '[data-sokoban-feature], [data-content-feature], .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
+          '[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
       },
     ],
   }),
