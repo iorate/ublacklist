@@ -22,19 +22,18 @@ This extension is available in the below search engines.
 |              | Web                | Images             | Videos             | News               |
 | ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Bing         | \*1                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Bing         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Brave        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | DuckDuckGo   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Ecosia       | :heavy_check_mark: |                    |                    |                    |
-| Qwant        | :heavy_check_mark: | :heavy_check_mark: | \*2                | :heavy_check_mark: |
-| SearX \*3    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Qwant        | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
+| SearX \*2    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage    | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
 | Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 
-\*1 In Firefox, only if "Open links in new tab" is turned off<br>
-\*2 Only if "Always play videos on Qwant.com" is turned off<br>
-\*3 Only certain public instances are supported
+\*1 Only if "Always play videos on Qwant.com" is turned off<br>
+\*2 Only certain public instances are supported
 
 ## For subscription providers
 

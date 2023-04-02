@@ -255,10 +255,6 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
     ],
     messageNames: {
       name: 'searchEngines_bingName',
-      /* #if FIREFOX
-      description: 'searchEngines_bingDescription_firefox',
-      */
-      // #endif
     },
   },
   brave: {
