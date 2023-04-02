@@ -269,7 +269,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                 }
               : {
                   ...desktopRegularActionStyle,
-                  // Generate new stacking context
+                  bottom: '7px',
+                  fontSize: '12px',
                   position: 'relative',
                   zIndex: 1,
                 },
