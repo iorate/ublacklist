@@ -67,7 +67,8 @@ export async function updateAll(): Promise<void> {
     await browser.alarms.clear(UPDATE_ALL_ALARM_NAME);
     return;
   }
-  browser.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
+  // `chrome.alarms.create` returns `Promise` in Chrome >=111.
+  void browser.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
 
   await Promise.all(numberKeys(subscriptions).map(update));
 }
