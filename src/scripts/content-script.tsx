@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { BlockDialog } from './block-dialog';
+import { browser } from './browser';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
@@ -282,6 +283,7 @@ class ContentScript {
       'ub-hidden',
       this.options?.hideControls || !scopeState.blockedEntryCount,
     );
+    control.root.lang = browser.i18n.getUILanguage();
     ReactDOM.render(
       <Control
         blockedEntryCount={scopeState.blockedEntryCount}
@@ -312,6 +314,7 @@ class ContentScript {
       entry.root.dataset.ubHighlight = String(entry.state - 1);
     }
     entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
+    entry.actionRoot.lang = browser.i18n.getUILanguage();
     ReactDOM.render(
       <Action
         blocked={entry.state === 0}

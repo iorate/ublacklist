@@ -264,7 +264,8 @@ async function doSync(dirtyFlags: SyncDirtyFlags, repeat: boolean): Promise<void
       return;
     }
     if (repeat) {
-      browser.alarms.create(SYNC_ALARM_NAME, { periodInMinutes: localItems.syncInterval });
+      // `chrome.alarms.create` returns `Promise` in Chrome >=111.
+      void browser.alarms.create(SYNC_ALARM_NAME, { periodInMinutes: localItems.syncInterval });
     }
 
     const cloudItems: Partial<RawStorageItems> = {};

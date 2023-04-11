@@ -1,7 +1,6 @@
 import * as S from 'microstruct';
 import { CSSAttribute, css } from '../styles';
 import { SerpHandler } from '../types';
-import { makeAltURL } from '../utilities';
 import { getParentElement, handleSerp } from './helpers';
 
 const globalStyle: CSSAttribute = {
@@ -43,10 +42,18 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
           if (!url) {
             return null;
           }
-          const u = makeAltURL(url);
-          if (!u || u.host === 'www.bing.com') {
-            // "Open links from search results in a new tab or window" is turned on
-            return null;
+          if (url.startsWith('https://www.bing.com/ck/')) {
+            // "Open links in new tab" is turned on
+            // Get the URL from the <cite> element
+            const citeURL = root.querySelector('cite')?.textContent;
+            if (citeURL == null) {
+              return null;
+            }
+            try {
+              return new URL(citeURL).toString();
+            } catch {
+              return null;
+            }
           }
           return url;
         },
