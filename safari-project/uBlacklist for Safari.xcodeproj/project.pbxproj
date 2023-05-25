@@ -50,6 +50,9 @@
 		6A6A3D3526F49655000B99BE /* ios-guide-step-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D2D26F49655000B99BE /* ios-guide-step-4.png */; };
 		6A6A3D4126F49761000B99BE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A6A3D4326F49761000B99BE /* Localizable.strings */; };
 		6A909E8026F5FB8E0035AB7D /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A909E7F26F5FB8E0035AB7D /* AppExtensions.swift */; };
+		6A9A50732A1F6187004F7B4B /* AppSuggestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A50722A1F6187004F7B4B /* AppSuggestViewController.swift */; };
+		6A9A50762A1F67E8004F7B4B /* AppSuggestViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9A50752A1F67E8004F7B4B /* AppSuggestViewCell.swift */; };
+		6A9A50792A1F6C80004F7B4B /* snore-sentry-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9A50782A1F6C80004F7B4B /* snore-sentry-icon.png */; };
 		6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AC526F34B4300D6629A /* AppDelegate.swift */; };
 		6AA45ACB26F34B4300D6629A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AA45AC926F34B4300D6629A /* LaunchScreen.storyboard */; };
 		6AA45AD726F34B4300D6629A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA45AD626F34B4300D6629A /* AppDelegate.swift */; };
@@ -162,6 +165,9 @@
 		6A6A3D4426F49762000B99BE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A6A3D4526F49763000B99BE /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A909E7F26F5FB8E0035AB7D /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
+		6A9A50722A1F6187004F7B4B /* AppSuggestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSuggestViewController.swift; sourceTree = "<group>"; };
+		6A9A50752A1F67E8004F7B4B /* AppSuggestViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSuggestViewCell.swift; sourceTree = "<group>"; };
+		6A9A50782A1F6C80004F7B4B /* snore-sentry-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "snore-sentry-icon.png"; sourceTree = "<group>"; };
 		6AA45ABA26F34B4200D6629A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6AA45ABB26F34B4300D6629A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6AA45ABD26F34B4300D6629A /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
@@ -334,6 +340,7 @@
 		6A6A3D2226F474F5000B99BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6A9A50772A1F6C4B004F7B4B /* AdImg */,
 				6A6A3D2326F47510000B99BE /* img */,
 			);
 			path = Resources;
@@ -376,6 +383,23 @@
 				6A6A3D4326F49761000B99BE /* Localizable.strings */,
 			);
 			path = Intl;
+			sourceTree = "<group>";
+		};
+		6A9A50742A1F669D004F7B4B /* AppSuggest */ = {
+			isa = PBXGroup;
+			children = (
+				6A9A50722A1F6187004F7B4B /* AppSuggestViewController.swift */,
+				6A9A50752A1F67E8004F7B4B /* AppSuggestViewCell.swift */,
+			);
+			path = AppSuggest;
+			sourceTree = "<group>";
+		};
+		6A9A50772A1F6C4B004F7B4B /* AdImg */ = {
+			isa = PBXGroup;
+			children = (
+				6A9A50782A1F6C80004F7B4B /* snore-sentry-icon.png */,
+			);
+			path = AdImg;
 			sourceTree = "<group>";
 		};
 		6AA45AAE26F34B4200D6629A = {
@@ -427,6 +451,7 @@
 		6AA45AC426F34B4300D6629A /* iOS (App) */ = {
 			isa = PBXGroup;
 			children = (
+				6A9A50742A1F669D004F7B4B /* AppSuggest */,
 				6A6A3D3D26F4973A000B99BE /* Common */,
 				6A6A3D2226F474F5000B99BE /* Resources */,
 				6AA45AC526F34B4300D6629A /* AppDelegate.swift */,
@@ -656,6 +681,7 @@
 				A17B44E12709E86400410B9A /* ios-guide-step-pad-2.png in Resources */,
 				6A6A3D3226F49655000B99BE /* ios-guide-step-3.png in Resources */,
 				A17B44E62709E86400410B9A /* ios-guide-step-pad-5.png in Resources */,
+				6A9A50792A1F6C80004F7B4B /* snore-sentry-icon.png in Resources */,
 				A17B44E52709E86400410B9A /* ios-guide-step-pad-1.png in Resources */,
 				6A6A3D3126F49655000B99BE /* ios-guide-step-7.png in Resources */,
 				A17B44E32709E86400410B9A /* ios-guide-step-pad-3.png in Resources */,
@@ -838,10 +864,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A9A50732A1F6187004F7B4B /* AppSuggestViewController.swift in Sources */,
 				6A6A3D1C26F43894000B99BE /* Constants.swift in Sources */,
 				6AA45AFA26F34B4300D6629A /* ViewController.swift in Sources */,
 				6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */,
 				6A6A3D2126F473E2000B99BE /* GuideStepView.swift in Sources */,
+				6A9A50762A1F67E8004F7B4B /* AppSuggestViewCell.swift in Sources */,
 				6A6A3D1726F35869000B99BE /* Extensions.swift in Sources */,
 				6A6A3D1A26F436E2000B99BE /* MainViewController.swift in Sources */,
 				6A6A3D1F26F4413B000B99BE /* AppConstants.swift in Sources */,

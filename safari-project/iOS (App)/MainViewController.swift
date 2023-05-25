@@ -218,5 +218,36 @@ extension MainViewController: UIScrollViewDelegate {
         let width = guideScrollView.bounds.width
         let index = Int(x / width)
         pageControl.currentPage = index
+        
+        if index == pageControl.numberOfPages - 1 {
+            // last page
+            showSuggestionIfNeeded()
+        }
+    }
+    
+    private func showSuggestionIfNeeded() {
+        let key = "snore_sentry_suggestion_shown"
+        
+#if DEBUG
+        UserDefaults.standard.removeObject(forKey: key)
+#endif
+        
+        if UserDefaults.standard.bool(forKey: key) == true {
+            return
+        }
+        
+        UserDefaults.standard.set(true, forKey: key)
+        
+        let vc = AppSuggestViewController()
+        vc.backgroundColor = Color.bgColor()
+        vc.themeColor = Color.themeColor()
+        vc.naviTitleLabel.text = "suggest_navi_title".localized()
+        vc.headerDescLabel.text = "suggest_tips".localized()
+        
+        let appURL = "itms-apps://itunes.apple.com/app/id6449089816"
+        let info = AppSuggestViewController.ItemInfo(icon: UIImage(named: "snore-sentry-icon"), title: "snore_sentry_app_name".localized(), desc: "snore_sentry_app_desc".localized(), btnTitle: "snore_sentry_app_btn_title".localized(), url: appURL, appId: nil, themeColor: Color.themeColor())
+        vc.infos = [info]
+        
+        present(vc, animated: true)
     }
 }

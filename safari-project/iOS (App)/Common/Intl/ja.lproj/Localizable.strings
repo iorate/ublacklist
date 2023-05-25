@@ -38,3 +38,10 @@
 "guide_title_step_done" = "基本セットアップ完了";
 "guide_desc_step_done" = "これでuBlacklistを使うことができます。\n\nuBlacklistの使用方法について詳しく知りたい方は、以下のボタンをタップしてuBlacklistのホームページをご覧ください。";
 "guide_button_step_done" = "uBlacklistのホームページを開く";
+
+"snore_sentry_app_name" = "Snore Sentry - いびきレコーダ及び警報器";
+"snore_sentry_app_desc" = "いびきホイッスルは睡眠監視アプリケーションです。\nこのアプリケーションは、ローカル機械学習モデルを使用して、睡眠中のいびきモードを分析し、すべての音声データをローカルに処理してユーザーのプライバシーを確保します。\nまた、いびきをかく時に起動し、睡眠をより良く制御することができるコアモードを提供します。";
+"snore_sentry_app_btn_title" = "詳細の表示";
+
+"suggest_navi_title" = "提案する";
+"suggest_tips" = "uBlacklistは無料で広告のないアプリケーションです。もしあなたが興味があれば、私の他のアプリケーションを見ることができます。";

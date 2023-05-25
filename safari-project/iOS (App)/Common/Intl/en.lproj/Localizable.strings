@@ -38,3 +38,9 @@
 "guide_title_step_done" = "Basic Setup Complete";
 "guide_desc_step_done" = "Now you can use uBlacklist normally.\n\nTo learn more about uBlacklist usage, please tap the button below to visit the uBlacklist homepage.";
 "guide_button_step_done" = "Open uBlacklist Homepage";
+
+"snore_sentry_app_name" = "Snore Sentry - Snore recorder and alarm";
+"snore_sentry_app_desc" = "Snore Sentry is a sleep monitoring app.\nApp uses local machine learning models to analyze your snoring patterns during sleep, with all sound data processed locally to ensure user privacy.\nAdditionally, app offers a hardcore mode that can wake you up when you snore, helping you better control your sleep.";
+"snore_sentry_app_btn_title" = "View details";
+"suggest_navi_title" = "Suggestion";
+"suggest_tips" = "uBlacklist is a free, ad-free app. If you're interested, you can check out my other apps.";

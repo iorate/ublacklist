@@ -38,3 +38,9 @@
 "guide_title_step_done" = "基础设置完成";
 "guide_desc_step_done" = "现在你可以正常使用 uBlacklist 了。\n\n想要了解更多 uBlacklist 的用法，请点击下方按钮访问 uBlacklist 的主页。";
 "guide_button_step_done" = "打开 uBlacklist 主页";
+
+"snore_sentry_app_name" = "打鼾哨兵 - 打鼾录音机和闹铃";
+"snore_sentry_app_desc" = "打鼾哨兵是一款睡眠监测应用程序。\n程序使用本地机器学习模型分析您睡眠期间的打鼾模式，所有声音数据在本地处理以确保用户隐私。\n此外，程序还提供一种“硬核模式”，可以在你打鼾时叫醒你，帮助你更好地控制睡眠。";
+"snore_sentry_app_btn_title" = "查看详情";
+"suggest_navi_title" = "推荐";
+"suggest_tips" = "uBlacklist是一个免费无广告的app，如果您感兴趣，可以看看我的其他app。";
