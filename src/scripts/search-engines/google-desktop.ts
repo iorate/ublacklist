@@ -105,6 +105,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       '.FxLDp:has(> .MYVUIe:only-child [data-ub-blocked="hidden"])': {
         display: 'none',
       },
+      // Hide overflowed actions in top stories
+      '.OSrXXb': {
+        whiteSpace: 'nowrap',
+      },
     },
     controlHandlers: [
       {
@@ -183,6 +187,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         ...regularEntryHandler,
       },
       // Latest, Top Story (Horizontal)
+      {
+        target: '.IJl0Z',
+        url: 'a',
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.OSrXXb',
+        actionStyle: desktopActionStyle,
+      },
       {
         target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
         level: '.JJZKK',
@@ -410,7 +421,16 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
   }),
   // News
   nws: handleSerp({
-    globalStyle: desktopGlobalStyle,
+    globalStyle: {
+      ...desktopGlobalStyle,
+      '[data-ub-blocked] .kno-fb-ctx, [data-ub-highlight] .kno-fb-ctx': {
+        backgroundColor: 'transparent !important',
+      },
+      // Hide overflowed actions
+      '.OSrXXb': {
+        whiteSpace: 'nowrap',
+      },
+    },
     controlHandlers: [
       {
         target: '#result-stats',
@@ -418,6 +438,13 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       // Regular
+      {
+        target: '.SoaBEf, .JJZKK',
+        url: 'a',
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.OSrXXb',
+        actionStyle: desktopActionStyle,
+      },
       {
         target: '.WlydOe .ZE0LJd, .WlydOe .S1FAPd',
         level: target => target.closest('.ftSUBd') || target.closest('.WlydOe'),
