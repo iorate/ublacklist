@@ -382,40 +382,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.isv-r, .isv-r > .VFACy',
-        level: '.isv-r',
-        url: '.VFACy',
+        target: '.isv-r[role="listitem"]',
+        url: 'a:not([role="button"])',
         title: root => {
-          const a = root.querySelector<HTMLElement>('.VFACy');
+          const a = root.querySelector<HTMLElement>('a:not([role="button"])');
           return a?.title ?? null;
         },
         actionTarget: '',
-        actionStyle: actionRoot => {
-          const style: CSSAttribute = {
-            display: 'block',
-            fontSize: '11px',
-            marginTop: '-8px',
-            position: 'relative',
-          };
-          if (actionRoot.matches('[jsname="BWRNE"] *')) {
-            // Related images
-            style['& > .ub-button'] = {
-              color: 'var(--ub-link-color, #609beb)',
-            };
-          } else {
-            style['[data-ub-blocked="visible"] &'] = {
-              backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5))',
-            };
-          }
-          actionRoot.className = css(style);
+        actionStyle: {
+          display: 'block',
+          fontSize: '11px',
         },
-      },
-    ],
-    pagerHandlers: [
-      // Related images
-      {
-        target: '[jsname="BWRNE"]',
-        innerTargets: '.isv-r',
       },
     ],
   }),
