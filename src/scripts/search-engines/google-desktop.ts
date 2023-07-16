@@ -195,11 +195,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: desktopActionStyle,
       },
       {
-        target: '.JJZKK .kno-fb-ctx, .JJZKK .kno-fb-ctx .ZE0LJd, .JJZKK .kno-fb-ctx .S1FAPd',
+        target: '.JJZKK .kno-fb-ctx',
         level: '.JJZKK',
         url: 'a',
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '.ZE0LJd, .S1FAPd',
+        actionTarget: '.OSrXXb',
         actionStyle: desktopActionStyle,
       },
       // People Also Ask
@@ -236,7 +236,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Top Story (Vertical)
       {
-        target: '.yG4QQe .WlydOe .ZE0LJd, .yG4QQe .WlydOe .S1FAPd',
+        target: '.yG4QQe .WlydOe .OSrXXb',
         level: target => {
           if (target.matches('.JJZKK *')) {
             // Latest, Top story (Horizontal)
@@ -246,8 +246,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return target.closest('.WlydOe')!.parentElement;
         },
         url: '.WlydOe',
-        title: '.mCBkyc',
-        actionTarget: '.ZE0LJd, .S1FAPd',
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '.OSrXXb',
         actionStyle: actionRoot => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           actionRoot.parentElement!.style.whiteSpace = 'nowrap';
