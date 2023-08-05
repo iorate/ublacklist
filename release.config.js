@@ -19,9 +19,19 @@ const firefox = [
     addonZipPath: 'ublacklist-${nextRelease.gitTag}-firefox.zip',
     approvalNotes: `To build this add-on, Node.js and Yarn are required.
 NOTE: Node.js 16 or later is required. Node.js 14 cannot build this add-on.
-          
+
+$ cat << EOF > .env
+DROPBOX_API_KEY=${process.env.DROPBOX_API_KEY}
+DROPBOX_API_SECRET=${process.env.DROPBOX_API_SECRET}
+GOOGLE_DRIVE_API_KEY=${process.env.GOOGLE_DRIVE_API_KEY}
+GOOGLE_DRIVE_API_SECRET=${process.env.GOOGLE_DRIVE_API_SECRET}
+EOF
+
 $ yarn
+
 $ yarn build firefox production
+
+$ node lib/amo.js \${nextRelease.version}
 
 The add-on will be built into dist/firefox/production.
 `,
