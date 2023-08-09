@@ -18,6 +18,10 @@ title: Subscriptions
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
 
+## Spam {#spam}
+- [Search Engine Spam Blocklist](https://github.com/no-cmyk/Search-Engine-Spam-Blocklist) by [No Cmyk](https://github.com/no-cmyk)
+  - A regularly maintained blocklist to filter out spam and junk domains from search engines results.
+
 ## Chinese {#chinese}
 
 - [uBlacklist subscription compilation](https://github.com/eallion/uBlacklist-subscription-compilation) by [Charles Chin](https://github.com/eallion)
