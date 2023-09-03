@@ -1,6 +1,6 @@
 # uBlacklist
 
-[English](README.md) | [简体中文](README.md)
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 屏蔽指定的网站防止其显示在 Google 以及其他搜索引擎中
 

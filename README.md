@@ -1,6 +1,6 @@
 # uBlacklist
 
-[English](README.md) | [简体中文](README-CN.md)
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 Blocks specific sites from appearing in Google search results
 
