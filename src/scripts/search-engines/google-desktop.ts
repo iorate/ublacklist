@@ -115,6 +115,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '#result-stats',
       },
       {
+        target: '#slim_appbar:empty',
+      },
+      {
         target: '#botabar',
         position: 'afterend',
         style: {
@@ -182,7 +185,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.g .xpdopen .ifM9O .g',
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
-        url: '.yuRUbf > a',
+        url: '.yuRUbf a',
         title: 'h3',
         ...regularEntryHandler,
       },
@@ -206,7 +209,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.related-question-pair .g',
         level: '.related-question-pair',
-        url: 'a',
+        url: '.yuRUbf a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         ...regularEntryHandler,
       },
