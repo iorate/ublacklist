@@ -454,7 +454,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.ZE0LJd, .S1FAPd',
+        innerTargets: '.SoaBEf, .JJZKK, .ZE0LJd, .S1FAPd',
       },
     ],
   }),
