@@ -67,8 +67,8 @@ const serpHandler = handleSerp({
     // All
     {
       scope: 'all',
-      target: '#message',
-      position: 'afterbegin',
+      target: 'ol.react-results--main',
+      position: 'beforebegin',
       style: defaultControlStyle(),
       buttonStyle: 'result__a',
     },
@@ -114,7 +114,7 @@ const serpHandler = handleSerp({
     // All
     {
       scope: 'all',
-      target: '.results > .nrn-react-div',
+      target: 'ol.react-results--main > li',
       url: 'a[data-testid="result-extras-url-link"]',
       title: 'a[data-testid="result-title-a"]',
       actionTarget: 'article[data-testid="result"]',
@@ -168,6 +168,12 @@ const serpHandler = handleSerp({
         },
       },
       actionButtonStyle: 'result__a',
+    },
+  ],
+  pagerHandlers: [
+    {
+      target: 'ol.react-results--main',
+      innerTargets: 'li',
     },
   ],
   getDialogTheme: getDialogThemeFromBody(),

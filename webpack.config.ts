@@ -71,7 +71,6 @@ export default (env: Readonly<Record<string, unknown>>): webpack.Configuration =
             {
               loader: 'esbuild-loader',
               options: {
-                loader: 'tsx',
                 target: 'es2019',
               },
             },

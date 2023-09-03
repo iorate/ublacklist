@@ -2,15 +2,15 @@
 
 [English](README.md) | [简体中文](README.md)
 
-屏蔽指定的网站防止其显示在Google以及其他搜索引擎中
+屏蔽指定的网站防止其显示在 Google 以及其他搜索引擎中
 
-[Chrome应用商店](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox 扩展](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (支持 macOS 和 iOS，特别鸣谢 [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+[Chrome 应用商店](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox 扩展](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (支持 macOS 和 iOS，特别鸣谢 [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## 介绍
 
 此扩展可防止您指定的网站出现在 Google 和其他的一些搜索引擎中。
 
-您可以为搜索结果添加规则或点击工具栏图标以屏蔽指定的网站。规则可以通过以下方式指定：[匹配模式](https://developer.mozilla.org/zh-CN/docs/mozilla/add-ons/webextensions/match_patterns) (示例： `*://*.example.com/*`，这样的话会屏蔽example.org网站) 或使用[正则表达式](https://developer.mozilla.org/zh-CN/docs/web/javascript/guide/regular_expressions) (示例： `/example\.(net|org)/`，这样的话可以屏蔽example.net和example.org两个网站).
+您可以为搜索结果添加规则或点击工具栏图标以屏蔽指定的网站。规则可以通过以下方式指定：[匹配模式](https://developer.mozilla.org/zh-CN/docs/mozilla/add-ons/webextensions/match_patterns) (示例： `*://*.example.com/*`，这样的话会屏蔽 example.org 网站) 或使用[正则表达式](https://developer.mozilla.org/zh-CN/docs/web/javascript/guide/regular_expressions) (示例： `/example\.(net|org)/`，这样的话可以屏蔽 example.net 和 example.org 两个网站).
 
 您可以通过云存储跨设备同步规则集。 目前，支持 Google Drive 和 Dropbox。
 
@@ -20,7 +20,7 @@
 
 此扩展支持以下搜索引擎
 
-|              | 网页                | 图片                | 视频               | 新闻                |
+|              | 网页               | 图片               | 视频               | 新闻               |
 | ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Bing         | \*1                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
@@ -33,9 +33,8 @@
 | Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
 | Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 
-\*1 在 Firefox 中，仅当“在新标签页中打开链接”关闭时 <br>
-\*2 仅当 "Always play videos on Qwant.com" 关闭时<br>
-\*3 仅支持某些公共实例，如果您想将自己的SearX/SearXNG添加到支持列表，你需要前往`src/common/search-engines.ts`，并手动将您的搜索引擎添加到列表中，然后手动进行构建。
+\*1 仅当 "Always play videos on Qwant.com" 关闭时<br>
+\*2 仅支持某些公共实例，如果您想将自己的 SearX/SearXNG 添加到支持列表，你需要前往`src/common/search-engines.ts`，并手动将您的搜索引擎添加到列表中，然后手动进行构建。
 
 ## 发布订阅
 
@@ -68,7 +67,7 @@ yarn
 yarn build firefox production
 ```
 
-在您提交`Pull Request`之前，您需要确保`yarn lint`、`yarn test`和`yarn build-all`通过测试，否则可能会影响github actions自动构建。
+在您提交`Pull Request`之前，您需要确保`yarn lint`、`yarn test`和`yarn build-all`通过测试，否则可能会影响 github actions 自动构建。
 
 ```shell
 yarn lint
@@ -93,12 +92,12 @@ GOOGLE_DRIVE_API_SECRET=...
 
 添加一个语言,
 
-1. 定义一个ISO语言代码，例如`en`指的是 [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
+1. 定义一个 ISO 语言代码，例如`en`指的是 [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
 1. 复制 `src/locales/en.json.ts` 到 `src/locales/${languageCode}.json.ts` 并翻译条目.
 1. 打开 `src/scripts/dayjs-locales.ts` 并导入 dayjs 语言环境.
 1. 要本地化网上商店的描述和屏幕截图，请创建 `web-store-assets/${languageCode}/` 并添加文件。
-    - 屏幕截图本地化仅在 Chrome 网上应用店可用。
-    - 屏幕截图应为 1280x800。
+   - 屏幕截图本地化仅在 Chrome 网上应用店可用。
+   - 屏幕截图应为 1280x800。
 
 ## 作者
 
