@@ -206,7 +206,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.related-question-pair .g',
         level: '.related-question-pair',
-        url: '.yuRUbf > a',
+        url: 'a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         ...regularEntryHandler,
       },
