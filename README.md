@@ -1,5 +1,7 @@
 # uBlacklist
 
+[简体中文](README.zh-CN.md)
+
 Blocks specific sites from appearing in Google search results
 
 [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (for macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
@@ -33,7 +35,7 @@ This extension is available in the below search engines.
 | Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 
 \*1 Only if "Always play videos on Qwant.com" is turned off<br>
-\*2 Only certain public instances are supported
+\*2 Only certain public instances are supported. If you want to add support for your own SearX/SearXNG search engine, edit `src/common/search-engines.ts` and build the extension manually
 
 ## For subscription providers
 

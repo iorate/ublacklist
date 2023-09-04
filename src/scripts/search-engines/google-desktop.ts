@@ -115,6 +115,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '#result-stats',
       },
       {
+        target: '#slim_appbar:empty',
+      },
+      {
         target: '#botabar',
         position: 'afterend',
         style: {
@@ -182,7 +185,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.g .xpdopen .ifM9O .g',
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         level: target => target.closest('.M8OgIe') || target.parentElement!.closest('.g'),
-        url: '.yuRUbf > a',
+        url: '.yuRUbf a',
         title: 'h3',
         ...regularEntryHandler,
       },
@@ -206,7 +209,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.related-question-pair .g',
         level: '.related-question-pair',
-        url: '.yuRUbf > a',
+        url: '.yuRUbf a',
         title: root => root.querySelector('h3')?.textContent ?? null,
         ...regularEntryHandler,
       },
@@ -290,7 +293,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Video
       {
-        target: '.dXiKIc',
+        target: '.iHxmLe',
         level: '.g',
         url: 'a',
         title: 'h3',
@@ -343,7 +346,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
         // Regular, Video, and YouTube and TikTok channel
         innerTargets:
-          '[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .dXiKIc, .d3zsgb, .rULfzc',
+          '[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .d3zsgb, .rULfzc',
       },
     ],
   }),
@@ -451,7 +454,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.ZE0LJd, .S1FAPd',
+        innerTargets: '.SoaBEf, .JJZKK, .ZE0LJd, .S1FAPd',
       },
     ],
   }),
@@ -465,7 +468,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.dXiKIc',
+        target: '.g, .iHxmLe',
         level: '.g',
         url: 'a',
         title: 'h3',
@@ -478,7 +481,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // AutoPagerize
       {
         target: '.autopagerize_page_info ~ div',
-        innerTargets: '.dXiKIc',
+        innerTargets: '.g',
       },
     ],
   }),

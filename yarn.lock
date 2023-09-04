@@ -15778,9 +15778,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semantic-release-amo@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "semantic-release-amo@npm:1.2.1"
+"semantic-release-amo@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "semantic-release-amo@npm:1.3.0"
   dependencies:
     "@semantic-release/error": ^3.0.0
     aggregate-error: ^4.0.1
@@ -15795,7 +15795,7 @@ __metadata:
     zod-validation-error: ^0.3.0
   peerDependencies:
     semantic-release: ">=18"
-  checksum: d69d0b80617a1c6ee5463bf850232ca88d1bec5dbfe8fac82301639d8a32515297d9624c1b54e9feda9edda048397848a6741327e03227561b96704cfac44e8c
+  checksum: 3f93e4d8b5b9726d2b94dbae7c46705b454ba41f10cd891d9b39e81065379d32306916e3e6e87547b4675608ad774826caed79238539af5a0a07d3ff3800f9ea
   languageName: node
   linkType: hard
 
@@ -17386,7 +17386,7 @@ __metadata:
     react-colorful: ^5.6.1
     rimraf: ^4.4.1
     semantic-release: ^19.0.5
-    semantic-release-amo: ^1.2.1
+    semantic-release-amo: ^1.3.0
     semantic-release-chrome: ^3.2.0
     simple-git-hooks: ^2.8.1
     typescript: ^5.0.3
