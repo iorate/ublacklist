@@ -302,7 +302,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: '.RzdJxc .hMJ0yc',
         level: '.RzdJxc',
-        url: '.X5OiLe',
+        url: 'a[href]',
         title: '.fc9yUc',
         actionTarget: '.hMJ0yc',
         actionStyle: desktopActionStyle,
