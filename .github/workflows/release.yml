@@ -45,6 +45,10 @@ jobs:
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
           AMO_API_KEY: ${{ secrets.AMO_API_KEY }}
           AMO_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_CHROME: ${{ inputs.chrome }}
           RELEASE_FIREFOX: ${{ inputs.firefox }}

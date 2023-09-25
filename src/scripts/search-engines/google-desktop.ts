@@ -116,6 +116,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       {
         target: '#slim_appbar:empty',
+        style: {
+          '#slim_appbar > &:not(:only-child)': {
+            display: 'none',
+          },
+        },
       },
       {
         target: '#botabar',
