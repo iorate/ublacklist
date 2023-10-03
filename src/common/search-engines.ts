@@ -458,6 +458,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           '*://search.serginho.dev/search*',
           '*://searx.netzspielplatz.de/search*',
           '*://searx.thefloatinglab.world/search*',
+          '*://search.whatever.social/searxng/search*',
         ],
         runAt: 'document_start',
       },
