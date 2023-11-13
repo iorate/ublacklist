@@ -39,6 +39,7 @@ exportAsJSON('manifest.json', {
     gecko: {
       id: '@ublacklist',
     },
+    gecko_android: {},
   },
   */
   // #endif
