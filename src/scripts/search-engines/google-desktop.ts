@@ -305,11 +305,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         ...regularEntryHandler,
       },
       {
-        target: '.RzdJxc .hMJ0yc',
+        target: '.RzdJxc .OwbDmd',
         level: '.RzdJxc',
-        url: 'a[href]',
+        url: 'a:not([href="#"])',
         title: '.fc9yUc',
-        actionTarget: '.hMJ0yc',
+        actionTarget: '.OwbDmd',
         actionStyle: desktopActionStyle,
       },
       // YouTube and TikTok Channel
