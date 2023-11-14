@@ -52,11 +52,8 @@ title: Subscriptions
   - "プログラミングスクールやその卒業生の低質な記事、スクール紹介サイトなどを除外する用"
 - [ublacklist-search-result](https://github.com/munierujp/ublacklist-search-result) by [@munierujp](https://github.com/munierujp)
   - "SNS やショッピングサイトなどの検索結果ページを除外するための、uBlacklist のブラックリスト"
-
-## Vietnamese {#vietnamese}
-
-- [wikivncopy](https://codeberg.org/Recommendations/wikivncopy) by [Recommendations](https://codeberg.org/Recommendations)
-  - "An uBlacklist filter list for blocking Vietnamese Wikipedia™ copycat sites"
+- [ublacklist-scam-net-shops](https://github.com/exoego/ublacklist-scam-net-shops) by [@exoego](https://github.com/exoego)
+  - "怪しいネットショップを検索結果から除外"
 
 ## Other subscription lists {#other-subscription-lists}
 
