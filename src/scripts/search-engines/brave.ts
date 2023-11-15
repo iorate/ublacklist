@@ -62,12 +62,12 @@ function getSerpHandler(): SerpHandler {
       },
       // Videos
       {
-        target: '#results.section > .card',
+        target: 'div[data-type="videos"]',
         url: 'a',
-        title: '.card-body > .title',
-        actionTarget: '.card-body > div',
+        title: '.snippet-title',
+        actionTarget: '.video-content',
         actionStyle: {
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--text-sm-2)',
         },
       },
       // News
