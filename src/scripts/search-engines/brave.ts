@@ -40,12 +40,12 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '#results.section > .snippet',
-        url: '.result-header',
-        title: '.snippet-title',
-        actionTarget: '.result-header',
+        target: 'div[data-type="web"]',
+        url: 'a',
+        title: '.heading-serpresult',
+        actionTarget: '.t-secondary',
         actionStyle: {
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--text-sm-2)',
         },
       },
       // Images
