@@ -72,10 +72,13 @@ function getSerpHandler(): SerpHandler {
       },
       // News
       {
-        target: '#results.section > [data-macro="news"]',
-        url: '.result-header',
+        target: '.svelte-1ckzfks',
+        url: 'a',
         title: '.snippet-title',
-        actionTarget: '.news-header',
+        actionTarget: '.result-content > div',
+        actionStyle: {
+          fontSize: 'var(--text-sm-2)',
+        },
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
