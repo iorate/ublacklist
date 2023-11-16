@@ -19,7 +19,7 @@ function getSerpHandler(): SerpHandler {
       {
         target: '#filters-bar',
         style: {
-          fontSize: '.66rem',
+          fontSize: 'var(--text-sm)',
           whiteSpace: 'nowrap',
           padding: '4px',
         },
