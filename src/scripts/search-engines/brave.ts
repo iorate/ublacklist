@@ -14,18 +14,6 @@ function getSerpHandler(): SerpHandler {
       '.ub-button:hover': {
         textDecoration: 'underline',
       },
-      'div[id^=img-]': {
-        marginBottom: '80px !important',
-      },
-      'div[id^=img-][data-ub-blocked="visible"]': {
-        marginRight: '80px !important',
-      },
-      '[data-ub-blocked="visible"] > .img-url': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
-      },
-      '.center-horizontally': {
-        flexWrap: 'wrap',
-      },
     },
     controlHandlers: [
       {
