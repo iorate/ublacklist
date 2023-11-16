@@ -50,13 +50,18 @@ function getSerpHandler(): SerpHandler {
       },
       // Images
       {
-        target: '#img-holder > div > div[id^=img-]',
-        url: '.img-url',
+        target: '.column > .image-wrapper',
+        url: root => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          let m = root.querySelector('.text-ellipsis')!.innerHTML;
+          if (!m.startsWith('http://') && !m.startsWith('https://')) {
+            m = 'https://' + m;
+          }
+          return m;
+        },
         title: '.img-title',
-        actionTarget: '.image-container',
+        actionTarget: 'button',
         actionStyle: {
-          position: 'relative',
-          top: '30px',
           fontSize: 'var(--text-sm-2)',
         },
       },
