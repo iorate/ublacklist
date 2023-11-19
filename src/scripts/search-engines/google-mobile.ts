@@ -228,6 +228,11 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         target: '[id^="arc-srp_"] > div',
         innerTargets: '.xpd',
       },
+      // Results in tabs (iOS)
+      {
+        target: '.yl > div',
+        innerTargets: '.xpd',
+      },
     ],
   }),
   // Books
