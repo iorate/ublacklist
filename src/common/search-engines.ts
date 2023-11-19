@@ -266,7 +266,7 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           'https://search.brave.com/news?*',
           'https://search.brave.com/videos?*',
         ],
-        runAt: 'document_start',
+        runAt: 'document_idle',
       },
     ],
     messageNames: {

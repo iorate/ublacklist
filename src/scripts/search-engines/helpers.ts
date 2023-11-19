@@ -304,6 +304,7 @@ export function handleSerp({
   pagerHandlers = [],
   getDialogTheme = () => 'light',
   observeRemoval = false,
+  delay = 0,
 }: {
   globalStyle: CSSAttribute | ((colors: SerpColors) => void);
   targets?: () => HTMLElement[];
@@ -312,6 +313,7 @@ export function handleSerp({
   pagerHandlers?: PagerHandler[];
   getDialogTheme?: () => DialogTheme;
   observeRemoval?: boolean;
+  delay?: number;
 }): SerpHandler {
   if (!targets) {
     const selectors: string[] = [];
@@ -329,6 +331,7 @@ export function handleSerp({
     onSerpElement,
     getDialogTheme,
     observeRemoval,
+    delay,
   };
 }
 
