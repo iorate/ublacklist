@@ -171,6 +171,7 @@ export type SerpHandler = {
   onSerpElement: (element: HTMLElement) => SerpHandlerResult;
   getDialogTheme: () => DialogTheme;
   observeRemoval: boolean;
+  delay: number;
 };
 
 export type SearchEngine = _SearchEngine & {
