@@ -20,7 +20,7 @@ function getSerpHandler(): SerpHandler {
     },
     controlHandlers: [
       {
-        target: '#filters-bar',
+        target: '#filters-container',
         style: {
           fontSize: 'var(--text-sm)',
           whiteSpace: 'nowrap',
