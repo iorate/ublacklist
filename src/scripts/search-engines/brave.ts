@@ -5,7 +5,7 @@ import { getDialogThemeFromBody, handleSerp } from './helpers';
 function getSerpHandler(): SerpHandler {
   return handleSerp({
     // https://github.com/iorate/ublacklist/pull/374
-    delay: 1000,
+    delay: 100,
 
     globalStyle: {
       '[data-ub-blocked="visible"]': {
