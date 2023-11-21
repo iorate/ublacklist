@@ -228,6 +228,11 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         target: '[id^="arc-srp_"] > div',
         innerTargets: '.xpd',
       },
+      // Results in tabs (iOS)
+      {
+        target: '.yl > div',
+        innerTargets: '.xpd',
+      },
     ],
   }),
   // Books
@@ -289,19 +294,16 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: '.isv-r, .isv-r > .VFACy',
-        level: '.isv-r',
-        url: '.VFACy',
-        title: root => {
-          const a = root.querySelector<HTMLElement>('.VFACy');
-          return a?.firstChild?.textContent ?? null;
-        },
+        target: '.isv-r[role="listitem"]',
+        url: 'a:not([role="button"])',
+        title: 'h2',
         actionTarget: '',
         actionStyle: {
           display: 'block',
           fontSize: '12px',
-          margin: '-8px 0 8px',
+          margin: '-4px 0',
           overflow: 'hidden',
+          padding: '4px 0',
           position: 'relative',
           ...iOSButtonStyle,
         },
@@ -370,8 +372,8 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   // Videos
   vid: handleSerp({
     globalStyle: {
-      '.ucBsPc': {
-        height: '108px',
+      '.RDE29e.RDE29e': {
+        margin: '12px 12px 20px 16px',
       },
       ...mobileGlobalStyle,
     },
@@ -397,14 +399,17 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     ],
     entryHandlers: [
       {
-        target: 'video-voyager',
+        target: '.mnr-c',
         url: 'a[ping]',
-        title: '.V82bz',
-        actionTarget: '.b5ZQcf',
+        title: root => root.querySelector('[role="heading"][aria-level="3"]')?.ariaLabel ?? null,
+        actionTarget: '.RDE29e',
         actionStyle: {
           display: 'block',
           fontSize: '12px',
-          marginTop: '4px',
+          lineHeight: '16px',
+          padding: '4px 0',
+          position: 'absolute',
+          top: '100%',
           ...iOSButtonStyle,
         },
       },
@@ -420,7 +425,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: 'video-voyager',
+        innerTargets: '.mnr-c',
       },
     ],
   }),

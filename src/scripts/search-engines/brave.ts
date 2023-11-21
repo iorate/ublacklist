@@ -4,6 +4,9 @@ import { getDialogThemeFromBody, handleSerp } from './helpers';
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
+    // https://github.com/iorate/ublacklist/pull/374
+    delay: 100,
+
     globalStyle: {
       '[data-ub-blocked="visible"]': {
         backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
@@ -14,24 +17,12 @@ function getSerpHandler(): SerpHandler {
       '.ub-button:hover': {
         textDecoration: 'underline',
       },
-      'div[id^=img-]': {
-        marginBottom: '80px !important',
-      },
-      'div[id^=img-][data-ub-blocked="visible"]': {
-        marginRight: '80px !important',
-      },
-      '[data-ub-blocked="visible"] > .img-url': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
-      },
-      '.center-horizontally': {
-        flexWrap: 'wrap',
-      },
     },
     controlHandlers: [
       {
-        target: '#filters-bar',
+        target: '#filters-container',
         style: {
-          fontSize: '.66rem',
+          fontSize: 'var(--text-sm)',
           whiteSpace: 'nowrap',
           padding: '4px',
         },
@@ -40,42 +31,50 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '#results.section > .snippet',
-        url: '.result-header',
-        title: '.snippet-title',
-        actionTarget: '.result-header',
+        target: 'div[data-type="web"]',
+        url: 'a',
+        title: '.heading-serpresult',
+        actionTarget: '.t-secondary',
         actionStyle: {
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--text-sm-2)',
         },
       },
       // Images
       {
-        target: '#img-holder > div > div[id^=img-]',
-        url: '.img-url',
+        target: '.column > .image-wrapper',
+        url: root => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          let m = root.querySelector('.text-ellipsis')!.innerHTML;
+          if (!m.startsWith('http://') && !m.startsWith('https://')) {
+            m = 'https://' + m;
+          }
+          return m;
+        },
         title: '.img-title',
-        actionTarget: '.image-container',
+        actionTarget: 'button',
         actionStyle: {
-          position: 'relative',
-          top: '30px',
           fontSize: 'var(--text-sm-2)',
         },
       },
       // Videos
       {
-        target: '#results.section > .card',
+        target: 'div[data-type="videos"]',
         url: 'a',
-        title: '.card-body > .title',
-        actionTarget: '.card-body > div',
+        title: '.snippet-title',
+        actionTarget: '.video-content',
         actionStyle: {
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--text-sm-2)',
         },
       },
       // News
       {
-        target: '#results.section > [data-macro="news"]',
-        url: '.result-header',
+        target: '.svelte-1ckzfks',
+        url: 'a',
         title: '.snippet-title',
-        actionTarget: '.news-header',
+        actionTarget: '.result-content > div',
+        actionStyle: {
+          fontSize: 'var(--text-sm-2)',
+        },
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),

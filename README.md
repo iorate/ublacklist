@@ -25,7 +25,7 @@ This extension is available in the below search engines.
 | ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Bing         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Brave        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Brave \*3    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | DuckDuckGo   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Ecosia       | :heavy_check_mark: |                    |                    |                    |
 | Qwant        | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
@@ -35,7 +35,8 @@ This extension is available in the below search engines.
 | Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
 
 \*1 Only if "Always play videos on Qwant.com" is turned off<br>
-\*2 Only certain public instances are supported. If you want to add support for your own SearX/SearXNG search engine, edit `src/common/search-engines.ts` and build the extension manually
+\*2 Only certain public instances are supported. If you want to add support for your own SearX/SearXNG search engine, edit `src/common/search-engines.ts` and build the extension manually<br>
+\*3 Due to the difficulty in obtaining the full URLs of image links, this extension does not support per-subdomain blocking in Brave Image Search. (For example, if the link is to "www.example.com", it will block the entire "example.com").
 
 ## For subscription providers
 

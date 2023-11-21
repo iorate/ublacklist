@@ -351,7 +351,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
         // Regular, Video, and YouTube and TikTok channel
         innerTargets:
-          '[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .d3zsgb, .rULfzc',
+          '[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .iHxmLe, .d3zsgb, .rULfzc',
       },
     ],
   }),

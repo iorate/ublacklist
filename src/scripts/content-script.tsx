@@ -383,7 +383,11 @@ function main() {
     )
     ?.getSerpHandler();
   if (serpHandler) {
-    new ContentScript(serpHandler);
+    if (serpHandler.delay) {
+      window.setTimeout(() => new ContentScript(serpHandler), serpHandler.delay);
+    } else {
+      new ContentScript(serpHandler);
+    }
   }
 }
 
