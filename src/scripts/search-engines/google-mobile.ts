@@ -280,7 +280,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           const controlClass = css({
             display: 'block',
             fontSize: '12px',
-            padding: '12px 16px',
+            padding: '0 16px',
             '&&&': {
               borderRadius: 0,
             },
