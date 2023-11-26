@@ -156,7 +156,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       // Video (iOS)
       {
-        target: '.mnr-c.PHap3c',
+        target: '.tRkSqb',
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
@@ -165,6 +165,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginTop: '12px',
           padding: '0 16px',
+          position: 'relative',
           ...iOSButtonStyle,
         },
       },
@@ -234,12 +235,12 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: '.xpd',
+        innerTargets: '.xpd, .tRkSqb',
       },
       // Results in tabs (iOS)
       {
         target: '.yl > div',
-        innerTargets: '.xpd',
+        innerTargets: '.xpd, .tRkSqb',
       },
     ],
   }),
