@@ -185,6 +185,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         title: 'h3',
         ...regularEntryHandler,
       },
+      // Discussions and forums
+      {
+        target: '.LJ7wUe',
+        url: 'a',
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: '[aria-label][role="link"]',
+        actionStyle: desktopActionStyle,
+      },
       // Featured Snippet
       {
         target: '.g .xpdopen .ifM9O .g',
