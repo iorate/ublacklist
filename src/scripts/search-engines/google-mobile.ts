@@ -14,9 +14,17 @@ function getURLFromPing(selector: string): (root: HTMLElement) => string | null 
       } catch {
         return null;
       }
-    } else {
-      return a.href;
     }
+    const href = a.getAttribute('href');
+    if (href) {
+      try {
+        new URL(href);
+        return href;
+      } catch {
+        return null;
+      }
+    }
+    return null;
   };
 }
 
