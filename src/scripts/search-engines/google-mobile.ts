@@ -371,7 +371,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       {
         target: '.xpd',
-        url: getURLFromQuery('.kCrYT > a'),
+        url: getURLFromQuery(':scope > a'),
         title: '.vvjwJb',
         actionTarget: '',
         actionStyle: mobileRegularActionStyle,
