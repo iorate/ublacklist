@@ -491,20 +491,10 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
     return {
       ...serpHandler,
       onSerpStart() {
-        if (document.querySelector('meta[name="color-scheme"][content="dark"]')) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
           document.documentElement.dataset.ubDark = '1';
         }
         return serpHandler.onSerpStart();
-      },
-      onSerpElement(element) {
-        if (
-          element instanceof HTMLMetaElement &&
-          element.name === 'color-scheme' &&
-          element.content === 'dark'
-        ) {
-          document.documentElement.dataset.ubDark = '1';
-        }
-        return serpHandler.onSerpElement(element);
       },
       getDialogTheme() {
         return document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light';
