@@ -5,6 +5,7 @@ import { browser } from './browser';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
 import { translate } from './locales';
+import { sendMessage } from './messages';
 import { Ruleset } from './ruleset';
 import { SEARCH_ENGINES } from './search-engines';
 import { css, glob } from './styles';
@@ -350,6 +351,7 @@ class ContentScript {
         close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
+        openOptionsPage={() => sendMessage('open-options-page')}
         ruleset={this.options.ruleset}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
