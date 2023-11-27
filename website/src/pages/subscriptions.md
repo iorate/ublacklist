@@ -19,12 +19,13 @@ title: Subscriptions
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
- 
+
 ## Spam {#spam}
+
 - [Search Engine Spam Blocklist](https://github.com/no-cmyk/Search-Engine-Spam-Blocklist) by [no-cmyk](https://github.com/no-cmyk)
-  -  "Blocklist to filter out spam and junk domains from search engines results"
+  - "Blocklist to filter out spam and junk domains from search engines results"
 - [Super-SEO-Spam-Suppressor](https://github.com/NotaInutilis/Super-SEO-Spam-Suppressor) by [Nota Inutilis](https://github.com/NotaInutilis)
-  -  "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
+  - "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
 
 ## Chinese {#chinese}
 
