@@ -10,6 +10,7 @@ on:
 
 jobs:
   stale:
+    name: Stale
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/stale@v8

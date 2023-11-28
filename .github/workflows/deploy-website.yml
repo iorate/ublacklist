@@ -13,7 +13,8 @@ on:
       - website/**
 
 jobs:
-  build:
+  build-website:
+    name: Build website
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -30,9 +31,10 @@ jobs:
       - uses: actions/upload-pages-artifact@v2
         with:
           path: website/build
-  deploy:
+  deploy-website:
+    name: Deploy website
     runs-on: ubuntu-22.04
-    needs: build
+    needs: build-website
     steps:
       - uses: actions/deploy-pages@v2
         id: deployment

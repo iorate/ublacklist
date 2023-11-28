@@ -9,7 +9,8 @@ on:
       - master
 
 jobs:
-  check:
+  check-website:
+    name: Check website
     runs-on: ubuntu-22.04
     defaults:
       run:
