@@ -96,7 +96,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The helper text for the blacklist textarea.
   options_blacklistHelper:
-    'You can use [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) or [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
+    'You can use [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) and [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
 
   // The helper text to show an example rule.
   // '$1' is expanded to the example.
@@ -148,7 +148,8 @@ exportAsMessages('_locales/en/messages.json', {
   options_otherSearchEngines: 'Other search engines',
 
   // The details for other search engines support.
-  options_otherSearchEnginesDescription: 'You can use this extension on the below search engines.',
+  options_otherSearchEnginesDescription:
+    'You can use this extension on the following search engines.',
 
   // The text of the button to enable this extension on a search engine.
   options_registerSearchEngine: 'Enable',
@@ -226,7 +227,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The description of the sync feature.
   options_syncFeatureDescription:
-    'You can synchronize blacklists across your devices through a cloud.',
+    'You can synchronize rulesets across your devices through a cloud.',
 
   // The text of the button to turn on sync.
   options_turnOnSync: 'Turn on sync',
@@ -260,7 +261,7 @@ exportAsMessages('_locales/en/messages.json', {
   options_syncNever: 'Never synced',
 
   // The text that means sync is running right now.
-  options_syncRunning: 'Syncing...',
+  options_syncRunning: 'Syncing…',
 
   // The text of the button to reload the options page after settings are downloaded from a cloud.
   options_syncReloadButton: 'Reload',
@@ -290,11 +291,11 @@ exportAsMessages('_locales/en/messages.json', {
   options_subscriptionTitle: 'Subscription',
 
   // The subscription feature.
-  options_subscriptionFeature: 'Subscribe to blacklists',
+  options_subscriptionFeature: 'Subscribe to rulesets',
 
   // The description of the subscription feature.
   options_subscriptionFeatureDescription:
-    'If you add a subscription, blacklists will be regularly downloaded from the specified URL.',
+    'If you add a subscription, rulesets will be regularly downloaded from the specified URL.',
 
   // The text of the button to add a subscription.
   options_addSubscriptionButton: 'Add a subscription',
@@ -318,7 +319,7 @@ exportAsMessages('_locales/en/messages.json', {
   options_noSubscriptionsAdded: 'No subscriptions added',
 
   // The text that means update is running right now.
-  options_subscriptionUpdateRunning: 'Updating...',
+  options_subscriptionUpdateRunning: 'Updating…',
 
   // The text of a menu item to show a subscription.
   options_showSubscriptionMenu: 'Show',
@@ -369,13 +370,13 @@ exportAsMessages('_locales/en/messages.json', {
   options_restoreSettingsInvalidFile: 'The file format is invalid.',
 
   // Initialize settings.
-  options_initializeSettingsLabel: 'Initialize settings',
+  options_initializeSettingsLabel: 'Reset settings',
 
   // The text of the button to initialize settings.
-  options_initializeSettingsButton: 'Initialize',
+  options_initializeSettingsButton: 'Reset',
 
   // The confirmation message to initialize settings.
-  options_initializeSettingsConfirmation: 'Do you really want to initialize your settings?',
+  options_initializeSettingsConfirmation: 'Do you really want to reset your settings?',
 
   // The title of the about section.
   options_aboutTitle: 'About uBlacklist',
