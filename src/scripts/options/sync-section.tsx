@@ -414,18 +414,8 @@ const SyncCategories: React.VFC<{ disabled: boolean }> = ({ disabled }) => (
 export const SyncSection: React.VFC = () => {
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
-    /* #if FIREFOX
-    platformInfo: { os },
-    */
-    // #endif
   } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
-  /* #if FIREFOX
-  if (os === 'android') {
-    return null;
-  }
-  */
-  // #endif
   return (
     <Section aria-labelledby="syncSectionTitle" id="sync">
       <SectionHeader>

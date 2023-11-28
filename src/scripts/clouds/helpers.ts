@@ -30,10 +30,19 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
   if (openerTabId == null) {
     throw new Error('failed to get the current tab');
   }
+  // #if !FIREFOX
   const { id: authorizationTabId } = await browser.tabs.create({
     openerTabId,
     url: params.url,
   });
+  /* #else
+  const { id: authorizationTabId } = await browser.tabs.create(
+    (await browser.runtime.getPlatformInfo()).os === 'android'
+      ? { url: params.url }
+      : { openerTabId, url: params.url },
+  );
+  */
+  // #endif
   if (authorizationTabId == null) {
     throw new Error('failed to open the authorization tab');
   }
