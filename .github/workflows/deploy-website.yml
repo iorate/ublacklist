@@ -1,4 +1,4 @@
-name: Deploy website
+name: deploy (website)
 
 permissions:
   contents: read
@@ -13,8 +13,7 @@ on:
       - website/**
 
 jobs:
-  build-website:
-    name: Build website
+  build:
     runs-on: ubuntu-22.04
     defaults:
       run:
@@ -31,10 +30,9 @@ jobs:
       - uses: actions/upload-pages-artifact@v2
         with:
           path: website/build
-  deploy-website:
-    name: Deploy website
+  deploy:
     runs-on: ubuntu-22.04
-    needs: build-website
+    needs: build
     steps:
       - uses: actions/deploy-pages@v2
         id: deployment

@@ -1,4 +1,4 @@
-name: Check website
+name: check (website)
 
 permissions:
   contents: read
@@ -7,10 +7,11 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+      - website/**
 
 jobs:
-  check-website:
-    name: Check website
+  check:
     runs-on: ubuntu-22.04
     defaults:
       run:

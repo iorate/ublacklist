@@ -1,4 +1,4 @@
-name: Check
+name: check
 
 permissions:
   contents: read
@@ -12,10 +12,11 @@ on:
   pull_request:
     branches:
       - master
+    paths-ignore:
+      - website/**
 
 jobs:
   check:
-    name: Check
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
