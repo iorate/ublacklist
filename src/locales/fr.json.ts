@@ -32,7 +32,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_generalTitle: 'Général',
   options_blacklistLabel: 'Sites bloqués des résultats de recherche Google',
   options_blacklistHelper:
-    'Vous pouvez utiliser des [motifs](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Match_patterns), des [expressions régulières](https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_Expressions) et des [règles avancées](https://iorate.github.io/ublacklist/docs/advanced-features).',
+    'Vous pouvez utiliser des [motifs](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) et des [expressions régulières](https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_Expressions).',
   options_blacklistExample: 'Exemple : $1',
   options_blockByTitle:
     'Préfixer "title" aux expressions régulières pour bloquer des sites avec leur titre de page.',
@@ -44,12 +44,12 @@ exportAsMessages('_locales/fr/messages.json', {
   options_importBlacklistDialog_title: 'Import',
   options_importBlacklistDialog_fromFile: 'Importer depuis un fichier',
   options_importBlacklistDialog_selectFile: 'Sélectionner un fichier',
-  options_importBlacklistDialog_fromPB: 'Importer depuis une liste de blocage personnelle',
+  options_importBlacklistDialog_fromPB: 'Importer depuis la liste de blocage personnelle',
   options_importBlacklistDialog_pbLabel: 'Domaines',
   options_importBlacklistDialog_append: 'Ajouter à la liste existante',
   options_importBlacklistDialog_importButton: 'Importer',
   options_importBlacklistDialog_helper:
-    'Coller les domaines exportés depuis une liste de blocage personnelle.',
+    'Coller les domaines exportés depuis la liste de blocage personnelle.',
   options_otherSearchEngines: "Support d'autres moteurs de recherche",
   options_otherSearchEnginesDescription:
     'Vous pouvez utiliser cette extension sur les moteurs de recherche suivants.',
@@ -82,7 +82,7 @@ exportAsMessages('_locales/fr/messages.json', {
     'La fonction de synchronisation a été mise à jour. Pour continuer la synchronisation, appuyer sur le bouton "Activer la synchronisation".',
   options_syncFeature: 'Synchroniser avec un cloud',
   options_syncFeatureDescription:
-    'Vous pouvez synchroniser les listes de blocage entre tous vos appareils avec un cloud.',
+    'Vous pouvez synchroniser votre liste de filtres entre tous vos appareils avec un cloud.',
   options_turnOnSync: 'Activer la synchronisation',
   options_turnOnSyncDialog_title: 'Activer la synchronisation',
   options_turnOnSyncDialog_turnOnSyncButton: 'Activer',
@@ -102,9 +102,9 @@ exportAsMessages('_locales/fr/messages.json', {
   options_syncSubscriptions: 'Abonnements',
   options_syncInterval: 'Intervalle de synchronisation',
   options_subscriptionTitle: 'Abonnement',
-  options_subscriptionFeature: "S'abonner à une liste de blocage",
+  options_subscriptionFeature: "S'abonner à une liste de filtres",
   options_subscriptionFeatureDescription:
-    "Si vous ajoutez un abonnement, les liste de blocage seront régulièrement téléchargées depuis l'URL spécifié.",
+    "Si vous ajoutez un abonnement, les listes de filtres seront régulièrement téléchargées depuis l'URL spécifié.",
   options_addSubscriptionButton: 'Ajouter un abonnement',
   options_subscriptionNameHeader: 'Nom',
   options_subscriptionURLHeader: 'URL',
@@ -143,7 +143,7 @@ exportAsMessages('_locales/fr/messages.json', {
     "Un fichier caché à l'utilisateur sera créé dans le dossier de données de l'application.",
   clouds_googleDriveSyncTurnedOn: 'Synchronisé avec Google Drive',
   clouds_dropboxSync: 'Synchronisation avec Dropbox',
-  clouds_dropboxSyncDescription: 'un fichier sera crée dans "/Apps/uBlacklist/".',
+  clouds_dropboxSyncDescription: 'Un fichier sera crée dans "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: 'Synchronisé avec Dropbox',
   searchEngines_googleName: 'Google',
   searchEngines_bingName: 'Bing',
