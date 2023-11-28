@@ -1,60 +1,52 @@
-name: Deploy to GitHub Pages
+name: deploy
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - website/**
-      - '!website/README.md'
   workflow_dispatch:
+    inputs:
+      chrome:
+        type: boolean
+        default: true
+        description: Chrome Web Store
+      firefox:
+        type: boolean
+        default: true
+        description: Firefox Add-ons
 
 jobs:
-  build:
-    name: Build
-
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: yarn
-
-      - name: Install packages
-        run: yarn install --immutable
-
-      - name: Lint
-        run: yarn lint
-        working-directory: website
-
-      - name: Build
-        run: yarn build
-        working-directory: website
-
-      - name: Upload artifacts
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: website/build
-
   deploy:
-    name: Deploy to GitHub Pages
-
-    needs: build
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+      - run: yarn install --immutable
+      - run: yarn build-all
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+      - run: yarn semantic-release
+        env:
+          # Chrome Web Store
+          RELEASE_CHROME: ${{ inputs.chrome }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          # Firefox Add-ons
+          RELEASE_FIREFOX: ${{ inputs.firefox }}
+          AMO_API_KEY: ${{ secrets.AMO_API_KEY }}
+          AMO_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+          # GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
