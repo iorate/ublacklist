@@ -96,7 +96,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The helper text for the blacklist textarea.
   options_blacklistHelper:
-    'You can use [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns), [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) and [advanced rules](https://iorate.github.io/ublacklist/docs/advanced-features).',
+    'You can use [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) and [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).',
 
   // The helper text to show an example rule.
   // '$1' is expanded to the example.
@@ -148,7 +148,8 @@ exportAsMessages('_locales/en/messages.json', {
   options_otherSearchEngines: 'Other search engines',
 
   // The details for other search engines support.
-  options_otherSearchEnginesDescription: 'You can use this extension on the following search engines.',
+  options_otherSearchEnginesDescription:
+    'You can use this extension on the following search engines.',
 
   // The text of the button to enable this extension on a search engine.
   options_registerSearchEngine: 'Enable',
@@ -226,7 +227,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The description of the sync feature.
   options_syncFeatureDescription:
-    'You can synchronize blocklists across your devices through a cloud.',
+    'You can synchronize rulesets across your devices through a cloud.',
 
   // The text of the button to turn on sync.
   options_turnOnSync: 'Turn on sync',
@@ -290,11 +291,11 @@ exportAsMessages('_locales/en/messages.json', {
   options_subscriptionTitle: 'Subscription',
 
   // The subscription feature.
-  options_subscriptionFeature: 'Subscribe to blocklists',
+  options_subscriptionFeature: 'Subscribe to rulesets',
 
   // The description of the subscription feature.
   options_subscriptionFeatureDescription:
-    'If you add a subscription, blocklists will be regularly downloaded from the specified URL.',
+    'If you add a subscription, rulesets will be regularly downloaded from the specified URL.',
 
   // The text of the button to add a subscription.
   options_addSubscriptionButton: 'Add a subscription',
@@ -368,14 +369,14 @@ exportAsMessages('_locales/en/messages.json', {
   // The error message that is shown when the backup file is invalid.
   options_restoreSettingsInvalidFile: 'The file format is invalid.',
 
-  // Reinitialize settings.
-  options_initializeSettingsLabel: 'Reinitialize settings',
+  // Initialize settings.
+  options_initializeSettingsLabel: 'Reset settings',
 
-  // The text of the button to reinitialize settings.
-  options_initializeSettingsButton: 'Reinitialize',
+  // The text of the button to initialize settings.
+  options_initializeSettingsButton: 'Reset',
 
-  // The confirmation message to reinitialize settings.
-  options_initializeSettingsConfirmation: 'Do you really want to reinitialize your settings?',
+  // The confirmation message to initialize settings.
+  options_initializeSettingsConfirmation: 'Do you really want to reset your settings?',
 
   // The title of the about section.
   options_aboutTitle: 'About uBlacklist',
@@ -422,7 +423,7 @@ exportAsMessages('_locales/en/messages.json', {
 
   // The description for Bing in Firefox.
   searchEngines_bingDescription_firefox:
-    'Turns off "Open links from search results in a new tab or window".',
+    'Turn off "Open links from search results in a new tab or window".',
 
   // The localized name of Brave
   searchEngines_braveName: 'Brave',
@@ -440,7 +441,7 @@ exportAsMessages('_locales/en/messages.json', {
   searchEngines_searxName: 'SearX',
 
   // The description for Qwant.
-  searchEngines_qwantDescription: 'Turns off "Always play videos on Qwant.com".',
+  searchEngines_qwantDescription: 'Turn off "Always play videos on Qwant.com".',
 
   // The localized name of Startpage.
   searchEngines_startpageName: 'Startpage.com',

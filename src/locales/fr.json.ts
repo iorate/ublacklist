@@ -3,9 +3,9 @@ import { exportAsMessages } from './helpers';
 exportAsMessages('_locales/fr/messages.json', {
   extensionName: 'uBlacklist',
   extensionDescription:
-    "Empêche des sites spécifiés d’apparaître dans les résultats de recherche Google",
+    "Empêche des sites spécifiés d'apparaître dans les résultats de recherche Google",
   lang: 'fr',
-  error: 'Erreur : $1',
+  error: 'Erreur : $1',
   unauthorizedError: 'Accès refusé. Veuillez désactiver et réactiver la synchronisation.',
   cancelButton: 'Annuler',
   okButton: 'OK',
@@ -33,7 +33,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_blacklistLabel: 'Sites bloqués des résultats de recherche Google',
   options_blacklistHelper:
     'Vous pouvez utiliser des [motifs](https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Match_patterns), des [expressions régulières](https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_Expressions) et des [règles avancées](https://iorate.github.io/ublacklist/docs/advanced-features).',
-  options_blacklistExample: 'Exemple : $1',
+  options_blacklistExample: 'Exemple : $1',
   options_blockByTitle:
     'Préfixer "title" aux expressions régulières pour bloquer des sites avec leur titre de page.',
   options_blacklistUpdated: 'Mis à jour',
@@ -50,7 +50,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_importBlacklistDialog_importButton: 'Importer',
   options_importBlacklistDialog_helper:
     'Coller les domaines exportés depuis une liste de blocage personnelle.',
-  options_otherSearchEngines: "Support d’autres moteurs de recherche",
+  options_otherSearchEngines: "Support d'autres moteurs de recherche",
   options_otherSearchEnginesDescription:
     'Vous pouvez utiliser cette extension sur les moteurs de recherche suivants.',
   options_registerSearchEngine: 'Activer',
@@ -68,7 +68,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_colorSpecify: 'Personnalisé',
   options_highlightColors: 'Les couleurs des résultats de recherches mis en avant',
   options_highlightDescription:
-    'Pour mettre en avant des résultats de recherche d’une couleur N, préfixer "@N" aux règles.',
+    'Pour mettre en avant des résultats de recherche d\'une couleur N, préfixer "@N" aux règles.',
   options_highlightColorNth: 'Couleur $1',
   options_highlightColorAdd: 'Ajouter',
   options_highlightColorRemove: 'Supprimer',
@@ -87,15 +87,15 @@ exportAsMessages('_locales/fr/messages.json', {
   options_turnOnSyncDialog_title: 'Activer la synchronisation',
   options_turnOnSyncDialog_turnOnSyncButton: 'Activer',
   options_turnOnSyncDialog_altFlowDescription:
-    "Il se peut que les permissions pour accéder à $1 vous soient demandées avant l’authentification, mais vos informations personnelles ne seront PAS enregistrées dans ce domaine.",
-  options_turnOnSyncDialog_altFlowAuthCodeLabel: "Code d’autorisation",
+    "Il se peut que les permissions pour accéder à $1 vous soient demandées avant l'authentification, mais vos informations personnelles ne seront PAS enregistrées dans ce domaine.",
+  options_turnOnSyncDialog_altFlowAuthCodeLabel: "Code d'autorisation",
   options_turnOffSync: 'Désactiver',
   options_syncResult: 'Dernière synchronisation',
   options_syncNever: 'Jamais synchroniser',
   options_syncRunning: 'Synchronisation…',
   options_syncReloadButton: 'Recharger',
   options_syncNowButton: 'Synchroniser maintenant',
-  options_syncCategories: 'Que voulez-vous synchroniser ?',
+  options_syncCategories: 'Que voulez-vous synchroniser ?',
   options_syncBlocklist: 'Sites bloqués',
   options_syncGeneral: 'Paramètres généraux',
   options_syncAppearance: 'Apparence',
@@ -104,7 +104,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_subscriptionTitle: 'Abonnement',
   options_subscriptionFeature: "S'abonner à une liste de blocage",
   options_subscriptionFeatureDescription:
-    "Si vous ajoutez un abonnement, les liste de blocage seront régulièrement téléchargées depuis l’URL spécifié.",
+    "Si vous ajoutez un abonnement, les liste de blocage seront régulièrement téléchargées depuis l'URL spécifié.",
   options_addSubscriptionButton: 'Ajouter un abonnement',
   options_subscriptionNameHeader: 'Nom',
   options_subscriptionURLHeader: 'URL',
@@ -131,7 +131,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_restoreSettingsInvalidFile: 'Le format de fichier est invalide.',
   options_initializeSettingsLabel: 'Réinitialiser les paramètres',
   options_initializeSettingsButton: 'Réinitialiser',
-  options_initializeSettingsConfirmation: 'Voulez-vous vraiment réinitialiser vos paramètres ?',
+  options_initializeSettingsConfirmation: 'Voulez-vous vraiment réinitialiser vos paramètres ?',
   options_aboutTitle: 'À propos de uBlacklist',
   options_aboutVersion: 'Version',
   options_aboutDocumentation: 'Documentation',
@@ -140,7 +140,7 @@ exportAsMessages('_locales/fr/messages.json', {
   options_aboutThirdPartyNotices: 'Mentions tierces',
   clouds_googleDriveSync: 'Synchronisation avec Google Drive',
   clouds_googleDriveSyncDescription:
-    "Un fichier caché à l’utilisateur sera créé dans le dossier de données de l’application.",
+    "Un fichier caché à l'utilisateur sera créé dans le dossier de données de l'application.",
   clouds_googleDriveSyncTurnedOn: 'Synchronisé avec Google Drive',
   clouds_dropboxSync: 'Synchronisation avec Dropbox',
   clouds_dropboxSyncDescription: 'un fichier sera crée dans "/Apps/uBlacklist/".',
