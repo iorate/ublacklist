@@ -1,3 +1,4 @@
+import * as S from 'microstruct';
 import { CSSAttribute, glob } from '../styles';
 import { SerpColors, SerpHandler } from '../types';
 import { getDialogThemeFromBody, handleSerp } from './helpers';
@@ -88,7 +89,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       {
         target: '.infsd',
         level: '.dgControl_list > li',
-        url: '.infpd a',
+        url: root => {
+          const m = root.querySelector<HTMLElement>('.iusc')?.getAttribute('m');
+          return m != null ? S.parse(m, S.type({ purl: S.string() }))?.purl ?? null : null;
+        },
         title: '.infpd a',
         actionTarget: '.infnmpt',
         actionStyle: {

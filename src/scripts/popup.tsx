@@ -19,6 +19,15 @@ import { sendMessage } from './messages';
 import { Ruleset } from './ruleset';
 import { MatchPattern, makeAltURL } from './utilities';
 
+async function openOptionsPage(): Promise<void> {
+  await sendMessage('open-options-page');
+  // https://github.com/iorate/ublacklist/issues/378
+  /* #if FIREFOX
+  window.close();
+  */
+  // #endif
+}
+
 const Loading: React.VFC = () => {
   const className = useClassName(
     () => ({
@@ -55,10 +64,7 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
     <DialogFooter>
       <Row multiline right>
         <RowItem expanded>
-          <LinkButton
-            className={FOCUS_START_CLASS}
-            onClick={() => sendMessage('open-options-page')}
-          >
+          <LinkButton className={FOCUS_START_CLASS} onClick={openOptionsPage}>
             {translate('popup_openOptionsLink')}
           </LinkButton>
         </RowItem>
@@ -185,6 +191,7 @@ const Popup: React.VFC = () => {
             blockWholeSite: options.blockWholeSite,
             close: () => window.close(),
             enablePathDepth: options.enablePathDepth,
+            openOptionsPage,
             ruleset,
             title,
             url,

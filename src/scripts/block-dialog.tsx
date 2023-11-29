@@ -24,28 +24,29 @@ import { ThemeProvider, darkTheme, lightTheme } from './components/theme';
 import { useClassName, usePrevious } from './components/utilities';
 import { InteractiveRuleset } from './interactive-ruleset';
 import { translate } from './locales';
-import { sendMessage } from './messages';
 import { PathDepth } from './path-depth';
 import { DialogTheme } from './types';
 import { makeAltURL } from './utilities';
 
 type BlockDialogContentProps = {
-  ruleset: InteractiveRuleset;
   blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
   open: boolean;
+  openOptionsPage: () => Promise<void>;
+  ruleset: InteractiveRuleset;
   title: string | null;
   url: string;
   onBlocked: () => void | Promise<void>;
 };
 
 const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
-  ruleset,
   blockWholeSite,
   close,
   enablePathDepth,
   open,
+  openOptionsPage,
+  ruleset,
   title,
   url: entryURL,
   onBlocked,
@@ -240,9 +241,7 @@ const BlockDialogContent: React.VFC<BlockDialogContentProps> = ({
       <DialogFooter>
         <Row multiline right>
           <RowItem expanded>
-            <LinkButton onClick={() => sendMessage('open-options-page')}>
-              {translate('popup_openOptionsLink')}
-            </LinkButton>
+            <LinkButton onClick={openOptionsPage}>{translate('popup_openOptionsLink')}</LinkButton>
           </RowItem>
           <RowItem>
             <Row>

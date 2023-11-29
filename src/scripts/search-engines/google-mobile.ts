@@ -14,9 +14,17 @@ function getURLFromPing(selector: string): (root: HTMLElement) => string | null 
       } catch {
         return null;
       }
-    } else {
-      return a.href;
     }
+    const href = a.getAttribute('href');
+    if (href) {
+      try {
+        new URL(href);
+        return href;
+      } catch {
+        return null;
+      }
+    }
+    return null;
   };
 }
 
@@ -148,7 +156,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       // Video (iOS)
       {
-        target: '.mnr-c.PHap3c',
+        target: '.tRkSqb',
         url: getURLFromPing('a'),
         title: '[role="heading"][aria-level="3"]',
         actionTarget: '',
@@ -157,6 +165,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: '14px',
           marginTop: '12px',
           padding: '0 16px',
+          position: 'relative',
           ...iOSButtonStyle,
         },
       },
@@ -226,12 +235,12 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       // iOS
       {
         target: '[id^="arc-srp_"] > div',
-        innerTargets: '.xpd',
+        innerTargets: '.xpd, .tRkSqb',
       },
       // Results in tabs (iOS)
       {
         target: '.yl > div',
-        innerTargets: '.xpd',
+        innerTargets: '.xpd, .tRkSqb',
       },
     ],
   }),
@@ -271,7 +280,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           const controlClass = css({
             display: 'block',
             fontSize: '12px',
-            padding: '12px 16px',
+            padding: '0 16px',
             '&&&': {
               borderRadius: 0,
             },
@@ -362,7 +371,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
       {
         target: '.xpd',
-        url: getURLFromQuery('.kCrYT > a'),
+        url: getURLFromQuery(':scope > a'),
         title: '.vvjwJb',
         actionTarget: '',
         actionStyle: mobileRegularActionStyle,
@@ -482,20 +491,10 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
     return {
       ...serpHandler,
       onSerpStart() {
-        if (document.querySelector('meta[name="color-scheme"][content="dark"]')) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
           document.documentElement.dataset.ubDark = '1';
         }
         return serpHandler.onSerpStart();
-      },
-      onSerpElement(element) {
-        if (
-          element instanceof HTMLMetaElement &&
-          element.name === 'color-scheme' &&
-          element.content === 'dark'
-        ) {
-          document.documentElement.dataset.ubDark = '1';
-        }
-        return serpHandler.onSerpElement(element);
       },
       getDialogTheme() {
         return document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light';
