@@ -1,4 +1,8 @@
-name: Warn and close stale issues
+name: stale
+
+permissions:
+  issues: write
+  pull-requests: write
 
 on:
   schedule:
@@ -6,18 +10,16 @@ on:
 
 jobs:
   stale:
-    name: Warn and close stale issues
-
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/stale@v6
+      - uses: actions/stale@v8
         with:
-          days-before-issue-stale: 30
-          days-before-pr-stale: -1
-          days-before-issue-close: 7
-          days-before-pr-close: -1
+          days-before-stale: 30
+          days-before-close: 5
           stale-issue-message: This issue is stale because it has been open for 30 days with no activity.
-          close-issue-message: This issue was closed because it has been inactive for 7 days since being marked as stale.
+          stale-pr-message: This pull request is stale because it has been open for 30 days with no activity.
+          close-issue-message: This issue was closed because it has been inactive for 5 days since being marked as stale.
+          close-pr-message: This pull request was closed because it has been inactive for 5 days since being marked as stale.
           stale-issue-label: stale
+          stale-pr-label: stale
           exempt-all-issue-assignees: true

@@ -491,10 +491,16 @@ export function getMobileSerpHandler(tbm: string): SerpHandler | null {
     return {
       ...serpHandler,
       onSerpStart() {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        if (document.querySelector('meta[name="color-scheme"]')) {
           document.documentElement.dataset.ubDark = '1';
         }
         return serpHandler.onSerpStart();
+      },
+      onSerpElement(element) {
+        if (element.matches('meta[name="color-scheme"]')) {
+          document.documentElement.dataset.ubDark = '1';
+        }
+        return serpHandler.onSerpElement(element);
       },
       getDialogTheme() {
         return document.documentElement.dataset.ubDark === '1' ? 'dark' : 'light';
