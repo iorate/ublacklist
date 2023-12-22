@@ -68,3 +68,5 @@ title: Subscriptions
 
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
   - "Awesome list of uBlacklist subscriptions to block search results from google, bing, duckduckgo."
+- [ublacklist-noai](https://github.com/ite-usagi/ublacklist-noai) by [ite-usagi](https://github.com/ite-usagi)
+  - "uBlacklist subscription to block generative-ai related site"
