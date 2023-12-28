@@ -19,6 +19,8 @@ title: Subscriptions
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
+- [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
+  - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
 
 ## Spam {#spam}
 
