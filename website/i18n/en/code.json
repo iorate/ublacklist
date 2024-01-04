@@ -1,6 +1,6 @@
 {
   "pages.callback.success.title": {
-    "message": "Authetication Succeeded"
+    "message": "Authentication Succeeded"
   },
   "pages.callback.success.copyCode": {
     "message": "Please copy the authorization code below and paste it in the options page."
