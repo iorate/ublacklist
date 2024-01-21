@@ -218,12 +218,75 @@ const htmlSerpHandler = handleSerp({
 });
 // #endif
 
+const liteSerpHandler = handleSerp({
+  globalStyle: colors =>
+    glob({
+      '.ub-button': {
+        color: '#1168cc',
+      },
+      '.ub-button:hover': {
+        textDecoration: 'underline',
+      },
+      '[data-ub-blocked="visible"], [data-ub-blocked="visible"] + tr, [data-ub-blocked="visible"] + tr + tr, [data-ub-blocked="visible"] + tr + tr + tr':
+        {
+          backgroundColor: '#ffc0c080',
+        },
+      '[data-ub-blocked="hidden"], [data-ub-blocked="hidden"] + tr, [data-ub-blocked="hidden"] + tr + tr, [data-ub-blocked="hidden"] + tr + tr + tr':
+        {
+          display: 'none !important',
+        },
+      ...Object.fromEntries(
+        colors.highlightColors.map((highlightColor, i) => [
+          [
+            `[data-ub-highlight="${i + 1}"]`,
+            `[data-ub-highlight="${i + 1}"] + tr`,
+            `[data-ub-highlight="${i + 1}"] + tr + tr`,
+            `[data-ub-highlight="${i + 1}"] + tr + tr + tr`,
+          ].join(', '),
+          {
+            backgroundColor: `${highlightColor} !important`,
+          },
+        ]),
+      ),
+    }),
+  controlHandlers: [
+    {
+      target: element =>
+        element instanceof HTMLTableElement && element.querySelector('.result-link') != null,
+      position: target => {
+        const p = document.createElement('p');
+        target.before(p);
+        return p;
+      },
+    },
+  ],
+  entryHandlers: [
+    {
+      target: 'tr',
+      url: '.result-link',
+      title: '.result-link',
+      actionTarget: root => {
+        const row = document.createElement('tr');
+        root.nextElementSibling?.nextElementSibling?.after(row);
+        row.insertCell().textContent = '\u00a0\u00a0\u00a0';
+        return row.insertCell();
+      },
+      actionStyle: {
+        fontSize: '77.4%',
+      },
+    },
+  ],
+});
+
 export const duckduckgo: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.duckduckgo,
   getSerpHandler() {
     // #if CHROME
-    return new URL(window.location.href).hostname === 'html.duckduckgo.com'
+    const { hostname } = new URL(window.location.href);
+    return hostname === 'html.duckduckgo.com'
       ? htmlSerpHandler
+      : hostname === 'lite.duckduckgo.com'
+      ? liteSerpHandler
       : serpHandler;
     /* #else
     return serpHandler;
