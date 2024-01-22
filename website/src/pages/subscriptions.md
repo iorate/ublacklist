@@ -6,6 +6,13 @@ title: Subscriptions
 
 [Add your subscription](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
 
+## AI generated content {#ai-generated-content}
+
+- [ublacklist-noai](https://github.com/ite-usagi/ublacklist-noai) by [ite-usagi](https://github.com/ite-usagi)
+  - "uBlacklist subscription to block generative-ai related site"
+- [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
+  - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
+
 ## Copycat sites {#copycat-sites}
 
 - [uBlacklist GitHub Translation](https://github.com/arosh/ublacklist-github-translation) by [Sho Iizuka](https://github.com/arosh)

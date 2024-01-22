@@ -283,6 +283,8 @@ export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngi
           // #if CHROME
           '*://html.duckduckgo.com/html/',
           '*://html.duckduckgo.com/html/?*',
+          '*://lite.duckduckgo.com/lite/',
+          '*://lite.duckduckgo.com/lite/?*',
           // #endif
           '*://safe.duckduckgo.com/',
           '*://safe.duckduckgo.com/?*',

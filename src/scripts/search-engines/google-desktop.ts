@@ -485,9 +485,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         level: '.g',
         url: 'a',
         title: 'h3',
-        actionTarget: '.eFM0qc',
-        actionPosition: insertActionBeforeMenu,
-        actionStyle: desktopRegularActionStyle,
+        ...regularEntryHandler,
       },
     ],
     pagerHandlers: [
