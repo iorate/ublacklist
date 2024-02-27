@@ -383,6 +383,31 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     ],
   }),
   // Images
+  'udm=2': handleSerp({
+    globalStyle: desktopGlobalStyle,
+    controlHandlers: [
+      {
+        target: '#appbar',
+        position: 'afterbegin',
+        style: {
+          display: 'block',
+          margin: '10px 0',
+        },
+      },
+    ],
+    entryHandlers: [
+      {
+        target: '.ivg-i',
+        url: 'a[href]',
+        title: '.OSrXXb',
+        actionTarget: '',
+        actionStyle: {
+          display: 'block',
+          fontSize: '11px',
+        },
+      },
+    ],
+  }),
   isch: handleSerp({
     globalStyle: desktopGlobalStyle,
     controlHandlers: [
@@ -509,9 +534,9 @@ function updateDarkMode(): void {
   }
 }
 
-export function getDesktopSerpHandler(tbm: string): SerpHandler | null {
-  const serpHandler = desktopSerpHandlers[tbm];
-  if (!desktopSerpHandlers[tbm]) {
+export function getDesktopSerpHandler(tbm: string, udm: string): SerpHandler | null {
+  const serpHandler = desktopSerpHandlers[udm ? `udm=${udm}` : tbm];
+  if (!serpHandler) {
     return null;
   }
   return {
