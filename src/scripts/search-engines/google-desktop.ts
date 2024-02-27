@@ -68,11 +68,11 @@ const desktopRegularActionStyle: CSSAttribute = {
 const regularEntryHandler: Pick<EntryHandler, 'actionTarget' | 'actionPosition' | 'actionStyle'> = {
   // An entry has `a > .TbwUpd` and `div > .TbwUpd`...
   actionTarget: root =>
-    root.querySelector('.eFM0qc') || root.querySelector('div > .TbwUpd') || root,
+    root.querySelector('.eFM0qc') || root.querySelector('div > .HGLrXd, div > .TbwUpd') || root,
   actionPosition: target => {
     if (target.matches('.eFM0qc')) {
       return insertActionBeforeMenu(target);
-    } else if (target.matches('.TbwUpd')) {
+    } else if (target.matches('.HGLrXd, .TbwUpd')) {
       return insertElement('span', target, 'afterend');
     } else {
       const actionRoot = insertElement('span', target, 'beforeend');
@@ -345,7 +345,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     pagerHandlers: [
       // People Also Ask
       {
-        target: '[jsname="Cpkphb"]',
+        target: '.IZE3Td, [jsname="Cpkphb"]',
         innerTargets: '.g',
       },
       // Recipe, Regular (COVID-19), Web Result (COVID-19), ...
