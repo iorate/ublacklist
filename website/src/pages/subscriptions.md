@@ -12,6 +12,8 @@ title: Subscriptions
   - "uBlacklist subscription to block generative-ai related site"
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
   - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
+- [ublacklist-anti-ai-art-subscription](https://codeberg.org/ranmaru22/ublacklist-anti-ai-art-subscription) by [Ranmaru22](https://codeberg.org/ranmaru22)
+  - "Aggressive uBlacklist subscription list that attempts to remove GenAI art from image search results."
 
 ## Copycat sites {#copycat-sites}
 
