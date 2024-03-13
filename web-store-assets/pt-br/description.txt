@@ -1,0 +1,17 @@
+Esta extensão previne que sites especificados apareçam em resultados de busca do Google.
+
+Você pode adicionar regras na página de resultados de busca, ou nos sites para serem bloqueados clicando no ícone na barra de ferramentas. Regras podem ser especificadas tanto com "match patterns" (exemplo: *://*.example.com/*) ou com expressões regulares (exemplo: /example\.(net|org)/).
+
+Você pode usar esta extensão com várias ferramentas de busca além do Google. A lista de ferramentas de busca suportadas está disponível em:
+https://github.com/iorate/ublacklist#supported-search-engines
+
+Você pode sincronizar conjuntos de regras entre dispositivos por meio de armazenamento na núvem. No momento, Google Drive e Dropbox são suportados.
+
+Você também pode se inscrever em conjuntos de regras públicos. Alguns desses conjuntos estão listados no site:
+https://iorate.github.io/ublacklist/subscriptions
+
+Formas de usar:
+https://iorate.github.io/ublacklist/docs/getting-started
+
+Registro de alterações:
+https://github.com/iorate/ublacklist/releases
