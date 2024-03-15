@@ -33,6 +33,8 @@ title: Subscriptions
   - "Blocklist to filter out spam and junk domains from search engines results"
 - [Super-SEO-Spam-Suppressor](https://github.com/NotaInutilis/Super-SEO-Spam-Suppressor) by [Nota Inutilis](https://github.com/NotaInutilis)
   - "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
+- [SpamdexingSites](https://github.com/elliotwutingfeng/SpamdexingSites) by [Wu Tingfeng](https://github.com/elliotwutingfeng)
+  - "URL feed for blocking spamdexing websites."
 
 ## Chinese {#chinese}
 
