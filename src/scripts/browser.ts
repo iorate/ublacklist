@@ -9,7 +9,7 @@ declare global {
     }
 
     namespace permissions {
-      function contains(permisions: Permissions): Promise<boolean>;
+      function contains(permissions: Permissions): Promise<boolean>;
       function remove(permissions: Permissions): Promise<boolean>;
       function request(permissions: Permissions): Promise<boolean>;
     }
