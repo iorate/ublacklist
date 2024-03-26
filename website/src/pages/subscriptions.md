@@ -37,6 +37,10 @@ title: Subscriptions
   - "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
 - [SpamdexingSites](https://github.com/elliotwutingfeng/SpamdexingSites) by [Wu Tingfeng](https://github.com/elliotwutingfeng)
   - "URL feed for blocking spamdexing websites."
+- [Ad and tracking server domain list](https://pgl.yoyo.org/adservers/) by [Peter Lowe](https://pgl.yoyo.org/)
+  - "Ad and tracking server domain list maintained since 2001."
+  - "Doesn’t have a dedicated uBlacklist/match patterns format, but use of the [`prepend`](https://pgl.yoyo.org/as/formats.php#prepend) and [`append`](https://pgl.yoyo.org/as/formats.php#append) parameters produce a URL that works perfectly for uBlacklist:
+    - "`https://pgl.yoyo.org/as/serverlist.php?hostformat=plain&mimetype=plaintext&prepend=*://*.&append=/*&showintro=0`"
 
 ## Chinese {#chinese}
 
