@@ -14,6 +14,8 @@ title: Subscriptions
   - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
 - [ublacklist-anti-ai-art-subscription](https://codeberg.org/ranmaru22/ublacklist-anti-ai-art-subscription) by [Ranmaru22](https://codeberg.org/ranmaru22)
   - "Aggressive uBlacklist subscription list that attempts to remove GenAI art from image search results."
+- [uBlockOrigin & uBlacklist Huge AI Blocklist](https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist) by [laylavish](https://github.com/laylavish)
+  - "A huge blocklist of sites that contain AI generated content for uBlock Origin & uBlacklist."
 
 ## Copycat sites {#copycat-sites}
 
@@ -34,7 +36,7 @@ title: Subscriptions
 - [Search Engine Spam Blocklist](https://github.com/no-cmyk/Search-Engine-Spam-Blocklist) by [no-cmyk](https://github.com/no-cmyk)
   - "Blocklist to filter out spam and junk domains from search engines results"
 - [Super-SEO-Spam-Suppressor](https://github.com/NotaInutilis/Super-SEO-Spam-Suppressor) by [Nota Inutilis](https://github.com/NotaInutilis)
-  - "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
+  - "A blocklist targeting websites abusing SEO tactics to spam web searches with data pollution and security risks: content farms, scrapers, copycats, generative AIs, scams, advertisements, malwares, and useless garbage in general."
 - [SpamdexingSites](https://github.com/elliotwutingfeng/SpamdexingSites) by [Wu Tingfeng](https://github.com/elliotwutingfeng)
   - "URL feed for blocking spamdexing websites."
 
