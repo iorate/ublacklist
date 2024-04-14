@@ -1,7 +1,7 @@
-import * as S from 'microstruct';
-import { browser } from '../browser';
-import { getWebsiteURL } from '../locales';
-import { HTTPError, UnexpectedResponse } from '../utilities';
+import { z } from "zod";
+import { type Browser, browser } from "../browser.ts";
+import { getWebsiteURL } from "../locales.ts";
+import { HTTPError, UnexpectedResponse } from "../utilities.ts";
 
 export type AuthorizeParams = {
   client_id: string;
@@ -9,47 +9,43 @@ export type AuthorizeParams = {
 };
 
 export function shouldUseAltFlow(): (os: string) => boolean {
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  return os => {
-    // #if CHROME
-    return false;
-    /* #elif FIREFOX
-    return os === 'android';
-    */
-    /* #else
+  return (os) => {
+    if (process.env.BROWSER === "chrome") {
+      return false;
+    }
+    if (process.env.BROWSER === "firefox") {
+      return os === "android";
+    }
     return true;
-    */
-    // #endif
   };
 }
 
-const altFlowRedirectURL = getWebsiteURL('/callback');
+const altFlowRedirectURL = getWebsiteURL("/callback");
 
 async function launchAltFlow(params: { url: string }): Promise<string> {
-  const [{ id: openerTabId }] = await browser.tabs.query({ active: true, currentWindow: true });
-  if (openerTabId == null) {
-    throw new Error('failed to get the current tab');
-  }
-  // #if !FIREFOX
-  const { id: authorizationTabId } = await browser.tabs.create({
-    openerTabId,
-    url: params.url,
+  const [{ id: openerTabId }] = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
   });
-  /* #else
+  if (openerTabId == null) {
+    throw new Error("failed to get the current tab");
+  }
   const { id: authorizationTabId } = await browser.tabs.create(
-    (await browser.runtime.getPlatformInfo()).os === 'android'
+    process.env.BROWSER === "firefox" &&
+      (await browser.runtime.getPlatformInfo()).os === "android"
       ? { url: params.url }
       : { openerTabId, url: params.url },
   );
-  */
-  // #endif
   if (authorizationTabId == null) {
-    throw new Error('failed to open the authorization tab');
+    throw new Error("failed to open the authorization tab");
   }
   return new Promise<string>((resolve, reject) => {
     const [onUpdated, onRemoved] = [
-      (tabId: number, _changeInfo: unknown, tab: browser.tabs.Tab) => {
-        if (tabId === authorizationTabId && tab.url?.startsWith(altFlowRedirectURL)) {
+      (tabId: number, _changeInfo: unknown, tab: Browser.Tabs.Tab) => {
+        if (
+          tabId === authorizationTabId &&
+          tab.url?.startsWith(altFlowRedirectURL)
+        ) {
           resolve(tab.url);
           browser.tabs.onUpdated.removeListener(onUpdated);
           browser.tabs.onRemoved.removeListener(onRemoved);
@@ -60,7 +56,7 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
       },
       (tabId: number) => {
         if (tabId === authorizationTabId) {
-          reject(new Error('the authorization tab was closed'));
+          reject(new Error("the authorization tab was closed"));
           browser.tabs.onUpdated.removeListener(onUpdated);
           browser.tabs.onRemoved.removeListener(onRemoved);
           void browser.tabs.update(openerTabId, { active: true });
@@ -79,28 +75,29 @@ export function authorize(
   return async (useAltFlow: boolean) => {
     const authorizationURL = new URL(url);
     authorizationURL.search = new URLSearchParams({
-      response_type: 'code',
-      redirect_uri: useAltFlow ? altFlowRedirectURL : browser.identity.getRedirectURL(),
+      response_type: "code",
+      redirect_uri: useAltFlow
+        ? altFlowRedirectURL
+        : browser.identity.getRedirectURL(),
       ...params,
     }).toString();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // biome-ignore lint/style/noNonNullAssertion: `launchAltFlow` does not return `undefined` as far as I know
     const redirectURL = (await (useAltFlow
       ? launchAltFlow({ url: authorizationURL.toString() })
       : browser.identity.launchWebAuthFlow({
           url: authorizationURL.toString(),
           interactive: true,
         })))!;
-    const redirectParams: Record<string, string> = {};
-    for (const [key, value] of new URL(redirectURL).searchParams.entries()) {
-      redirectParams[key] = value;
-    }
-    if (S.is(redirectParams, S.type({ code: S.string() }))) {
+    const redirectParams = Object.fromEntries(
+      new URL(redirectURL).searchParams.entries(),
+    ) as Record<string, string>;
+    if (redirectParams.code != null) {
       return { authorizationCode: redirectParams.code };
-    } else if (S.is(redirectParams, S.type({ error: S.string() }))) {
-      throw new Error(redirectParams.error);
-    } else {
-      throw new UnexpectedResponse(redirectParams);
     }
+    if (redirectParams.error != null) {
+      throw new Error(redirectParams.error);
+    }
+    throw new UnexpectedResponse(redirectParams);
   };
 }
 
@@ -119,36 +116,35 @@ export function getAccessToken(
 ) => Promise<{ accessToken: string; expiresIn: number; refreshToken: string }> {
   return async (authorizationCode, useAltFlow) => {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: new URLSearchParams({
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
         code: authorizationCode,
-        redirect_uri: useAltFlow ? altFlowRedirectURL : browser.identity.getRedirectURL(),
+        redirect_uri: useAltFlow
+          ? altFlowRedirectURL
+          : browser.identity.getRedirectURL(),
         ...params,
       }),
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      if (
-        !S.is(
-          responseBody,
-          S.type({
-            access_token: S.string(),
-            expires_in: S.number(),
-            refresh_token: S.string(),
-          }),
-        )
-      ) {
+      const parseResult = z
+        .object({
+          access_token: z.string(),
+          expires_in: z.number(),
+          refresh_token: z.string(),
+        })
+        .safeParse(responseBody);
+      if (!parseResult.success) {
         throw new UnexpectedResponse(responseBody);
       }
       return {
-        accessToken: responseBody.access_token,
-        expiresIn: responseBody.expires_in,
-        refreshToken: responseBody.refresh_token,
+        accessToken: parseResult.data.access_token,
+        expiresIn: parseResult.data.expires_in,
+        refreshToken: parseResult.data.refresh_token,
       };
-    } else {
-      throw new HTTPError(response.status, response.statusText);
     }
+    throw new HTTPError(response.status, response.statusText);
   };
 }
 
@@ -161,24 +157,31 @@ export type RefreshAccessTokenParams = {
 export function refreshAccessToken(
   url: string,
   params: Readonly<RefreshAccessTokenParams>,
-): (refreshToken: string) => Promise<{ accessToken: string; expiresIn: number }> {
-  return async refreshToken => {
+): (
+  refreshToken: string,
+) => Promise<{ accessToken: string; expiresIn: number }> {
+  return async (refreshToken) => {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: new URLSearchParams({
-        grant_type: 'refresh_token',
+        grant_type: "refresh_token",
         refresh_token: refreshToken,
         ...params,
       }),
     });
     if (response.ok) {
       const responseBody: unknown = await response.json();
-      if (!S.is(responseBody, S.type({ access_token: S.string(), expires_in: S.number() }))) {
+      const parseResult = z
+        .object({ access_token: z.string(), expires_in: z.number() })
+        .safeParse(responseBody);
+      if (!parseResult.success) {
         throw new UnexpectedResponse(responseBody);
       }
-      return { accessToken: responseBody.access_token, expiresIn: responseBody.expires_in };
-    } else {
-      throw new HTTPError(response.status, response.statusText);
+      return {
+        accessToken: parseResult.data.access_token,
+        expiresIn: parseResult.data.expires_in,
+      };
     }
+    throw new HTTPError(response.status, response.statusText);
   };
 }

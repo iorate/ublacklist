@@ -15,27 +15,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: website
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
-      - run: yarn install --immutable
-      - run: yarn lint
-      - run: yarn build
-      - uses: actions/upload-pages-artifact@v2
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm build
+        working-directory: website
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: website/build
   deploy:
     runs-on: ubuntu-22.04
     needs: build
     steps:
-      - uses: actions/deploy-pages@v2
-        id: deployment
+      - id: deployment
+        uses: actions/deploy-pages@v4
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

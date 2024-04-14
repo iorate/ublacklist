@@ -56,29 +56,27 @@ https://iorate.github.io/ublacklist/subscribe?name=Example&url=https%3A%2F%2Fraw
 
 ### Build
 
-To build this extension, [Node.js](https://nodejs.org/en/)>=16 and [Yarn](https://yarnpkg.com/) are required.
+To build this extension, [Node.js](https://nodejs.org/en/)>=18 is required.
 
 ```shell
 git clone https://github.com/iorate/ublacklist.git
 
 cd ublacklist
 
-yarn
+corepack enable
 
-# yarn build <browser:=chrome-mv3> <mode:=development>
-yarn build firefox production
+pnpm install
+
+pnpm build
 ```
 
-Before opening a pull request, you should make sure that `yarn lint`, `yarn test`, and `yarn build-all` pass.
+Before opening a pull request, you should make sure that `pnpm check` passes.
 
 ```shell
-yarn lint
+pnpm check
+
 # Some lint errors can be fixed automatically
-# yarn fix
-
-yarn test
-
-yarn build-all
+pnpm fix
 ```
 
 **NOTE:** The API keys and secrets for the sync feature are not included in this repository. To develop the sync feature, set your own API keys and secrets in the `.env` file.
@@ -95,7 +93,7 @@ GOOGLE_DRIVE_API_SECRET=...
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/locales/en.json.ts` to `src/locales/${languageCode}.json.ts` and translate entries.
+1. Copy `src/locales/en/messages.json.ts` to `src/locales/${languageCode}/messages.json.ts` and translate entries.
 1. Open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
 1. To localize description and screenshots on web stores, create `web-store-assets/${languageCode}/` and add files.
    - Screenshot localization is available only on Chrome Web Store.

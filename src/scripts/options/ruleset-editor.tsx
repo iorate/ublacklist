@@ -1,7 +1,6 @@
-import { StreamLanguage } from '@codemirror/language';
-import React from 'react';
-import { Editor, EditorProps } from '../components/editor';
-import { RE_LINE } from '../ruleset';
+import { StreamLanguage } from "@codemirror/language";
+import { Editor, type EditorProps } from "../components/editor.tsx";
+import { RE_LINE } from "../ruleset.ts";
 
 const rulesetLanguage = StreamLanguage.define<{
   tokens: (readonly [number, string | null])[];
@@ -11,14 +10,14 @@ const rulesetLanguage = StreamLanguage.define<{
       const groups = RE_LINE.exec(stream.string)?.groups;
       if (!groups) {
         stream.skipToEnd();
-        return 'invalid';
+        return "invalid";
       }
       state.tokens = [];
       if (groups.spaceBeforeRuleOrComment) {
         state.tokens.push([groups.spaceBeforeRuleOrComment.length, null]);
       }
       if (groups.highlight) {
-        state.tokens.push([groups.highlight.length, 'annotation']);
+        state.tokens.push([groups.highlight.length, "annotation"]);
       }
       if (groups.spaceAfterHighlight) {
         state.tokens.push([groups.spaceAfterHighlight.length, null]);
@@ -27,20 +26,20 @@ const rulesetLanguage = StreamLanguage.define<{
         state.tokens.push([groups.matchPattern.length, null]);
       }
       if (groups.regularExpression) {
-        state.tokens.push([groups.regularExpression.length, 'regexp']);
+        state.tokens.push([groups.regularExpression.length, "regexp"]);
       }
       if (groups.spaceAfterRule) {
         state.tokens.push([groups.spaceAfterRule.length, null]);
       }
       if (groups.comment) {
-        state.tokens.push([groups.comment.length, 'lineComment']);
+        state.tokens.push([groups.comment.length, "lineComment"]);
       }
     }
     const token = state.tokens.shift();
     if (!token) {
       // Something went wrong...
       stream.skipToEnd();
-      return 'invalid';
+      return "invalid";
     }
     stream.pos += token[0];
     return token[1];
@@ -53,8 +52,8 @@ const rulesetLanguage = StreamLanguage.define<{
   },
 });
 
-export type RulesetEditorProps = Omit<EditorProps, 'language'>;
+export type RulesetEditorProps = Omit<EditorProps, "language">;
 
-export const RulesetEditor: React.VFC<RulesetEditorProps> = props => (
+export const RulesetEditor: React.FC<RulesetEditorProps> = (props) => (
   <Editor language={rulesetLanguage} {...props} />
 );

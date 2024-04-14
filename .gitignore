@@ -1,7 +1,12 @@
-/.env
-/.yarn/*
-!/.yarn/patches
-!/.yarn/plugins
-!/.yarn/releases
+# dependencies
+node_modules
+
+# production
 /dist
-/node_modules
+/website/build
+
+# local env files
+.env.local
+
+# docusaurus
+.docusaurus

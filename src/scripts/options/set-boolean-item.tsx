@@ -1,17 +1,19 @@
-import React, { useMemo, useState } from 'react';
-import { ControlLabel, LabelWrapper, SubLabel } from '../components/label';
-import { Row, RowItem } from '../components/row';
-import { useCSS } from '../components/styles';
-import { Switch } from '../components/switch';
-import { saveToLocalStorage } from '../local-storage';
-import { LocalStorageItems } from '../types';
-import { useOptionsContext } from './options-context';
+import { useMemo, useState } from "react";
+import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
+import { Row, RowItem } from "../components/row.tsx";
+import { useCSS } from "../components/styles.tsx";
+import { Switch } from "../components/switch.tsx";
+import { saveToLocalStorage } from "../local-storage.ts";
+import type { LocalStorageItems } from "../types.ts";
+import { useOptionsContext } from "./options-context.tsx";
 
 export type BooleanItemKey = keyof {
-  [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key] ? Key : never]: boolean;
+  [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
+    ? Key
+    : never]: boolean;
 };
 
-export const SetBooleanItem: React.VFC<{
+export const SetBooleanItem: React.FC<{
   disabled?: boolean;
   itemKey: BooleanItemKey;
   label: string;
@@ -26,8 +28,8 @@ export const SetBooleanItem: React.VFC<{
   const rowClass = useMemo(
     () =>
       css({
-        '&&': {
-          minHeight: '2.5em',
+        "&&": {
+          minHeight: "2.5em",
         },
       }),
     [css],
@@ -38,7 +40,7 @@ export const SetBooleanItem: React.VFC<{
       <RowItem expanded>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
-          {subLabels.map(subLabel => (
+          {subLabels.map((subLabel) => (
             <SubLabel key={subLabel}>{subLabel}</SubLabel>
           ))}
         </LabelWrapper>
@@ -48,11 +50,11 @@ export const SetBooleanItem: React.VFC<{
           checked={item}
           disabled={disabled}
           id={itemKey}
-          onChange={e => {
+          onChange={(e) => {
             const value = e.currentTarget.checked;
             void saveToLocalStorage(
               { [itemKey]: value } as Partial<Record<BooleanItemKey, boolean>>,
-              'options',
+              "options",
             );
             setItem(value);
           }}

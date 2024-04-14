@@ -1,114 +1,70 @@
 {
   "name": "ublacklist",
   "version": "0.0.0",
-  "devDependencies": {
-    "@codemirror/commands": "^6.2.2",
-    "@codemirror/language": "^6.6.0",
-    "@codemirror/state": "^6.2.0",
-    "@codemirror/view": "^6.9.3",
-    "@lezer/highlight": "^1.1.4",
-    "@mdi/svg": "^7.2.96",
-    "@types/chrome": "0.0.227",
-    "@types/dotenv-webpack": "^7.0.3",
-    "@types/eslint": "^8.37.0",
-    "@types/firefox-webext-browser": "^111.0.1",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^16.18.23",
-    "@types/prettier": "^2.7.2",
-    "@types/punycode": "^2.1.0",
-    "@types/react": "^17.0.55",
-    "@types/react-dom": "^17.0.19",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
+  "dependencies": {
+    "@codemirror/commands": "^6.5.0",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.26.3",
+    "@lezer/highlight": "^1.2.0",
+    "@mdi/svg": "^7.4.47",
     "colord": "^2.9.3",
-    "copy-webpack-plugin": "^11.0.0",
-    "csstype": "^3.1.2",
-    "dayjs": "^1.11.7",
-    "dotenv-webpack": "^8.0.1",
-    "esbuild": "^0.17.15",
-    "esbuild-jest": "^0.5.0",
-    "esbuild-loader": "^3.0.1",
-    "esbuild-register": "^3.4.2",
-    "eslint": "^8.37.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-unused-imports": "^2.0.0",
-    "globby": "^13.1.3",
+    "dayjs": "^1.11.10",
     "goober": "2.1.10",
-    "html-webpack-plugin": "^5.5.0",
-    "if-webpack-loader": "^2.0.0",
     "is-mobile": "^4.0.0",
-    "jest": "^29.5.0",
-    "lint-staged": "^13.2.0",
-    "microstruct": "^4.0.0",
-    "mpsl": "^3.1.22",
-    "npm-run-all": "^4.1.5",
-    "preact": "^10.13.2",
-    "prettier": "^2.8.7",
-    "punycode": "^2.3.0",
+    "punycode": "^2.3.1",
+    "react": "^18.2.0",
     "react-colorful": "^5.6.1",
-    "rimraf": "^4.4.1",
-    "semantic-release": "^19.0.5",
+    "react-dom": "^18.2.0",
+    "tldts": "^6.1.18",
+    "zod": "^3.22.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.0",
+    "@types/license-checker": "^25.0.6",
+    "@types/node": "^20.12.7",
+    "@types/punycode": "^2.1.4",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "@types/webextension-polyfill": "^0.10.7",
+    "csstype": "^3.1.3",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.20.2",
+    "globby": "^14.0.1",
+    "husky": "^9.0.11",
+    "license-checker": "^25.0.1",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "semantic-release": "^23.0.8",
     "semantic-release-amo": "^1.3.0",
     "semantic-release-chrome": "^3.2.0",
-    "simple-git-hooks": "^2.8.1",
-    "typescript": "^5.0.3",
-    "webpack": "^5.77.0",
-    "webpack-cli": "^5.0.1"
-  },
-  "engines": {
-    "node": ">=16",
-    "npm": "use_yarn_instead_of_npm"
-  },
-  "jest": {
-    "transform": {
-      "\\.tsx?$": [
-        "esbuild-jest",
-        {
-          "sourcemap": true
-        }
-      ]
-    }
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.5"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{css,json,md,mdx,yaml,yml}": "prettier --write"
+    "*.{js,cjs,mjs,ts,cts,mts,jsx,tsx,json,jsonc}": "biome check --apply --no-errors-on-unmatched",
+    "*.{css,yml,yaml,md,markdown}": "prettier --write"
   },
-  "packageManager": "yarn@3.5.0",
-  "prettier": {
-    "arrowParens": "avoid",
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
+  "packageManager": "pnpm@9.0.5+sha512.a722575c18fd791f9ef71e387c6e16cc03c90d859b9b0998d0428ca0e3220828b32a96e6de73cea34edbc0f50824771b1a69c7ea36b86daa3b89c7e6d9a3d912",
   "private": true,
   "scripts": {
-    "postinstall": "simple-git-hooks",
-    "build": "npm-run-all \"webpack --env browser={1:=chrome-mv3} --env mode={2:=development}\" --",
-    "build-all": "run-p -l \"build chrome development\" \"build chrome production\" \"build chrome-mv3 development\" \"build chrome-mv3 production\" \"build firefox development\" \"build firefox production\" \"build safari development\" \"build safari production\"",
-    "watch": "npm-run-all \"webpack --watch --env browser={1:=chrome-mv3} --env mode=development\" --",
-    "clean": "rimraf dist",
-    "lint": "FORCE_COLOR=1 run-p -l lint-eslint lint-prettier lint-typecheck",
-    "lint-eslint": "eslint . --ignore-pattern /website",
-    "lint-prettier": "prettier --check --loglevel warn . !website",
-    "lint-typecheck": "tsc --noEmit",
-    "fix": "FORCE_COLOR=1 run-s -l fix-eslint fix-prettier",
-    "fix-eslint": "eslint --fix . --ignore-pattern /website",
-    "fix-prettier": "prettier --write --loglevel warn . !website",
-    "test": "jest",
-    "g:eslint": "cd $INIT_CWD && eslint",
-    "g:prettier": "cd $INIT_CWD && prettier",
-    "webpack": "webpack"
+    "build": "pnpm run /^build:/",
+    "build:chrome": "tsx scripts/build.ts",
+    "build:firefox": "tsx scripts/build.ts --browser firefox",
+    "build:safari": "tsx scripts/build.ts --browser safari",
+    "check": "pnpm run /^check:/",
+    "check:biome": "biome check .",
+    "check:prettier": "prettier --check .",
+    "check:tsc": "tsc",
+    "fix": "pnpm run /^fix:/",
+    "fix:biome": "biome check --apply .",
+    "fix:prettier": "prettier --write .",
+    "generate-third-party-notices": "tsx scripts/generate-third-party-notices.ts",
+    "postinstall": "pnpm generate-third-party-notices",
+    "prepare": "husky",
+    "test": "tsx scripts/test.ts"
   },
-  "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
-  },
+  "type": "module",
   "workspaces": [
     "website"
   ]

@@ -1,20 +1,24 @@
-import React, { useLayoutEffect } from 'react';
-import { useGlob } from './styles';
-import { useClassName } from './utilities';
+import { useLayoutEffect } from "react";
+import { useGlob } from "./styles.tsx";
+import { useClassName } from "./utilities.ts";
 
-const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+const fontFamily =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 
 export type BaseLineProps = { children?: React.ReactNode; fontSize?: string };
 
-export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px' }) => {
+export const Baseline: React.FC<BaseLineProps> = ({
+  children,
+  fontSize = "13px",
+}) => {
   const rootClassName = useClassName(
-    theme => ({
+    (theme) => ({
       colorScheme: theme.name,
     }),
     [],
   );
   const bodyClassName = useClassName(
-    theme => ({
+    (theme) => ({
       background: theme.background,
       color: theme.text.primary,
       margin: 0,
@@ -36,8 +40,8 @@ export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px'
   const glob = useGlob();
   useLayoutEffect(() => {
     glob({
-      '*, *::before, *::after': {
-        boxSizing: 'border-box',
+      "*, *::before, *::after": {
+        boxSizing: "border-box",
       },
     });
   }, [glob]);
@@ -45,18 +49,24 @@ export const Baseline: React.VFC<BaseLineProps> = ({ children, fontSize = '13px'
   return <>{children}</>;
 };
 
-export type ScopedBaselineProps = { children?: React.ReactNode; fontSize?: string };
+export type ScopedBaselineProps = {
+  children?: React.ReactNode;
+  fontSize?: string;
+};
 
-export const ScopedBaseline: React.VFC<ScopedBaselineProps> = ({ children, fontSize = '13px' }) => {
+export const ScopedBaseline: React.FC<ScopedBaselineProps> = ({
+  children,
+  fontSize = "13px",
+}) => {
   const className = useClassName(
-    theme => ({
+    (theme) => ({
       color: theme.text.primary,
       colorScheme: theme.name,
       fontFamily,
       fontSize,
       lineHeight: 1.5,
-      '& *, & *::before, & *::after': {
-        boxSizing: 'border-box',
+      "& *, & *::before, & *::after": {
+        boxSizing: "border-box",
       },
     }),
     [fontSize],

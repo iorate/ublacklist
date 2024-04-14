@@ -1,15 +1,23 @@
-import { browser } from '../browser';
-import { postMessage } from '../messages';
-import { Ruleset } from '../ruleset';
-import { SubscriptionId } from '../types';
-import { HTTPError, errorResult, numberKeys, successResult } from '../utilities';
-import { loadFromRawStorage, modifyInRawStorage } from './raw-storage';
+import { browser } from "../browser.ts";
+import { postMessage } from "../messages.ts";
+import { Ruleset } from "../ruleset.ts";
+import type { SubscriptionId } from "../types.ts";
+import {
+  HTTPError,
+  errorResult,
+  numberKeys,
+  successResult,
+} from "../utilities.ts";
+import { loadFromRawStorage, modifyInRawStorage } from "./raw-storage.ts";
 
-export const UPDATE_ALL_ALARM_NAME = 'update-all-subscriptions';
+export const UPDATE_ALL_ALARM_NAME = "update-all-subscriptions";
 
 const updating = new Set<SubscriptionId>();
 
-async function tryLock(id: SubscriptionId, callback: () => Promise<void>): Promise<void> {
+async function tryLock(
+  id: SubscriptionId,
+  callback: () => Promise<void>,
+): Promise<void> {
   if (updating.has(id)) {
     return;
   }
@@ -25,12 +33,12 @@ export function update(id: SubscriptionId): Promise<void> {
   return tryLock(id, async () => {
     const {
       subscriptions: { [id]: subscription },
-    } = await loadFromRawStorage(['subscriptions']);
+    } = await loadFromRawStorage(["subscriptions"]);
     if (!subscription || !(subscription.enabled ?? true)) {
       return;
     }
 
-    postMessage('subscription-updating', id);
+    postMessage("subscription-updating", id);
 
     try {
       const response = await fetch(subscription.url);
@@ -44,23 +52,25 @@ export function update(id: SubscriptionId): Promise<void> {
         );
       }
     } catch (e: unknown) {
-      subscription.updateResult = errorResult(e instanceof Error ? e.message : 'Unknown error');
+      subscription.updateResult = errorResult(
+        e instanceof Error ? e.message : "Unknown error",
+      );
     }
-    await modifyInRawStorage(['subscriptions'], ({ subscriptions }) => {
+    await modifyInRawStorage(["subscriptions"], ({ subscriptions }) => {
       if (!subscriptions[id]) {
         return {};
       }
       return { subscriptions: { ...subscriptions, [id]: subscription } };
     });
 
-    postMessage('subscription-updated', id, subscription);
+    postMessage("subscription-updated", id, subscription);
   });
 }
 
 export async function updateAll(): Promise<void> {
   const { subscriptions, updateInterval } = await loadFromRawStorage([
-    'subscriptions',
-    'updateInterval',
+    "subscriptions",
+    "updateInterval",
   ]);
 
   if (!numberKeys(subscriptions).length) {
@@ -68,7 +78,9 @@ export async function updateAll(): Promise<void> {
     return;
   }
   // `chrome.alarms.create` returns `Promise` in Chrome >=111.
-  void browser.alarms.create(UPDATE_ALL_ALARM_NAME, { periodInMinutes: updateInterval });
+  void browser.alarms.create(UPDATE_ALL_ALARM_NAME, {
+    periodInMinutes: updateInterval,
+  });
 
   await Promise.all(numberKeys(subscriptions).map(update));
 }

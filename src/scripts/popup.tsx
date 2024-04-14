@@ -1,38 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { SEARCH_ENGINES } from '../common/search-engines';
-import icon from '../icons/icon.svg';
-import { BlockEmbeddedDialog, BlockEmbeddedDialogProps } from './block-dialog';
-import { browser } from './browser';
-import { Baseline } from './components/baseline';
-import { Button, LinkButton } from './components/button';
-import { FOCUS_DEFAULT_CLASS, FOCUS_END_CLASS, FOCUS_START_CLASS } from './components/constants';
-import { DialogFooter, DialogHeader, DialogTitle, EmbeddedDialog } from './components/dialog';
-import { Icon } from './components/icon';
-import { Row, RowItem } from './components/row';
-import { AutoThemeProvider } from './components/theme';
-import { useClassName } from './components/utilities';
-import { InteractiveRuleset } from './interactive-ruleset';
-import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
-import { translate } from './locales';
-import { sendMessage } from './messages';
-import { Ruleset } from './ruleset';
-import { MatchPattern, makeAltURL } from './utilities';
+import { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { SEARCH_ENGINES } from "../common/search-engines.ts";
+import icon from "../icons/icon.svg";
+import {
+  BlockEmbeddedDialog,
+  type BlockEmbeddedDialogProps,
+} from "./block-dialog.tsx";
+import { browser } from "./browser.ts";
+import { Baseline } from "./components/baseline.tsx";
+import { Button, LinkButton } from "./components/button.tsx";
+import {
+  FOCUS_DEFAULT_CLASS,
+  FOCUS_END_CLASS,
+  FOCUS_START_CLASS,
+} from "./components/constants.ts";
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  EmbeddedDialog,
+} from "./components/dialog.tsx";
+import { Icon } from "./components/icon.tsx";
+import { Row, RowItem } from "./components/row.tsx";
+import { AutoThemeProvider } from "./components/theme.tsx";
+import { useClassName } from "./components/utilities.ts";
+import { InteractiveRuleset } from "./interactive-ruleset.ts";
+import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
+import { translate } from "./locales.ts";
+import { sendMessage } from "./messages.ts";
+import { Ruleset } from "./ruleset.ts";
+import { MatchPattern, makeAltURL, svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
-  await sendMessage('open-options-page');
+  await sendMessage("open-options-page");
   // https://github.com/iorate/ublacklist/issues/378
-  /* #if FIREFOX
-  window.close();
-  */
-  // #endif
+  if (process.env.BROWSER === "firefox") {
+    window.close();
+  }
 }
 
-const Loading: React.VFC = () => {
+const Loading: React.FC = () => {
   const className = useClassName(
     () => ({
-      height: 'calc(12.5em + 24px)', // The height of `BlockEmbeddedDialog`
-      width: '360px',
+      height: "calc(12.5em + 24px)", // The height of `BlockEmbeddedDialog`
+      width: "360px",
     }),
     [],
   );
@@ -45,7 +56,7 @@ type ActivateEmbeddedDialogProps = {
   tabId: number;
 };
 
-const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
+const ActivateEmbeddedDialog: React.FC<ActivateEmbeddedDialogProps> = ({
   active,
   match,
   tabId,
@@ -55,9 +66,11 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
       <DialogTitle id="title">
         <Row>
           <RowItem>
-            <Icon iconSize="24px" url={icon} />
+            <Icon iconSize="24px" url={svgToDataURL(icon)} />
           </RowItem>
-          <RowItem expanded>{translate(active ? 'popup_active' : 'popup_inactive')}</RowItem>
+          <RowItem expanded>
+            {translate(active ? "popup_active" : "popup_inactive")}
+          </RowItem>
         </Row>
       </DialogTitle>
     </DialogHeader>
@@ -65,7 +78,7 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
       <Row multiline right>
         <RowItem expanded>
           <LinkButton className={FOCUS_START_CLASS} onClick={openOptionsPage}>
-            {translate('popup_openOptionsLink')}
+            {translate("popup_openOptionsLink")}
           </LinkButton>
         </RowItem>
         <RowItem>
@@ -77,14 +90,16 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
                   primary
                   onClick={() => window.close()}
                 >
-                  {translate('okButton')}
+                  {translate("okButton")}
                 </Button>
               </RowItem>
             </Row>
           ) : (
             <Row>
               <RowItem>
-                <Button onClick={() => window.close()}>{translate('cancelButton')}</Button>
+                <Button onClick={() => window.close()}>
+                  {translate("cancelButton")}
+                </Button>
               </RowItem>
               <RowItem>
                 <Button
@@ -95,26 +110,23 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
                     // https://bugs.chromium.org/p/chromium/issues/detail?id=952645
                     const [granted] = await Promise.all([
                       browser.permissions.request({ origins: [match] }),
-                      // #if CHROME_MV3
-                      browser.scripting.executeScript({
-                        target: { tabId },
-                        files: ['/scripts/content-script.js'],
-                      }),
-                      /* #else
-                      browser.tabs.executeScript(tabId, {
-                        file: '/scripts/content-script.js',
-                      }),
-                      */
-                      // #endif
+                      process.env.BROWSER === "chrome"
+                        ? browser.scripting.executeScript({
+                            target: { tabId },
+                            files: ["/scripts/content-script.js"],
+                          })
+                        : browser.tabs.executeScript(tabId, {
+                            file: "/scripts/content-script.js",
+                          }),
                     ]);
                     if (!granted) {
                       return;
                     }
-                    await sendMessage('register-content-scripts');
+                    await sendMessage("register-content-scripts");
                     window.close();
                   }}
                 >
-                  {translate('popup_activateButton')}
+                  {translate("popup_activateButton")}
                 </Button>
               </RowItem>
             </Row>
@@ -125,12 +137,12 @@ const ActivateEmbeddedDialog: React.VFC<ActivateEmbeddedDialogProps> = ({
   </EmbeddedDialog>
 );
 
-const Popup: React.VFC = () => {
+const Popup: React.FC = () => {
   const [state, setState] = useState<
-    | { type: 'loading' }
-    | { type: 'activate'; props: ActivateEmbeddedDialogProps }
-    | { type: 'block'; props: BlockEmbeddedDialogProps }
-  >({ type: 'loading' });
+    | { type: "loading" }
+    | { type: "activate"; props: ActivateEmbeddedDialogProps }
+    | { type: "block"; props: BlockEmbeddedDialogProps }
+  >({ type: "loading" });
   useEffect(() => {
     void (async () => {
       const [{ id: tabId, url, title = null }] = await browser.tabs.query({
@@ -144,22 +156,26 @@ const Popup: React.VFC = () => {
       const match =
         altURL &&
         Object.values(SEARCH_ENGINES)
-          .flatMap(({ contentScripts }) => contentScripts.flatMap(({ matches }) => matches))
-          .find(match => new MatchPattern(match).test(altURL));
+          .flatMap(({ contentScripts }) =>
+            contentScripts.flatMap(({ matches }) => matches),
+          )
+          .find((match) => new MatchPattern(match).test(altURL));
       if (match != null) {
-        // #if CHROME_MV3
-        const [{ result: active }] = await browser.scripting.executeScript({
-          target: { tabId },
-          files: ['/scripts/active.js'],
-        });
-        /* #else
-        const [active] = await browser.tabs.executeScript(tabId, {
-          file: '/scripts/active.js',
-        });
-        */
-        // #endif
+        const active =
+          process.env.BROWSER === "chrome"
+            ? (
+                await browser.scripting.executeScript({
+                  target: { tabId },
+                  files: ["/scripts/active.js"],
+                })
+              )[0].result
+            : (
+                await browser.tabs.executeScript(tabId, {
+                  file: "/scripts/active.js",
+                })
+              )[0];
         setState({
-          type: 'activate',
+          type: "activate",
           props: {
             active: Boolean(active),
             match,
@@ -168,11 +184,11 @@ const Popup: React.VFC = () => {
         });
       } else {
         const options = await loadFromLocalStorage([
-          'blacklist',
-          'compiledRules',
-          'subscriptions',
-          'enablePathDepth',
-          'blockWholeSite',
+          "blacklist",
+          "compiledRules",
+          "subscriptions",
+          "enablePathDepth",
+          "blockWholeSite",
         ]);
         const ruleset = new InteractiveRuleset(
           options.blacklist,
@@ -180,13 +196,15 @@ const Popup: React.VFC = () => {
             ? options.compiledRules
             : Ruleset.compile(options.blacklist),
           Object.values(options.subscriptions)
-            .filter(subscription => subscription.enabled ?? true)
+            .filter((subscription) => subscription.enabled ?? true)
             .map(
-              subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+              (subscription) =>
+                subscription.compiledRules ??
+                Ruleset.compile(subscription.blacklist),
             ),
         );
         setState({
-          type: 'block',
+          type: "block",
           props: {
             blockWholeSite: options.blockWholeSite,
             close: () => window.close(),
@@ -195,7 +213,8 @@ const Popup: React.VFC = () => {
             ruleset,
             title,
             url,
-            onBlocked: () => saveToLocalStorage({ blacklist: ruleset.toString() }, 'popup'),
+            onBlocked: () =>
+              saveToLocalStorage({ blacklist: ruleset.toString() }, "popup"),
           },
         });
       }
@@ -204,9 +223,9 @@ const Popup: React.VFC = () => {
   return (
     <AutoThemeProvider>
       <Baseline>
-        {state.type === 'loading' ? (
+        {state.type === "loading" ? (
           <Loading />
-        ) : state.type === 'activate' ? (
+        ) : state.type === "activate" ? (
           <ActivateEmbeddedDialog {...state.props} />
         ) : (
           <BlockEmbeddedDialog {...state.props} />
@@ -217,8 +236,11 @@ const Popup: React.VFC = () => {
 };
 
 function main(): void {
-  document.documentElement.lang = translate('lang');
-  ReactDOM.render(<Popup />, document.body.appendChild(document.createElement('div')));
+  document.documentElement.lang = translate("lang");
+  const root = createRoot(
+    document.body.appendChild(document.createElement("div")),
+  );
+  root.render(<Popup />);
 }
 
 void main();
