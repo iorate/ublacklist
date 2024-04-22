@@ -8,8 +8,6 @@ title: Subscriptions
 
 ## AI generated content {#ai-generated-content}
 
-- [ublacklist-noai](https://github.com/ite-usagi/ublacklist-noai) by [ite-usagi](https://github.com/ite-usagi)
-  - "uBlacklist subscription to block generative-ai related site"
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
   - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
 - [ublacklist-anti-ai-art-subscription](https://codeberg.org/ranmaru22/ublacklist-anti-ai-art-subscription) by [Ranmaru22](https://codeberg.org/ranmaru22)
