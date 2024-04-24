@@ -28,6 +28,8 @@ title: Subscriptions
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
+- [ublacklist-w3schools](https://codeberg.org/Freso/ublacklist-w3schools) by [Freso](https://freso.dk/)
+  - "Hide W3Schools from search results"
 
 ## Spam {#spam}
 
