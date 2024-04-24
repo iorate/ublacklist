@@ -3,7 +3,12 @@ name: check (website)
 permissions:
   contents: read
 
-on: [ workflow_dispatch ]
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - website/**
 
 jobs:
   check:
