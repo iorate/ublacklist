@@ -28,7 +28,7 @@ title: 購読リスト
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
- 
+
 ## スパム {#spam}
 
 - [Search Engine Spam Blocklist](https://github.com/no-cmyk/Search-Engine-Spam-Blocklist) by [no-cmyk](https://github.com/no-cmyk)
