@@ -1,4 +1,4 @@
-name: check
+name: Check
 
 permissions:
   contents: read
@@ -11,31 +11,50 @@ on:
 
 jobs:
   check:
+    name: Check
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install
-      - run: pnpm check
-      - run: pnpm test
-      - run: pnpm build
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check
+        run: pnpm check
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
-      # website
-      - id: changed-website-files
+
+      - name: "[Website] Get changed files"
+        id: website-changed-files
         uses: tj-actions/changed-files@v44
         with:
           files: website/**
-      - if: steps.changed-website-files.outputs.any_changed == 'true'
+
+      - name: "[Website] Check"
+        if: steps.website-changed-files.outputs.any_changed == 'true'
         run: pnpm check
         working-directory: website
-      - if: steps.changed-website-files.outputs.any_changed == 'true'
+
+      - name: "[Website] Build"
+        if: steps.website-changed-files.outputs.any_changed == 'true'
         run: pnpm build
         working-directory: website

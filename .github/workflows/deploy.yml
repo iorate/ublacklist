@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy
 
 permissions:
   contents: write
@@ -11,37 +11,49 @@ on:
       chrome:
         type: boolean
         default: true
-        description: Chrome Web Store
+        description: Chrome
       firefox:
         type: boolean
         default: true
-        description: Firefox Add-ons
+        description: Firefox
 
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install
-      - run: pnpm build
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
-      - run: pnpm semantic-release
+
+      - name: Deploy
+        run: pnpm semantic-release
         env:
-          # Chrome Web Store
+          # Chrome
           DEPLOY_CHROME: ${{ inputs.chrome }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-          # Firefox Add-ons
+          # Firefox
           DEPLOY_FIREFOX: ${{ inputs.firefox }}
           AMO_API_KEY: ${{ secrets.AMO_API_KEY }}
           AMO_API_SECRET: ${{ secrets.AMO_API_SECRET }}
