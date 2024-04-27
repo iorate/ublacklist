@@ -67,6 +67,7 @@ corepack enable
 
 pnpm install
 
+# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug] [--watch]
 pnpm build
 ```
 

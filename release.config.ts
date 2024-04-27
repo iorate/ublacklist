@@ -28,7 +28,7 @@ $ corepack enable
 
 $ pnpm install
 
-$ pnpm build:firefox --version \${nextRelease.version}
+$ pnpm build --browser firefox --version \${nextRelease.version}
 
 The add-on will be built into dist/firefox.
 `,

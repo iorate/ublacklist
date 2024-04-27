@@ -51,10 +51,7 @@
   "packageManager": "pnpm@9.0.5+sha512.a722575c18fd791f9ef71e387c6e16cc03c90d859b9b0998d0428ca0e3220828b32a96e6de73cea34edbc0f50824771b1a69c7ea36b86daa3b89c7e6d9a3d912",
   "private": true,
   "scripts": {
-    "build": "pnpm run /^build:/",
-    "build:chrome": "tsx scripts/build.ts",
-    "build:firefox": "tsx scripts/build.ts --browser firefox",
-    "build:safari": "tsx scripts/build.ts --browser safari",
+    "build": "tsx scripts/build.ts",
     "check": "pnpm run /^check:/",
     "check:biome": "biome check .",
     "check:prettier": "prettier --check .",
