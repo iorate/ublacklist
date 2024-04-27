@@ -5,6 +5,7 @@ import * as LocalStorage from "./background/local-storage.ts";
 import * as SearchEngines from "./background/search-engines.ts";
 import * as Subscriptions from "./background/subscriptions.ts";
 import * as Sync from "./background/sync.ts";
+import * as Watch from "./background/watch.ts";
 import { browser } from "./browser.ts";
 import { addMessageListeners } from "./messages.ts";
 
@@ -85,6 +86,10 @@ function main() {
         }
       })();
     });
+  }
+
+  if (process.env.WATCH === "true" && process.env.BROWSER === "chrome") {
+    void Watch.watch();
   }
 }
 
