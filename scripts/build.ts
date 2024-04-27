@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import module from "node:module";
 import path from "node:path";
 import url from "node:url";
 import util from "node:util";
@@ -18,6 +19,7 @@ type Context = {
   watch: boolean;
   srcDir: string;
   destDir: string;
+  define: Record<string, string>;
 };
 
 async function copyAssets({ browser, watch, srcDir, destDir }: Context) {
@@ -43,31 +45,32 @@ async function copyAssets({ browser, watch, srcDir, destDir }: Context) {
   );
 }
 
-async function buildJsonTs({
-  browser,
-  version,
-  debug,
-  watch,
-  srcDir,
-  destDir,
-}: Context) {
+async function buildJsonTs({ srcDir, destDir, define }: Context) {
   const files = [
     ...(await globby("_locales/*/messages.json.ts", { cwd: srcDir })),
     "manifest.json.ts",
   ];
-  process.env.NODE_ENV = debug ? "development" : "production";
-  process.env.BROWSER = browser;
-  process.env.DEBUG = debug ? "true" : "false";
-  process.env.WATCH = watch ? "true" : "false";
-  process.env.VERSION = version;
+  await esbuild.build({
+    bundle: true,
+    define,
+    entryPoints: files.map((file) => path.join(srcDir, file)),
+    format: "cjs",
+    logLevel: "silent",
+    outExtension: { ".js": ".cjs" },
+    outbase: srcDir,
+    outdir: destDir,
+  });
+  const require = module.createRequire(import.meta.url);
   await Promise.all(
     files.map(async (file) => {
-      const src = path.join(srcDir, file);
       const dest = path.join(destDir, file.slice(0, -3)); // Remove ".ts"
-      const { default: content } = await import(
-        url.pathToFileURL(src).toString()
-      );
-      await fs.mkdir(path.dirname(dest), { recursive: true });
+      const destCjsRelative = path.relative(
+        path.dirname(url.fileURLToPath(import.meta.url)),
+        `${dest}.cjs`,
+      ); // Relative to this script
+      delete require.cache[require.resolve(destCjsRelative)]; // Invalidate cache
+      const { default: content } = require(destCjsRelative);
+      await fs.rm(`${dest}.cjs`);
       await fs.writeFile(dest, `${JSON.stringify(content, null, 2)}\n`);
     }),
   );
@@ -75,11 +78,11 @@ async function buildJsonTs({
 
 async function buildTs({
   browser,
-  version,
   debug,
   watch,
   srcDir,
   destDir,
+  define,
 }: Context) {
   const files = [
     "scripts/background.ts",
@@ -90,25 +93,9 @@ async function buildTs({
       ? ["scripts/watch.ts", "scripts/watch-worker.ts"]
       : []),
   ];
-  const env = {
-    NODE_ENV: debug ? "development" : "production",
-    BROWSER: browser,
-    VERSION: version,
-    DEBUG: debug ? "true" : "false",
-    WATCH: watch ? "true" : "false",
-    DROPBOX_API_KEY: process.env.DROPBOX_API_KEY,
-    DROPBOX_API_SECRET: process.env.DROPBOX_API_SECRET,
-    GOOGLE_DRIVE_API_KEY: process.env.GOOGLE_DRIVE_API_KEY,
-    GOOGLE_DRIVE_API_SECRET: process.env.GOOGLE_DRIVE_API_SECRET,
-  };
   await esbuild.build({
     bundle: true,
-    define: Object.fromEntries(
-      Object.entries(env).map(([key, value]) => [
-        `process.env.${key}`,
-        JSON.stringify(value),
-      ]),
-    ),
+    define,
     entryPoints: files.map((file) => path.join(srcDir, file)),
     format: "esm",
     jsx: "automatic",
@@ -148,9 +135,19 @@ async function build(context: Context) {
   }
 }
 
+function defineProcessEnv(
+  vars: Record<string, string>,
+): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(vars).map(([key, value]) => [
+      `process.env.${key}`,
+      JSON.stringify(value),
+    ]),
+  );
+}
+
 async function main() {
   dotenv.config({ path: [".env.local", ".env"] });
-
   const { values } = util.parseArgs({
     options: {
       browser: { type: "string", short: "b" },
@@ -174,6 +171,17 @@ async function main() {
     watch,
     srcDir: "src",
     destDir: `dist/${browser}${debug ? "-debug" : ""}`,
+    define: defineProcessEnv({
+      NODE_ENV: debug ? "development" : "production",
+      BROWSER: browser,
+      VERSION: version,
+      DEBUG: debug ? "true" : "false",
+      WATCH: watch ? "true" : "false",
+      DROPBOX_API_KEY: process.env.DROPBOX_API_KEY,
+      DROPBOX_API_SECRET: process.env.DROPBOX_API_SECRET,
+      GOOGLE_DRIVE_API_KEY: process.env.GOOGLE_DRIVE_API_KEY,
+      GOOGLE_DRIVE_API_SECRET: process.env.GOOGLE_DRIVE_API_SECRET,
+    }),
   };
 
   await build(context);
