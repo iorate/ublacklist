@@ -148,6 +148,7 @@ function defineProcessEnv(
 
 async function main() {
   dotenv.config({ path: [".env.local", ".env"] });
+
   const { values } = util.parseArgs({
     options: {
       browser: { type: "string", short: "b" },
@@ -164,6 +165,7 @@ async function main() {
       watch: z.boolean().default(false),
     })
     .parse(values);
+
   const context = {
     browser,
     version,
