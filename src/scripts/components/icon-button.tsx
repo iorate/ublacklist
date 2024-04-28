@@ -1,5 +1,4 @@
 import React from "react";
-import { svgToDataURL } from "../utilities.ts";
 import { DISABLED_OPACITY } from "./constants.ts";
 import { FocusCircle, applyClassName } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";
@@ -44,7 +43,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           <TemplateIcon
             color={theme.iconButton}
             iconSize="24px"
-            url={svgToDataURL(iconURL)}
+            url={iconURL}
           />
         </button>
         <FocusCircle />

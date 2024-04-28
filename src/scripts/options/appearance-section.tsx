@@ -1,5 +1,5 @@
-import removeIconURL from "@mdi/svg/svg/delete.svg";
-import addIconURL from "@mdi/svg/svg/plus.svg";
+import removeIcon from "@mdi/svg/svg/delete.svg";
+import addIcon from "@mdi/svg/svg/plus.svg";
 import { useRef, useState } from "react";
 import { ColorPicker } from "../components/color-picker.tsx";
 import { IconButton } from "../components/icon-button.tsx";
@@ -158,7 +158,7 @@ const SetHighlightColors: React.FC = () => {
         <RowItem>
           <IconButton
             aria-label={translate("options_highlightColorAdd")}
-            iconURL={svgToDataURL(addIconURL)}
+            iconURL={svgToDataURL(addIcon)}
             onClick={() => {
               colorsAndKeys.push(["#ddeeff", nextKey.current++]);
               setColorsAndKeys([...colorsAndKeys]);
@@ -211,7 +211,7 @@ const SetHighlightColors: React.FC = () => {
                     {index === colorsAndKeys.length - 1 ? (
                       <IconButton
                         aria-label={translate("options_highlightColorAdd")}
-                        iconURL={svgToDataURL(removeIconURL)}
+                        iconURL={svgToDataURL(removeIcon)}
                         onClick={() => {
                           colorsAndKeys.pop();
                           setColorsAndKeys([...colorsAndKeys]);

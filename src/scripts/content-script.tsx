@@ -16,7 +16,7 @@ import type {
   SerpHandler,
   SerpHandlerResult,
 } from "./types.ts";
-import { AltURL, MatchPattern, svgToDataURL } from "./utilities.ts";
+import { AltURL, MatchPattern } from "./utilities.ts";
 
 const Button: React.FC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
@@ -386,7 +386,7 @@ class ContentScript {
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
         title={title}
-        url={svgToDataURL(url)}
+        url={url}
         onBlocked={() => {
           if (!this.options) {
             return;
