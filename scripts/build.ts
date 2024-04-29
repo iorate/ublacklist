@@ -69,7 +69,9 @@ async function buildJsonTs({ srcDir, destDir, define }: Context) {
         `${dest}.cjs`,
       ); // Relative to this script
       delete require.cache[require.resolve(destCjsRelative)]; // Invalidate cache
-      const { default: content } = require(destCjsRelative);
+      const { default: content } = z
+        .object({ default: z.unknown() })
+        .parse(require(destCjsRelative));
       await fs.rm(`${dest}.cjs`);
       await fs.writeFile(dest, `${JSON.stringify(content, null, 2)}\n`);
     }),
