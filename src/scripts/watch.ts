@@ -24,7 +24,7 @@ async function main() {
   const lastModified = await getLastModified();
   const worker = new Worker("../scripts/watch-worker.js");
   worker.onmessage = async () => {
-    if ((await getLastModified()) > lastModified) {
+    if ((await getLastModified()) !== lastModified) {
       browser.runtime.reload();
     }
   };
