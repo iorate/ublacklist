@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: "*.{js,cjs,mjs,ts,cts,mts,jsx,tsx,json,jsonc}"
+      run: pnpm biome check --apply --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{css,yml,yaml,md,markdown}"
+      run: pnpm prettier --write {staged_files}
+      stage_fixed: true

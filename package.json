@@ -35,9 +35,8 @@
     "esbuild": "^0.20.2",
     "fs-extra": "^11.2.0",
     "globby": "^14.0.1",
-    "husky": "^9.0.11",
+    "lefthook": "^1.6.10",
     "license-checker": "^25.0.1",
-    "lint-staged": "^15.2.2",
     "p-limit": "^5.0.0",
     "prettier": "^3.2.5",
     "semantic-release": "^23.0.8",
@@ -45,10 +44,6 @@
     "semantic-release-chrome": "^3.2.0",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
-  },
-  "lint-staged": {
-    "*.{js,cjs,mjs,ts,cts,mts,jsx,tsx,json,jsonc}": "biome check --apply --no-errors-on-unmatched",
-    "*.{css,yml,yaml,md,markdown}": "prettier --write"
   },
   "packageManager": "pnpm@9.0.5+sha512.a722575c18fd791f9ef71e387c6e16cc03c90d859b9b0998d0428ca0e3220828b32a96e6de73cea34edbc0f50824771b1a69c7ea36b86daa3b89c7e6d9a3d912",
   "private": true,
@@ -63,7 +58,6 @@
     "fix:prettier": "prettier --write .",
     "generate-third-party-notices": "tsx scripts/generate-third-party-notices.ts",
     "postinstall": "pnpm generate-third-party-notices",
-    "prepare": "husky",
     "test": "tsx scripts/test.ts"
   },
   "type": "module",
