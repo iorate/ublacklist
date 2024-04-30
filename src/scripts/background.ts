@@ -34,11 +34,15 @@ function main() {
   });
 
   browser.runtime.onInstalled.addListener(({ reason }) => {
-    if (reason === "install" || reason === "update") {
-      void LocalStorage.compileRules();
-      void Sync.sync();
-      void Subscriptions.updateAll();
-      void SearchEngines.registerContentScripts();
+    if (reason !== "install" && reason !== "update") {
+      return;
+    }
+    void LocalStorage.compileRules();
+    void Sync.sync();
+    void Subscriptions.updateAll();
+    void SearchEngines.registerContentScripts();
+    if (process.env.WATCH === "true" && process.env.BROWSER === "chrome") {
+      void Watch.watch();
     }
   });
 
@@ -47,6 +51,9 @@ function main() {
     void Sync.sync();
     void Subscriptions.updateAll();
     void SearchEngines.registerContentScripts();
+    if (process.env.WATCH === "true" && process.env.BROWSER === "chrome") {
+      void Watch.watch();
+    }
   });
 
   browser.alarms.onAlarm.addListener((alarm) => {
@@ -86,10 +93,6 @@ function main() {
         }
       })();
     });
-  }
-
-  if (process.env.WATCH === "true" && process.env.BROWSER === "chrome") {
-    void Watch.watch();
   }
 }
 
