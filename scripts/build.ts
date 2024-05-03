@@ -133,7 +133,7 @@ async function createBuildJSON(context: Context): Promise<() => Promise<void>> {
       await Promise.all(
         updatedModules.map((mod) =>
           fs.outputFile(
-            path.join(destDir, `${path.relative(tempDir, mod.slice(0, -4))}`),
+            path.join(destDir, path.relative(tempDir, mod).slice(0, -4)),
             requireModule(mod),
           ),
         ),
@@ -145,7 +145,7 @@ async function createBuildJSON(context: Context): Promise<() => Promise<void>> {
     await Promise.all(
       sources.map(async (src) =>
         fs.outputFile(
-          path.join(destDir, `${src.slice(0, -3)}`),
+          path.join(destDir, src.slice(0, -3)),
           requireModule(path.join(tempDir, `${src.slice(0, -3)}.cjs`)),
         ),
       ),
