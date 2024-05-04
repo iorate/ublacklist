@@ -528,7 +528,7 @@ export const SEARCH_ENGINES: Readonly<
           "https://*.startpage.com/rvd/*",
           "https://*.startpage.com/sp/*",
         ],
-        runAt: "document_start",
+        runAt: "document_idle",
       },
     ],
     messageNames: {

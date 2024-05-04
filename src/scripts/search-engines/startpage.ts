@@ -1,14 +1,7 @@
 import { SEARCH_ENGINES } from "../../common/search-engines.ts";
-import type { CSSAttribute } from "../styles.ts";
+import { css } from "../styles.ts";
 import type { SearchEngine, SerpHandler } from "../types.ts";
-import { getDialogThemeFromBody, handleSerp } from "./helpers.ts";
-
-const defaultControlStyle: CSSAttribute = {
-  color: "rgb(127, 134, 159)",
-  display: "block",
-  fontSize: "14px",
-  marginTop: "8px",
-};
+import { handleSerp, hasDarkBackground } from "./helpers.ts";
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
@@ -25,28 +18,16 @@ function getSerpHandler(): SerpHandler {
       },
     },
     controlHandlers: [
-      // Web
       {
-        target: ".layout-web__inline-nav-container",
-        style: defaultControlStyle,
-      },
-      // News
-      {
-        target: ".layout-news__inline-nav-container",
+        target: ".filters",
+        position: "afterend",
         style: {
-          ...defaultControlStyle,
-          "@media (max-width: 989px)": {
-            padding: "0 2rem 0 1rem",
-          },
-        },
-      },
-      // Videos
-      {
-        target: ".layout-video__inline-nav-container",
-        style: {
-          ...defaultControlStyle,
-          "@media (max-width: 989px)": {
-            padding: "0 2rem 0 1rem",
+          display: "block",
+          marginLeft: "133px",
+          padding: "0 17px 17px",
+          "@media (max-width: 990px)": {
+            margin: "auto",
+            padding: "0 17px 16px",
           },
         },
       },
@@ -54,10 +35,10 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: ".w-gl__result",
-        url: ".w-gl__result-title",
-        title: "h3",
-        actionTarget: ".w-gl__result__main",
+        target: ".w-gl > .result",
+        url: ".result-link",
+        title: "h2",
+        actionTarget: "",
         actionStyle: {
           display: "block",
           marginTop: "4px",
@@ -66,29 +47,34 @@ function getSerpHandler(): SerpHandler {
       // News
       {
         target: ".article",
-        url: ".article-right > a",
-        title: ".title",
-        actionTarget: ".article-right",
+        url: ".article-left > a",
+        title: "h3",
+        actionTarget: ".article-left",
         actionStyle: {
           display: "block",
-          fontSize: "14px",
+          fontSize: "16px",
           marginTop: "4px",
         },
       },
       // Videos
       {
-        target: ".vo-yt__link",
-        url: "",
-        title: ".vo-yt__title",
-        actionTarget: ".vo-yt__details",
-        actionStyle: {
-          display: "block",
-          fontSize: "14px",
-          marginTop: 0,
+        target: ".vo-bg > .result",
+        url: ".details > a",
+        title: ".title",
+        actionTarget: ".details",
+        actionStyle: (actionRoot) => {
+          // Overwrite the height of "Anonymous View" from "100%" to "auto" for mobile view
+          (actionRoot.previousElementSibling as HTMLElement).style.height =
+            "auto";
+          actionRoot.className = css({
+            display: "block",
+            marginTop: "4px",
+          });
         },
       },
     ],
-    getDialogTheme: getDialogThemeFromBody(),
+    getDialogTheme: () =>
+      hasDarkBackground(document.documentElement) ? "dark" : "light",
   });
 }
 
