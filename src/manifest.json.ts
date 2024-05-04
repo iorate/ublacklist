@@ -18,7 +18,7 @@ export default {
           service_worker: "scripts/background.js",
         }
       : {
-          persistent: false,
+          persistent: process.env.BROWSER === "firefox",
           scripts: ["scripts/background.js"],
         }),
   },
