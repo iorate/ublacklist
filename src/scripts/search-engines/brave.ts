@@ -1,6 +1,6 @@
-import { SEARCH_ENGINES } from '../../common/search-engines';
-import { SearchEngine, SerpHandler } from '../types';
-import { getDialogThemeFromBody, handleSerp } from './helpers';
+import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import type { SearchEngine, SerpHandler } from "../types.ts";
+import { getDialogThemeFromBody, handleSerp } from "./helpers.ts";
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
@@ -9,22 +9,23 @@ function getSerpHandler(): SerpHandler {
 
     globalStyle: {
       '[data-ub-blocked="visible"]': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+        backgroundColor:
+          "var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important",
       },
-      '.ub-button': {
-        color: 'var(--ub-link-color, var(--search-interactive-01))',
+      ".ub-button": {
+        color: "var(--ub-link-color, var(--search-interactive-01))",
       },
-      '.ub-button:hover': {
-        textDecoration: 'underline',
+      ".ub-button:hover": {
+        textDecoration: "underline",
       },
     },
     controlHandlers: [
       {
-        target: '#filters-container',
+        target: "#filters-container",
         style: {
-          fontSize: 'var(--text-sm)',
-          whiteSpace: 'nowrap',
-          padding: '4px',
+          fontSize: "var(--text-sm)",
+          whiteSpace: "nowrap",
+          padding: "4px",
         },
       },
     ],
@@ -32,48 +33,47 @@ function getSerpHandler(): SerpHandler {
       // Web
       {
         target: 'div[data-type="web"]',
-        url: 'a',
-        title: '.heading-serpresult',
-        actionTarget: '.t-secondary',
+        url: "a",
+        title: ".heading-serpresult",
+        actionTarget: ".t-secondary",
         actionStyle: {
-          fontSize: 'var(--text-sm-2)',
+          fontSize: "var(--text-sm-2)",
         },
       },
       // Images
       {
-        target: '.column > .image-wrapper',
-        url: root => {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          let m = root.querySelector('.text-ellipsis')!.innerHTML;
-          if (!m.startsWith('http://') && !m.startsWith('https://')) {
-            m = 'https://' + m;
+        target: ".column > .image-wrapper",
+        url: (root) => {
+          let m = root.querySelector(".text-ellipsis")?.innerHTML;
+          if (m && !m.startsWith("http://") && !m.startsWith("https://")) {
+            m = `https://${m}`;
           }
-          return m;
+          return m || "";
         },
-        title: '.img-title',
-        actionTarget: 'button',
+        title: ".img-title",
+        actionTarget: "button",
         actionStyle: {
-          fontSize: 'var(--text-sm-2)',
+          fontSize: "var(--text-sm-2)",
         },
       },
       // Videos
       {
         target: 'div[data-type="videos"]',
-        url: 'a',
-        title: '.snippet-title',
-        actionTarget: '.video-content',
+        url: "a",
+        title: ".snippet-title",
+        actionTarget: ".video-content",
         actionStyle: {
-          fontSize: 'var(--text-sm-2)',
+          fontSize: "var(--text-sm-2)",
         },
       },
       // News
       {
-        target: '.svelte-1ckzfks',
-        url: 'a',
-        title: '.snippet-title',
-        actionTarget: '.result-content > div',
+        target: ".svelte-1ckzfks",
+        url: "a",
+        title: ".snippet-title",
+        actionTarget: ".result-content > div",
         actionStyle: {
-          fontSize: 'var(--text-sm-2)',
+          fontSize: "var(--text-sm-2)",
         },
       },
     ],

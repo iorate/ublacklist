@@ -1,17 +1,22 @@
-import { history, historyKeymap, standardKeymap } from '@codemirror/commands';
-import { HighlightStyle, Language, language, syntaxHighlighting } from '@codemirror/language';
-import { Compartment, EditorState, Transaction } from '@codemirror/state';
+import { history, historyKeymap, standardKeymap } from "@codemirror/commands";
+import {
+  HighlightStyle,
+  type Language,
+  language,
+  syntaxHighlighting,
+} from "@codemirror/language";
+import { Compartment, EditorState, Transaction } from "@codemirror/state";
 import {
   EditorView,
   highlightActiveLineGutter,
   highlightSpecialChars,
   keymap,
   lineNumbers,
-} from '@codemirror/view';
-import { tags as t } from '@lezer/highlight';
-import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from './constants';
-import { useTheme } from './theme';
+} from "@codemirror/view";
+import { type Highlighter, tags as t } from "@lezer/highlight";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "./constants.ts";
+import { useTheme } from "./theme.tsx";
 
 export type EditorProps = {
   focusStart?: boolean;
@@ -24,14 +29,14 @@ export type EditorProps = {
   onChange?: (value: string) => void;
 };
 
-export const Editor: React.VFC<EditorProps> = ({
+export const Editor: React.FC<EditorProps> = ({
   focusStart = false,
   focusEnd = false,
-  height = '200px',
+  height = "200px",
   language: lang,
   readOnly = false,
   resizable = false,
-  value = '',
+  value = "",
   onChange,
 }) => {
   const view = useRef<EditorView | null>(null);
@@ -43,6 +48,7 @@ export const Editor: React.VFC<EditorProps> = ({
   const themeCompartment = useRef(new Compartment());
   const updateListenerCompartment = useRef(new Compartment());
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 'view' and `resizeObserver` do not change between renders
   const parentCallback = useCallback((parent: HTMLDivElement | null) => {
     if (parent) {
       // mount
@@ -73,7 +79,6 @@ export const Editor: React.VFC<EditorProps> = ({
       resizeObserver.current?.disconnect();
       view.current?.destroy();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useLayoutEffect(() => {
@@ -106,7 +111,7 @@ export const Editor: React.VFC<EditorProps> = ({
               tag: t.invalid,
               color: theme.editor.comment,
             },
-          ]),
+          ]) as Highlighter,
         ),
       ),
     });
@@ -114,13 +119,17 @@ export const Editor: React.VFC<EditorProps> = ({
 
   useLayoutEffect(() => {
     view.current?.dispatch({
-      effects: languageCompartment.current.reconfigure(lang ? language.of(lang) : []),
+      effects: languageCompartment.current.reconfigure(
+        lang ? language.of(lang) : [],
+      ),
     });
   }, [lang]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
-      effects: readOnlyCompartment.current.reconfigure(EditorState.readOnly.of(readOnly)),
+      effects: readOnlyCompartment.current.reconfigure(
+        EditorState.readOnly.of(readOnly),
+      ),
     });
   }, [readOnly]);
 
@@ -129,42 +138,42 @@ export const Editor: React.VFC<EditorProps> = ({
       effects: themeCompartment.current.reconfigure(
         EditorView.theme(
           {
-            '&': {
+            "&": {
               backgroundColor: theme.editor.background,
               border: `1px solid ${theme.editor.border}`,
               color: theme.editor.text,
               height,
-              overflow: 'hidden',
-              resize: resizable ? 'vertical' : 'none',
+              overflow: "hidden",
+              resize: resizable ? "vertical" : "none",
             },
-            '&.cm-editor.cm-focused': {
+            "&.cm-editor.cm-focused": {
               boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-              outline: 'none',
+              outline: "none",
             },
-            '.cm-scroller': {
+            ".cm-scroller": {
               fontFamily:
                 'ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace',
-              overflow: 'auto',
+              overflow: "auto",
             },
-            '.cm-gutters': {
+            ".cm-gutters": {
               backgroundColor: theme.editor.background,
-              border: 'none',
+              border: "none",
               color: theme.editor.lineNumber,
             },
-            '.cm-activeLineGutter': {
-              backgroundColor: 'transparent',
+            ".cm-activeLineGutter": {
+              backgroundColor: "transparent",
             },
-            '&.cm-focused .cm-activeLineGutter': {
+            "&.cm-focused .cm-activeLineGutter": {
               color: theme.editor.activeLineNumber,
             },
-            '.cm-lineNumbers .cm-gutterElement': {
-              padding: '0 8px',
+            ".cm-lineNumbers .cm-gutterElement": {
+              padding: "0 8px",
             },
-            '.cm-content ::selection': {
+            ".cm-content ::selection": {
               backgroundColor: theme.editor.selectionBackground,
             },
           },
-          { dark: theme.name === 'dark' },
+          { dark: theme.name === "dark" },
         ),
       ),
     });
@@ -174,11 +183,12 @@ export const Editor: React.VFC<EditorProps> = ({
     view.current?.dispatch({
       effects: updateListenerCompartment.current.reconfigure(
         onChange
-          ? EditorView.updateListener.of(viewUpdate => {
+          ? EditorView.updateListener.of((viewUpdate) => {
               if (
                 viewUpdate.docChanged &&
                 viewUpdate.transactions.some(
-                  transaction => transaction.annotation(Transaction.userEvent) != null,
+                  (transaction) =>
+                    transaction.annotation(Transaction.userEvent) != null,
                 )
               ) {
                 onChange(viewUpdate.state.doc.toString());

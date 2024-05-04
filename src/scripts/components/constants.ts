@@ -1,8 +1,8 @@
 // Classes
-export const FOCUS_START_CLASS = 'js-focus-start';
-export const FOCUS_END_CLASS = 'js-focus-end';
-export const FOCUS_DEFAULT_CLASS = 'js-focus-default';
-export const MENU_ITEM_CLASS = 'js-menu-item';
+export const FOCUS_START_CLASS = "js-focus-start";
+export const FOCUS_END_CLASS = "js-focus-end";
+export const FOCUS_DEFAULT_CLASS = "js-focus-default";
+export const MENU_ITEM_CLASS = "js-menu-item";
 
 // Opacity
 export const DISABLED_OPACITY = 0.38;

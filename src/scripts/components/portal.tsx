@@ -1,13 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
 export type PortalProps = { children?: React.ReactNode; id: string };
 
-export const Portal: React.VFC<PortalProps> = ({ children, id }) => {
+export const Portal: React.FC<PortalProps> = ({ children, id }) => {
   let root = document.getElementById(id);
   if (!root) {
-    root = document.body.appendChild(document.createElement('div'));
+    root = document.body.appendChild(document.createElement("div"));
     root.id = id;
   }
-  return ReactDOM.createPortal(<>{children}</>, root);
+  return ReactDOM.createPortal(children, root);
 };

@@ -1,19 +1,16 @@
-import type { CSSAttribute } from 'goober';
-import { useMemo, useRef } from 'react';
-import { useCSS } from './styles';
-import { Theme, useTheme } from './theme';
+import type { CSSAttribute } from "goober";
+import { useMemo, useRef } from "react";
+import { useCSS } from "./styles.tsx";
+import { type Theme, useTheme } from "./theme.tsx";
 
 export function useClassName(
   props: (theme: Theme) => CSSAttribute,
-  deps?: readonly unknown[],
+  deps: readonly unknown[],
 ): string {
   const css = useCSS();
   const theme = useTheme();
-  const className = useMemo(
-    () => css(props(theme)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    deps ? [css, theme, ...deps] : undefined,
-  );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: add `deps` to dependencies
+  const className = useMemo(() => css(props(theme)), [css, theme, ...deps]);
   return className;
 }
 

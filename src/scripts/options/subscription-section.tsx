@@ -1,30 +1,35 @@
-import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
-import { browser } from '../browser';
-import { Button } from '../components/button';
-import { CheckBox } from '../components/checkbox';
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from '../components/constants';
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { browser } from "../browser.ts";
+import { Button } from "../components/button.tsx";
+import { CheckBox } from "../components/checkbox.tsx";
+import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
   DialogBody,
   DialogFooter,
   DialogHeader,
-  DialogProps,
+  type DialogProps,
   DialogTitle,
-} from '../components/dialog';
-import { Input } from '../components/input';
-import { ControlLabel, Label, LabelWrapper, SubLabel } from '../components/label';
-import { Link } from '../components/link';
-import { Menu, MenuItem } from '../components/menu';
-import { Portal } from '../components/portal';
-import { Row, RowItem } from '../components/row';
+} from "../components/dialog.tsx";
+import { Input } from "../components/input.tsx";
+import {
+  ControlLabel,
+  Label,
+  LabelWrapper,
+  SubLabel,
+} from "../components/label.tsx";
+import { Link } from "../components/link.tsx";
+import { Menu, MenuItem } from "../components/menu.tsx";
+import { Portal } from "../components/portal.tsx";
+import { Row, RowItem } from "../components/row.tsx";
 import {
   Section,
   SectionBody,
   SectionHeader,
   SectionItem,
   SectionTitle,
-} from '../components/section';
+} from "../components/section.tsx";
 import {
   Table,
   TableBody,
@@ -33,29 +38,35 @@ import {
   TableHeaderCell,
   TableHeaderRow,
   TableRow,
-} from '../components/table';
-import { useClassName, usePrevious } from '../components/utilities';
-import { translate } from '../locales';
-import { addMessageListeners, sendMessage } from '../messages';
-import { Subscription, SubscriptionId, Subscriptions } from '../types';
-import { AltURL, MatchPattern, isErrorResult, numberEntries, numberKeys } from '../utilities';
-import { FromNow } from './from-now';
-import { useOptionsContext } from './options-context';
-import { RulesetEditor } from './ruleset-editor';
-import { SetIntervalItem } from './set-interval-item';
+} from "../components/table.tsx";
+import { useClassName, usePrevious } from "../components/utilities.ts";
+import { translate } from "../locales.ts";
+import { addMessageListeners, sendMessage } from "../messages.ts";
+import type { Subscription, SubscriptionId, Subscriptions } from "../types.ts";
+import {
+  AltURL,
+  MatchPattern,
+  isErrorResult,
+  numberEntries,
+  numberKeys,
+} from "../utilities.ts";
+import { FromNow } from "./from-now.tsx";
+import { useOptionsContext } from "./options-context.tsx";
+import { RulesetEditor } from "./ruleset-editor.tsx";
+import { SetIntervalItem } from "./set-interval-item.tsx";
 
 const PERMISSION_PASSLIST = [
-  '*://*.githubusercontent.com/*',
+  "*://*.githubusercontent.com/*",
   // A third-party CDN service supporting GitHub, GitLab and BitBucket
-  '*://cdn.statically.io/*',
+  "*://cdn.statically.io/*",
 ];
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
-  const passlist = PERMISSION_PASSLIST.map(pass => new MatchPattern(pass));
+  const passlist = PERMISSION_PASSLIST.map((pass) => new MatchPattern(pass));
   for (const url of urls) {
     const u = new AltURL(url);
-    if (passlist.some(pass => pass.test(u))) {
+    if (passlist.some((pass) => pass.test(u))) {
       continue;
     }
     origins.push(`${u.scheme}://${u.host}/*`);
@@ -64,7 +75,7 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
   return origins.length ? browser.permissions.request({ origins }) : true;
 }
 
-const AddSubscriptionDialog: React.VFC<
+const AddSubscriptionDialog: React.FC<
   {
     initialName: string;
     initialURL: string;
@@ -74,7 +85,7 @@ const AddSubscriptionDialog: React.VFC<
   const [state, setState] = useState(() => ({
     name: initialName,
     // required
-    nameValid: initialName !== '',
+    nameValid: initialName !== "",
     url: initialURL,
     urlValid: (() => {
       // pattern="https?:.*"
@@ -93,18 +104,22 @@ const AddSubscriptionDialog: React.VFC<
   }));
   const prevOpen = usePrevious(open);
   if (open && prevOpen === false) {
-    state.name = '';
+    state.name = "";
     state.nameValid = false;
-    state.url = '';
+    state.url = "";
     state.urlValid = false;
   }
   const ok = state.nameValid && state.urlValid;
 
   return (
-    <Dialog aria-labelledby="addSubscriptionDialogTitle" close={close} open={open}>
+    <Dialog
+      aria-labelledby="addSubscriptionDialogTitle"
+      close={close}
+      open={open}
+    >
       <DialogHeader>
         <DialogTitle id="addSubscriptionDialogTitle">
-          {translate('options_addSubscriptionDialog_title')}
+          {translate("options_addSubscriptionDialog_title")}
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
@@ -112,7 +127,7 @@ const AddSubscriptionDialog: React.VFC<
           <RowItem expanded>
             <LabelWrapper fullWidth>
               <ControlLabel for="subscriptionName">
-                {translate('options_addSubscriptionDialog_nameLabel')}
+                {translate("options_addSubscriptionDialog_nameLabel")}
               </ControlLabel>
             </LabelWrapper>
             {open && (
@@ -121,13 +136,13 @@ const AddSubscriptionDialog: React.VFC<
                 id="subscriptionName"
                 required={true}
                 value={state.name}
-                onChange={e =>
-                  setState(s => ({
-                    ...s,
-                    name: e.currentTarget.value,
-                    nameValid: e.currentTarget.validity.valid,
-                  }))
-                }
+                onChange={(e) => {
+                  const {
+                    value: name,
+                    validity: { valid: nameValid },
+                  } = e.currentTarget;
+                  setState((s) => ({ ...s, name, nameValid }));
+                }}
               />
             )}
           </RowItem>
@@ -136,7 +151,7 @@ const AddSubscriptionDialog: React.VFC<
           <RowItem expanded>
             <LabelWrapper fullWidth>
               <ControlLabel for="subscriptionURL">
-                {translate('options_addSubscriptionDialog_urlLabel')}
+                {translate("options_addSubscriptionDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
             {open && (
@@ -146,13 +161,13 @@ const AddSubscriptionDialog: React.VFC<
                 required={true}
                 type="url"
                 value={state.url}
-                onChange={e =>
-                  setState(s => ({
-                    ...s,
-                    url: e.currentTarget.value,
-                    urlValid: e.currentTarget.validity.valid,
-                  }))
-                }
+                onChange={(e) => {
+                  const {
+                    value: url,
+                    validity: { valid: urlValid },
+                  } = e.currentTarget;
+                  setState((s) => ({ ...s, url, urlValid }));
+                }}
               />
             )}
           </RowItem>
@@ -161,13 +176,13 @@ const AddSubscriptionDialog: React.VFC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button className={!ok ? FOCUS_END_CLASS : ''} onClick={close}>
-              {translate('cancelButton')}
+            <Button className={!ok ? FOCUS_END_CLASS : ""} onClick={close}>
+              {translate("cancelButton")}
             </Button>
           </RowItem>
           <RowItem>
             <Button
-              className={ok ? FOCUS_END_CLASS : ''}
+              className={ok ? FOCUS_END_CLASS : ""}
               disabled={!ok}
               primary
               onClick={async () => {
@@ -177,16 +192,19 @@ const AddSubscriptionDialog: React.VFC<
                 const subscription: Subscription = {
                   name: state.name,
                   url: state.url,
-                  blacklist: '',
+                  blacklist: "",
                   updateResult: null,
                   enabled: true,
                 };
-                const id = await sendMessage('add-subscription', subscription);
-                setSubscriptions(subscriptions => ({ ...subscriptions, [id]: subscription }));
+                const id = await sendMessage("add-subscription", subscription);
+                setSubscriptions((subscriptions) => ({
+                  ...subscriptions,
+                  [id]: subscription,
+                }));
                 close();
               }}
             >
-              {translate('options_addSubscriptionDialog_addButton')}
+              {translate("options_addSubscriptionDialog_addButton")}
             </Button>
           </RowItem>
         </Row>
@@ -195,21 +213,25 @@ const AddSubscriptionDialog: React.VFC<
   );
 };
 
-const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & DialogProps> = ({
-  close,
-  open,
-  subscription,
-}) => {
+const ShowSubscriptionDialog: React.FC<
+  { subscription: Subscription | null } & DialogProps
+> = ({ close, open, subscription }) => {
   const urlClassName = useClassName(
     () => ({
-      wordBreak: 'break-all',
+      wordBreak: "break-all",
     }),
     [],
   );
   return (
-    <Dialog aria-labelledby="showSubscriptionDialogTitle" close={close} open={open}>
+    <Dialog
+      aria-labelledby="showSubscriptionDialogTitle"
+      close={close}
+      open={open}
+    >
       <DialogHeader>
-        <DialogTitle id="showSubscriptionDialogTitle">{subscription?.name ?? ''}</DialogTitle>
+        <DialogTitle id="showSubscriptionDialogTitle">
+          {subscription?.name ?? ""}
+        </DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
@@ -228,7 +250,7 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
                 height="200px"
                 readOnly
                 resizable
-                value={subscription?.blacklist ?? ''}
+                value={subscription?.blacklist ?? ""}
               />
             )}
           </RowItem>
@@ -238,7 +260,7 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
         <Row right>
           <RowItem>
             <Button className={FOCUS_END_CLASS} primary onClick={close}>
-              {translate('okButton')}
+              {translate("okButton")}
             </Button>
           </RowItem>
         </Row>
@@ -247,10 +269,12 @@ const ShowSubscriptionDialog: React.VFC<{ subscription: Subscription | null } & 
   );
 };
 
-const ManageSubscription: React.VFC<{
+const ManageSubscription: React.FC<{
   id: SubscriptionId;
   setShowSubscriptionDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowSubscriptionDialogSubscription: React.Dispatch<React.SetStateAction<Subscription | null>>;
+  setShowSubscriptionDialogSubscription: React.Dispatch<
+    React.SetStateAction<Subscription | null>
+  >;
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   subscription: Subscription;
   updating: boolean;
@@ -266,12 +290,12 @@ const ManageSubscription: React.VFC<{
     <TableRow>
       <TableCell>
         <CheckBox
-          aria-label={translate('options_subscriptionCheckBoxLabel')}
+          aria-label={translate("options_subscriptionCheckBoxLabel")}
           checked={subscription.enabled ?? true}
-          onChange={async e => {
+          onChange={async (e) => {
             const enabled = e.currentTarget.checked;
-            await sendMessage('enable-subscription', id, enabled);
-            setSubscriptions(subscriptions => {
+            await sendMessage("enable-subscription", id, enabled);
+            setSubscriptions((subscriptions) => {
               const newSubscriptions = { ...subscriptions };
               if (subscriptions[id]) {
                 newSubscriptions[id] = { ...subscriptions[id], enabled };
@@ -284,17 +308,17 @@ const ManageSubscription: React.VFC<{
       <TableCell>{subscription.name}</TableCell>
       <TableCell>
         {updating ? (
-          translate('options_subscriptionUpdateRunning')
+          translate("options_subscriptionUpdateRunning")
         ) : !subscription.updateResult ? (
-          ''
+          ""
         ) : isErrorResult(subscription.updateResult) ? (
-          translate('error', subscription.updateResult.message)
+          translate("error", subscription.updateResult.message)
         ) : (
           <FromNow time={dayjs(subscription.updateResult.timestamp)} />
         )}
       </TableCell>
       <TableCell>
-        <Menu aria-label={translate('options_subscriptionMenuButtonLabel')}>
+        <Menu aria-label={translate("options_subscriptionMenuButtonLabel")}>
           <MenuItem
             onClick={() => {
               requestAnimationFrame(() => {
@@ -303,7 +327,7 @@ const ManageSubscription: React.VFC<{
               });
             }}
           >
-            {translate('options_showSubscriptionMenu')}
+            {translate("options_showSubscriptionMenu")}
           </MenuItem>
           <MenuItem
             disabled={!(subscription.enabled ?? true)}
@@ -311,22 +335,22 @@ const ManageSubscription: React.VFC<{
               if (!(await requestPermission([subscription.url]))) {
                 return;
               }
-              await sendMessage('update-subscription', id);
+              await sendMessage("update-subscription", id);
             }}
           >
-            {translate('options_updateSubscriptionNowMenu')}
+            {translate("options_updateSubscriptionNowMenu")}
           </MenuItem>
           <MenuItem
             onClick={async () => {
-              await sendMessage('remove-subscription', id);
-              setSubscriptions(subscriptions => {
+              await sendMessage("remove-subscription", id);
+              setSubscriptions((subscriptions) => {
                 const newSubscriptions = { ...subscriptions };
                 delete newSubscriptions[id];
                 return newSubscriptions;
               });
             }}
           >
-            {translate('options_removeSubscriptionMenu')}
+            {translate("options_removeSubscriptionMenu")}
           </MenuItem>
         </Menu>
       </TableCell>
@@ -334,7 +358,7 @@ const ManageSubscription: React.VFC<{
   );
 };
 
-export const ManageSubscriptions: React.VFC<{
+export const ManageSubscriptions: React.FC<{
   subscriptions: Subscriptions;
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
 }> = ({ subscriptions, setSubscriptions }) => {
@@ -344,30 +368,35 @@ export const ManageSubscriptions: React.VFC<{
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(
     query.addSubscriptionName != null || query.addSubscriptionURL != null,
   );
-  const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] = useState(false);
-  const [showSubscriptionDialogSubscription, setShowSubscriptionDialogSubscription] =
-    useState<Subscription | null>(null);
+  const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] =
+    useState(false);
+  const [
+    showSubscriptionDialogSubscription,
+    setShowSubscriptionDialogSubscription,
+  ] = useState<Subscription | null>(null);
 
   useEffect(
     () =>
       addMessageListeners({
-        'subscription-updating': id => {
-          setUpdating(updating => ({ ...updating, [id]: true }));
+        "subscription-updating": (id) => {
+          setUpdating((updating) => ({ ...updating, [id]: true }));
         },
-        'subscription-updated': (id, subscription) => {
-          setSubscriptions(subscriptions =>
-            subscriptions[id] ? { ...subscriptions, [id]: subscription } : subscriptions,
+        "subscription-updated": (id, subscription) => {
+          setSubscriptions((subscriptions) =>
+            subscriptions[id]
+              ? { ...subscriptions, [id]: subscription }
+              : subscriptions,
           );
-          setUpdating(updating => ({ ...updating, [id]: false }));
+          setUpdating((updating) => ({ ...updating, [id]: false }));
         },
       }),
-    [subscriptions, setSubscriptions],
+    [setSubscriptions],
   );
 
   const emptyClass = useClassName(
     () => ({
-      minHeight: '3em',
-      textAlign: 'center',
+      minHeight: "3em",
+      textAlign: "center",
     }),
     [],
   );
@@ -377,8 +406,10 @@ export const ManageSubscriptions: React.VFC<{
       <Row>
         <RowItem expanded>
           <LabelWrapper>
-            <Label>{translate('options_subscriptionFeature')}</Label>
-            <SubLabel>{translate('options_subscriptionFeatureDescription')}</SubLabel>
+            <Label>{translate("options_subscriptionFeature")}</Label>
+            <SubLabel>
+              {translate("options_subscriptionFeatureDescription")}
+            </SubLabel>
           </LabelWrapper>
         </RowItem>
         <RowItem>
@@ -388,7 +419,7 @@ export const ManageSubscriptions: React.VFC<{
               setAddSubscriptionDialogOpen(true);
             }}
           >
-            {translate('options_addSubscriptionButton')}
+            {translate("options_addSubscriptionButton")}
           </Button>
         </RowItem>
       </Row>
@@ -399,9 +430,11 @@ export const ManageSubscriptions: React.VFC<{
               <TableHeader>
                 <TableHeaderRow>
                   <TableHeaderCell width="2.25em" />
-                  <TableHeaderCell>{translate('options_subscriptionNameHeader')}</TableHeaderCell>
+                  <TableHeaderCell>
+                    {translate("options_subscriptionNameHeader")}
+                  </TableHeaderCell>
                   <TableHeaderCell width="20%">
-                    {translate('options_subscriptionUpdateResultHeader')}
+                    {translate("options_subscriptionUpdateResultHeader")}
                   </TableHeaderCell>
                   <TableHeaderCell width="calc(0.75em + 36px)" />
                 </TableHeaderRow>
@@ -415,8 +448,12 @@ export const ManageSubscriptions: React.VFC<{
                     <ManageSubscription
                       id={id}
                       key={id}
-                      setShowSubscriptionDialogOpen={setShowSubscriptionDialogOpen}
-                      setShowSubscriptionDialogSubscription={setShowSubscriptionDialogSubscription}
+                      setShowSubscriptionDialogOpen={
+                        setShowSubscriptionDialogOpen
+                      }
+                      setShowSubscriptionDialogSubscription={
+                        setShowSubscriptionDialogSubscription
+                      }
                       setSubscriptions={setSubscriptions}
                       subscription={subscription}
                       updating={updating[id] ?? false}
@@ -428,32 +465,39 @@ export const ManageSubscriptions: React.VFC<{
         </Row>
       ) : (
         <Row className={emptyClass}>
-          <RowItem expanded>{translate('options_noSubscriptionsAdded')}</RowItem>
+          <RowItem expanded>
+            {translate("options_noSubscriptionsAdded")}
+          </RowItem>
         </Row>
       )}
       <Row right>
         <RowItem>
           <Button
             disabled={
-              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
-                .length
+              !Object.values(subscriptions).filter(
+                (subscription) => subscription.enabled ?? true,
+              ).length
             }
             onClick={async () => {
-              if (!(await requestPermission(Object.values(subscriptions).map(s => s.url)))) {
+              if (
+                !(await requestPermission(
+                  Object.values(subscriptions).map((s) => s.url),
+                ))
+              ) {
                 return;
               }
-              await sendMessage('update-all-subscriptions');
+              await sendMessage("update-all-subscriptions");
             }}
           >
-            {translate('options_updateAllSubscriptionsNowButton')}
+            {translate("options_updateAllSubscriptionsNowButton")}
           </Button>
         </RowItem>
       </Row>
       <Portal id="addSubscriptionDialogPortal">
         <AddSubscriptionDialog
           close={() => setAddSubscriptionDialogOpen(false)}
-          initialName={query.addSubscriptionName ?? ''}
-          initialURL={query.addSubscriptionURL ?? ''}
+          initialName={query.addSubscriptionName ?? ""}
+          initialURL={query.addSubscriptionURL ?? ""}
           open={addSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />
@@ -469,7 +513,7 @@ export const ManageSubscriptions: React.VFC<{
   );
 };
 
-export const SubscriptionSection: React.VFC = () => {
+export const SubscriptionSection: React.FC = () => {
   const {
     initialItems: { subscriptions: initialSubscriptions },
   } = useOptionsContext();
@@ -478,19 +522,23 @@ export const SubscriptionSection: React.VFC = () => {
     <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
       <SectionHeader>
         <SectionTitle id="subscriptionSectionTitle">
-          {translate('options_subscriptionTitle')}
+          {translate("options_subscriptionTitle")}
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <ManageSubscriptions setSubscriptions={setSubscriptions} subscriptions={subscriptions} />
+        <ManageSubscriptions
+          setSubscriptions={setSubscriptions}
+          subscriptions={subscriptions}
+        />
         <SectionItem>
           <SetIntervalItem
             disabled={
-              !Object.values(subscriptions).filter(subscription => subscription.enabled ?? true)
-                .length
+              !Object.values(subscriptions).filter(
+                (subscription) => subscription.enabled ?? true,
+              ).length
             }
             itemKey="updateInterval"
-            label={translate('options_updateInterval')}
+            label={translate("options_updateInterval")}
             valueOptions={[60, 120, 180, 360, 720, 1440]}
           />
         </SectionItem>

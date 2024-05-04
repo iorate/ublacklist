@@ -1,19 +1,23 @@
-import type dayjs from 'dayjs';
-import type { MessageName0 } from '../common/locales';
-import type { SearchEngine as _SearchEngine } from '../common/search-engines';
-import type { AltURL } from './utilities';
+import type dayjs from "dayjs";
+import type { MessageName0 } from "../common/locales.ts";
+import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
+import type { AltURL } from "./utilities.ts";
 
-export type { MessageName, MessageName0, MessageName1 } from '../common/locales';
-export type { SearchEngineId } from '../common/search-engines';
+export type {
+  MessageName,
+  MessageName0,
+  MessageName1,
+} from "../common/locales.ts";
+export type { SearchEngineId } from "../common/search-engines.ts";
 
 // #region Result
 export type ErrorResult = {
-  type: 'error';
+  type: "error";
   message: string;
 };
 
 export type SuccessResult = {
-  type: 'success';
+  type: "success";
   timestamp: string;
 };
 
@@ -21,12 +25,16 @@ export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
 // #region Clouds
-export type CloudId = 'googleDrive' | 'dropbox';
+export type CloudId = "googleDrive" | "dropbox";
 
 export type Cloud = {
   hostPermissions: string[];
-  messageNames: { sync: MessageName0; syncDescription: MessageName0; syncTurnedOn: MessageName0 };
-  modifiedTimePrecision: 'millisecond' | 'second';
+  messageNames: {
+    sync: MessageName0;
+    syncDescription: MessageName0;
+    syncTurnedOn: MessageName0;
+  };
+  modifiedTimePrecision: "millisecond" | "second";
 
   shouldUseAltFlow(os: string): boolean;
   authorize(useAltFlow: boolean): Promise<{ authorizationCode: string }>;
@@ -34,7 +42,9 @@ export type Cloud = {
     authorizationCode: string,
     useAltFlow: boolean,
   ): Promise<{ accessToken: string; expiresIn: number; refreshToken: string }>;
-  refreshAccessToken(refreshToken: string): Promise<{ accessToken: string; expiresIn: number }>;
+  refreshAccessToken(
+    refreshToken: string,
+  ): Promise<{ accessToken: string; expiresIn: number }>;
 
   createFile(
     accessToken: string,
@@ -81,7 +91,7 @@ export type LocalStorageItems = {
   linkColor: string;
   blockColor: string;
   highlightColors: string[];
-  dialogTheme: DialogTheme | 'default';
+  dialogTheme: DialogTheme | "default";
 
   // sync
   syncCloudId: CloudId | false | null;
@@ -97,35 +107,37 @@ export type LocalStorageItems = {
   updateInterval: number;
 };
 
-export type LocalStorageItemsFor<T extends readonly (keyof LocalStorageItems)[]> = {
+export type LocalStorageItemsFor<
+  T extends readonly (keyof LocalStorageItems)[],
+> = {
   [Key in T[number]]: LocalStorageItems[Key];
 };
 
 export type LocalStorageItemsSavable = Omit<
   LocalStorageItems,
-  'compiledRules' | 'syncCloudId' | 'syncResult' | 'subscriptions'
+  "compiledRules" | "syncCloudId" | "syncResult" | "subscriptions"
 >;
 
-export type SaveSource = 'content-script' | 'popup' | 'options' | 'background';
+export type SaveSource = "content-script" | "popup" | "options" | "background";
 
 export type LocalStorageItemsBackupRestore = Pick<
   LocalStorageItems,
-  | 'blacklist'
-  | 'blockWholeSite'
-  | 'skipBlockDialog'
-  | 'hideBlockLinks'
-  | 'hideControl'
-  | 'enablePathDepth'
-  | 'linkColor'
-  | 'blockColor'
-  | 'highlightColors'
-  | 'dialogTheme'
-  | 'syncBlocklist'
-  | 'syncGeneral'
-  | 'syncAppearance'
-  | 'syncSubscriptions'
-  | 'syncInterval'
-  | 'updateInterval'
+  | "blacklist"
+  | "blockWholeSite"
+  | "skipBlockDialog"
+  | "hideBlockLinks"
+  | "hideControl"
+  | "enablePathDepth"
+  | "linkColor"
+  | "blockColor"
+  | "highlightColors"
+  | "dialogTheme"
+  | "syncBlocklist"
+  | "syncGeneral"
+  | "syncAppearance"
+  | "syncSubscriptions"
+  | "syncInterval"
+  | "updateInterval"
 > & {
   subscriptions: readonly { name: string; url: string; enabled: boolean }[];
 };
@@ -163,7 +175,7 @@ export type SerpColors = {
   highlightColors: string[];
 };
 
-export type DialogTheme = 'light' | 'dark';
+export type DialogTheme = "light" | "dark";
 
 export type SerpHandler = {
   onSerpStart: () => SerpHandlerResult;

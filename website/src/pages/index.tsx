@@ -1,6 +1,5 @@
-import { Redirect } from '@docusaurus/router';
-import React from 'react';
+import { Redirect } from "@docusaurus/router";
 
-const Index: React.VFC = () => <Redirect to="docs" />;
+const Index: React.FC = () => <Redirect to="docs" />;
 
 export default Index;

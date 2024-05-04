@@ -1,16 +1,18 @@
-import { bing } from './search-engines/bing';
-import { brave } from './search-engines/brave';
-import { duckduckgo } from './search-engines/duckduckgo';
-import { ecosia } from './search-engines/ecosia';
-import { google } from './search-engines/google';
-import { qwant } from './search-engines/qwant';
-import { searx } from './search-engines/searx';
-import { startpage } from './search-engines/startpage';
-import { yahooJapan } from './search-engines/yahoo-japan';
-import { yandex } from './search-engines/yandex';
-import { SearchEngine, SearchEngineId } from './types';
+import { bing } from "./search-engines/bing.ts";
+import { brave } from "./search-engines/brave.ts";
+import { duckduckgo } from "./search-engines/duckduckgo.ts";
+import { ecosia } from "./search-engines/ecosia.ts";
+import { google } from "./search-engines/google.ts";
+import { qwant } from "./search-engines/qwant.ts";
+import { searx } from "./search-engines/searx.ts";
+import { startpage } from "./search-engines/startpage.ts";
+import { yahooJapan } from "./search-engines/yahoo-japan.ts";
+import { yandex } from "./search-engines/yandex.ts";
+import type { SearchEngine, SearchEngineId } from "./types.ts";
 
-export const SEARCH_ENGINES: Readonly<Record<SearchEngineId, Readonly<SearchEngine>>> = {
+export const SEARCH_ENGINES: Readonly<
+  Record<SearchEngineId, Readonly<SearchEngine>>
+> = {
   google,
   bing,
   brave,

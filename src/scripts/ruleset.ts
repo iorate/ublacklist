@@ -1,18 +1,18 @@
-import { SerpEntryProps } from './types';
-import { MatchPatternScheme, lines, r } from './utilities';
+import type { SerpEntryProps } from "./types.ts";
+import { type MatchPatternScheme, lines, r } from "./utilities.ts";
 
-export type RegularExpressionProp = 'url' | 'title';
+export type RegularExpressionProp = "url" | "title";
 
 export type ParsedRule =
   | {
-      type: 'mp';
+      type: "mp";
       scheme: MatchPatternScheme;
       host: string;
       path: string;
       value: number;
     }
   | {
-      type: 're';
+      type: "re";
       prop: RegularExpressionProp;
       pattern: string;
       flags: string;
@@ -61,20 +61,24 @@ export function parseRule(input: string): ParsedRule | null {
   // @1*://example.com/* -> 2 (highlight-1)
   // @2*://example.com/* -> 3 (highlight-2)
   // ...
-  const value = groups.highlight ? (groups.color ? Number(groups.color) + 1 : 1) : 0;
+  const value = groups.highlight
+    ? groups.color
+      ? Number(groups.color) + 1
+      : 1
+    : 0;
   return groups.matchPattern
     ? {
-        type: 'mp',
+        type: "mp",
         scheme: groups.scheme.toLowerCase() as MatchPatternScheme,
         host: groups.host.toLowerCase(),
         path: groups.path,
         value,
       }
     : {
-        type: 're',
-        prop: groups.prop === 't' || groups.prop === 'title' ? 'title' : 'url',
+        type: "re",
+        prop: groups.prop === "t" || groups.prop === "title" ? "title" : "url",
         pattern: groups.pattern,
-        flags: groups.flags || '',
+        flags: groups.flags || "",
         value,
       };
 }
@@ -91,7 +95,9 @@ type CompiledMatchPatternISPV<RT> =
 
 type CompiledMatchPattern<RT> = {
   [key: string]:
-    | (true extends RT ? CompiledMatchPatternISPV<RT> | null : CompiledMatchPatternISPV<RT>)[]
+    | (true extends RT
+        ? CompiledMatchPatternISPV<RT> | null
+        : CompiledMatchPatternISPV<RT>)[]
     | CompiledMatchPattern<RT>;
 };
 
@@ -104,7 +110,9 @@ type CompiledRegularExpressionIPFV<RT> = [
 
 type CompiledRegularExpression<RT> = Record<
   RegularExpressionProp,
-  (true extends RT ? CompiledRegularExpressionIPFV<RT> | null : CompiledRegularExpressionIPFV<RT>)[]
+  (true extends RT
+    ? CompiledRegularExpressionIPFV<RT> | null
+    : CompiledRegularExpressionIPFV<RT>)[]
 >;
 
 export type CompiledRules<RT> = {
@@ -122,17 +130,17 @@ function compileMatchPattern<RT>(
   value: number,
 ): void {
   // NOTE: `current['*']` and `current['']` are always of type `CompiledMatchPatternISPV<RT>[]`.
-  const labels = host.split('.').reverse();
+  const labels = host.split(".").reverse();
   let current = mp;
   for (const label of labels.slice(0, -1)) {
-    if (!label || label === '*') {
+    if (!label || label === "*") {
       return;
     }
     const next = current[label];
     if (!next) {
       current = current[label] = {};
     } else if (Array.isArray(next)) {
-      current = current[label] = { '': next };
+      current = current[label] = { "": next };
     } else {
       current = next;
     }
@@ -144,7 +152,7 @@ function compileMatchPattern<RT>(
     }
     const next = current[label];
     const ispv =
-      scheme === '*' && path === '/*' && !value
+      scheme === "*" && path === "/*" && !value
         ? index
         : ([index, scheme, path, value] as CompiledMatchPatternISPV<RT>);
     if (!next) {
@@ -152,7 +160,10 @@ function compileMatchPattern<RT>(
     } else if (Array.isArray(next)) {
       current[label] = [...next, ispv];
     } else {
-      next[''] = [...((next[''] as CompiledMatchPatternISPV<RT>[] | undefined) || []), ispv];
+      next[""] = [
+        ...((next[""] as CompiledMatchPatternISPV<RT>[] | undefined) || []),
+        ispv,
+      ];
     }
   }
 }
@@ -170,16 +181,24 @@ function compileRegularExpression<RT>(
   } catch {
     return;
   }
-  const ipfv = [index, pattern, flags, value] as CompiledRegularExpressionIPFV<RT>;
+  const ipfv = [
+    index,
+    pattern,
+    flags,
+    value,
+  ] as CompiledRegularExpressionIPFV<RT>;
   re[prop].push(ipfv);
 }
 
-function compileRuleset<S>(result: CompiledRules<S>, rules: readonly string[]): void {
+function compileRuleset<S>(
+  result: CompiledRules<S>,
+  rules: readonly string[],
+): void {
   for (const rule of rules) {
     const parsed = parseRule(rule);
     if (!parsed) {
       // pass
-    } else if (parsed.type === 'mp') {
+    } else if (parsed.type === "mp") {
       compileMatchPattern(
         result.mp,
         result.length,
@@ -202,7 +221,11 @@ function compileRuleset<S>(result: CompiledRules<S>, rules: readonly string[]): 
   }
 }
 
-export type RulesetResults = [index: number, value: number, remove: () => void][];
+export type RulesetResults = [
+  index: number,
+  value: number,
+  remove: () => void,
+][];
 
 function execMatchPatternISPVArray(
   results: RulesetResults,
@@ -213,21 +236,38 @@ function execMatchPatternISPVArray(
   ispvs.forEach((ispv, i) => {
     if (ispv == null) {
       return;
-    } else if (typeof ispv === 'number') {
-      if (scheme === 'http' || scheme === 'https') {
-        results.push([ispv, 0, () => (ispvs[i] = null)]);
+    }
+    if (typeof ispv === "number") {
+      if (scheme === "http" || scheme === "https") {
+        results.push([
+          ispv,
+          0,
+          () => {
+            ispvs[i] = null;
+          },
+        ]);
       }
     } else {
-      if (typeof ispv[2] === 'string') {
+      if (typeof ispv[2] === "string") {
         ispv[2] = new RegExp(
-          `^${ispv[2].replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*')}$`,
+          `^${ispv[2]
+            .replace(/[$^\\.+?()[\]{}|]/g, "\\$&")
+            .replace(/\*/g, ".*")}$`,
         );
       }
       if (
-        (ispv[1] === '*' ? scheme === 'http' || scheme === 'https' : scheme === ispv[1]) &&
+        (ispv[1] === "*"
+          ? scheme === "http" || scheme === "https"
+          : scheme === ispv[1]) &&
         ispv[2].test(path)
       ) {
-        results.push([ispv[0], ispv[3], () => (ispvs[i] = null)]);
+        results.push([
+          ispv[0],
+          ispv[3],
+          () => {
+            ispvs[i] = null;
+          },
+        ]);
       }
     }
   });
@@ -241,38 +281,38 @@ function execMatchPattern(
   path: string,
 ): void {
   // NOTE: `current['*']` and `current['']` are always of type `CompiledMatchPatternISPV<true>[]`.
-  const labels = host.split('.').reverse();
+  const labels = host.split(".").reverse();
   let current = mp;
   for (const label of labels.slice(0, -1)) {
-    let next = current['*'];
+    let next = current["*"];
     if (Array.isArray(next)) {
       execMatchPatternISPVArray(results, next, scheme, path);
     }
     next = current[label];
     if (!next || Array.isArray(next)) {
       return;
-    } else {
-      current = next;
     }
+    current = next;
   }
   {
     const label = labels[labels.length - 1];
-    let next = current['*'];
+    let next = current["*"];
     if (Array.isArray(next)) {
       execMatchPatternISPVArray(results, next, scheme, path);
     }
     next = current[label];
     if (!next) {
       return;
-    } else if (Array.isArray(next)) {
+    }
+    if (Array.isArray(next)) {
       execMatchPatternISPVArray(results, next, scheme, path);
     } else {
       current = next;
-      next = current[''];
+      next = current[""];
       if (Array.isArray(next)) {
         execMatchPatternISPVArray(results, next, scheme, path);
       }
-      next = current['*'];
+      next = current["*"];
       if (Array.isArray(next)) {
         execMatchPatternISPVArray(results, next, scheme, path);
       }
@@ -289,18 +329,28 @@ function execRegularExpressionIPFVArray(
     if (ipfv == null) {
       return;
     }
-    if (typeof ipfv[1] === 'string') {
+    if (typeof ipfv[1] === "string") {
       ipfv[1] = new RegExp(ipfv[1], ipfv[2]);
     }
     if (ipfv[1].test(prop)) {
-      results.push([ipfv[0], ipfv[3], () => (ipfvs[i] = null)]);
+      results.push([
+        ipfv[0],
+        ipfv[3],
+        () => {
+          ipfvs[i] = null;
+        },
+      ]);
     }
   });
 }
 
 export class Ruleset {
   static compile(rules: string): string {
-    const compiledRules: CompiledRules<false> = { length: 0, mp: {}, re: { url: [], title: [] } };
+    const compiledRules: CompiledRules<false> = {
+      length: 0,
+      mp: {},
+      re: { url: [], title: [] },
+    };
     compileRuleset(compiledRules, lines(rules));
     return JSON.stringify(compiledRules);
   }
@@ -317,10 +367,24 @@ export class Ruleset {
 
   exec(props: Readonly<SerpEntryProps>): RulesetResults {
     const results: RulesetResults = [];
-    execMatchPattern(results, this.compiled.mp, props.url.scheme, props.url.host, props.url.path);
-    execRegularExpressionIPFVArray(results, this.compiled.re.url, props.url.toString());
+    execMatchPattern(
+      results,
+      this.compiled.mp,
+      props.url.scheme,
+      props.url.host,
+      props.url.path,
+    );
+    execRegularExpressionIPFVArray(
+      results,
+      this.compiled.re.url,
+      props.url.toString(),
+    );
     if (props.title != null) {
-      execRegularExpressionIPFVArray(results, this.compiled.re.title, props.title);
+      execRegularExpressionIPFVArray(
+        results,
+        this.compiled.re.title,
+        props.title,
+      );
     }
     return results;
   }

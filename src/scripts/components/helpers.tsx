@@ -1,13 +1,12 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { useClassName } from './utilities';
+import { useLayoutEffect, useRef } from "react";
+import { useClassName } from "./utilities.ts";
 
-export function applyClassName<Props extends { className?: string | undefined }>(
-  props: Props,
-  className: string,
-): Props {
+export function applyClassName<
+  Props extends { className?: string | undefined },
+>(props: Props, className: string): Props {
   return {
     ...props,
-    className: `${className}${props.className ? ` ${props.className}` : ''}`,
+    className: `${className}${props.className ? ` ${props.className}` : ""}`,
   };
 }
 
@@ -17,31 +16,31 @@ export function useInnerRef<T>(
 ): React.RefObject<T> {
   const innerRef = useRef<T>(null);
   useLayoutEffect(() => {
-    if (ref && typeof ref === 'object' && innerRef.current != null) {
+    if (ref && typeof ref === "object" && innerRef.current != null) {
       ref.current = innerRef.current;
     }
   }, [ref]);
   return innerRef;
 }
 
-export const FocusCircle: React.VFC<{ depth?: number }> = ({ depth = 0 }) => {
+export const FocusCircle: React.FC<{ depth?: number }> = ({ depth = 0 }) => {
   const className = useClassName(
-    theme => ({
-      borderRadius: '50%',
-      height: '40px',
-      left: `calc(50% - 20px)`,
-      pointerEvents: 'none',
-      position: 'absolute',
-      top: `calc(50% - 20px)`,
-      width: '40px',
-      [`:focus + ${'* > '.repeat(depth)}&`]: {
+    (theme) => ({
+      borderRadius: "50%",
+      height: "40px",
+      left: "calc(50% - 20px)",
+      pointerEvents: "none",
+      position: "absolute",
+      top: "calc(50% - 20px)",
+      width: "40px",
+      [`:focus + ${"* > ".repeat(depth)}&`]: {
         background: theme.focus.circle,
       },
-      [`:focus:not(:focus-visible) + ${'* > '.repeat(depth)}&`]: {
-        background: 'transparent',
+      [`:focus:not(:focus-visible) + ${"* > ".repeat(depth)}&`]: {
+        background: "transparent",
       },
-      [`:focus:not(:-moz-focusring) + ${'* > '.repeat(depth)}&`]: {
-        background: 'transparent',
+      [`:focus:not(:-moz-focusring) + ${"* > ".repeat(depth)}&`]: {
+        background: "transparent",
       },
     }),
     [depth],

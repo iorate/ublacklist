@@ -1,51 +1,52 @@
-import { SEARCH_ENGINES } from '../../common/search-engines';
-import { CSSAttribute } from '../styles';
-import { SearchEngine, SerpHandler } from '../types';
-import { getDialogThemeFromBody, handleSerp } from './helpers';
+import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import type { CSSAttribute } from "../styles.ts";
+import type { SearchEngine, SerpHandler } from "../types.ts";
+import { getDialogThemeFromBody, handleSerp } from "./helpers.ts";
 
 const defaultControlStyle: CSSAttribute = {
-  color: 'rgb(127, 134, 159)',
-  display: 'block',
-  fontSize: '14px',
-  marginTop: '8px',
+  color: "rgb(127, 134, 159)",
+  display: "block",
+  fontSize: "14px",
+  marginTop: "8px",
 };
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+        backgroundColor:
+          "var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important",
       },
-      '.ub-button': {
-        color: 'var(--ub-link-color, rgb(101, 115, 255))',
+      ".ub-button": {
+        color: "var(--ub-link-color, rgb(101, 115, 255))",
       },
-      '.ub-button:hover': {
-        textDecoration: 'underline',
+      ".ub-button:hover": {
+        textDecoration: "underline",
       },
     },
     controlHandlers: [
       // Web
       {
-        target: '.layout-web__inline-nav-container',
+        target: ".layout-web__inline-nav-container",
         style: defaultControlStyle,
       },
       // News
       {
-        target: '.layout-news__inline-nav-container',
+        target: ".layout-news__inline-nav-container",
         style: {
           ...defaultControlStyle,
-          '@media (max-width: 989px)': {
-            padding: '0 2rem 0 1rem',
+          "@media (max-width: 989px)": {
+            padding: "0 2rem 0 1rem",
           },
         },
       },
       // Videos
       {
-        target: '.layout-video__inline-nav-container',
+        target: ".layout-video__inline-nav-container",
         style: {
           ...defaultControlStyle,
-          '@media (max-width: 989px)': {
-            padding: '0 2rem 0 1rem',
+          "@media (max-width: 989px)": {
+            padding: "0 2rem 0 1rem",
           },
         },
       },
@@ -53,36 +54,36 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '.w-gl__result',
-        url: '.w-gl__result-title',
-        title: 'h3',
-        actionTarget: '.w-gl__result__main',
+        target: ".w-gl__result",
+        url: ".w-gl__result-title",
+        title: "h3",
+        actionTarget: ".w-gl__result__main",
         actionStyle: {
-          display: 'block',
-          marginTop: '4px',
+          display: "block",
+          marginTop: "4px",
         },
       },
       // News
       {
-        target: '.article',
-        url: '.article-right > a',
-        title: '.title',
-        actionTarget: '.article-right',
+        target: ".article",
+        url: ".article-right > a",
+        title: ".title",
+        actionTarget: ".article-right",
         actionStyle: {
-          display: 'block',
-          fontSize: '14px',
-          marginTop: '4px',
+          display: "block",
+          fontSize: "14px",
+          marginTop: "4px",
         },
       },
       // Videos
       {
-        target: '.vo-yt__link',
-        url: '',
-        title: '.vo-yt__title',
-        actionTarget: '.vo-yt__details',
+        target: ".vo-yt__link",
+        url: "",
+        title: ".vo-yt__title",
+        actionTarget: ".vo-yt__details",
         actionStyle: {
-          display: 'block',
-          fontSize: '14px',
+          display: "block",
+          fontSize: "14px",
           marginTop: 0,
         },
       },

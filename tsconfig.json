@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
     "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "module": "CommonJS",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2019"
+    "target": "ESNext",
+    "verbatimModuleSyntax": true
   },
   "exclude": ["website"]
 }
