@@ -22,14 +22,19 @@ jobs:
     name: Deploy
     runs-on: ubuntu-22.04
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
+        with:
+          egress-policy: audit
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20
           cache: pnpm

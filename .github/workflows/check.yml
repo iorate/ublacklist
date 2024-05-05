@@ -17,14 +17,19 @@ jobs:
     name: Check
     runs-on: ubuntu-22.04
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
+        with:
+          egress-policy: audit
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@a3252b78c470c02df07e9d59298aecedc3ccdd6d # v3.0.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20
           cache: pnpm
@@ -50,14 +55,14 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
         with:
           name: dist
           path: dist
 
       - name: "[Website] Get changed files"
         id: website-changed-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@0874344d6ebbaa00a27da73276ae7162fadcaf69 # v44.3.0
         with:
           files: website/**
 
