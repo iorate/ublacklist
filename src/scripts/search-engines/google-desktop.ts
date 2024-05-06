@@ -270,21 +270,49 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           actionRoot.className = css(desktopActionStyle);
         },
       },
+      // Medium-size card on Google "bubble" layout
       {
         target: '.e6hL7d.WJXODe > .SodP3b',
         url: 'a',
         actionTarget: entryRoot => {
-          const anchor = entryRoot.querySelector('a');
-          // If it is a YouTube video
-          if (anchor?.parentElement?.childElementCount === 1) {
-            return anchor.querySelector('.rn876d.LLotyc');
+          const textContainer = entryRoot.querySelector<HTMLElement>(
+            [
+              '.rn876d.LLotyc',
+              'div[class="HDMle"]',
+              '.g4Fgt > div:last-child:has(> span)',
+              '.lt6hVb > div:last-child:has(> span)',
+            ].join(', '),
+          );
+          if (textContainer) {
+            const dateSpan = textContainer.querySelector<HTMLElement>(
+              '.HDMle > div:last-child:has(> span), .FNMYpd > div:last-child:has(> span)',
+            );
+            return dateSpan ?? textContainer;
           }
           return null;
         },
-        actionStyle: {
-          ...desktopActionStyle,
-          position: 'relative',
-          zIndex: '1',
+        actionStyle: actionRoot => {
+          // Add a " · " separator to elements that come after a date
+          if (actionRoot.matches('span + span')) {
+            actionRoot.classList.add(
+              css({
+                ...desktopActionStyle,
+                paddingLeft: '1px',
+              }),
+            );
+          } else {
+            actionRoot.classList.add(
+              css({
+                fontSize: '12px',
+              }),
+            );
+          }
+          actionRoot.classList.add(
+            css({
+              position: 'relative',
+              zIndex: '1',
+            }),
+          );
         },
       },
       // Twitter, Twitter Search
