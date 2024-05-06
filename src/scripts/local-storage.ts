@@ -1,14 +1,14 @@
-import { browser } from './browser';
-import { sendMessage } from './messages';
-import {
+import { browser } from "./browser.ts";
+import { sendMessage } from "./messages.ts";
+import type {
   LocalStorageItems,
   LocalStorageItemsFor,
   LocalStorageItemsSavable,
   SaveSource,
-} from './types';
+} from "./types.ts";
 
 export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
-  blacklist: '',
+  blacklist: "",
   compiledRules: false,
   skipBlockDialog: false,
   hideBlockLinks: false,
@@ -16,10 +16,10 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   enablePathDepth: false,
   blockWholeSite: false,
 
-  linkColor: 'default',
-  blockColor: 'default',
-  highlightColors: ['#ddeeff'],
-  dialogTheme: 'default',
+  linkColor: "default",
+  blockColor: "default",
+  highlightColors: ["#ddeeff"],
+  dialogTheme: "default",
 
   syncCloudId: false,
   syncBlocklist: true,
@@ -36,22 +36,29 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
 export function loadFromLocalStorage<Keys extends (keyof LocalStorageItems)[]>(
   keys: Readonly<Keys>,
 ): Promise<LocalStorageItemsFor<Keys>> {
-  const defaultItemsForKeys: Partial<Record<keyof LocalStorageItems, unknown>> = {};
+  const defaultItemsForKeys: Partial<Record<keyof LocalStorageItems, unknown>> =
+    {};
   for (const key of keys) {
     defaultItemsForKeys[key] = defaultLocalStorageItems[key];
   }
-  return browser.storage.local.get(defaultItemsForKeys) as Promise<LocalStorageItemsFor<Keys>>;
+  return browser.storage.local.get(defaultItemsForKeys) as Promise<
+    LocalStorageItemsFor<Keys>
+  >;
 }
 
 export function loadAllFromLocalStorage(): Promise<LocalStorageItems> {
-  return browser.storage.local.get(defaultLocalStorageItems) as Promise<LocalStorageItems>;
+  return browser.storage.local.get(
+    defaultLocalStorageItems,
+  ) as Promise<LocalStorageItems>;
 }
 
-export function saveToLocalStorage<Items extends Partial<LocalStorageItemsSavable>>(
+export function saveToLocalStorage<
+  Items extends Partial<LocalStorageItemsSavable>,
+>(
   items: Exclude<keyof Items, keyof LocalStorageItemsSavable> extends never
     ? Readonly<Items>
     : never,
   source: SaveSource,
 ): Promise<void> {
-  return sendMessage('save-to-local-storage', items, source);
+  return sendMessage("save-to-local-storage", items, source);
 }

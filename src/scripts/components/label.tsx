@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { DISABLED_OPACITY } from './constants';
-import { applyClassName } from './helpers';
-import { useClassName } from './utilities';
+import React, { useContext } from "react";
+import { DISABLED_OPACITY } from "./constants.ts";
+import { applyClassName } from "./helpers.tsx";
+import { useClassName } from "./utilities.ts";
 
 type LabelContextValue = { disabled: boolean };
 
@@ -10,21 +10,24 @@ const LabelContext = React.createContext<LabelContextValue | null>(null);
 function useLabelContext(): LabelContextValue {
   const value = useContext(LabelContext);
   if (!value) {
-    throw new Error('useLabelContext: no matching provider');
+    throw new Error("useLabelContext: no matching provider");
   }
   return value;
 }
 
-export type LabelWrapperProps = JSX.IntrinsicElements['div'] & {
+export type LabelWrapperProps = JSX.IntrinsicElements["div"] & {
   disabled?: boolean;
   fullWidth?: boolean;
 };
 
 export const LabelWrapper = React.forwardRef<HTMLDivElement, LabelWrapperProps>(
-  function LabelWrapper({ disabled = false, fullWidth = false, ...props }, ref) {
+  function LabelWrapper(
+    { disabled = false, fullWidth = false, ...props },
+    ref,
+  ) {
     const className = useClassName(
       () => ({
-        marginBottom: fullWidth ? '0.5em' : 0,
+        marginBottom: fullWidth ? "0.5em" : 0,
         opacity: disabled ? DISABLED_OPACITY : 1,
       }),
       [disabled, fullWidth],
@@ -37,69 +40,73 @@ export const LabelWrapper = React.forwardRef<HTMLDivElement, LabelWrapperProps>(
   },
 );
 
-export type LabelProps = JSX.IntrinsicElements['span'];
+export type LabelProps = JSX.IntrinsicElements["span"];
 
-export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(function Label(props, ref) {
-  const { disabled } = useLabelContext();
-
-  const className = useClassName(
-    theme => ({
-      color: theme.text.primary,
-      cursor: disabled ? 'default' : 'auto',
-    }),
-    [disabled],
-  );
-
-  return (
-    <div>
-      <span {...applyClassName(props, className)} ref={ref} />
-    </div>
-  );
-});
-
-export type ControlLabelProps = { for: string } & JSX.IntrinsicElements['label'];
-
-export const ControlLabel = React.forwardRef<HTMLLabelElement, ControlLabelProps>(
-  function ControlLabel({ children, for: for_, ...props }, ref) {
+export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(
+  function Label(props, ref) {
     const { disabled } = useLabelContext();
 
     const className = useClassName(
-      theme => ({
+      (theme) => ({
         color: theme.text.primary,
-        cursor: disabled ? 'default' : 'pointer',
+        cursor: disabled ? "default" : "auto",
       }),
       [disabled],
     );
 
     return (
       <div>
-        <label {...applyClassName(props, className)} htmlFor={for_} ref={ref}>
-          {children}
-        </label>
+        <span {...applyClassName(props, className)} ref={ref} />
       </div>
     );
   },
 );
 
-export type SubLabelProps = JSX.IntrinsicElements['span'];
+export type ControlLabelProps = {
+  for: string;
+} & JSX.IntrinsicElements["label"];
 
-export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(function SubLabel(
-  props,
-  ref,
-) {
+export const ControlLabel = React.forwardRef<
+  HTMLLabelElement,
+  ControlLabelProps
+>(function ControlLabel({ children, for: for_, ...props }, ref) {
   const { disabled } = useLabelContext();
 
   const className = useClassName(
-    theme => ({
-      color: theme.text.secondary,
-      cursor: disabled ? 'default' : 'auto',
+    (theme) => ({
+      color: theme.text.primary,
+      cursor: disabled ? "default" : "pointer",
     }),
     [disabled],
   );
 
   return (
     <div>
-      <span {...applyClassName(props, className)} ref={ref} />
+      <label {...applyClassName(props, className)} htmlFor={for_} ref={ref}>
+        {children}
+      </label>
     </div>
   );
 });
+
+export type SubLabelProps = JSX.IntrinsicElements["span"];
+
+export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(
+  function SubLabel(props, ref) {
+    const { disabled } = useLabelContext();
+
+    const className = useClassName(
+      (theme) => ({
+        color: theme.text.secondary,
+        cursor: disabled ? "default" : "auto",
+      }),
+      [disabled],
+    );
+
+    return (
+      <div>
+        <span {...applyClassName(props, className)} ref={ref} />
+      </div>
+    );
+  },
+);

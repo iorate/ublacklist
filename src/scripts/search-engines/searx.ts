@@ -1,30 +1,32 @@
-import { SEARCH_ENGINES } from '../../common/search-engines';
-import { SearchEngine, SerpHandler } from '../types';
-import { getDialogThemeFromBody, handleSerp } from './helpers';
+import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import type { SearchEngine, SerpHandler } from "../types.ts";
+import { getDialogThemeFromBody, handleSerp } from "./helpers.ts";
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+        backgroundColor:
+          "var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important",
       },
-      '.ub-button': {
-        color: 'var(--ub-link-color, var(--color-categories-item-selected-font, #41a2ce))',
+      ".ub-button": {
+        color:
+          "var(--ub-link-color, var(--color-categories-item-selected-font, #41a2ce))",
       },
-      '.ub-button:hover': {
-        textDecoration: 'underline',
+      ".ub-button:hover": {
+        textDecoration: "underline",
       },
-      '.result-images': {
-        padding: '.5rem .5rem 4.5rem .5rem',
+      ".result-images": {
+        padding: ".5rem .5rem 4.5rem .5rem",
       },
     },
     controlHandlers: [
       //#region simple theme
       // Global
       {
-        target: '.search_filters',
+        target: ".search_filters",
         style: {
-          marginTop: '8px',
+          marginTop: "8px",
           order: 1,
         },
       },
@@ -33,17 +35,17 @@ function getSerpHandler(): SerpHandler {
       //#region oscar theme
       //Global
       {
-        target: '.searx-navbar',
+        target: ".searx-navbar",
         style: {
           order: 1,
-          color: '#fff', // Force white text
+          color: "#fff", // Force white text
         },
       },
       {
-        target: '.searxng-navbar',
+        target: ".searxng-navbar",
         style: {
           order: 1,
-          color: '#fff', // Force white text
+          color: "#fff", // Force white text
         },
       },
       //#endregion
@@ -51,7 +53,7 @@ function getSerpHandler(): SerpHandler {
       //#region murena
       //Global
       {
-        target: '.etheme_links',
+        target: ".etheme_links",
         style: {
           order: 1,
         },
@@ -61,71 +63,71 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '.result-default',
-        url: 'a',
-        title: 'h3',
-        actionTarget: 'a',
+        target: ".result-default",
+        url: "a",
+        title: "h3",
+        actionTarget: "a",
         actionStyle: {
-          '&::before': {
+          "&::before": {
             content: '" · "',
-            padding: '0 2px 0 4px',
+            padding: "0 2px 0 4px",
           },
-          fontSize: '1rem',
+          fontSize: "1rem",
         },
       },
       // Images
       {
-        target: '.result-images',
-        url: 'a',
-        title: '.title',
-        actionTarget: 'a',
+        target: ".result-images",
+        url: "a",
+        title: ".title",
+        actionTarget: "a",
         actionStyle: {
-          fontSize: '.7em',
-          display: 'block',
-          position: 'absolute',
-          padding: '3.1rem 0 0 0',
+          fontSize: ".7em",
+          display: "block",
+          position: "absolute",
+          padding: "3.1rem 0 0 0",
         },
       },
       // Videos
       {
-        target: '.result-videos',
-        url: 'a',
-        title: 'h3',
-        actionTarget: 'a',
+        target: ".result-videos",
+        url: "a",
+        title: "h3",
+        actionTarget: "a",
         actionStyle: {
-          '&::before': {
+          "&::before": {
             content: '" · "',
-            padding: '0 2px 0 4px',
+            padding: "0 2px 0 4px",
           },
-          fontSize: '1rem',
+          fontSize: "1rem",
         },
       },
       // Maps
       {
-        target: '.result-map',
-        url: 'a',
-        title: 'h3',
-        actionTarget: 'a',
+        target: ".result-map",
+        url: "a",
+        title: "h3",
+        actionTarget: "a",
         actionStyle: {
-          '&::before': {
+          "&::before": {
             content: '" · "',
-            padding: '0 2px 0 4px',
+            padding: "0 2px 0 4px",
           },
-          fontSize: '1rem',
+          fontSize: "1rem",
         },
       },
       // Files
       {
-        target: '.result-torrent',
-        url: 'a',
-        title: 'h3',
-        actionTarget: 'a',
+        target: ".result-torrent",
+        url: "a",
+        title: "h3",
+        actionTarget: "a",
         actionStyle: {
-          '&::before': {
+          "&::before": {
             content: '" · "',
-            padding: '0 2px 0 4px',
+            padding: "0 2px 0 4px",
           },
-          fontSize: '1rem',
+          fontSize: "1rem",
         },
       },
     ],

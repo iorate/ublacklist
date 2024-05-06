@@ -1,18 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Baseline } from './components/baseline';
-import { Container } from './components/container';
-import { AutoThemeProvider } from './components/theme';
-import { translate } from './locales';
-import { AboutSection } from './options/about-section';
-import { AppearanceSection } from './options/appearance-section';
-import { BackupRestoreSection } from './options/backup-restore-section';
-import { GeneralSection } from './options/general-section';
-import { OptionsContextProvider } from './options/options-context';
-import { SubscriptionSection } from './options/subscription-section';
-import { SyncSection } from './options/sync-section';
+import { createRoot } from "react-dom/client";
+import { Baseline } from "./components/baseline.tsx";
+import { Container } from "./components/container.tsx";
+import { AutoThemeProvider } from "./components/theme.tsx";
+import { translate } from "./locales.ts";
+import { AboutSection } from "./options/about-section.tsx";
+import { AppearanceSection } from "./options/appearance-section.tsx";
+import { BackupRestoreSection } from "./options/backup-restore-section.tsx";
+import { GeneralSection } from "./options/general-section.tsx";
+import { OptionsContextProvider } from "./options/options-context.tsx";
+import { SubscriptionSection } from "./options/subscription-section.tsx";
+import { SyncSection } from "./options/sync-section.tsx";
 
-const Options: React.VFC = () => (
+const Options: React.FC = () => (
   <AutoThemeProvider>
     <Baseline>
       <OptionsContextProvider>
@@ -30,8 +29,11 @@ const Options: React.VFC = () => (
 );
 
 function main(): void {
-  document.documentElement.lang = translate('lang');
-  ReactDOM.render(<Options />, document.body.appendChild(document.createElement('div')));
+  document.documentElement.lang = translate("lang");
+  const root = createRoot(
+    document.body.appendChild(document.createElement("div")),
+  );
+  root.render(<Options />);
 }
 
 main();

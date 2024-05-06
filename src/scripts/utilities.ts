@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
-import { parseMatchPattern } from '../common/match-pattern';
-import { ErrorResult, Result, SuccessResult } from './types';
+import dayjs from "dayjs";
+import { parseMatchPattern } from "../common/match-pattern.ts";
+import type { ErrorResult, Result, SuccessResult } from "./types.ts";
 
 // #region AltURL
 export class AltURL {
@@ -31,35 +31,41 @@ export function makeAltURL(url: string): AltURL | null {
 
 // #region Error
 export class HTTPError extends Error {
-  constructor(readonly status: number, readonly statusText: string) {
-    super(`${status}${statusText ? ' ' : ''}${statusText}`);
-    this.name = 'HTTPError';
+  constructor(
+    readonly status: number,
+    readonly statusText: string,
+  ) {
+    super(`${status}${statusText ? " " : ""}${statusText}`);
+    this.name = "HTTPError";
   }
 }
 
 export class UnexpectedResponse extends Error {
   constructor(readonly response: unknown) {
     super(JSON.stringify(response));
-    this.name = 'UnexpectedResponse';
+    this.name = "UnexpectedResponse";
   }
 }
 // #endregion Error
 
 // #region MatchPattern
-export { type MatchPatternScheme, parseMatchPattern } from '../common/match-pattern';
+export {
+  type MatchPatternScheme,
+  parseMatchPattern,
+} from "../common/match-pattern.ts";
 
-type SchemePattern = { type: 'any' } | { type: 'exact'; exact: string };
+type SchemePattern = { type: "any" } | { type: "exact"; exact: string };
 
 type HostPattern =
-  | { type: 'any' }
-  | { type: 'domain'; domain: string }
-  | { type: 'exact'; exact: string };
+  | { type: "any" }
+  | { type: "domain"; domain: string }
+  | { type: "exact"; exact: string };
 
 type PathPattern =
-  | { type: 'any' }
-  | { type: 'prefix'; prefix: string }
-  | { type: 'exact'; exact: string }
-  | { type: 'regExp'; regExp: RegExp };
+  | { type: "any" }
+  | { type: "prefix"; prefix: string }
+  | { type: "exact"; exact: string }
+  | { type: "regExp"; regExp: RegExp };
 
 export class MatchPattern {
   private readonly schemePattern: SchemePattern;
@@ -69,34 +75,36 @@ export class MatchPattern {
   constructor(mp: string) {
     const parsed = parseMatchPattern(mp);
     if (!parsed) {
-      throw new Error('Invalid match pattern');
+      throw new Error("Invalid match pattern");
     }
     const { scheme, host, path } = parsed;
-    if (scheme === '*') {
-      this.schemePattern = { type: 'any' };
+    if (scheme === "*") {
+      this.schemePattern = { type: "any" };
     } else {
-      this.schemePattern = { type: 'exact', exact: scheme };
+      this.schemePattern = { type: "exact", exact: scheme };
     }
-    if (host === '*') {
-      this.hostPattern = { type: 'any' };
-    } else if (host.startsWith('*.')) {
-      this.hostPattern = { type: 'domain', domain: host.slice(2) };
+    if (host === "*") {
+      this.hostPattern = { type: "any" };
+    } else if (host.startsWith("*.")) {
+      this.hostPattern = { type: "domain", domain: host.slice(2) };
     } else {
-      this.hostPattern = { type: 'exact', exact: host };
+      this.hostPattern = { type: "exact", exact: host };
     }
-    if (path === '/*') {
-      this.pathPattern = { type: 'any' };
+    if (path === "/*") {
+      this.pathPattern = { type: "any" };
     } else {
-      const wildcardIndex = path.indexOf('*');
+      const wildcardIndex = path.indexOf("*");
       if (wildcardIndex === path.length - 1) {
-        this.pathPattern = { type: 'prefix', prefix: path.slice(0, -1) };
+        this.pathPattern = { type: "prefix", prefix: path.slice(0, -1) };
       } else if (wildcardIndex === -1) {
-        this.pathPattern = { type: 'exact', exact: path };
+        this.pathPattern = { type: "exact", exact: path };
       } else {
         this.pathPattern = {
-          type: 'regExp',
+          type: "regExp",
           regExp: new RegExp(
-            `^${path.replace(/[$^\\.+?()[\]{}|]/g, '\\$&').replace(/\*/g, '.*?')}$`,
+            `^${path
+              .replace(/[$^\\.+?()[\]{}|]/g, "\\$&")
+              .replace(/\*/g, ".*?")}$`,
           ),
         };
       }
@@ -104,20 +112,20 @@ export class MatchPattern {
   }
 
   test(url: AltURL): boolean {
-    if (this.hostPattern.type === 'domain') {
+    if (this.hostPattern.type === "domain") {
       if (
         url.host !== this.hostPattern.domain &&
         !url.host.endsWith(`.${this.hostPattern.domain}`)
       ) {
         return false;
       }
-    } else if (this.hostPattern.type === 'exact') {
+    } else if (this.hostPattern.type === "exact") {
       if (url.host !== this.hostPattern.exact) {
         return false;
       }
     }
-    if (this.schemePattern.type === 'any') {
-      if (url.scheme !== 'http' && url.scheme !== 'https') {
+    if (this.schemePattern.type === "any") {
+      if (url.scheme !== "http" && url.scheme !== "https") {
         return false;
       }
     } else {
@@ -125,15 +133,15 @@ export class MatchPattern {
         return false;
       }
     }
-    if (this.pathPattern.type === 'prefix') {
+    if (this.pathPattern.type === "prefix") {
       if (!url.path.startsWith(this.pathPattern.prefix)) {
         return false;
       }
-    } else if (this.pathPattern.type === 'exact') {
+    } else if (this.pathPattern.type === "exact") {
       if (url.path !== this.pathPattern.exact) {
         return false;
       }
-    } else if (this.pathPattern.type === 'regExp') {
+    } else if (this.pathPattern.type === "regExp") {
       if (!this.pathPattern.regExp.test(url.path)) {
         return false;
       }
@@ -175,30 +183,32 @@ export class Mutex {
 
 // #region Result
 export function isErrorResult(result: Result): result is ErrorResult {
-  return result.type === 'error';
+  return result.type === "error";
 }
 
 export function isSuccessResult(result: Result): result is SuccessResult {
-  return result.type === 'success';
+  return result.type === "success";
 }
 
 export function errorResult(message: string): ErrorResult {
   return {
-    type: 'error',
+    type: "error",
     message,
   };
 }
 
 export function successResult(): SuccessResult {
   return {
-    type: 'success',
+    type: "success",
     timestamp: dayjs().toISOString(),
   };
 }
 // #endregion Result
 
 // #region object
-export function stringKeys<Key extends string, Value>(record: Readonly<Record<Key, Value>>): Key[] {
+export function stringKeys<Key extends string, Value>(
+  record: Readonly<Record<Key, Value>>,
+): Key[] {
   return Object.keys(record) as Key[];
 }
 
@@ -208,56 +218,77 @@ export function stringEntries<Key extends string, Value>(
   return Object.entries(record) as [Key, Value][];
 }
 
-export function numberKeys<Key extends number, Value>(record: Readonly<Record<Key, Value>>): Key[] {
+export function numberKeys<Key extends number, Value>(
+  record: Readonly<Record<Key, Value>>,
+): Key[] {
   return Object.keys(record).map(Number) as Key[];
 }
 
 export function numberEntries<Key extends number, Value>(
   record: Readonly<Record<Key, Value>>,
 ): [Key, Value][] {
-  return Object.entries(record).map(([key, value]) => [Number(key), value]) as [Key, Value][];
+  return Object.entries(record).map(([key, value]) => [Number(key), value]) as [
+    Key,
+    Value,
+  ][];
 }
 // #endregion object
 
 // #region string
 export function lines(s: string): string[] {
-  return s ? s.split('\n') : [];
+  return s ? s.split("\n") : [];
 }
 
 export function unlines(ss: string[]): string {
-  return ss.join('\n');
+  return ss.join("\n");
 }
 
 export const r = String.raw.bind(String);
 // #endregion string
 
-export function downloadTextFile(filename: string, mimeType: string, content: string): void {
-  const a = document.createElement('a');
+export function downloadTextFile(
+  filename: string,
+  mimeType: string,
+  content: string,
+): void {
+  const a = document.createElement("a");
   a.href = `data:${mimeType},${encodeURIComponent(content)}`;
   a.download = filename;
   a.click();
 }
 
 export function uploadTextFile(mimeType: string): Promise<string | null> {
-  return new Promise<string | null>(resolve => {
-    const fileInput = document.createElement('input');
+  return new Promise<string | null>((resolve) => {
+    const fileInput = document.createElement("input");
     fileInput.accept = mimeType;
-    fileInput.type = 'file';
-    fileInput.addEventListener('input', () => {
+    fileInput.type = "file";
+    fileInput.addEventListener("input", () => {
       const file = fileInput.files?.[0];
       if (!file) {
         resolve(null);
         return;
       }
       const fileReader = new FileReader();
-      fileReader.addEventListener('load', () => {
+      fileReader.addEventListener("load", () => {
         resolve(fileReader.result as string);
       });
-      fileReader.addEventListener('error', () => {
+      fileReader.addEventListener("error", () => {
         resolve(null);
       });
       fileReader.readAsText(file);
     });
     fileInput.click();
   });
+}
+
+export function svgToDataURL(svg: string): string {
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+export function parseJSON(text: string): string | undefined {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return undefined;
+  }
 }

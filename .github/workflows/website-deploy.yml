@@ -1,0 +1,53 @@
+name: "[Website] Deploy"
+
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - website/**
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+        working-directory: website
+
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/build
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}

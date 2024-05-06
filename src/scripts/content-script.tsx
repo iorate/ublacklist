@@ -1,31 +1,37 @@
-import React, { useLayoutEffect, useMemo } from 'react';
-import ReactDOM from 'react-dom';
-import { BlockDialog } from './block-dialog';
-import { browser } from './browser';
-import { InteractiveRuleset } from './interactive-ruleset';
-import { loadFromLocalStorage, saveToLocalStorage } from './local-storage';
-import { translate } from './locales';
-import { sendMessage } from './messages';
-import { Ruleset } from './ruleset';
-import { SEARCH_ENGINES } from './search-engines';
-import { css, glob } from './styles';
-import { DialogTheme, SerpControl, SerpEntry, SerpHandler, SerpHandlerResult } from './types';
-import { AltURL, MatchPattern } from './utilities';
+import { useLayoutEffect, useMemo } from "react";
+import { type Root, createRoot } from "react-dom/client";
+import { BlockDialog } from "./block-dialog.tsx";
+import { browser } from "./browser.ts";
+import { InteractiveRuleset } from "./interactive-ruleset.ts";
+import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
+import { translate } from "./locales.ts";
+import { sendMessage } from "./messages.ts";
+import { Ruleset } from "./ruleset.ts";
+import { SEARCH_ENGINES } from "./search-engines.ts";
+import { css, glob } from "./styles.ts";
+import type {
+  DialogTheme,
+  SerpControl,
+  SerpEntry,
+  SerpHandler,
+  SerpHandlerResult,
+} from "./types.ts";
+import { AltURL, MatchPattern } from "./utilities.ts";
 
-const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
+const Button: React.FC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
   onClick,
 }) => {
   const className = useMemo(
     () =>
       css({
-        cursor: 'pointer',
-        whiteSpace: 'nowrap',
-        '&:focus:not(:focus-visible)': {
-          outline: 'none',
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        "&:focus:not(:focus-visible)": {
+          outline: "none",
         },
-        '&:focus:not(:-moz-focusring)': {
-          outline: 'none',
+        "&:focus:not(:-moz-focusring)": {
+          outline: "none",
         },
       }),
     [],
@@ -35,13 +41,13 @@ const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
       className={`ub-button ${className}`}
       role="button"
       tabIndex={0}
-      onClick={e => {
+      onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         onClick();
       }}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           e.stopPropagation();
           e.currentTarget.click();
@@ -53,7 +59,7 @@ const Button: React.VFC<{ children: React.ReactNode; onClick: () => void }> = ({
   );
 };
 
-const Control: React.VFC<{
+const Control: React.FC<{
   blockedEntryCount: number;
   showBlockedEntries: boolean;
   onClick: () => void;
@@ -63,18 +69,23 @@ const Control: React.VFC<{
   return !blockedEntryCount ? null : (
     <>
       {blockedEntryCount === 1
-        ? translate('content_singleSiteBlocked')
-        : translate('content_multipleSitesBlocked', String(blockedEntryCount))}{' '}
+        ? translate("content_singleSiteBlocked")
+        : translate(
+            "content_multipleSitesBlocked",
+            String(blockedEntryCount),
+          )}{" "}
       <Button onClick={onClick}>
         {translate(
-          showBlockedEntries ? 'content_hideBlockedSitesLink' : 'content_showBlockedSitesLink',
+          showBlockedEntries
+            ? "content_hideBlockedSitesLink"
+            : "content_showBlockedSitesLink",
         )}
       </Button>
     </>
   );
 };
 
-const Action: React.VFC<{
+const Action: React.FC<{
   blocked: boolean;
   onClick: () => void;
   onRender?: () => void;
@@ -82,7 +93,7 @@ const Action: React.VFC<{
   useLayoutEffect(() => onRender?.());
   return (
     <Button onClick={onClick}>
-      {translate(blocked ? 'content_unblockSiteLink' : 'content_blockSiteLink')}
+      {translate(blocked ? "content_unblockSiteLink" : "content_blockSiteLink")}
     </Button>
   );
 };
@@ -102,26 +113,31 @@ class ContentScript {
   } | null = null;
   controls: SerpControl[] = [];
   entries: SerpEntry[] = [];
-  readonly scopeStates: Record<string, { blockedEntryCount: number; showBlockedEntries: boolean }> =
-    {};
+  readonly scopeStates: Record<
+    string,
+    { blockedEntryCount: number; showBlockedEntries: boolean }
+  > = {};
   blockDialogRoot: ShadowRoot | null = null;
   didSerpHead = false;
+  readonly roots = new Map<HTMLElement | ShadowRoot, Root>();
 
   constructor(readonly serpHandler: SerpHandler) {
     // onSerpStart
     this.onSerpStart();
 
     // onSerpHead, onSerpElement
-    new MutationObserver(records => {
+    new MutationObserver((records) => {
       if (
         serpHandler.observeRemoval &&
         records
-          .flatMap(record => [...record.removedNodes])
-          .some(node => node instanceof HTMLElement)
+          .flatMap((record) => [...record.removedNodes])
+          .some((node) => node instanceof HTMLElement)
       ) {
-        this.controls = this.controls.filter(control => control.root.isConnected);
+        this.controls = this.controls.filter(
+          (control) => control.root.isConnected,
+        );
         const prevEntryCount = this.entries.length;
-        this.entries = this.entries.filter(entry => entry.root.isConnected);
+        this.entries = this.entries.filter((entry) => entry.root.isConnected);
         if (this.entries.length < prevEntryCount) {
           this.rejudgeAllEntries();
         }
@@ -129,9 +145,9 @@ class ContentScript {
       for (const record of records) {
         for (const addedNode of record.addedNodes) {
           if (addedNode instanceof HTMLElement) {
-            // #if DEVELOPMENT
-            console.debug(addedNode.cloneNode(true));
-            // #endif
+            if (process.env.DEBUG === "true") {
+              console.debug(addedNode.cloneNode(true));
+            }
             if (addedNode === document.head && this.options) {
               this.onSerpHead();
             }
@@ -142,8 +158,8 @@ class ContentScript {
     }).observe(document.documentElement, { childList: true, subtree: true });
 
     // onSerpEnd
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.onSerpEnd());
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => this.onSerpEnd());
     } else {
       this.onSerpEnd();
     }
@@ -152,18 +168,18 @@ class ContentScript {
   onSerpStart(): void {
     void (async () => {
       const options = await loadFromLocalStorage([
-        'blacklist',
-        'compiledRules',
-        'subscriptions',
-        'skipBlockDialog',
-        'hideControl',
-        'hideBlockLinks',
-        'enablePathDepth',
-        'blockWholeSite',
-        'linkColor',
-        'blockColor',
-        'highlightColors',
-        'dialogTheme',
+        "blacklist",
+        "compiledRules",
+        "subscriptions",
+        "skipBlockDialog",
+        "hideControl",
+        "hideBlockLinks",
+        "enablePathDepth",
+        "blockWholeSite",
+        "linkColor",
+        "blockColor",
+        "highlightColors",
+        "dialogTheme",
       ]);
 
       this.options = {
@@ -173,9 +189,11 @@ class ContentScript {
             ? options.compiledRules
             : Ruleset.compile(options.blacklist),
           Object.values(options.subscriptions)
-            .filter(subscription => subscription.enabled ?? true)
+            .filter((subscription) => subscription.enabled ?? true)
             .map(
-              subscription => subscription.compiledRules ?? Ruleset.compile(subscription.blacklist),
+              (subscription) =>
+                subscription.compiledRules ??
+                Ruleset.compile(subscription.blacklist),
             ),
         ),
         skipBlockDialog: options.skipBlockDialog,
@@ -183,10 +201,12 @@ class ContentScript {
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
         blockWholeSite: options.blockWholeSite,
-        linkColor: options.linkColor !== 'default' ? options.linkColor : null,
-        blockColor: options.blockColor !== 'default' ? options.blockColor : null,
+        linkColor: options.linkColor !== "default" ? options.linkColor : null,
+        blockColor:
+          options.blockColor !== "default" ? options.blockColor : null,
         highlightColors: options.highlightColors,
-        dialogTheme: options.dialogTheme !== 'default' ? options.dialogTheme : null,
+        dialogTheme:
+          options.dialogTheme !== "default" ? options.dialogTheme : null,
       };
 
       if (document.head) {
@@ -205,11 +225,11 @@ class ContentScript {
     this.didSerpHead = true;
 
     glob({
-      '.ub-hidden': {
-        display: 'none !important',
+      ".ub-hidden": {
+        display: "none !important",
       },
       '[data-ub-blocked="hidden"]': {
-        display: 'none !important',
+        display: "none !important",
       },
     });
     this.handleResult(
@@ -227,8 +247,8 @@ class ContentScript {
 
   onSerpEnd(): void {
     this.blockDialogRoot = document.body
-      .appendChild(document.createElement('div'))
-      .attachShadow({ mode: 'open' });
+      .appendChild(document.createElement("div"))
+      .attachShadow({ mode: "open" });
   }
 
   handleResult({ controls, entries }: SerpHandlerResult): void {
@@ -281,11 +301,11 @@ class ContentScript {
       showBlockedEntries: false,
     };
     control.root.classList.toggle(
-      'ub-hidden',
+      "ub-hidden",
       this.options?.hideControls || !scopeState.blockedEntryCount,
     );
     control.root.lang = browser.i18n.getUILanguage();
-    ReactDOM.render(
+    this.render(
       <Control
         blockedEntryCount={scopeState.blockedEntryCount}
         showBlockedEntries={scopeState.showBlockedEntries}
@@ -308,15 +328,19 @@ class ContentScript {
     delete entry.root.dataset.ubBlocked;
     delete entry.root.dataset.ubHighlight;
     if (entry.state === 0) {
-      entry.root.dataset.ubBlocked = this.scopeStates[entry.scope]?.showBlockedEntries
-        ? 'visible'
-        : 'hidden';
+      entry.root.dataset.ubBlocked = this.scopeStates[entry.scope]
+        ?.showBlockedEntries
+        ? "visible"
+        : "hidden";
     } else if (entry.state >= 2) {
       entry.root.dataset.ubHighlight = String(entry.state - 1);
     }
-    entry.actionRoot.classList.toggle('ub-hidden', this.options?.hideActions ?? false);
+    entry.actionRoot.classList.toggle(
+      "ub-hidden",
+      this.options?.hideActions ?? false,
+    );
     entry.actionRoot.lang = browser.i18n.getUILanguage();
-    ReactDOM.render(
+    this.render(
       <Action
         blocked={entry.state === 0}
         onClick={() => {
@@ -324,15 +348,21 @@ class ContentScript {
             return;
           }
           if (this.options.skipBlockDialog) {
-            this.options.ruleset.createPatch(entry.props, this.options.blockWholeSite);
+            this.options.ruleset.createPatch(
+              entry.props,
+              this.options.blockWholeSite,
+            );
             this.options.ruleset.applyPatch();
             void saveToLocalStorage(
               { blacklist: this.options.ruleset.toString() },
-              'content-script',
+              "content-script",
             );
             this.rejudgeAllEntries();
           } else {
-            this.renderBlockDialog(entry.props.url.toString(), entry.props.title);
+            this.renderBlockDialog(
+              entry.props.url.toString(),
+              entry.props.title,
+            );
           }
         }}
         {...(entry.onActionRender ? { onRender: entry.onActionRender } : {})}
@@ -345,13 +375,13 @@ class ContentScript {
     if (!this.options || !this.blockDialogRoot) {
       return;
     }
-    ReactDOM.render(
+    this.render(
       <BlockDialog
         blockWholeSite={this.options.blockWholeSite}
         close={() => this.renderBlockDialog(url, title, false)}
         enablePathDepth={this.options.enablePathDepth}
         open={open}
-        openOptionsPage={() => sendMessage('open-options-page')}
+        openOptionsPage={() => sendMessage("open-options-page")}
         ruleset={this.options.ruleset}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
@@ -361,12 +391,24 @@ class ContentScript {
           if (!this.options) {
             return;
           }
-          void saveToLocalStorage({ blacklist: this.options.ruleset.toString() }, 'content-script');
+          void saveToLocalStorage(
+            { blacklist: this.options.ruleset.toString() },
+            "content-script",
+          );
           this.rejudgeAllEntries();
         }}
       />,
       this.blockDialogRoot,
     );
+  }
+
+  render(children: React.ReactNode, element: HTMLElement | ShadowRoot): void {
+    let root = this.roots.get(element);
+    if (!root) {
+      root = createRoot(element);
+      this.roots.set(element, root);
+    }
+    root.render(children);
   }
 }
 
@@ -374,19 +416,22 @@ function main() {
   if (document.documentElement.dataset.ubActive) {
     return;
   }
-  document.documentElement.dataset.ubActive = '1';
+  document.documentElement.dataset.ubActive = "1";
 
   const url = new AltURL(window.location.href);
   const serpHandler = Object.values(SEARCH_ENGINES)
     .find(({ contentScripts }) =>
       contentScripts
         .flatMap(({ matches }) => matches)
-        .some(match => new MatchPattern(match).test(url)),
+        .some((match) => new MatchPattern(match).test(url)),
     )
     ?.getSerpHandler();
   if (serpHandler) {
     if (serpHandler.delay) {
-      window.setTimeout(() => new ContentScript(serpHandler), serpHandler.delay);
+      window.setTimeout(
+        () => new ContentScript(serpHandler),
+        serpHandler.delay,
+      );
     } else {
       new ContentScript(serpHandler);
     }

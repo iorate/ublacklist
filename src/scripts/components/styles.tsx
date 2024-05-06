@@ -1,5 +1,5 @@
-import * as Goober from 'goober';
-import React, { useContext } from 'react';
+import * as Goober from "goober";
+import React, { useContext } from "react";
 
 type StylesContextValue = {
   css: typeof Goober.css;
@@ -16,7 +16,10 @@ export type StylesProviderProps = {
   target: HTMLElement | ShadowRoot;
 };
 
-export const StylesProvider: React.VFC<StylesProviderProps> = ({ children, target }) => {
+export const StylesProvider: React.FC<StylesProviderProps> = ({
+  children,
+  target,
+}) => {
   return (
     <StylesContext.Provider
       value={{

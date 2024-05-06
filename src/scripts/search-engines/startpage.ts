@@ -1,51 +1,33 @@
-import { SEARCH_ENGINES } from '../../common/search-engines';
-import { CSSAttribute } from '../styles';
-import { SearchEngine, SerpHandler } from '../types';
-import { getDialogThemeFromBody, handleSerp } from './helpers';
-
-const defaultControlStyle: CSSAttribute = {
-  color: 'rgb(127, 134, 159)',
-  display: 'block',
-  fontSize: '14px',
-  marginTop: '8px',
-};
+import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import { css } from "../styles.ts";
+import type { SearchEngine, SerpHandler } from "../types.ts";
+import { handleSerp, hasDarkBackground } from "./helpers.ts";
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
     globalStyle: {
       '[data-ub-blocked="visible"]': {
-        backgroundColor: 'var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important',
+        backgroundColor:
+          "var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important",
       },
-      '.ub-button': {
-        color: 'var(--ub-link-color, rgb(101, 115, 255))',
+      ".ub-button": {
+        color: "var(--ub-link-color, rgb(101, 115, 255))",
       },
-      '.ub-button:hover': {
-        textDecoration: 'underline',
+      ".ub-button:hover": {
+        textDecoration: "underline",
       },
     },
     controlHandlers: [
-      // Web
       {
-        target: '.layout-web__inline-nav-container',
-        style: defaultControlStyle,
-      },
-      // News
-      {
-        target: '.layout-news__inline-nav-container',
+        target: ".filters",
+        position: "afterend",
         style: {
-          ...defaultControlStyle,
-          '@media (max-width: 989px)': {
-            padding: '0 2rem 0 1rem',
-          },
-        },
-      },
-      // Videos
-      {
-        target: '.layout-video__inline-nav-container',
-        style: {
-          ...defaultControlStyle,
-          '@media (max-width: 989px)': {
-            padding: '0 2rem 0 1rem',
+          display: "block",
+          marginLeft: "133px",
+          padding: "0 17px 17px",
+          "@media (max-width: 990px)": {
+            margin: "auto",
+            padding: "0 17px 16px",
           },
         },
       },
@@ -53,41 +35,46 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       // Web
       {
-        target: '.w-gl__result',
-        url: '.w-gl__result-title',
-        title: 'h3',
-        actionTarget: '.w-gl__result__main',
+        target: ".w-gl > .result",
+        url: ".result-link",
+        title: "h2",
+        actionTarget: "",
         actionStyle: {
-          display: 'block',
-          marginTop: '4px',
+          display: "block",
+          marginTop: "4px",
         },
       },
       // News
       {
-        target: '.article',
-        url: '.article-right > a',
-        title: '.title',
-        actionTarget: '.article-right',
+        target: ".article",
+        url: ".article-left > a",
+        title: "h3",
+        actionTarget: ".article-left",
         actionStyle: {
-          display: 'block',
-          fontSize: '14px',
-          marginTop: '4px',
+          display: "block",
+          fontSize: "16px",
+          marginTop: "4px",
         },
       },
       // Videos
       {
-        target: '.vo-yt__link',
-        url: '',
-        title: '.vo-yt__title',
-        actionTarget: '.vo-yt__details',
-        actionStyle: {
-          display: 'block',
-          fontSize: '14px',
-          marginTop: 0,
+        target: ".vo-bg > .result",
+        url: ".details > a",
+        title: ".title",
+        actionTarget: ".details",
+        actionStyle: (actionRoot) => {
+          // Overwrite the height of "Anonymous View" from "100%" to "auto" for mobile view
+          (actionRoot.previousElementSibling as HTMLElement).style.height =
+            "auto";
+          actionRoot.className = css({
+            display: "block",
+            marginTop: "4px",
+          });
         },
       },
     ],
-    getDialogTheme: getDialogThemeFromBody(),
+    getDialogTheme: () =>
+      hasDarkBackground(document.documentElement) ? "dark" : "light",
   });
 }
 

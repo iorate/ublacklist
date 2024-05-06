@@ -1,8 +1,8 @@
-import mobile from 'is-mobile';
-import { SEARCH_ENGINES } from '../../common/search-engines';
-import type { SearchEngine } from '../types';
-import { getDesktopSerpHandler } from './yahoo-japan-desktop';
-import { getMobileSerpHandler } from './yahoo-japan-mobile';
+import mobile from "is-mobile";
+import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import type { SearchEngine } from "../types.ts";
+import { getDesktopSerpHandler } from "./yahoo-japan-desktop.ts";
+import { getMobileSerpHandler } from "./yahoo-japan-mobile.ts";
 
 export const yahooJapan: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.yahooJapan,

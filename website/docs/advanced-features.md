@@ -174,4 +174,6 @@ To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on
 
 It is a good idea to host your subscription on GitHub. Make sure that you publish the **raw** URL (e.g. https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt).
 
+A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
+
 ![raw url](/img/advanced-features/subscription-3.png)

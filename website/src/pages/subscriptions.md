@@ -8,10 +8,12 @@ title: Subscriptions
 
 ## AI generated content {#ai-generated-content}
 
-- [ublacklist-noai](https://github.com/ite-usagi/ublacklist-noai) by [ite-usagi](https://github.com/ite-usagi)
-  - "uBlacklist subscription to block generative-ai related site"
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
   - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
+- [ublacklist-anti-ai-art-subscription](https://codeberg.org/ranmaru22/ublacklist-anti-ai-art-subscription) by [Ranmaru22](https://codeberg.org/ranmaru22)
+  - "Aggressive uBlacklist subscription list that attempts to remove GenAI art from image search results."
+- [uBlockOrigin & uBlacklist Huge AI Blocklist](https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist) by [laylavish](https://github.com/laylavish)
+  - "A huge blocklist of sites that contain AI generated content for uBlock Origin & uBlacklist."
 
 ## Copycat sites {#copycat-sites}
 
@@ -26,13 +28,21 @@ title: Subscriptions
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
+- [ublacklist-w3schools](https://codeberg.org/Freso/ublacklist-w3schools) by [Freso](https://freso.dk/)
+  - "Hide W3Schools from search results"
 
 ## Spam {#spam}
 
 - [Search Engine Spam Blocklist](https://github.com/no-cmyk/Search-Engine-Spam-Blocklist) by [no-cmyk](https://github.com/no-cmyk)
   - "Blocklist to filter out spam and junk domains from search engines results"
 - [Super-SEO-Spam-Suppressor](https://github.com/NotaInutilis/Super-SEO-Spam-Suppressor) by [Nota Inutilis](https://github.com/NotaInutilis)
-  - "Domains blocklist of sites abusing SEO tactics to spam web searches with advertisement, empty content (monetized with ads) and malware (looking like ads)."
+  - "A blocklist targeting websites abusing SEO tactics to spam web searches with data pollution and security risks: content farms, scrapers, copycats, generative AIs, scams, advertisements, malwares, and useless garbage in general."
+- [SpamdexingSites](https://github.com/elliotwutingfeng/SpamdexingSites) by [Wu Tingfeng](https://github.com/elliotwutingfeng)
+  - "URL feed for blocking spamdexing websites."
+- [Ad and tracking server domain list](https://pgl.yoyo.org/adservers/) by [Peter Lowe](https://pgl.yoyo.org/)
+  - "Ad and tracking server domain list maintained since 2001."
+  - "Doesn’t have a dedicated uBlacklist/match patterns format, but use of the [`prepend`](https://pgl.yoyo.org/as/formats.php#prepend) and [`append`](https://pgl.yoyo.org/as/formats.php#append) parameters produce a URL that works perfectly for uBlacklist:
+    - "`https://pgl.yoyo.org/as/serverlist.php?hostformat=plain&mimetype=plaintext&prepend=*://*.&append=/*&showintro=0`"
 
 ## Chinese {#chinese}
 

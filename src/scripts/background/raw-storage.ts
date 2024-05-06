@@ -1,8 +1,12 @@
-import dayjs from 'dayjs';
-import { browser } from '../browser';
-import { defaultLocalStorageItems } from '../local-storage';
-import { CloudToken, LocalStorageItems, SubscriptionId } from '../types';
-import { Mutex } from '../utilities';
+import dayjs from "dayjs";
+import { browser } from "../browser.ts";
+import { defaultLocalStorageItems } from "../local-storage.ts";
+import type {
+  CloudToken,
+  LocalStorageItems,
+  SubscriptionId,
+} from "../types.ts";
+import { Mutex } from "../utilities.ts";
 
 export type RawStorageItems = LocalStorageItems & {
   timestamp: string;
@@ -33,22 +37,29 @@ const defaultRawStorageItems: Readonly<RawStorageItems> = {
 
 const mutex = new Mutex();
 
-export function loadFromRawStorage<T extends readonly (keyof RawStorageItems)[]>(
-  keys: T,
-): Promise<RawStorageItemsFor<T>> {
-  const defaultItemsForKeys: Partial<Record<keyof RawStorageItems, unknown>> = {};
+export function loadFromRawStorage<
+  T extends readonly (keyof RawStorageItems)[],
+>(keys: T): Promise<RawStorageItemsFor<T>> {
+  const defaultItemsForKeys: Partial<Record<keyof RawStorageItems, unknown>> =
+    {};
   for (const key of keys) {
     defaultItemsForKeys[key] = defaultRawStorageItems[key];
   }
-  return browser.storage.local.get(defaultItemsForKeys) as Promise<RawStorageItemsFor<T>>;
+  return browser.storage.local.get(defaultItemsForKeys) as Promise<
+    RawStorageItemsFor<T>
+  >;
 }
 
 export function loadAllFromRawStorage(): Promise<RawStorageItems> {
-  return browser.storage.local.get(defaultRawStorageItems) as Promise<RawStorageItems>;
+  return browser.storage.local.get(
+    defaultRawStorageItems,
+  ) as Promise<RawStorageItems>;
 }
 
 export function saveToRawStorage<Items extends Partial<RawStorageItems>>(
-  items: Exclude<keyof Items, keyof RawStorageItems> extends never ? Readonly<Items> : never,
+  items: Exclude<keyof Items, keyof RawStorageItems> extends never
+    ? Readonly<Items>
+    : never,
 ): Promise<void> {
   return mutex.lock(() => browser.storage.local.set(items));
 }

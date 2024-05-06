@@ -1,35 +1,72 @@
-name: check
+name: Check
 
 permissions:
   contents: read
+  pull-requests: read
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - website/**
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - website/**
+  push:
+    branches:
+      - master
 
 jobs:
   check:
+    name: Check
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
-      - run: yarn install --immutable
-      - run: yarn lint
-      - run: yarn test
-      - run: yarn build-all
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check
+        run: pnpm check
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: |
+          pnpm build
+          pnpm build --browser firefox
+          pnpm build --browser safari
         env:
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: "[Website] Get changed files"
+        id: website-changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: website/**
+
+      - name: "[Website] Check"
+        if: steps.website-changed-files.outputs.any_changed == 'true'
+        run: pnpm check
+        working-directory: website
+
+      - name: "[Website] Build"
+        if: steps.website-changed-files.outputs.any_changed == 'true'
+        run: pnpm build
+        working-directory: website

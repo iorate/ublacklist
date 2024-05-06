@@ -1,17 +1,17 @@
-import dayjs from 'dayjs';
-import React, { useState } from 'react';
-import { ControlLabel, LabelWrapper } from '../components/label';
-import { Row, RowItem } from '../components/row';
-import { useClassName } from '../components/utilities';
-import '../dayjs-locales';
-import { saveToLocalStorage } from '../local-storage';
-import { translate } from '../locales';
-import { useOptionsContext } from './options-context';
-import { Select, SelectOption } from './select';
+import dayjs from "dayjs";
+import { useState } from "react";
+import { ControlLabel, LabelWrapper } from "../components/label.tsx";
+import { Row, RowItem } from "../components/row.tsx";
+import { useClassName } from "../components/utilities.ts";
+import "../dayjs-locales";
+import { saveToLocalStorage } from "../local-storage.ts";
+import { translate } from "../locales.ts";
+import { useOptionsContext } from "./options-context.tsx";
+import { Select, SelectOption } from "./select.tsx";
 
-export type IntervalItemKey = 'syncInterval' | 'updateInterval';
+export type IntervalItemKey = "syncInterval" | "updateInterval";
 
-export const SetIntervalItem: React.VFC<{
+export const SetIntervalItem: React.FC<{
   disabled?: boolean;
   itemKey: IntervalItemKey;
   label: string;
@@ -22,12 +22,14 @@ export const SetIntervalItem: React.VFC<{
   } = useOptionsContext();
   const [item, setItem] = useState(initialItem);
 
-  valueOptions = [...new Set([...valueOptions, initialItem])].sort((a, b) => a - b);
+  valueOptions = [...new Set([...valueOptions, initialItem])].sort(
+    (a, b) => a - b,
+  );
 
   const rowClass = useClassName(
     () => ({
-      '&&': {
-        minHeight: '2.5em',
+      "&&": {
+        minHeight: "2.5em",
       },
     }),
     [],
@@ -45,18 +47,21 @@ export const SetIntervalItem: React.VFC<{
           disabled={disabled}
           id={itemKey}
           value={item}
-          onChange={e => {
+          onChange={(e) => {
             const value = Number(e.currentTarget.value);
             void saveToLocalStorage(
               { [itemKey]: value } as Partial<Record<IntervalItemKey, number>>,
-              'options',
+              "options",
             );
             setItem(value);
           }}
         >
-          {valueOptions.map(value => (
+          {valueOptions.map((value) => (
             <SelectOption key={value} value={value}>
-              {dayjs.duration({ minutes: value }).locale(translate('lang')).humanize(false)}
+              {dayjs
+                .duration({ minutes: value })
+                .locale(translate("lang"))
+                .humanize(false)}
             </SelectOption>
           ))}
         </Select>

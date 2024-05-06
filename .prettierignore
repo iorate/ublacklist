@@ -1,2 +1,14 @@
-/.yarn
-/dist
+# formatted by biome
+*.js
+*.cjs
+*.mjs
+*.ts
+*.cts
+*.mts
+*.jsx
+*.tsx
+*.json
+*.jsonc
+
+# pnpm
+pnpm-lock.yaml
