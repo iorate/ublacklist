@@ -292,26 +292,22 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           return null;
         },
         actionStyle: actionRoot => {
-          // Add a " · " separator to elements that come after a date
-          if (actionRoot.matches('span + span')) {
-            actionRoot.classList.add(
-              css({
-                ...desktopActionStyle,
-                paddingLeft: '1px',
-              }),
-            );
-          } else {
-            actionRoot.classList.add(
-              css({
-                fontSize: '12px',
-              }),
-            );
-          }
-          actionRoot.classList.add(
-            css({
-              position: 'relative',
-              zIndex: '1',
-            }),
+          const commonStyle: CSSAttribute = {
+            position: 'relative',
+            zIndex: '1',
+          };
+          actionRoot.className = css(
+            actionRoot.matches('span + span')
+              ? // Add a " · " separator to elements that come after a date
+                {
+                  ...commonStyle,
+                  ...desktopActionStyle,
+                  paddingLeft: '1px',
+                }
+              : {
+                  ...commonStyle,
+                  fontSize: '12px',
+                },
           );
         },
       },
