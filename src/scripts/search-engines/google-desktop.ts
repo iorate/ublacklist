@@ -284,6 +284,47 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           actionRoot.className = css(desktopActionStyle);
         },
       },
+      // Medium-size card on Google "bubble" layout
+      {
+        target: '.e6hL7d.WJXODe > .SodP3b',
+        url: 'a',
+        actionTarget: entryRoot => {
+          const textContainer = entryRoot.querySelector<HTMLElement>(
+            [
+              '.rn876d.LLotyc',
+              'div[class="HDMle"]',
+              '.g4Fgt > div:last-child:has(> span)',
+              '.lt6hVb > div:last-child:has(> span)',
+            ].join(', '),
+          );
+          if (textContainer) {
+            const dateSpan = textContainer.querySelector<HTMLElement>(
+              '.HDMle > div:last-child:has(> span), .FNMYpd > div:last-child:has(> span)',
+            );
+            return dateSpan ?? textContainer;
+          }
+          return null;
+        },
+        actionStyle: actionRoot => {
+          const commonStyle: CSSAttribute = {
+            position: 'relative',
+            zIndex: '1',
+          };
+          actionRoot.className = css(
+            actionRoot.matches('span + span')
+              ? // Add a " · " separator to elements that come after a date
+                {
+                  ...commonStyle,
+                  ...desktopActionStyle,
+                  paddingLeft: '1px',
+                }
+              : {
+                  ...commonStyle,
+                  fontSize: '12px',
+                },
+          );
+        },
+      },
       // Twitter, Twitter Search
       {
         target: ".eejeod",
