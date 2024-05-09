@@ -288,6 +288,21 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: ".e6hL7d.WJXODe > .SodP3b",
         url: "a",
+        title: (entryRoot) => {
+          // If it is a specific kind of social media post, return @handle
+          if (entryRoot.querySelector(".lt6hVb div.XwlO6c:has(g-img, img)")) {
+            return (
+              entryRoot.querySelector<HTMLElement>(
+                "div:not(:has(g-img, img, svg)) > span",
+              )?.textContent ?? null
+            );
+          }
+          return (
+            entryRoot.querySelector<HTMLElement>(
+              "div:not(:empty,:has(div,img,svg,span))",
+            )?.textContent ?? null
+          );
+        },
         actionTarget: (entryRoot) => {
           const textContainer = entryRoot.querySelector<HTMLElement>(
             [
