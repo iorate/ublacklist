@@ -203,8 +203,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: ".LJ7wUe",
         url: "a",
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '[aria-label][role="link"]',
-        actionStyle: desktopActionStyle,
+        actionTarget: ".iDBaYb",
+        actionStyle: {
+          fontSize: "12px",
+          margin: "0 0 0 -12px",
+        },
       },
       // Featured Snippet
       {
