@@ -284,9 +284,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           actionRoot.className = css(desktopActionStyle);
         },
       },
-      // Medium-size card on Google "bubble" layout
+      // Medium square and rectangle cards on main card layout
       {
-        target: ".e6hL7d.WJXODe > .SodP3b",
+        // target: ".e6hL7d.WJXODe > div.GHMsie:last-child",
+        target: ".e6hL7d.WJXODe > div.GHMsie",
         url: "a",
         title: (entryRoot) => {
           // If it is a specific kind of social media post, return @handle
@@ -308,15 +309,31 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             [
               ".rn876d.LLotyc",
               'div[class="HDMle"]',
-              ".g4Fgt > div:last-child:has(> span)",
-              ".lt6hVb > div:last-child:has(> span)",
+              ".g4Fgt",
+              ".lt6hVb",
+              ".p8o1rd",
+              ".iUuXb",
             ].join(", "),
           );
           if (textContainer) {
+            const containerClasses = [
+              ".FNMYpd",
+              ".HDMle",
+              ".lt6hVb",
+              ".g4Fgt",
+              ".p8o1rd",
+              ".iUuXb",
+            ];
+            // If it is an Instagram post that covers all the available space
+            const emptyLabel =
+              textContainer.querySelector<HTMLElement>(".OpNfyc:empty");
             const dateSpan = textContainer.querySelector<HTMLElement>(
-              ".HDMle > div:last-child:has(> span), .FNMYpd > div:last-child:has(> span)",
+              // ":is(.FNMYpd, .HDMle, .lt6hVb, .g4Fgt) > div:last-child:has(> span)",
+              `:is(${containerClasses.join(
+                ", ",
+              )}) > div:last-child:has(> span)`,
             );
-            return dateSpan ?? textContainer;
+            return emptyLabel ?? dateSpan ?? textContainer;
           }
           return null;
         },
@@ -338,6 +355,21 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   fontSize: "12px",
                 },
           );
+          // Make button clickable on YT videos that occupy all the available space
+          if (actionRoot.matches(".p8o1rd:has(~ .MhN3hd)  &")) {
+            actionRoot.classList.add(
+              css({
+                "div:has(> &)": {
+                  zIndex: "1",
+                },
+              }),
+            );
+          }
+          // Copy container style in order to fit the action on Instagram posts that
+          // take all the available space.
+          if (actionRoot.matches(".OpNfyc > &")) {
+            actionRoot.classList.add("ryUkQc");
+          }
         },
       },
       // Twitter, Twitter Search
