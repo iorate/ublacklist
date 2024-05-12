@@ -286,7 +286,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Medium size cards on Goggle card layout
       {
-        target: ".e6hL7d.WJXODe > div.GHMsie",
+        target: ".e6hL7d:is(.WJXODe, .As9MV) > div:is(.GHMsie, .ZHugbd)",
         url: "a",
         title: (entryRoot) => {
           // If it is a specific kind of social media post, return @handle
@@ -314,6 +314,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
               ".lt6hVb",
               ".p8o1rd",
               ".iUuXb",
+              ".xH3xue:last-of-type",
+              ".WpsIbd",
+              ".FNMYpd",
             ].join(", "),
           );
           if (textContainer) {
@@ -337,7 +340,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             zIndex: "1",
           };
           actionRoot.className = css(
-            actionRoot.matches("span + span")
+            actionRoot.matches("span + span, span > &")
               ? // Add a " · " separator to elements that come after a date
                 {
                   ...commonStyle,
@@ -348,6 +351,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   ...commonStyle,
                   fontSize: "12px",
                 },
+          );
+          // Make so that text doesn't wrap when container is too tight
+          actionRoot.parentElement?.classList.add(
+            css({
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }),
           );
           // Make action clickable on YT videos that occupy all the available space
           if (
