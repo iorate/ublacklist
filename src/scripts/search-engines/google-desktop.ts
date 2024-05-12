@@ -324,9 +324,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             const emptySlot =
               textContainer.querySelector<HTMLElement>(".OpNfyc:empty");
 
-            let dateContainer =
-              textContainer.querySelector<HTMLElement>("& > div:last-child");
-            if (!dateContainer?.querySelector("& > span")) {
+            let dateContainer = textContainer.querySelector<HTMLElement>(
+              ":scope > div:last-child",
+            );
+            if (!dateContainer?.querySelector(":scope > span")) {
               dateContainer = null;
             }
 
@@ -340,7 +341,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             zIndex: "1",
           };
           actionRoot.className = css(
-            actionRoot.matches("span + span, span > &")
+            actionRoot.matches("span + span, span > :scope")
               ? // Add a " · " separator to elements that come after a date
                 {
                   ...commonStyle,
@@ -370,7 +371,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           }
           // Copy container style in order to fit the action on Instagram posts that
           // take all the available space.
-          if (actionRoot.matches(".OpNfyc > &")) {
+          if (actionRoot.matches(".OpNfyc > :scope")) {
             actionRoot.classList.add("ryUkQc");
             actionRoot.parentElement?.style.setProperty(
               "background-color",
