@@ -203,7 +203,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: ".LJ7wUe",
         url: "a",
         title: '[role="heading"][aria-level="3"]',
-        actionTarget: '[aria-label][role="link"]',
+        actionTarget: '[aria-Slot][role="link"]',
         actionStyle: desktopActionStyle,
       },
       // Featured Snippet
@@ -284,23 +284,24 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           actionRoot.className = css(desktopActionStyle);
         },
       },
-      // Medium square and rectangle cards on main card layout
+      // Medium size cards on Goggle card layout
       {
-        // target: ".e6hL7d.WJXODe > div.GHMsie:last-child",
         target: ".e6hL7d.WJXODe > div.GHMsie",
         url: "a",
         title: (entryRoot) => {
           // If it is a specific kind of social media post, return @handle
-          if (entryRoot.querySelector(".lt6hVb div.XwlO6c:has(g-img, img)")) {
+          if (entryRoot.querySelector(".lt6hVb div.XwlO6c :is(g-img, img)")) {
             return (
-              entryRoot.querySelector<HTMLElement>(
-                "div:not(:has(g-img, img, svg)) > span",
-              )?.textContent ?? null
+              entryRoot.querySelector<HTMLElement>(".xxP3Ff > span")
+                ?.textContent ?? null
             );
           }
+          const elems = Array.from(
+            entryRoot.querySelectorAll<HTMLElement>("div:not(:empty)"),
+          );
           return (
-            entryRoot.querySelector<HTMLElement>(
-              "div:not(:empty,:has(div,img,svg,span))",
+            elems.find(
+              (elem) => elem.childElementCount === 0 && elem.textContent,
             )?.textContent ?? null
           );
         },
@@ -316,24 +317,17 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             ].join(", "),
           );
           if (textContainer) {
-            const containerClasses = [
-              ".FNMYpd",
-              ".HDMle",
-              ".lt6hVb",
-              ".g4Fgt",
-              ".p8o1rd",
-              ".iUuXb",
-            ];
-            // If it is an Instagram post that covers all the available space
-            const emptyLabel =
+            // Get empty slot to insert action button on full-width Instagram posts
+            const emptySlot =
               textContainer.querySelector<HTMLElement>(".OpNfyc:empty");
-            const dateSpan = textContainer.querySelector<HTMLElement>(
-              // ":is(.FNMYpd, .HDMle, .lt6hVb, .g4Fgt) > div:last-child:has(> span)",
-              `:is(${containerClasses.join(
-                ", ",
-              )}) > div:last-child:has(> span)`,
-            );
-            return emptyLabel ?? dateSpan ?? textContainer;
+
+            let dateContainer =
+              textContainer.querySelector<HTMLElement>("& > div:last-child");
+            if (!dateContainer?.querySelector("& > span")) {
+              dateContainer = null;
+            }
+
+            return emptySlot ?? dateContainer ?? textContainer;
           }
           return null;
         },
@@ -355,20 +349,23 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
                   fontSize: "12px",
                 },
           );
-          // Make button clickable on YT videos that occupy all the available space
-          if (actionRoot.matches(".p8o1rd:has(~ .MhN3hd)  &")) {
-            actionRoot.classList.add(
-              css({
-                "div:has(> &)": {
-                  zIndex: "1",
-                },
-              }),
-            );
+          // Make action clickable on YT videos that occupy all the available space
+          if (
+            actionRoot
+              .closest(".p8o1rd")
+              ?.parentElement?.querySelector(".MhN3hd")
+          ) {
+            actionRoot.parentElement?.style.setProperty("z-index", "1");
           }
           // Copy container style in order to fit the action on Instagram posts that
           // take all the available space.
           if (actionRoot.matches(".OpNfyc > &")) {
             actionRoot.classList.add("ryUkQc");
+            actionRoot.parentElement?.style.setProperty(
+              "background-color",
+              "rgba(0, 0, 0, 0.7)",
+              "important",
+            );
           }
         },
       },
