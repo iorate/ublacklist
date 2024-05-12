@@ -309,12 +309,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           const textContainer = entryRoot.querySelector<HTMLElement>(
             [
               ".rn876d.LLotyc",
-              'div[class="HDMle"]',
+              ".HDMle",
               ".g4Fgt",
               ".lt6hVb",
               ".p8o1rd",
               ".iUuXb",
-              ".xH3xue:last-of-type",
               ".WpsIbd",
               ".FNMYpd",
             ].join(", "),
@@ -331,7 +330,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
               dateContainer = null;
             }
 
-            return emptySlot ?? dateContainer ?? textContainer;
+            const nestedSpan = dateContainer?.querySelector<HTMLElement>(
+              ".xH3xue:last-of-type",
+            );
+
+            return emptySlot ?? nestedSpan ?? dateContainer ?? textContainer;
           }
           return null;
         },
