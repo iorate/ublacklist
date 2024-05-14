@@ -3,9 +3,9 @@ import {LRParser} from "@lezer/lr"
 const spec_Identifier = {__proto__:null,HTTP:71, HTTp:71, HTtP:71, HTtp:71, HtTP:71, HtTp:71, HttP:71, Http:71, hTTP:71, hTTp:71, hTtP:71, hTtp:71, htTP:71, htTp:71, httP:71, http:71, HTTPS:71, HTTpS:71, HTtPS:71, HTtpS:71, HtTPS:71, HtTpS:71, HttPS:71, HttpS:71, hTTPS:71, hTTpS:71, hTtPS:71, hTtpS:71, htTPS:71, htTpS:71, httPS:71, httpS:71, HTTPs:71, HTTps:71, HTtPs:71, HTtps:71, HtTPs:71, HtTps:71, HttPs:71, Https:71, hTTPs:71, hTTps:71, hTtPs:71, hTtps:71, htTPs:71, htTps:71, httPs:71, https:71}
 export const parser = LRParser.deserialize({
   version: 14,
-  states: "&`OYQPOOOOQO'#C`'#C`O!QQQO'#CeOOQO'#Ce'#CeO!]QPO'#CkO!]QPO'#CmO!kQPO'#C_OOQO'#C|'#C|O!yQPO'#CbOOQO'#Cs'#CsOOQO'#C{'#C{OOQO'#Cv'#CvO#OQPO'#C_OOQO'#Cu'#CuO#pOPO'#CuOOQO'#C_'#C_Q#uQPOOO#zQPO,59POOQO,59P,59PO$PQPO,59PO$UQPO,59VOOQO,59X,59XO!]QPO,59ZO!]QPO,59]O!]QPO,58|O$aQPO,58yOOQO-E6t-E6tOOQO,58y,58yO$oOSO,59aOYQPO'#CwQ#uQPOOOOQO1G.k1G.kOOQO1G.q1G.qOOQO1G.u1G.uO$tQPO1G.wO%VQPO1G.hO%bOSO1G.{OOQO,59c,59cOOQO-E6u-E6uOOQO7+$S7+$SOOQO7+$g7+$g",
-  stateData: "%l~OnOSPOS~OTPOVWOWSOYQO^RObTOhXOq]Or^Os^OlRPwRP~OZaO]cO^bO~OWSOYQO^RObTO~OdfOfgOlRXwRX~OWhO~OTPOVWOWSOYQO^RObTOhXOq]Or^Os^O~OtlO~OwmO~O[oO~O^oO~O`pOdfOfgO~OdfOfgOlRawRa~OutO~OdfOfeileiwei`ei~O`wOdfOfgO~OvxO~OVhTh~",
-  goto: "#YqPPPrxPxPP}PPPPP}P}P}P}PxP!X!`!gPPP!m!rQ`ORumVYO[maVOST[fghmS_OmRk[S[OmRj[Qn`RvnVZO[mSUOmQdSQeTQi[QqfQrgRsh",
+  states: "&`QzQPOOOOQO'#C`'#C`O!RQQO'#CeOOQO'#Ce'#CeO!^QPO'#CkO!^QPO'#CmO!lQPO'#C_OOQO'#C|'#C|O!zQPO'#CbOOQO'#Cs'#CsOOQO'#C{'#C{OOQO'#Cv'#CvOYQPO'#C_OOQO'#Cu'#CuO#POPO'#CuOOQO'#C_'#C_O#UQPO'#CwQ#`QPOOQ#`QPOOO#eQPO,59POOQO,59P,59PO#jQPO,59PO#oQPO,59VOOQO,59X,59XO!^QPO,59ZO!^QPO,59]O!^QPO,58|O#zQPO,58yOOQO-E6t-E6tOOQO,58y,58yO$YOSO,59aOOQO,59c,59cOOQO-E6u-E6uOOQO1G.k1G.kOOQO1G.q1G.qOOQO1G.u1G.uO$_QPO1G.wO$pQPO1G.hO${OSO1G.{OOQO7+$S7+$SOOQO7+$g7+$g",
+  stateData: "%V~OnOSPOS~OTPOVWOWSOYQO^RObTOhXOq]Or^Os^O~Ow`O~PYOZcO]eO^dO~OWSOYQO^RObTO~OdhOfiOlRXwRX~OWjO~OtnO~OlkXwkX~PYOw`O~O[qO~O^qO~O`rOdhOfiO~OdhOfiOlRawRa~OuvO~OdhOfeileiwei`ei~O`wOdhOfiO~OvxO~OVhTh~",
+  goto: "#ZqPPPrxPxPP}PPPPP}P}P}P}PxP!X!`!gPPP!n!sQbORo`VYO[`aVOST[`hijS_O`Rm[S[O`Rl[SaObRpaVZO[`SUO`QfSQgTQk[QshQtiRuj",
   nodeNames: "⚠ Comment Ruleset Rule NegateSpecifier @ IfSpecifier @if ( MatchExpression Identifier StringMatchOperator String RegExpMatchOperator RegExp ParenthesizedExpression ) NegateExpression ! AndExpression & OrExpression | HighlightSpecifier AtInteger MatchPattern",
   maxTerm: 39,
   nodeProps: [
@@ -17,5 +17,5 @@ export const parser = LRParser.deserialize({
   tokenizers: [0, 1, 2],
   topRules: {"Ruleset":[0,2]},
   specialized: [{term: 10, get: (value) => spec_Identifier[value] || -1}],
-  tokenPrec: 207
+  tokenPrec: 186
 })

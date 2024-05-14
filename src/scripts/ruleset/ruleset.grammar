@@ -6,9 +6,9 @@
 
 @skip { space | Comment }
 
-@top Ruleset { Rule ("\n" Rule)* }
+@top Ruleset { Rule? ("\n" Rule?)* }
 
-Rule { (specifier* (MatchPattern | expression))? }
+Rule { specifier* (MatchPattern | expression) }
 
 specifier[@isGroup=Specifier] {
     NegateSpecifier { "@" }
