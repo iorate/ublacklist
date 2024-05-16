@@ -387,6 +387,21 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           }
         },
       },
+      // Small cards
+      {
+        target: ".x7NcLe, .puLICc",
+        url: "a",
+        title: ".QzAn5, .F6sHsf",
+        actionTarget: ".N0RSzc, .QzAn5, .cHaqb",
+        actionPosition: "afterend",
+        actionStyle: {
+          padding: "0 12px",
+          fontSize: "10px",
+          marginBottom: "-6px",
+          position: "relative",
+          zIndex: "1",
+        },
+      },
       // Twitter, Twitter Search
       {
         target: ".eejeod",
