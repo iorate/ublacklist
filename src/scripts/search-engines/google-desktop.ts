@@ -365,6 +365,19 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionTarget: ".ZE0LJd, .S1FAPd",
         actionStyle: desktopActionStyle,
       },
+      // Images (on the "All" page)
+      {
+        target: ".JMWMJ",
+        level: ".eA0Zlc",
+        url: "a",
+        title: ".toI8Rb",
+        actionTarget: ".guK3rf",
+        actionStyle: {
+          ...desktopActionStyle,
+          position: "relative",
+          zIndex: "1",
+        },
+      },
     ],
     pagerHandlers: [
       // People Also Ask
