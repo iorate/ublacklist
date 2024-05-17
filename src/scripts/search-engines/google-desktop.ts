@@ -400,6 +400,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           marginBottom: "-6px",
           position: "relative",
           zIndex: "1",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
         },
       },
       // Twitter, Twitter Search
