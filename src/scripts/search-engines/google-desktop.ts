@@ -287,6 +287,106 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           actionRoot.className = css(desktopActionStyle);
         },
       },
+      // Medium size cards on Goggle card layout
+      {
+        target: ".e6hL7d:is(.WJXODe, .As9MV) > div:is(.GHMsie, .ZHugbd)",
+        url: "a",
+        title: (entryRoot) => {
+          // If it is a specific kind of social media post, return @handle
+          if (entryRoot.querySelector(".lt6hVb div.XwlO6c :is(g-img, img)")) {
+            return (
+              entryRoot.querySelector<HTMLElement>(".xxP3Ff > span")
+                ?.textContent ?? null
+            );
+          }
+          const elems = Array.from(
+            entryRoot.querySelectorAll<HTMLElement>("div:not(:empty)"),
+          );
+          return (
+            elems.find(
+              (elem) => elem.childElementCount === 0 && elem.textContent,
+            )?.textContent ?? null
+          );
+        },
+        actionTarget: (entryRoot) => {
+          const textContainer = entryRoot.querySelector<HTMLElement>(
+            [
+              ".rn876d.LLotyc",
+              ".HDMle",
+              ".g4Fgt",
+              ".lt6hVb",
+              ".p8o1rd",
+              ".iUuXb",
+              ".WpsIbd",
+              ".FNMYpd",
+            ].join(", "),
+          );
+          if (textContainer) {
+            // Get empty slot to insert action button on full-width Instagram posts
+            const emptySlot =
+              textContainer.querySelector<HTMLElement>(".OpNfyc:empty");
+
+            let dateContainer = textContainer.querySelector<HTMLElement>(
+              ":scope > div:last-child",
+            );
+            if (!dateContainer?.querySelector(":scope > span")) {
+              dateContainer = null;
+            }
+
+            const nestedSpan = dateContainer?.querySelector<HTMLElement>(
+              ".xH3xue:last-of-type",
+            );
+
+            return emptySlot ?? nestedSpan ?? dateContainer ?? textContainer;
+          }
+          return null;
+        },
+        actionStyle: (actionRoot) => {
+          const commonStyle: CSSAttribute = {
+            position: "relative",
+            zIndex: "1",
+          };
+          actionRoot.className = css(
+            actionRoot.matches("span + span, span > :scope")
+              ? // Add a " · " separator to elements that come after a date
+                {
+                  ...commonStyle,
+                  ...desktopActionStyle,
+                  paddingLeft: "1px",
+                }
+              : {
+                  ...commonStyle,
+                  fontSize: "12px",
+                },
+          );
+          // Make so that text doesn't wrap when container is too tight
+          actionRoot.parentElement?.classList.add(
+            css({
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }),
+          );
+          // Make action clickable on YT videos that occupy all the available space
+          if (
+            actionRoot
+              .closest(".p8o1rd")
+              ?.parentElement?.querySelector(".MhN3hd")
+          ) {
+            actionRoot.parentElement?.style.setProperty("z-index", "1");
+          }
+          // Copy container style in order to fit the action on Instagram posts that
+          // take all the available space.
+          if (actionRoot.matches(".OpNfyc > :scope")) {
+            actionRoot.classList.add("ryUkQc");
+            actionRoot.parentElement?.style.setProperty(
+              "background-color",
+              "rgba(0, 0, 0, 0.7)",
+              "important",
+            );
+          }
+        },
+      },
       // Twitter, Twitter Search
       {
         target: ".eejeod",
