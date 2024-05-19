@@ -1,7 +1,7 @@
 import { SEARCH_ENGINES } from "../../common/search-engines.ts";
 import type { CSSAttribute } from "../styles.ts";
 import type { SearchEngine, SerpHandler } from "../types.ts";
-import { handleSerp } from "./helpers.ts";
+import { getDialogThemeFromBody, handleSerp } from "./helpers.ts";
 
 const globalStyle: CSSAttribute = {
   '[data-ub-blocked="visible"]': {
@@ -9,12 +9,12 @@ const globalStyle: CSSAttribute = {
       "var(--ub-block-color, rgba(255, 192, 192, 0.5)) !important",
   },
   ".ub-button": {
-    color: "var(--ub-link-color, rgba(84, 96, 122, .68))",
+    color: "var(--ub-link-color, var(--depot-color-link))",
     fontSize: "14px",
     lineHeight: "17px",
   },
   ".ub-button:hover": {
-    color: "var(--ub-link-color, rgba(62, 70, 94, .8))",
+    color: "var(--ub-link-color, var(--depot-color-link-hovered))",
   },
 };
 
@@ -41,6 +41,7 @@ const serpHandler: SerpHandler = handleSerp({
       },
     },
   ],
+  getDialogTheme: getDialogThemeFromBody(),
 });
 
 export const yandex: Readonly<SearchEngine> = {
