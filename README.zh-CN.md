@@ -31,7 +31,7 @@
 | SearX \*3    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage    | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
-| Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
+| Yandex       | :heavy_check_mark: |                    |                    |                    |
 
 \*1 仅当 "Always play videos on Qwant.com" 关闭时<br>
 \*2 仅支持某些公共实例，如果您想将自己的 SearX/SearXNG 添加到支持列表，你需要前往`src/common/search-engines.ts`，并手动将您的搜索引擎添加到列表中，然后手动进行构建。

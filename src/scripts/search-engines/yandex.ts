@@ -18,59 +18,34 @@ const globalStyle: CSSAttribute = {
   },
 };
 
-const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
-  "/search/": handleSerp({
-    globalStyle,
-    controlHandlers: [
-      {
-        target: ".content__left",
-        position: "beforebegin",
-        style: {
-          display: "block",
-          marginBottom: "20px",
-        },
+const serpHandler: SerpHandler = handleSerp({
+  globalStyle,
+  controlHandlers: [
+    {
+      target: ".content__left",
+      position: "beforebegin",
+      style: {
+        display: "block",
+        marginBottom: "20px",
       },
-    ],
-    entryHandlers: [
-      {
-        target: "li.serp-item",
-        url: ".organic__url",
-        title: ".organic__title",
-        actionTarget: ".organic__subtitle",
-        actionStyle: {
-          marginLeft: "2px",
-        },
+    },
+  ],
+  entryHandlers: [
+    {
+      target: "li.serp-item",
+      url: ".organic__url",
+      title: ".organic__title",
+      actionTarget: ".organic__subtitle",
+      actionStyle: {
+        marginLeft: "2px",
       },
-    ],
-  }),
-  "/news/search": handleSerp({
-    globalStyle,
-    controlHandlers: [
-      {
-        target: ".news-app__content",
-        position: "afterbegin",
-        style: {
-          display: "block",
-          marginLeft: "15px",
-          marginBottom: "5px",
-        },
-      },
-    ],
-    entryHandlers: [
-      {
-        target: "article.news-search-story",
-        url: ".mg-snippet__url",
-        title: ".mg-snippet__title",
-        actionTarget: ".mg-snippet__agency-info",
-      },
-    ],
-  }),
-};
+    },
+  ],
+});
 
 export const yandex: Readonly<SearchEngine> = {
   ...SEARCH_ENGINES.yandex,
   getSerpHandler() {
-    const path = new URL(window.location.href).pathname;
-    return serpHandlers[path] || null;
+    return serpHandler;
   },
 };
