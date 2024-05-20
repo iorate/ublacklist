@@ -367,8 +367,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Images (on the "All" page)
       {
-        target: ".JMWMJ",
-        level: ".eA0Zlc",
+        target: ".eA0Zlc",
         url: "a",
         title: ".toI8Rb",
         actionTarget: ".guK3rf",
