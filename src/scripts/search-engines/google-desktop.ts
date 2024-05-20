@@ -389,7 +389,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Small cards
       {
-        target: ".x7NcLe, .puLICc",
+        target: ".e6hL7d:is(.WJXODe, .As9MV) > .I48dHb",
         url: "a",
         title: ".QzAn5, .F6sHsf",
         actionTarget: ".N0RSzc, .QzAn5, .cHaqb",
