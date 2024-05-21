@@ -32,7 +32,7 @@ This extension is available in the below search engines.
 | SearX \*2    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage    | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
 | Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
-| Yandex       | :heavy_check_mark: |                    |                    | :heavy_check_mark: |
+| Yandex       | :heavy_check_mark: |                    |                    |                    |
 
 \*1 Only if "Always play videos on Qwant.com" is turned off<br>
 \*2 Only certain public instances are supported. If you want to add support for your own SearX/SearXNG search engine, edit `src/common/search-engines.ts` and build the extension manually<br>
