@@ -503,6 +503,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets:
           "[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .iHxmLe, .d3zsgb, .rULfzc",
       },
+      // Card layout dynamic switching
+      {
+        target: '[id^="stev-stapi"], [id^="stev-stapi"] > div',
+        innerTargets: ".I48dHb, .GHMsie, .ZHugbd",
+      },
     ],
   }),
   // Books
