@@ -243,6 +243,27 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         title: (root) => root.querySelector("h3")?.textContent ?? null,
         ...regularEntryHandler,
       },
+      // Questions & answers
+      {
+        target: ".Tpb3kb > .BmkBMc",
+        url: "a",
+        title: ".RqlTSb",
+        actionTarget: ".m9wSUc",
+        actionPosition: "afterend",
+        actionStyle: (actionRoot) => {
+          actionRoot.className = css({
+            ...desktopActionStyle,
+            display: "inline-block",
+            fontSize: "14px",
+            paddingLeft: "4px",
+          });
+          actionRoot.previousElementSibling?.classList.add(
+            css({
+              display: "inline-block !important",
+            }),
+          );
+        },
+      },
       // Quote in the News
       {
         target: ".UaDxmd > .F4CzCf",
@@ -483,7 +504,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: '.autopagerize_page_info ~ div, [id^="arc-srp"] > div',
         // Regular, Video, and YouTube and TikTok channel
         innerTargets:
-          "[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .iHxmLe, .d3zsgb, .rULfzc",
+          "[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .iHxmLe, .d3zsgb, .rULfzc, .BmkBMc",
       },
     ],
   }),
