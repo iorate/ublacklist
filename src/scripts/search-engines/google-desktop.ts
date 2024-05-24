@@ -245,7 +245,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       // Questions & answers
       {
-        target: ".Tpb3kb > .BmkBMc",
+        target: ".Hb5Kgc > .m9wSUc",
+        level: ".Tpb3kb > .BmkBMc",
         url: "a",
         title: ".RqlTSb",
         actionTarget: ".m9wSUc",
