@@ -238,6 +238,30 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionTarget: "",
         actionStyle: mobileRegularActionStyle,
       },
+      // Questions & answers
+      {
+        target: ".Tpb3kb > .BmkBMc",
+        url: "a",
+        title: ".RqlTSb",
+        actionTarget: ".m9wSUc",
+        actionPosition: "afterend",
+        actionStyle: (actionRoot) => {
+          actionRoot.className = css({
+            "&::before": {
+              content: '" · "',
+            },
+            display: "inline-block",
+            fontSize: "14px",
+            paddingLeft: "4px",
+            ...iOSButtonStyle,
+          });
+          actionRoot.previousElementSibling?.classList.add(
+            css({
+              display: "inline-block !important",
+            }),
+          );
+        },
+      },
     ],
     pagerHandlers: [
       // iOS
