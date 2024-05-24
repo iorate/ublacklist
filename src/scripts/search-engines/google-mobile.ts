@@ -105,7 +105,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   "": handleSerp({
     globalStyle: {
       ...mobileGlobalStyle,
-      "[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01":
+      "[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01, .BmkBMc g-inner-card":
         {
           backgroundColor: "transparent !important",
         },
