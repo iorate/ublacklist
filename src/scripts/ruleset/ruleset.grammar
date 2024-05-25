@@ -8,13 +8,11 @@
 
 @top Ruleset { Rule? ("\n" Rule?)* }
 
-Rule { specifier* (MatchPattern | expression) }
+Rule { (NegateSpecifier | HighlightSpecifier)? ((MatchPattern IfSpecifier?) | expression) }
 
-specifier[@isGroup=Specifier] {
-    NegateSpecifier { "@" }
-  | IfSpecifier { "@if" "(" expression ")" }
-  | HighlightSpecifier { AtInteger }
-}
+NegateSpecifier { "@" }
+HighlightSpecifier { AtInteger }
+IfSpecifier { "@if" "(" expression ")" }
 
 @skip {} {
   MatchPattern {
