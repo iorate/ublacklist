@@ -1,23 +1,23 @@
 import assert from "node:assert";
 import { test } from "node:test";
-import { MatchPatternBatch } from "./match-pattern.ts";
+import { MatchPatternSet } from "./match-pattern.ts";
 
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
 test("MDN Match Patterns", () => {
-  const batch = MatchPatternBatch.new<number>();
-  batch.add("<all_urls>", 0);
-  batch.add("*://*/*", 1);
-  batch.add("*://*.mozilla.org/*", 2);
-  batch.add("*://mozilla.org/", 3);
-  assert.throws(() => batch.add("ftp://mozilla.org/", 4));
-  batch.add("https://*/path", 5);
-  batch.add("https://*/path/", 6);
-  batch.add("https://mozilla.org/*", 7);
-  batch.add("https://mozilla.org/a/b/c/", 8);
-  batch.add("https://mozilla.org/*/b/*/", 9);
-  assert.throws(() => batch.add("file:///blah/*", 10));
+  const set = MatchPatternSet.new<number>();
+  set.add("<all_urls>", 0);
+  set.add("*://*/*", 1);
+  set.add("*://*.mozilla.org/*", 2);
+  set.add("*://mozilla.org/", 3);
+  assert.throws(() => set.add("ftp://mozilla.org/", 4));
+  set.add("https://*/path", 5);
+  set.add("https://*/path/", 6);
+  set.add("https://mozilla.org/*", 7);
+  set.add("https://mozilla.org/a/b/c/", 8);
+  set.add("https://mozilla.org/*/b/*/", 9);
+  assert.throws(() => set.add("file:///blah/*", 10));
 
-  const exec = (url: string) => batch.exec(url).sort();
+  const exec = (url: string) => set.exec(url).sort();
   // <all_urls>
   assert.deepStrictEqual(exec("http://example.org/"), [0, 1]);
   assert.deepStrictEqual(exec("https://a.org/some/path/"), [0, 1]);
@@ -124,37 +124,37 @@ test("MDN Match Patterns", () => {
   assert.deepStrictEqual(exec("file:///bleh/"), []);
 
   // Invalid match patterns
-  assert.throws(() => batch.add("resource://path/", 11));
-  assert.throws(() => batch.add("https://mozilla.org", 12));
-  assert.throws(() => batch.add("https://mozilla.*.org/", 13));
-  assert.throws(() => batch.add("https://*zilla.org", 14));
-  assert.throws(() => batch.add("http*://mozilla.org/", 15));
-  assert.throws(() => batch.add("https://mozilla.org:80/", 16));
-  assert.throws(() => batch.add("*//*", 17));
-  assert.throws(() => batch.add("file://*", 18));
+  assert.throws(() => set.add("resource://path/", 11));
+  assert.throws(() => set.add("https://mozilla.org", 12));
+  assert.throws(() => set.add("https://mozilla.*.org/", 13));
+  assert.throws(() => set.add("https://*zilla.org", 14));
+  assert.throws(() => set.add("http*://mozilla.org/", 15));
+  assert.throws(() => set.add("https://mozilla.org:80/", 16));
+  assert.throws(() => set.add("*//*", 17));
+  assert.throws(() => set.add("file://*", 18));
 });
 
 test("Serialization", () => {
-  let batch = MatchPatternBatch.new<number>();
-  batch.add("<all_urls>", 0);
-  batch.add("*://*/*", 1);
-  batch.add("*://*.mozilla.org/*", 2);
-  batch.add("*://mozilla.org/", 3);
-  // assert.throws(() => batch.add("ftp://mozilla.org/", 4));
-  batch.add("https://*/path", 5);
-  batch.add("https://*/path/", 6);
-  batch.add("https://mozilla.org/*", 7);
-  batch.add("https://mozilla.org/a/b/c/", 8);
-  batch.add("https://mozilla.org/*/b/*/", 9);
-  // assert.throws(() => batch.add("file:///blah/*", 10));
-  const json = batch.toJSON();
+  let set = MatchPatternSet.new<number>();
+  set.add("<all_urls>", 0);
+  set.add("*://*/*", 1);
+  set.add("*://*.mozilla.org/*", 2);
+  set.add("*://mozilla.org/", 3);
+  // assert.throws(() => set.add("ftp://mozilla.org/", 4));
+  set.add("https://*/path", 5);
+  set.add("https://*/path/", 6);
+  set.add("https://mozilla.org/*", 7);
+  set.add("https://mozilla.org/a/b/c/", 8);
+  set.add("https://mozilla.org/*/b/*/", 9);
+  // assert.throws(() => set.add("file:///blah/*", 10));
+  const json = set.toJSON();
   assert.strictEqual(
     json,
     '[[],[[0],[1],[5,"https","/path"],[6,"https","/path/"]],{"org":[[],[],{"mozilla":[[[3,"*","/"],[7,"https"],[8,"https","/a/b/c/"],[9,"https","/*/b/*/"]],[[2]]]}]}]',
   );
 
-  batch = MatchPatternBatch.unsafeFromJSON(json);
-  const exec = (url: string) => batch.exec(url).sort();
+  set = MatchPatternSet.unsafeFromJSON(json);
+  const exec = (url: string) => set.exec(url).sort();
   assert.deepStrictEqual(exec("http://mozilla.org/"), [0, 1, 2, 3]);
   assert.deepStrictEqual(exec("https://mozilla.org/"), [0, 1, 2, 3, 7]);
   assert.deepStrictEqual(exec("http://a.mozilla.org/"), [0, 1, 2]);

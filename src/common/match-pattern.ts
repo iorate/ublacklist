@@ -44,20 +44,20 @@ type HostTree<T> = [
   subdomains?: Record<string, HostTree<T>>,
 ];
 
-export class MatchPatternBatch<T> {
+export class MatchPatternSet<T> {
   private readonly tree: HostTree<T>;
 
   private constructor(tree: HostTree<T>) {
     this.tree = tree;
   }
 
-  static new<T>(): MatchPatternBatch<T> {
-    return new MatchPatternBatch([[], []]);
+  static new<T>(): MatchPatternSet<T> {
+    return new MatchPatternSet([[], []]);
   }
 
-  static unsafeFromJSON<T>(json: string): MatchPatternBatch<T> {
+  static unsafeFromJSON<T>(json: string): MatchPatternSet<T> {
     const tree = JSON.parse(json) as HostTree<T>;
-    return new MatchPatternBatch(tree);
+    return new MatchPatternSet(tree);
   }
 
   toJSON(): string {
@@ -100,7 +100,7 @@ export class MatchPatternBatch<T> {
     let cursor = this.tree;
     let complete = true;
     for (const key of host.split(".").reverse()) {
-      MatchPatternBatch.execSchemePathArray(result, cursor[1], scheme, path);
+      MatchPatternSet.execSchemePathArray(result, cursor[1], scheme, path);
       if (cursor[2]?.[key]) {
         cursor = cursor[2][key];
       } else {
@@ -109,8 +109,8 @@ export class MatchPatternBatch<T> {
       }
     }
     if (complete) {
-      MatchPatternBatch.execSchemePathArray(result, cursor[1], scheme, path);
-      MatchPatternBatch.execSchemePathArray(result, cursor[0], scheme, path);
+      MatchPatternSet.execSchemePathArray(result, cursor[1], scheme, path);
+      MatchPatternSet.execSchemePathArray(result, cursor[0], scheme, path);
     }
     return result;
   }
@@ -124,7 +124,7 @@ export class MatchPatternBatch<T> {
     for (const [value, mpScheme = "*", mpPath = "/*"] of array) {
       if (
         (mpScheme === "*" || scheme === mpScheme) &&
-        (mpPath === "/*" || MatchPatternBatch.execPath(mpPath, path))
+        (mpPath === "/*" || MatchPatternSet.execPath(mpPath, path))
       ) {
         result.push(value);
       }

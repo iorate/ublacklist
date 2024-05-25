@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { MatchPatternBatch } from "../common/match-pattern.ts";
+import { MatchPatternSet } from "../common/match-pattern.ts";
 import { SEARCH_ENGINES } from "../common/search-engines.ts";
 import icon from "../icons/icon.svg";
 import {
@@ -153,17 +153,17 @@ const Popup: React.FC = () => {
       if (tabId == null || url == null) {
         return;
       }
-      const batch = MatchPatternBatch.new<string>();
+      const mps = MatchPatternSet.new<string>();
       for (const { contentScripts } of Object.values(SEARCH_ENGINES)) {
         for (const { matches } of contentScripts) {
           for (const match of matches) {
-            batch.add(match, match);
+            mps.add(match, match);
           }
         }
       }
       let match = null;
       try {
-        match = batch.exec(url)[0] ?? null;
+        match = mps.exec(url)[0] ?? null;
       } catch {
         // Invalid URL
       }

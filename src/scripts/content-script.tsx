@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo } from "react";
 import { type Root, createRoot } from "react-dom/client";
-import { MatchPatternBatch } from "../common/match-pattern.ts";
+import { MatchPatternSet } from "../common/match-pattern.ts";
 import { BlockDialog } from "./block-dialog.tsx";
 import { browser } from "./browser.ts";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
@@ -419,15 +419,15 @@ function main() {
   }
   document.documentElement.dataset.ubActive = "1";
 
-  const batch = MatchPatternBatch.new<SearchEngine>();
+  const mps = MatchPatternSet.new<SearchEngine>();
   for (const searchEngine of Object.values(SEARCH_ENGINES)) {
     for (const { matches } of searchEngine.contentScripts) {
       for (const match of matches) {
-        batch.add(match, searchEngine);
+        mps.add(match, searchEngine);
       }
     }
   }
-  const serpHandler = batch.exec(window.location.href)[0]?.getSerpHandler();
+  const serpHandler = mps.exec(window.location.href)[0]?.getSerpHandler();
   if (serpHandler) {
     if (serpHandler.delay) {
       window.setTimeout(
