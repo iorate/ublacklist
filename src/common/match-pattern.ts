@@ -121,8 +121,7 @@ export class MatchPatternBatch<T> {
     scheme: string,
     path: string,
   ): void {
-    for (const elem of array) {
-      const [value, mpScheme = "*", mpPath = "/*"] = elem;
+    for (const [value, mpScheme = "*", mpPath = "/*"] of array) {
       if (
         (mpScheme === "*" || scheme === mpScheme) &&
         (mpPath === "/*" || MatchPatternBatch.execPath(mpPath, path))
