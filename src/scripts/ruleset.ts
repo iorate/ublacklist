@@ -1,5 +1,6 @@
+import type { MatchPatternScheme } from "../common/match-pattern.ts";
 import type { SerpEntryProps } from "./types.ts";
-import { type MatchPatternScheme, lines, r } from "./utilities.ts";
+import { lines, r } from "./utilities.ts";
 
 export type RegularExpressionProp = "url" | "title";
 

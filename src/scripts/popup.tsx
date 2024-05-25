@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { MatchPatternBatch } from "../common/match-pattern.ts";
 import { SEARCH_ENGINES } from "../common/search-engines.ts";
 import icon from "../icons/icon.svg";
 import {
@@ -29,7 +30,7 @@ import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage } from "./messages.ts";
 import { Ruleset } from "./ruleset.ts";
-import { MatchPattern, makeAltURL, svgToDataURL } from "./utilities.ts";
+import { svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -152,14 +153,20 @@ const Popup: React.FC = () => {
       if (tabId == null || url == null) {
         return;
       }
-      const altURL = makeAltURL(url);
-      const match =
-        altURL &&
-        Object.values(SEARCH_ENGINES)
-          .flatMap(({ contentScripts }) =>
-            contentScripts.flatMap(({ matches }) => matches),
-          )
-          .find((match) => new MatchPattern(match).test(altURL));
+      const batch = MatchPatternBatch.new<string>();
+      for (const { contentScripts } of Object.values(SEARCH_ENGINES)) {
+        for (const { matches } of contentScripts) {
+          for (const match of matches) {
+            batch.add(match, match);
+          }
+        }
+      }
+      let match = null;
+      try {
+        match = batch.exec(url)[0] ?? null;
+      } catch {
+        // Invalid URL
+      }
       if (match != null) {
         const active =
           process.env.BROWSER === "chrome"

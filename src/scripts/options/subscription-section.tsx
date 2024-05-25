@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { MatchPatternBatch } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -45,7 +46,6 @@ import { addMessageListeners, sendMessage } from "../messages.ts";
 import type { Subscription, SubscriptionId, Subscriptions } from "../types.ts";
 import {
   AltURL,
-  MatchPattern,
   isErrorResult,
   numberEntries,
   numberKeys,
@@ -63,12 +63,15 @@ const PERMISSION_PASSLIST = [
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
-  const passlist = PERMISSION_PASSLIST.map((pass) => new MatchPattern(pass));
+  const batch = MatchPatternBatch.new<null>();
+  for (const pass of PERMISSION_PASSLIST) {
+    batch.add(pass, null);
+  }
   for (const url of urls) {
-    const u = new AltURL(url);
-    if (passlist.some((pass) => pass.test(u))) {
+    if (batch.exec(url).length !== 0) {
       continue;
     }
+    const u = new AltURL(url);
     origins.push(`${u.scheme}://${u.host}/*`);
   }
   // Don't call `permissions.request` when unnecessary. re #110

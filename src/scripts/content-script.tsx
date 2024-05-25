@@ -1,5 +1,6 @@
 import { useLayoutEffect, useMemo } from "react";
 import { type Root, createRoot } from "react-dom/client";
+import { MatchPatternBatch } from "../common/match-pattern.ts";
 import { BlockDialog } from "./block-dialog.tsx";
 import { browser } from "./browser.ts";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
@@ -11,12 +12,12 @@ import { SEARCH_ENGINES } from "./search-engines.ts";
 import { css, glob } from "./styles.ts";
 import type {
   DialogTheme,
+  SearchEngine,
   SerpControl,
   SerpEntry,
   SerpHandler,
   SerpHandlerResult,
 } from "./types.ts";
-import { AltURL, MatchPattern } from "./utilities.ts";
 
 const Button: React.FC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
@@ -418,14 +419,15 @@ function main() {
   }
   document.documentElement.dataset.ubActive = "1";
 
-  const url = new AltURL(window.location.href);
-  const serpHandler = Object.values(SEARCH_ENGINES)
-    .find(({ contentScripts }) =>
-      contentScripts
-        .flatMap(({ matches }) => matches)
-        .some((match) => new MatchPattern(match).test(url)),
-    )
-    ?.getSerpHandler();
+  const batch = MatchPatternBatch.new<SearchEngine>();
+  for (const searchEngine of Object.values(SEARCH_ENGINES)) {
+    for (const { matches } of searchEngine.contentScripts) {
+      for (const match of matches) {
+        batch.add(match, searchEngine);
+      }
+    }
+  }
+  const serpHandler = batch.exec(window.location.href)[0]?.getSerpHandler();
   if (serpHandler) {
     if (serpHandler.delay) {
       window.setTimeout(
