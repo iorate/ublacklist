@@ -387,6 +387,24 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           }
         },
       },
+      // Small cards
+      {
+        target: ".e6hL7d:is(.WJXODe, .As9MV) > .I48dHb",
+        url: "a",
+        title: ".QzAn5, .F6sHsf",
+        actionTarget: ".N0RSzc, .QzAn5, .cHaqb",
+        actionPosition: "afterend",
+        actionStyle: {
+          padding: "0 12px",
+          fontSize: "10px",
+          marginBottom: "-6px",
+          position: "relative",
+          zIndex: "1",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+        },
+      },
       // Twitter, Twitter Search
       {
         target: ".eejeod",
@@ -496,6 +514,11 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         // Regular, Video, and YouTube and TikTok channel
         innerTargets:
           "[data-snf], [data-sokoban-feature], [data-content-feature], .IsZvec, .g, .iHxmLe, .d3zsgb, .rULfzc, .eA0Zlc.mkpRId.RLdvSe",
+      },
+      // Card layout dynamic switching
+      {
+        target: '[id^="stev-stapi"], [id^="stev-stapi"] > div',
+        innerTargets: ".I48dHb, .GHMsie, .ZHugbd",
       },
     ],
   }),
