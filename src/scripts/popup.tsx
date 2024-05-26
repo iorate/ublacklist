@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { MatchPatternSet } from "../common/match-pattern.ts";
+import { MatchPatternMap } from "../common/match-pattern.ts";
 import { SEARCH_ENGINES } from "../common/search-engines.ts";
 import icon from "../icons/icon.svg";
 import {
@@ -29,8 +29,8 @@ import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage } from "./messages.ts";
-import { Ruleset } from "./ruleset.ts";
-import { svgToDataURL } from "./utilities.ts";
+import {} from "./ruleset/ruleset.ts";
+import { AltURL, fromPlainRuleset, svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -153,17 +153,17 @@ const Popup: React.FC = () => {
       if (tabId == null || url == null) {
         return;
       }
-      const mps = MatchPatternSet.new<string>();
+      const map = new MatchPatternMap<string>();
       for (const { contentScripts } of Object.values(SEARCH_ENGINES)) {
         for (const { matches } of contentScripts) {
           for (const match of matches) {
-            mps.add(match, match);
+            map.set(match, match);
           }
         }
       }
       let match = null;
       try {
-        match = mps.exec(url)[0] ?? null;
+        match = map.get(url)[0] ?? null;
       } catch {
         // Invalid URL
       }
@@ -191,23 +191,18 @@ const Popup: React.FC = () => {
         });
       } else {
         const options = await loadFromLocalStorage([
+          "ruleset",
           "blacklist",
-          "compiledRules",
           "subscriptions",
           "enablePathDepth",
           "blockWholeSite",
         ]);
         const ruleset = new InteractiveRuleset(
-          options.blacklist,
-          options.compiledRules !== false
-            ? options.compiledRules
-            : Ruleset.compile(options.blacklist),
+          fromPlainRuleset(options.ruleset || null, options.blacklist),
           Object.values(options.subscriptions)
             .filter((subscription) => subscription.enabled ?? true)
-            .map(
-              (subscription) =>
-                subscription.compiledRules ??
-                Ruleset.compile(subscription.blacklist),
+            .map(({ ruleset, blacklist }) =>
+              fromPlainRuleset(ruleset || null, blacklist),
             ),
         );
         setState({
@@ -217,9 +212,12 @@ const Popup: React.FC = () => {
             close: () => window.close(),
             enablePathDepth: options.enablePathDepth,
             openOptionsPage,
+            entryProps: {
+              url,
+              title: title ?? undefined,
+              ...new AltURL(url),
+            },
             ruleset,
-            title,
-            url,
             onBlocked: () =>
               saveToLocalStorage({ blacklist: ruleset.toString() }, "popup"),
           },

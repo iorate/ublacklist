@@ -1,11 +1,53 @@
 import * as tldts from "tldts";
-import { Ruleset } from "./ruleset.ts";
-import type { SerpEntryProps } from "./types.ts";
-import { type AltURL, lines, unlines } from "./utilities.ts";
+import {
+  type LinkProps,
+  Ruleset,
+  type TestRawResult,
+} from "./ruleset/ruleset.ts";
+
+export type QueryResult =
+  | { type: "block" }
+  | { type: "unblock" }
+  | { type: "highlight"; colorNumber: number };
+
+function isBlock(result: QueryResult | null): boolean {
+  return result?.type === "block";
+}
+
+function isUnblockOrHighlight(result: QueryResult | null): boolean {
+  return result?.type === "unblock" || result?.type === "highlight";
+}
+
+function toQueryResult(testRawResult: TestRawResult): QueryResult | null {
+  let result: QueryResult | null = null;
+  for (const { specifier } of testRawResult) {
+    if (!specifier) {
+      if (!result) {
+        result = { type: "block" };
+      }
+    } else if (specifier.type === "negate") {
+      if (!result || result.type === "block") {
+        result = { type: "unblock" };
+      }
+    } else if (
+      !result ||
+      result.type === "block" ||
+      result.type === "unblock" ||
+      result.colorNumber < specifier.colorNumber
+    ) {
+      result = { type: "highlight", colorNumber: specifier.colorNumber };
+    }
+  }
+  return result;
+}
+
+function query(ruleset: Ruleset, props: LinkProps): QueryResult | null {
+  return toQueryResult(ruleset.testRaw(props));
+}
 
 export type InteractiveRulesetPatch = {
   unblock: boolean;
-  props: SerpEntryProps;
+  props: LinkProps;
   rulesToAdd: string;
   rulesToRemove: string;
 };
@@ -15,85 +57,64 @@ type PatchInternal = InteractiveRulesetPatch & {
   ruleRemovers: (() => void)[];
 };
 
-function unlinesNullable(lines: readonly (string | null)[]): string {
-  return unlines(lines.filter((line): line is string => line != null));
-}
-
 function suggestMatchPattern(
-  url: AltURL,
+  url: string,
   unblock: boolean,
   blockWholeSite: boolean,
 ): string {
-  const at = unblock ? "@" : "";
-  const scheme =
-    url.scheme === "http" || url.scheme === "https" ? "*" : url.scheme;
-  let host: string;
+  let host = new URL(url).hostname;
   if (blockWholeSite) {
-    const domain = tldts.getDomain(url.host);
-    host = domain != null ? `*.${domain}` : url.host;
-  } else {
-    host = url.host;
+    const domain = tldts.getDomain(host);
+    if (domain != null) {
+      host = `*.${domain}`;
+    }
   }
-  const path = "/*";
-  return `${at}${scheme}://${host}${path}`;
+  return `${unblock ? "@" : ""}*://${host}/*`;
 }
 
 export class InteractiveRuleset {
-  private readonly userRules: (string | null)[];
   private readonly userRuleset: Ruleset;
   private readonly subscriptionRulesets: readonly Ruleset[];
   private patch: PatchInternal | null = null;
 
-  constructor(
-    userRules: string,
-    userCompiledRules: string,
-    subscriptionCompiledRules: readonly string[],
-  ) {
-    this.userRules = lines(userRules);
-    this.userRuleset = new Ruleset(userCompiledRules);
-    this.subscriptionRulesets = subscriptionCompiledRules.map(
-      (compiled) => new Ruleset(compiled),
-    );
+  constructor(userRuleset: Ruleset, subscriptionRulesets: readonly Ruleset[]) {
+    this.userRuleset = userRuleset;
+    this.subscriptionRulesets = subscriptionRulesets;
   }
 
   toString(): string {
-    return unlinesNullable(this.userRules);
+    return this.userRuleset.toString();
   }
 
-  // 0: block
-  // 1: unblock
-  // 2: highlight-1
-  // 3: highlight-2
-  // ...
-  // -1: none of the above
-  test(props: Readonly<SerpEntryProps>): number {
-    const userResults = this.userRuleset.test(props);
-    if (userResults >= 0) {
-      return userResults;
+  query(props: Readonly<LinkProps>): QueryResult | null {
+    const userResult = query(this.userRuleset, props);
+    if (userResult) {
+      return userResult;
     }
-    return Math.max(
-      -1,
-      ...this.subscriptionRulesets.map((ruleset) => ruleset.test(props)),
+    return toQueryResult(
+      this.subscriptionRulesets.flatMap((ruleset) => ruleset.testRaw(props)),
     );
   }
 
   // Create a patch to block an unblocked URL or unblock a blocked URL.
   // If a patch is already created, it will be deleted.
   createPatch(
-    props: SerpEntryProps,
+    props: LinkProps,
     blockWholeSite: boolean,
   ): InteractiveRulesetPatch {
     const patch = { props } as PatchInternal;
-    const userResults = this.userRuleset.exec(props);
-    if (userResults.some(([, value]) => value >= 1)) {
+    const userResults = this.userRuleset.testRaw(props);
+    if (userResults.some(({ specifier }) => specifier != null)) {
       // The URL is unblocked by a user rule. Block it.
       patch.unblock = false;
-      if (userResults.some(([, value]) => value === 0)) {
+      if (userResults.some(({ specifier }) => specifier == null)) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = "";
       } else if (
-        this.subscriptionRulesets.some((ruleset) => ruleset.test(props) >= 1)
+        this.subscriptionRulesets.some((ruleset) =>
+          isUnblockOrHighlight(query(ruleset, props)),
+        )
       ) {
         // Add a user rule to block it.
         patch.requireRulesToAdd = true;
@@ -103,7 +124,9 @@ export class InteractiveRuleset {
           blockWholeSite,
         );
       } else if (
-        this.subscriptionRulesets.some((ruleset) => ruleset.test(props) === 0)
+        this.subscriptionRulesets.some((ruleset) =>
+          isBlock(query(ruleset, props)),
+        )
       ) {
         // No need to add a user rule to block it.
         patch.requireRulesToAdd = false;
@@ -117,32 +140,29 @@ export class InteractiveRuleset {
           blockWholeSite,
         );
       }
-      patch.rulesToRemove = unlinesNullable(
-        userResults.flatMap(([index, value]) =>
-          value >= 1 ? [this.userRules[index]] : [],
-        ),
+      patch.rulesToRemove = userResults
+        .flatMap(({ lineNumber, specifier }) =>
+          specifier ? [this.userRuleset.get(lineNumber)] : [],
+        )
+        .join("\n");
+      patch.ruleRemovers = userResults.flatMap(({ lineNumber, specifier }) =>
+        specifier ? [() => this.userRuleset.delete(lineNumber)] : [],
       );
-      patch.ruleRemovers = userResults.flatMap(([index, value, remove]) =>
-        value >= 1
-          ? [
-              () => {
-                this.userRules[index] = null;
-              },
-              remove,
-            ]
-          : [],
-      );
-    } else if (userResults.some(([, value]) => value === 0)) {
+    } else if (userResults.some(({ specifier }) => !specifier)) {
       // The URL is blocked by a user rule. Unblock it.
       patch.unblock = true;
       if (
-        this.subscriptionRulesets.some((ruleset) => ruleset.test(props) >= 1)
+        this.subscriptionRulesets.some((ruleset) =>
+          isUnblockOrHighlight(query(ruleset, props)),
+        )
       ) {
         // No need to add a user rule to unblock it.
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = "";
       } else if (
-        this.subscriptionRulesets.some((ruleset) => ruleset.test(props) === 0)
+        this.subscriptionRulesets.some((ruleset) =>
+          isBlock(query(ruleset, props)),
+        )
       ) {
         // Add a user rule to unblock it.
         patch.requireRulesToAdd = true;
@@ -152,23 +172,18 @@ export class InteractiveRuleset {
         patch.requireRulesToAdd = false;
         patch.rulesToAdd = "";
       }
-      patch.rulesToRemove = unlinesNullable(
-        userResults.flatMap(([index, value]) =>
-          value === 0 ? [this.userRules[index]] : [],
-        ),
-      );
-      patch.ruleRemovers = userResults.flatMap(([index, value, remove]) =>
-        value === 0
-          ? [
-              () => {
-                this.userRules[index] = null;
-              },
-              remove,
-            ]
-          : [],
+      patch.rulesToRemove = userResults
+        .flatMap(({ lineNumber, specifier }) =>
+          !specifier ? [this.userRuleset.get(lineNumber)] : [],
+        )
+        .join("\n");
+      patch.ruleRemovers = userResults.flatMap(({ lineNumber, specifier }) =>
+        !specifier ? [() => this.userRuleset.delete(lineNumber)] : [],
       );
     } else if (
-      this.subscriptionRulesets.some((ruleset) => ruleset.test(props) >= 1)
+      this.subscriptionRulesets.some((ruleset) =>
+        isUnblockOrHighlight(query(ruleset, props)),
+      )
     ) {
       // The URL is unblocked by a subscription rule. Block it.
       // Add a user rule to block it.
@@ -178,7 +193,9 @@ export class InteractiveRuleset {
       patch.rulesToRemove = "";
       patch.ruleRemovers = [];
     } else if (
-      this.subscriptionRulesets.some((ruleset) => ruleset.test(props) === 0)
+      this.subscriptionRulesets.some((ruleset) =>
+        isBlock(query(ruleset, props)),
+      )
     ) {
       // The URL is blocked by a subscription rule. Unblock it.
       // Add a user rule to unblock it.
@@ -208,21 +225,17 @@ export class InteractiveRuleset {
     if (!this.patch) {
       throw new Error("Patch not created");
     }
-    const rulesetToAdd = new Ruleset(Ruleset.compile(patch.rulesToAdd));
-    let rulesAddable!: boolean;
-    if (this.patch.unblock) {
-      if (this.patch.requireRulesToAdd) {
-        rulesAddable = rulesetToAdd.test(this.patch.props) >= 1;
-      } else {
-        rulesAddable = rulesetToAdd.test(this.patch.props) !== 0;
-      }
-    } else {
-      if (this.patch.requireRulesToAdd) {
-        rulesAddable = rulesetToAdd.test(this.patch.props) === 0;
-      } else {
-        rulesAddable = rulesetToAdd.test(this.patch.props) < 1;
-      }
-    }
+    const rulesetToAdd = new Ruleset("");
+    rulesetToAdd.extend(patch.rulesToAdd);
+    const resultToAdd = query(rulesetToAdd, this.patch.props);
+    const rulesAddable = this.patch.unblock
+      ? this.patch.requireRulesToAdd
+        ? isUnblockOrHighlight(resultToAdd)
+        : !isBlock(resultToAdd)
+      : this.patch.requireRulesToAdd
+        ? isBlock(resultToAdd)
+        : !isUnblockOrHighlight(resultToAdd);
+    // console.log({ old: this.patch, new: patch, resultToAdd, rulesAddable });
     if (!rulesAddable) {
       return null;
     }
@@ -239,8 +252,7 @@ export class InteractiveRuleset {
       removeRule();
     }
 
-    this.userRules.push(...lines(this.patch.rulesToAdd));
-    this.userRuleset.add(this.patch.rulesToAdd);
+    this.userRuleset.extend(this.patch.rulesToAdd);
 
     this.patch = null;
   }

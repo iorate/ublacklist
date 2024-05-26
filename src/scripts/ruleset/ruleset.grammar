@@ -49,10 +49,10 @@ expression[@isGroup=Expression] {
   AtInteger { "@" ("0" | $[1-9] @digit*) }
   @precedence { "@if" AtInteger "@" }
 
-  matchPatternLabel { (@digit | @asciiLetter) (("-" | @digit | @asciiLetter)* (@digit | @asciiLetter))? }
+  matchPatternLabel { (@digit | @asciiLetter) ((@digit | @asciiLetter | "-")* (@digit | @asciiLetter))? }
   matchPatternHost { ("*" | matchPatternLabel) ("." matchPatternLabel)* }
   hex { @digit | $[A-Fa-f] }
-  matchPatternPathChar { "*" | @digit | @asciiLetter | $[-._~:/?[\]@!$&'()+,;=] | "%" hex hex }
+  matchPatternPathChar { "*" | @digit | @asciiLetter | $[._~:/?[\]@!$&'()+,;=-] | "%" hex hex }
   matchPatternPath { "/" matchPatternPathChar* }
 
   Identifier { (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }

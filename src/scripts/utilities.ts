@@ -1,5 +1,11 @@
 import dayjs from "dayjs";
-import type { ErrorResult, Result, SuccessResult } from "./types.ts";
+import { Ruleset, type RulesetJSON } from "./ruleset/ruleset.ts";
+import type {
+  ErrorResult,
+  PlainRuleset,
+  Result,
+  SuccessResult,
+} from "./types.ts";
 
 // #region AltURL
 export class AltURL {
@@ -187,4 +193,28 @@ export function parseJSON(text: string): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+export function emptyPlainRuleset(): PlainRuleset {
+  return { metadata: {}, rules: "[[],[[],[]]" };
+}
+
+export function fromPlainRuleset(
+  ruleset: PlainRuleset | null,
+  source: string,
+): Ruleset {
+  return new Ruleset(
+    ruleset
+      ? {
+          source: source.split("\n"),
+          metadata: ruleset.metadata,
+          rules: JSON.parse(ruleset.rules) as RulesetJSON["rules"],
+        }
+      : source,
+  );
+}
+
+export function toPlainRuleset(source: string): PlainRuleset {
+  const { metadata, rules } = new Ruleset(source).toJSON();
+  return { metadata, rules: JSON.stringify(rules) };
 }

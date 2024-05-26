@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { MatchPatternSet } from "../../common/match-pattern.ts";
+import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -63,12 +63,12 @@ const PERMISSION_PASSLIST = [
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
-  const mps = MatchPatternSet.new<null>();
+  const map = new MatchPatternMap<null>();
   for (const pass of PERMISSION_PASSLIST) {
-    mps.add(pass, null);
+    map.set(pass, null);
   }
   for (const url of urls) {
-    if (mps.exec(url).length !== 0) {
+    if (map.get(url).length !== 0) {
       continue;
     }
     const u = new AltURL(url);

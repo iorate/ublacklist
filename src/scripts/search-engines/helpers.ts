@@ -290,10 +290,11 @@ export function handleSerpElement({
             ? handleRender(entryActionRoot, actionButtonStyle)
             : null,
         props: {
-          url: entryAltURL,
-          title: entryTitle,
+          url: entryAltURL.toString(),
+          title: entryTitle ?? undefined,
+          ...entryAltURL,
         },
-        state: -1,
+        state: null,
       });
       entryRoots.add(entryRoot);
     }

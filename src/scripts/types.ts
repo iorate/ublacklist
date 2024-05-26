@@ -1,6 +1,8 @@
 import type dayjs from "dayjs";
 import type { MessageName0 } from "../common/locales.ts";
 import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
+import type { QueryResult } from "./interactive-ruleset.ts";
+import type { LinkProps } from "./ruleset/ruleset.ts";
 import type { AltURL } from "./utilities.ts";
 
 export type {
@@ -75,8 +77,11 @@ export type CloudToken = {
 // #endregion Clouds
 
 // #region LocalStorage
+export type PlainRuleset = { metadata: Record<string, unknown>; rules: string };
+
 export type LocalStorageItems = {
-  // blocklist
+  // ruleset
+  ruleset: PlainRuleset | false;
   blacklist: string;
   compiledRules: string | false;
 
@@ -115,7 +120,7 @@ export type LocalStorageItemsFor<
 
 export type LocalStorageItemsSavable = Omit<
   LocalStorageItems,
-  "compiledRules" | "syncCloudId" | "syncResult" | "subscriptions"
+  "ruleset" | "compiledRules" | "syncCloudId" | "syncResult" | "subscriptions"
 >;
 
 export type SaveSource = "content-script" | "popup" | "options" | "background";
@@ -160,8 +165,8 @@ export type SerpEntry = {
   root: HTMLElement;
   actionRoot: HTMLElement;
   onActionRender: (() => void) | null;
-  props: SerpEntryProps;
-  state: number;
+  props: LinkProps;
+  state: QueryResult | null;
 };
 
 export type SerpHandlerResult = {
@@ -197,6 +202,7 @@ export type SubscriptionId = number;
 export type Subscription = {
   name: string;
   url: string;
+  ruleset?: PlainRuleset;
   blacklist: string;
   compiledRules?: string;
   updateResult: Result | false | null;

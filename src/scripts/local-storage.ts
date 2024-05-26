@@ -8,6 +8,7 @@ import type {
 } from "./types.ts";
 
 export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
+  ruleset: false,
   blacklist: "",
   compiledRules: false,
   skipBlockDialog: false,

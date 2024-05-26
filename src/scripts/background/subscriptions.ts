@@ -1,12 +1,12 @@
 import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
-import { Ruleset } from "../ruleset.ts";
 import type { SubscriptionId } from "../types.ts";
 import {
   HTTPError,
   errorResult,
   numberKeys,
   successResult,
+  toPlainRuleset,
 } from "../utilities.ts";
 import { loadFromRawStorage, modifyInRawStorage } from "./raw-storage.ts";
 
@@ -43,8 +43,9 @@ export function update(id: SubscriptionId): Promise<void> {
     try {
       const response = await fetch(subscription.url);
       if (response.ok) {
-        subscription.blacklist = await response.text();
-        subscription.compiledRules = Ruleset.compile(subscription.blacklist);
+        const source = await response.text();
+        subscription.ruleset = toPlainRuleset(source);
+        subscription.blacklist = source;
         subscription.updateResult = successResult();
       } else {
         subscription.updateResult = errorResult(
