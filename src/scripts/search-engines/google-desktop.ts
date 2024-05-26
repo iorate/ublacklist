@@ -129,10 +129,25 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
       {
         target: "#slim_appbar:empty",
-        style: {
-          "#slim_appbar > &:not(:only-child)": {
-            display: "none",
-          },
+        style: (controlRoot) => {
+          controlRoot.className = css({
+            "#slim_appbar > &:not(:only-child)": {
+              display: "none",
+            },
+          });
+          // Set appropriate margin when "Tools" bar is present:
+          controlRoot.closest("#appbar")?.classList.add(
+            css({
+              // Not present
+              "&:not(.hdtb-ab-o)": {
+                margin: "16px 0",
+              },
+              // Present
+              "&:is(.hdtb-ab-o)": {
+                margin: "42px 0 -12px",
+              },
+            }),
+          );
         },
       },
       {
