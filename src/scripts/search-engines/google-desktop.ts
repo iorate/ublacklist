@@ -722,7 +722,9 @@ export function getDesktopSerpHandler(
   tbm: string,
   udm: string,
 ): SerpHandler | null {
-  const serpHandler = desktopSerpHandlers[udm ? `udm=${udm}` : tbm];
+  const udmKey = `udm=${udm}`;
+  const serpHandler =
+    desktopSerpHandlers[udmKey in desktopSerpHandlers ? udmKey : tbm];
   if (!serpHandler) {
     return null;
   }
