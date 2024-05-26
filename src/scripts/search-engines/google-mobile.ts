@@ -105,7 +105,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   "": handleSerp({
     globalStyle: {
       ...mobileGlobalStyle,
-      "[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01":
+      "[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01, .BmkBMc g-inner-card":
         {
           backgroundColor: "transparent !important",
         },
@@ -237,6 +237,31 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         title: ".vvjwJb",
         actionTarget: "",
         actionStyle: mobileRegularActionStyle,
+      },
+      // Questions & answers
+      {
+        target: ".Hb5Kgc > .m9wSUc",
+        level: ".Tpb3kb > .BmkBMc",
+        url: "a",
+        title: ".RqlTSb",
+        actionTarget: ".m9wSUc",
+        actionPosition: "afterend",
+        actionStyle: (actionRoot) => {
+          actionRoot.className = css({
+            "&::before": {
+              content: '" · "',
+            },
+            display: "inline-block",
+            fontSize: "14px",
+            paddingLeft: "4px",
+            ...iOSButtonStyle,
+          });
+          actionRoot.previousElementSibling?.classList.add(
+            css({
+              display: "inline-block !important",
+            }),
+          );
+        },
       },
     ],
     pagerHandlers: [
