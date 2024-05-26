@@ -243,6 +243,28 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         title: (root) => root.querySelector("h3")?.textContent ?? null,
         ...regularEntryHandler,
       },
+      // Questions & answers
+      {
+        target: ".Hb5Kgc > .m9wSUc",
+        level: ".Tpb3kb > .BmkBMc",
+        url: "a",
+        title: ".RqlTSb",
+        actionTarget: ".m9wSUc",
+        actionPosition: "afterend",
+        actionStyle: (actionRoot) => {
+          actionRoot.className = css({
+            ...desktopActionStyle,
+            display: "inline-block",
+            fontSize: "14px",
+            paddingLeft: "4px",
+          });
+          actionRoot.previousElementSibling?.classList.add(
+            css({
+              display: "inline-block !important",
+            }),
+          );
+        },
+      },
       // Quote in the News
       {
         target: ".UaDxmd > .F4CzCf",
