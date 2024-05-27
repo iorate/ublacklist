@@ -131,6 +131,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
             display: "block",
           },
+          ":not(#hdtbMenus) &": {
+            paddingLeft: "8px",
+          },
         },
       },
       {
@@ -139,9 +142,6 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           controlRoot.className = css({
             "#slim_appbar > &:not(:only-child)": {
               display: "none",
-              "#appbar": {
-                margin: "none !important",
-              },
             },
           });
           // Set appropriate margin when "Tools" bar is present:
@@ -538,6 +538,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
             display: "block",
           },
+          ":not(#hdtbMenus) &": {
+            paddingLeft: "8px",
+          },
         },
       },
     ],
@@ -627,6 +630,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
             display: "block",
           },
+          ":not(#hdtbMenus) &": {
+            paddingLeft: "8px",
+          },
         },
       },
     ],
@@ -685,6 +691,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           // Displays on the next line when part of the "Tools" bar
           "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
             display: "block",
+          },
+          ":not(#hdtbMenus) &": {
+            paddingLeft: "8px",
           },
         },
       },
