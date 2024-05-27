@@ -126,6 +126,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     controlHandlers: [
       {
         target: "#result-stats",
+        style: {
+          // Displays on the next line when part of the "Tools" bar
+          "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
+            display: "block",
+          },
+        },
       },
       {
         target: "#slim_appbar:empty",
@@ -520,6 +526,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     controlHandlers: [
       {
         target: "#result-stats",
+        style: {
+          // Displays on the next line when part of the "Tools" bar
+          "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
+            display: "block",
+          },
+        },
       },
     ],
     entryHandlers: [
@@ -603,6 +615,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     controlHandlers: [
       {
         target: "#result-stats",
+        style: {
+          // Displays on the next line when part of the "Tools" bar
+          "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
+            display: "block",
+          },
+        },
       },
     ],
     entryHandlers: [
@@ -656,6 +674,12 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     controlHandlers: [
       {
         target: "#result-stats",
+        style: {
+          // Displays on the next line when part of the "Tools" bar
+          "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
+            display: "block",
+          },
+        },
       },
     ],
     entryHandlers: [
