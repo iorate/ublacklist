@@ -396,6 +396,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
               ?.parentElement?.querySelector(".MhN3hd")
           ) {
             actionRoot.parentElement?.style.setProperty("z-index", "1");
+            actionRoot.setAttribute("data-ub-dark", "1");
           }
           // Copy container style in order to fit the action on Instagram posts that
           // take all the available space.
