@@ -139,6 +139,9 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           controlRoot.className = css({
             "#slim_appbar > &:not(:only-child)": {
               display: "none",
+              "#appbar": {
+                margin: "none !important",
+              },
             },
           });
           // Set appropriate margin when "Tools" bar is present:
@@ -151,6 +154,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
               // Present
               "&:is(.hdtb-ab-o)": {
                 margin: "42px 0 -12px",
+              },
+              // Remove margin when no entry has been blocked
+              "&:has(.ub-hidden)": {
+                margin: "0 !important",
               },
             }),
           );
