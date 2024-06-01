@@ -140,12 +140,6 @@ export function numberEntries<Key extends number, Value>(
 export function lines(s: string): string[] {
   return s ? s.split("\n") : [];
 }
-
-export function unlines(ss: string[]): string {
-  return ss.join("\n");
-}
-
-export const r = String.raw.bind(String);
 // #endregion string
 
 export function downloadTextFile(
@@ -193,10 +187,6 @@ export function parseJSON(text: string): string | undefined {
   } catch {
     return undefined;
   }
-}
-
-export function emptyPlainRuleset(): PlainRuleset {
-  return { metadata: {}, rules: "[[],[[],[]]" };
 }
 
 export function fromPlainRuleset(

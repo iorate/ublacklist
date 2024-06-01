@@ -1,5 +1,4 @@
 @precedence {
-  negate,
   and @left,
   or @left
 }
@@ -36,7 +35,7 @@ expression[@isGroup=Expression] {
       | (Identifier RegExpMatchOperator?)? RegExp
     }
   | ParenthesizedExpression { "(" expression ")" }
-  | NegateExpression { !negate "!" expression }
+  | NegateExpression { "!" expression }
   | AndExpression { expression !and "&" expression }
   | OrExpression { expression !or "|" expression }
 }

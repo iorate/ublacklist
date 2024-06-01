@@ -21,7 +21,6 @@ test("MatchPatternMap", async (t) => {
     map.set("https://mozilla.org/a/b/c/", 8);
     map.set("https://mozilla.org/*/b/*/", 9);
     assert.throws(() => map.set("file:///blah/*", 10));
-
     // <all_urls>
     assert.deepStrictEqual(get(map, "http://example.org/"), [0, 1]);
     assert.deepStrictEqual(get(map, "https://a.org/some/path/"), [0, 1]);
@@ -165,7 +164,6 @@ test("MatchPatternMap", async (t) => {
     assert.deepStrictEqual(get(map, "file:///blah/"), []);
     assert.deepStrictEqual(get(map, "file:///blah/bleh"), []);
     assert.deepStrictEqual(get(map, "file:///bleh/"), []);
-
     // Invalid match patterns
     assert.throws(() => map.set("resource://path/", 11));
     assert.throws(() => map.set("https://mozilla.org", 12));
@@ -183,19 +181,16 @@ test("MatchPatternMap", async (t) => {
     map.set("*://*/*", 1);
     map.set("*://*.mozilla.org/*", 2);
     map.set("*://mozilla.org/", 3);
-    // assert.throws(() => set.add("ftp://mozilla.org/", 4));
     map.set("https://*/path", 5);
     map.set("https://*/path/", 6);
     map.set("https://mozilla.org/*", 7);
     map.set("https://mozilla.org/a/b/c/", 8);
     map.set("https://mozilla.org/*/b/*/", 9);
-    // assert.throws(() => set.add("file:///blah/*", 10));
     const json = map.toJSON();
     assert.strictEqual(
       JSON.stringify(json),
       '[[0],[[],[[1],[5,"https","/path"],[6,"https","/path/"]],{"org":[[],[],{"mozilla":[[[3,"*","/"],[7,"https"],[8,"https","/a/b/c/"],[9,"https","/*/b/*/"]],[[2]]]}]}]]',
     );
-
     map = new MatchPatternMap(json);
     assert.deepStrictEqual(get(map, "http://mozilla.org/"), [0, 1, 2, 3]);
     assert.deepStrictEqual(get(map, "https://mozilla.org/"), [0, 1, 2, 3, 7]);

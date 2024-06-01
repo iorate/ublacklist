@@ -68,7 +68,7 @@ async function requestPermission(urls: readonly string[]): Promise<boolean> {
     map.set(pass, null);
   }
   for (const url of urls) {
-    if (map.get(url).length !== 0) {
+    if (map.get(url).length) {
       continue;
     }
     const u = new AltURL(url);

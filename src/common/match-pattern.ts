@@ -134,10 +134,9 @@ function collectBucket<T>(
 }
 
 function testScheme(schemePattern: string, scheme: string): boolean {
-  return (
-    (schemePattern === "*" && (scheme === "http" || scheme === "https")) ||
-    scheme === schemePattern
-  );
+  return schemePattern === "*"
+    ? scheme === "http" || scheme === "https"
+    : scheme === schemePattern;
 }
 
 function testPath(pathPattern: string, path: string): boolean {

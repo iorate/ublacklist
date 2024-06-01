@@ -137,7 +137,6 @@ export class Ruleset implements Iterable<string> {
   }
 
   testRaw(props: Readonly<LinkProps>): TestRawResult {
-    console.log("=== testRaw ===", props);
     const result: TestRawResult = [];
     for (const [lineNumber, value = 1, expression = null] of this.rules.get(
       props.url,

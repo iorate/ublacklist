@@ -30,7 +30,7 @@ import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage } from "./messages.ts";
 import {} from "./ruleset/ruleset.ts";
-import { AltURL, fromPlainRuleset, svgToDataURL } from "./utilities.ts";
+import { fromPlainRuleset, makeAltURL, svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -214,8 +214,8 @@ const Popup: React.FC = () => {
             openOptionsPage,
             entryProps: {
               url,
-              title: title ?? undefined,
-              ...new AltURL(url),
+              ...(title != null ? { title } : {}),
+              ...(makeAltURL(url) || {}),
             },
             ruleset,
             onBlocked: () =>

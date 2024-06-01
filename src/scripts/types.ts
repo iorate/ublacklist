@@ -3,7 +3,6 @@ import type { MessageName0 } from "../common/locales.ts";
 import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
 import type { QueryResult } from "./interactive-ruleset.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
-import type { AltURL } from "./utilities.ts";
 
 export type {
   MessageName,
@@ -153,11 +152,6 @@ export type SerpControl = {
   scope: string;
   root: HTMLElement;
   onRender: (() => void) | null;
-};
-
-export type SerpEntryProps = {
-  url: AltURL;
-  title: string | null;
 };
 
 export type SerpEntry = {

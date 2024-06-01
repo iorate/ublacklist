@@ -9,11 +9,7 @@ import type {
   LocalStorageItemsBackupRestore,
   Subscriptions,
 } from "../types.ts";
-import {
-  emptyPlainRuleset,
-  stringEntries,
-  toPlainRuleset,
-} from "../utilities.ts";
+import { stringEntries, toPlainRuleset } from "../utilities.ts";
 import { resetAllInRawStorage } from "./raw-storage.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";
 
@@ -63,7 +59,7 @@ export async function restore(
       subscriptions[nextSubscriptionId] = {
         name,
         url,
-        ruleset: emptyPlainRuleset(),
+        ruleset: toPlainRuleset(""),
         blacklist: "",
         updateResult: false,
         enabled: enabled ?? true,

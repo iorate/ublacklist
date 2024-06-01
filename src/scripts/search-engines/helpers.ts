@@ -291,7 +291,7 @@ export function handleSerpElement({
             : null,
         props: {
           url: entryAltURL.toString(),
-          title: entryTitle ?? undefined,
+          ...(entryTitle != null ? { title: entryTitle } : {}),
           ...entryAltURL,
         },
         state: null,
