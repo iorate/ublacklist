@@ -11,7 +11,7 @@ export const google: Readonly<SearchEngine> = {
     const tbm = params.get("tbm") ?? "";
     const udm = params.get("udm") ?? "";
     return mobile({ tablet: true })
-      ? getMobileSerpHandler(tbm)
+      ? getMobileSerpHandler(tbm, udm)
       : getDesktopSerpHandler(tbm, udm);
   },
 };

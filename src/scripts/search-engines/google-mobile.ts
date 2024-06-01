@@ -477,8 +477,13 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   }),
 };
 
-export function getMobileSerpHandler(tbm: string): SerpHandler | null {
-  const serpHandler = mobileSerpHandlers[tbm];
+export function getMobileSerpHandler(
+  tbm: string,
+  udm: string,
+): SerpHandler | null {
+  const udmKey = `udm=${udm}`;
+  const serpHandler =
+    mobileSerpHandlers[udmKey in mobileSerpHandlers ? udmKey : tbm];
   if (!serpHandler) {
     return null;
   }
