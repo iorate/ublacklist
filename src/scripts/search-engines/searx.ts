@@ -74,6 +74,9 @@ function getSerpHandler(): SerpHandler {
           },
           fontSize: "1rem",
         },
+        props: {
+          $category: "web",
+        },
       },
       // Images
       {
@@ -86,6 +89,9 @@ function getSerpHandler(): SerpHandler {
           display: "block",
           position: "absolute",
           padding: "3.1rem 0 0 0",
+        },
+        props: {
+          $category: "images",
         },
       },
       // Videos
@@ -101,6 +107,9 @@ function getSerpHandler(): SerpHandler {
           },
           fontSize: "1rem",
         },
+        props: {
+          $category: "videos",
+        },
       },
       // Maps
       {
@@ -114,6 +123,9 @@ function getSerpHandler(): SerpHandler {
             padding: "0 2px 0 4px",
           },
           fontSize: "1rem",
+        },
+        props: {
+          $category: "map",
         },
       },
       // Files
@@ -129,9 +141,15 @@ function getSerpHandler(): SerpHandler {
           },
           fontSize: "1rem",
         },
+        props: {
+          $category: "files",
+        },
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "searx",
+    },
   });
 }
 

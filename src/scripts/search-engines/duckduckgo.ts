@@ -140,6 +140,9 @@ const serpHandler = handleSerp({
         order: 3,
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "web",
+      },
     },
     // Images
     {
@@ -152,6 +155,9 @@ const serpHandler = handleSerp({
         lineHeight: "1.5",
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "images",
+      },
     },
     // Videos
     {
@@ -165,6 +171,9 @@ const serpHandler = handleSerp({
         margin: "0.4em 0 -0.4em",
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "videos",
+      },
     },
     // News
     {
@@ -184,6 +193,9 @@ const serpHandler = handleSerp({
         },
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "news",
+      },
     },
     // News Cards on the main page
     {
@@ -226,6 +238,9 @@ const serpHandler = handleSerp({
     },
   ],
   getDialogTheme: getDialogThemeFromBody(),
+  pageProps: {
+    $engine: "duckduckgo",
+  },
 });
 
 const htmlSerpHandler = handleSerp({
@@ -263,6 +278,10 @@ const htmlSerpHandler = handleSerp({
       },
     },
   ],
+  pageProps: {
+    $engine: "duckduckgo",
+    $category: "web",
+  },
 });
 
 const liteSerpHandler = handleSerp({
@@ -324,6 +343,10 @@ const liteSerpHandler = handleSerp({
       },
     },
   ],
+  pageProps: {
+    $engine: "duckduckgo",
+    $category: "web",
+  },
 });
 
 export const duckduckgo: Readonly<SearchEngine> = {

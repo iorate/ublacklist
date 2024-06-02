@@ -42,6 +42,10 @@ function getSerpHandler(): SerpHandler {
         },
       },
     ],
+    pageProps: {
+      $engine: "ecosia",
+      $category: "web",
+    },
   });
 }
 

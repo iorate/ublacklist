@@ -35,6 +35,10 @@ const webHandler = handleSerp({
       },
     },
   ],
+  pageProps: {
+    $engine: "yahooJapan",
+    $category: "web",
+  },
 });
 
 const handlers: Readonly<Record<string, SerpHandler | undefined>> = {

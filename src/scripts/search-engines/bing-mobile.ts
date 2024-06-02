@@ -68,6 +68,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "bing",
+      $category: "web",
+    },
   }),
   "/images/search": handleSerp({
     globalStyle: applyGlobalStyle({
@@ -132,6 +136,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "bing",
+      $category: "images",
+    },
   }),
   "/videos/search": handleSerp({
     globalStyle: applyGlobalStyle({
@@ -182,6 +190,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "bing",
+      $category: "videos",
+    },
   }),
   "/news/search": handleSerp({
     globalStyle: applyGlobalStyle({
@@ -228,6 +240,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "bing",
+      $category: "news",
+    },
   }),
 };
 

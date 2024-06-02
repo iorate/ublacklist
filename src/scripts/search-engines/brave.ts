@@ -39,6 +39,9 @@ function getSerpHandler(): SerpHandler {
         actionStyle: {
           fontSize: "var(--text-sm-2)",
         },
+        props: {
+          $category: "web",
+        },
       },
       // Images
       {
@@ -55,6 +58,9 @@ function getSerpHandler(): SerpHandler {
         actionStyle: {
           fontSize: "var(--text-sm-2)",
         },
+        props: {
+          $category: "images",
+        },
       },
       // Videos
       {
@@ -64,6 +70,9 @@ function getSerpHandler(): SerpHandler {
         actionTarget: ".video-content",
         actionStyle: {
           fontSize: "var(--text-sm-2)",
+        },
+        props: {
+          $category: "videos",
         },
       },
       // News
@@ -75,9 +84,15 @@ function getSerpHandler(): SerpHandler {
         actionStyle: {
           fontSize: "var(--text-sm-2)",
         },
+        props: {
+          $category: "news",
+        },
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $engine: "brave",
+    },
   });
 }
 

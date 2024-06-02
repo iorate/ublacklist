@@ -19,7 +19,7 @@ export type RulesetJSON = {
 
 export type LinkProps = {
   url: string;
-  [prop: string]: string | undefined;
+  [prop: string]: string;
 };
 
 export type TestRawResult = {

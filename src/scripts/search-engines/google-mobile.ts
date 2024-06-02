@@ -281,6 +281,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".xpd, .tRkSqb",
       },
     ],
+    pageProps: {
+      $engine: "google",
+      $category: "web",
+    },
   }),
   // Books
   bks: handleSerp({
@@ -301,6 +305,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: mobileRegularActionStyle,
       },
     ],
+    pageProps: {
+      $engine: "google",
+      $category: "books",
+    },
   }),
   // Images
   isch: handleSerp({
@@ -371,6 +379,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         },
       },
     ],
+    pageProps: {
+      $engine: "google",
+      $category: "images",
+    },
   }),
   "udm=2": handleSerp({
     globalStyle: mobileGlobalStyle,
@@ -510,6 +522,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         },
       },
     ],
+    pageProps: {
+      $engine: "google",
+      $category: "news",
+    },
   }),
   // Videos
   vid: handleSerp({
@@ -572,6 +588,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".mnr-c",
       },
     ],
+    pageProps: {
+      $engine: "google",
+      $category: "videos",
+    },
   }),
 };
 

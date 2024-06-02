@@ -130,6 +130,9 @@ export type EntryHandler = {
     | ((target: HTMLElement) => HTMLElement | null);
   actionStyle?: string | CSSAttribute | ((actionRoot: HTMLElement) => void);
   actionButtonStyle?: string | CSSAttribute | ((button: HTMLElement) => void);
+  props?:
+    | Record<string, string>
+    | ((root: HTMLElement) => Record<string, string>);
 };
 
 export type PagerHandler = {
@@ -158,10 +161,12 @@ export function handleSerpElement({
   controlHandlers,
   entryHandlers,
   pagerHandlers = [],
+  pageProps = {},
 }: {
   controlHandlers: ControlHandler[];
   entryHandlers: EntryHandler[];
   pagerHandlers?: PagerHandler[];
+  pageProps?: Record<`$${string}`, string>;
 }): (element: HTMLElement) => SerpHandlerResult {
   const entryRoots = new WeakSet<HTMLElement>();
   const onSerpElement = (element: HTMLElement): SerpHandlerResult => {
@@ -214,6 +219,7 @@ export function handleSerpElement({
       actionPosition = "beforeend",
       actionStyle,
       actionButtonStyle,
+      props = {},
     } of entryHandlers) {
       if (
         !(typeof target === "string"
@@ -290,9 +296,11 @@ export function handleSerpElement({
             ? handleRender(entryActionRoot, actionButtonStyle)
             : null,
         props: {
+          ...pageProps,
           url: entryAltURL.toString(),
           ...(entryTitle != null ? { title: entryTitle } : {}),
           ...entryAltURL,
+          ...(typeof props === "object" ? props : props(entryRoot)),
         },
         state: null,
       });
@@ -331,6 +339,7 @@ export function handleSerp({
   getDialogTheme = () => "light",
   observeRemoval = false,
   delay = 0,
+  pageProps = {},
 }: {
   globalStyle: CSSAttribute | ((colors: SerpColors) => void);
   targets?: () => HTMLElement[];
@@ -340,6 +349,7 @@ export function handleSerp({
   getDialogTheme?: () => DialogTheme;
   observeRemoval?: boolean;
   delay?: number;
+  pageProps?: Record<`$${string}`, string>;
 }): SerpHandler {
   if (!targets) {
     const selectors: string[] = [];
@@ -356,6 +366,7 @@ export function handleSerp({
     controlHandlers,
     entryHandlers,
     pagerHandlers,
+    pageProps: pageProps,
   });
   return {
     onSerpStart: handleSerpStart({ targets, onSerpElement }),
