@@ -19,7 +19,15 @@ function isUnblockOrHighlight(result: QueryResult | null): boolean {
 }
 
 function query(ruleset: Ruleset, props: LinkProps): QueryResult | null {
-  return toQueryResult(ruleset.testRaw(props));
+  const { protocol, hostname, pathname, search } = new URL(props.url);
+  return toQueryResult(
+    ruleset.testRaw({
+      scheme: protocol.slice(0, -1),
+      host: hostname,
+      path: `${pathname}${search}`,
+      ...props,
+    }),
+  );
 }
 
 function toQueryResult(testRawResult: TestRawResult): QueryResult | null {

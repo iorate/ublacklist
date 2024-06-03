@@ -299,7 +299,6 @@ export function handleSerpElement({
           ...pageProps,
           url: entryAltURL.toString(),
           ...(entryTitle != null ? { title: entryTitle } : {}),
-          ...entryAltURL,
           ...(typeof props === "object" ? props : props(entryRoot)),
         },
         state: null,
