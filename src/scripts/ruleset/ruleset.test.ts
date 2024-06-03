@@ -185,6 +185,269 @@ test("Ruleset", async (t) => {
     }
   });
 
+  await t.test("Simple expressions", () => {
+    {
+      const ruleset = new Ruleset('title="Example Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title = "Example Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title^="Example"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(!ruleset.test({ url: "http://example.com/", title: "Domain" }));
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title ^= "Example"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title$="Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "Example" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title $= "Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('$$="Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", $: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title*="ple Dom"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('title *= "ple Dom"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset("title=~/example/i");
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "Test Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset("title =~ /example/i");
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+  });
+
+  await t.test("Complex expressions", () => {
+    {
+      const ruleset = new Ruleset('(title="Example Domain")');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "example domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('( title = "Example Domain" )');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('!title="Example Domain"');
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('url*="example"&title="Example Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://something.com/",
+          title: "Example Domain",
+        }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset('url*="example"|title="Example Domain"');
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        ruleset.test({
+          url: "http://something.com/",
+          title: "Example Domain",
+        }),
+      );
+      assert.ok(
+        ruleset.test({
+          url: "http://example.com/",
+          snippet: "Example Domain",
+        }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://something.com/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    // Precedence
+    {
+      const ruleset = new Ruleset(
+        'url *= "example" | title ^= "Example" & title $= "Domain"',
+      );
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "example domain" }),
+      );
+      assert.ok(
+        ruleset.test({
+          url: "http://something.com/",
+          title: "Example Domain",
+        }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://something.com/",
+          snippet: "Example",
+        }),
+      );
+    }
+    // More complex expressions
+    {
+      const ruleset = new Ruleset(
+        `a="1" & b^="2" | !(c$="3" & d*="4") | !!e=~/5/ & f=~/6/`,
+      );
+      assert.ok(ruleset.test({ url: "http://example.com/", a: "1", b: "20" }));
+      assert.ok(!ruleset.test({ url: "http://example.com/", a: "1", b: "3" }));
+      assert.ok(!ruleset.test({ url: "http://example.com/", a: "1", c: "20" }));
+      assert.ok(
+        ruleset.test({
+          url: "http://example.com/",
+          a: "1",
+          b: "3",
+          c: "3",
+          d: "123567",
+        }),
+      );
+      assert.ok(
+        ruleset.test({
+          url: "http://example.com/",
+          a: "1",
+          b: "3",
+          c: "3",
+          d: "4",
+          e: "551",
+          f: "169",
+        }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          a: "1",
+          b: "3",
+          c: "3",
+          d: "4",
+          e: "551",
+          f: "777",
+        }),
+      );
+    }
+  });
+
   await t.test("Negate and highlight specifiers", () => {
     {
       const ruleset = new Ruleset("@*://example.com/*");
