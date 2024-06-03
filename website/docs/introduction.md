@@ -21,6 +21,6 @@ uBlacklist is a Google Search filter for Chrome, Firefox and Safari.
 - Block sites with specific URLs using match patterns or regular expressions
 - Block sites with specific titles using regular expressions
 - Highlight sites
-- Support Bing, Brave, DuckDuckGo, Ecosia, Qwant, Searx, Startpage.com, Yahoo! JAPAN and Yandex
+- Support Bing, Brave, DuckDuckGo, Ecosia, Kagi, Qwant, Searx, Startpage.com, Yahoo! JAPAN and Yandex
 - Synchronize block rules among devices using Google Drive or Dropbox
 - Subscribe to public block rules

@@ -157,6 +157,7 @@ export default exportAsMessages({
   searchEngines_bingName: "Bing",
   searchEngines_duckduckgoName: "DuckDuckGo",
   searchEngines_ecosiaName: "Ecosia",
+  searchEngines_kagiName: "Kagi",
   searchEngines_qwantName: "Qwant",
   searchEngines_searxName: "SearX",
   searchEngines_qwantDescription:
