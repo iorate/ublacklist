@@ -140,7 +140,7 @@ const regularControlHandlers: ControlHandler[] = [
         }),
       );
       // Set appropriate margin when there is an additional labels bar
-      if (controlRoot.matches(":scope:is(:is(div + #tU52Vb) :scope)")) {
+      if (controlRoot.matches(":is(:is(div + #tU52Vb) :scope)")) {
         controlRoot.closest("#appbar")?.classList.add(
           css({
             margin: "0 0 24px 0 !important",
