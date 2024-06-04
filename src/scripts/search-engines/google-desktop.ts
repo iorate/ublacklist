@@ -139,6 +139,22 @@ const regularControlHandlers: ControlHandler[] = [
           },
         }),
       );
+      // Set appropriate margin when there is an additional labels bar
+      if (controlRoot.matches(":scope:is(:is(div + #tU52Vb) :scope)")) {
+        controlRoot.closest("#appbar")?.classList.add(
+          css({
+            margin: "0 0 24px 0 !important",
+          }),
+        );
+        controlRoot.closest("#slim_appbar")?.classList.add(
+          css({
+            ".hdtb-ab-o &": {
+              padding: "48px 0 0 0",
+            },
+            padding: "24px 0 0 0",
+          }),
+        );
+      }
     },
   },
 ];
