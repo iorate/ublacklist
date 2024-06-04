@@ -367,6 +367,43 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
   }),
+  "udm=2": handleSerp({
+    globalStyle: mobileGlobalStyle,
+    controlHandlers: [
+      {
+        target: "#appbar",
+        position: "afterend",
+        style: {
+          "&:not(.ub-hidden)": {
+            display: "block",
+          },
+        },
+      },
+    ],
+    entryHandlers: [
+      // Regular Image
+      {
+        target: "[data-bla]",
+        level: ".srKDX.cvP2Ce > div",
+        url: "a",
+        actionTarget: ".N54PNb > [data-snf]:last-child",
+        actionPosition: "afterend",
+        actionStyle: {
+          display: "block",
+          fontSize: "11px",
+          padding: "0 0 8px 0",
+          ...iOSButtonStyle,
+        },
+      },
+    ],
+    pagerHandlers: [
+      // Continuos Scrolling
+      {
+        target: '[id^="arc-srp"], [decode-data-ved]',
+        innerTargets: "[data-bla]",
+      },
+    ],
+  }),
   // News
   nws: handleSerp({
     globalStyle: mobileGlobalStyle,
