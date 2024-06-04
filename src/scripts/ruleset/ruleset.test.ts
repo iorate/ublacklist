@@ -295,6 +295,30 @@ test("Ruleset", async (t) => {
         ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
       );
     }
+    // String literals
+    {
+      const ruleset = new Ruleset(
+        String.raw`title="foo bar \xA9 \u00A9 \u{2F804} \0 \b \f \n \r \t \v \a"`,
+      );
+      assert.ok(
+        ruleset.test({
+          url: "http://example.com/",
+          title: "foo bar \xA9 \u00A9 \u{2F804} \0 \b \f \n \r \t \v a",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset(String.raw`title="foo bar \00"`);
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "foo bar \x000" }),
+      );
+    }
+    {
+      const ruleset = new Ruleset(String.raw`title="foo bar \xA"`);
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "foo bar \\xA" }),
+      );
+    }
   });
 
   await t.test("Complex expressions", () => {

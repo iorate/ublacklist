@@ -29,7 +29,6 @@ import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage } from "./messages.ts";
-import {} from "./ruleset/ruleset.ts";
 import { fromPlainRuleset, svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
