@@ -109,7 +109,7 @@ const regularControlHandlers: ControlHandler[] = [
       "#hdtbMenus :is(.BfdGL.ZkEmPc + div) &": {
         display: "block",
       },
-      ":not(#hdtbMenus) &": {
+      "&:not(#hdtbMenus &)": {
         paddingLeft: "8px",
       },
     },
