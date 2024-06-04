@@ -4,7 +4,7 @@ const spec_Identifier = {__proto__:null,HTTP:65, HTTp:65, HTtP:65, HTtp:65, HtTP
 export const parser = LRParser.deserialize({
   version: 14,
   states: "&YQwQPOOOOQO'#C`'#C`OOQO'#Cb'#CbOOQO'#Cd'#CdO!OOPO'#CdO!TQQO'#CiOOQO'#Ci'#CiO!`QPO'#CnO!`QPO'#CpO!nQPO'#C_OOQO'#DQ'#DQO!|QPO'#C_O`QPO'#C_O#XQPO'#CvQ#cQPOOQ#cQPOOO#hOSO,59OO#mQPO,59TOOQO,59T,59TO#rQPO,59TO#wQPO,59YOOQO,59[,59[O!`QPO,59^O!`QPO,59`O$SQPO'#CfOOQO,58y,58yO$XQPO,58yO$gQPO,58yOOQO,59b,59bOOQO-E6t-E6tO$rOSO1G.jOOQO1G.o1G.oOOQO1G.t1G.tOOQO1G.x1G.xO$wQPO1G.zO!`QPO,59QOOQO1G.e1G.eOOQO7+$U7+$UO%YQPO1G.lOOQO7+$W7+$W",
-  stateData: "%j~OmOSPOS~OTPOVQOXTO[VOaUOeWOnROoSOpSO~Ou]O~PYOq`O~O^aO`cOabO~OXTO[VOaUOeWO~OgfOigOkRXuRX~OZhOkRXuRX~OkjXujX~PYOu]O~OrnO~O_oO~OaoO~OcpOgfOigO~O[sO~OgfOigOkRauRa~OZhOkRauRa~OsuO~OgfOihikhiuhichi~OcwOgfOigO~OZVTV~",
+  stateData: "%j~OmOSPOS~OTPOVQOXTO[VOaUOeWOnROoSOpSO~Ou]O~PYOq`O~O^aO`cOabO~OXTO[VOaUOeWO~OgfOigOkRXuRX~OZhOkRXuRX~OkjXujX~PYOu]O~OrnO~O_oO~OaoO~OcpOgfOigO~O[sO~OgfOigOkRauRa~OZhOkRauRa~OsuO~OgfOihikhiuhichi~OcwOgfOigO~OVZTZ~",
   goto: "#WuPPPv|P|P!QP!XPP!_PPPP!_P!_P!_P!_P!iPPPPPPPPP!pQ_ORl]T[O]SZO]Rk[QiZRtkaYOVW[]fgsS^O_Rm^SXO]QdVQeWQj[QqfQrgRvs",
   nodeNames: "⚠ Comment Ruleset Rule NegateSpecifier @ HighlightSpecifier AtInteger MatchPattern Identifier IfSpecifier @if ( MatchExpression StringMatchOperator String RegExpMatchOperator RegExp ParenthesizedExpression ) NegateExpression ! AndExpression & OrExpression |",
   maxTerm: 37,

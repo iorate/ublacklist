@@ -1,6 +1,6 @@
 @precedence {
-  negate @left,
-  and @left,
+  negate @left
+  and @left
   or @left
 }
 
@@ -45,32 +45,33 @@ expression[@isGroup=Expression] {
   space { $[ \t\r]+ }
   Comment { "#" ![\n]* }
 
-  "@" "@if"
+  "@"
   AtInteger { "@" ("0" | $[1-9] @digit*) }
-  @precedence { "@if" AtInteger "@" }
+  "@if"
+  @precedence { AtInteger, "@if", "@" }
 
-  matchPatternLabel { (@digit | @asciiLetter) ((@digit | @asciiLetter | "-")* (@digit | @asciiLetter))? }
   matchPatternHost { ("*" | matchPatternLabel) ("." matchPatternLabel)* }
-  hex { @digit | $[A-Fa-f] }
-  matchPatternPathChar { "*" | @digit | @asciiLetter | $[._~:/?[\]@!$&'()+,;=-] | "%" hex hex }
+  matchPatternLabel { (@digit | @asciiLetter) ((@digit | @asciiLetter | "-")* (@digit | @asciiLetter))? }
   matchPatternPath { "/" matchPatternPathChar* }
+  matchPatternPathChar { "*" | @digit | @asciiLetter | $[._~:/?[\]@!$&'()+,;=-] | "%" hex hex }
+  hex { @digit | $[A-Fa-f] }
 
   Identifier { (@asciiLetter | "_" | "$") (@digit | @asciiLetter | "_")* }
 
   StringMatchOperator { $[^$*]? "=" }
   RegExpMatchOperator { "=~" }
 
+  String { "'" (stringEscape | stringContentSingle)* "'" | '"' (stringEscape | stringContentDouble)* '"' }
   stringEscape { "\\" ![\n] }
   stringContentSingle { !['\\\n] }
   stringContentDouble { !["\\\n] }
-  String { "'" (stringEscape | stringContentSingle)* "'" | '"' (stringEscape | stringContentDouble)* '"' }
 
+  RegExp { "/" regExpPattern "/" regExpFlags? }
+  regExpPattern { (regExpEscape | "[" regExpClassContent* "]" | regExpContent)+ }
   regExpEscape { "\\" ![\n] }
   regExpClassContent { ![\]\\\n] }
   regExpContent { ![/\\[\n] }
-  regExpPattern { (regExpEscape | "[" regExpClassContent* "]" | regExpContent)+ }
   regExpFlags { $[imsu]+ }
-  RegExp { "/" regExpPattern "/" regExpFlags? }
 
   "(" ")" "!" "&" "|"
 }

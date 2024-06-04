@@ -495,6 +495,39 @@ test("Ruleset", async (t) => {
     }
   });
 
+  await t.test("If specifier", () => {
+    {
+      const ruleset = new Ruleset("*://example.com/* @if(title=~/example/i)");
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({ url: "http://example.org/", title: "Example Domain" }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.org/",
+          snippet: "Example Domain",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset(
+        "*://example.com/* @if( (title =~ /example/i) )",
+      );
+      assert.ok(
+        ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+    // Space is required before if specifier
+    {
+      const ruleset = new Ruleset("*://example.com/*@if(title=~/example/i)");
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
+      );
+    }
+  });
+
   await t.test("Multiple rules", () => {
     {
       const ruleset = new Ruleset(`*://example.com/*

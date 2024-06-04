@@ -11,8 +11,8 @@ const rulesetLanguage = LRLanguage.define({
     props: [
       styleTags({
         Comment: t.lineComment,
-        "@ @if AtInteger": t.modifier,
-        "MatchExpression/Identifier": t.variableName,
+        "@ AtInteger @if": t.modifier,
+        Identifier: t.variableName,
         "StringMatchOperator RegExpMatchOperator": t.compareOperator,
         String: t.string,
         RegExp: t.regexp,
