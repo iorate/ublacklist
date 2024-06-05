@@ -383,6 +383,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           "#appbar:has(.ibkV0b[style='']) &": {
             paddingBottom: "12px",
           },
+          // Fix spacing when there is a "Sponsored" section:
+          "body:has(#tvcap:not(:empty)) &": {
+            paddingTop: "0",
+          },
         },
       },
       // Control on top of additional images
