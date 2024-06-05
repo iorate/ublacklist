@@ -370,13 +370,34 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   "udm=2": handleSerp({
     globalStyle: mobileGlobalStyle,
     controlHandlers: [
+      // Main control on Images page
       {
-        target: "#appbar",
-        position: "afterend",
+        target: "#appbar #hdtb-sc",
         style: {
           "&:not(.ub-hidden)": {
             display: "block",
+            padding: "16px 0 0 16px",
+            ...iOSButtonStyle,
           },
+          // Add additional padding when "Tools" bar is visible.
+          "#appbar:has(.ibkV0b[style='']) &": {
+            paddingBottom: "12px",
+          },
+        },
+      },
+      // Control on top of additional images
+      {
+        target: ".izYTqe > .PK06q:empty",
+        style: (controlRoot) => {
+          controlRoot.className = css({
+            paddingLeft: "18px",
+            ...iOSButtonStyle,
+          });
+          controlRoot.parentElement?.classList.add(
+            css({
+              marginBottom: "16px",
+            }),
+          );
         },
       },
     ],
@@ -386,6 +407,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         target: "[data-bla]",
         level: ".srKDX.cvP2Ce > div",
         url: "a",
+        title: ".Q6A6Dc",
         actionTarget: ".N54PNb > [data-snf]:last-child",
         actionPosition: "afterend",
         actionStyle: {
@@ -395,12 +417,31 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           ...iOSButtonStyle,
         },
       },
+      // Additional Images (when you click on a regular image)
+      {
+        target: ".isv-r",
+        url: "a:not([role='button'])",
+        title: "h3",
+        actionTarget: (root) => root,
+        actionStyle: {
+          display: "block",
+          fontSize: "12px",
+          lineHeight: "18px",
+          margin: "-2px 0 8px",
+          ...iOSButtonStyle,
+        },
+      },
     ],
     pagerHandlers: [
       // Continuos Scrolling
       {
         target: '[id^="arc-srp"], [decode-data-ved]',
         innerTargets: "[data-bla]",
+      },
+      // Additional Images
+      {
+        target: "c-wiz",
+        innerTargets: ".isv-r, .PK06q",
       },
     ],
   }),
