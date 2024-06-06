@@ -614,11 +614,16 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
     globalStyle: desktopGlobalStyle,
     controlHandlers: [
       {
-        target: "#appbar",
-        position: "afterbegin",
+        target: "#hdtbMenus",
+        style: {
+          lineHeight: "22px",
+        },
+      },
+      {
+        target: "#hdtb-sc > .PHj8of",
         style: {
           display: "block",
-          margin: "10px 0",
+          margin: "5px 0",
         },
       },
     ],
@@ -642,9 +647,22 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         target: ".cEPPT",
         position: "afterend",
         style: {
+          "html[data-ub-dark='1'] &": {
+            color: "rgb(154, 160, 166)",
+          },
           color: "#70757a",
           display: "block",
           padding: "0 0 11px 165px",
+        },
+      },
+      {
+        target: ".ECgenc .itb-h",
+        style: {
+          "html[data-ub-dark='1'] &": {
+            color: "rgb(154, 160, 166)",
+          },
+          color: "#70757a",
+          padding: "6px 0 0 18px",
         },
       },
     ],
