@@ -372,20 +372,13 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
     controlHandlers: [
       // Main control on Images page
       {
-        target: "#appbar #hdtb-sc",
+        target: "#appbar",
         style: {
           "&:not(.ub-hidden)": {
             display: "block",
-            padding: "16px 0 0 16px",
+            padding: "8px 0 8px 16px",
+            fontSize: "13px",
             ...iOSButtonStyle,
-          },
-          // Add additional padding when "Tools" bar is visible.
-          "#appbar:has(.ibkV0b[style='']) &": {
-            paddingBottom: "12px",
-          },
-          // Fix spacing when there is a "Sponsored" section:
-          "body:has(#tvcap:not(:empty)) &": {
-            paddingTop: "0",
           },
         },
       },
