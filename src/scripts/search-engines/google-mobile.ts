@@ -282,7 +282,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "web",
     },
   }),
@@ -306,7 +306,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "books",
     },
   }),
@@ -380,7 +380,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "images",
     },
   }),
@@ -523,7 +523,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "news",
     },
   }),
@@ -589,7 +589,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "videos",
     },
   }),

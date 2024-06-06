@@ -36,7 +36,7 @@ const webHandler = handleSerp({
     },
   ],
   pageProps: {
-    $engine: "yahooJapan",
+    $site: "yahooJapan",
     $category: "web",
   },
 });

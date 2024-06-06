@@ -594,7 +594,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "web",
     },
   }),
@@ -613,7 +613,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "books",
     },
   }),
@@ -648,7 +648,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "images",
     },
   }),
@@ -694,7 +694,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "images",
     },
   }),
@@ -756,7 +756,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "news",
     },
   }),
@@ -781,7 +781,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       },
     ],
     pageProps: {
-      $engine: "google",
+      $site: "google",
       $category: "videos",
     },
   }),

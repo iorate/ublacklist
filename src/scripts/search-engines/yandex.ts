@@ -43,7 +43,7 @@ const serpHandler: SerpHandler = handleSerp({
   ],
   getDialogTheme: getDialogThemeFromBody(),
   pageProps: {
-    $engine: "yandex",
+    $site: "yandex",
     $category: "web",
   },
 });

@@ -43,7 +43,7 @@ function getSerpHandler(): SerpHandler {
       },
     ],
     pageProps: {
-      $engine: "ecosia",
+      $site: "ecosia",
       $category: "web",
     },
   });

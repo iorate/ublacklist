@@ -85,7 +85,7 @@ function getSerpHandler(): SerpHandler {
     getDialogTheme: () =>
       hasDarkBackground(document.documentElement) ? "dark" : "light",
     pageProps: {
-      $engine: "startpage",
+      $site: "startpage",
     },
   });
 }

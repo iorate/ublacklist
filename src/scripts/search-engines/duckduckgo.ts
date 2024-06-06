@@ -239,7 +239,7 @@ const serpHandler = handleSerp({
   ],
   getDialogTheme: getDialogThemeFromBody(),
   pageProps: {
-    $engine: "duckduckgo",
+    $site: "duckduckgo",
   },
 });
 
@@ -279,7 +279,7 @@ const htmlSerpHandler = handleSerp({
     },
   ],
   pageProps: {
-    $engine: "duckduckgo",
+    $site: "duckduckgo",
     $category: "web",
   },
 });
@@ -344,7 +344,7 @@ const liteSerpHandler = handleSerp({
     },
   ],
   pageProps: {
-    $engine: "duckduckgo",
+    $site: "duckduckgo",
     $category: "web",
   },
 });

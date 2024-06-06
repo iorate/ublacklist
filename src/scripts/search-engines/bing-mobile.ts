@@ -69,7 +69,7 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "bing",
+      $site: "bing",
       $category: "web",
     },
   }),
@@ -137,7 +137,7 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "bing",
+      $site: "bing",
       $category: "images",
     },
   }),
@@ -191,7 +191,7 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "bing",
+      $site: "bing",
       $category: "videos",
     },
   }),
@@ -241,7 +241,7 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "bing",
+      $site: "bing",
       $category: "news",
     },
   }),

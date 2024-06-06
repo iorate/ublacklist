@@ -91,7 +91,7 @@ function getSerpHandler(): SerpHandler {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "brave",
+      $site: "brave",
     },
   });
 }

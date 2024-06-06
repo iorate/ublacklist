@@ -148,7 +148,7 @@ function getSerpHandler(): SerpHandler {
     ],
     getDialogTheme: getDialogThemeFromBody(),
     pageProps: {
-      $engine: "searx",
+      $site: "searx",
     },
   });
 }
