@@ -108,6 +108,8 @@ export type MessageName =
   | "options_addSubscriptionDialog_title"
   | "options_addSubscriptionDialog_nameLabel"
   | "options_addSubscriptionDialog_urlLabel"
+  | "options_addSubscriptionDialog_altNameLabel"
+  | "options_addSubscriptionDialog_altNameDescription"
   | "options_addSubscriptionDialog_addButton"
   | "options_showSubscriptionDialog_blacklistLabel"
   | "options_updateInterval"
