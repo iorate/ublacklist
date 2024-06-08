@@ -17,7 +17,7 @@ project = Xcodeproj::Project.open(project_file)
 
 core_manifest_file_path = '../../dist/safari/manifest.json'
 
-if File.exists?(core_manifest_file_path) == false
+if File.exist?(core_manifest_file_path) == false
     puts 'uBlacklist-Core has not been generated yet'
     return
 end
