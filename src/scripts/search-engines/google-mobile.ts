@@ -100,6 +100,11 @@ const iOSButtonStyle: CSSAttribute = {
   },
 };
 
+const mobileActionClickable: CSSAttribute = {
+  position: "relative",
+  zIndex: "1",
+};
+
 const mobileSerpHandlers: Record<string, SerpHandler> = {
   // All
   "": handleSerp({
@@ -485,6 +490,24 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         title: ".vvjwJb",
         actionTarget: "",
         actionStyle: mobileRegularActionStyle,
+      },
+      {
+        target: ".SoAPf",
+        level: ".lU8tTd > [data-hveid]",
+        url: "a",
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: ".lSfe4c",
+        actionPosition: "afterend",
+        actionStyle: {
+          display: "block",
+          fontSize: "12px",
+          lineHeight: "16px",
+          marginTop: "-12px",
+          textAlign: "right",
+          ...mobileRegularActionStyle,
+          ...mobileActionClickable,
+          ...iOSButtonStyle,
+        },
       },
     ],
   }),
