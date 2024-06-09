@@ -169,7 +169,7 @@ type Expression =
   | ["^=", string, string]
   | ["$=", string, string]
   | ["*=", string, string]
-  | ["=~", string, PlainRegExp]
+  | ["~=", string, PlainRegExp]
   | ["!", Expression]
   | ["&", Expression, Expression]
   | ["|", Expression, Expression];
@@ -296,7 +296,7 @@ function collectExpression(
     const { pattern, flags } = parseRegExp(
       source.sliceString(regExpNode.from, regExpNode.to),
     );
-    return ["=~", identifier, flags ? [pattern, flags] : [pattern]];
+    return ["~=", identifier, flags ? [pattern, flags] : [pattern]];
   }
   if (expressionNode.name === "ParenthesizedExpression") {
     // biome-ignore lint/style/noNonNullAssertion: "ParenthesizedExpression" always has "Expression"
@@ -348,7 +348,7 @@ function execExpression(
     const prop = props[expression[1]];
     return prop != null ? prop.includes(expression[2]) : null;
   }
-  if (expression[0] === "=~") {
+  if (expression[0] === "~=") {
     const prop = props[expression[1]];
     return prop != null ? plainRegExpTest(expression[2], prop) : null;
   }

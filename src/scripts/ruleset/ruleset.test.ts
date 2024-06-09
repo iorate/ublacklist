@@ -275,7 +275,7 @@ test("Ruleset", async (t) => {
       );
     }
     {
-      const ruleset = new Ruleset("title=~/example/i");
+      const ruleset = new Ruleset("title~=/example/i");
       assert.ok(
         ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
       );
@@ -290,7 +290,7 @@ test("Ruleset", async (t) => {
       );
     }
     {
-      const ruleset = new Ruleset("title =~ /example/i");
+      const ruleset = new Ruleset("title ~= /example/i");
       assert.ok(
         ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
       );
@@ -433,7 +433,7 @@ test("Ruleset", async (t) => {
     // More complex expressions
     {
       const ruleset = new Ruleset(
-        `a="1" & b^="2" | !(c$="3" & d*="4") | !!e=~/5/ & f=~/6/`,
+        `a="1" & b^="2" | !(c$="3" & d*="4") | !!e~=/5/ & f~=/6/`,
       );
       assert.ok(ruleset.test({ url: "http://example.com/", a: "1", b: "20" }));
       assert.ok(!ruleset.test({ url: "http://example.com/", a: "1", b: "3" }));
@@ -521,7 +521,7 @@ test("Ruleset", async (t) => {
 
   await t.test("If specifier", () => {
     {
-      const ruleset = new Ruleset("*://example.com/* @if(title=~/example/i)");
+      const ruleset = new Ruleset("*://example.com/* @if(title~=/example/i)");
       assert.ok(
         ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
       );
@@ -537,7 +537,7 @@ test("Ruleset", async (t) => {
     }
     {
       const ruleset = new Ruleset(
-        "*://example.com/* @if( (title =~ /example/i) )",
+        "*://example.com/* @if( (title ~= /example/i) )",
       );
       assert.ok(
         ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
@@ -545,7 +545,7 @@ test("Ruleset", async (t) => {
     }
     // Space is required before if specifier
     {
-      const ruleset = new Ruleset("*://example.com/*@if(title=~/example/i)");
+      const ruleset = new Ruleset("*://example.com/*@if(title~=/example/i)");
       assert.ok(
         !ruleset.test({ url: "http://example.com/", title: "Example Domain" }),
       );
