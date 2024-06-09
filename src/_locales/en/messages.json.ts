@@ -444,6 +444,9 @@ export default exportAsMessages({
   // The localized name of Ecosia.
   searchEngines_ecosiaName: "Ecosia",
 
+  // The localized name of Kagi.
+  searchEngines_kagiName: "Kagi",
+
   // The localized name of Qwant.
   searchEngines_qwantName: "Qwant",
 
