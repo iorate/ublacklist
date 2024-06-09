@@ -33,6 +33,12 @@ function getSerpHandler(): SerpHandler {
         actionStyle: "_ub_act_btn_box",
       },
     ],
+    pagerHandlers: [
+      {
+        target: "._0_img-grid, .videos, .news, .podcast_results",
+        innerTargets: "._ext_r",
+      },
+    ],
     getDialogTheme: getDialogThemeFromBody(),
   });
 }
