@@ -499,7 +499,6 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionTarget: ".lSfe4c",
         actionPosition: "afterend",
         actionStyle: {
-          display: "block",
           fontSize: "12px",
           lineHeight: "16px",
           marginTop: "-12px",
