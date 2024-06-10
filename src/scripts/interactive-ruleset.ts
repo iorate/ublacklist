@@ -19,15 +19,7 @@ function isUnblockOrHighlight(result: QueryResult | null): boolean {
 }
 
 function query(ruleset: Ruleset, props: LinkProps): QueryResult | null {
-  const { protocol, hostname, pathname, search } = new URL(props.url);
-  return toQueryResult(
-    ruleset.testRaw({
-      scheme: protocol.slice(0, -1),
-      host: hostname,
-      path: `${pathname}${search}`,
-      ...props,
-    }),
-  );
+  return toQueryResult(testRawWithURLParts(ruleset, props));
 }
 
 function toQueryResult(testRawResult: TestRawResult): QueryResult | null {
@@ -51,6 +43,19 @@ function toQueryResult(testRawResult: TestRawResult): QueryResult | null {
     }
   }
   return result;
+}
+
+function testRawWithURLParts(
+  ruleset: Ruleset,
+  props: LinkProps,
+): TestRawResult {
+  const { protocol, hostname, pathname, search } = new URL(props.url);
+  return ruleset.testRaw({
+    scheme: protocol.slice(0, -1),
+    host: hostname,
+    path: `${pathname}${search}`,
+    ...props,
+  });
 }
 
 export type Patch = {
@@ -82,7 +87,9 @@ export class InteractiveRuleset {
       return userResult;
     }
     return toQueryResult(
-      this.subscriptionRulesets.flatMap((ruleset) => ruleset.testRaw(props)),
+      this.subscriptionRulesets.flatMap((ruleset) =>
+        testRawWithURLParts(ruleset, props),
+      ),
     );
   }
 
@@ -94,7 +101,7 @@ export class InteractiveRuleset {
     let rulesToRemove: string;
     let requireRulesToAdd: boolean;
     let lineNumbersToRemove: number[];
-    const userResults = this.userRuleset.testRaw(props);
+    const userResults = testRawWithURLParts(this.userRuleset, props);
     if (userResults.some(({ specifier }) => specifier)) {
       // The URL is unblocked by a user rule. Block it.
       unblock = false;
