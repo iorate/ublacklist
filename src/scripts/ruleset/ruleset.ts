@@ -19,7 +19,7 @@ export type RulesetJSON = {
 
 export type LinkProps = {
   url: string;
-  [prop: string]: string;
+  [prop: string]: string | undefined;
 };
 
 export type TestRawResult = {
@@ -337,76 +337,56 @@ function collectExpression(
 function execExpression(
   expression: Expression,
   props: Readonly<LinkProps>,
-): boolean | null {
+): boolean {
   if (expression[0] === "=") {
     const prop = props[expression[1]];
-    return prop != null ? prop === expression[2] : null;
+    return prop === expression[2];
   }
   if (expression[0] === "=i") {
     const prop = props[expression[1]];
-    return prop != null
-      ? prop.toLowerCase() === expression[2].toLowerCase()
-      : null;
+    return prop != null && prop.toLowerCase() === expression[2].toLowerCase();
   }
   if (expression[0] === "^=") {
     const prop = props[expression[1]];
-    return prop != null ? prop.startsWith(expression[2]) : null;
+    return prop?.startsWith(expression[2]) ?? false;
   }
   if (expression[0] === "^=i") {
     const prop = props[expression[1]];
-    return prop != null
-      ? prop.toLowerCase().startsWith(expression[2].toLowerCase())
-      : null;
+    return prop?.toLowerCase().startsWith(expression[2].toLowerCase()) ?? false;
   }
   if (expression[0] === "$=") {
     const prop = props[expression[1]];
-    return prop != null ? prop.endsWith(expression[2]) : null;
+    return prop?.endsWith(expression[2]) ?? false;
   }
   if (expression[0] === "$=i") {
     const prop = props[expression[1]];
-    return prop != null
-      ? prop.toLowerCase().endsWith(expression[2].toLowerCase())
-      : null;
+    return prop?.toLowerCase().endsWith(expression[2].toLowerCase()) ?? false;
   }
   if (expression[0] === "*=") {
     const prop = props[expression[1]];
-    return prop != null ? prop.includes(expression[2]) : null;
+    return prop?.includes(expression[2]) ?? false;
   }
   if (expression[0] === "*=i") {
     const prop = props[expression[1]];
-    return prop != null
-      ? prop.toLowerCase().includes(expression[2].toLowerCase())
-      : null;
+    return prop?.toLowerCase().includes(expression[2].toLowerCase()) ?? false;
   }
   if (expression[0] === "=~") {
     const prop = props[expression[1]];
-    return prop != null ? plainRegExpTest(expression[2], prop) : null;
+    return prop != null && plainRegExpTest(expression[2], prop);
   }
   if (expression[0] === "!") {
-    const right = execExpression(expression[1], props);
-    return right != null ? !right : null;
+    return !execExpression(expression[1], props);
   }
   if (expression[0] === "&") {
-    const left = execExpression(expression[1], props);
-    if (left == null) {
-      return null;
-    }
-    if (left === false) {
-      return false;
-    }
-    return execExpression(expression[2], props);
+    return (
+      execExpression(expression[1], props) &&
+      execExpression(expression[2], props)
+    );
   }
-  {
-    // "|"
-    const left = execExpression(expression[1], props);
-    if (left == null) {
-      return null;
-    }
-    if (left === true) {
-      return true;
-    }
-    return execExpression(expression[2], props);
-  }
+  // "|"
+  return (
+    execExpression(expression[1], props) || execExpression(expression[2], props)
+  );
 }
 
 function plainRegExpTest(regExp: PlainRegExp, string: string): boolean {

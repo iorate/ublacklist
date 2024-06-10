@@ -400,7 +400,7 @@ test("Ruleset", async (t) => {
         ruleset.test({ url: "http://example.com/", title: "example domain" }),
       );
       assert.ok(
-        !ruleset.test({
+        ruleset.test({
           url: "http://example.com/",
           snippet: "Example Domain",
         }),
@@ -484,8 +484,10 @@ test("Ruleset", async (t) => {
         `a="1" & b^="2" | !(c$="3" & d*="4") | !!e=~/5/ & f=~/6/`,
       );
       assert.ok(ruleset.test({ url: "http://example.com/", a: "1", b: "20" }));
-      assert.ok(!ruleset.test({ url: "http://example.com/", a: "1", b: "3" }));
-      assert.ok(!ruleset.test({ url: "http://example.com/", a: "1", c: "20" }));
+      assert.ok(ruleset.test({ url: "http://example.com/", a: "1", b: "3" }));
+      assert.ok(
+        !ruleset.test({ url: "http://example.com/", a: "1", c: "3", d: "4" }),
+      );
       assert.ok(
         ruleset.test({
           url: "http://example.com/",
