@@ -25,9 +25,9 @@ Here are examples of **valid** match patterns.
 
 Here are examples of **invalid** match patterns.
 
-| Invalid pattern        | Reason                                                                            |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `*://www.qinterest.*/` | `*` is not at the start. Use [regular expressions](#regular-expressions) instead. |
+| Invalid pattern        | Reason                   |
+| ---------------------- | ------------------------ |
+| `*://www.qinterest.*/` | `*` is not at the start. |
 
 ### Expressions {#expressions}
 
