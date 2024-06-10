@@ -257,7 +257,7 @@ The ruleset is saved in the `/Apps/uBlacklist/` folder on your Dropbox. The fold
 
 ## Subscription {#subscription}
 
-You can subscribe to public rulesets.
+You can subscribe to public rulesets. A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
 
 To add a subscription, click the "Add subscription" button and enter the name and URL. You will be required to permit access to the origin of the URL.
 
@@ -283,5 +283,3 @@ name: Your ruleset name
 It is a good idea to host your subscription on GitHub. Make sure that you publish the **raw** URL (e.g. https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt).
 
 ![raw url](/img/advanced-features/subscription-3.png)
-
-A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
