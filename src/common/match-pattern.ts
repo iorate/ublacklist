@@ -145,7 +145,7 @@ function testPath(pathPattern: string, path: string): boolean {
   }
   const [first, ...rest] = pathPattern.split("*");
   if (rest.length === 0) {
-    return path === pathPattern;
+    return path === first;
   }
   if (!path.startsWith(first)) {
     return false;
