@@ -268,9 +268,18 @@ Firefox またはその派生ブラウザでは、`https://www.googleapis.com` �
 
 ![購読のメニュー](/img/advanced-features/subscription-2.png)
 
-### 購読を公開する {#publish-a-subscription}
+### 購読を公開する {#publish-subscription}
 
 ルールセットを購読として公開するには、UTF-8 でエンコードしたルールセットファイルを適切な HTTP(S) サーバーに配置し、URL を公開します。
+
+ルールセットには YAML frontmatter を書くことができます。`name` 変数を設定することが推奨されます。
+
+```
+---
+name: あなたのルールセットの名前
+---
+*://*.example.com/*
+```
 
 購読を GitHub で公開するのはよい考えです。**Raw** URL (例えば https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt) を公開してください。
 

@@ -44,6 +44,15 @@ This extension is available in the below search engines.
 To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:<br>
 https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt
 
+You can prepend YAML frontmatter to your ruleset. It is recommended that you set the `name` variable.
+
+```
+---
+name: Your ruleset name
+---
+*://*.example.com/*
+```
+
 In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut to the options page:
 
 ```

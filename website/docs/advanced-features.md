@@ -268,12 +268,21 @@ You can show, update or remove a subscription.
 
 ![manage subscription](/img/advanced-features/subscription-2.png)
 
-### Publish a subscription {#publish-a-subscription}
+### Publish a subscription {#publish-subscription}
 
 To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL.
 
+You can prepend YAML frontmatter to your ruleset. It is recommended that you set the `name` variable.
+
+```
+---
+name: Your ruleset name
+---
+*://*.example.com/*
+```
+
 It is a good idea to host your subscription on GitHub. Make sure that you publish the **raw** URL (e.g. https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt).
 
-A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
-
 ![raw url](/img/advanced-features/subscription-3.png)
+
+A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
