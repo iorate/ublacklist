@@ -53,14 +53,14 @@ name: Your ruleset name
 *://*.example.com/*
 ```
 
-In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `name` and `url`, the following URL can be used as a shortcut to the options page:
+In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `url`, the following URL can be used as a shortcut to the options page:
 
 ```
-https://iorate.github.io/ublacklist/subscribe?name={urlEncode(name)}&url={urlEncode(url)}
+https://iorate.github.io/ublacklist/subscribe?url={urlEncode(url)}
 ```
 
 For the above example:<br>
-https://iorate.github.io/ublacklist/subscribe?name=Example&url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
+https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
 
 ## For developers
 
