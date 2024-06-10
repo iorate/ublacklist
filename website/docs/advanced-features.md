@@ -28,7 +28,6 @@ Here are examples of **invalid** match patterns.
 | Invalid pattern        | Reason                                                                            |
 | ---------------------- | --------------------------------------------------------------------------------- |
 | `*://www.qinterest.*/` | `*` is not at the start. Use [regular expressions](#regular-expressions) instead. |
-| `<all_urls>`           | Not supported.                                                                    |
 
 ### Expressions {#expressions}
 
