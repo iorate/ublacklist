@@ -32,7 +32,7 @@ IfSpecifier { "@if" "(" expression ")" }
 
 expression[@isGroup=Expression] {
     MatchExpression {
-        Identifier StringMatchOperator String
+        Identifier StringMatchOperator String CaseSensitivity?
       | (Identifier RegExpMatchOperator?)? RegExp
     }
   | ParenthesizedExpression { "(" expression ")" }
@@ -59,7 +59,8 @@ expression[@isGroup=Expression] {
   Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
 
   StringMatchOperator { $[^$*]? "=" }
-  RegExpMatchOperator { "~=" }
+  CaseSensitivity { $[Ii] }
+  RegExpMatchOperator { "=~" }
 
   String { "'" (stringEscape | stringContentSingle)* "'" | '"' (stringEscape | stringContentDouble)* '"' }
   stringEscape { "\\" ![\n] }

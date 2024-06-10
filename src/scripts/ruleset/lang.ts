@@ -13,7 +13,8 @@ const rulesetLanguage = LRLanguage.define({
         Comment: t.lineComment,
         "@ AtInteger @if": t.modifier,
         Identifier: t.variableName,
-        "StringMatchOperator RegExpMatchOperator": t.compareOperator,
+        "StringMatchOperator CaseSensitivity RegExpMatchOperator":
+          t.compareOperator,
         String: t.string,
         RegExp: t.regexp,
         "( )": t.paren,

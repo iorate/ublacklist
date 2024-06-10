@@ -166,10 +166,14 @@ type Rule = [
 
 type Expression =
   | ["=", string, string]
+  | ["=i", string, string]
   | ["^=", string, string]
+  | ["^=i", string, string]
   | ["$=", string, string]
+  | ["$=i", string, string]
   | ["*=", string, string]
-  | ["~=", string, PlainRegExp]
+  | ["*=i", string, string]
+  | ["=~", string, PlainRegExp]
   | ["!", Expression]
   | ["&", Expression, Expression]
   | ["|", Expression, Expression];
@@ -289,14 +293,16 @@ function collectExpression(
       const string = parseString(
         source.sliceString(stringNode.from, stringNode.to),
       );
-      return [operator, identifier, string];
+      const caseInsensitive =
+        expressionNode.getChild("CaseSensitivity") != null;
+      return [caseInsensitive ? `${operator}i` : operator, identifier, string];
     }
     // biome-ignore lint/style/noNonNullAssertion: If "StringMatchOperator" is not present, "RegExp" is present
     const regExpNode = expressionNode.getChild("RegExp")!;
     const { pattern, flags } = parseRegExp(
       source.sliceString(regExpNode.from, regExpNode.to),
     );
-    return ["~=", identifier, flags ? [pattern, flags] : [pattern]];
+    return ["=~", identifier, flags ? [pattern, flags] : [pattern]];
   }
   if (expressionNode.name === "ParenthesizedExpression") {
     // biome-ignore lint/style/noNonNullAssertion: "ParenthesizedExpression" always has "Expression"
@@ -336,19 +342,43 @@ function execExpression(
     const prop = props[expression[1]];
     return prop != null ? prop === expression[2] : null;
   }
+  if (expression[0] === "=i") {
+    const prop = props[expression[1]];
+    return prop != null
+      ? prop.toLowerCase() === expression[2].toLowerCase()
+      : null;
+  }
   if (expression[0] === "^=") {
     const prop = props[expression[1]];
     return prop != null ? prop.startsWith(expression[2]) : null;
+  }
+  if (expression[0] === "^=i") {
+    const prop = props[expression[1]];
+    return prop != null
+      ? prop.toLowerCase().startsWith(expression[2].toLowerCase())
+      : null;
   }
   if (expression[0] === "$=") {
     const prop = props[expression[1]];
     return prop != null ? prop.endsWith(expression[2]) : null;
   }
+  if (expression[0] === "$=i") {
+    const prop = props[expression[1]];
+    return prop != null
+      ? prop.toLowerCase().endsWith(expression[2].toLowerCase())
+      : null;
+  }
   if (expression[0] === "*=") {
     const prop = props[expression[1]];
     return prop != null ? prop.includes(expression[2]) : null;
   }
-  if (expression[0] === "~=") {
+  if (expression[0] === "*=i") {
+    const prop = props[expression[1]];
+    return prop != null
+      ? prop.toLowerCase().includes(expression[2].toLowerCase())
+      : null;
+  }
+  if (expression[0] === "=~") {
     const prop = props[expression[1]];
     return prop != null ? plainRegExpTest(expression[2], prop) : null;
   }
