@@ -56,7 +56,7 @@ expression[@isGroup=Expression] {
   matchPatternPathChar { "*" | @digit | @asciiLetter | $[._~:/?[\]@!$&'()+,;=-] | "%" hex hex }
   hex { @digit | $[A-Fa-f] }
 
-  Identifier { (@asciiLetter | "_" | "$") (@digit | @asciiLetter | "_")* }
+  Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
 
   StringMatchOperator { $[^$*]? "=" }
   RegExpMatchOperator { "~=" }
