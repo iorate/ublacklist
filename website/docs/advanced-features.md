@@ -132,7 +132,7 @@ Here are examples of **invalid** regular expressions.
 Logical "not" (`!`), "and" (`&`), and "or" (`|`) are supported.
 
 ```
-# Block schems other than HTTPS
+# Block schemes other than HTTPS
 !scheme="https"
 
 # Block Amazon.com on image search
