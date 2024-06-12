@@ -340,7 +340,7 @@ function execExpression(
 ): boolean {
   if (expression[0] === "=") {
     const prop = props[expression[1]];
-    return prop === expression[2];
+    return prop != null && prop === expression[2];
   }
   if (expression[0] === "=i") {
     const prop = props[expression[1]];
@@ -348,27 +348,39 @@ function execExpression(
   }
   if (expression[0] === "^=") {
     const prop = props[expression[1]];
-    return prop?.startsWith(expression[2]) ?? false;
+    // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+    return prop != null && prop.startsWith(expression[2]);
   }
   if (expression[0] === "^=i") {
     const prop = props[expression[1]];
-    return prop?.toLowerCase().startsWith(expression[2].toLowerCase()) ?? false;
+    return (
+      // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+      prop != null && prop.toLowerCase().startsWith(expression[2].toLowerCase())
+    );
   }
   if (expression[0] === "$=") {
     const prop = props[expression[1]];
-    return prop?.endsWith(expression[2]) ?? false;
+    // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+    return prop != null && prop.endsWith(expression[2]);
   }
   if (expression[0] === "$=i") {
     const prop = props[expression[1]];
-    return prop?.toLowerCase().endsWith(expression[2].toLowerCase()) ?? false;
+    return (
+      // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+      prop != null && prop.toLowerCase().endsWith(expression[2].toLowerCase())
+    );
   }
   if (expression[0] === "*=") {
     const prop = props[expression[1]];
-    return prop?.includes(expression[2]) ?? false;
+    // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+    return prop != null && prop.includes(expression[2]);
   }
   if (expression[0] === "*=i") {
     const prop = props[expression[1]];
-    return prop?.toLowerCase().includes(expression[2].toLowerCase()) ?? false;
+    return (
+      // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
+      prop != null && prop.toLowerCase().includes(expression[2].toLowerCase())
+    );
   }
   if (expression[0] === "=~") {
     const prop = props[expression[1]];
