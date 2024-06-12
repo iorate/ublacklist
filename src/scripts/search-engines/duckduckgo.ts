@@ -179,6 +179,38 @@ const serpHandler = handleSerp({
       },
       actionButtonStyle: "result__a",
     },
+    // News Cards on the main page
+    {
+      target: ".module--carousel__item",
+      url: "a",
+      title: "a",
+      actionPosition: "afterend",
+      actionTarget: ".module--carousel__footer",
+      actionStyle: (actionRoot) => {
+        actionRoot.className = css({
+          padding: "0 0.75em",
+          position: "absolute",
+          bottom: "6px",
+          zIndex: "1",
+          fontSize: "12px",
+          ".is-mobile &": {
+            padding: "0 16px",
+          },
+        });
+        // Increase card size to include the "Block this site" button:
+        actionRoot.closest(".module--carousel__items")?.classList.add(
+          css({
+            height: "320px",
+            "& > .module--carousel__item": {
+              height: "300px",
+            },
+            "& .module--carousel__footer": {
+              bottom: "32px",
+            },
+          }),
+        );
+      },
+    },
   ],
   pagerHandlers: [
     {
