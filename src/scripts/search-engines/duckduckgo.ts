@@ -181,6 +181,7 @@ const serpHandler = handleSerp({
     },
     // News Cards on the main page
     {
+      scope: "all",
       target: ".module--carousel__item",
       url: "a",
       title: "a",
