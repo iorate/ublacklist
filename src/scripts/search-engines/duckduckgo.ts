@@ -229,6 +229,9 @@ const serpHandler = handleSerp({
           }),
         );
       },
+      props: {
+        $category: "web",
+      },
     },
   ],
   pagerHandlers: [
