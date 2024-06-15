@@ -9,7 +9,7 @@ You can edit rules to block sites in the options page, as well as in the "Block 
 
 ![rule editor](/img/advanced-features/rules-1.png)
 
-You can write rules by [match patterns](#match-patterns) or [regular expressions](#regular-expressions).
+You can write rules by [match patterns](#match-patterns) or [expressions](#expressions).
 
 ### Match patterns {#match-patterns}
 
@@ -25,16 +25,93 @@ Here are examples of **valid** match patterns.
 
 Here are examples of **invalid** match patterns.
 
-| Invalid pattern        | Reason                                                                            |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `*://www.qinterest.*/` | `*` is not at the start. Use [regular expressions](#regular-expressions) instead. |
-| `<all_urls>`           | Not supported.                                                                    |
+| Invalid pattern        | Reason                   |
+| ---------------------- | ------------------------ |
+| `*://www.qinterest.*/` | `*` is not at the start. |
 
-### Regular expressions {#regular-expressions}
+### Expressions {#expressions}
 
-You can write more flexible rules by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
+You can write rules by expressions.
 
-Note that regular expression rules shall be regular expression **literals** in JavaScript, surrounded by `/` (e.g. `/example\.(net|org)/`).
+#### Variables {#variables}
+
+Currently, `url` and `title` are available in expressions.
+
+```
+# Search results which URLs include "example"
+url *= "example"
+
+# Search results which titles start with "Something"
+title ^= "Something"
+```
+
+Parts of URL are also available: `scheme`, `host` and `path`.
+
+```
+# Search results which schemes are HTTP
+scheme="http"
+
+# Search results which hosts end with ".example.com"
+host $= ".example.com"
+
+# Search results which paths include "blah", case-insensitive
+path*="blah"i
+```
+
+In addition, properties of search engine result pages are available. `$site` and `$category` are available for now.
+
+```
+# Block YouTube on Google Search
+$site="google" & host="youtube.com"
+
+# Block Amazon.com on image search
+$category = "images" & host = "www.amazon.com"
+```
+
+#### String matchers {#string-matchers}
+
+String matchers resemble [CSS attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
+
+```
+# Titles which are exactly "Example Domain"
+title = "Example Domain"
+
+# Titles which start with "Example"
+title ^= "Example"
+
+# Titles which end with "Domain"
+title $= "Domain"
+
+# Titles which include "ple Dom"
+title *= "ple Dom"
+```
+
+To perform case-insensitive comparison, use the `i` operator.
+
+```
+# Titles which end with "domain", case-insensitive
+title $= "domain" i
+```
+
+#### Regular expressions {#regular-expressions}
+
+You can write more flexible expressions by [regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).
+
+```
+# URLs which include "example.net" or "example.org"
+url =~ /example\.(net|org)/
+
+# "=~" can be omitted
+url/example\.(net|org)/
+
+# "url" can be omitted
+/example\.(net|org)/
+
+# Titles which include "example domain", case-insensitive
+title =~ /example domain/i
+```
+
+Note that regular expressions shall be regular expression **literals** in JavaScript, surrounded by `/` (e.g. `/example\.(net|org)/`).
 
 Here are examples of **valid** regular expressions.
 
@@ -50,11 +127,29 @@ Here are examples of **invalid** regular expressions.
 | `^https?:\/\/example\.com\/` | Not surrounded by `/`.     |
 | `/^https?://example\.com//`  | Inner `/` are not escaped. |
 
-### Regular expressions for page titles {#regular-expressions-for-page-titles}
+#### Logical operators {#logical-operators}
 
-To block sites with specific titles, use regular expressions preceded by `title`.
+Logical "not" (`!`), "and" (`&`), and "or" (`|`) are supported.
 
-For example, `title/example domain/i` blocks sites which titles include "example domain" in a case-insensitive manner.
+```
+# Block schemes other than HTTPS
+!scheme="https"
+
+# Block Amazon.com on image search
+$category = "images" & host = "www.amazon.com"
+
+# Titles including "example" or "domain", case-insensitive
+title *= "example" i | title *= "domain" i
+```
+
+### Use expressions with match patterns {#use-expressions-with-match-patterns}
+
+You can append `@if(expression)` to match patterns.
+
+```
+# Block Amazon.com on image search
+*://*.amazon.com/* @if($category="images")
+```
 
 ### Unblock rules {#unblock-rules}
 
@@ -162,7 +257,7 @@ The ruleset is saved in the `/Apps/uBlacklist/` folder on your Dropbox. The fold
 
 ## Subscription {#subscription}
 
-You can subscribe to public rulesets.
+You can subscribe to public rulesets. A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
 
 To add a subscription, click the "Add subscription" button and enter the name and URL. You will be required to permit access to the origin of the URL.
 
@@ -172,12 +267,19 @@ You can show, update or remove a subscription.
 
 ![manage subscription](/img/advanced-features/subscription-2.png)
 
-### Publish a subscription {#publish-a-subscription}
+### Publish a subscription {#publish-subscription}
 
 To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL.
 
-It is a good idea to host your subscription on GitHub. Make sure that you publish the **raw** URL (e.g. https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt).
+You can prepend YAML frontmatter to your ruleset. It is recommended that you set the `name` variable.
 
-A list of known public subscription lists can be found on the [Subscriptions](/subscriptions) page.
+```
+---
+name: Your ruleset name
+---
+*://*.example.com/*
+```
+
+It is a good idea to host your subscription on GitHub. Make sure that you publish the **raw** URL (e.g. https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt).
 
 ![raw url](/img/advanced-features/subscription-3.png)

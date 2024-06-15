@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowImportingTsExtensions": true,
+    "allowJs": true,
     "exactOptionalPropertyTypes": true,
     "jsx": "react-jsx",
     "module": "ESNext",
@@ -11,5 +12,5 @@
     "target": "ESNext",
     "verbatimModuleSyntax": true
   },
-  "exclude": ["website"]
+  "exclude": ["dist", "website"]
 }

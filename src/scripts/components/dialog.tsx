@@ -194,6 +194,7 @@ export const DialogTitle = React.forwardRef<
       fontSize: "1.125em",
       fontWeight: "normal",
       margin: 0,
+      overflowWrap: "break-word",
     }),
     [],
   );

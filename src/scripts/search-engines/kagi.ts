@@ -31,6 +31,12 @@ function getSerpHandler(): SerpHandler {
         title: "._ext_t",
         actionTarget: "._ext_a",
         actionStyle: "_ub_act_btn_box",
+        props: () => {
+          const subdirectory = new URL(location.href).pathname.split("/")[1];
+          return {
+            $category: subdirectory === "search" ? "web" : subdirectory,
+          };
+        },
       },
     ],
     pagerHandlers: [
@@ -40,6 +46,9 @@ function getSerpHandler(): SerpHandler {
       },
     ],
     getDialogTheme: getDialogThemeFromBody(),
+    pageProps: {
+      $site: "kagi",
+    },
   });
 }
 

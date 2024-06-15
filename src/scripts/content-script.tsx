@@ -1,22 +1,24 @@
 import { useLayoutEffect, useMemo } from "react";
 import { type Root, createRoot } from "react-dom/client";
+import { MatchPatternMap } from "../common/match-pattern.ts";
 import { BlockDialog } from "./block-dialog.tsx";
 import { browser } from "./browser.ts";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage } from "./messages.ts";
-import { Ruleset } from "./ruleset.ts";
+import type { LinkProps } from "./ruleset/ruleset.ts";
 import { SEARCH_ENGINES } from "./search-engines.ts";
 import { css, glob } from "./styles.ts";
 import type {
   DialogTheme,
+  SearchEngine,
   SerpControl,
   SerpEntry,
   SerpHandler,
   SerpHandlerResult,
 } from "./types.ts";
-import { AltURL, MatchPattern } from "./utilities.ts";
+import { fromPlainRuleset } from "./utilities.ts";
 
 const Button: React.FC<{ children: React.ReactNode; onClick: () => void }> = ({
   children,
@@ -168,8 +170,8 @@ class ContentScript {
   onSerpStart(): void {
     void (async () => {
       const options = await loadFromLocalStorage([
+        "ruleset",
         "blacklist",
-        "compiledRules",
         "subscriptions",
         "skipBlockDialog",
         "hideControl",
@@ -184,16 +186,11 @@ class ContentScript {
 
       this.options = {
         ruleset: new InteractiveRuleset(
-          options.blacklist,
-          options.compiledRules !== false
-            ? options.compiledRules
-            : Ruleset.compile(options.blacklist),
+          fromPlainRuleset(options.ruleset || null, options.blacklist),
           Object.values(options.subscriptions)
             .filter((subscription) => subscription.enabled ?? true)
-            .map(
-              (subscription) =>
-                subscription.compiledRules ??
-                Ruleset.compile(subscription.blacklist),
+            .map(({ ruleset, blacklist }) =>
+              fromPlainRuleset(ruleset || null, blacklist),
             ),
         ),
         skipBlockDialog: options.skipBlockDialog,
@@ -266,8 +263,8 @@ class ContentScript {
     if (!this.options) {
       return;
     }
-    entry.state = this.options.ruleset.test(entry.props);
-    if (entry.state === 0) {
+    entry.state = this.options.ruleset.query(entry.props);
+    if (entry.state?.type === "block") {
       const scopeState = this.scopeStates[entry.scope] ?? {
         blockedEntryCount: 0,
         showBlockedEntries: false,
@@ -327,13 +324,13 @@ class ContentScript {
   renderEntry(entry: SerpEntry): void {
     delete entry.root.dataset.ubBlocked;
     delete entry.root.dataset.ubHighlight;
-    if (entry.state === 0) {
+    if (entry.state?.type === "block") {
       entry.root.dataset.ubBlocked = this.scopeStates[entry.scope]
         ?.showBlockedEntries
         ? "visible"
         : "hidden";
-    } else if (entry.state >= 2) {
-      entry.root.dataset.ubHighlight = String(entry.state - 1);
+    } else if (entry.state?.type === "highlight") {
+      entry.root.dataset.ubHighlight = String(entry.state.colorNumber);
     }
     entry.actionRoot.classList.toggle(
       "ub-hidden",
@@ -342,7 +339,7 @@ class ContentScript {
     entry.actionRoot.lang = browser.i18n.getUILanguage();
     this.render(
       <Action
-        blocked={entry.state === 0}
+        blocked={entry.state?.type === "block"}
         onClick={() => {
           if (!this.options || !this.blockDialogRoot) {
             return;
@@ -359,10 +356,7 @@ class ContentScript {
             );
             this.rejudgeAllEntries();
           } else {
-            this.renderBlockDialog(
-              entry.props.url.toString(),
-              entry.props.title,
-            );
+            this.renderBlockDialog(entry.props);
           }
         }}
         {...(entry.onActionRender ? { onRender: entry.onActionRender } : {})}
@@ -371,22 +365,21 @@ class ContentScript {
     );
   }
 
-  renderBlockDialog(url: string, title: string | null, open = true) {
+  renderBlockDialog(entryProps: LinkProps, open = true) {
     if (!this.options || !this.blockDialogRoot) {
       return;
     }
     this.render(
       <BlockDialog
         blockWholeSite={this.options.blockWholeSite}
-        close={() => this.renderBlockDialog(url, title, false)}
+        close={() => this.renderBlockDialog(entryProps, false)}
         enablePathDepth={this.options.enablePathDepth}
+        entryProps={entryProps}
         open={open}
         openOptionsPage={() => sendMessage("open-options-page")}
         ruleset={this.options.ruleset}
         target={this.blockDialogRoot}
         theme={this.options.dialogTheme ?? this.serpHandler.getDialogTheme()}
-        title={title}
-        url={url}
         onBlocked={() => {
           if (!this.options) {
             return;
@@ -418,14 +411,15 @@ function main() {
   }
   document.documentElement.dataset.ubActive = "1";
 
-  const url = new AltURL(window.location.href);
-  const serpHandler = Object.values(SEARCH_ENGINES)
-    .find(({ contentScripts }) =>
-      contentScripts
-        .flatMap(({ matches }) => matches)
-        .some((match) => new MatchPattern(match).test(url)),
-    )
-    ?.getSerpHandler();
+  const map = new MatchPatternMap<SearchEngine>();
+  for (const searchEngine of Object.values(SEARCH_ENGINES)) {
+    for (const { matches } of searchEngine.contentScripts) {
+      for (const match of matches) {
+        map.set(match, searchEngine);
+      }
+    }
+  }
+  const serpHandler = map.get(window.location.href)[0]?.getSerpHandler();
   if (serpHandler) {
     if (serpHandler.delay) {
       window.setTimeout(

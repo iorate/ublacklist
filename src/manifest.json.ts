@@ -46,7 +46,9 @@ export default {
                   if (!parsed) {
                     throw new Error(`Invalid match pattern: ${match}`);
                   }
-                  return `${parsed.scheme}://${parsed.host}/*`;
+                  return parsed.allURLs
+                    ? "<all_urls>"
+                    : `${parsed.scheme}://${parsed.host}/*`;
                 }),
               ),
             ],

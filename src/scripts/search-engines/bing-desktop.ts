@@ -70,6 +70,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         },
       },
     ],
+    pageProps: {
+      $site: "bing",
+      $category: "web",
+    },
   }),
   "/images/search": handleSerp({
     globalStyle: {
@@ -177,6 +181,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         innerTargets: ".dg_b, .infsd, .lnkw",
       },
     ],
+    pageProps: {
+      $site: "bing",
+      $category: "images",
+    },
   }),
   "/videos/search": handleSerp({
     globalStyle: {
@@ -241,6 +249,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         innerTargets: "#vm_res, .dg_u",
       },
     ],
+    pageProps: {
+      $site: "bing",
+      $category: "videos",
+    },
   }),
   "/news/search": handleSerp({
     globalStyle,
@@ -276,6 +288,10 @@ const serpHandlers: Readonly<Record<string, SerpHandler | undefined>> = {
         innerTargets: ".source",
       },
     ],
+    pageProps: {
+      $site: "bing",
+      $category: "news",
+    },
   }),
 };
 
