@@ -33,7 +33,7 @@ jobs:
         run: pnpm install
 
       - name: Check
-        run: pnpm check
+        run: pnpm check-ci
 
       - name: Test
         run: pnpm test
