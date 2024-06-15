@@ -51,10 +51,16 @@ const serpHandler = handleSerp({
           },
         ]),
       ),
-      "[data-ub-blocked] .tile__media, [data-ub-highlight] .tile__media, [data-ub-blocked] .tile__body, [data-ub-highlight] .tile__body":
-        {
-          backgroundColor: "transparent !important",
-        },
+      [[
+        "[data-ub-blocked] .tile__media",
+        "[data-ub-highlight] .tile__media",
+        "[data-ub-blocked] .tile__body",
+        "[data-ub-highlight] .tile__body",
+        "[data-ub-blocked] :is(li > article)",
+        "[data-ub-highlight] :is(li > article)",
+      ].join(", ")]: {
+        backgroundColor: "transparent !important",
+      },
       '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
         display: "none !important",
       },
