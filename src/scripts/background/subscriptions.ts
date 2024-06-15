@@ -32,7 +32,9 @@ async function tryLock(
 export function update(id: SubscriptionId): Promise<void> {
   return tryLock(id, async () => {
     const {
-      subscriptions: { [id]: subscription },
+      subscriptions: {
+        [id]: { compiledRules, ...subscription },
+      },
     } = await loadFromRawStorage(["subscriptions"]);
     if (!subscription || !(subscription.enabled ?? true)) {
       return;
