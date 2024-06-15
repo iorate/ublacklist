@@ -481,6 +481,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: "12px",
           marginTop: "-8px",
           padding: "0 16px 12px 16px",
+          ...mobileActionClickable,
           ...iOSButtonStyle,
         },
       },
