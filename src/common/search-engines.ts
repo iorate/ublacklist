@@ -307,7 +307,7 @@ export const SEARCH_ENGINES: Readonly<
     contentScripts: [
       {
         matches: ["https://www.ecosia.org/search?*"],
-        runAt: "document_start",
+        runAt: "document_idle",
       },
     ],
     messageNames: {
