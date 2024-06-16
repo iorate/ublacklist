@@ -1,6 +1,6 @@
 import { SEARCH_ENGINES } from "../../common/search-engines.ts";
 import type { SearchEngine, SerpHandler } from "../types.ts";
-import { handleSerp } from "./helpers.ts";
+import { handleSerp, hasDarkBackground } from "./helpers.ts";
 
 function getSerpHandler(): SerpHandler {
   return handleSerp({
@@ -45,6 +45,10 @@ function getSerpHandler(): SerpHandler {
     pageProps: {
       $site: "ecosia",
       $category: "web",
+    },
+    getDialogTheme: () => {
+      const layout = document.querySelector<HTMLElement>(".layout");
+      return layout && hasDarkBackground(layout) ? "dark" : "light";
     },
   });
 }
