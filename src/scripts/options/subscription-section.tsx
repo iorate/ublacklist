@@ -168,12 +168,12 @@ const AddSubscriptionDialog: React.FC<
               id="subscriptionName"
               required={true}
               value={state.name}
-              onChange={(e) =>
+              onChange={(e) => {
+                const name = e.currentTarget.value;
                 setState((s) => {
-                  const name = e.currentTarget.value;
                   return { ...s, name };
-                })
-              }
+                });
+              }}
             />
           </RowItem>
         </Row>
