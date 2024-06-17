@@ -43,6 +43,9 @@ function getSerpHandler(): SerpHandler {
           display: "block",
           marginTop: "4px",
         },
+        props: {
+          $category: "web",
+        },
       },
       // News
       {
@@ -54,6 +57,9 @@ function getSerpHandler(): SerpHandler {
           display: "block",
           fontSize: "16px",
           marginTop: "4px",
+        },
+        props: {
+          $category: "news",
         },
       },
       // Videos
@@ -71,10 +77,16 @@ function getSerpHandler(): SerpHandler {
             marginTop: "4px",
           });
         },
+        props: {
+          $category: "videos",
+        },
       },
     ],
     getDialogTheme: () =>
       hasDarkBackground(document.documentElement) ? "dark" : "light",
+    pageProps: {
+      $site: "startpage",
+    },
   });
 }
 

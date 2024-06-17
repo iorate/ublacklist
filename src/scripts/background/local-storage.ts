@@ -1,13 +1,12 @@
 import dayjs from "dayjs";
 import { postMessage } from "../messages.ts";
-import { Ruleset } from "../ruleset.ts";
 import type {
   LocalStorageItemsSavable,
   SaveSource,
   Subscription,
   SubscriptionId,
 } from "../types.ts";
-import { numberKeys } from "../utilities.ts";
+import { numberKeys, toPlainRuleset } from "../utilities.ts";
 import {
   type RawStorageItems,
   modifyInRawStorage,
@@ -33,7 +32,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
   {
     beforeSave(items, dirtyFlagsUpdate, now) {
       if (items.blacklist != null) {
-        items.compiledRules = Ruleset.compile(items.blacklist);
+        items.ruleset = toPlainRuleset(items.blacklist);
         items.timestamp = now.toISOString();
         dirtyFlagsUpdate.blocklist = true;
       }
@@ -93,7 +92,8 @@ export async function save(
 
 export async function compileRules(): Promise<void> {
   return modifyInRawStorage(["blacklist"], ({ blacklist }) => ({
-    compiledRules: Ruleset.compile(blacklist),
+    ruleset: toPlainRuleset(blacklist),
+    compiledRules: false,
   }));
 }
 

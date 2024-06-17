@@ -37,28 +37,27 @@ export const TableHeaderRow = React.forwardRef<
 });
 
 export type TableHeaderCellProps = JSX.IntrinsicElements["th"] & {
-  breakAll?: boolean;
   width?: string;
 };
 
 export const TableHeaderCell = React.forwardRef<
   HTMLTableCellElement,
   TableHeaderCellProps
->(function TableHeaderCell({ breakAll, width = "auto", ...props }, ref) {
+>(function TableHeaderCell({ width = "auto", ...props }, ref) {
   const className = useClassName(
     (theme) => ({
       color: theme.text.secondary,
       fontWeight: "normal",
+      overflowWrap: "break-word",
       padding: "0.75em 0",
       textAlign: "start",
       verticalAlign: "middle",
       width,
-      wordBreak: breakAll ? "break-all" : "normal",
       "&:not(:first-child)": {
         paddingLeft: "0.75em",
       },
     }),
-    [breakAll, width],
+    [width],
   );
   return <th {...applyClassName(props, className)} ref={ref} />;
 });
@@ -80,23 +79,21 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   },
 );
 
-export type TableCellProps = {
-  breakAll?: boolean;
-} & JSX.IntrinsicElements["td"];
+export type TableCellProps = JSX.IntrinsicElements["td"];
 
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  function TableCell({ breakAll, ...props }, ref) {
+  function TableCell(props, ref) {
     const className = useClassName(
       (theme) => ({
         borderTop: `solid 1px ${theme.separator}`,
+        overflowWrap: "break-word",
         padding: "0.75em 0",
         verticalAlign: "middle",
-        wordBreak: breakAll ? "break-all" : "normal",
         "&:not(:first-child)": {
           paddingLeft: "0.75em",
         },
       }),
-      [breakAll],
+      [],
     );
     return <td {...applyClassName(props, className)} ref={ref} />;
   },

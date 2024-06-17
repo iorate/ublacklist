@@ -29,6 +29,7 @@ import { useClassName, usePrevious } from "./components/utilities.ts";
 import type { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import { PathDepth } from "./path-depth.ts";
+import type { LinkProps } from "./ruleset/ruleset.ts";
 import type { DialogTheme } from "./types.ts";
 import { makeAltURL, svgToDataURL } from "./utilities.ts";
 
@@ -36,11 +37,10 @@ type BlockDialogContentProps = {
   blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
+  entryProps: LinkProps;
   open: boolean;
   openOptionsPage: () => Promise<void>;
   ruleset: InteractiveRuleset;
-  title: string | null;
-  url: string;
   onBlocked: () => void | Promise<void>;
 };
 
@@ -48,11 +48,10 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   blockWholeSite,
   close,
   enablePathDepth,
+  entryProps,
   open,
   openOptionsPage,
   ruleset,
-  title,
-  url: entryURL,
   onBlocked,
 }) => {
   const [state, setState] = useState({
@@ -68,9 +67,9 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   });
   const prevOpen = usePrevious(open);
   if (open && !prevOpen) {
-    const url = makeAltURL(entryURL);
+    const url = makeAltURL(entryProps.url);
     if (url && /^(https?|ftp)$/.test(url.scheme)) {
-      const patch = ruleset.createPatch({ url, title }, blockWholeSite);
+      const patch = ruleset.createPatch(entryProps, blockWholeSite);
       state.disabled = false;
       state.unblock = patch.unblock;
       state.host = punycode.toUnicode(
@@ -85,7 +84,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     } else {
       state.disabled = true;
       state.unblock = false;
-      state.host = entryURL;
+      state.host = entryProps.url;
       state.detailsOpen = false;
       state.pathDepth = null;
       state.depth = "";
@@ -156,7 +155,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                         id="url"
                         readOnly
                         rows={2}
-                        value={entryURL}
+                        value={entryProps.url}
                       />
                     )}
                   </RowItem>
@@ -217,7 +216,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                       readOnly
                       rows={2}
                       spellCheck="false"
-                      value={title ?? ""}
+                      value={entryProps.title ?? ""}
                     />
                   </RowItem>
                 </Row>

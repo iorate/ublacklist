@@ -51,10 +51,16 @@ const serpHandler = handleSerp({
           },
         ]),
       ),
-      "[data-ub-blocked] .tile__media, [data-ub-highlight] .tile__media, [data-ub-blocked] .tile__body, [data-ub-highlight] .tile__body":
-        {
-          backgroundColor: "transparent !important",
-        },
+      [[
+        "[data-ub-blocked] .tile__media",
+        "[data-ub-highlight] .tile__media",
+        "[data-ub-blocked] .tile__body",
+        "[data-ub-highlight] .tile__body",
+        "[data-ub-blocked] :is(li > article)",
+        "[data-ub-highlight] :is(li > article)",
+      ].join(", ")]: {
+        backgroundColor: "transparent !important",
+      },
       '[data-ub-blocked="hidden"] + .result__sitelinks--organics': {
         display: "none !important",
       },
@@ -134,6 +140,9 @@ const serpHandler = handleSerp({
         order: 3,
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "web",
+      },
     },
     // Images
     {
@@ -146,6 +155,9 @@ const serpHandler = handleSerp({
         lineHeight: "1.5",
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "images",
+      },
     },
     // Videos
     {
@@ -159,6 +171,9 @@ const serpHandler = handleSerp({
         margin: "0.4em 0 -0.4em",
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "videos",
+      },
     },
     // News
     {
@@ -178,6 +193,45 @@ const serpHandler = handleSerp({
         },
       },
       actionButtonStyle: "result__a",
+      props: {
+        $category: "news",
+      },
+    },
+    // News Cards on the main page
+    {
+      scope: "all",
+      target: ".module--carousel__item",
+      url: "a",
+      title: "a",
+      actionPosition: "afterend",
+      actionTarget: ".module--carousel__footer",
+      actionStyle: (actionRoot) => {
+        actionRoot.className = css({
+          padding: "0 0.75em",
+          position: "absolute",
+          bottom: "6px",
+          zIndex: "1",
+          fontSize: "12px",
+          ".is-mobile &": {
+            padding: "0 16px",
+          },
+        });
+        // Increase card size to include the "Block this site" button:
+        actionRoot.closest(".module--carousel__items")?.classList.add(
+          css({
+            height: "320px",
+            "& > .module--carousel__item": {
+              height: "300px",
+            },
+            "& .module--carousel__footer": {
+              bottom: "32px",
+            },
+          }),
+        );
+      },
+      props: {
+        $category: "web",
+      },
     },
   ],
   pagerHandlers: [
@@ -187,6 +241,9 @@ const serpHandler = handleSerp({
     },
   ],
   getDialogTheme: getDialogThemeFromBody(),
+  pageProps: {
+    $site: "duckduckgo",
+  },
 });
 
 const htmlSerpHandler = handleSerp({
@@ -224,6 +281,10 @@ const htmlSerpHandler = handleSerp({
       },
     },
   ],
+  pageProps: {
+    $site: "duckduckgo",
+    $category: "web",
+  },
 });
 
 const liteSerpHandler = handleSerp({
@@ -285,6 +346,10 @@ const liteSerpHandler = handleSerp({
       },
     },
   ],
+  pageProps: {
+    $site: "duckduckgo",
+    $category: "web",
+  },
 });
 
 export const duckduckgo: Readonly<SearchEngine> = {

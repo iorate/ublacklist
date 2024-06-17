@@ -100,6 +100,11 @@ const iOSButtonStyle: CSSAttribute = {
   },
 };
 
+const mobileActionClickable: CSSAttribute = {
+  position: "relative",
+  zIndex: "1",
+};
+
 const mobileSerpHandlers: Record<string, SerpHandler> = {
   // All
   "": handleSerp({
@@ -276,6 +281,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".xpd, .tRkSqb",
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "web",
+    },
   }),
   // Books
   bks: handleSerp({
@@ -296,6 +305,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: mobileRegularActionStyle,
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "books",
+    },
   }),
   // Images
   isch: handleSerp({
@@ -366,6 +379,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         },
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "images",
+    },
   }),
   "udm=2": handleSerp({
     globalStyle: mobileGlobalStyle,
@@ -476,6 +493,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           fontSize: "12px",
           marginTop: "-8px",
           padding: "0 16px 12px 16px",
+          ...mobileActionClickable,
           ...iOSButtonStyle,
         },
       },
@@ -486,7 +504,28 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         actionTarget: "",
         actionStyle: mobileRegularActionStyle,
       },
+      {
+        target: ".SoAPf",
+        level: ".lU8tTd > [data-hveid]",
+        url: "a",
+        title: '[role="heading"][aria-level="3"]',
+        actionTarget: ".lSfe4c",
+        actionPosition: "afterend",
+        actionStyle: {
+          fontSize: "12px",
+          lineHeight: "16px",
+          marginTop: "-12px",
+          textAlign: "right",
+          ...mobileRegularActionStyle,
+          ...mobileActionClickable,
+          ...iOSButtonStyle,
+        },
+      },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "news",
+    },
   }),
   // Videos
   vid: handleSerp({
@@ -549,6 +588,10 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".mnr-c",
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "videos",
+    },
   }),
 };
 

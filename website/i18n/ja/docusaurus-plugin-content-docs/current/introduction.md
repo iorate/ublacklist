@@ -21,6 +21,6 @@ uBlacklist は Google の検索結果をフィルタリングするブラウザ�
 - マッチパターンまたは正規表現でブロックするサイトの URL を指定できます
 - 正規表現でブロックするサイトのタイトルを指定できます
 - サイトをハイライトできます
-- Bing、Brave、DuckDuckGo、Ecosia、Qwant、SearX、Startpage.com、Yahoo! JAPAN、Yandex でも使用できます
+- Bing、Brave、DuckDuckGo、Ecosia、Kagi、Qwant、SearX、Startpage.com、Yahoo! JAPAN、Yandex でも使用できます
 - ルールを Google ドライブまたは Dropbox で同期できます
 - 公開されたルールを購読できます

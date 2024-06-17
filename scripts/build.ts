@@ -170,7 +170,7 @@ async function createBuildScripts(
     bundle: true,
     define: defineProcessEnv(context),
     entryPoints: sources.map((file) => path.join(srcDir, file)),
-    format: "esm",
+    format: "iife",
     jsx: "automatic",
     jsxDev: debug,
     // https://github.com/evanw/esbuild/issues/3418

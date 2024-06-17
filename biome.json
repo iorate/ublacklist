@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["**/package.json"]
+    "ignore": ["**/package.json", "**/parser.js"]
   },
   "vcs": {
     "enabled": true,
@@ -14,10 +14,22 @@
   "linter": {
     "rules": {
       "correctness": {
-        "noUnusedImports": "warn",
-        "noUnusedVariables": "warn",
-        "useHookAtTopLevel": "warn"
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useHookAtTopLevel": "error"
+      },
+      "nursery": {
+        "useImportExtensions": "error"
       }
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space"
+    },
+    "linter": {
+      "enabled": true
     }
   }
 }

@@ -344,11 +344,19 @@ export default exportAsMessages({
   // The title of the add-subscription dialog.
   options_addSubscriptionDialog_title: "Add a subscription",
 
+  // UNUSED
   // The label for the name input on the add-subscription dialog.
   options_addSubscriptionDialog_nameLabel: "Name",
 
   // The label for the URL input on the add-subscription dialog.
   options_addSubscriptionDialog_urlLabel: "URL",
+
+  // The label for the alternative name input on the add-subscription dialog.
+  options_addSubscriptionDialog_altNameLabel: "Alternative name (optional)",
+
+  // The helper text for the alternative name input on the add-subscription dialog.
+  options_addSubscriptionDialog_altNameDescription:
+    "The alternative name used when a downloaded ruleset does not contain a name.",
 
   // The text of the add button on the add-subscription dialog.
   options_addSubscriptionDialog_addButton: "Add",
@@ -443,6 +451,9 @@ export default exportAsMessages({
 
   // The localized name of Ecosia.
   searchEngines_ecosiaName: "Ecosia",
+
+  // The localized name of Kagi.
+  searchEngines_kagiName: "Kagi",
 
   // The localized name of Qwant.
   searchEngines_qwantName: "Qwant",

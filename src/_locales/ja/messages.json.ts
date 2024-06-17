@@ -126,6 +126,9 @@ export default exportAsMessages({
   options_addSubscriptionDialog_title: "購読を追加する",
   options_addSubscriptionDialog_nameLabel: "名前",
   options_addSubscriptionDialog_urlLabel: "URL",
+  options_addSubscriptionDialog_altNameLabel: "代替の名前 (オプション)",
+  options_addSubscriptionDialog_altNameDescription:
+    "ダウンロードしたルールセットに名前が含まれないときに、代わりに使用される名前です。",
   options_addSubscriptionDialog_addButton: "追加",
   options_showSubscriptionDialog_blacklistLabel: "ルールのリスト",
   options_updateInterval: "更新の間隔",

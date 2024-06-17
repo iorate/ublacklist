@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useClassName } from "../components/utilities.ts";
-import "../dayjs-locales";
+import "../dayjs-locales.ts";
 import { saveToLocalStorage } from "../local-storage.ts";
 import { translate } from "../locales.ts";
 import { useOptionsContext } from "./options-context.tsx";

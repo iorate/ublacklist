@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -45,7 +46,6 @@ import { addMessageListeners, sendMessage } from "../messages.ts";
 import type { Subscription, SubscriptionId, Subscriptions } from "../types.ts";
 import {
   AltURL,
-  MatchPattern,
   isErrorResult,
   numberEntries,
   numberKeys,
@@ -55,6 +55,13 @@ import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
 
+function getName(subscription: Readonly<Subscription>): string {
+  const name = subscription.ruleset?.metadata.name;
+  return typeof name === "string"
+    ? name
+    : subscription.name || subscription.url;
+}
+
 const PERMISSION_PASSLIST = [
   "*://*.githubusercontent.com/*",
   // A third-party CDN service supporting GitHub, GitLab and BitBucket
@@ -63,12 +70,15 @@ const PERMISSION_PASSLIST = [
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
-  const passlist = PERMISSION_PASSLIST.map((pass) => new MatchPattern(pass));
+  const map = new MatchPatternMap<null>();
+  for (const pass of PERMISSION_PASSLIST) {
+    map.set(pass, null);
+  }
   for (const url of urls) {
-    const u = new AltURL(url);
-    if (passlist.some((pass) => pass.test(u))) {
+    if (map.get(url).length) {
       continue;
     }
+    const u = new AltURL(url);
     origins.push(`${u.scheme}://${u.host}/*`);
   }
   // Don't call `permissions.request` when unnecessary. re #110
@@ -83,9 +93,6 @@ const AddSubscriptionDialog: React.FC<
   } & DialogProps
 > = ({ close, open, initialName, initialURL, setSubscriptions }) => {
   const [state, setState] = useState(() => ({
-    name: initialName,
-    // required
-    nameValid: initialName !== "",
     url: initialURL,
     urlValid: (() => {
       // pattern="https?:.*"
@@ -101,15 +108,15 @@ const AddSubscriptionDialog: React.FC<
       }
       return true;
     })(),
+    name: initialName,
   }));
   const prevOpen = usePrevious(open);
   if (open && prevOpen === false) {
-    state.name = "";
-    state.nameValid = false;
     state.url = "";
     state.urlValid = false;
+    state.name = "";
   }
-  const ok = state.nameValid && state.urlValid;
+  const ok = state.urlValid;
 
   return (
     <Dialog
@@ -126,50 +133,48 @@ const AddSubscriptionDialog: React.FC<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <ControlLabel for="subscriptionName">
-                {translate("options_addSubscriptionDialog_nameLabel")}
+              <ControlLabel for="subscriptionURL">
+                {translate("options_addSubscriptionDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
-            {open && (
-              <Input
-                className={FOCUS_START_CLASS}
-                id="subscriptionName"
-                required={true}
-                value={state.name}
-                onChange={(e) => {
-                  const {
-                    value: name,
-                    validity: { valid: nameValid },
-                  } = e.currentTarget;
-                  setState((s) => ({ ...s, name, nameValid }));
-                }}
-              />
-            )}
+            <Input
+              className={FOCUS_START_CLASS}
+              id="subscriptionURL"
+              pattern="https?:.*"
+              required={true}
+              type="url"
+              value={state.url}
+              onChange={(e) => {
+                const {
+                  value: url,
+                  validity: { valid: urlValid },
+                } = e.currentTarget;
+                setState((s) => ({ ...s, url, urlValid }));
+              }}
+            />
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <ControlLabel for="subscriptionURL">
-                {translate("options_addSubscriptionDialog_urlLabel")}
+              <ControlLabel for="subscriptionName">
+                {translate("options_addSubscriptionDialog_altNameLabel")}
               </ControlLabel>
+              <SubLabel>
+                {translate("options_addSubscriptionDialog_altNameDescription")}
+              </SubLabel>
             </LabelWrapper>
-            {open && (
-              <Input
-                id="subscriptionURL"
-                pattern="https?:.*"
-                required={true}
-                type="url"
-                value={state.url}
-                onChange={(e) => {
-                  const {
-                    value: url,
-                    validity: { valid: urlValid },
-                  } = e.currentTarget;
-                  setState((s) => ({ ...s, url, urlValid }));
-                }}
-              />
-            )}
+            <Input
+              id="subscriptionName"
+              required={true}
+              value={state.name}
+              onChange={(e) => {
+                const name = e.currentTarget.value;
+                setState((s) => {
+                  return { ...s, name };
+                });
+              }}
+            />
           </RowItem>
         </Row>
       </DialogBody>
@@ -230,7 +235,7 @@ const ShowSubscriptionDialog: React.FC<
     >
       <DialogHeader>
         <DialogTitle id="showSubscriptionDialogTitle">
-          {subscription?.name ?? ""}
+          {subscription ? getName(subscription) : ""}
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
@@ -286,12 +291,14 @@ const ManageSubscription: React.FC<{
   subscription,
   updating,
 }) => {
+  const checkboxId = `enableSubscription${id}`;
   return (
     <TableRow>
       <TableCell>
         <CheckBox
           aria-label={translate("options_subscriptionCheckBoxLabel")}
           checked={subscription.enabled ?? true}
+          id={checkboxId}
           onChange={async (e) => {
             const enabled = e.currentTarget.checked;
             await sendMessage("enable-subscription", id, enabled);
@@ -305,7 +312,11 @@ const ManageSubscription: React.FC<{
           }}
         />
       </TableCell>
-      <TableCell>{subscription.name}</TableCell>
+      <TableCell>
+        <LabelWrapper>
+          <ControlLabel for={checkboxId}>{getName(subscription)}</ControlLabel>
+        </LabelWrapper>
+      </TableCell>
       <TableCell>
         {updating ? (
           translate("options_subscriptionUpdateRunning")
@@ -441,9 +452,7 @@ export const ManageSubscriptions: React.FC<{
               </TableHeader>
               <TableBody>
                 {numberEntries(subscriptions)
-                  .sort(([id1, { name: name1 }], [id2, { name: name2 }]) =>
-                    name1 < name2 ? -1 : name1 > name2 ? 1 : id1 - id2,
-                  )
+                  .sort(([id1], [id2]) => id1 - id2)
                   .map(([id, subscription]) => (
                     <ManageSubscription
                       id={id}

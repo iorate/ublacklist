@@ -42,6 +42,10 @@ const serpHandler: SerpHandler = handleSerp({
     },
   ],
   getDialogTheme: getDialogThemeFromBody(),
+  pageProps: {
+    $site: "yandex",
+    $category: "web",
+  },
 });
 
 export const yandex: Readonly<SearchEngine> = {

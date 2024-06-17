@@ -78,6 +78,9 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    tableOfContents: {
+      maxHeadingLevel: 4,
+    },
   } satisfies Preset.ThemeConfig,
 };
 

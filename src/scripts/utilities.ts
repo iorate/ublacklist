@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
-import { parseMatchPattern } from "../common/match-pattern.ts";
-import type { ErrorResult, Result, SuccessResult } from "./types.ts";
+import { Ruleset, type RulesetJSON } from "./ruleset/ruleset.ts";
+import type {
+  ErrorResult,
+  PlainRuleset,
+  Result,
+  SuccessResult,
+} from "./types.ts";
 
 // #region AltURL
 export class AltURL {
@@ -47,109 +52,6 @@ export class UnexpectedResponse extends Error {
   }
 }
 // #endregion Error
-
-// #region MatchPattern
-export {
-  type MatchPatternScheme,
-  parseMatchPattern,
-} from "../common/match-pattern.ts";
-
-type SchemePattern = { type: "any" } | { type: "exact"; exact: string };
-
-type HostPattern =
-  | { type: "any" }
-  | { type: "domain"; domain: string }
-  | { type: "exact"; exact: string };
-
-type PathPattern =
-  | { type: "any" }
-  | { type: "prefix"; prefix: string }
-  | { type: "exact"; exact: string }
-  | { type: "regExp"; regExp: RegExp };
-
-export class MatchPattern {
-  private readonly schemePattern: SchemePattern;
-  private readonly hostPattern: HostPattern;
-  private readonly pathPattern: PathPattern;
-
-  constructor(mp: string) {
-    const parsed = parseMatchPattern(mp);
-    if (!parsed) {
-      throw new Error("Invalid match pattern");
-    }
-    const { scheme, host, path } = parsed;
-    if (scheme === "*") {
-      this.schemePattern = { type: "any" };
-    } else {
-      this.schemePattern = { type: "exact", exact: scheme };
-    }
-    if (host === "*") {
-      this.hostPattern = { type: "any" };
-    } else if (host.startsWith("*.")) {
-      this.hostPattern = { type: "domain", domain: host.slice(2) };
-    } else {
-      this.hostPattern = { type: "exact", exact: host };
-    }
-    if (path === "/*") {
-      this.pathPattern = { type: "any" };
-    } else {
-      const wildcardIndex = path.indexOf("*");
-      if (wildcardIndex === path.length - 1) {
-        this.pathPattern = { type: "prefix", prefix: path.slice(0, -1) };
-      } else if (wildcardIndex === -1) {
-        this.pathPattern = { type: "exact", exact: path };
-      } else {
-        this.pathPattern = {
-          type: "regExp",
-          regExp: new RegExp(
-            `^${path
-              .replace(/[$^\\.+?()[\]{}|]/g, "\\$&")
-              .replace(/\*/g, ".*?")}$`,
-          ),
-        };
-      }
-    }
-  }
-
-  test(url: AltURL): boolean {
-    if (this.hostPattern.type === "domain") {
-      if (
-        url.host !== this.hostPattern.domain &&
-        !url.host.endsWith(`.${this.hostPattern.domain}`)
-      ) {
-        return false;
-      }
-    } else if (this.hostPattern.type === "exact") {
-      if (url.host !== this.hostPattern.exact) {
-        return false;
-      }
-    }
-    if (this.schemePattern.type === "any") {
-      if (url.scheme !== "http" && url.scheme !== "https") {
-        return false;
-      }
-    } else {
-      if (url.scheme !== this.schemePattern.exact) {
-        return false;
-      }
-    }
-    if (this.pathPattern.type === "prefix") {
-      if (!url.path.startsWith(this.pathPattern.prefix)) {
-        return false;
-      }
-    } else if (this.pathPattern.type === "exact") {
-      if (url.path !== this.pathPattern.exact) {
-        return false;
-      }
-    } else if (this.pathPattern.type === "regExp") {
-      if (!this.pathPattern.regExp.test(url.path)) {
-        return false;
-      }
-    }
-    return true;
-  }
-}
-// #endregion MatchPattern
 
 // #region Mutex
 export class Mutex {
@@ -238,12 +140,6 @@ export function numberEntries<Key extends number, Value>(
 export function lines(s: string): string[] {
   return s ? s.split("\n") : [];
 }
-
-export function unlines(ss: string[]): string {
-  return ss.join("\n");
-}
-
-export const r = String.raw.bind(String);
 // #endregion string
 
 export function downloadTextFile(
@@ -291,4 +187,24 @@ export function parseJSON(text: string): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+export function fromPlainRuleset(
+  ruleset: PlainRuleset | null,
+  source: string,
+): Ruleset {
+  return new Ruleset(
+    ruleset
+      ? {
+          source: source.split("\n"),
+          metadata: ruleset.metadata,
+          rules: JSON.parse(ruleset.rules) as RulesetJSON["rules"],
+        }
+      : source,
+  );
+}
+
+export function toPlainRuleset(source: string): PlainRuleset {
+  const { metadata, rules } = new Ruleset(source).toJSON();
+  return { metadata, rules: JSON.stringify(rules) };
 }

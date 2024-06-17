@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
-import { Ruleset } from "../ruleset.ts";
 import type { Result, Subscriptions } from "../types.ts";
 import {
   Mutex,
@@ -10,6 +9,7 @@ import {
   numberKeys,
   parseJSON,
   successResult,
+  toPlainRuleset,
 } from "../utilities.ts";
 import { syncFile } from "./clouds.ts";
 import {
@@ -78,11 +78,11 @@ const syncSections: readonly SyncSection[] = [
       };
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime) {
-      const blacklist = cloudContent;
+      const source = cloudContent;
       return {
         ...cloudItems,
-        blacklist,
-        compiledRules: Ruleset.compile(blacklist),
+        ruleset: toPlainRuleset(source),
+        blacklist: source,
         timestamp: cloudModifiedTime.toISOString(),
       };
     },
@@ -91,8 +91,7 @@ const syncSections: readonly SyncSection[] = [
         cloudItems.timestamp != null &&
         dayjs(cloudItems.timestamp).isBefore(latestLocalItems.timestamp)
       ) {
-        const { blacklist, compiledRules, timestamp, ...newCloudItems } =
-          cloudItems;
+        const { ruleset, blacklist, timestamp, ...newCloudItems } = cloudItems;
         return newCloudItems;
       }
       return { ...cloudItems };

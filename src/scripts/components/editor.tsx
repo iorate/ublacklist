@@ -1,10 +1,10 @@
 import { history, historyKeymap, standardKeymap } from "@codemirror/commands";
 import {
   HighlightStyle,
-  type Language,
-  language,
+  type LanguageSupport,
   syntaxHighlighting,
 } from "@codemirror/language";
+import { lintGutter } from "@codemirror/lint";
 import { Compartment, EditorState, Transaction } from "@codemirror/state";
 import {
   EditorView,
@@ -18,11 +18,58 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "./constants.ts";
 import { useTheme } from "./theme.tsx";
 
+type ColorScheme = {
+  background: string;
+  foreground: string;
+  selectionBackground: string;
+  lineNumberForeground: string;
+  activeLineNumberForeground: string;
+  comment: string;
+  name: string;
+  literal: string;
+  string: string;
+  keyword: string;
+  operator: string;
+  meta: string;
+};
+
+// [jellybeans.vim](https://github.com/nanotech/jellybeans.vim)
+const darkColorScheme: ColorScheme = {
+  background: "#202124",
+  foreground: "#e8e8d3",
+  selectionBackground: "#2e2e2e",
+  lineNumberForeground: "#858585",
+  activeLineNumberForeground: "#fabb6e",
+  comment: "#888888",
+  name: "#fabb6e",
+  literal: "#cf6a4c",
+  string: "#99ad6a",
+  keyword: "#8197bf",
+  operator: "#ffe2a9",
+  meta: "#8fbfdc",
+};
+
+// [hybrid.vim](https://github.com/w0ng/vim-hybrid)
+const lightColorScheme: ColorScheme = {
+  background: "#f8f9fa",
+  foreground: "#000",
+  selectionBackground: "#bcbcbc",
+  lineNumberForeground: "#bcbcbc",
+  activeLineNumberForeground: "#5f5f00",
+  comment: "#5f5f5f",
+  name: "#875f00",
+  literal: "#5f0000",
+  string: "#005f00",
+  keyword: "#00005f",
+  operator: "#8abeb7",
+  meta: "#005f5f",
+};
+
 export type EditorProps = {
   focusStart?: boolean;
   focusEnd?: boolean;
   height?: string;
-  language?: Language;
+  language?: LanguageSupport;
   readOnly?: boolean;
   resizable?: boolean;
   value?: string;
@@ -58,6 +105,7 @@ export const Editor: React.FC<EditorProps> = ({
           extensions: [
             keymap.of([...standardKeymap, ...historyKeymap]),
             history(),
+            lintGutter(),
             lineNumbers(),
             highlightActiveLineGutter(),
             highlightSpecialChars(),
@@ -91,26 +139,20 @@ export const Editor: React.FC<EditorProps> = ({
 
   const theme = useTheme();
   useLayoutEffect(() => {
+    const colorScheme =
+      theme.name === "dark" ? darkColorScheme : lightColorScheme;
     view.current?.dispatch({
       effects: highlightStyleCompartment.current.reconfigure(
         syntaxHighlighting(
           HighlightStyle.define([
-            {
-              tag: t.annotation,
-              color: theme.editor.annotation,
-            },
-            {
-              tag: t.regexp,
-              color: theme.editor.regexp,
-            },
-            {
-              tag: t.comment,
-              color: theme.editor.comment,
-            },
-            {
-              tag: t.invalid,
-              color: theme.editor.comment,
-            },
+            { tag: t.comment, color: colorScheme.comment },
+            { tag: t.name, color: colorScheme.name },
+            { tag: t.literal, color: colorScheme.literal },
+            { tag: t.string, color: colorScheme.string },
+            { tag: t.regexp, color: colorScheme.string },
+            { tag: t.keyword, color: colorScheme.keyword },
+            { tag: t.operator, color: colorScheme.operator },
+            { tag: t.meta, color: colorScheme.meta },
           ]) as Highlighter,
         ),
       ),
@@ -119,9 +161,7 @@ export const Editor: React.FC<EditorProps> = ({
 
   useLayoutEffect(() => {
     view.current?.dispatch({
-      effects: languageCompartment.current.reconfigure(
-        lang ? language.of(lang) : [],
-      ),
+      effects: languageCompartment.current.reconfigure(lang || []),
     });
   }, [lang]);
 
@@ -134,14 +174,16 @@ export const Editor: React.FC<EditorProps> = ({
   }, [readOnly]);
 
   useLayoutEffect(() => {
+    const colorScheme =
+      theme.name === "dark" ? darkColorScheme : lightColorScheme;
     view.current?.dispatch({
       effects: themeCompartment.current.reconfigure(
         EditorView.theme(
           {
             "&": {
-              backgroundColor: theme.editor.background,
+              backgroundColor: colorScheme.background,
               border: `1px solid ${theme.editor.border}`,
-              color: theme.editor.text,
+              color: colorScheme.foreground,
               height,
               overflow: "hidden",
               resize: resizable ? "vertical" : "none",
@@ -156,21 +198,21 @@ export const Editor: React.FC<EditorProps> = ({
               overflow: "auto",
             },
             ".cm-gutters": {
-              backgroundColor: theme.editor.background,
+              backgroundColor: "transparent",
               border: "none",
-              color: theme.editor.lineNumber,
+              color: colorScheme.lineNumberForeground,
             },
             ".cm-activeLineGutter": {
               backgroundColor: "transparent",
             },
             "&.cm-focused .cm-activeLineGutter": {
-              color: theme.editor.activeLineNumber,
+              color: colorScheme.activeLineNumberForeground,
             },
             ".cm-lineNumbers .cm-gutterElement": {
               padding: "0 8px",
             },
             ".cm-content ::selection": {
-              backgroundColor: theme.editor.selectionBackground,
+              backgroundColor: colorScheme.selectionBackground,
             },
           },
           { dark: theme.name === "dark" },

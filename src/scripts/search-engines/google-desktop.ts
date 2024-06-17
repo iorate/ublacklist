@@ -593,6 +593,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".I48dHb, .GHMsie, .ZHugbd",
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "web",
+    },
   }),
   // Books
   bks: handleSerp({
@@ -608,6 +612,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: desktopRegularActionStyle,
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "books",
+    },
   }),
   // Images
   "udm=2": handleSerp({
@@ -639,6 +647,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "images",
+    },
   }),
   isch: handleSerp({
     globalStyle: desktopGlobalStyle,
@@ -681,6 +693,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         },
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "images",
+    },
   }),
   // News
   nws: handleSerp({
@@ -739,6 +755,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".SoaBEf, .JJZKK, .ZE0LJd, .S1FAPd",
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "news",
+    },
   }),
   // Videos
   vid: handleSerp({
@@ -760,6 +780,10 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         innerTargets: ".g",
       },
     ],
+    pageProps: {
+      $site: "google",
+      $category: "videos",
+    },
   }),
 };
 

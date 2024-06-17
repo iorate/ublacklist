@@ -5,12 +5,11 @@ import {
   defaultLocalStorageItems,
   loadFromLocalStorage,
 } from "../local-storage.ts";
-import { Ruleset } from "../ruleset.ts";
 import type {
   LocalStorageItemsBackupRestore,
   Subscriptions,
 } from "../types.ts";
-import { stringEntries } from "../utilities.ts";
+import { stringEntries, toPlainRuleset } from "../utilities.ts";
 import { resetAllInRawStorage } from "./raw-storage.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";
 
@@ -52,7 +51,7 @@ export async function restore(
     const now = dayjs().toISOString();
 
     const blacklist = items.blacklist ?? defaults.blacklist;
-    const compiledRules = Ruleset.compile(blacklist);
+    const ruleset = toPlainRuleset(blacklist);
 
     const subscriptions: Subscriptions = {};
     for (const { name, url, enabled } of items.subscriptions ||
@@ -60,8 +59,8 @@ export async function restore(
       subscriptions[nextSubscriptionId] = {
         name,
         url,
+        ruleset: toPlainRuleset(""),
         blacklist: "",
-        compiledRules: Ruleset.compile(""),
         updateResult: false,
         enabled: enabled ?? true,
       };
@@ -69,8 +68,8 @@ export async function restore(
     }
 
     return {
+      ruleset,
       blacklist,
-      compiledRules,
       timestamp: now,
 
       blockWholeSite: items.blockWholeSite ?? defaults.blockWholeSite,

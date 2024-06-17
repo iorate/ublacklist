@@ -1,0 +1,78 @@
+@precedence {
+  negate @left
+  and @left
+  or @left
+}
+
+@skip { space | Comment }
+
+@top Ruleset { Rule? ("\n" Rule?)* }
+
+Rule { (NegateSpecifier | HighlightSpecifier)? ((MatchPattern IfSpecifier?) | expression) }
+
+NegateSpecifier { "@" }
+HighlightSpecifier { AtInteger }
+IfSpecifier { "@if" "(" expression ")" }
+
+@skip {} {
+  MatchPattern {
+      "<all_urls>"
+    | ( "*"
+      | @extend<
+          Identifier,
+            "HTTP" | "HTTp" | "HTtP" | "HTtp" | "HtTP" | "HtTp" | "HttP" | "Http" | "hTTP" | "hTTp" | "hTtP" | "hTtp" | "htTP" | "htTp" | "httP" | "http"
+          | "HTTPS" | "HTTpS" | "HTtPS" | "HTtpS" | "HtTPS" | "HtTpS" | "HttPS" | "HttpS" | "hTTPS" | "hTTpS" | "hTtPS" | "hTtpS" | "htTPS" | "htTpS" | "httPS" | "httpS" | "HTTPs" | "HTTps" | "HTtPs" | "HTtps" | "HtTPs" | "HtTps" | "HttPs" | "Https" | "hTTPs" | "hTTps" | "hTtPs" | "hTtps" | "htTPs" | "htTps" | "httPs" | "https"
+        >
+      )
+      "://"
+      matchPatternHost
+      matchPatternPath
+  }
+}
+
+expression[@isGroup=Expression] {
+    MatchExpression {
+        Identifier StringMatchOperator String CaseSensitivity?
+      | (Identifier RegExpMatchOperator?)? RegExp
+    }
+  | ParenthesizedExpression { "(" expression ")" }
+  | NegateExpression { "!" !negate expression }
+  | AndExpression { expression !and "&" expression }
+  | OrExpression { expression !or "|" expression }
+}
+
+@tokens {
+  space { $[ \t\r]+ }
+  Comment { "#" ![\n]* }
+
+  "@"
+  AtInteger { "@" ("0" | $[1-9] @digit*) }
+  "@if"
+  @precedence { AtInteger, "@if", "@" }
+
+  matchPatternHost { ("*" | matchPatternLabel) ("." matchPatternLabel)* }
+  matchPatternLabel { (@digit | @asciiLetter) ((@digit | @asciiLetter | "-")* (@digit | @asciiLetter))? }
+  matchPatternPath { "/" matchPatternPathChar* }
+  matchPatternPathChar { "*" | @digit | @asciiLetter | $[._~:/?[\]@!$&'()+,;=-] | "%" hex hex }
+  hex { @digit | $[A-Fa-f] }
+
+  Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
+
+  StringMatchOperator { $[^$*]? "=" }
+  CaseSensitivity { $[Ii] }
+  RegExpMatchOperator { "=~" }
+
+  String { "'" (stringEscape | stringContentSingle)* "'" | '"' (stringEscape | stringContentDouble)* '"' }
+  stringEscape { "\\" ![\n] }
+  stringContentSingle { !['\\\n] }
+  stringContentDouble { !["\\\n] }
+
+  RegExp { "/" regExpPattern "/" regExpFlags? }
+  regExpPattern { (regExpEscape | "[" regExpClassContent* "]" | regExpContent)+ }
+  regExpEscape { "\\" ![\n] }
+  regExpClassContent { ![\]\\\n] }
+  regExpContent { ![/\\[\n] }
+  regExpFlags { $[imsu]+ }
+
+  "(" ")" "!" "&" "|"
+}

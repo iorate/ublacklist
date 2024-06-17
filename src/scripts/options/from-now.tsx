@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import dayjsRelativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
-import "../dayjs-locales";
+import "../dayjs-locales.ts";
 import { translate } from "../locales.ts";
 
 dayjs.extend(dayjsRelativeTime);

@@ -9,7 +9,7 @@ sidebar_position: 2
 
 ![ルールエディター](/img/advanced-features/rules-1.png)
 
-[マッチパターン](#match-patterns)または[正規表現](#regular-expressions)でルールを書くことができます。
+[マッチパターン](#match-patterns)または[式](#expressions)でルールを書くことができます。
 
 ### マッチパターン {#match-patterns}
 
@@ -25,16 +25,93 @@ sidebar_position: 2
 
 **無効な**マッチパターンの例です。
 
-| 無効なパターン         | 理由                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------------ |
-| `*://www.qinterest.*/` | `*` が先頭以外に置かれています。代わりに[正規表現](#regular-expressions)を使ってください。 |
-| `<all_urls>`           | サポートされていません。                                                                   |
+| 無効なパターン         | 理由                             |
+| ---------------------- | -------------------------------- |
+| `*://www.qinterest.*/` | `*` が先頭以外に置かれています。 |
 
-### 正規表現 {#regular-expressions}
+### 式 {#expressions}
 
-[正規表現](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions)を使ってより柔軟にルールを書くことができます。
+式でルールを書くことができます。
 
-正規表現ルールは、`/` で囲まれた、JavaScript の正規表現**リテラル**の形でなければなりません (例: `/example\.(net|org)/`)。
+#### 変数 {#variables}
+
+現在、`url` と `title` が式の中で使用できます。
+
+```
+# URL が "example" を含む検索結果
+url *= "example"
+
+# タイトルが "Something" で始まる検索結果
+title ^= "Something"
+```
+
+URL の一部である `scheme`、`host`、`path` も使用できます。
+
+```
+# スキームが HTTP の検索結果
+scheme="http"
+
+# ホスト名が ".example.com" で終わる検索結果
+host $= ".example.com"
+
+# パスが "blah" を含む検索結果 (大文字小文字を区別しない)
+path*="blah"i
+```
+
+さらに、検索結果ページ自体のプロパティを使用できます。今のところ、`$site` と `$category` が使用できます。
+
+```
+# Google 検索で YouTube をブロックする
+$site="google" & host="youtube.com"
+
+# 画像検索で Amazon.com をブロックする
+$category = "images" & host = "www.amazon.com"
+```
+
+#### 文字列マッチ {#string-matchers}
+
+文字列マッチは [CSS の属性セレクター](https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors) に似ています。
+
+```
+# タイトルが "Example Domain" と一致
+title = "Example Domain"
+
+# タイトルが "Example" から始まる
+title ^= "Example"
+
+# タイトルが "Domain" で終わる
+title $= "Domain"
+
+# タイトルが "ple Dom" を含む
+title *= "ple Dom"
+```
+
+大文字小文字を区別しない比較を行うには、`i` を追加します。
+
+```
+# タイトルが "domain" で終わる (大文字小文字を区別しない)
+title $= "domain" i
+```
+
+#### 正規表現 {#regular-expressions}
+
+[正規表現](https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions)を使ってより柔軟に式を書くことができます。
+
+```
+# URL が "example.net" または "example.org" を含む
+url =~ /example\.(net|org)/
+
+# "=~" は省略できます
+url/example\.(net|org)/
+
+# "url" も省略できます
+/example\.(net|org)/
+
+# タイトルが "example domain" を含む (大文字小文字を区別しない)
+title =~ /example domain/i
+```
+
+正規表現は、`/` で囲まれた、JavaScript の正規表現**リテラル**の形でなければなりません (例: `/example\.(net|org)/`)。
 
 **有効な**正規表現の例です。
 
@@ -50,11 +127,29 @@ sidebar_position: 2
 | `^https?:\/\/example\.com\/` | `/` で囲まれていません。                      |
 | `/^https?://example\.com//`  | 正規表現内の `/` がエスケープされていません。 |
 
-### 正規表現 (タイトルでブロック) {#regular-expressions-for-page-titles}
+#### 論理演算子 {#logical-operators}
 
-特定のタイトルを持つサイトをブロックするには、正規表現ルールの前に `title` を追加します。
+論理否定 (`!`)、論理積 (`&`)、論理和 (`|`) が使用できます。
 
-例えば、ルール `title/example domain/i` は、タイトルに "example domain" を含む (大文字小文字を区別しない) サイトをブロックします。
+```
+# HTTPS 以外のスキームをブロック
+!scheme="https"
+
+# 画像検索で Amazon.com をブロック
+$category = "images" & host = "www.amazon.com"
+
+# タイトルが "example" または "domain" を含む (大文字小文字を区別しない)
+title *= "example" i | title *= "domain" i
+```
+
+### 式をマッチパターンと一緒に使う{#use-expressions-with-match-patterns}
+
+マッチパターンの後に `@if(式)` を続けることがで来ます。
+
+```
+# 画像検索で Amazon.com をブロックする
+*://*.amazon.com/* @if($category="images")
+```
 
 ### ブロック解除ルール {#unblock-rules}
 
@@ -88,7 +183,7 @@ sidebar_position: 2
 
 ## Google 以外の検索エンジン {#other-search-engines}
 
-[Bing](#bing)、[Brave](#brave)、[DuckDuckGo](#duckduckgo)、[Ecosia](#ecosia)、[Qwant](#qwant)、[SearX](#searx)、[Startpage.com](#startpagecom)、[Yahoo! JAPAN](#yahoo-japan)、[Yandex](#yandex) がサポートされています。この機能はデフォルトで無効ですが、オプションページで有効にすることができます。
+[Bing](#bing)、[Brave](#brave)、[DuckDuckGo](#duckduckgo)、[Ecosia](#ecosia)、[Kagi](#kagi)、[Qwant](#qwant)、[SearX](#searx)、[Startpage.com](#startpagecom)、[Yahoo! JAPAN](#yahoo-japan)、[Yandex](#yandex) がサポートされています。この機能はデフォルトで無効ですが、オプションページで有効にすることができます。
 
 ![その他の検索エンジン](/img/advanced-features/other-search-engines-1.png)
 
@@ -109,6 +204,10 @@ sidebar_position: 2
 ### Ecosia {#ecosia}
 
 ![ecosia](/img/advanced-features/ecosia.png)
+
+### Kagi {#kagi}
+
+![kagi](/img/advanced-features/kagi.png)
 
 ### Qwant {#qwant}
 
@@ -168,9 +267,18 @@ Firefox またはその派生ブラウザでは、`https://www.googleapis.com` �
 
 ![購読のメニュー](/img/advanced-features/subscription-2.png)
 
-### 購読を公開する {#publish-a-subscription}
+### 購読を公開する {#publish-subscription}
 
 ルールセットを購読として公開するには、UTF-8 でエンコードしたルールセットファイルを適切な HTTP(S) サーバーに配置し、URL を公開します。
+
+ルールセットには YAML frontmatter を書くことができます。`name` 変数を設定することが推奨されます。
+
+```
+---
+name: あなたのルールセットの名前
+---
+*://*.example.com/*
+```
 
 購読を GitHub で公開するのはよい考えです。**Raw** URL (例えば https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt) を公開してください。
 

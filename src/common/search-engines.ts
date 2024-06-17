@@ -6,6 +6,7 @@ export type SearchEngineId =
   | "brave"
   | "duckduckgo"
   | "ecosia"
+  | "kagi"
   | "qwant"
   | "searx"
   | "startpage"
@@ -306,11 +307,28 @@ export const SEARCH_ENGINES: Readonly<
     contentScripts: [
       {
         matches: ["https://www.ecosia.org/search?*"],
-        runAt: "document_start",
+        runAt: "document_idle",
       },
     ],
     messageNames: {
       name: "searchEngines_ecosiaName",
+    },
+  },
+  kagi: {
+    contentScripts: [
+      {
+        matches: [
+          "https://kagi.com/search?*",
+          "https://kagi.com/images?*",
+          "https://kagi.com/videos?*",
+          "https://kagi.com/news?*",
+          "https://kagi.com/podcasts?*",
+        ],
+        runAt: "document_idle",
+      },
+    ],
+    messageNames: {
+      name: "searchEngines_kagiName",
     },
   },
   qwant: {

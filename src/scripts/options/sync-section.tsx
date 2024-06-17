@@ -33,7 +33,7 @@ import {
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
-import "../dayjs-locales";
+import "../dayjs-locales.ts";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { supportedClouds } from "../supported-clouds.ts";

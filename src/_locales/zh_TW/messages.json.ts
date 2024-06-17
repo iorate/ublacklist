@@ -153,6 +153,7 @@ export default exportAsMessages({
   searchEngines_braveName: "Brave",
   searchEngines_duckduckgoName: "DuckDuckGo",
   searchEngines_ecosiaName: "Ecosia",
+  searchEngines_kagiName: "Kagi",
   searchEngines_qwantName: "Qwant",
   searchEngines_searxName: "SearX",
   searchEngines_qwantDescription: "請關閉「總是在 Qwant.com 播放影片」選項。",

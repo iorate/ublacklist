@@ -3,6 +3,7 @@ import { brave } from "./search-engines/brave.ts";
 import { duckduckgo } from "./search-engines/duckduckgo.ts";
 import { ecosia } from "./search-engines/ecosia.ts";
 import { google } from "./search-engines/google.ts";
+import { kagi } from "./search-engines/kagi.ts";
 import { qwant } from "./search-engines/qwant.ts";
 import { searx } from "./search-engines/searx.ts";
 import { startpage } from "./search-engines/startpage.ts";
@@ -18,6 +19,7 @@ export const SEARCH_ENGINES: Readonly<
   brave,
   duckduckgo,
   ecosia,
+  kagi,
   qwant,
   searx,
   startpage,
