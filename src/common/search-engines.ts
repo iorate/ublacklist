@@ -570,6 +570,7 @@ export const SEARCH_ENGINES: Readonly<
         matches: [
           // Web
           "https://ya.ru/search*",
+          "https://yandex.ru/search*",
           "https://yandex.com/search*",
           "https://yandex.ua/search*",
           "https://yandex.by/search*",
