@@ -203,14 +203,18 @@ function collectRuleset(
       // An invalid string literal or regular expression
       continue;
     }
-    rules.set(
-      matchPattern ?? "<all_urls>",
-      expression
-        ? [lineNumber, value, expression]
-        : value !== 1
-          ? [lineNumber, value]
-          : [lineNumber],
-    );
+    try {
+      rules.set(
+        matchPattern ?? "<all_urls>",
+        expression
+          ? [lineNumber, value, expression]
+          : value !== 1
+            ? [lineNumber, value]
+            : [lineNumber],
+      );
+    } catch {
+      // #497 Just in case
+    }
   }
 }
 
@@ -220,7 +224,8 @@ function hasError(ruleNode: SyntaxNode): boolean {
     if (cursor.type.isError) {
       return true;
     }
-  } while (cursor.next() && cursor.to <= ruleNode.to);
+    // #497 An error node may expand to the next line
+  } while (cursor.next() && cursor.from <= ruleNode.to + 1);
   return false;
 }
 
