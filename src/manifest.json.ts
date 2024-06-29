@@ -38,7 +38,7 @@ export default {
     process.env.BROWSER === "safari"
       ? Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
           contentScripts.map(({ matches, runAt }) => ({
-            js: ["scripts/content-script.js"],
+            js: ["scripts/import-content-script.js"],
             matches: [
               ...new Set(
                 matches.map((match) => {
@@ -118,5 +118,9 @@ export default {
           },
         ],
       }
-    : {}),
+    : process.env.BROWSER === "safari"
+      ? {
+          web_accessible_resources: ["scripts/content-script.js"],
+        }
+      : {}),
 };
