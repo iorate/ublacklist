@@ -72,6 +72,7 @@ async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
     "pages/popup.html",
     ...(watch && browser === "chrome" ? ["pages/watch.html"] : []),
     "scripts/active.js",
+    ...(browser === "safari" ? ["scripts/import-content-script.js"] : []),
     "third-party-notices.txt",
   ];
   if (watch) {
