@@ -268,6 +268,25 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
           );
         },
       },
+      // Top / Related News
+      {
+        target: ".JJJtgd",
+        level: ".JJZKK",
+        url: "a",
+        title: ".pontCc > div",
+        actionTarget: ".JJJtgd",
+        actionPosition: "afterend",
+        actionStyle: {
+          fontSize: "12px",
+          lineHeight: "16px",
+          textAlign: "left",
+          marginBottom: "-6px",
+          paddingLeft: "8px !important",
+          ...mobileRegularActionStyle,
+          ...mobileActionClickable,
+          ...iOSButtonStyle,
+        },
+      },
     ],
     pagerHandlers: [
       // iOS
