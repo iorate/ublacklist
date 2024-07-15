@@ -110,7 +110,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
   "": handleSerp({
     globalStyle: {
       ...mobileGlobalStyle,
-      "[data-ub-blocked] .ZINbbc, [data-ub-highlight] .ZINbbc, [data-ub-blocked] .D9l01, [data-ub-highlight] .D9l01, .BmkBMc g-inner-card":
+      ":is([data-ub-blocked], [data-ub-highlight]) :is(.ZINbbc, .D9l01, .y6CIle), .BmkBMc g-inner-card":
         {
           backgroundColor: "transparent !important",
         },
@@ -266,6 +266,25 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
               display: "inline-block !important",
             }),
           );
+        },
+      },
+      // Top / Related News
+      {
+        target: ".JJJtgd",
+        level: ".JJZKK",
+        url: "a",
+        title: ".pontCc > div",
+        actionTarget: ".JJJtgd",
+        actionPosition: "afterend",
+        actionStyle: {
+          fontSize: "12px",
+          lineHeight: "16px",
+          textAlign: "left",
+          marginBottom: "-6px",
+          paddingLeft: "8px !important",
+          ...mobileRegularActionStyle,
+          ...mobileActionClickable,
+          ...iOSButtonStyle,
         },
       },
     ],
