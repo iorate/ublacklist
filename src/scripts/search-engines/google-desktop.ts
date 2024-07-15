@@ -85,6 +85,9 @@ const regularEntryHandler: Pick<
     root,
   actionPosition: (target) => {
     if (target.matches(".eFM0qc")) {
+      if (process.env.BROWSER === "safari") {
+        target.style.zIndex = "1";
+      }
       return insertActionBeforeMenu(target);
     }
     if (target.matches(".HGLrXd, .TbwUpd")) {
