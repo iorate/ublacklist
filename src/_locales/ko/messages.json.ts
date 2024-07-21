@@ -5,7 +5,6 @@ export default exportAsMessages({
   extensionDescription:
     "Google 검색 결과에 나타나는 특정 사이트들을 차단합니다",
   lang: "ko",
-  websiteLocale: "ko",
   error: "오류: $1",
   unauthorizedError:
     "계정 인증에 실패했습니다. 동기화 중단 후 다시 설정해 주세요.",
