@@ -217,10 +217,13 @@ const serpHandler = handleSerp({
           },
         });
         // Increase card size to include the "Block this site" button:
-        actionRoot.closest(".module--carousel__items")?.classList.add(
+        actionRoot.closest(".module--carousel")?.classList.add(
           css({
-            height: "320px",
-            "& > .module--carousel__item": {
+            height: "unset !important",
+            "& .module--carousel__items": {
+              height: "320px",
+            },
+            "& .module--carousel__item": {
               height: "300px",
             },
             "& .module--carousel__footer": {
