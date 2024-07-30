@@ -83,6 +83,8 @@ title: Subscriptions
 
 ## Other subscription lists {#other-subscription-lists}
 
+- [Minecraft Safebrowsing 🛡️⛏️ (unofficial)]([https://github.com/rjaus/awesome-ublacklist](https://codeberg.org/legendary_creeper/minecraft-safebrowsing-unofficial) by [Legendary Creeper](https://craftodon.social/@legendary_creeper)
+  - "This filterlist was crafted to help users and creators in avoiding malicious Minecraft-related websites, including, but not limited to, those distributing malicious copies of the game or Mods, repost sites which monetize stolen content from creators, and sites impersonating trusted websites like Minecraft.net, CurseForge, or Mcpedl.com."
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
   - "Awesome list of uBlacklist subscriptions to block search results from google, bing, duckduckgo."
 - [Nicoles uBlacklist collection](https://github.com/nicoleahmed/nicoles-ublacklist/) by [Nicole Ahmed](https://github.com/nicoleahmed)
