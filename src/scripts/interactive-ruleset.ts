@@ -72,6 +72,18 @@ export type SubscriptionRuleset = {
   ruleset: Ruleset;
 };
 
+type MatchingRule = {
+  lineNumber: number;
+  lineContent: string | null;
+};
+
+type RulesetMatches = {
+  rulesetName: string;
+  blockRules: MatchingRule[];
+  unblockRules: MatchingRule[];
+  highlightRules: MatchingRule[];
+};
+
 export class InteractiveRuleset {
   private readonly userRuleset: Ruleset;
   private readonly subscriptionRulesets: readonly Ruleset[];
@@ -268,6 +280,27 @@ export class InteractiveRuleset {
   deletePatch(): void {
     this.patch = null;
   }
+
+  getMatchingRules(props: Readonly<LinkProps>): RulesetMatches[] {
+    const results: RulesetMatches[] = [];
+    // Get rules from user's personal blacklist
+    results.push(
+      // Note: I need to internationalize this string later with translate() !!
+      getMatchesPerRuleset("Personal Blacklist", this.userRuleset, props),
+    );
+    // Get matching rules from subscription lists
+    for (const subscriptionRuleset of this.subscriptionRulesets) {
+      results.push(
+        getMatchesPerRuleset(
+          // biome-ignore lint/style/noNonNullAssertion: Subscriptions always have names
+          this.subscriptionNames.get(subscriptionRuleset)!,
+          subscriptionRuleset,
+          props,
+        ),
+      );
+    }
+    return results;
+  }
 }
 
 function suggestMatchPattern(
@@ -283,4 +316,34 @@ function suggestMatchPattern(
     }
   }
   return `${unblock ? "@" : ""}*://${host}/*`;
+}
+
+function getMatchesPerRuleset(
+  rulesetName: Readonly<string>,
+  ruleset: Ruleset,
+  props: Readonly<LinkProps>,
+): RulesetMatches {
+  const matches: RulesetMatches = {
+    rulesetName,
+    blockRules: [],
+    unblockRules: [],
+    highlightRules: [],
+  };
+
+  const rawResults = testRawWithURLParts(ruleset, props);
+
+  for (const { lineNumber, specifier } of rawResults) {
+    const rule: MatchingRule = {
+      lineNumber,
+      lineContent: ruleset.get(lineNumber),
+    };
+    if (!specifier) {
+      matches.blockRules.push(rule);
+    } else if (specifier.type === "negate") {
+      matches.unblockRules.push(rule);
+    } else if (specifier.type === "highlight") {
+      matches.highlightRules.push(rule);
+    }
+  }
+  return matches;
 }
