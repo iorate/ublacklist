@@ -67,14 +67,29 @@ export type Patch = {
   lineNumbersToRemove: number[];
 };
 
+export type SubscriptionRuleset = {
+  name: string;
+  ruleset: Ruleset;
+};
+
 export class InteractiveRuleset {
   private readonly userRuleset: Ruleset;
   private readonly subscriptionRulesets: readonly Ruleset[];
+  private readonly subscriptionNames: WeakMap<Ruleset, string>;
   private patch: Patch | null = null;
 
-  constructor(userRuleset: Ruleset, subscriptionRulesets: readonly Ruleset[]) {
+  constructor(
+    userRuleset: Ruleset,
+    subscriptionRulesets: SubscriptionRuleset[],
+  ) {
     this.userRuleset = userRuleset;
-    this.subscriptionRulesets = subscriptionRulesets;
+    this.subscriptionRulesets = subscriptionRulesets.map(
+      ({ ruleset }) => ruleset,
+    );
+    this.subscriptionNames = new WeakMap();
+    for (const { name, ruleset } of subscriptionRulesets) {
+      this.subscriptionNames.set(ruleset, name);
+    }
   }
 
   toString(): string {

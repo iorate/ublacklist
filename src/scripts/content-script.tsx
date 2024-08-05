@@ -189,9 +189,10 @@ class ContentScript {
           fromPlainRuleset(options.ruleset || null, options.blacklist),
           Object.values(options.subscriptions)
             .filter((subscription) => subscription.enabled ?? true)
-            .map(({ ruleset, blacklist }) =>
-              fromPlainRuleset(ruleset || null, blacklist),
-            ),
+            .map(({ ruleset, blacklist, name }) => ({
+              name,
+              ruleset: fromPlainRuleset(ruleset || null, blacklist),
+            })),
         ),
         skipBlockDialog: options.skipBlockDialog,
         hideControls: options.hideControl,
