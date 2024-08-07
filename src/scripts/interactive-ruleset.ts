@@ -284,20 +284,27 @@ export class InteractiveRuleset {
   getMatchingRules(props: Readonly<LinkProps>): RulesetMatches[] {
     const results: RulesetMatches[] = [];
     // Get rules from user's personal blacklist
-    results.push(
-      // Note: I need to internationalize this string later with translate() !!
-      getMatchesPerRuleset("Personal Blacklist", this.userRuleset, props),
+    // Note: I need to internationalize this string later with translate() !!
+    const matches = getMatchesPerRuleset(
+      "Personal Blacklist",
+      this.userRuleset,
+      props,
     );
+    if (matches) {
+      results.push(matches);
+    }
+
     // Get matching rules from subscription lists
     for (const subscriptionRuleset of this.subscriptionRulesets) {
-      results.push(
-        getMatchesPerRuleset(
-          // biome-ignore lint/style/noNonNullAssertion: Subscriptions always have names
-          this.subscriptionNames.get(subscriptionRuleset)!,
-          subscriptionRuleset,
-          props,
-        ),
+      const subscriptionMatches = getMatchesPerRuleset(
+        // biome-ignore lint/style/noNonNullAssertion: Subscriptions always have names
+        this.subscriptionNames.get(subscriptionRuleset)!,
+        subscriptionRuleset,
+        props,
       );
+      if (subscriptionMatches) {
+        results.push(subscriptionMatches);
+      }
     }
     return results;
   }
@@ -322,7 +329,7 @@ function getMatchesPerRuleset(
   rulesetName: Readonly<string>,
   ruleset: Ruleset,
   props: Readonly<LinkProps>,
-): RulesetMatches {
+): RulesetMatches | null {
   const matches: RulesetMatches = {
     rulesetName,
     blockRules: [],
@@ -344,6 +351,13 @@ function getMatchesPerRuleset(
     } else if (specifier.type === "highlight") {
       matches.highlightRules.push(rule);
     }
+  }
+  if (
+    Object.values(matches)
+      .filter((prop) => Array.isArray(prop))
+      .every((arr) => arr.length === 0)
+  ) {
+    return null;
   }
   return matches;
 }
