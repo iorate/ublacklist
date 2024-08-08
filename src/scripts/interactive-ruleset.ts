@@ -339,10 +339,34 @@ function getMatchesPerRuleset(
 
   const rawResults = testRawWithURLParts(ruleset, props);
 
-  for (const { lineNumber, specifier } of rawResults) {
+  // Iterate through the latest version of the user ruleset.
+  // This is necessary because, unlike subscription rulesets, the user
+  // can make multiple alterations to the personal blacklist using the
+  // "Block this website" button.
+  // This ensures the line numbers are accurate without reloading.
+  const rulesetLines =
+    rulesetName === "Personal Blacklist" ? [...ruleset] : null;
+  const previousMatchIndexes = new Map<string, number>();
+
+  for (let { lineNumber, specifier } of rawResults) {
+    const lineContent = ruleset.get(lineNumber);
+    if (lineContent && rulesetLines) {
+      lineNumber = getAccurateLineNumber(
+        lineContent,
+        rulesetLines,
+        previousMatchIndexes.get(lineContent),
+      );
+      if (lineNumber === -1) {
+        continue;
+      }
+      // Save the last line number for a particular rule in order to
+      // accurately spot repeated rules (two or more equal lines).
+      previousMatchIndexes.set(lineContent, lineNumber);
+    }
+
     const rule: MatchingRule = {
       lineNumber,
-      lineContent: ruleset.get(lineNumber),
+      lineContent,
     };
     if (!specifier) {
       matches.blockRules.push(rule);
@@ -360,4 +384,12 @@ function getMatchesPerRuleset(
     return null;
   }
   return matches;
+}
+
+function getAccurateLineNumber(
+  lineContent: string,
+  lines: string[],
+  previousLineNumber = 0,
+): number {
+  return lines.indexOf(lineContent, previousLineNumber) + 1;
 }
