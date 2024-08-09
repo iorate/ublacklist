@@ -59,6 +59,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     unblock: false,
     host: "",
     detailsOpen: false,
+    matchingRulesOpen: false,
     pathDepth: null as PathDepth | null,
     depth: "",
     rulesToAdd: "",
@@ -263,6 +264,79 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                         readOnly
                         rows={2}
                         value={state.rulesToRemove}
+                      />
+                    )}
+                  </RowItem>
+                </Row>
+              </DetailsBody>
+            </Details>
+            <Details
+              open={state.matchingRulesOpen}
+              onToggle={(e) => {
+                const { open } = e.currentTarget;
+                setState((s) => ({
+                  ...s,
+                  matchingRulesOpen: open,
+                }));
+              }}
+            >
+              <DetailsSummary className={FOCUS_START_CLASS}>
+                Matching Rules
+              </DetailsSummary>
+              <DetailsBody>
+                <Row>
+                  <RowItem expanded>
+                    <LabelWrapper fullWidth>
+                      <ControlLabel for="blocking-rules-text">
+                        Rules blocking this entry:
+                      </ControlLabel>
+                    </LabelWrapper>
+                    {state.matchingRulesOpen && (
+                      <TextArea
+                        breakAll
+                        id="blocking-rules-text"
+                        readOnly
+                        rows={2}
+                        resizable
+                        value={""}
+                      />
+                    )}
+                  </RowItem>
+                </Row>
+                <Row>
+                  <RowItem expanded>
+                    <LabelWrapper fullWidth>
+                      <ControlLabel for="unblocking-rules-text">
+                        Rules unblocking this entry:
+                      </ControlLabel>
+                    </LabelWrapper>
+                    {state.matchingRulesOpen && (
+                      <TextArea
+                        breakAll
+                        id="unblocking-rules-text"
+                        readOnly
+                        rows={2}
+                        resizable
+                        value={""}
+                      />
+                    )}
+                  </RowItem>
+                </Row>
+                <Row>
+                  <RowItem expanded>
+                    <LabelWrapper fullWidth>
+                      <ControlLabel for="highlight-rules-text">
+                        Rules highlighting this entry:
+                      </ControlLabel>
+                    </LabelWrapper>
+                    {state.matchingRulesOpen && (
+                      <TextArea
+                        breakAll
+                        id="highlight-rules-text"
+                        readOnly
+                        rows={2}
+                        resizable
+                        value={""}
                       />
                     )}
                   </RowItem>

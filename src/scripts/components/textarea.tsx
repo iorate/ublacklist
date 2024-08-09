@@ -5,10 +5,11 @@ import { useClassName } from "./utilities.ts";
 
 export type TextAreaProps = JSX.IntrinsicElements["textarea"] & {
   breakAll?: boolean;
+  resizable?: boolean;
 };
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  function TextArea({ breakAll = false, ...props }, ref) {
+  function TextArea({ breakAll = false, resizable = false, ...props }, ref) {
     const className = useClassName(
       (theme) => ({
         background: "transparent",
@@ -23,7 +24,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             : "auto",
         lineHeight: "1.5",
         padding: "0.5em 0.625em",
-        resize: "none",
+        resize: resizable ? "vertical" : "none",
         width: "100%",
         wordBreak: breakAll ? "break-all" : "normal",
         "&:disabled": {
