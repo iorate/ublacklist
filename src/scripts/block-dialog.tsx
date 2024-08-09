@@ -30,8 +30,8 @@ import type { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import { PathDepth } from "./path-depth.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
-import type { DialogTheme } from "./types.ts";
-import { makeAltURL, svgToDataURL } from "./utilities.ts";
+import type { DialogTheme, MatchingRulesText } from "./types.ts";
+import { getMatchingRulesText, makeAltURL, svgToDataURL } from "./utilities.ts";
 
 type BlockDialogContentProps = {
   blockWholeSite: boolean;
@@ -60,6 +60,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     host: "",
     detailsOpen: false,
     matchingRulesOpen: false,
+    matchingRulesText: null as MatchingRulesText | null,
     pathDepth: null as PathDepth | null,
     depth: "",
     rulesToAdd: "",
@@ -77,6 +78,8 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
         blockWholeSite ? tldts.getDomain(url.host) ?? url.host : url.host,
       );
       state.detailsOpen = false;
+      state.matchingRulesOpen = false;
+      state.matchingRulesText = null;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = "0";
       state.rulesToAdd = patch.rulesToAdd;
@@ -87,6 +90,8 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
       state.unblock = false;
       state.host = entryProps.url;
       state.detailsOpen = false;
+      state.matchingRulesOpen = false;
+      state.matchingRulesText = null;
       state.pathDepth = null;
       state.depth = "";
       state.rulesToAdd = "";
@@ -274,9 +279,13 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
               open={state.matchingRulesOpen}
               onToggle={(e) => {
                 const { open } = e.currentTarget;
+                const matchingRulesText = open
+                  ? getMatchingRulesText(ruleset, entryProps)
+                  : null;
                 setState((s) => ({
                   ...s,
                   matchingRulesOpen: open,
+                  matchingRulesText,
                 }));
               }}
             >
@@ -296,9 +305,11 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                         breakAll
                         id="blocking-rules-text"
                         readOnly
-                        rows={2}
+                        monospace
+                        nowrap
+                        rows={4}
                         resizable
-                        value={""}
+                        value={state.matchingRulesText?.blockRules}
                       />
                     )}
                   </RowItem>
@@ -315,9 +326,11 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                         breakAll
                         id="unblocking-rules-text"
                         readOnly
-                        rows={2}
+                        monospace
+                        nowrap
+                        rows={4}
                         resizable
-                        value={""}
+                        value={state.matchingRulesText?.unblockRules}
                       />
                     )}
                   </RowItem>
@@ -334,9 +347,11 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                         breakAll
                         id="highlight-rules-text"
                         readOnly
-                        rows={2}
+                        monospace
+                        nowrap
+                        rows={4}
                         resizable
-                        value={""}
+                        value={state.matchingRulesText?.highlightRules}
                       />
                     )}
                   </RowItem>
