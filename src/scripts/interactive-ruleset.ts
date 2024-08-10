@@ -284,7 +284,6 @@ export class InteractiveRuleset {
   getMatchingRules(props: Readonly<LinkProps>): RulesetMatches[] {
     const results: RulesetMatches[] = [];
     // Get rules from user's personal blacklist
-    // Note: I need to internationalize this string later with translate() !!
     const matches = getMatchesPerRuleset(
       "personal-blocklist",
       this.userRuleset,
