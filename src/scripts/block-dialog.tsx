@@ -290,14 +290,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
               }}
             >
               <DetailsSummary className={FOCUS_START_CLASS}>
-                Matching Rules
+                {translate("popup_matchingRules")}
               </DetailsSummary>
               <DetailsBody>
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
                       <ControlLabel for="blocking-rules-text">
-                        Rules blocking this entry:
+                        {translate("popup_blockingRulesLabel")}
                       </ControlLabel>
                     </LabelWrapper>
                     {state.matchingRulesOpen && (
@@ -318,7 +318,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
                       <ControlLabel for="unblocking-rules-text">
-                        Rules unblocking this entry:
+                        {translate("popup_unblockingRulesLabel")}
                       </ControlLabel>
                     </LabelWrapper>
                     {state.matchingRulesOpen && (
@@ -339,7 +339,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
                       <ControlLabel for="highlight-rules-text">
-                        Rules highlighting this entry:
+                        {translate("popup_highlightingRulesLabel")}
                       </ControlLabel>
                     </LabelWrapper>
                     {state.matchingRulesOpen && (

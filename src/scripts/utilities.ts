@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import type { InteractiveRuleset } from "./interactive-ruleset.ts";
+import { translate } from "./locales.ts";
 import {
   type LinkProps,
   Ruleset,
@@ -180,7 +181,11 @@ export function getMatchingRulesText(
       // Check whether the ruleset contains rules of the current rule type
       if (match[ruleType].length === 0) continue;
       // Add header with ruleset name
-      matchingRulesText[ruleType] += `# ${match.rulesetName}\n`;
+      const headerContent =
+        match.rulesetName === "personal-blocklist"
+          ? translate("personalBlocklist")
+          : match.rulesetName;
+      matchingRulesText[ruleType] += `# ${headerContent}\n`;
       // Add individual rules
       matchingRulesText[ruleType] += match[ruleType]
         .map(({ lineContent, lineNumber }) => {

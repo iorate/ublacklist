@@ -286,7 +286,7 @@ export class InteractiveRuleset {
     // Get rules from user's personal blacklist
     // Note: I need to internationalize this string later with translate() !!
     const matches = getMatchesPerRuleset(
-      "personal-blacklist",
+      "personal-blocklist",
       this.userRuleset,
       props,
     );
@@ -345,7 +345,7 @@ function getMatchesPerRuleset(
   // "Block this website" button.
   // This ensures the line numbers are accurate without reloading.
   const rulesetLines =
-    rulesetName === "personal-blacklist" ? [...ruleset] : null;
+    rulesetName === "personal-blocklist" ? [...ruleset] : null;
   const previousMatchIndexes = new Map<string, number>();
 
   for (let { lineNumber, specifier } of rawResults) {
