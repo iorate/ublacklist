@@ -649,6 +649,23 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
           fontSize: "11px",
         },
       },
+      {
+        target: ".isv-r",
+        url: "a:not([role='button'])",
+        actionTarget: (root) => root,
+        actionStyle: {
+          display: "block",
+          fontSize: "12px",
+          lineHeight: "18px",
+          margin: "-2px 0 8px",
+        },
+      },
+    ],
+    pagerHandlers: [
+      {
+        target: "c-wiz",
+        innerTargets: ".isv-r",
+      },
     ],
     pageProps: {
       $site: "google",
