@@ -635,6 +635,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         style: {
           display: "block",
           margin: "5px 0",
+          paddingLeft: "1.5rem",
         },
       },
     ],
@@ -647,6 +648,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: "block",
           fontSize: "11px",
+          paddingLeft: "4px",
         },
       },
       {
