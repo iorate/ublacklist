@@ -30,6 +30,8 @@ title: Subscriptions
   - "ublacklist to block all pinterest websites from google, ddg, bing"
 - [ublacklist-w3schools](https://codeberg.org/Freso/ublacklist-w3schools) by [Freso](https://freso.dk/)
   - "Hide W3Schools from search results"
+- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
 
 ## Spam {#spam}
 
