@@ -24,14 +24,19 @@ title: Subscriptions
 - [uBlock-Origin-dev-filter](https://github.com/quenhus/uBlock-Origin-dev-filter) by [quenhus](https://github.com/quenhus)
   - "Filters to block and remove copycat-websites from DuckDuckGo, Google and other search engines. Used to be specific to dev websites like StackOverflow or GitHub, but it currently supports others like Wikipedia."
 
+## Media sites (#media-sites)
+
+- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
+- [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) rightwing media outlets"
+
 ## Specific sites {#specific-sites}
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
 - [ublacklist-w3schools](https://codeberg.org/Freso/ublacklist-w3schools) by [Freso](https://freso.dk/)
   - "Hide W3Schools from search results"
-- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
-  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
 
 ## Spam {#spam}
 
