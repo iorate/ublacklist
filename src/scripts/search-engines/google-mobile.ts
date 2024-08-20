@@ -145,7 +145,7 @@ const mobileSerpHandlers: Record<string, SerpHandler> = {
             return null;
           }
           const webResultWithSiteLinks =
-            target.parentElement?.closest<HTMLElement>(".Ww4FFbs.vt6azsd");
+            target.parentElement?.closest<HTMLElement>(".Ww4FFb.vt6azd");
           if (webResultWithSiteLinks) {
             return webResultWithSiteLinks;
           }
