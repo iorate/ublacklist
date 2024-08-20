@@ -28,6 +28,10 @@ title: Subscriptions
 
 - [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
+- [Conspiracy Media blacklist](https://github.com/RubenKelevra/ublacklist_conspiracy) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) conspiracy media outlets"
+- [Fake-News Media blacklist](https://github.com/RubenKelevra/ublacklist_fakenews) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) fake news media outlets"
 - [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides (most) rightwing media outlets"
 
