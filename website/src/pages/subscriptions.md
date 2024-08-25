@@ -2,9 +2,11 @@
 title: Subscriptions
 ---
 
-**Disclaimer:**
+:::warning[Disclaimer]
 
 The blacklists featured on this page are user-generated content and are not endorsed, controlled, or verified by the uBlacklist project. These lists are created and maintained by individual contributors based on independent reviews and assessments. As such, they reflect the opinions and judgments of their respective authors. The project itself remains neutral and simply provides a platform for these lists to be shared. Users should exercise their own discretion when choosing to apply these blacklists. If any issues or concerns arise with a specific list, users should report them directly to the list's creator.
+
+:::
 
 # Subscriptions
 
