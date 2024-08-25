@@ -70,7 +70,7 @@ expression[@isGroup=Expression] {
   RegExp { "/" regExpPattern "/" regExpFlags? }
   regExpPattern { (regExpEscape | "[" regExpClassContent* "]" | regExpContent)+ }
   regExpEscape { "\\" ![\n] }
-  regExpClassContent { ![\]\\\n] }
+  regExpClassContent { ![\]\\\n] | "\\" ![\n] }
   regExpContent { ![/\\[\n] }
   regExpFlags { $[imsu]+ }
 
