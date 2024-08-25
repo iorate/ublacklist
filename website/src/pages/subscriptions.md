@@ -2,6 +2,10 @@
 title: Subscriptions
 ---
 
+**Disclaimer:**
+
+The blacklists featured on this page are user-generated content and are not endorsed, controlled, or verified by the uBlacklist project. These lists are created and maintained by individual contributors based on independent reviews and assessments. As such, they reflect the opinions and judgments of their respective authors. The project itself remains neutral and simply provides a platform for these lists to be shared. Users should exercise their own discretion when choosing to apply these blacklists. If any issues or concerns arise with a specific list, users should report them directly to the list's creator.
+
 # Subscriptions
 
 [Add your subscription](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
@@ -24,14 +28,23 @@ title: Subscriptions
 - [uBlock-Origin-dev-filter](https://github.com/quenhus/uBlock-Origin-dev-filter) by [quenhus](https://github.com/quenhus)
   - "Filters to block and remove copycat-websites from DuckDuckGo, Google and other search engines. Used to be specific to dev websites like StackOverflow or GitHub, but it currently supports others like Wikipedia."
 
+## Media sites (#media-sites)
+
+- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
+- [Conspiracy Media blacklist](https://github.com/RubenKelevra/ublacklist_conspiracy) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) conspiracy media outlets"
+- [Fake-News Media blacklist](https://github.com/RubenKelevra/ublacklist_fakenews) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) fake news media outlets"
+- [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) rightwing media outlets"
+
 ## Specific sites {#specific-sites}
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
   - "ublacklist to block all pinterest websites from google, ddg, bing"
 - [ublacklist-w3schools](https://codeberg.org/Freso/ublacklist-w3schools) by [Freso](https://freso.dk/)
   - "Hide W3Schools from search results"
-- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
-  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
 
 ## Spam {#spam}
 
