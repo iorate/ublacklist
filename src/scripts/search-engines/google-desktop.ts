@@ -635,6 +635,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         style: {
           display: "block",
           margin: "5px 0",
+          paddingLeft: "1.5rem",
         },
       },
     ],
@@ -647,7 +648,25 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: "block",
           fontSize: "11px",
+          paddingLeft: "4px",
         },
+      },
+      {
+        target: ".isv-r",
+        url: "a:not([role='button'])",
+        actionTarget: (root) => root,
+        actionStyle: {
+          display: "block",
+          fontSize: "12px",
+          lineHeight: "18px",
+          margin: "-2px 0 8px",
+        },
+      },
+    ],
+    pagerHandlers: [
+      {
+        target: "c-wiz",
+        innerTargets: ".isv-r",
       },
     ],
     pageProps: {
