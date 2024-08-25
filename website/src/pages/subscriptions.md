@@ -28,7 +28,7 @@ The blacklists featured on this page are user-generated content and are not endo
 - [uBlock-Origin-dev-filter](https://github.com/quenhus/uBlock-Origin-dev-filter) by [quenhus](https://github.com/quenhus)
   - "Filters to block and remove copycat-websites from DuckDuckGo, Google and other search engines. Used to be specific to dev websites like StackOverflow or GitHub, but it currently supports others like Wikipedia."
 
-## Media sites (#media-sites)
+## Media sites {#media-sites}
 
 - [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
