@@ -2,6 +2,12 @@
 title: Subscriptions
 ---
 
+:::warning[Disclaimer]
+
+The blacklists featured on this page are user-generated content and are not endorsed, controlled, or verified by the uBlacklist project. These lists are created and maintained by individual contributors based on independent reviews and assessments. As such, they reflect the opinions and judgments of their respective authors. The project itself remains neutral and simply provides a platform for these lists to be shared. Users should exercise their own discretion when choosing to apply these blacklists. If any issues or concerns arise with a specific list, users should report them directly to the list's creator.
+
+:::
+
 # Subscriptions
 
 [Add your subscription](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
@@ -24,6 +30,17 @@ title: Subscriptions
 - [uBlock-Origin-dev-filter](https://github.com/quenhus/uBlock-Origin-dev-filter) by [quenhus](https://github.com/quenhus)
   - "Filters to block and remove copycat-websites from DuckDuckGo, Google and other search engines. Used to be specific to dev websites like StackOverflow or GitHub, but it currently supports others like Wikipedia."
 
+## Media sites {#media-sites}
+
+- [Axel Springer SE blacklist](https://github.com/RubenKelevra/ublacklist_springer) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides all Axel Springer SE media outlets, including mentiones/topics on other sides"
+- [Conspiracy Media blacklist](https://github.com/RubenKelevra/ublacklist_conspiracy) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) conspiracy media outlets"
+- [Fake-News Media blacklist](https://github.com/RubenKelevra/ublacklist_fakenews) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) fake news media outlets"
+- [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) rightwing media outlets"
+
 ## Specific sites {#specific-sites}
 
 - [ublacklist-pinterest](https://github.com/rjaus/ublacklist-pinterest) by [Riley James](https://github.com/rjaus)
@@ -43,6 +60,11 @@ title: Subscriptions
   - "Ad and tracking server domain list maintained since 2001."
   - "Doesn’t have a dedicated uBlacklist/match patterns format, but use of the [`prepend`](https://pgl.yoyo.org/as/formats.php#prepend) and [`append`](https://pgl.yoyo.org/as/formats.php#append) parameters produce a URL that works perfectly for uBlacklist:
     - "`https://pgl.yoyo.org/as/serverlist.php?hostformat=plain&mimetype=plaintext&prepend=*://*.&append=/*&showintro=0`"
+
+## Gaming {#gaming}
+
+- [Safebrowsing for Minecrafters 🛡️⛏️]([https://github.com/rjaus/awesome-ublacklist](https://codeberg.org/legendary_creeper/safebrowsing-for-minecrafters) by [Legendary Creeper](https://craftodon.social/@legendary_creeper)
+  - "This filterlist was crafted to help users and creators in avoiding malicious Minecraft-related websites, including, but not limited to, those distributing malicious and illegal copies of the game or Mods, repost sites which monetize stolen content from creators, and sites impersonating trusted websites like Minecraft.net, CurseForge, or Mcpedl.com."
 
 ## Chinese {#chinese}
 
@@ -83,8 +105,6 @@ title: Subscriptions
 
 ## Other subscription lists {#other-subscription-lists}
 
-- [Safebrowsing for Minecrafters 🛡️⛏️]([https://github.com/rjaus/awesome-ublacklist](https://codeberg.org/legendary_creeper/safebrowsing-for-minecrafters) by [Legendary Creeper](https://craftodon.social/@legendary_creeper)
-  - "This filterlist was crafted to help users and creators in avoiding malicious Minecraft-related websites, including, but not limited to, those distributing malicious copies of the game or Mods, repost sites which monetize stolen content from creators, and sites impersonating trusted websites like Minecraft.net, CurseForge, or Mcpedl.com."
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
   - "Awesome list of uBlacklist subscriptions to block search results from google, bing, duckduckgo."
 - [Nicoles uBlacklist collection](https://github.com/nicoleahmed/nicoles-ublacklist/) by [Nicole Ahmed](https://github.com/nicoleahmed)
