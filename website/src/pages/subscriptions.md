@@ -38,6 +38,8 @@ The blacklists featured on this page are user-generated content and are not endo
   - "Hides (most) conspiracy media outlets"
 - [Fake-News Media blacklist](https://github.com/RubenKelevra/ublacklist_fakenews) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides (most) fake news media outlets"
+- [Leftwing Media blacklist](https://github.com/RubenKelevra/ublacklist_leftwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
+  - "Hides (most) leftwing media outlets"
 - [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides (most) rightwing media outlets"
 
