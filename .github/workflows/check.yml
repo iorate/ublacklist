@@ -21,16 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: ./.github/actions/setup-pnpm
 
       - name: Check
         run: pnpm check-ci
@@ -57,7 +48,7 @@ jobs:
 
       - name: "[Website] Get changed files"
         id: website-changed-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@v45
         with:
           files: website/**
 
