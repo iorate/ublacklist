@@ -66,14 +66,15 @@ https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubuserco
 
 ### Build
 
-To build this extension, [Node.js](https://nodejs.org/en/)>=18 is required.
+To build this extension, [pnpm](https://pnpm.io/)>=9.7.0 or [corepack](https://github.com/nodejs/corepack) (currently distributed with Node.js) is required.
 
 ```shell
+# If you use corepack
+# corepack enable
+
 git clone https://github.com/iorate/ublacklist.git
 
 cd ublacklist
-
-corepack enable
 
 pnpm install
 
