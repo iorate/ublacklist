@@ -123,7 +123,7 @@ export function addMessageListeners(
     message: unknown,
     sender: Browser.Runtime.MessageSender,
     sendResponse: (response: unknown) => void,
-  ) => void;
+  ) => undefined;
   browser.runtime.onMessage.addListener(listener);
   return () => {
     browser.runtime.onMessage.removeListener(listener);
