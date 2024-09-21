@@ -25,7 +25,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.1",
+    "@biomejs/biome": "^1.9.2",
     "@lezer/generator": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",

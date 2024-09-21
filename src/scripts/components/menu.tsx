@@ -96,6 +96,7 @@ export const Menu = React.forwardRef<HTMLButtonElement, MenuProps>(
         <div
           className={bodyClassName}
           ref={bodyRef}
+          // biome-ignore lint/a11y/useSemanticElements: to be replaced in the future
           role="menu"
           tabIndex={-1}
           onClick={(e) => {

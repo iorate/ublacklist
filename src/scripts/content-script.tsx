@@ -41,6 +41,7 @@ const Button: React.FC<{ children: React.ReactNode; onClick: () => void }> = ({
   return (
     <span
       className={`ub-button ${className}`}
+      // biome-ignore lint/a11y/useSemanticElements: to be replaced in the future
       role="button"
       tabIndex={0}
       onClick={(e) => {

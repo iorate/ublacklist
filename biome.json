@@ -16,20 +16,9 @@
       "correctness": {
         "noUnusedImports": "error",
         "noUnusedVariables": "error",
-        "useHookAtTopLevel": "error"
-      },
-      "nursery": {
+        "useHookAtTopLevel": "error",
         "useImportExtensions": "error"
       }
-    }
-  },
-  "css": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space"
-    },
-    "linter": {
-      "enabled": true
     }
   }
 }

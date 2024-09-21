@@ -73,7 +73,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
       state.disabled = false;
       state.unblock = patch.unblock;
       state.host = punycode.toUnicode(
-        blockWholeSite ? tldts.getDomain(url.host) ?? url.host : url.host,
+        blockWholeSite ? (tldts.getDomain(url.host) ?? url.host) : url.host,
       );
       state.detailsOpen = false;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
