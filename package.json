@@ -72,7 +72,7 @@
     "fix:prettier": "prettier --write .",
     "generate-ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.js --noTerms",
     "generate-third-party-notices": "tsx scripts/generate-third-party-notices.ts",
-    "test": "tsx scripts/test.ts"
+    "test": "tsx --test src/**/*.test.ts"
   },
   "type": "module",
   "workspaces": [
