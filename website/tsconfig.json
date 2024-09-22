@@ -1,3 +1,4 @@
 {
-  "extends": "@docusaurus/tsconfig"
+  "extends": ["../tsconfig.json", "@docusaurus/tsconfig"],
+  "exclude": [".docusaurus", "build"]
 }

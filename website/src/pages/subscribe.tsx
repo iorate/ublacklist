@@ -6,11 +6,13 @@ const Subscribe: React.FC = () => {
       "chrome-extension://pncfbmialoiaghdehhbnbhkkgmjanfhe/pages/options.html",
     );
     const query = new URL(window.location.href).searchParams;
-    if (query.has("name")) {
-      optionsURL.searchParams.set("addSubscriptionName", query.get("name"));
+    const name = query.get("name");
+    if (name != null) {
+      optionsURL.searchParams.set("addSubscriptionName", name);
     }
-    if (query.has("url")) {
-      optionsURL.searchParams.set("addSubscriptionURL", query.get("url"));
+    const url = query.get("url");
+    if (url != null) {
+      optionsURL.searchParams.set("addSubscriptionURL", url);
     }
     window.location.href = optionsURL.toString();
   }, []);
