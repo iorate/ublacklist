@@ -67,14 +67,41 @@ export type Patch = {
   lineNumbersToRemove: number[];
 };
 
+export type SubscriptionRuleset = {
+  name: string;
+  ruleset: Ruleset;
+};
+
+type MatchingRule = {
+  lineNumber: number;
+  lineContent: string | null;
+};
+
+export type RulesetMatches = {
+  rulesetName: string;
+  blockRules: MatchingRule[];
+  unblockRules: MatchingRule[];
+  highlightRules: MatchingRule[];
+};
+
 export class InteractiveRuleset {
   private readonly userRuleset: Ruleset;
   private readonly subscriptionRulesets: readonly Ruleset[];
+  private readonly subscriptionNames: WeakMap<Ruleset, string>;
   private patch: Patch | null = null;
 
-  constructor(userRuleset: Ruleset, subscriptionRulesets: readonly Ruleset[]) {
+  constructor(
+    userRuleset: Ruleset,
+    subscriptionRulesets: SubscriptionRuleset[],
+  ) {
     this.userRuleset = userRuleset;
-    this.subscriptionRulesets = subscriptionRulesets;
+    this.subscriptionRulesets = subscriptionRulesets.map(
+      ({ ruleset }) => ruleset,
+    );
+    this.subscriptionNames = new WeakMap();
+    for (const { name, ruleset } of subscriptionRulesets) {
+      this.subscriptionNames.set(ruleset, name);
+    }
   }
 
   toString(): string {
@@ -253,6 +280,33 @@ export class InteractiveRuleset {
   deletePatch(): void {
     this.patch = null;
   }
+
+  getMatchingRules(props: Readonly<LinkProps>): RulesetMatches[] {
+    const results: RulesetMatches[] = [];
+    // Get rules from user's personal blacklist
+    const matches = getMatchesPerRuleset(
+      "personal-blocklist",
+      this.userRuleset,
+      props,
+    );
+    if (matches) {
+      results.push(matches);
+    }
+
+    // Get matching rules from subscription lists
+    for (const subscriptionRuleset of this.subscriptionRulesets) {
+      const subscriptionMatches = getMatchesPerRuleset(
+        // biome-ignore lint/style/noNonNullAssertion: Subscriptions always have names
+        this.subscriptionNames.get(subscriptionRuleset)!,
+        subscriptionRuleset,
+        props,
+      );
+      if (subscriptionMatches) {
+        results.push(subscriptionMatches);
+      }
+    }
+    return results;
+  }
 }
 
 function suggestMatchPattern(
@@ -268,4 +322,73 @@ function suggestMatchPattern(
     }
   }
   return `${unblock ? "@" : ""}*://${host}/*`;
+}
+
+function getMatchesPerRuleset(
+  rulesetName: Readonly<string>,
+  ruleset: Ruleset,
+  props: Readonly<LinkProps>,
+): RulesetMatches | null {
+  const matches: RulesetMatches = {
+    rulesetName,
+    blockRules: [],
+    unblockRules: [],
+    highlightRules: [],
+  };
+
+  const rawResults = testRawWithURLParts(ruleset, props);
+
+  // Iterate through the latest version of the user ruleset.
+  // This is necessary because, unlike subscription rulesets, the user
+  // can make multiple alterations to the personal blacklist using the
+  // "Block this website" button.
+  // This ensures the line numbers are accurate without reloading.
+  const rulesetLines =
+    rulesetName === "personal-blocklist" ? [...ruleset] : null;
+  const previousMatchIndexes = new Map<string, number>();
+
+  for (let { lineNumber, specifier } of rawResults) {
+    const lineContent = ruleset.get(lineNumber);
+    if (lineContent && rulesetLines) {
+      lineNumber = getAccurateLineNumber(
+        lineContent,
+        rulesetLines,
+        previousMatchIndexes.get(lineContent),
+      );
+      if (lineNumber === -1) {
+        continue;
+      }
+      // Save the last line number for a particular rule in order to
+      // accurately spot repeated rules (two or more equal lines).
+      previousMatchIndexes.set(lineContent, lineNumber);
+    }
+
+    const rule: MatchingRule = {
+      lineNumber,
+      lineContent,
+    };
+    if (!specifier) {
+      matches.blockRules.push(rule);
+    } else if (specifier.type === "negate") {
+      matches.unblockRules.push(rule);
+    } else if (specifier.type === "highlight") {
+      matches.highlightRules.push(rule);
+    }
+  }
+  if (
+    Object.values(matches)
+      .filter((prop) => Array.isArray(prop))
+      .every((arr) => arr.length === 0)
+  ) {
+    return null;
+  }
+  return matches;
+}
+
+function getAccurateLineNumber(
+  lineContent: string,
+  lines: string[],
+  previousLineNumber = 0,
+): number {
+  return lines.indexOf(lineContent, previousLineNumber) + 1;
 }

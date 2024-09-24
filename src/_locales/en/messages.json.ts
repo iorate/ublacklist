@@ -28,6 +28,9 @@ export default exportAsMessages({
   // The text of an OK button.
   okButton: "OK",
 
+  // The text that represents the user's own personal blocklist.
+  personalBlocklist: "Personal Blocklist",
+
   // The text that means one site has been blocked.
   content_singleSiteBlocked: "uBlacklist has blocked 1 site",
 
@@ -88,6 +91,18 @@ export default exportAsMessages({
 
   // The text of the button to activate this extension.
   popup_activateButton: "Activate",
+
+  // The title of the disclosure widget that contains the matching rules information.
+  popup_matchingRules: "Matching Rules",
+
+  // The label for the textarea that shows rules blocking the entry.
+  popup_blockingRulesLabel: "Rules blocking this entry",
+
+  // The label for the textarea that shows rules unblocking the entry.
+  popup_unblockingRulesLabel: "Rules unblocking this entry",
+
+  // The label for the textarea that shows rules highlighting the entry.
+  popup_highlightingRulesLabel: "Rules highlighting this entry",
 
   // The title of the general section.
   options_generalTitle: "General",

@@ -1,7 +1,7 @@
 import type dayjs from "dayjs";
 import type { MessageName0 } from "../common/locales.ts";
 import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
-import type { QueryResult } from "./interactive-ruleset.ts";
+import type { QueryResult, RulesetMatches } from "./interactive-ruleset.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
 
 export type {
@@ -205,3 +205,11 @@ export type Subscription = {
 
 export type Subscriptions = Record<SubscriptionId, Subscription>;
 // #endregion Subscriptions
+
+// #region MatchingRules
+
+export type MatchingRuleKind = keyof Omit<RulesetMatches, "rulesetName">;
+
+export type MatchingRulesText = Record<MatchingRuleKind, string>;
+
+// #endregion MatchingRules

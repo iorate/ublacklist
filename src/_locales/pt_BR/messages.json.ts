@@ -11,6 +11,7 @@ export default exportAsMessages({
     "Não autorizado. Por favor, desligue a sincronização e ligue novamente.",
   cancelButton: "Cancelar",
   okButton: "OK",
+  personalBlocklist: "Lista de Bloqueio Pessoal",
   content_singleSiteBlocked: "uBlacklist bloqueou 1 site",
   content_multipleSitesBlocked: "uBlacklist bloqueou $1 sites",
   content_showBlockedSitesLink: "Mostrar",
@@ -31,6 +32,10 @@ export default exportAsMessages({
   popup_active: "uBlacklist está ativo",
   popup_inactive: "uBlacklist está inativo",
   popup_activateButton: "Ativar",
+  popup_matchingRules: "Regras em efeito",
+  popup_blockingRulesLabel: "Regras bloqueando este resultado",
+  popup_unblockingRulesLabel: "Regras desbloqueando este resultado",
+  popup_highlightingRulesLabel: "Regras destacando este resultado",
   options_generalTitle: "Geral",
   options_blacklistLabel:
     "Sites bloqueados de aparecer nos resultados de busca do Google",
