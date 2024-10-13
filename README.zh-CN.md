@@ -66,7 +66,7 @@ https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubuserco
 
 ### 构建
 
-为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=9.7.0 或 [corepack](https://github.com/nodejs/corepack) (目前 Node.js 分发时自带)。
+为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=9.7.0 或 [corepack](https://github.com/nodejs/corepack) (目前 Node.js 安装时自带)。
 
 ```shell
 # If you use corepack
@@ -104,7 +104,7 @@ GOOGLE_DRIVE_API_SECRET=...
 
 要添加一个语言，
 
-1. 决定一个 ISO 语言代码，例如 `en`，参见 [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
+1. 确定所要添加语言的 ISO 代码，例如 `en`，参见 [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
 1. 复制 `src/_locales/en/messages.json.ts` 到 `src/_locales/${languageCode}/messages.json.ts` 并翻译条目.
 1. 打开 `src/scripts/dayjs-locales.ts` 并导入 dayjs 语言环境.
 1. 要本地化网上商店的描述和屏幕截图，请创建 `web-store-assets/${languageCode}/` 并添加文件。
