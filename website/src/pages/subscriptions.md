@@ -42,6 +42,8 @@ The blacklists featured on this page are user-generated content and are not endo
   - "Hides (most) leftwing media outlets"
 - [Rightwing Media blacklist](https://github.com/RubenKelevra/ublacklist_rightwing_media) by [RubenKelevra](https://github.com/RubenKelevra)
   - "Hides (most) rightwing media outlets"
+- [Israeli News Blocklist](https://github.com/punpunie/ilNewsBlocklist) by [bun](https://github.com/punpunie)
+  - "blocklist of english-speaking israeli news websites"
 
 ## Specific sites {#specific-sites}
 
