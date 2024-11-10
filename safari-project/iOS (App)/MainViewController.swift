@@ -14,6 +14,18 @@ private let GuideContentBottomInset: CGFloat = 40
 
 class MainViewController: UIViewController {
     
+    private lazy var donateBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(.init(systemName: "dollarsign.circle"), for: .normal)
+        btn.tintColor = .themeColor()
+        btn.snp.makeConstraints { make in
+            make.width.height.equalTo(40)
+        }
+        
+        btn.addTarget(self, action: #selector(handleDonate), for: .touchUpInside)
+        return btn
+    }()
+    
     private lazy var topBar: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -87,6 +99,12 @@ class MainViewController: UIViewController {
         topBar.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.centerX.equalToSuperview()
+        }
+        
+        view.addSubview(donateBtn)
+        donateBtn.snp.makeConstraints { make in
+            make.left.equalTo(8)
+            make.centerY.equalTo(topBar)
         }
         
         topBar.addSubview(iconImageView)
@@ -198,6 +216,11 @@ class MainViewController: UIViewController {
         if let url = URL(string: iorateHomePage) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+    }
+    
+    @objc private func handleDonate() {
+        let vc = DonateViewController()
+        present(vc, animated: true)
     }
 }
 
