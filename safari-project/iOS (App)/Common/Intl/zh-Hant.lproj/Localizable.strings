@@ -44,3 +44,7 @@
 "snore_sentry_app_btn_title" = "查看詳情";
 "suggest_navi_title" = "推薦";
 "suggest_tips" = "uBlacklist是一個免費無廣告的app，如果您感興趣，可以看看我的其他app。";
+
+"donation" = "捐贈";
+"donate_desc" = "'uBlacklist for Safari' 是一個免費且無廣告的應用程式。為了維持應用程式的可用性，我們需要每年支付開發者費用。如果您喜歡這個應用程式，請考慮捐贈。您的捐贈將用於支付開發者費用。如果您選擇不捐贈，所有功能仍然完全可用。感謝您的支持。";
+"donation_thanks" = "感謝您的支持。";

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SVProgressHUD
 
 private let TopBarHeight: CGFloat = 60
 private let IconSize: CGFloat = 38
@@ -23,6 +24,18 @@ class MainViewController: UIViewController {
         }
         
         btn.addTarget(self, action: #selector(handleDonate), for: .touchUpInside)
+        return btn
+    }()
+    
+    private lazy var thanksBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(.init(systemName: "heart.fill"), for: .normal)
+        btn.tintColor = .systemPink
+        btn.snp.makeConstraints { make in
+            make.width.height.equalTo(40)
+        }
+        
+        btn.addTarget(self, action: #selector(handleThanks), for: .touchUpInside)
         return btn
     }()
     
@@ -90,6 +103,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         initViews()
         initGuides()
+        reloadDonatedStatus()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDonatedStatus), name: DonatedNotification, object: nil)
+    }
+    
+    @objc private func reloadDonatedStatus() {
+        thanksBtn.isHidden = !UserDefaults.standard.bool(forKey: DonatedKey)
     }
     
     private func initViews() {
@@ -104,6 +123,12 @@ class MainViewController: UIViewController {
         view.addSubview(donateBtn)
         donateBtn.snp.makeConstraints { make in
             make.left.equalTo(8)
+            make.centerY.equalTo(topBar)
+        }
+        
+        view.addSubview(thanksBtn)
+        thanksBtn.snp.makeConstraints { make in
+            make.right.equalTo(-8)
             make.centerY.equalTo(topBar)
         }
         
@@ -222,6 +247,10 @@ class MainViewController: UIViewController {
         let vc = DonateViewController()
         present(vc, animated: true)
     }
+    
+    @objc private func handleThanks() {
+        SVProgressHUD.showSuccess(withStatus: "donation_thanks".localized())
+    }
 }
 
 extension MainViewController: UIScrollViewDelegate {
@@ -244,8 +273,25 @@ extension MainViewController: UIScrollViewDelegate {
         
         if index == pageControl.numberOfPages - 1 {
             // last page
-            showSuggestionIfNeeded()
+//            showSuggestionIfNeeded()
+            showDonationIfNeeded()
         }
+    }
+    
+    private func showDonationIfNeeded() {
+        let key = "donation_shown"
+        
+#if DEBUG
+        UserDefaults.standard.removeObject(forKey: key)
+#endif
+        
+        if UserDefaults.standard.bool(forKey: key) == true {
+            return
+        }
+        
+        UserDefaults.standard.set(true, forKey: key)
+        let vc = DonateViewController()
+        present(vc, animated: true)
     }
     
     private func showSuggestionIfNeeded() {

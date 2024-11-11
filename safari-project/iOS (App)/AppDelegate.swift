@@ -11,9 +11,9 @@ import SVProgressHUD
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setup()
         
@@ -24,13 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
-        
-        
         return true
     }
     
     private func setup() {
+#if DEBUG
         Purchases.logLevel = .debug
+#endif
+        
         Purchases.configure(withAPIKey: "appl_zwafgAwCGPMseUkwglZJakzTFRS")
         
         SVProgressHUD.setDefaultStyle(.dark)

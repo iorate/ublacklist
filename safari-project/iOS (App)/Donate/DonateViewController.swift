@@ -34,7 +34,7 @@ class DonateViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
         label.textColor = .label
-        label.text = "Donate"
+        label.text = "donation".localized()
         return label
     }()
     
@@ -46,8 +46,21 @@ class DonateViewController: UIViewController {
         return view
     }()
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        modalPresentationStyle = .formSheet
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+#if DEBUG
+        UserDefaults.standard.removeObject(forKey: DonatedKey)
+#endif
+        
         initViews()
         fetchData()
     }
@@ -121,10 +134,23 @@ extension DonateViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return "Footer"
+        return "donate_desc".localized()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        SVProgressHUD.show()
+        
+        let product = list[indexPath.row]
+        Purchases.shared.purchase(product: product) { transaction, info, error, userCancelled in
+            if (error == nil) {
+                UserDefaults.standard.set(true, forKey: DonatedKey)
+                SVProgressHUD.showSuccess(withStatus: "donation_thanks".localized())
+                NotificationCenter.default.post(name: DonatedNotification, object: nil)
+            } else {
+                SVProgressHUD.dismiss()
+            }
+        }
     }
 }

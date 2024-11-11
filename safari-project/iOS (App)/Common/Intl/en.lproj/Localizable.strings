@@ -44,3 +44,7 @@
 "snore_sentry_app_btn_title" = "View details";
 "suggest_navi_title" = "Suggestion";
 "suggest_tips" = "uBlacklist is a free, ad-free app. If you're interested, you can check out my other apps.";
+
+"donation" = "Donation";
+"donate_desc" = "'uBlacklist for Safari' is a free app without ads. To keep the app available, we need to pay developer fees annually. If you like this app, please consider donating. Your donation will be used to cover the developer fees. If you choose not to donate, all features remain fully available. Thank you for your support.";
+"donation_thanks" = "Thank you for your support.";
