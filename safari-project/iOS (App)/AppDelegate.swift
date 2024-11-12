@@ -7,7 +7,6 @@
 
 import UIKit
 import RevenueCat
-import SVProgressHUD
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -34,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Purchases.configure(withAPIKey: "appl_zwafgAwCGPMseUkwglZJakzTFRS")
         
-        SVProgressHUD.setDefaultStyle(.dark)
-        SVProgressHUD.setDefaultMaskType(.clear)
+        Toast.setup()
     }
 }

@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SVProgressHUD
 
 private let TopBarHeight: CGFloat = 60
 private let IconSize: CGFloat = 38
@@ -249,7 +248,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func handleThanks() {
-        SVProgressHUD.showSuccess(withStatus: "donation_thanks".localized())
+        Toast.showSuccess("donation_thanks".localized())
     }
 }
 

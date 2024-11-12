@@ -7,7 +7,6 @@
 
 import UIKit
 import RevenueCat
-import SVProgressHUD
 
 class DonateViewController: UIViewController {
     private var list: [StoreProduct] = []
@@ -67,7 +66,7 @@ class DonateViewController: UIViewController {
     
     private func fetchData() {
         DispatchQueue.main.async {
-            SVProgressHUD.show()
+            Toast.showLoading()
         }
         let donateArr = ["com.honeyluka.uBlacklist_for_Safari.product.donate_1", "com.honeyluka.uBlacklist_for_Safari.product.donate_2", "com.honeyluka.uBlacklist_for_Safari.product.donate_3"]
         Purchases.shared.getProducts(donateArr) { products in
@@ -77,7 +76,7 @@ class DonateViewController: UIViewController {
             self.tableView.reloadData()
             
             DispatchQueue.main.async {
-                SVProgressHUD.dismiss()
+                Toast.hide()
             }
         }
     }
@@ -140,16 +139,16 @@ extension DonateViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        SVProgressHUD.show()
+        Toast.showLoading()
         
         let product = list[indexPath.row]
         Purchases.shared.purchase(product: product) { transaction, info, error, userCancelled in
             if (error == nil) {
                 UserDefaults.standard.set(true, forKey: DonatedKey)
-                SVProgressHUD.showSuccess(withStatus: "donation_thanks".localized())
+                Toast.showSuccess("donation_thanks".localized())
                 NotificationCenter.default.post(name: DonatedNotification, object: nil)
             } else {
-                SVProgressHUD.dismiss()
+                Toast.hide()
             }
         }
     }

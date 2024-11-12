@@ -10,3 +10,5 @@ node_modules
 
 # docusaurus
 .docusaurus
+
+.DS_Store

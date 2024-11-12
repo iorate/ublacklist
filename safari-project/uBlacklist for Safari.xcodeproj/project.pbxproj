@@ -75,6 +75,7 @@
 		A17B44E82709E86400410B9A /* ios-guide-step-pad-8.png in Resources */ = {isa = PBXBuildFile; fileRef = A17B44E02709E86400410B9A /* ios-guide-step-pad-8.png */; };
 		A24FD1EA2CDF38CA00D2BDB6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24FD1E92CDF38CA00D2BDB6 /* StoreKit.framework */; };
 		A24FD1ED2CE0F4AD00D2BDB6 /* DonateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24FD1EC2CE0F4AD00D2BDB6 /* DonateViewController.swift */; };
+		A2B429A62CE373F600DF1F39 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B429A52CE373F600DF1F39 /* Toast.swift */; };
 		D836345634856B8713781271 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */; };
 		DB53B6893AECB69B52825B52 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2398F6F21445D421CB211006 /* Pods_uBlacklist_for_Safari_Extension__macOS_.framework */; };
 		E1F45B853590D2A26481E422 /* Pods_uBlacklist_for_Safari__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711F25FC5C87C947A9A5A3C8 /* Pods_uBlacklist_for_Safari__iOS_.framework */; };
@@ -200,6 +201,7 @@
 		A24FD1E82CDF38B500D2BDB6 /* uBlacklist for Safari (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "uBlacklist for Safari (iOS).entitlements"; sourceTree = "<group>"; };
 		A24FD1E92CDF38CA00D2BDB6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.4.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		A24FD1EC2CE0F4AD00D2BDB6 /* DonateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonateViewController.swift; sourceTree = "<group>"; };
+		A2B429A52CE373F600DF1F39 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		AC91791F397CDD6F6E1C0697 /* Pods-uBlacklist for Safari (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari (macOS)/Pods-uBlacklist for Safari (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		BA8EC57964540B1289B9D069 /* Pods_uBlacklist_for_Safari_Extension__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uBlacklist_for_Safari_Extension__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00E3CC2936E482710CDCAB8 /* Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; path = "Target Support Files/Pods-uBlacklist for Safari Extension (macOS)/Pods-uBlacklist for Safari Extension (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				6A6A3D3E26F49743000B99BE /* Intl */,
+				A2B429A52CE373F600DF1F39 /* Toast.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -882,6 +885,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9A50732A1F6187004F7B4B /* AppSuggestViewController.swift in Sources */,
+				A2B429A62CE373F600DF1F39 /* Toast.swift in Sources */,
 				6A6A3D1C26F43894000B99BE /* Constants.swift in Sources */,
 				6AA45AFA26F34B4300D6629A /* ViewController.swift in Sources */,
 				6AA45AC626F34B4300D6629A /* AppDelegate.swift in Sources */,
