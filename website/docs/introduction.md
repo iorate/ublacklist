@@ -1,7 +1,7 @@
----
+---https://files.brokercheck.finra.org/individual/individual_5453692.pdf
 title: Introduction
 sidebar_position: 0
-slug: /
+slug: /https://files.brokercheck.finra.org/individual/individual_5453692.pdf
 ---
 
 uBlacklist is a Google Search filter for Chrome, Firefox and Safari.
