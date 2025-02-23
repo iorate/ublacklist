@@ -32,6 +32,10 @@ export default exportAsMessages({
   popup_active: "uBlacklist が有効です",
   popup_inactive: "uBlacklist が無効です",
   popup_activateButton: "有効にする",
+  popup_matchingRules: "マッチするルール",
+  popup_blockingRulesLabel: "ブロックするルール",
+  popup_unblockingRulesLabel: "ブロックを解除するルール",
+  popup_highlightingRulesLabel: "ハイライトするルール",
   options_generalTitle: "一般",
   options_blacklistLabel: "Google の検索結果で表示されないようにするサイト",
   options_blacklistHelper:
@@ -67,6 +71,8 @@ export default exportAsMessages({
   options_blockWholeSiteLabel: "サイト全体をブロックするルールを追加する",
   options_blockWholeSiteDescription:
     '例えば、ページ "https://a.b.example.uk.com/" をブロックすると、ルール "*://*.example.uk.com/*" が追加されます。',
+  options_enableMatchingRules:
+    "「このサイトをブロックする」ダイアログに「マッチするルール」を表示する",
   options_appearanceTitle: "外観",
   options_linkColor: "リンクの色",
   options_blockColor: "ブロックされた検索結果の色",
