@@ -59,6 +59,7 @@ export type MessageName =
   | "options_hideControlLabel"
   | "options_blockWholeSiteLabel"
   | "options_blockWholeSiteDescription"
+  | "options_enableMatchingRules"
   | "options_appearanceTitle"
   | "options_linkColor"
   | "options_blockColor"

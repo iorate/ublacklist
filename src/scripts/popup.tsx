@@ -194,6 +194,7 @@ const Popup: React.FC = () => {
           "blacklist",
           "subscriptions",
           "enablePathDepth",
+          "enableMatchingRules",
           "blockWholeSite",
         ]);
         const ruleset = new InteractiveRuleset(
@@ -211,6 +212,7 @@ const Popup: React.FC = () => {
             blockWholeSite: options.blockWholeSite,
             close: () => window.close(),
             enablePathDepth: options.enablePathDepth,
+            enableMatchingRules: options.enableMatchingRules,
             openOptionsPage,
             entryProps: {
               url,

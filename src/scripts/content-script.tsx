@@ -107,6 +107,7 @@ class ContentScript {
     hideControls: boolean;
     hideActions: boolean;
     enablePathDepth: boolean;
+    enableMatchingRules: boolean;
     blockWholeSite: boolean;
     linkColor: string | null;
     blockColor: string | null;
@@ -177,6 +178,7 @@ class ContentScript {
         "hideControl",
         "hideBlockLinks",
         "enablePathDepth",
+        "enableMatchingRules",
         "blockWholeSite",
         "linkColor",
         "blockColor",
@@ -198,6 +200,7 @@ class ContentScript {
         hideControls: options.hideControl,
         hideActions: options.hideBlockLinks,
         enablePathDepth: options.enablePathDepth,
+        enableMatchingRules: options.enableMatchingRules,
         blockWholeSite: options.blockWholeSite,
         linkColor: options.linkColor !== "default" ? options.linkColor : null,
         blockColor:
@@ -375,6 +378,7 @@ class ContentScript {
         blockWholeSite={this.options.blockWholeSite}
         close={() => this.renderBlockDialog(entryProps, false)}
         enablePathDepth={this.options.enablePathDepth}
+        enableMatchingRules={this.options.enableMatchingRules}
         entryProps={entryProps}
         open={open}
         openOptionsPage={() => sendMessage("open-options-page")}

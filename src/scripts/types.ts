@@ -89,6 +89,7 @@ export type LocalStorageItems = {
   hideBlockLinks: boolean;
   hideControl: boolean;
   enablePathDepth: boolean;
+  enableMatchingRules: boolean;
   blockWholeSite: boolean;
 
   // appearance
@@ -132,6 +133,7 @@ export type LocalStorageItemsBackupRestore = Pick<
   | "hideBlockLinks"
   | "hideControl"
   | "enablePathDepth"
+  | "enableMatchingRules"
   | "linkColor"
   | "blockColor"
   | "highlightColors"

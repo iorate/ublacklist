@@ -193,6 +193,10 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     'For example, to block the page "https://a.b.example.uk.com/", a rule "*://*.example.uk.com/*" will be added.',
 
+  // The label for the switch whether to enable matching rules.
+  options_enableMatchingRules:
+    'Show matching rules in the "Block this site" dialog',
+
   // The title of the appearance section.
   options_appearanceTitle: "Appearance",
 
