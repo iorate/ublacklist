@@ -36,19 +36,24 @@ export function makeAltURL(url: string): AltURL | null {
 
 // #region Error
 export class HTTPError extends Error {
-  constructor(
-    readonly status: number,
-    readonly statusText: string,
-  ) {
+  readonly status: number;
+  readonly statusText: string;
+
+  constructor(status: number, statusText: string) {
     super(`${status}${statusText ? " " : ""}${statusText}`);
     this.name = "HTTPError";
+    this.status = status;
+    this.statusText = statusText;
   }
 }
 
 export class UnexpectedResponse extends Error {
-  constructor(readonly response: unknown) {
+  readonly response: unknown;
+
+  constructor(response: unknown) {
     super(JSON.stringify(response));
     this.name = "UnexpectedResponse";
+    this.response = response;
   }
 }
 // #endregion Error
