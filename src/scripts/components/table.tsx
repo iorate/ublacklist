@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type TableProps = JSX.IntrinsicElements["table"];
+export type TableProps = React.JSX.IntrinsicElements["table"];
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   function Table(props, ref) {
@@ -18,7 +18,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   },
 );
 
-export type TableHeaderProps = JSX.IntrinsicElements["thead"];
+export type TableHeaderProps = React.JSX.IntrinsicElements["thead"];
 
 export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
@@ -27,7 +27,7 @@ export const TableHeader = React.forwardRef<
   return <thead {...props} ref={ref} />;
 });
 
-export type TableHeaderRowProps = JSX.IntrinsicElements["tr"];
+export type TableHeaderRowProps = React.JSX.IntrinsicElements["tr"];
 
 export const TableHeaderRow = React.forwardRef<
   HTMLTableRowElement,
@@ -36,7 +36,7 @@ export const TableHeaderRow = React.forwardRef<
   return <tr {...props} ref={ref} />;
 });
 
-export type TableHeaderCellProps = JSX.IntrinsicElements["th"] & {
+export type TableHeaderCellProps = React.JSX.IntrinsicElements["th"] & {
   width?: string;
 };
 
@@ -62,7 +62,7 @@ export const TableHeaderCell = React.forwardRef<
   return <th {...applyClassName(props, className)} ref={ref} />;
 });
 
-export type TableBodyProps = JSX.IntrinsicElements["tbody"];
+export type TableBodyProps = React.JSX.IntrinsicElements["tbody"];
 
 export const TableBody = React.forwardRef<
   HTMLTableSectionElement,
@@ -71,7 +71,7 @@ export const TableBody = React.forwardRef<
   return <tbody {...props} ref={ref} />;
 });
 
-export type TableRowProps = JSX.IntrinsicElements["tr"];
+export type TableRowProps = React.JSX.IntrinsicElements["tr"];
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   function TableRow(props, ref) {
@@ -79,7 +79,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   },
 );
 
-export type TableCellProps = JSX.IntrinsicElements["td"];
+export type TableCellProps = React.JSX.IntrinsicElements["td"];
 
 export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   function TableCell(props, ref) {

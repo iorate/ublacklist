@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type ListProps = JSX.IntrinsicElements["ul"];
+export type ListProps = React.JSX.IntrinsicElements["ul"];
 
 export const List = React.forwardRef<HTMLUListElement, ListProps>(
   function List(props, ref) {
@@ -18,7 +18,7 @@ export const List = React.forwardRef<HTMLUListElement, ListProps>(
   },
 );
 
-export type ListItemProps = JSX.IntrinsicElements["li"];
+export type ListItemProps = React.JSX.IntrinsicElements["li"];
 
 export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(
   function ListItem(props, ref) {

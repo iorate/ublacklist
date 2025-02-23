@@ -19,7 +19,7 @@ function useSelectContext(): SelectContextValue {
   return value;
 }
 
-export type SelectProps = JSX.IntrinsicElements["select"] & {
+export type SelectProps = React.JSX.IntrinsicElements["select"] & {
   native?: boolean;
 };
 
@@ -83,7 +83,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   },
 );
 
-export type SelectOptionProps = JSX.IntrinsicElements["option"];
+export type SelectOptionProps = React.JSX.IntrinsicElements["option"];
 
 export const SelectOption = React.forwardRef<
   HTMLOptionElement,

@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type RowProps = JSX.IntrinsicElements["div"] & {
+export type RowProps = React.JSX.IntrinsicElements["div"] & {
   multiline?: boolean;
   right?: boolean;
 };
@@ -26,7 +26,7 @@ export const Row = React.forwardRef<HTMLDivElement, RowProps>(function Row(
   return <div {...applyClassName(props, className)} ref={ref} />;
 });
 
-export type RowItemProps = JSX.IntrinsicElements["div"] & {
+export type RowItemProps = React.JSX.IntrinsicElements["div"] & {
   expanded?: boolean;
 };
 

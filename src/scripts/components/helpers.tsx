@@ -12,7 +12,7 @@ export function applyClassName<
 
 // https://itnext.io/reusing-the-ref-from-forwardref-with-react-hooks-4ce9df693dd
 export function useInnerRef<T>(
-  ref: ((instance: T | null) => void) | React.MutableRefObject<T | null> | null,
+  ref: ((instance: T | null) => void) | React.RefObject<T | null> | null,
 ): React.RefObject<T> {
   const innerRef = useRef<T>(null);
   useLayoutEffect(() => {
@@ -20,7 +20,7 @@ export function useInnerRef<T>(
       ref.current = innerRef.current;
     }
   }, [ref]);
-  return innerRef;
+  return innerRef as React.RefObject<T>;
 }
 
 export const FocusCircle: React.FC<{ depth?: number }> = ({ depth = 0 }) => {

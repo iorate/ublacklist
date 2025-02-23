@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type DetailsProps = JSX.IntrinsicElements["details"];
+export type DetailsProps = React.JSX.IntrinsicElements["details"];
 
 export const Details = React.forwardRef<HTMLDetailsElement, DetailsProps>(
   function Details(props, ref) {
@@ -10,7 +10,7 @@ export const Details = React.forwardRef<HTMLDetailsElement, DetailsProps>(
   },
 );
 
-export type DetailsSummaryProps = JSX.IntrinsicElements["summary"];
+export type DetailsSummaryProps = React.JSX.IntrinsicElements["summary"];
 
 export const DetailsSummary = React.forwardRef<
   HTMLElement,
@@ -35,7 +35,7 @@ export const DetailsSummary = React.forwardRef<
   return <summary {...applyClassName(props, className)} ref={ref} />;
 });
 
-export type DetailsBodyProps = JSX.IntrinsicElements["div"];
+export type DetailsBodyProps = React.JSX.IntrinsicElements["div"];
 
 export const DetailsBody = React.forwardRef<HTMLDivElement, DetailsBodyProps>(
   function DetailsBody(props, ref) {

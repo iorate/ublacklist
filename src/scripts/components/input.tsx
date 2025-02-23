@@ -3,7 +3,7 @@ import { DISABLED_OPACITY } from "./constants.ts";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type InputProps = JSX.IntrinsicElements["input"];
+export type InputProps = React.JSX.IntrinsicElements["input"];
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   function Input(props, ref) {

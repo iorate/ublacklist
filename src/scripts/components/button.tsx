@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type ButtonProps = JSX.IntrinsicElements["button"] & {
+export type ButtonProps = React.JSX.IntrinsicElements["button"] & {
   primary?: boolean;
 };
 
@@ -55,7 +55,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export type LinkButtonProps = JSX.IntrinsicElements["button"];
+export type LinkButtonProps = React.JSX.IntrinsicElements["button"];
 
 export const LinkButton = React.forwardRef(function LinkButton(
   props: LinkButtonProps,

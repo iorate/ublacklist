@@ -6,7 +6,7 @@ import { applyClassName, useInnerRef } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
 export type ColorPickerProps = Omit<
-  JSX.IntrinsicElements["button"],
+  React.JSX.IntrinsicElements["button"],
   "onChange"
 > & {
   disabled?: boolean;
