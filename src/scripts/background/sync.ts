@@ -117,6 +117,7 @@ const syncSections: readonly SyncSection[] = [
           hideBlockLinks: localItems.hideBlockLinks,
           hideControl: localItems.hideControl,
           enablePathDepth: localItems.enablePathDepth,
+          enableMatchingRules: localItems.enableMatchingRules,
           blockWholeSite: localItems.blockWholeSite,
         }),
         modifiedTime: dayjs(localItems.generalLastModified),
@@ -129,6 +130,7 @@ const syncSections: readonly SyncSection[] = [
           hideBlockLinks: z.boolean(),
           hideControl: z.boolean(),
           enablePathDepth: z.boolean(),
+          enableMatchingRules: z.boolean().optional(),
           blockWholeSite: z.boolean().optional(),
         })
         .safeParse(parseJSON(cloudContent));
@@ -142,6 +144,9 @@ const syncSections: readonly SyncSection[] = [
         hideBlockLinks: items.hideBlockLinks,
         hideControl: items.hideControl,
         enablePathDepth: items.enablePathDepth,
+        ...(items.enableMatchingRules != null
+          ? { enableMatchingRules: items.enableMatchingRules }
+          : {}),
         ...(items.blockWholeSite != null
           ? { blockWholeSite: items.blockWholeSite }
           : {}),
@@ -160,6 +165,7 @@ const syncSections: readonly SyncSection[] = [
           hideBlockLinks,
           hideControl,
           enablePathDepth,
+          enableMatchingRules,
           blockWholeSite,
           generalLastModified,
           ...newCloudItems

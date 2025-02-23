@@ -30,13 +30,14 @@ import type { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import { PathDepth } from "./path-depth.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
-import type { DialogTheme } from "./types.ts";
-import { makeAltURL, svgToDataURL } from "./utilities.ts";
+import type { DialogTheme, MatchingRulesText } from "./types.ts";
+import { getMatchingRulesText, makeAltURL, svgToDataURL } from "./utilities.ts";
 
 type BlockDialogContentProps = {
   blockWholeSite: boolean;
   close: () => void;
   enablePathDepth: boolean;
+  enableMatchingRules: boolean;
   entryProps: LinkProps;
   open: boolean;
   openOptionsPage: () => Promise<void>;
@@ -48,6 +49,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   blockWholeSite,
   close,
   enablePathDepth,
+  enableMatchingRules,
   entryProps,
   open,
   openOptionsPage,
@@ -59,6 +61,8 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     unblock: false,
     host: "",
     detailsOpen: false,
+    matchingRulesOpen: false,
+    matchingRulesText: null as MatchingRulesText | null,
     pathDepth: null as PathDepth | null,
     depth: "",
     rulesToAdd: "",
@@ -76,6 +80,8 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
         blockWholeSite ? (tldts.getDomain(url.host) ?? url.host) : url.host,
       );
       state.detailsOpen = false;
+      state.matchingRulesOpen = false;
+      state.matchingRulesText = null;
       state.pathDepth = enablePathDepth ? new PathDepth(url) : null;
       state.depth = "0";
       state.rulesToAdd = patch.rulesToAdd;
@@ -86,6 +92,8 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
       state.unblock = false;
       state.host = entryProps.url;
       state.detailsOpen = false;
+      state.matchingRulesOpen = false;
+      state.matchingRulesText = null;
       state.pathDepth = null;
       state.depth = "";
       state.rulesToAdd = "";
@@ -269,6 +277,91 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 </Row>
               </DetailsBody>
             </Details>
+            {enableMatchingRules && (
+              <Details
+                open={state.matchingRulesOpen}
+                onToggle={(e) => {
+                  const { open } = e.currentTarget;
+                  const matchingRulesText = open
+                    ? getMatchingRulesText(ruleset, entryProps)
+                    : null;
+                  setState((s) => ({
+                    ...s,
+                    matchingRulesOpen: open,
+                    matchingRulesText,
+                  }));
+                }}
+              >
+                <DetailsSummary className={FOCUS_START_CLASS}>
+                  {translate("popup_matchingRules")}
+                </DetailsSummary>
+                <DetailsBody>
+                  <Row>
+                    <RowItem expanded>
+                      <LabelWrapper fullWidth>
+                        <ControlLabel for="blocking-rules-text">
+                          {translate("popup_blockingRulesLabel")}
+                        </ControlLabel>
+                      </LabelWrapper>
+                      {state.matchingRulesOpen && (
+                        <TextArea
+                          breakAll
+                          id="blocking-rules-text"
+                          readOnly
+                          monospace
+                          nowrap
+                          rows={4}
+                          resizable
+                          value={state.matchingRulesText?.blockRules}
+                        />
+                      )}
+                    </RowItem>
+                  </Row>
+                  <Row>
+                    <RowItem expanded>
+                      <LabelWrapper fullWidth>
+                        <ControlLabel for="unblocking-rules-text">
+                          {translate("popup_unblockingRulesLabel")}
+                        </ControlLabel>
+                      </LabelWrapper>
+                      {state.matchingRulesOpen && (
+                        <TextArea
+                          breakAll
+                          id="unblocking-rules-text"
+                          readOnly
+                          monospace
+                          nowrap
+                          rows={4}
+                          resizable
+                          value={state.matchingRulesText?.unblockRules}
+                        />
+                      )}
+                    </RowItem>
+                  </Row>
+                  <Row>
+                    <RowItem expanded>
+                      <LabelWrapper fullWidth>
+                        <ControlLabel for="highlight-rules-text">
+                          {translate("popup_highlightingRulesLabel")}
+                        </ControlLabel>
+                      </LabelWrapper>
+                      {state.matchingRulesOpen && (
+                        <TextArea
+                          breakAll
+                          id="highlight-rules-text"
+                          readOnly
+                          monospace
+                          nowrap
+                          rows={4}
+                          resizable
+                          value={state.matchingRulesText?.highlightRules}
+                        />
+                      )}
+                    </RowItem>
+                  </Row>
+                </DetailsBody>
+              </Details>
+            )}
           </RowItem>
         </Row>
       </DialogBody>

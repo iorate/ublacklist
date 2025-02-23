@@ -6,7 +6,18 @@ export type DetailsProps = React.JSX.IntrinsicElements["details"];
 
 export const Details = React.forwardRef<HTMLDetailsElement, DetailsProps>(
   function Details(props, ref) {
-    return <details {...props} ref={ref} />;
+    const className = useClassName(
+      () => ({
+        "&:not(:first-of-type)": {
+          marginTop: "0.5em",
+        },
+        "&:is(details[open] + &)": {
+          marginTop: "1em",
+        },
+      }),
+      [],
+    );
+    return <details {...applyClassName(props, className)} ref={ref} />;
   },
 );
 

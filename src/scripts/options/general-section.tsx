@@ -538,6 +538,12 @@ export const GeneralSection: React.FC = () => (
       </SectionItem>
       <SectionItem>
         <SetBooleanItem
+          itemKey="enableMatchingRules"
+          label={translate("options_enableMatchingRules")}
+        />
+      </SectionItem>
+      <SectionItem>
+        <SetBooleanItem
           itemKey="skipBlockDialog"
           label={translate("options_skipBlockDialogLabel")}
         />

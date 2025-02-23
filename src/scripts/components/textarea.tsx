@@ -5,10 +5,22 @@ import { useClassName } from "./utilities.ts";
 
 export type TextAreaProps = React.JSX.IntrinsicElements["textarea"] & {
   breakAll?: boolean;
+  resizable?: boolean;
+  monospace?: boolean;
+  nowrap?: boolean;
 };
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  function TextArea({ breakAll = false, ...props }, ref) {
+  function TextArea(
+    {
+      breakAll = false,
+      resizable = false,
+      monospace = false,
+      nowrap = false,
+      ...props
+    },
+    ref,
+  ) {
     const className = useClassName(
       (theme) => ({
         background: "transparent",
@@ -22,8 +34,10 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             ? `calc(1.5em * ${props.rows} + 1em + 2px)`
             : "auto",
         lineHeight: "1.5",
+        fontFamily: monospace ? "monospace" : "inherit",
+        textWrap: nowrap ? "nowrap" : "wrap",
         padding: "0.5em 0.625em",
-        resize: "none",
+        resize: resizable ? "vertical" : "none",
         width: "100%",
         wordBreak: breakAll ? "break-all" : "normal",
         "&:disabled": {
