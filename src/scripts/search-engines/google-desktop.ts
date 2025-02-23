@@ -121,10 +121,13 @@ const regularControlHandlers: ControlHandler[] = [
     target: "#slim_appbar:empty",
     style: (controlRoot) => {
       controlRoot.className = css({
+        gridColumn: "2 / -2",
         "#slim_appbar > &:not(:only-child)": {
           display: "none",
         },
       });
+      // biome-ignore lint/style/noNonNullAssertion: the parent is always present
+      controlRoot.parentElement!.classList.add("YNk70c");
       // Set appropriate margin when "Tools" bar is present:
       controlRoot.closest("#appbar")?.classList.add(
         css({
