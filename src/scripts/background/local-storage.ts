@@ -51,6 +51,7 @@ const localStorageSections: readonly LocalStorageSection[] = [
         items.hideBlockLinks != null ||
         items.hideControl != null ||
         items.enablePathDepth != null ||
+        items.enableMatchingRules != null ||
         items.blockWholeSite != null
       ) {
         items.generalLastModified = now.toISOString();

@@ -6,7 +6,7 @@ import { applyClassName, useInnerRef } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
 export type ColorPickerProps = Omit<
-  JSX.IntrinsicElements["button"],
+  React.JSX.IntrinsicElements["button"],
   "onChange"
 > & {
   disabled?: boolean;
@@ -119,6 +119,7 @@ export const ColorPicker = React.forwardRef<
       <div
         className={popoverClassName}
         ref={popoverRef}
+        // biome-ignore lint/a11y/useSemanticElements: to be replaced in the future
         role="dialog"
         tabIndex={-1}
         onKeyDown={(e) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type IconProps = JSX.IntrinsicElements["span"] & {
+export type IconProps = React.JSX.IntrinsicElements["span"] & {
   iconSize?: string;
   url: string;
 };
@@ -23,7 +23,7 @@ export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(function Icon(
   return <span {...applyClassName(props, className)} ref={ref} />;
 });
 
-export type TemplateIconProps = JSX.IntrinsicElements["span"] & {
+export type TemplateIconProps = React.JSX.IntrinsicElements["span"] & {
   color?: string;
   iconSize?: string;
   url: string;

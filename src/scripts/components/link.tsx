@@ -2,7 +2,9 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type LinkProps = JSX.IntrinsicElements["a"] & { disabled?: boolean };
+export type LinkProps = React.JSX.IntrinsicElements["a"] & {
+  disabled?: boolean;
+};
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   function Link({ disabled = false, ...props }, ref) {

@@ -63,7 +63,7 @@ function handleKeyDown(
   }
 }
 
-export type DialogProps = JSX.IntrinsicElements["div"] & {
+export type DialogProps = React.JSX.IntrinsicElements["div"] & {
   close: () => void;
   open: boolean;
   width?: string;
@@ -169,7 +169,7 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
   },
 );
 
-export type DialogHeaderProps = JSX.IntrinsicElements["div"];
+export type DialogHeaderProps = React.JSX.IntrinsicElements["div"];
 
 export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   function DialogHeader(props, ref) {
@@ -183,7 +183,7 @@ export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
   },
 );
 
-export type DialogTitleProps = JSX.IntrinsicElements["h1"];
+export type DialogTitleProps = React.JSX.IntrinsicElements["h1"];
 
 export const DialogTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -205,7 +205,7 @@ export const DialogTitle = React.forwardRef<
   );
 });
 
-export type DialogBodyProps = JSX.IntrinsicElements["div"];
+export type DialogBodyProps = React.JSX.IntrinsicElements["div"];
 
 export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   function DialogBody(props, ref) {
@@ -213,7 +213,7 @@ export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
   },
 );
 
-export type DialogFooterProps = JSX.IntrinsicElements["div"];
+export type DialogFooterProps = React.JSX.IntrinsicElements["div"];
 
 export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   function DialogFooter(props, ref) {
@@ -227,7 +227,7 @@ export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
   },
 );
 
-export type EmbeddedDialogProps = JSX.IntrinsicElements["div"] & {
+export type EmbeddedDialogProps = React.JSX.IntrinsicElements["div"] & {
   close: () => void;
   width: string;
 };

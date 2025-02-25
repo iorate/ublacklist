@@ -9,7 +9,10 @@ function createInteractiveRuleset(
 ): InteractiveRuleset {
   return new InteractiveRuleset(
     new Ruleset(user),
-    subscriptions.map((subscription) => new Ruleset(subscription)),
+    subscriptions.map((subscription, index) => ({
+      name: String(index),
+      ruleset: new Ruleset(subscription),
+    })),
   );
 }
 

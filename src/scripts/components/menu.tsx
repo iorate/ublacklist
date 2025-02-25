@@ -33,7 +33,7 @@ function moveFocus(
   nextItem.focus();
 }
 
-export type MenuProps = JSX.IntrinsicElements["button"] & {
+export type MenuProps = React.JSX.IntrinsicElements["button"] & {
   children?: React.ReactNode;
   disabled?: boolean;
 };
@@ -130,7 +130,7 @@ export const Menu = React.forwardRef<HTMLButtonElement, MenuProps>(
   },
 );
 
-export type MenuItemProps = JSX.IntrinsicElements["button"];
+export type MenuItemProps = React.JSX.IntrinsicElements["button"];
 
 export const MenuItem = React.forwardRef<HTMLButtonElement, MenuItemProps>(
   function MenuItem(props, ref) {

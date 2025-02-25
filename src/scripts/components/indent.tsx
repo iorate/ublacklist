@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type IndentProps = JSX.IntrinsicElements["div"] & {
+export type IndentProps = React.JSX.IntrinsicElements["div"] & {
   depth?: number;
 };
 

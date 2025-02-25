@@ -121,10 +121,13 @@ const regularControlHandlers: ControlHandler[] = [
     target: "#slim_appbar:empty",
     style: (controlRoot) => {
       controlRoot.className = css({
+        gridColumn: "2 / -2",
         "#slim_appbar > &:not(:only-child)": {
           display: "none",
         },
       });
+      // biome-ignore lint/style/noNonNullAssertion: the parent is always present
+      controlRoot.parentElement!.classList.add("YNk70c");
       // Set appropriate margin when "Tools" bar is present:
       controlRoot.closest("#appbar")?.classList.add(
         css({
@@ -635,6 +638,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         style: {
           display: "block",
           margin: "5px 0",
+          paddingLeft: "1.5rem",
         },
       },
     ],
@@ -647,7 +651,25 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         actionStyle: {
           display: "block",
           fontSize: "11px",
+          paddingLeft: "4px",
         },
+      },
+      {
+        target: ".isv-r",
+        url: "a:not([role='button'])",
+        actionTarget: (root) => root,
+        actionStyle: {
+          display: "block",
+          fontSize: "12px",
+          lineHeight: "18px",
+          margin: "-2px 0 8px",
+        },
+      },
+    ],
+    pagerHandlers: [
+      {
+        target: "c-wiz",
+        innerTargets: ".isv-r",
       },
     ],
     pageProps: {

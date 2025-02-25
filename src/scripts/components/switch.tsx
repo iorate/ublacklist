@@ -3,7 +3,7 @@ import { DISABLED_OPACITY, INPUT_Z_INDEX } from "./constants.ts";
 import { FocusCircle, applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type SwitchProps = JSX.IntrinsicElements["input"];
+export type SwitchProps = React.JSX.IntrinsicElements["input"];
 
 export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   function Switch(props, ref) {

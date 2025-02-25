@@ -2,7 +2,7 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type SectionProps = JSX.IntrinsicElements["section"];
+export type SectionProps = React.JSX.IntrinsicElements["section"];
 
 export const Section = React.forwardRef<HTMLElement, SectionProps>(
   function Section(props, ref) {
@@ -18,7 +18,7 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
   },
 );
 
-export type SectionHeaderProps = JSX.IntrinsicElements["div"] & {
+export type SectionHeaderProps = React.JSX.IntrinsicElements["div"] & {
   maxWidth?: string;
 };
 
@@ -38,7 +38,7 @@ export const SectionHeader = React.forwardRef<
   return <div {...applyClassName(props, className)} ref={ref} />;
 });
 
-export type SectionTitleProps = JSX.IntrinsicElements["h1"];
+export type SectionTitleProps = React.JSX.IntrinsicElements["h1"];
 
 export const SectionTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -59,7 +59,7 @@ export const SectionTitle = React.forwardRef<
   );
 });
 
-export type SectionBodyProps = JSX.IntrinsicElements["div"];
+export type SectionBodyProps = React.JSX.IntrinsicElements["div"];
 
 export const SectionBody = React.forwardRef<HTMLDivElement, SectionBodyProps>(
   function SectionBody(props, ref) {
@@ -75,7 +75,7 @@ export const SectionBody = React.forwardRef<HTMLDivElement, SectionBodyProps>(
   },
 );
 
-export type SectionItemProps = JSX.IntrinsicElements["div"];
+export type SectionItemProps = React.JSX.IntrinsicElements["div"];
 
 export const SectionItem = React.forwardRef<HTMLDivElement, SectionItemProps>(
   function SectionItem(props, ref) {

@@ -5,7 +5,7 @@ import { TemplateIcon } from "./icon.tsx";
 import { useTheme } from "./theme.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type IconButtonProps = JSX.IntrinsicElements["button"] & {
+export type IconButtonProps = React.JSX.IntrinsicElements["button"] & {
   iconURL: string;
 };
 

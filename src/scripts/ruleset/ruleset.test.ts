@@ -367,6 +367,33 @@ test("Ruleset", async (t) => {
         !ruleset.test({ url: "http://example.com/", title: "foo bar \\xA" }),
       );
     }
+    // Regular expression Literals
+    // Escape sequence in class characters
+    // https://github.com/iorate/ublacklist/issues/527
+    {
+      const ruleset = new Ruleset(String.raw`title=~/[\u3040-\u309F]/`);
+      assert.ok(
+        ruleset.test({
+          url: "http://example.com/",
+          title: "ひらがな",
+        }),
+      );
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          title: "カタカナ",
+        }),
+      );
+    }
+    {
+      const ruleset = new Ruleset(String.raw`title=~/[\u3040-\u309G]/`);
+      assert.ok(
+        !ruleset.test({
+          url: "http://example.com/",
+          title: "ひらがな",
+        }),
+      );
+    }
   });
 
   await t.test("Complex expressions", () => {

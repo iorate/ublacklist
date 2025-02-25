@@ -3,7 +3,7 @@ import { DISABLED_OPACITY, INPUT_Z_INDEX } from "./constants.ts";
 import { FocusCircle, applyClassName, useInnerRef } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type CheckBoxProps = JSX.IntrinsicElements["input"] & {
+export type CheckBoxProps = React.JSX.IntrinsicElements["input"] & {
   indeterminate?: boolean;
 };
 

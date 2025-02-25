@@ -1,7 +1,15 @@
 import dayjs from "dayjs";
-import { Ruleset, type RulesetJSON } from "./ruleset/ruleset.ts";
+import type { InteractiveRuleset } from "./interactive-ruleset.ts";
+import { translate } from "./locales.ts";
+import {
+  type LinkProps,
+  Ruleset,
+  type RulesetJSON,
+} from "./ruleset/ruleset.ts";
 import type {
   ErrorResult,
+  MatchingRuleKind,
+  MatchingRulesText,
   PlainRuleset,
   Result,
   SuccessResult,
@@ -36,19 +44,24 @@ export function makeAltURL(url: string): AltURL | null {
 
 // #region Error
 export class HTTPError extends Error {
-  constructor(
-    readonly status: number,
-    readonly statusText: string,
-  ) {
+  readonly status: number;
+  readonly statusText: string;
+
+  constructor(status: number, statusText: string) {
     super(`${status}${statusText ? " " : ""}${statusText}`);
     this.name = "HTTPError";
+    this.status = status;
+    this.statusText = statusText;
   }
 }
 
 export class UnexpectedResponse extends Error {
-  constructor(readonly response: unknown) {
+  readonly response: unknown;
+
+  constructor(response: unknown) {
     super(JSON.stringify(response));
     this.name = "UnexpectedResponse";
+    this.response = response;
   }
 }
 // #endregion Error
@@ -140,6 +153,63 @@ export function numberEntries<Key extends number, Value>(
 export function lines(s: string): string[] {
   return s ? s.split("\n") : [];
 }
+
+export function getMatchingRulesText(
+  ruleset: InteractiveRuleset,
+  props: LinkProps,
+): MatchingRulesText {
+  const ruleTypes: MatchingRuleKind[] = [
+    "blockRules",
+    "unblockRules",
+    "highlightRules",
+  ];
+  const matchingRulesText: MatchingRulesText = {
+    blockRules: "",
+    unblockRules: "",
+    highlightRules: "",
+  };
+
+  const matchingRules = ruleset.getMatchingRules(props);
+  const biggestLineNumber = Math.max(
+    ...matchingRules
+      .flatMap(({ blockRules, unblockRules, highlightRules }) => [
+        ...blockRules,
+        ...unblockRules,
+        ...highlightRules,
+      ])
+      .map(({ lineNumber }) => lineNumber),
+  );
+  const lineNumberLength = String(biggestLineNumber).length;
+
+  for (const ruleType of ruleTypes) {
+    for (const match of matchingRules) {
+      // Check whether the ruleset contains rules of the current rule type
+      if (match[ruleType].length === 0) continue;
+      // Add header with ruleset name
+      const headerContent =
+        match.rulesetName === "personal-blocklist"
+          ? translate("personalBlocklist")
+          : match.rulesetName;
+      matchingRulesText[ruleType] += `# ${headerContent}\n`;
+      // Add individual rules
+      matchingRulesText[ruleType] += match[ruleType]
+        .map(({ lineContent, lineNumber }) => {
+          const lineNumberStr = String(lineNumber);
+          const formattedLineNumber =
+            lineNumberStr.length < lineNumberLength
+              ? // Add left padding in order to align all line numbers
+                " ".repeat(lineNumberLength - lineNumberStr.length) + lineNumber
+              : lineNumberStr;
+          return `${formattedLineNumber}: ${lineContent}`;
+        })
+        .join("\n");
+      matchingRulesText[ruleType] += "\n";
+    }
+  }
+
+  return matchingRulesText;
+}
+
 // #endregion string
 
 export function downloadTextFile(

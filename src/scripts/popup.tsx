@@ -194,15 +194,17 @@ const Popup: React.FC = () => {
           "blacklist",
           "subscriptions",
           "enablePathDepth",
+          "enableMatchingRules",
           "blockWholeSite",
         ]);
         const ruleset = new InteractiveRuleset(
           fromPlainRuleset(options.ruleset || null, options.blacklist),
           Object.values(options.subscriptions)
             .filter((subscription) => subscription.enabled ?? true)
-            .map(({ ruleset, blacklist }) =>
-              fromPlainRuleset(ruleset || null, blacklist),
-            ),
+            .map(({ ruleset, blacklist, name }) => ({
+              name,
+              ruleset: fromPlainRuleset(ruleset || null, blacklist),
+            })),
         );
         setState({
           type: "block",
@@ -210,6 +212,7 @@ const Popup: React.FC = () => {
             blockWholeSite: options.blockWholeSite,
             close: () => window.close(),
             enablePathDepth: options.enablePathDepth,
+            enableMatchingRules: options.enableMatchingRules,
             openOptionsPage,
             entryProps: {
               url,

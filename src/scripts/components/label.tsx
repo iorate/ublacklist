@@ -15,7 +15,7 @@ function useLabelContext(): LabelContextValue {
   return value;
 }
 
-export type LabelWrapperProps = JSX.IntrinsicElements["div"] & {
+export type LabelWrapperProps = React.JSX.IntrinsicElements["div"] & {
   disabled?: boolean;
   fullWidth?: boolean;
 };
@@ -40,7 +40,7 @@ export const LabelWrapper = React.forwardRef<HTMLDivElement, LabelWrapperProps>(
   },
 );
 
-export type LabelProps = JSX.IntrinsicElements["span"];
+export type LabelProps = React.JSX.IntrinsicElements["span"];
 
 export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(
   function Label(props, ref) {
@@ -64,7 +64,7 @@ export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(
 
 export type ControlLabelProps = {
   for: string;
-} & JSX.IntrinsicElements["label"];
+} & React.JSX.IntrinsicElements["label"];
 
 export const ControlLabel = React.forwardRef<
   HTMLLabelElement,
@@ -89,7 +89,7 @@ export const ControlLabel = React.forwardRef<
   );
 });
 
-export type SubLabelProps = JSX.IntrinsicElements["span"];
+export type SubLabelProps = React.JSX.IntrinsicElements["span"];
 
 export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(
   function SubLabel(props, ref) {

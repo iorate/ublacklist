@@ -87,6 +87,7 @@ export const BackupRestoreSection: React.FC = () => {
                       hideBlockLinks: z.boolean().optional(),
                       hideControl: z.boolean().optional(),
                       enablePathDepth: z.boolean().optional(),
+                      enableMatchingRules: z.boolean().optional(),
                       linkColor: z.string().optional(),
                       blockColor: z.string().optional(),
                       highlightColors: z.string().array().optional(),

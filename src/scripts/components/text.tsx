@@ -2,7 +2,9 @@ import React from "react";
 import { applyClassName } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
-export type TextProps = JSX.IntrinsicElements["span"] & { primary?: boolean };
+export type TextProps = React.JSX.IntrinsicElements["span"] & {
+  primary?: boolean;
+};
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>(function Text(
   { primary = false, ...props },
