@@ -8,6 +8,7 @@ export default exportAsMessages({
   unauthorizedError: "未授权的操作。请尝试先关闭同步后，再开启同步。",
   cancelButton: "取消",
   okButton: "确定",
+  personalBlocklist: "个人黑名单",
   content_singleSiteBlocked: "uBlacklist 已经屏蔽了 1 个网站",
   content_multipleSitesBlocked: "uBlacklist 已经屏蔽了 $1 个网站",
   content_showBlockedSitesLink: "显示",
@@ -28,6 +29,10 @@ export default exportAsMessages({
   popup_active: "uBlacklist 已启用",
   popup_inactive: "uBlacklist 已禁用",
   popup_activateButton: "启用",
+  popup_matchingRules: "匹配规则",
+  popup_blockingRulesLabel: "屏蔽此条目的规则",
+  popup_unblockingRulesLabel: "解除屏蔽此条目的规则",
+  popup_highlightingRulesLabel: "高亮显示此条目的规则",
   options_generalTitle: "常规",
   options_blacklistLabel: "在谷歌的搜索结果中将不会显示以下网站",
   options_blacklistHelper:
@@ -62,6 +67,7 @@ export default exportAsMessages({
   options_blockWholeSiteLabel: "默认添加屏蔽整个网站的规则",
   options_blockWholeSiteDescription:
     '例如屏蔽 "https://a.b.example.uk.com/", 会添加 "*://*.example.uk.com/*" 规则',
+  options_enableMatchingRules: "在「加入黑名单」对话框中显示匹配规则",
   options_appearanceTitle: "外观",
   options_linkColor: "链接的颜色",
   options_blockColor: "被屏蔽的搜索结果的颜色",
@@ -121,6 +127,9 @@ export default exportAsMessages({
   options_addSubscriptionDialog_title: "添加订阅",
   options_addSubscriptionDialog_nameLabel: "名称",
   options_addSubscriptionDialog_urlLabel: "订阅源地址",
+  options_addSubscriptionDialog_altNameLabel: "备用名称（可选）",
+  options_addSubscriptionDialog_altNameDescription:
+    "当下载的规则集不包含名称时使用的备用名称。",
   options_addSubscriptionDialog_addButton: "添加",
   options_showSubscriptionDialog_blacklistLabel: "规则",
   options_updateInterval: "更新间隔",
@@ -148,11 +157,16 @@ export default exportAsMessages({
   clouds_dropboxSyncTurnedOn: "已使用 Dropbox 同步",
   searchEngines_googleName: "谷歌",
   searchEngines_bingName: "必应",
+  searchEngines_bingDescription_firefox:
+    "关闭「在新标签页或窗口中打开搜索结果中的链接」选项。",
   searchEngines_braveName: "Brave",
   searchEngines_duckduckgoName: "DuckDuckGo",
   searchEngines_ecosiaName: "Ecosia",
   searchEngines_kagiName: "Kagi",
   searchEngines_qwantName: "Qwant",
   searchEngines_searxName: "SearX",
+  searchEngines_qwantDescription: "关闭「总是在 Qwant.com 播放视频」选项。",
   searchEngines_startpageName: "Startpage.com",
+  searchEngines_yahooJapanName: "Yahoo! JAPAN",
+  searchEngines_yandexName: "Yandex",
 });

@@ -10,6 +10,7 @@ export default exportAsMessages({
   unauthorizedError: "未授權。請關閉同步，然後再次開啟。",
   cancelButton: "取消",
   okButton: "確定",
+  personalBlocklist: "個人封鎖清單",
   content_singleSiteBlocked: "uBlacklist 已經封鎖 1 個網站",
   content_multipleSitesBlocked: "uBlacklist 已經封鎖 $1 個網站",
   content_showBlockedSitesLink: "顯示",
@@ -30,6 +31,10 @@ export default exportAsMessages({
   popup_active: "已啟用 uBlacklist",
   popup_inactive: "已停用 uBlacklist",
   popup_activateButton: "啟用",
+  popup_matchingRules: "符合規則",
+  popup_blockingRulesLabel: "封鎖此項目的規則",
+  popup_unblockingRulesLabel: "解除封鎖此項目的規則",
+  popup_highlightingRulesLabel: "強調顯示此項目的規則",
   options_generalTitle: "一般",
   options_blacklistLabel: "在 Google 搜尋結果中被封鎖的網站",
   options_blacklistHelper:
@@ -121,6 +126,9 @@ export default exportAsMessages({
   options_addSubscriptionDialog_title: "加入訂閱項目",
   options_addSubscriptionDialog_nameLabel: "名稱",
   options_addSubscriptionDialog_urlLabel: "網址",
+  options_addSubscriptionDialog_altNameLabel: "備用名稱（選填）",
+  options_addSubscriptionDialog_altNameDescription:
+    "當下載的規則集不包含名稱時使用的備用名稱。",
   options_addSubscriptionDialog_addButton: "加入",
   options_showSubscriptionDialog_blacklistLabel: "規則",
   options_updateInterval: "更新間隔",
