@@ -571,6 +571,7 @@ export const SEARCH_ENGINES: Readonly<
           // Web
           "https://ya.ru/search*",
           "https://yandex.com/search*",
+          "https://yandex.ru/search*",
           "https://yandex.ua/search*",
           "https://yandex.by/search*",
           "https://yandex.kz/search*",
