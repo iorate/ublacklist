@@ -141,9 +141,9 @@ export default exportAsMessages({
   options_restoreSettingsLabel: "Restaurar configurações",
   options_restoreSettingsButton: "Restaurar",
   options_restoreSettingsInvalidFile: "O formato do arquivo é inválido.",
-  options_initializeSettingsLabel: "Redefinir configurações",
-  options_initializeSettingsButton: "Redefinir",
-  options_initializeSettingsConfirmation:
+  options_resetSettingsLabel: "Redefinir configurações",
+  options_resetSettingsButton: "Redefinir",
+  options_resetSettingsConfirmation:
     "Você realmente quer redefinir suas configurações?",
   options_aboutTitle: "Sobre uBlacklist",
   options_aboutVersion: "Versão",

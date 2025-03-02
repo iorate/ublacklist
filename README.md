@@ -41,7 +41,8 @@ This extension is available in the below search engines.
 
 ## For subscription providers
 
-To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:<br>
+To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:
+
 https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt
 
 You can prepend YAML frontmatter to your ruleset. It is recommended that you set the `name` variable.
@@ -53,14 +54,21 @@ name: Your ruleset name
 *://*.example.com/*
 ```
 
-In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `url`, the following URL can be used as a shortcut to the options page:
+### Subscription links
+
+Subscription links are available to make it easier for users to add your ruleset. To create a subscription link for your ruleset, use the following format:
 
 ```
-https://iorate.github.io/ublacklist/subscribe?url={urlEncode(url)}
+https://ublacklist.github.io/rulesets/subscribe?url=<url-encoded-url>
 ```
 
-For the above example:<br>
-https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
+For the above example:
+
+https://ublacklist.github.io/rulesets/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
+
+When users click this link, they will be directed to the extension's options page with your subscription pre-filled.
+
+**NOTE:** This feature is available in v8.11.0 or later. Users need to explicitly enable this feature by turning on "Enable ruleset subscription links" in the extension's options page.
 
 ## For developers
 

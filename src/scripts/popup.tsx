@@ -28,7 +28,8 @@ import { useClassName } from "./components/utilities.ts";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
-import { sendMessage } from "./messages.ts";
+import { sendMessage, sendMessageToTab } from "./messages.ts";
+import { SerpInfoEmbeddedDialog } from "./serpinfo/popup.tsx";
 import { fromPlainRuleset, svgToDataURL } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
@@ -122,7 +123,6 @@ const ActivateEmbeddedDialog: React.FC<ActivateEmbeddedDialogProps> = ({
                     if (!granted) {
                       return;
                     }
-                    await sendMessage("register-content-scripts");
                     window.close();
                   }}
                 >
@@ -140,6 +140,10 @@ const ActivateEmbeddedDialog: React.FC<ActivateEmbeddedDialogProps> = ({
 const Popup: React.FC = () => {
   const [state, setState] = useState<
     | { type: "loading" }
+    | {
+        type: "serpInfo";
+        props: React.ComponentProps<typeof SerpInfoEmbeddedDialog>;
+      }
     | { type: "activate"; props: ActivateEmbeddedDialogProps }
     | { type: "block"; props: BlockEmbeddedDialogProps }
   >({ type: "loading" });
@@ -152,78 +156,100 @@ const Popup: React.FC = () => {
       if (tabId == null || url == null) {
         return;
       }
-      const map = new MatchPatternMap<string>();
-      for (const { contentScripts } of Object.values(SEARCH_ENGINES)) {
-        for (const { matches } of contentScripts) {
-          for (const match of matches) {
-            map.set(match, match);
+      const { serpInfoEnabled } = await loadFromLocalStorage([
+        "serpInfoEnabled",
+      ]);
+      if (serpInfoEnabled) {
+        try {
+          const hideBlockedResults = await sendMessageToTab(
+            tabId,
+            "get-hide-blocked-results",
+          );
+          setState({
+            type: "serpInfo",
+            props: {
+              tabId,
+              initialHideBlockedResults: hideBlockedResults,
+            },
+          });
+          return;
+        } catch {
+          // SERPINFO mode is not applied
+        }
+      } else {
+        const map = new MatchPatternMap<string>();
+        for (const { contentScripts } of Object.values(SEARCH_ENGINES)) {
+          for (const { matches } of contentScripts) {
+            for (const match of matches) {
+              map.set(match, match);
+            }
           }
         }
-      }
-      let match = null;
-      try {
-        match = map.get(url)[0] ?? null;
-      } catch {
-        // Invalid URL
-      }
-      if (match != null) {
-        const active =
-          process.env.BROWSER === "chrome"
-            ? (
-                await browser.scripting.executeScript({
-                  target: { tabId },
-                  files: ["/scripts/active.js"],
-                })
-              )[0].result
-            : (
-                await browser.tabs.executeScript(tabId, {
-                  file: "/scripts/active.js",
-                })
-              )[0];
-        setState({
-          type: "activate",
-          props: {
-            active: Boolean(active),
-            match,
-            tabId,
-          },
-        });
-      } else {
-        const options = await loadFromLocalStorage([
-          "ruleset",
-          "blacklist",
-          "subscriptions",
-          "enablePathDepth",
-          "enableMatchingRules",
-          "blockWholeSite",
-        ]);
-        const ruleset = new InteractiveRuleset(
-          fromPlainRuleset(options.ruleset || null, options.blacklist),
-          Object.values(options.subscriptions)
-            .filter((subscription) => subscription.enabled ?? true)
-            .map(({ ruleset, blacklist, name }) => ({
-              name,
-              ruleset: fromPlainRuleset(ruleset || null, blacklist),
-            })),
-        );
-        setState({
-          type: "block",
-          props: {
-            blockWholeSite: options.blockWholeSite,
-            close: () => window.close(),
-            enablePathDepth: options.enablePathDepth,
-            enableMatchingRules: options.enableMatchingRules,
-            openOptionsPage,
-            entryProps: {
-              url,
-              ...(title != null ? { title } : {}),
+        let match = null;
+        try {
+          match = map.get(url)[0] ?? null;
+        } catch {
+          // Invalid URL
+        }
+        if (match != null) {
+          const active =
+            process.env.BROWSER === "chrome"
+              ? (
+                  await browser.scripting.executeScript({
+                    target: { tabId },
+                    files: ["/scripts/active.js"],
+                  })
+                )[0].result
+              : (
+                  await browser.tabs.executeScript(tabId, {
+                    file: "/scripts/active.js",
+                  })
+                )[0];
+          setState({
+            type: "activate",
+            props: {
+              active: Boolean(active),
+              match,
+              tabId,
             },
-            ruleset,
-            onBlocked: () =>
-              saveToLocalStorage({ blacklist: ruleset.toString() }, "popup"),
-          },
-        });
+          });
+          return;
+        }
       }
+      const options = await loadFromLocalStorage([
+        "ruleset",
+        "blacklist",
+        "subscriptions",
+        "enablePathDepth",
+        "enableMatchingRules",
+        "blockWholeSite",
+      ]);
+      const ruleset = new InteractiveRuleset(
+        fromPlainRuleset(options.ruleset || null, options.blacklist),
+        Object.values(options.subscriptions)
+          .filter((subscription) => subscription.enabled ?? true)
+          .map(({ ruleset, blacklist, name }) => ({
+            name,
+            ruleset: fromPlainRuleset(ruleset || null, blacklist),
+          })),
+      );
+      setState({
+        type: "block",
+        props: {
+          blockWholeSite: options.blockWholeSite,
+          close: () => window.close(),
+          enablePathDepth: options.enablePathDepth,
+          enableMatchingRules: options.enableMatchingRules,
+          openOptionsPage,
+          entryProps: {
+            url,
+            ...(title != null ? { title } : {}),
+          },
+          ruleset,
+          onBlocked: () =>
+            saveToLocalStorage({ blacklist: ruleset.toString() }, "popup"),
+        },
+      });
     })();
   }, []);
   return (
@@ -231,6 +257,8 @@ const Popup: React.FC = () => {
       <Baseline>
         {state.type === "loading" ? (
           <Loading />
+        ) : state.type === "serpInfo" ? (
+          <SerpInfoEmbeddedDialog {...state.props} />
         ) : state.type === "activate" ? (
           <ActivateEmbeddedDialog {...state.props} />
         ) : (

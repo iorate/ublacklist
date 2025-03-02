@@ -34,7 +34,7 @@ import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
 import { saveToLocalStorage } from "../local-storage.ts";
 import { translate } from "../locales.ts";
-import { addMessageListeners, sendMessage } from "../messages.ts";
+import { addMessageListeners } from "../messages.ts";
 import type { SearchEngineId } from "../types.ts";
 import {
   downloadTextFile,
@@ -352,7 +352,6 @@ const RegisterSearchEnginesDialog: React.FC<DialogProps> = ({
                     origins: originsToRemove,
                   });
                 }
-                await sendMessage("register-content-scripts");
                 close();
               }}
             >

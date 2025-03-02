@@ -136,9 +136,9 @@ export default exportAsMessages({
   options_restoreSettingsLabel: "Einstellungen wiederherstellen",
   options_restoreSettingsButton: "Wiederherstellen",
   options_restoreSettingsInvalidFile: "Das Dateiformat ist ungültig.",
-  options_initializeSettingsLabel: "Einstellungen zurücksetzen",
-  options_initializeSettingsButton: "Zurücksetzen",
-  options_initializeSettingsConfirmation:
+  options_resetSettingsLabel: "Einstellungen zurücksetzen",
+  options_resetSettingsButton: "Zurücksetzen",
+  options_resetSettingsConfirmation:
     "Wollen Sie die Einstellungen wirklich zurücksetzen?",
   options_aboutTitle: "Über uBlacklist",
   options_aboutVersion: "Version",

@@ -69,6 +69,7 @@ async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
     "icons/icon-48.png",
     "icons/icon-128.png",
     "pages/options.html",
+    "pages/serpinfo/options.html",
     "pages/popup.html",
     ...(watch && browser === "chrome" ? ["pages/watch.html"] : []),
     "scripts/active.js",
@@ -162,6 +163,8 @@ async function createBuildScripts(
     "scripts/background.ts",
     "scripts/content-script.tsx",
     "scripts/options.tsx",
+    "scripts/serpinfo/content-script.tsx",
+    "scripts/serpinfo/options.tsx",
     "scripts/popup.tsx",
     ...(watch && browser === "chrome"
       ? ["scripts/watch.ts", "scripts/watch-worker.ts"]
@@ -174,8 +177,10 @@ async function createBuildScripts(
     format: "iife",
     jsx: "automatic",
     jsxDev: debug,
-    // https://github.com/evanw/esbuild/issues/3418
-    loader: { ".svg": "text" },
+    loader: {
+      ".svg": "text", // https://github.com/evanw/esbuild/issues/3418
+      ".yml": "text", // builtin serpinfo
+    },
     logLevel: "silent",
     outbase: srcDir,
     outdir: destDir,

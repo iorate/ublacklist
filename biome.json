@@ -14,8 +14,8 @@
   "linter": {
     "rules": {
       "correctness": {
-        "noUnusedImports": "error",
-        "noUnusedVariables": "error",
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
         "useHookAtTopLevel": "error",
         "useImportExtensions": "error"
       }

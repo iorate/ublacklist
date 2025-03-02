@@ -56,7 +56,10 @@ export default {
           })),
         )
       : SEARCH_ENGINES.google.contentScripts.map(({ matches, runAt }) => ({
-          js: ["scripts/content-script.js"],
+          js: [
+            "scripts/content-script.js",
+            "scripts/serpinfo/content-script.js",
+          ],
           matches,
           run_at: runAt,
         })),
@@ -101,8 +104,9 @@ export default {
   permissions: [
     "activeTab",
     "alarms",
-    ...(process.env.BROWSER !== "safari" ? ["identity"] : []),
-    ...(process.env.BROWSER === "chrome" ? ["scripting"] : []),
+    ...(process.env.BROWSER !== "safari"
+      ? ["declarativeNetRequestWithHostAccess", "identity", "scripting"]
+      : []),
     "storage",
     "unlimitedStorage",
   ],
@@ -116,11 +120,31 @@ export default {
             matches: ["https://iorate.github.io/*"],
             resources: ["pages/options.html"],
           },
+          {
+            matches: ["https://ublacklist.github.io/*"],
+            resources: ["pages/options.html", "pages/serpinfo/options.html"],
+          },
+          ...(process.env.DEBUG === "true"
+            ? [
+                {
+                  matches: ["*://*/*"],
+                  resources: [
+                    "scripts/content-script.js.map",
+                    "scripts/serpinfo/content-script.js.map",
+                  ],
+                },
+              ]
+            : []),
         ],
       }
-    : process.env.BROWSER === "safari"
+    : process.env.BROWSER === "firefox"
       ? {
-          web_accessible_resources: ["scripts/content-script.js"],
+          web_accessible_resources: [
+            "pages/options.html",
+            "pages/serpinfo/options.html",
+          ],
         }
-      : {}),
+      : {
+          web_accessible_resources: ["scripts/content-script.js"],
+        }),
 };
