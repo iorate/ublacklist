@@ -31,8 +31,8 @@ function getSerpHandler(): SerpHandler {
     entryHandlers: [
       {
         target: ".result",
-        url: "a",
-        title: "a",
+        url: "a.result__link",
+        title: "h2.result-title__heading",
         actionTarget: (root) => root.querySelector(".result__body") || root,
         actionStyle: {
           display: "block",
