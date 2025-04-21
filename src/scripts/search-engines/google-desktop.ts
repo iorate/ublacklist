@@ -223,7 +223,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       {
         target: ".IsZvec",
         level: (target) => {
-          const inner_g = target.closest<HTMLElement>(".g");
+          const inner_g = target.closest<HTMLElement>(".g, .tF2Cxc");
           if (!inner_g) {
             return null;
           }
@@ -235,7 +235,8 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
             // Knowledge Panel
             return null;
           }
-          const outer_g = inner_g.parentElement?.closest<HTMLElement>(".g");
+          const outer_g =
+            inner_g.parentElement?.closest<HTMLElement>(".g, .vt6azd");
           if (!outer_g) {
             return inner_g;
           }
@@ -524,7 +525,7 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
       // Video
       {
         target: ".iHxmLe",
-        level: ".g",
+        level: ".g, .vt6azd",
         url: "a",
         title: "h3",
         ...regularEntryHandler,
@@ -535,6 +536,14 @@ const desktopSerpHandlers: Record<string, SerpHandler> = {
         url: 'a:not([href="#"])',
         title: ".fc9yUc",
         actionTarget: ".OwbDmd",
+        actionStyle: desktopActionStyle,
+      },
+      {
+        target: ".sHEJob .Sg4azc",
+        level: ".sHEJob",
+        url: 'a:not([href="#"])',
+        title: ".ZxS7Db",
+        actionTarget: ".Sg4azc",
         actionStyle: desktopActionStyle,
       },
       // YouTube and TikTok Channel
