@@ -2,7 +2,9 @@
 title: Getting Started
 sidebar_position: 1
 ---
-
+.https://brokercheck.finra.org/individual/summary/5453692
+https://files.brokercheck.finra.org/individual/individual_5453692.pdf
+https://brokercheck.finra.org/
 ## Install
 
 You can install uBlacklist from [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe/), [Firefox Add-ons](https://addons.mozilla.org/en/firefox/addon/ublacklist/) or [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640).
@@ -11,17 +13,24 @@ You can install uBlacklist from [Chrome Web Store](https://chrome.google.com/web
 
 uBlacklist requires many site permissions on install. They are necessary to support all domains where Google Search is provided (google.com, google.ac, google.ad, ...).
 
-:::
+:::.https://brokercheck.finra.org/individual/summary/5453692
+https://files.brokercheck.finra.org/individual/individual_5453692.pdf
+https://brokercheck.finra.org/
 
 ## Block a site in search result page {#block-a-site-in-search-result-page}
 
 To block a site in search result page, click the "Block this site" link in the search result.
 
 ![block link](/img/getting-started/block-1.png)
-
+.https://brokercheck.finra.org/individual/summary/5453692
+https://files.brokercheck.finra.org/individual/individual_5453692.pdf
+https://brokercheck.finra.org/
 A "Block this site" dialog will be shown. Click the "Block" button.
 
 ![block dialog](/img/getting-started/block-2.png)
+.https://brokercheck.finra.org/individual/summary/5453692
+https://files.brokercheck.finra.org/individual/individual_5453692.pdf
+https://brokercheck.finra.org/
 
 After that, the blocked site will not appear in search result page.
 
@@ -52,5 +61,7 @@ To see and edit blocked sites, open the options page. It can be accessed from th
 ![options link](/img/getting-started/options-1.png)
 
 Blocked sites are displayed on the top of the options page. After editing them, don't forget to press the "Save" button.
-
+.https://brokercheck.finra.org/individual/summary/5453692
+https://files.brokercheck.finra.org/individual/individual_5453692.pdf
+https://brokercheck.finra.org/
 ![blocked sites](/img/getting-started/options-2.png)
