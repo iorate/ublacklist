@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
@@ -43,6 +43,7 @@ import {
 import { useClassName, usePrevious } from "../components/utilities.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
+import { EnableSubscriptionURL } from "../serpinfo/enable-subscription-url.tsx";
 import type { Subscription, SubscriptionId, Subscriptions } from "../types.ts";
 import {
   AltURL,
@@ -539,6 +540,9 @@ export const SubscriptionSection: React.FC = () => {
           setSubscriptions={setSubscriptions}
           subscriptions={subscriptions}
         />
+        <Suspense fallback={null}>
+          <EnableSubscriptionURL type="ruleset" />
+        </Suspense>
         <SectionItem>
           <SetIntervalItem
             disabled={

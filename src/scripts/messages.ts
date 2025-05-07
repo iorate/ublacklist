@@ -26,8 +26,6 @@ type MessageSignatures = {
   "remove-subscription": (id: SubscriptionId) => void;
   "enable-subscription": (id: SubscriptionId, enabled: boolean) => void;
 
-  "register-content-scripts": () => void;
-
   sync: () => void;
   syncing: (id: CloudId) => void;
   synced: (id: CloudId, result: Result, updated: boolean) => void;
@@ -46,7 +44,17 @@ type MessageSignatures = {
   "restore-settings": (
     items: Readonly<Partial<LocalStorageItemsBackupRestore>>,
   ) => void;
-  "initialize-settings": () => void;
+  "reset-settings": () => void;
+
+  "notify-blocked-result-count": (count: number) => void;
+  "get-hide-blocked-results": () => boolean;
+  "set-hide-blocked-results": (show: boolean) => void;
+
+  "set-user-serpinfo": (userInput: string) => void;
+  "add-remote-serpinfo": (url: string) => void;
+  "remove-remote-serpinfo": (url: string) => void;
+  "enable-remote-serpinfo": (url: string, enabled: boolean) => void;
+  "update-all-remote-serpinfo": () => void;
 };
 
 export type MessageTypes = keyof MessageSignatures;
@@ -72,7 +80,7 @@ export function postMessage<Type extends MessageTypes>(
       ) {
         return;
       }
-      throw e;
+      console.error(e);
     }
   })();
 }
@@ -81,7 +89,17 @@ export async function sendMessage<Type extends MessageTypes>(
   type: Type,
   ...args: MessageParameters<Type>
 ): Promise<MessageReturnType<Type>> {
-  return await browser.runtime.sendMessage({ type, args });
+  const response: unknown = await browser.runtime.sendMessage({ type, args });
+  return fromResponse(response) as MessageReturnType<Type>;
+}
+
+export async function sendMessageToTab<Type extends MessageTypes>(
+  tabId: number,
+  type: Type,
+  ...args: MessageParameters<Type>
+): Promise<MessageReturnType<Type>> {
+  const response = await browser.tabs.sendMessage(tabId, { type, args });
+  return fromResponse(response) as MessageReturnType<Type>;
 }
 
 export type MessageListeners = {
@@ -90,17 +108,24 @@ export type MessageListeners = {
   ) => MessageReturnType<Type> | Promise<MessageReturnType<Type>>;
 };
 
+export type MessageFromTabListeners = {
+  [Type in MessageTypes]?: (
+    tabId: number,
+    ...args: MessageParameters<Type>
+  ) => MessageReturnType<Type> | Promise<MessageReturnType<Type>>;
+};
+
 function invokeListener(
   listener: (...args: unknown[]) => unknown,
   args: unknown[],
   sendResponse: (response: unknown) => void,
-): boolean | undefined {
-  const response = listener(...args);
-  if (response instanceof Promise) {
-    void response.then(sendResponse);
+): true | undefined {
+  const value = listener(...args);
+  if (value instanceof Promise) {
+    void value.then((value) => sendResponse(toResponse(value)));
     return true;
   }
-  sendResponse(response);
+  sendResponse(toResponse(value));
 }
 
 export function addMessageListeners(
@@ -128,4 +153,45 @@ export function addMessageListeners(
   return () => {
     browser.runtime.onMessage.removeListener(listener);
   };
+}
+
+export function addMessageFromTabListeners(
+  listeners: Readonly<MessageFromTabListeners>,
+): () => void {
+  const listener = (
+    message: unknown,
+    sender: Browser.Runtime.MessageSender,
+    sendResponse: (response: unknown) => void,
+  ): true | undefined => {
+    const { type, args } = message as { type: MessageTypes; args: unknown[] };
+    if (listeners[type]) {
+      const tabId = sender.tab?.id;
+      if (tabId == null) {
+        return;
+      }
+      return invokeListener(
+        listeners[type] as (...args: unknown[]) => unknown,
+        [tabId, ...args],
+        sendResponse,
+      );
+    }
+  };
+  browser.runtime.onMessage.addListener(listener);
+  return () => {
+    browser.runtime.onMessage.removeListener(listener);
+  };
+}
+
+function fromResponse(response: unknown): unknown {
+  if (response === undefined) {
+    throw new Error("No response");
+  }
+  if (response === null || typeof response !== "object") {
+    throw new Error("Invalid response");
+  }
+  return (response as { value?: unknown }).value;
+}
+
+function toResponse(value: unknown): { value?: unknown } {
+  return value !== undefined ? { value } : {};
 }

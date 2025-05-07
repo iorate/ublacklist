@@ -6,6 +6,7 @@ import { translate } from "./locales.ts";
 import { AboutSection } from "./options/about-section.tsx";
 import { AppearanceSection } from "./options/appearance-section.tsx";
 import { BackupRestoreSection } from "./options/backup-restore-section.tsx";
+import { ExperimentalSection } from "./options/experimental-section.tsx";
 import { GeneralSection } from "./options/general-section.tsx";
 import { OptionsContextProvider } from "./options/options-context.tsx";
 import { SubscriptionSection } from "./options/subscription-section.tsx";
@@ -17,6 +18,7 @@ const Options: React.FC = () => (
       <OptionsContextProvider>
         <Container>
           <GeneralSection />
+          <ExperimentalSection />
           <AppearanceSection />
           <SyncSection />
           <SubscriptionSection />

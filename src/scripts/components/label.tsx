@@ -50,6 +50,7 @@ export const Label = React.forwardRef<HTMLSpanElement, LabelProps>(
       (theme) => ({
         color: theme.text.primary,
         cursor: disabled ? "default" : "auto",
+        overflowWrap: "anywhere",
       }),
       [disabled],
     );
@@ -76,6 +77,7 @@ export const ControlLabel = React.forwardRef<
     (theme) => ({
       color: theme.text.primary,
       cursor: disabled ? "default" : "pointer",
+      overflowWrap: "anywhere",
     }),
     [disabled],
   );
@@ -99,6 +101,7 @@ export const SubLabel = React.forwardRef<HTMLSpanElement, SubLabelProps>(
       (theme) => ({
         color: theme.text.secondary,
         cursor: disabled ? "default" : "auto",
+        overflowWrap: "anywhere",
       }),
       [disabled],
     );
