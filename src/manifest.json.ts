@@ -85,7 +85,10 @@ export default {
 
   [process.env.BROWSER === "chrome"
     ? "optional_host_permissions"
-    : "optional_permissions"]: ["*://*/*"],
+    : "optional_permissions"]:
+    process.env.BROWSER === "safari"
+      ? ["https://iorate.github.io/*"]
+      : ["*://*/*"],
 
   options_ui: {
     ...(process.env.BROWSER === "firefox"
