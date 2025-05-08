@@ -66,12 +66,9 @@ https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubuserco
 
 ### 构建
 
-为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=9.7.0 或 [corepack](https://github.com/nodejs/corepack) (目前 Node.js 安装时自带)。
+为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=9.7.0。
 
 ```shell
-# If you use corepack
-# corepack enable
-
 git clone https://github.com/iorate/ublacklist.git
 
 cd ublacklist

@@ -29,7 +29,8 @@ export const OptionsContextProvider: React.FC<{ children: React.ReactNode }> = (
       const searchParams = new URL(window.location.href).searchParams;
       const query = {
         addSubscriptionName: searchParams.get("addSubscriptionName"),
-        addSubscriptionURL: searchParams.get("addSubscriptionURL"),
+        addSubscriptionURL:
+          searchParams.get("addSubscriptionURL") ?? searchParams.get("url"),
       };
       setValue({ initialItems, platformInfo, query });
     })();

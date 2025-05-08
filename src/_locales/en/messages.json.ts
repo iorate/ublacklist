@@ -104,6 +104,9 @@ export default exportAsMessages({
   // The label for the textarea that shows rules highlighting the entry.
   popup_highlightingRulesLabel: "Rules highlighting this entry",
 
+  // The label for the switch whether to show blocked results.
+  popup_serpInfoMode_showBlockedResults: "Show blocked search results",
+
   // The title of the general section.
   options_generalTitle: "General",
 
@@ -311,11 +314,22 @@ export default exportAsMessages({
   // The label of the switch to sync the subscriptions.
   options_syncSubscriptions: "Subscriptions",
 
+  // The label of the switch to sync SERPINFO.
+  options_syncSerpInfo: "SERPINFO",
+
   // The label of the select to select a sync interval.
   options_syncInterval: "Sync interval",
 
   // The title of the subscription section.
   options_subscriptionTitle: "Subscription",
+
+  // Add ruleset subscriptions via URL.
+  options_enableRulesetSubscriptionURL: "Enable ruleset subscription links",
+  options_enableRulesetSubscriptionURLDescription:
+    "Redirects $1 to this page to add a ruleset subscription.",
+  options_enableRulesetSubscriptionURLButton: "Enable",
+  options_rulesetSubscriptionURLIsEnabled:
+    "Ruleset subscription links are enabled",
 
   // The subscription feature.
   options_subscriptionFeature: "Subscribe to rulesets",
@@ -404,14 +418,14 @@ export default exportAsMessages({
   // The error message that is shown when the backup file is invalid.
   options_restoreSettingsInvalidFile: "The file format is invalid.",
 
-  // Initialize settings.
-  options_initializeSettingsLabel: "Reset settings",
+  // Reset settings.
+  options_resetSettingsLabel: "Reset settings",
 
-  // The text of the button to initialize settings.
-  options_initializeSettingsButton: "Reset",
+  // The text of the button to reset settings.
+  options_resetSettingsButton: "Reset",
 
-  // The confirmation message to initialize settings.
-  options_initializeSettingsConfirmation:
+  // The confirmation message to reset settings.
+  options_resetSettingsConfirmation:
     "Do you really want to reset your settings?",
 
   // The title of the about section.
@@ -431,6 +445,77 @@ export default exportAsMessages({
 
   // The text of the link to the third-party notices.
   options_aboutThirdPartyNotices: "Third-Party Notices",
+
+  // The title of the experimental section.
+  options_experimentalSectionTitle: "Experimental features",
+
+  // The text representing SERPINFO.
+  options_serpInfoLabel: "SERPINFO",
+
+  // The text of the button to open the SEERPINFO options page.
+  options_openSerpInfoOptionsButton: "Options",
+
+  // The title of the basic settings section.
+  options_serpInfoBasicSettingsSection: "Basic settings",
+
+  // The label of the switch whether to enable SERPINFO.
+  options_enableSerpInfo: "Enable SERPINFO",
+
+  // Add SERPINFO via URL.
+  options_enableSerpInfoSubscriptionURL: "Enable SERPINFO subscription links",
+  options_enableSerpInfoSubscriptionURLDescription:
+    "Redirects $1 to this page to add SERPINFO.",
+  options_enableSerpInfoSubscriptionURLButton: "Enable",
+  options_serpInfoSubscriptionURLIsEnabled:
+    "SERPINFO subscription links are enabled",
+
+  // Update access permissions.
+  options_accessPermissionLabel: "Update access permissions",
+  options_accessPermissionDescription:
+    "If SERPINFO settings are synced from another device or otherwise changed, you may be required to update access permissions.",
+  options_accessPermissionButton: "Update",
+
+  // The title of the remote SERPINFO section.
+  options_remoteSerpInfoSection: "SERPINFO list",
+
+  // Version of remote SERPINFO.
+  options_remoteSerpInfoVersion: "Version",
+
+  // Last modified date of remote SERPINFO.
+  options_remoteSerpInfoLastModified: "Last modified",
+
+  // Homepage of remote SERPINFO.
+  options_remoteSerpInfoHomepage: "Homepage",
+
+  // Show content of remote SERPINFO.
+  options_showRemoteSerpInfoButton: "Show",
+
+  // Remove remote SERPINFO.
+  options_removeRemoteSerpInfoButton: "Remove",
+
+  // Update all remote SERPINFO.
+  options_updateAllRemoteSerpInfoButton: "Update now",
+
+  // The text of the button to add remote SERPINFO.
+  options_addRemoteSerpInfoButton: "Add",
+
+  // (Add SERPINFO dialog) The title of the dialog.
+  options_addRemoteSerpInfoDialog_title: "Add SERPINFO",
+
+  // (Add SERPINFO dialog) The label for the input.
+  options_addRemoteSerpInfoDialog_urlLabel: "URL",
+
+  // (Add SERPINFO dialog) The text of the button.
+  options_addRemoteSerpInfoDialog_addButton: "Add",
+
+  // The title of the user SERPINFO section.
+  options_userSerpInfoSection: "My SERPINFO",
+
+  // The link to the documentation of SERPINFO.
+  options_userSerpInfoDocumentationLink: "Documentation",
+
+  // The text of the button to save user SERPINFO.
+  options_saveUserSerpInfo: "Save",
 
   // The label of the radio button to sync with Google Drive.
   clouds_googleDriveSync: "Sync with Google Drive",

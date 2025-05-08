@@ -3,7 +3,7 @@ import { exportAsMessages } from "../helpers.ts";
 export default exportAsMessages({
   extensionName: "uBlacklist",
   extensionDescription:
-    "Blockiert Seiten damit diese nicht in den Suchergebnissen von Google auftauchen",
+    "Blockiert Seiten, damit diese nicht in den Suchergebnissen von Google auftauchen",
   lang: "de",
   error: "Fehler: $1",
   unauthorizedError:
@@ -22,8 +22,8 @@ export default exportAsMessages({
   popup_pageURLLabel: "Seiten-URL",
   popup_pathDepth: "Pfadtiefe",
   popup_pageTitleLabel: "Seitentitel",
-  popup_addedRulesLabel: "Regeln die hinzugefügt werden",
-  popup_removedRulesLabel: "Regeln die entfernt werden",
+  popup_addedRulesLabel: "Regeln, die hinzugefügt werden",
+  popup_removedRulesLabel: "Regeln, die entfernt werden",
   popup_blockSiteButton: "Blockieren",
   popup_unblockSiteButton: "Aufheben",
   popup_openOptionsLink: "Optionen",
@@ -32,12 +32,12 @@ export default exportAsMessages({
   popup_activateButton: "Aktivieren",
   options_generalTitle: "Allgemein",
   options_blacklistLabel:
-    "Seiten die in den Suchergebnissen von Google blockiert sind",
+    "Seiten, die in den Suchergebnissen von Google blockiert sind",
   options_blacklistHelper:
-    "Sie können [Muster](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) oder [reguläre Ausdrücke](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) verwenden.",
+    "Sie können [Muster](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) und [reguläre Ausdrücke](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) verwenden.",
   options_blacklistExample: "Beispiel: $1",
   options_blockByTitle:
-    'Um Seiten über deren Seitentitel zu blockieren, müssen Sie "title" vor reguläre Ausdrücke voranstellen.',
+    'Um Seiten über deren Seitentitel zu blockieren, stellen Sie "title" den regulären Ausdrücken voran.',
   options_blacklistUpdated: "Aktualisiert",
   options_reloadBlacklistButton: "Neu laden",
   options_importBlacklistButton: "Importieren",
@@ -52,18 +52,18 @@ export default exportAsMessages({
   options_importBlacklistDialog_append: "An existierende Liste anhängen",
   options_importBlacklistDialog_importButton: "Importieren",
   options_importBlacklistDialog_helper:
-    "Einfügen der von der persönlichen Sperrliste exportierten Domänen.",
+    "Einfügen der aus der persönlichen Sperrliste exportierten Domänen.",
   options_otherSearchEngines: "Andere Suchmaschinen",
   options_otherSearchEnginesDescription:
     "Sie können diese Erweiterung auf den nachfolgenden Suchmaschinen verwenden.",
   options_registerSearchEngine: "Aktivieren",
   options_searchEngineRegistered: "Aktiviert",
-  options_skipBlockDialogLabel: '"Diese Seite blockieren"-Dialog überspringen',
-  options_hideBlockLinksLabel: '"Diese Seite blockieren"-Links ausblenden',
+  options_skipBlockDialogLabel: 'Dialog "Diese Seite blockieren" überspringen',
+  options_hideBlockLinksLabel: 'Link "Diese Seite blockieren" ausblenden',
   options_hideControlLabel:
-    'Anzahl der blockierten Seiten und den "Anzeigen"-Link ausblenden',
+    'Anzahl der blockierten Seiten und den Link "Anzeigen" ausblenden',
   options_blockWholeSiteLabel:
-    "Regeln hinzufügen, komplette Seiten standardmäßig zu blockieren",
+    "Regeln hinzufügen, die standardmäßig komplette Seiten blockieren",
   options_blockWholeSiteDescription:
     'Beispiel: Um die Seite "https://a.b.example.uk.com/" zu blockieren, wird die Regel "*://*.example.uk.com/*" hinzugefügt.',
   options_appearanceTitle: "Aussehen",
@@ -78,28 +78,28 @@ export default exportAsMessages({
   options_highlightColorAdd: "Hinzufügen",
   options_highlightColorRemove: "Entfernen",
   options_dialogTheme:
-    'Das Thema des "Diese Seite blockieren"-Dialog in den Suchergebnissen',
+    'Das Thema des Dialogs "Diese Seite blockieren" in den Suchergebnissen',
   options_dialogThemeDefault: "Standard",
   options_dialogThemeLight: "Hell",
   options_dialogThemeDark: "Dunkel",
   options_syncTitle: "Synchronisieren",
   options_syncFeatureUpdated:
-    'Die Funktion für das Synchronisieren wurde aktualisiert. Um die Synchronisation weiter verwenden zu können, drücken Sie auf "Synchronisation einschalten".',
+    'Die Funktion für das Synchronisieren wurde aktualisiert. Um die Synchronisation weiterverwenden zu können, drücken Sie auf "Synchronisation einschalten".',
   options_syncFeature: "Mit Cloud synchronisieren",
   options_syncFeatureDescription:
-    "Sie können Ihre Sperrlisten über die Cloud mit all Ihren Geräte synchronisieren.",
+    "Sie können Ihre Regelsätze über die Cloud mit all Ihren Geräten synchronisieren.",
   options_turnOnSync: "Synchronisation einschalten",
   options_turnOnSyncDialog_title: "Synchronisation einschalten",
   options_turnOnSyncDialog_turnOnSyncButton: "Einschalten",
   options_turnOnSyncDialog_useAltFlow:
     "Authentifizierungsseite in neuem Tab öffnen",
   options_turnOnSyncDialog_altFlowDescription:
-    "Sie werden vor der Authentifizierung möglicherweise nach Berechtigungen für den Zugriff auf $1 geafragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.",
-  options_turnOnSyncDialog_altFlowAuthCodeLabel: "Autorisationsschlüssel",
+    "Sie werden vor der Authentifizierung möglicherweise nach Berechtigungen für den Zugriff auf $1 gefragt. Ihre persönlichen Daten werden jedoch NICHT unter der Domäne gespeichert.",
+  options_turnOnSyncDialog_altFlowAuthCodeLabel: "Autorisierungscode",
   options_turnOffSync: "Ausschalten",
   options_syncResult: "Letzte Synchronisation",
   options_syncNever: "Noch nie synchronisiert",
-  options_syncRunning: "Synchronisiere...",
+  options_syncRunning: "Synchronisiere…",
   options_syncReloadButton: "Neu laden",
   options_syncNowButton: "Jetzt synchronisieren",
   options_syncCategories: "Was synchronisiert wird",
@@ -109,9 +109,9 @@ export default exportAsMessages({
   options_syncSubscriptions: "Abonnements",
   options_syncInterval: "Synchronisationsintervall",
   options_subscriptionTitle: "Abonnement",
-  options_subscriptionFeature: "Sperrlisten abonnieren",
+  options_subscriptionFeature: "Regelsätze abonnieren",
   options_subscriptionFeatureDescription:
-    "Wenn Sie ein Abonnement hinzufügen, werden die Sperrlisten regelmäßig von der festgelegten URL heruntergeladen.",
+    "Wenn Sie ein Abonnement hinzufügen, werden die Regelsätze regelmäßig von der festgelegten URL heruntergeladen.",
   options_addSubscriptionButton: "Abonnement hinzufügen",
   options_subscriptionNameHeader: "Name",
   options_subscriptionURLHeader: "URL",
@@ -119,7 +119,7 @@ export default exportAsMessages({
   options_subscriptionCheckBoxLabel: "Aktiviert",
   options_subscriptionMenuButtonLabel: "Menü",
   options_noSubscriptionsAdded: "Keine Abonnements hinzugefügt",
-  options_subscriptionUpdateRunning: "Aktualisiere...",
+  options_subscriptionUpdateRunning: "Aktualisiere…",
   options_showSubscriptionMenu: "Anzeigen",
   options_updateSubscriptionNowMenu: "Jetzt aktualisieren",
   options_removeSubscriptionMenu: "Entfernen",
@@ -136,10 +136,10 @@ export default exportAsMessages({
   options_restoreSettingsLabel: "Einstellungen wiederherstellen",
   options_restoreSettingsButton: "Wiederherstellen",
   options_restoreSettingsInvalidFile: "Das Dateiformat ist ungültig.",
-  options_initializeSettingsLabel: "Einstellungen initialisieren",
-  options_initializeSettingsButton: "Initialisieren",
-  options_initializeSettingsConfirmation:
-    "Wollen Sie die Einstellungen wirklich initialisieren?",
+  options_resetSettingsLabel: "Einstellungen zurücksetzen",
+  options_resetSettingsButton: "Zurücksetzen",
+  options_resetSettingsConfirmation:
+    "Wollen Sie die Einstellungen wirklich zurücksetzen?",
   options_aboutTitle: "Über uBlacklist",
   options_aboutVersion: "Version",
   options_aboutDocumentation: "Dokumentation",

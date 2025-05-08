@@ -13,7 +13,9 @@
     "@lezer/lr": "^1.4.2",
     "@mdi/svg": "^7.4.47",
     "colord": "^2.9.3",
+    "css-tree": "^3.1.0",
     "dayjs": "^1.11.13",
+    "es-toolkit": "^1.32.0",
     "goober": "2.1.10",
     "is-mobile": "^5.0.0",
     "js-yaml": "^4.1.0",
@@ -22,11 +24,15 @@
     "react-colorful": "^5.6.1",
     "react-dom": "^19.0.0",
     "tldts": "^6.1.78",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zod-tuple-with-optional": "^1.0.2",
+    "zod-validation-error": "^3.4.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@lezer/generator": "^1.7.2",
+    "@types/css-tree": "^2.3.10",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/license-checker": "^25.0.6",

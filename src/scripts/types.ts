@@ -1,8 +1,13 @@
 import type dayjs from "dayjs";
 import type { MessageName0 } from "../common/locales.ts";
 import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
-import type { QueryResult, RulesetMatches } from "./interactive-ruleset.ts";
+import type { QueryResult } from "./interactive-ruleset.ts";
+import type { RulesetMatches } from "./interactive-ruleset.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
+import type {
+  SerpInfoSettings,
+  Serializable as SerpInfoSettingsSerializable,
+} from "./serpinfo/settings.ts";
 
 export type {
   MessageName,
@@ -104,12 +109,17 @@ export type LocalStorageItems = {
   syncGeneral: boolean;
   syncAppearance: boolean;
   syncSubscriptions: boolean;
+  syncSerpInfo: boolean;
   syncResult: Result | false | null;
   syncInterval: number;
 
   // subscriptions
   subscriptions: Subscriptions;
   updateInterval: number;
+
+  // serpinfo
+  serpInfoEnabled: boolean;
+  serpInfoSettings: SerpInfoSettings;
 };
 
 export type LocalStorageItemsFor<
@@ -120,7 +130,12 @@ export type LocalStorageItemsFor<
 
 export type LocalStorageItemsSavable = Omit<
   LocalStorageItems,
-  "ruleset" | "compiledRules" | "syncCloudId" | "syncResult" | "subscriptions"
+  | "ruleset"
+  | "compiledRules"
+  | "syncCloudId"
+  | "syncResult"
+  | "subscriptions"
+  | "serpInfoSettings"
 >;
 
 export type SaveSource = "content-script" | "popup" | "options" | "background";
@@ -142,10 +157,12 @@ export type LocalStorageItemsBackupRestore = Pick<
   | "syncGeneral"
   | "syncAppearance"
   | "syncSubscriptions"
+  | "syncSerpInfo"
   | "syncInterval"
   | "updateInterval"
 > & {
   subscriptions: readonly { name: string; url: string; enabled: boolean }[];
+  serpInfoSettings: SerpInfoSettingsSerializable;
 };
 // #endregion LocalStorage
 

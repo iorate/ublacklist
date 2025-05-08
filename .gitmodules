@@ -1,0 +1,4 @@
+[submodule "builtin"]
+	path = builtin
+	url = https://github.com/ublacklist/builtin.git
+	branch = dist

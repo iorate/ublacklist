@@ -10,7 +10,7 @@ Blocks specific sites from appearing in Google search results
 
 This extension prevents the sites you specify from appearing in Google search results.
 
-You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://developer.mozilla.org/en-us/docs/mozilla/add-ons/webextensions/match_patterns) (e.g. `*://*.example.com/*`) or by [regular expressions](https://developer.mozilla.org/en-us/docs/web/javascript/guide/regular_expressions) (e.g. `/example\.(net|org)/`).
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://iorate.github.io/ublacklist/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://iorate.github.io/ublacklist/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
 
 You can synchronize rulesets across devices via cloud storage. At the moment, Google Drive and Dropbox are supported.
 
@@ -41,7 +41,8 @@ This extension is available in the below search engines.
 
 ## For subscription providers
 
-To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:<br>
+To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:
+
 https://raw.githubusercontent.com/iorate/ublacklist-example-subscription/master/uBlacklist.txt
 
 You can prepend YAML frontmatter to your ruleset. It is recommended that you set the `name` variable.
@@ -53,25 +54,29 @@ name: Your ruleset name
 *://*.example.com/*
 ```
 
-In uBlacklist >=6.6.0 for _Chrome_, subscription links are available. To add a subscription with `url`, the following URL can be used as a shortcut to the options page:
+### Subscription links
+
+Subscription links are available to make it easier for users to add your ruleset. To create a subscription link for your ruleset, use the following format:
 
 ```
-https://iorate.github.io/ublacklist/subscribe?url={urlEncode(url)}
+https://ublacklist.github.io/rulesets/subscribe?url=<url-encoded-url>
 ```
 
-For the above example:<br>
-https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
+For the above example:
+
+https://ublacklist.github.io/rulesets/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
+
+When users click this link, they will be directed to the extension's options page with your subscription pre-filled.
+
+**NOTE:** This feature is available in v8.11.0 or later. Users need to explicitly enable this feature by turning on "Enable ruleset subscription links" in the extension's options page.
 
 ## For developers
 
 ### Build
 
-To build this extension, [pnpm](https://pnpm.io/)>=9.7.0 or [corepack](https://github.com/nodejs/corepack) (currently distributed with Node.js) is required.
+To build this extension, [pnpm](https://pnpm.io/)>=9.7.0 is required.
 
 ```shell
-# If you use corepack
-# corepack enable
-
 git clone https://github.com/iorate/ublacklist.git
 
 cd ublacklist

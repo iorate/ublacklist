@@ -7,10 +7,11 @@ import { useClassName } from "./utilities.ts";
 
 export type IconButtonProps = React.JSX.IntrinsicElements["button"] & {
   iconURL: string;
+  compact?: boolean;
 };
 
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  function IconButton({ iconURL, ...props }, ref) {
+  function IconButton({ iconURL, compact = false, ...props }, ref) {
     const theme = useTheme();
     const wrapperClassName = useClassName(
       () => ({
@@ -24,9 +25,9 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         border: "none",
         cursor: "pointer",
         display: "block",
-        height: "36px",
-        padding: "6px",
-        width: "36px",
+        height: compact ? "24px" : "36px",
+        padding: compact ? 0 : "6px",
+        width: compact ? "24px" : "36px",
         "&:disabled": {
           cursor: "default",
           opacity: DISABLED_OPACITY,
@@ -35,7 +36,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           outline: "none",
         },
       }),
-      [],
+      [compact],
     );
     return (
       <div className={wrapperClassName}>

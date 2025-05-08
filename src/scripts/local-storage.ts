@@ -1,5 +1,6 @@
 import { browser } from "./browser.ts";
 import { sendMessage } from "./messages.ts";
+import { getDefault } from "./serpinfo/settings.ts";
 import type {
   LocalStorageItems,
   LocalStorageItemsFor,
@@ -28,11 +29,15 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   syncGeneral: false,
   syncAppearance: false,
   syncSubscriptions: false,
+  syncSerpInfo: false,
   syncResult: false,
   syncInterval: 15,
 
   subscriptions: {},
   updateInterval: 120,
+
+  serpInfoEnabled: false,
+  serpInfoSettings: getDefault(),
 };
 
 export function loadFromLocalStorage<Keys extends (keyof LocalStorageItems)[]>(

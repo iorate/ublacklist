@@ -1,7 +1,10 @@
 import dayjs from "dayjs";
+import { omit } from "es-toolkit";
 import { z } from "zod";
 import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
+import { updateAllRemote as updateAllRemoteSerpInfo } from "../serpinfo/background.ts";
+import * as SerpInfoSettings from "../serpinfo/settings.ts";
 import type { Result, Subscriptions } from "../types.ts";
 import {
   Mutex,
@@ -25,6 +28,7 @@ const SYNC_BLOCKLIST_FILENAME = "uBlacklist.txt";
 const SYNC_GENERAL_FILENAME = "general.json";
 const SYNC_APPEARANCE_FILENAME = "appearance.json";
 const SYNC_SUBSCRIPTIONS_FILENAME = "subscriptions.json";
+const SYNC_SERPINFO_FILENAME = "serpinfo.json";
 
 export const SYNC_ALARM_NAME = "sync";
 
@@ -33,6 +37,7 @@ export type SyncDirtyFlags = {
   general: boolean;
   appearance: boolean;
   subscriptions: boolean;
+  serpInfo: boolean;
 };
 
 type SyncSection = {
@@ -314,6 +319,50 @@ const syncSections: readonly SyncSection[] = [
       }
     },
   },
+  // serpinfo
+  {
+    beforeSync(items, dirtyFlags) {
+      return {
+        shouldUpload: items.syncSerpInfo && dirtyFlags.serpInfo,
+      };
+    },
+    beforeUpload(localItems) {
+      return {
+        filename: SYNC_SERPINFO_FILENAME,
+        content: SerpInfoSettings.serialize(localItems.serpInfoSettings),
+        modifiedTime: dayjs(localItems.serpInfoSettings.lastModified),
+      };
+    },
+    afterDownload(cloudItems, cloudContent, cloudModifiedTime) {
+      const settings = SerpInfoSettings.deserialize(cloudContent);
+      if (!settings) {
+        throw new Error(`File corrupted: ${SYNC_SERPINFO_FILENAME}`);
+      }
+      return {
+        ...cloudItems,
+        serpInfoSettings: {
+          ...settings,
+          lastModified: cloudModifiedTime.toISOString(),
+        },
+      };
+    },
+    afterDownloadAll(cloudItems, latestLocalItems) {
+      if (
+        cloudItems.serpInfoSettings &&
+        dayjs(cloudItems.serpInfoSettings.lastModified).isBefore(
+          latestLocalItems.serpInfoSettings.lastModified,
+        )
+      ) {
+        return omit(cloudItems, ["serpInfoSettings"]);
+      }
+      return { ...cloudItems };
+    },
+    afterSync(cloudItems) {
+      if (cloudItems.serpInfoSettings) {
+        void updateAllRemoteSerpInfo();
+      }
+    },
+  },
 ];
 
 async function doSync(
@@ -403,7 +452,13 @@ async function doSync(
 
 export function sync(): Promise<void> {
   return doSync(
-    { blocklist: true, general: true, appearance: true, subscriptions: true },
+    {
+      blocklist: true,
+      general: true,
+      appearance: true,
+      subscriptions: true,
+      serpInfo: true,
+    },
     true,
   );
 }
@@ -415,6 +470,7 @@ export function syncDelayed(dirtyFlagsUpdate: Partial<SyncDirtyFlags>): void {
       general: false,
       appearance: false,
       subscriptions: false,
+      serpInfo: false,
     }),
     ...dirtyFlagsUpdate,
   };

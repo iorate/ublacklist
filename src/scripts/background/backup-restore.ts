@@ -5,6 +5,8 @@ import {
   defaultLocalStorageItems,
   loadFromLocalStorage,
 } from "../local-storage.ts";
+import { updateAllRemote as updateAllRemoteSerpInfo } from "../serpinfo/background.ts";
+import * as SerpInfoSettings from "../serpinfo/settings.ts";
 import type {
   LocalStorageItemsBackupRestore,
   Subscriptions,
@@ -30,9 +32,11 @@ export async function backup(): Promise<LocalStorageItemsBackupRestore> {
     "syncGeneral",
     "syncAppearance",
     "syncSubscriptions",
+    "syncSerpInfo",
     "syncInterval",
     "subscriptions",
     "updateInterval",
+    "serpInfoSettings",
   ]);
   return {
     ...items,
@@ -41,6 +45,7 @@ export async function backup(): Promise<LocalStorageItemsBackupRestore> {
       url: s.url,
       enabled: s.enabled ?? true,
     })),
+    serpInfoSettings: SerpInfoSettings.toSerializable(items.serpInfoSettings),
   };
 }
 
@@ -95,6 +100,7 @@ export async function restore(
       syncBlocklist: items.syncBlocklist ?? defaults.syncBlocklist,
       syncGeneral: items.syncGeneral ?? defaults.syncGeneral,
       syncAppearance: items.syncAppearance ?? defaults.syncAppearance,
+      syncSerpInfo: items.syncSerpInfo ?? defaults.syncSerpInfo,
       syncSubscriptions: items.syncSubscriptions ?? defaults.syncSubscriptions,
       syncInterval: items.syncInterval ?? defaults.syncInterval,
 
@@ -102,13 +108,21 @@ export async function restore(
       nextSubscriptionId,
       updateInterval: items.updateInterval ?? defaults.updateInterval,
       subscriptionsLastModified: now,
+
+      serpInfoSettings: items.serpInfoSettings
+        ? {
+            ...SerpInfoSettings.fromSerializable(items.serpInfoSettings),
+            lastModified: now,
+          }
+        : defaults.serpInfoSettings,
     };
   });
 
   void updateAllSubscriptions();
+  void updateAllRemoteSerpInfo();
 }
 
-export async function initialize(): Promise<void> {
+export async function reset(): Promise<void> {
   await resetAllInRawStorage(() => ({}));
 
   if (process.env.BROWSER !== "safari") {

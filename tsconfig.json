@@ -7,6 +7,9 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
+    "paths": {
+      "@builtin/*": ["./builtin/*"]
+    },
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",

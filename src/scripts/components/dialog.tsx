@@ -1,5 +1,5 @@
 import * as Goober from "goober";
-import React, { useLayoutEffect, useMemo, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import {
   DIALOG_Z_INDEX,
   FOCUS_DEFAULT_CLASS,
@@ -99,6 +99,10 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
         document.documentElement.classList.remove(rootClassName);
       }
     }, [open]);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: 'rootClass' does not change between renders.
+    useEffect(() => {
+      return () => document.documentElement.classList.remove(rootClassName);
+    }, []);
     useLayoutEffect(() => {
       if (open && innerRef.current) {
         if (!innerRef.current.contains(getFocusedElement(innerRef.current))) {
