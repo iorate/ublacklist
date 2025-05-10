@@ -116,4 +116,4 @@ The blacklists featured on this page are user-generated content and are not endo
 - [awesome-ublacklist](https://github.com/rjaus/awesome-ublacklist) by [Riley James](https://github.com/rjaus)
   - "Awesome list of uBlacklist subscriptions to block search results from google, bing, duckduckgo."
 - [Nicoles uBlacklist collection](https://github.com/nicoleahmed/nicoles-ublacklist/) by [Nicole Ahmed](https://github.com/nicoleahmed)
-  - "A collection of uBlacklist subscriptions in various languages and for multiple purposes. Additionally a small personal blacklist for sites missed by other lists (particularly UK related sites).
+  - "A collection of uBlacklist subscriptions in various languages and for multiple purposes. Additionally a small personal blacklist for sites missed by other lists (particularly UK related sites)."
