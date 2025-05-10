@@ -15,7 +15,7 @@
 您可以通过云存储跨设备同步规则集。目前，支持 Google Drive 和 Dropbox。
 
 您还可以订阅公共规则集。该网站列出了一些订阅：
-https://iorate.github.io/ublacklist/subscriptions
+https://ublacklist.github.io/subscriptions
 
 ## 支持的搜索引擎
 
@@ -52,15 +52,6 @@ name: Your ruleset name
 ---
 *://*.example.com/*
 ```
-
-在 _Chrome_ 浏览器上的 uBlacklist >=6.6.0 中，订阅链接是有效的。要添加 `url` 为订阅, 以下 URL 可用作选项页面的快捷方式:
-
-```
-https://iorate.github.io/ublacklist/subscribe?url={urlEncode(url)}
-```
-
-对于上面的示例:<br>
-https://iorate.github.io/ublacklist/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
 
 ## 开发者
 

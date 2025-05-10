@@ -8,10 +8,10 @@ https://github.com/iorate/ublacklist#supported-search-engines
 Вы можете синхронизировать правила между Вашими устройствами через облако. На данный момент поддерживаются Google Диск и Dropbox.
 
 Вы также можете подписаться на публичные наборы правил. Некоторые подписки доступны на сайте:
-https://iorate.github.io/ublacklist/subscriptions
+https://ublacklist.github.io/subscriptions
 
 Как пользоваться:
-https://iorate.github.io/ublacklist/docs/getting-started
+https://ublacklist.github.io/docs/getting-started
 
 Список изменений:
 https://github.com/iorate/ublacklist/releases

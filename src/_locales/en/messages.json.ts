@@ -273,7 +273,7 @@ export default exportAsMessages({
     "Open the authentication page in a new tab",
 
   // The text to explain permission requests in the 'alternative' web auth flow.
-  // '$1' is expanded to 'iorate.github.io'.
+  // '$1' is expanded to 'ublacklist.github.io'.
   options_turnOnSyncDialog_altFlowDescription:
     "You may be asked for permission to access $1 before authentication, but your personal information will NOT be stored in that domain.",
 
