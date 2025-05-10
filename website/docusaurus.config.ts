@@ -27,9 +27,6 @@ const config: Config = {
     [
       "classic",
       {
-        docs: {
-          editUrl: "https://github.com/iorate/ublacklist/edit/master/website/",
-        },
         theme: {
           customCss: "./src/css/custom.css",
         },
