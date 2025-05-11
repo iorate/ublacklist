@@ -538,6 +538,7 @@ export const SEARCH_ENGINES: Readonly<
           "*://www.gruble.de/search*",
           "*://www.jabber-germany.de/searx/search*",
           "*://searx.juancord.xyz/searxng/search*",
+          "*://searx.oloke.xyz/search*",
         ],
         runAt: "document_start",
       },
