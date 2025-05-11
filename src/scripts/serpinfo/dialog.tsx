@@ -6,7 +6,6 @@ import { saveToLocalStorage } from "../local-storage.ts";
 import { sendMessage } from "../messages.ts";
 import type { DialogTheme } from "../types.ts";
 import { storageStore } from "./storage-store.ts";
-import type { Result } from "./types.ts";
 
 type DialogRoot = { root: Root; shadowRoot: ShadowRoot };
 
@@ -47,16 +46,20 @@ export function closeDialog() {
   dialogRoot.root.render(null);
 }
 
-export function openDialog(result: Result, ruleset: InteractiveRuleset) {
+export function openDialog(
+  url: string,
+  props: Record<string, string>,
+  ruleset: InteractiveRuleset,
+) {
   const state = storageStore.get();
-  const props = { ...result.props, url: result.url };
+  const entryProps = { ...props, url };
   const onBlocked = () =>
     void saveToLocalStorage(
       { blacklist: ruleset.toString() },
       "content-script",
     );
   if (state.skipBlockDialog) {
-    ruleset.createPatch(props, state.blockWholeSite);
+    ruleset.createPatch(entryProps, state.blockWholeSite);
     ruleset.applyPatch();
     onBlocked();
     return;
@@ -68,7 +71,7 @@ export function openDialog(result: Result, ruleset: InteractiveRuleset) {
       close={closeDialog}
       enablePathDepth={state.enablePathDepth}
       enableMatchingRules={state.enableMatchingRules}
-      entryProps={props}
+      entryProps={entryProps}
       open={true}
       openOptionsPage={() => sendMessage("open-options-page")}
       ruleset={ruleset}

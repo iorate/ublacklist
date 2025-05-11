@@ -86,12 +86,3 @@ export const serpInfoStrictSchema = serpInfoSchema.merge(
       .array(),
   }),
 );
-
-export type Result = {
-  root: Element;
-  url: string;
-  props: Record<string, string>;
-  removeButton: (() => void) | null;
-  description: ResultDescription;
-  serpDescription: SerpDescription;
-};

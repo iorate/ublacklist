@@ -15,7 +15,16 @@ import {
 import * as C from "./constants.ts";
 import { closeDialog, openDialog } from "./dialog.tsx";
 import { storageStore } from "./storage-store.ts";
-import type { Result, ResultDescription, SerpDescription } from "./types.ts";
+import type { ResultDescription, SerpDescription } from "./types.ts";
+
+type Result = {
+  root: Element;
+  url: string | null;
+  props: Record<string, string>;
+  removeButton: (() => void) | null;
+  description: ResultDescription;
+  serpDescription: SerpDescription;
+};
 
 function getRoots(desc: ResultDescription): Element[] {
   try {
@@ -27,20 +36,29 @@ function getRoots(desc: ResultDescription): Element[] {
 }
 
 function getURL(root: Element, command: PropertyCommand): string | null {
+  let url: string | null;
   try {
-    const url = runPropertyCommand(
+    url = runPropertyCommand(
       { root },
       typeof command === "string" ? ["attribute", "href", command] : command,
     );
-    if (url == null) {
-      return null;
-    }
-    new URL(url);
-    return url;
   } catch (error) {
     console.error(error);
     return null;
   }
+  if (url == null) {
+    return null;
+  }
+  // if (!URL.canParse(url)) {
+  try {
+    new URL(url);
+  } catch {
+    if (process.env.DEBUG) {
+      console.debug(`Invalid URL: ${url}`);
+    }
+    return null;
+  }
+  return url;
 }
 
 function getProperty(root: Element, command: PropertyCommand): string | null {
@@ -56,11 +74,8 @@ function getResult(
   root: Element,
   description: ResultDescription,
   serpDescription: SerpDescription,
-): Result | null {
+): Result {
   const url = getURL(root, description.url);
-  if (!url) {
-    return null;
-  }
   const props: Record<string, string> = {
     ...(serpDescription.commonProps || {}),
   };
@@ -114,9 +129,16 @@ class Filter {
       state.ruleset || null,
       state.subscriptions,
     );
-    this.#observer = new MutationObserver((records) =>
-      this.#onMutation(records),
-    );
+    this.#observer = new MutationObserver((records) => {
+      if (!this.#pendingRecords.length) {
+        requestAnimationFrame(() => {
+          this.#onMutation(this.#pendingRecords);
+          this.#pendingRecords = [];
+        });
+      }
+      this.#pendingRecords = [...this.#pendingRecords, ...records];
+    });
+    this.#pendingRecords = [];
     this.#results = new Map();
     this.#blockedResultCount = 0;
 
@@ -161,37 +183,41 @@ class Filter {
   #onMutation(records: MutationRecord[]) {
     this.#pause();
     try {
+      const mutatedResults = new Set<Result>();
       for (const record of records) {
         if (!(record.target instanceof Element)) {
           continue;
         }
-        const root = record.target.closest(`[${C.RESULT_ATTRIBUTE}]`);
-        if (root) {
-          const oldResult = this.#results.get(root);
-          if (!oldResult) {
-            continue;
+        for (
+          let root = record.target.closest(`[${C.RESULT_ATTRIBUTE}]`);
+          root;
+          root = root.parentElement?.closest(`[${C.RESULT_ATTRIBUTE}]`) ?? null
+        ) {
+          const result = this.#results.get(root);
+          if (!result) {
+            continue; // never
           }
-          const newResult = getResult(
-            root,
-            oldResult.description,
-            oldResult.serpDescription,
-          );
-          if (!newResult) {
-            this.#removeResult(oldResult);
-            continue;
-          }
-          if (
-            newResult.url === oldResult.url &&
-            isEqual(newResult.props, oldResult.props) &&
-            oldResult.removeButton
-          ) {
-            continue;
-          }
-          this.#removeResult(oldResult);
-          this.#addResult(newResult);
-          if (process.env.DEBUG) {
-            console.debug("Updated result:", newResult);
-          }
+          mutatedResults.add(result);
+        }
+      }
+      for (const oldResult of mutatedResults) {
+        const newResult = getResult(
+          oldResult.root,
+          oldResult.description,
+          oldResult.serpDescription,
+        );
+        if (
+          oldResult.url === newResult.url &&
+          isEqual(oldResult.props, newResult.props) &&
+          // No need to add a button
+          (oldResult.url == null || oldResult.removeButton != null)
+        ) {
+          continue;
+        }
+        this.#removeResult(oldResult);
+        this.#addResult(newResult);
+        if (process.env.DEBUG) {
+          console.debug("Updated result:", newResult);
         }
       }
       this.#scanResults();
@@ -216,9 +242,6 @@ class Filter {
             continue;
           }
           const result = getResult(root, desc, serpDesc);
-          if (!result) {
-            continue;
-          }
           this.#addResult(result);
           if (process.env.DEBUG) {
             console.debug("New result:", result);
@@ -230,16 +253,20 @@ class Filter {
   }
 
   #addResult(result: Result) {
-    result.removeButton = addButton(
-      result.root,
-      {
-        ariaLabel: translate("content_blockSiteLink"),
-        onClick: () => {
-          openDialog(result, this.#ruleset);
+    if (result.url != null && result.removeButton == null) {
+      result.removeButton = addButton(
+        result.root,
+        {
+          ariaLabel: translate("content_blockSiteLink"),
+          onClick: () => {
+            if (result.url != null) {
+              openDialog(result.url, result.props, this.#ruleset);
+            }
+          },
         },
-      },
-      result.description,
-    );
+        result.description,
+      );
+    }
     result.root.setAttribute(C.RESULT_ATTRIBUTE, "1");
     this.#judgeResult(result);
     this.#results.set(result.root, result);
@@ -262,21 +289,23 @@ class Filter {
       --this.#blockedResultCount;
     }
     result.root.removeAttribute(C.HIGHLIGHT_ATTRIBUTE);
-    const queryResult = this.#ruleset.query({
-      url: result.url,
-      ...result.props,
-    });
-    if (queryResult?.type === "block") {
-      result.root.setAttribute(
-        C.BLOCK_ATTRIBUTE,
-        result.description.preserveSpace ? "2" : "1",
-      );
-      ++this.#blockedResultCount;
-    } else if (queryResult?.type === "highlight") {
-      result.root.setAttribute(
-        C.HIGHLIGHT_ATTRIBUTE,
-        String(queryResult.colorNumber),
-      );
+    if (result.url != null) {
+      const queryResult = this.#ruleset.query({
+        ...result.props,
+        url: result.url,
+      });
+      if (queryResult?.type === "block") {
+        result.root.setAttribute(
+          C.BLOCK_ATTRIBUTE,
+          result.description.preserveSpace ? "2" : "1",
+        );
+        ++this.#blockedResultCount;
+      } else if (queryResult?.type === "highlight") {
+        result.root.setAttribute(
+          C.HIGHLIGHT_ATTRIBUTE,
+          String(queryResult.colorNumber),
+        );
+      }
     }
   }
 
@@ -287,6 +316,7 @@ class Filter {
   #serpDescriptions: readonly SerpDescription[];
   #ruleset: InteractiveRuleset;
   #observer: MutationObserver;
+  #pendingRecords: MutationRecord[];
   #results: Map<Element, Result>;
   #blockedResultCount: number;
 }
