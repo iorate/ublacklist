@@ -14,8 +14,6 @@ The blacklists featured on this page are user-generated content and are not endo
 
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
   - "Block those pesky AI-Art things on Google Images to make searching for Backgrounds or Images enjoyable again."
-- [ublacklist-anti-ai-art-subscription](https://codeberg.org/ranmaru22/ublacklist-anti-ai-art-subscription) by [Ranmaru22](https://codeberg.org/ranmaru22)
-  - "Aggressive uBlacklist subscription list that attempts to remove GenAI art from image search results."
 - [uBlockOrigin & uBlacklist Huge AI Blocklist](https://github.com/laylavish/uBlockOrigin-HUGE-AI-Blocklist) by [laylavish](https://github.com/laylavish)
   - "A huge blocklist of sites that contain AI generated content for uBlock Origin & uBlacklist."
 
