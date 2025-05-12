@@ -13,13 +13,20 @@ const matchPatternSchema = z
     message: "Invalid match pattern",
   });
 
+const propNameSchema = z.string().regex(
+  // Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
+  // Initial "$" is reserved for site props
+  /^[A-Za-z_][0-9A-Za-z_]*$/,
+  "Invalid prop name",
+);
+
 export type ResultDescription = z.infer<typeof resultDescriptionSchema>;
 
 const resultDescriptionSchema = z.object({
   name: z.string().optional(),
   root: rootsCommandSchema,
   url: propertyCommandSchema,
-  props: z.record(z.string(), propertyCommandSchema).optional(),
+  props: z.record(propNameSchema, propertyCommandSchema).optional(),
   button: buttonCommandSchema.optional(),
   preserveSpace: z.boolean().optional(),
 });
