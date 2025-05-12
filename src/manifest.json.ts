@@ -87,7 +87,7 @@ export default {
     ? "optional_host_permissions"
     : "optional_permissions"]:
     process.env.BROWSER === "safari"
-      ? ["https://iorate.github.io/*"]
+      ? ["https://iorate.github.io/*", "https://ublacklist.github.io/*"]
       : ["*://*/*"],
 
   options_ui: {
