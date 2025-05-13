@@ -178,7 +178,7 @@ class InfoViewController: NSViewController {
     private func descText() -> NSAttributedString {
         let prefixStr = NSAttributedString(string: "uBlacklist for Safari is made possible by the ", attributes: self.descNormalAttributes())
         
-        let ublacklistlink = URL(string: "https://iorate.github.io/ublacklist/")
+        let ublacklistlink = URL(string: iorateHomePage)
         let ublacklistLinkStr = NSAttributedString(string: "uBlacklist", attributes: [NSAttributedString.Key.font: self.descFont, NSAttributedString.Key.link: ublacklistlink!])
         
         let otherStr = NSAttributedString(string: " open source project and other ", attributes: self.descNormalAttributes())
