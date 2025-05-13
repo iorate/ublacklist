@@ -53,9 +53,6 @@ function getURL(root: Element, command: PropertyCommand): string | null {
   try {
     new URL(url);
   } catch {
-    if (process.env.DEBUG) {
-      console.debug(`Invalid URL: ${url}`);
-    }
     return null;
   }
   return url;
@@ -216,8 +213,13 @@ class Filter {
         }
         this.#removeResult(oldResult);
         this.#addResult(newResult);
-        if (process.env.DEBUG) {
-          console.debug("Updated result:", newResult);
+        if (process.env.DEBUG === "true") {
+          console.debug(
+            "Result changed from:\n",
+            oldResult,
+            "\nto:\n",
+            newResult,
+          );
         }
       }
       this.#scanResults();
@@ -243,8 +245,8 @@ class Filter {
           }
           const result = getResult(root, desc, serpDesc);
           this.#addResult(result);
-          if (process.env.DEBUG) {
-            console.debug("New result:", result);
+          if (process.env.DEBUG === "true") {
+            console.debug("New result:\n", result);
           }
         }
       }
