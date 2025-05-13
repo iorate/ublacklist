@@ -10,8 +10,6 @@ The blacklists featured on this page are user-generated content and are not endo
 
 # Subscriptions
 
-[Add your subscription](https://github.com/iorate/ublacklist/edit/master/website/src/pages/subscriptions.md)
-
 ## AI generated content {#ai-generated-content}
 
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)
@@ -64,6 +62,8 @@ The blacklists featured on this page are user-generated content and are not endo
   - "Ad and tracking server domain list maintained since 2001."
   - "Doesn’t have a dedicated uBlacklist/match patterns format, but use of the [`prepend`](https://pgl.yoyo.org/as/formats.php#prepend) and [`append`](https://pgl.yoyo.org/as/formats.php#append) parameters produce a URL that works perfectly for uBlacklist:
     - "`https://pgl.yoyo.org/as/serverlist.php?hostformat=plain&mimetype=plaintext&prepend=*://*.&append=/*&showintro=0`"
+- [BadWebsiteBlocklist](https://github.com/popcar2/BadWebsiteBlocklist) by [popcar2](https://github.com/popcar2)
+  - Blocks AI generated spam, misleading advertisements, SEO bait, badware sites, and generally low-effort spam websites from your search engine results!
 
 ## Gaming {#gaming}
 

@@ -18,7 +18,7 @@ export function translate(
 
 export function getWebsiteURL(path: string): string {
   const locale = translate("websiteLocale");
-  return `https://iorate.github.io/ublacklist${
+  return `https://ublacklist.github.io${
     locale === "en" ? "" : `/${locale}`
   }${path.startsWith("/") ? "" : "/"}${path}`;
 }

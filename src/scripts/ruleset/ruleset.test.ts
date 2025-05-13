@@ -170,7 +170,7 @@ test("Ruleset", async (t) => {
         !ruleset.test({ url: "http://example.com/", title: "example-domain" }),
       );
     }
-    // https://iorate.github.io/ublacklist/advanced-features#regular-expressions
+    // https://ublacklist.github.io/docs/advanced-features#regular-expressions
     {
       const ruleset = new Ruleset(String.raw`/https:\/\/www\.qinterest\./`);
       assert.ok(ruleset.test({ url: "https://www.qinterest.com/" }));

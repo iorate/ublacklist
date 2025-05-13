@@ -8,10 +8,10 @@ https://github.com/iorate/ublacklist#supported-search-engines
 您可以透過雲端儲存空間來同步要封鎖的黑名單規則集。目前支援透過 Google Drive 和 Dropbox 進行同步。
 
 除此之外，您還可以透過訂閱一些公開的黑名單規則集，下列網址有一些可訂閱的項目清單：
-https://iorate.github.io/ublacklist/subscriptions
+https://ublacklist.github.io/subscriptions
 
 使用方式：
-https://iorate.github.io/ublacklist/docs/getting-started
+https://ublacklist.github.io/docs/getting-started
 
 更新記錄：
 https://github.com/iorate/ublacklist/releases

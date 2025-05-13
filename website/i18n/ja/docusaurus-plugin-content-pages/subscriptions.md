@@ -4,8 +4,6 @@ title: 購読リスト
 
 # 購読リスト
 
-[このページに購読を追加する](https://github.com/iorate/ublacklist/edit/master/website/i18n/ja/docusaurus-plugin-content-pages/subscriptions.md)
-
 ## AI 生成コンテンツ {#ai-generated-content}
 
 - [ublacklist-ai](https://github.com/PrincessAkira/ublacklist-ai) by [Sarah Engel](https://github.com/PrincessAkira)

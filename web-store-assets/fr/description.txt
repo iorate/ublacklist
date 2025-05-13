@@ -8,10 +8,10 @@ https://github.com/iorate/ublacklist#supported-search-engines
 Vous pouvez synchroniser toutes les règles entre vos appareils via le cloud. Pour le moment, Google Drive et Dropbox sont supportés.
 
 Vous pouvez également vous abonner à des listes de règles publiques. Certains abonnements sont répertoriés sur le site :
-https://iorate.github.io/ublacklist/subscriptions
+https://ublacklist.github.io/subscriptions
 
 Utilisation:
-https://iorate.github.io/ublacklist/docs/getting-started
+https://ublacklist.github.io/docs/getting-started
 
 Changelog:
 https://github.com/iorate/ublacklist/releases

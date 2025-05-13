@@ -529,7 +529,7 @@ function UserSerpInfoSection() {
           </Row>
           <Row>
             <RowItem expanded>
-              <Link href="https://iorate.github.io/ublacklist/docs/serpinfo">
+              <Link href="https://ublacklist.github.io/docs/serpinfo">
                 {translate("options_userSerpInfoDocumentationLink")}
               </Link>
             </RowItem>

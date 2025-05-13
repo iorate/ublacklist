@@ -10,12 +10,12 @@ Blocks specific sites from appearing in Google search results
 
 This extension prevents the sites you specify from appearing in Google search results.
 
-You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://iorate.github.io/ublacklist/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://iorate.github.io/ublacklist/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://ublacklist.github.io/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://ublacklist.github.io/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
 
 You can synchronize rulesets across devices via cloud storage. At the moment, Google Drive and Dropbox are supported.
 
 You can also subscribe to public rulesets. Some subscriptions are listed on the website:
-https://iorate.github.io/ublacklist/subscriptions
+https://ublacklist.github.io/subscriptions
 
 ## Supported search engines
 
