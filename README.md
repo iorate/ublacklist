@@ -56,6 +56,10 @@ name: Your ruleset name
 
 ### Subscription links
 
+**NOTE:** This feature is available in v8.11.0 or later. Users need to explicitly enable this feature by turning on "Enable ruleset subscription links" in the extension's options page.
+
+**NOTE:** This feature does not work in Safari at the moment.
+
 Subscription links are available to make it easier for users to add your ruleset. To create a subscription link for your ruleset, use the following format:
 
 ```
@@ -67,8 +71,6 @@ For the above example:
 https://ublacklist.github.io/rulesets/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
 
 When users click this link, they will be directed to the extension's options page with your subscription pre-filled.
-
-**NOTE:** This feature is available in v8.11.0 or later. Users need to explicitly enable this feature by turning on "Enable ruleset subscription links" in the extension's options page.
 
 ## For developers
 
