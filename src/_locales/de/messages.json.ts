@@ -123,7 +123,8 @@ export default exportAsMessages({
   options_enableRulesetSubscriptionURLDescription:
     "Leitet $1 auf diese Seite weiter, um ein Regelsatzabonnement hinzuzufügen.",
   options_enableRulesetSubscriptionURLButton: "Aktivieren",
-  options_rulesetSubscriptionURLIsEnabled: "Regelsatzabonnement-Links sind aktiviert",
+  options_rulesetSubscriptionURLIsEnabled:
+    "Regelsatzabonnement-Links sind aktiviert",
   options_subscriptionFeature: "Regelsätze abonnieren",
   options_subscriptionFeatureDescription:
     "Wenn Sie ein Abonnement hinzufügen, werden die Regelsätze regelmäßig von der festgelegten URL heruntergeladen.",
@@ -173,7 +174,8 @@ export default exportAsMessages({
   options_enableSerpInfoSubscriptionURLDescription:
     "Leitet $1 auf diese Seite weiter, um SERPINFO hinzuzufügen.",
   options_enableSerpInfoSubscriptionURLButton: "Aktivieren",
-  options_serpInfoSubscriptionURLIsEnabled: "SERPINFO-Abonnement-Links sind aktiviert",
+  options_serpInfoSubscriptionURLIsEnabled:
+    "SERPINFO-Abonnement-Links sind aktiviert",
   options_accessPermissionLabel: "Zugriffsberechtigungen aktualisieren",
   options_accessPermissionDescription:
     "Wenn SERPINFO-Einstellungen von einem anderen Gerät synchronisiert oder anderweitig geändert werden, müssen Sie möglicherweise die Zugriffsberechtigungen aktualisieren.",
