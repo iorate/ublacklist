@@ -5,7 +5,6 @@ export default exportAsMessages({
   extensionDescription:
     "Blockiert Seiten, damit diese nicht in den Suchergebnissen von Google auftauchen",
   lang: "de",
-  websiteLocale: "de",
   error: "Fehler: $1",
   unauthorizedError:
     "Nicht autorisiert. Bitte Synchronisation aus- und wieder einschalten.",
