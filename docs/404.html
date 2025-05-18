@@ -1,17 +1,12 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
     <title>Redirecting...</title>
-    <script defer>
+    <script>
       const url = new URL(location.href);
       url.host = "ublacklist.github.io";
       url.pathname = url.pathname.replace(/^\/ublacklist\/?/, "/");
       location.replace(url.href);
-      document.getElementById("link").href = url.href;
     </script>
   </head>
-  <body>
-    <p>Redirecting to <a id="link" href="#">the new site</a>...</p>
-  </body>
 </html>
