@@ -59,18 +59,9 @@
     "typescript": "^5.7.3"
   },
   "engines": {
-    "pnpm": ">=9.7.0"
+    "pnpm": ">=10"
   },
-  "packageManager": "pnpm@10.4.1",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@biomejs/biome",
-      "core-js",
-      "core-js-pure",
-      "esbuild",
-      "lefthook"
-    ]
-  },
+  "packageManager": "pnpm@10.11.0",
   "private": true,
   "scripts": {
     "build": "tsx scripts/build.ts",

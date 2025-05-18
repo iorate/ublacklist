@@ -15,7 +15,7 @@ const amoPluginSpec: PluginSpec = [
     addonId: "ublacklist",
     addonDirPath: "dist/firefox",
     addonZipPath: "ublacklist-${nextRelease.gitTag}-firefox.zip",
-    approvalNotes: `To build this add-on, pnpm>=9.7.0 is required.
+    approvalNotes: `To build this add-on, pnpm>=10 is required.
 
 $ cat << EOF > .env
 DROPBOX_API_KEY=${process.env.DROPBOX_API_KEY}

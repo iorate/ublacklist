@@ -51,7 +51,7 @@ name: Your ruleset name
 
 ### 构建
 
-为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=9.7.0。
+为了构建这个扩展，你需要下载并安装 [pnpm](https://pnpm.io/)>=10。
 
 ```shell
 git clone --recurse-submodules https://github.com/iorate/ublacklist.git

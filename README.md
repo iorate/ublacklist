@@ -70,7 +70,7 @@ When users click this link, they will be directed to the extension's options pag
 
 ### Build
 
-To build this extension, [pnpm](https://pnpm.io/)>=9.7.0 is required.
+To build this extension, [pnpm](https://pnpm.io/)>=10 is required.
 
 ```shell
 git clone --recurse-submodules https://github.com/iorate/ublacklist.git
