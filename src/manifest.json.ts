@@ -1,7 +1,7 @@
 import { GOOGLE_MATCHES } from "./common/google-matches.ts";
 
 export default {
-  [process.env.BROWSER === "chrome" ? "action" : "browser_action"]: {
+  action: {
     default_icon: {
       32:
         process.env.BROWSER === "safari"
@@ -12,22 +12,15 @@ export default {
   },
 
   background: {
-    ...(process.env.BROWSER === "chrome"
-      ? {
-          service_worker: "scripts/background.js",
-        }
-      : {
-          persistent: process.env.BROWSER === "firefox",
-          scripts: ["scripts/background.js"],
-        }),
+    ...(process.env.BROWSER === "firefox"
+      ? { scripts: ["scripts/background.js"] }
+      : { service_worker: "scripts/background.js" }),
   },
 
   ...(process.env.BROWSER === "firefox"
     ? {
         browser_specific_settings: {
-          gecko: {
-            id: "@ublacklist",
-          },
+          gecko: { id: "@ublacklist" },
           gecko_android: {},
         },
       }
@@ -60,25 +53,14 @@ export default {
       }
     : {}),
 
-  manifest_version: process.env.BROWSER === "chrome" ? 3 : 2,
+  manifest_version: 3,
 
   name: "__MSG_extensionName__",
 
-  [process.env.BROWSER === "chrome"
-    ? "optional_host_permissions"
-    : "optional_permissions"]: ["*://*/*"],
+  optional_host_permissions: ["*://*/*"],
 
   options_ui: {
-    ...(process.env.BROWSER === "firefox"
-      ? {
-          browser_style: false,
-        }
-      : {}),
-    ...(process.env.BROWSER !== "safari"
-      ? {
-          open_in_tab: true,
-        }
-      : {}),
+    ...(process.env.BROWSER !== "safari" ? { open_in_tab: true } : {}),
     page: "pages/options.html",
   },
 
@@ -94,35 +76,19 @@ export default {
 
   version: process.env.VERSION,
 
-  ...(process.env.BROWSER === "chrome"
-    ? {
-        web_accessible_resources: [
-          {
-            matches: ["*://*/*"],
-            resources: ["pages/options.html", "pages/serpinfo/options.html"],
-          },
-          ...(process.env.DEBUG === "true"
-            ? [
-                {
-                  matches: ["*://*/*"],
-                  resources: ["scripts/serpinfo/content-script.js.map"],
-                },
-              ]
-            : []),
-        ],
-      }
-    : process.env.BROWSER === "firefox"
-      ? {
-          web_accessible_resources: [
-            "pages/options.html",
-            "pages/serpinfo/options.html",
-          ],
-        }
-      : {
-          web_accessible_resources: [
-            "pages/options.html",
-            "pages/serpinfo/options.html",
-            "scripts/serpinfo/content-script.js",
-          ],
-        }),
+  web_accessible_resources: [
+    {
+      matches: ["*://*/*"],
+      resources: [
+        "pages/options.html",
+        "pages/serpinfo/options.html",
+        ...(process.env.BROWSER === "safari"
+          ? ["scripts/serpinfo/content-script.js"]
+          : []),
+        ...(process.env.DEBUG === "true" && process.env.BROWSER === "chrome"
+          ? ["scripts/serpinfo/content-script.js.map"]
+          : []),
+      ],
+    },
+  ],
 };
