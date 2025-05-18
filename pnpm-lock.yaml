@@ -9,22 +9,22 @@ importers:
   .:
     dependencies:
       '@codemirror/commands':
-        specifier: ^6.8.0
+        specifier: ^6.8.1
         version: 6.8.1
       '@codemirror/lang-yaml':
         specifier: ^6.1.2
         version: 6.1.2
       '@codemirror/language':
-        specifier: ^6.10.8
+        specifier: ^6.11.0
         version: 6.11.0
       '@codemirror/lint':
-        specifier: ^6.8.4
+        specifier: ^6.8.5
         version: 6.8.5
       '@codemirror/state':
         specifier: ^6.5.2
         version: 6.5.2
       '@codemirror/view':
-        specifier: ^6.36.3
+        specifier: ^6.36.8
         version: 6.36.8
       '@lezer/common':
         specifier: ^1.2.3
@@ -48,8 +48,8 @@ importers:
         specifier: ^1.11.13
         version: 1.11.13
       es-toolkit:
-        specifier: ^1.32.0
-        version: 1.37.2
+        specifier: ^1.38.0
+        version: 1.38.0
       goober:
         specifier: 2.1.10
         version: 2.1.10(csstype@3.1.3)
@@ -63,35 +63,35 @@ importers:
         specifier: ^2.3.1
         version: 2.3.1
       react:
-        specifier: ^19.0.0
+        specifier: ^19.1.0
         version: 19.1.0
       react-colorful:
         specifier: ^5.6.1
         version: 5.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       tldts:
-        specifier: ^6.1.78
-        version: 6.1.86
+        specifier: ^7.0.7
+        version: 7.0.7
       zod:
-        specifier: ^3.24.2
+        specifier: ^3.24.4
         version: 3.24.4
       zod-tuple-with-optional:
         specifier: ^1.0.2
         version: 1.0.2(zod@3.24.4)
       zod-validation-error:
-        specifier: ^3.4.0
+        specifier: ^3.4.1
         version: 3.4.1(zod@3.24.4)
       zustand:
-        specifier: ^5.0.3
+        specifier: ^5.0.4
         version: 5.0.4(@types/react@19.1.4)(react@19.1.0)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
         version: 1.9.4
       '@lezer/generator':
-        specifier: ^1.7.2
+        specifier: ^1.7.3
         version: 1.7.3
       '@types/css-tree':
         specifier: ^2.3.10
@@ -106,19 +106,19 @@ importers:
         specifier: ^25.0.6
         version: 25.0.6
       '@types/node':
-        specifier: ^22.13.5
+        specifier: ^22.15.18
         version: 22.15.18
       '@types/punycode':
         specifier: ^2.1.4
         version: 2.1.4
       '@types/react':
-        specifier: ^19.0.10
+        specifier: ^19.1.4
         version: 19.1.4
       '@types/react-dom':
-        specifier: ^19.0.4
+        specifier: ^19.1.5
         version: 19.1.5(@types/react@19.1.4)
       '@types/webextension-polyfill':
-        specifier: ^0.12.2
+        specifier: ^0.12.3
         version: 0.12.3
       chalk:
         specifier: ^5.4.1
@@ -130,10 +130,10 @@ importers:
         specifier: ^3.1.3
         version: 3.1.3
       dotenv:
-        specifier: ^16.4.7
+        specifier: ^16.5.0
         version: 16.5.0
       esbuild:
-        specifier: ^0.25.0
+        specifier: ^0.25.4
         version: 0.25.4
       fs-extra:
         specifier: ^11.3.0
@@ -142,7 +142,7 @@ importers:
         specifier: ^14.1.0
         version: 14.1.0
       lefthook:
-        specifier: ^1.11.0
+        specifier: ^1.11.13
         version: 1.11.13
       license-checker:
         specifier: ^25.0.1
@@ -151,10 +151,10 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0
       prettier:
-        specifier: ^3.5.2
+        specifier: ^3.5.3
         version: 3.5.3
       semantic-release:
-        specifier: ^24.2.3
+        specifier: ^24.2.4
         version: 24.2.4(typescript@5.8.3)
       semantic-release-amo:
         specifier: ^1.3.1
@@ -163,10 +163,10 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       tsx:
-        specifier: ^4.19.3
+        specifier: ^4.19.4
         version: 4.19.4
       typescript:
-        specifier: ^5.7.3
+        specifier: ^5.8.3
         version: 5.8.3
 
 packages:
@@ -974,8 +974,8 @@ packages:
     resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
-  es-toolkit@1.37.2:
-    resolution: {integrity: sha512-ADDfk+pPFF0ofMpRAIc6on01p8heiuwuuJsYLzTP4UOjxVK9QsE2+0D1Q4J/zX2XBo6ac+27H5++YBIwmGAX/g==}
+  es-toolkit@1.38.0:
+    resolution: {integrity: sha512-OT3AxczYYd3W50bCj4V0hKoOAfqIy9tof0leNQYekEDxVKir3RTVTJOLij7VAe6fsCNsGhC0JqIkURpMXTCSEA==}
 
   esbuild@0.25.4:
     resolution: {integrity: sha512-8pgjLUcUjcgDg+2Q4NYXnPbo/vncAY4UmyaCm0jZevERqCHZIaWwdJHkf8XQtu4AxSKCdvrUbT0XUr1IdZzI8Q==}
@@ -2147,11 +2147,11 @@ packages:
     resolution: {integrity: sha512-75voc/9G4rDIJleOo4jPvN4/YC4GRZrY8yy1uU4lwrB3XEQbWve8zXoO5No4eFrGcTAMYyoY67p8jRQdtA1HbA==}
     engines: {node: '>=12'}
 
-  tldts-core@6.1.86:
-    resolution: {integrity: sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==}
+  tldts-core@7.0.7:
+    resolution: {integrity: sha512-ECqb8imSroX1UmUuhRBNPkkmtZ8mHEenieim80UVxG0M5wXVjY2Fp2tYXCPvk+nLy1geOhFpeD5YQhM/gF63Jg==}
 
-  tldts@6.1.86:
-    resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
+  tldts@7.0.7:
+    resolution: {integrity: sha512-ETNXj36ql5BXDa4VVJk3wgqansg8TI1Yqo217twSAPjyDnh/b2T+XzrI0ftn6EnzVPbXpMTZHOWj5s3a8/uGPA==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -3130,7 +3130,7 @@ snapshots:
       has-tostringtag: 1.0.2
       hasown: 2.0.2
 
-  es-toolkit@1.37.2: {}
+  es-toolkit@1.38.0: {}
 
   esbuild@0.25.4:
     optionalDependencies:
@@ -4276,11 +4276,11 @@ snapshots:
     dependencies:
       convert-hrtime: 5.0.0
 
-  tldts-core@6.1.86: {}
+  tldts-core@7.0.7: {}
 
-  tldts@6.1.86:
+  tldts@7.0.7:
     dependencies:
-      tldts-core: 6.1.86
+      tldts-core: 7.0.7
 
   to-regex-range@5.0.1:
     dependencies:
