@@ -50,14 +50,8 @@ async function updateRemote(url: string) {
 }
 
 // Update remote SERPINFO that is enabled or not yet downloaded
-export async function updateAllRemote(checkSerpInfoEnabled = false) {
-  const { serpInfoEnabled, serpInfoSettings } = await loadFromRawStorage([
-    "serpInfoEnabled",
-    "serpInfoSettings",
-  ]);
-  if (checkSerpInfoEnabled && !serpInfoEnabled) {
-    return;
-  }
+export async function updateAllRemote() {
+  const { serpInfoSettings } = await loadFromRawStorage(["serpInfoSettings"]);
   const urls = serpInfoSettings.remote.flatMap((r) =>
     r.enabled || r.content == null ? r.url : [],
   );
@@ -68,7 +62,7 @@ async function setupUpdateAlarm() {
   if (await browser.alarms.get(UPDATE_ALARM_NAME)) {
     return;
   }
-  void updateAllRemote(true);
+  void updateAllRemote();
   await (browser.alarms.create(UPDATE_ALARM_NAME, {
     periodInMinutes: UPDATE_INTERVAL_IN_MINUTES,
   }) as unknown as Promise<void>);
@@ -112,9 +106,7 @@ function setupSubscriptionURL(): Promise<void> {
 
 export function onStartup() {
   void modifySettings(mergeBuiltins).then(() => setupUpdateAlarm());
-  if (process.env.BROWSER !== "safari") {
-    void setupSubscriptionURL();
-  }
+  void setupSubscriptionURL();
 }
 
 export function main() {
@@ -163,7 +155,7 @@ export function main() {
   });
   browser.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === UPDATE_ALARM_NAME) {
-      void updateAllRemote(true);
+      void updateAllRemote();
     }
   });
 }

@@ -1,5 +1,4 @@
-import { parseMatchPattern } from "./common/match-pattern.ts";
-import { SEARCH_ENGINES } from "./common/search-engines.ts";
+import { GOOGLE_MATCHES } from "./common/google-matches.ts";
 
 export default {
   [process.env.BROWSER === "chrome" ? "action" : "browser_action"]: {
@@ -34,35 +33,17 @@ export default {
       }
     : {}),
 
-  content_scripts:
-    process.env.BROWSER === "safari"
-      ? Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
-          contentScripts.map(({ matches, runAt }) => ({
-            js: ["scripts/import-content-script.js"],
-            matches: [
-              ...new Set(
-                matches.map((match) => {
-                  const parsed = parseMatchPattern(match);
-                  if (!parsed) {
-                    throw new Error(`Invalid match pattern: ${match}`);
-                  }
-                  return parsed.allURLs
-                    ? "<all_urls>"
-                    : `${parsed.scheme}://${parsed.host}/*`;
-                }),
-              ),
-            ],
-            run_at: runAt,
-          })),
-        )
-      : SEARCH_ENGINES.google.contentScripts.map(({ matches, runAt }) => ({
-          js: [
-            "scripts/content-script.js",
-            "scripts/serpinfo/content-script.js",
-          ],
-          matches,
-          run_at: runAt,
-        })),
+  content_scripts: [
+    {
+      matches: GOOGLE_MATCHES,
+      js: [
+        process.env.BROWSER === "safari"
+          ? "scripts/import-content-script.js"
+          : "scripts/serpinfo/content-script.js",
+      ],
+      run_at: "document_start",
+    },
+  ],
 
   default_locale: "en",
 
@@ -104,9 +85,9 @@ export default {
   permissions: [
     "activeTab",
     "alarms",
-    ...(process.env.BROWSER !== "safari"
-      ? ["declarativeNetRequestWithHostAccess", "identity", "scripting"]
-      : []),
+    "declarativeNetRequestWithHostAccess",
+    ...(process.env.BROWSER !== "safari" ? ["identity"] : []),
+    "scripting",
     "storage",
     "unlimitedStorage",
   ],
@@ -124,10 +105,7 @@ export default {
             ? [
                 {
                   matches: ["*://*/*"],
-                  resources: [
-                    "scripts/content-script.js.map",
-                    "scripts/serpinfo/content-script.js.map",
-                  ],
+                  resources: ["scripts/serpinfo/content-script.js.map"],
                 },
               ]
             : []),
@@ -141,6 +119,10 @@ export default {
           ],
         }
       : {
-          web_accessible_resources: ["scripts/content-script.js"],
+          web_accessible_resources: [
+            "pages/options.html",
+            "pages/serpinfo/options.html",
+            "scripts/serpinfo/content-script.js",
+          ],
         }),
 };
