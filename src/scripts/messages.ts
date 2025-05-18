@@ -134,7 +134,7 @@ export function addMessageListeners(
   const listener = ((
     message: unknown,
     _sender: Browser.Runtime.MessageSender,
-    sendResponse: (response: unknown) => boolean | undefined,
+    sendResponse: (response: unknown) => void,
   ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
     if (listeners[type]) {
@@ -144,11 +144,7 @@ export function addMessageListeners(
         sendResponse,
       );
     }
-  }) as (
-    message: unknown,
-    sender: Browser.Runtime.MessageSender,
-    sendResponse: (response: unknown) => void,
-  ) => undefined;
+  }) as Browser.Runtime.OnMessageListener;
   browser.runtime.onMessage.addListener(listener);
   return () => {
     browser.runtime.onMessage.removeListener(listener);
@@ -158,11 +154,11 @@ export function addMessageListeners(
 export function addMessageFromTabListeners(
   listeners: Readonly<MessageFromTabListeners>,
 ): () => void {
-  const listener = (
+  const listener = ((
     message: unknown,
     sender: Browser.Runtime.MessageSender,
     sendResponse: (response: unknown) => void,
-  ): true | undefined => {
+  ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
     if (listeners[type]) {
       const tabId = sender.tab?.id;
@@ -175,7 +171,7 @@ export function addMessageFromTabListeners(
         sendResponse,
       );
     }
-  };
+  }) as Browser.Runtime.OnMessageListener;
   browser.runtime.onMessage.addListener(listener);
   return () => {
     browser.runtime.onMessage.removeListener(listener);
