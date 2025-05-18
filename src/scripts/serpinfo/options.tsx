@@ -56,7 +56,6 @@ import type { SerpInfo } from "./types.ts";
 dayjs.extend(dayjsLocalizedFormat);
 
 function BasicSettingsSection() {
-  const enabled = storageStore.use.serpInfoEnabled();
   const settings = storageStore.use.serpInfoSettings();
   const [hostPermissionsRequired, setHostPermissionsRequired] = useState(false);
   useEffect(() => {
@@ -82,30 +81,6 @@ function BasicSettingsSection() {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
-              <LabelWrapper>
-                <ControlLabel for="enableSerpInfo">
-                  {translate("options_enableSerpInfo")}
-                </ControlLabel>
-              </LabelWrapper>
-            </RowItem>
-            <RowItem>
-              <Switch
-                checked={enabled}
-                id="enableSerpInfo"
-                onChange={(e) => {
-                  const value = e.currentTarget.checked;
-                  storageStore.set({ serpInfoEnabled: value });
-                  if (value) {
-                    postMessage("update-all-remote-serpinfo");
-                  }
-                }}
-              />
-            </RowItem>
-          </Row>
-        </SectionItem>
         <EnableSubscriptionURL type="serpinfo" />
         <SectionItem>
           <Row>
