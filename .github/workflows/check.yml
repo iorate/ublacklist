@@ -47,19 +47,3 @@ jobs:
         with:
           name: dist
           path: dist
-
-      - name: "[Website] Get changed files"
-        id: website-changed-files
-        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
-        with:
-          files: website/**
-
-      - name: "[Website] Check"
-        if: steps.website-changed-files.outputs.any_changed == 'true'
-        run: pnpm check
-        working-directory: website
-
-      - name: "[Website] Build"
-        if: steps.website-changed-files.outputs.any_changed == 'true'
-        run: pnpm build
-        working-directory: website

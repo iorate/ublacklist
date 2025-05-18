@@ -3,10 +3,6 @@ node_modules
 
 # production
 /dist
-/website/build
 
 # local env files
 .env.local
-
-# docusaurus
-.docusaurus
