@@ -1,6 +1,6 @@
 {
   "name": "ublacklist",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "@codemirror/commands": "^6.8.0",
     "@codemirror/lang-yaml": "^6.1.2",
