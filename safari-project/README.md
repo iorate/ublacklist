@@ -9,7 +9,7 @@ For more information about uBlacklist usage, please visit the [uBlacklist home p
 ### 1. Fetch the code
 
 ```
-git clone https://github.com/HoneyLuka/uBlacklist.git
+git clone --recurse-submodules https://github.com/HoneyLuka/uBlacklist.git
 
 cd uBlacklist
 

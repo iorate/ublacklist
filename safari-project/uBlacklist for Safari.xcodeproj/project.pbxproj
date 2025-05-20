@@ -1108,7 +1108,7 @@
 			baseConfigurationReference = CEA00A4B5E243FD7A05EA2B7 /* Pods-uBlacklist for Safari Extension (iOS).debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -1120,7 +1120,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1140,7 +1140,7 @@
 			baseConfigurationReference = 0402E0A0F207CD885903154D /* Pods-uBlacklist for Safari Extension (iOS).release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
@@ -1152,7 +1152,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1177,7 +1177,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -1192,7 +1192,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1218,7 +1218,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "uBlacklist for Safari (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS (App)/Info.plist";
@@ -1233,7 +1233,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1257,7 +1257,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1270,7 +1270,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1290,7 +1290,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1303,7 +1303,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1326,7 +1326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1340,7 +1340,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1365,7 +1365,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/uBlacklist for Safari.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2025051301;
+				CURRENT_PROJECT_VERSION = 2025052001;
 				DEVELOPMENT_TEAM = 43G9ZW34K3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1379,7 +1379,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 8.11.1;
+				MARKETING_VERSION = 8.12.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
