@@ -82,7 +82,7 @@
     "check-ci:biome": "biome ci --reporter=github",
     "check-ci:prettier": "prettier --check .",
     "check-ci:tsc": "tsc",
-    "fix": "pnpm run --sequential /^fix:/",
+    "fix": "pnpm run /^fix:/",
     "fix:biome": "biome check --write",
     "fix:prettier": "prettier --write .",
     "generate-ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.js --noTerms",

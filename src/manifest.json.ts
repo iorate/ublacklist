@@ -120,11 +120,7 @@ export default {
     ? {
         web_accessible_resources: [
           {
-            matches: ["https://iorate.github.io/*"],
-            resources: ["pages/options.html"],
-          },
-          {
-            matches: ["https://ublacklist.github.io/*"],
+            matches: ["*://*/*"],
             resources: ["pages/options.html", "pages/serpinfo/options.html"],
           },
           ...(process.env.DEBUG === "true"

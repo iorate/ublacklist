@@ -15,8 +15,7 @@ const matchPatternSchema = z
 
 const propNameSchema = z.string().regex(
   // Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
-  // Initial "$" is reserved for site props
-  /^[A-Za-z_][0-9A-Za-z_]*$/,
+  /^\$?[A-Za-z_][0-9A-Za-z_]*$/,
   "Invalid prop name",
 );
 
@@ -44,7 +43,7 @@ const serpDescriptionSchema = z.object({
     .nullable()
     .catch(() => null)
     .array(),
-  commonProps: z.record(z.string(), z.string()).optional(),
+  commonProps: z.record(propNameSchema, z.string()).optional(),
   delay: z.boolean().or(z.number()).optional(),
 });
 
