@@ -69,39 +69,42 @@ async function setupUpdateAlarm() {
 }
 
 function setupSubscriptionURL(): Promise<void> {
-  return browser.declarativeNetRequest.updateDynamicRules({
-    removeRuleIds: [1, 2],
-    addRules: [
-      {
-        id: 1,
-        priority: 1,
-        action: {
-          type: "redirect",
-          redirect: {
-            regexSubstitution: `${browser.runtime.getURL("pages/options.html")}\\1`,
+  if (process.env.BROWSER !== "safari") {
+    return browser.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: [1, 2],
+      addRules: [
+        {
+          id: 1,
+          priority: 1,
+          action: {
+            type: "redirect",
+            redirect: {
+              regexSubstitution: `${browser.runtime.getURL("pages/options.html")}\\1`,
+            },
+          },
+          condition: {
+            regexFilter: `^${escapeRegExp(C.RULESET_SUBSCRIPTION_URL)}(\\?.*)`,
+            resourceTypes: ["main_frame"],
           },
         },
-        condition: {
-          regexFilter: `^${escapeRegExp(C.RULESET_SUBSCRIPTION_URL)}(\\?.*)`,
-          resourceTypes: ["main_frame"],
-        },
-      },
-      {
-        id: 2,
-        priority: 1,
-        action: {
-          type: "redirect",
-          redirect: {
-            regexSubstitution: `${browser.runtime.getURL("pages/serpinfo/options.html")}\\1`,
+        {
+          id: 2,
+          priority: 1,
+          action: {
+            type: "redirect",
+            redirect: {
+              regexSubstitution: `${browser.runtime.getURL("pages/serpinfo/options.html")}\\1`,
+            },
+          },
+          condition: {
+            regexFilter: `^${escapeRegExp(C.SERPINFO_SUBSCRIPTION_URL)}(\\?.*)`,
+            resourceTypes: ["main_frame"],
           },
         },
-        condition: {
-          regexFilter: `^${escapeRegExp(C.SERPINFO_SUBSCRIPTION_URL)}(\\?.*)`,
-          resourceTypes: ["main_frame"],
-        },
-      },
-    ],
-  });
+      ],
+    });
+  }
+  return Promise.resolve();
 }
 
 export function onStartup() {

@@ -67,8 +67,9 @@ export default {
   permissions: [
     "activeTab",
     "alarms",
-    "declarativeNetRequestWithHostAccess",
-    ...(process.env.BROWSER !== "safari" ? ["identity"] : []),
+    ...(process.env.BROWSER !== "safari"
+      ? ["declarativeNetRequestWithHostAccess", "identity"]
+      : []),
     "scripting",
     "storage",
     "unlimitedStorage",

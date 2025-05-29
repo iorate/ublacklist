@@ -81,7 +81,9 @@ function BasicSettingsSection() {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <EnableSubscriptionURL type="serpinfo" />
+        {process.env.BROWSER !== "safari" && (
+          <EnableSubscriptionURL type="serpinfo" />
+        )}
         <SectionItem>
           <Row>
             <RowItem expanded>
