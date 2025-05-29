@@ -225,7 +225,8 @@ function hasError(ruleNode: SyntaxNode): boolean {
       return true;
     }
     // #497 An error node may expand to the next line
-  } while (cursor.next() && cursor.from <= ruleNode.to + 1);
+    // `<=` is used to include the new line character
+  } while (cursor.next() && cursor.from <= ruleNode.to);
   return false;
 }
 
