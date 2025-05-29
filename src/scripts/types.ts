@@ -81,7 +81,11 @@ export type CloudToken = {
 // #endregion Clouds
 
 // #region LocalStorage
-export type PlainRuleset = { metadata: Record<string, unknown>; rules: string };
+export type PlainRuleset = {
+  metadata: Record<string, unknown>;
+  rules: string;
+  frontMatterUnclosed?: boolean;
+};
 
 export type LocalStorageItems = {
   // ruleset

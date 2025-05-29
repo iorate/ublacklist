@@ -15,6 +15,7 @@ export type RulesetJSON = {
   source: string[];
   metadata: Record<string, unknown>;
   rules: MatchPatternMapJSON<Rule>;
+  frontMatterUnclosed: boolean;
 };
 
 export type LinkProps = {
@@ -35,6 +36,7 @@ export class Ruleset implements Iterable<string> {
   private source: Text;
   private readonly metadata: Record<string, unknown>;
   private readonly rules: MatchPatternMap<Rule>;
+  private frontMatterUnclosed: boolean;
   private readonly deletedLineNumbers: Set<number> = new Set();
 
   constructor(input: string | RulesetJSON) {
@@ -42,6 +44,7 @@ export class Ruleset implements Iterable<string> {
       this.source = Text.of(input.split("\n"));
       this.metadata = {};
       this.rules = new MatchPatternMap();
+      this.frontMatterUnclosed = false;
       const tree = ruleset().language.parser.parse(new DocInput(this.source));
       const frontMatterNode = tree.topNode.getChild("Frontmatter");
       if (frontMatterNode) {
@@ -56,20 +59,26 @@ export class Ruleset implements Iterable<string> {
           // `YAMLException` or `ZodError` is thrown
         }
       }
-      collectRuleset(
-        // biome-ignore lint/style/noNonNullAssertion: "Document" always has "Ruleset"
-        tree.topNode.getChild("Ruleset")!,
-        this.source,
-        this.rules,
-      );
+      const rulesetNode = tree.topNode.getChild("Ruleset");
+      if (rulesetNode) {
+        collectRuleset(rulesetNode, this.source, this.rules);
+      } else if (frontMatterNode) {
+        // Probably the YAML frontmatter is unclosed
+        this.frontMatterUnclosed = true;
+      }
     } else {
       this.source = Text.of(input.source);
       this.metadata = input.metadata;
       this.rules = new MatchPatternMap(input.rules);
+      this.frontMatterUnclosed = input.frontMatterUnclosed;
     }
   }
 
   extend(input: string) {
+    if (this.frontMatterUnclosed) {
+      this.source = this.source.append(Text.of(["", "---"]));
+      this.frontMatterUnclosed = false;
+    }
     if (!input.length) {
       return;
     }
@@ -101,6 +110,7 @@ export class Ruleset implements Iterable<string> {
       source: this.source.toJSON(),
       metadata: this.metadata,
       rules: this.rules.toJSON(),
+      frontMatterUnclosed: this.frontMatterUnclosed,
     };
   }
 
