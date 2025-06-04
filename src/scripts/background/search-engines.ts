@@ -8,7 +8,11 @@ export async function registerContentScripts(): Promise<void> {
       id: "serpinfo",
       matches: ["*://*/*"],
       excludeMatches: GOOGLE_MATCHES,
-      js: ["scripts/serpinfo/content-script.js"],
+      js: [
+        process.env.BROWSER === "safari"
+          ? "scripts/import-content-script.js"
+          : "scripts/serpinfo/content-script.js",
+      ],
       runAt: "document_start",
     },
   ]);
