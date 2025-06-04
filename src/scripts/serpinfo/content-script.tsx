@@ -71,10 +71,7 @@ function awaitLoad(delay: number, callback: () => void) {
 }
 
 storageStore.attachPromise.then(() => {
-  const { serpInfoEnabled, serpInfoSettings } = storageStore.get();
-  if (!serpInfoEnabled) {
-    return;
-  }
+  const { serpInfoSettings } = storageStore.get();
   const serps = getSerpDescriptions(
     serpInfoSettings,
     window.location.href,

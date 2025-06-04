@@ -1,4 +1,4 @@
-# formatted by biome
+# Formatted by Biome
 *.js
 *.cjs
 *.mjs
@@ -11,5 +11,6 @@
 *.jsonc
 *.css
 
-# pnpm
+# pnpm files
 pnpm-lock.yaml
+pnpm-workspace.yaml
