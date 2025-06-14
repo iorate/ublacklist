@@ -153,16 +153,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'Un fichier sera crée dans "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Synchronisé avec Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription:
-    'Désactive "Toujours lire les vidéos sur Qwant.com".',
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });

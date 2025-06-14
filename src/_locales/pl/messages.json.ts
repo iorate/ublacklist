@@ -151,18 +151,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'Plik zostanie utworzony w folderze "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Zsynchronizowano z Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_bingDescription_firefox:
-    'Wyłącz "Otwieraj wyniki wyszukiwania w nowej karcie lub oknie".',
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription: 'Wyłącz "Odtwarzaj filmy na Qwant.com".',
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });
