@@ -496,6 +496,9 @@ export default exportAsMessages({
   // Update all remote SERPINFO.
   options_updateAllRemoteSerpInfoButton: "Update now",
 
+  // The message shown when remote SERPINFO update is done.
+  options_remoteSerpInfoUpdateDone: "Completed",
+
   // The text of the button to add remote SERPINFO.
   options_addRemoteSerpInfoButton: "Add",
 

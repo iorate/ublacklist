@@ -181,6 +181,7 @@ export default exportAsMessages({
   options_showRemoteSerpInfoButton: "中身を見る",
   options_removeRemoteSerpInfoButton: "削除する",
   options_updateAllRemoteSerpInfoButton: "今すぐ更新",
+  options_remoteSerpInfoUpdateDone: "完了",
   options_addRemoteSerpInfoButton: "追加",
   options_addRemoteSerpInfoDialog_title: "SERPINFO を追加する",
   options_addRemoteSerpInfoDialog_addButton: "追加",

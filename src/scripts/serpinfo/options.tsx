@@ -41,6 +41,7 @@ import { useClassName } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import { IconButton } from "../components/icon-button.tsx";
+import { Text } from "../components/text.tsx";
 import { translate } from "../locales.ts";
 import { postMessage, sendMessage } from "../messages.ts";
 import { svgToDataURL } from "../utilities.ts";
@@ -164,7 +165,9 @@ function RemoteSerpInfoSection() {
   const [showDialogProps, setShowDialogProps] = useState<{
     remote: RemoteSerpInfo;
   } | null>(null);
-  const [updating, setUpdating] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<
+    "idle" | "updating" | "done"
+  >("idle");
   useEffect(() => {
     const here = new URL(location.href);
     const url = here.searchParams.get("url");
@@ -174,6 +177,14 @@ function RemoteSerpInfoSection() {
     history.replaceState(null, "", here.pathname);
     return () => history.replaceState(null, "", here);
   }, []);
+  useEffect(() => {
+    if (updateStatus === "done") {
+      const timer = window.setTimeout(() => setUpdateStatus("idle"), 3000);
+      return () => {
+        window.clearTimeout(timer);
+      };
+    }
+  }, [updateStatus]);
   return (
     <Section aria-labelledby="remoteSerpInfoSectionTitle">
       <SectionHeader>
@@ -290,20 +301,26 @@ function RemoteSerpInfoSection() {
             </RowItem>
           </Row>
           <Row>
-            <RowItem expanded>
+            <RowItem>
               <LinkButton
-                disabled={updating}
+                disabled={updateStatus === "updating"}
                 onClick={async () => {
-                  setUpdating(true);
+                  setUpdateStatus("updating");
                   try {
                     await sendMessage("update-all-remote-serpinfo");
-                  } finally {
-                    setUpdating(false);
+                    setUpdateStatus("done");
+                  } catch {
+                    setUpdateStatus("idle");
                   }
                 }}
               >
                 {translate("options_updateAllRemoteSerpInfoButton")}
               </LinkButton>
+            </RowItem>
+            <RowItem expanded>
+              {updateStatus === "done" && (
+                <Text>{translate("options_remoteSerpInfoUpdateDone")}</Text>
+              )}
             </RowItem>
             <RowItem>
               <Button

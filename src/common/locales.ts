@@ -159,6 +159,7 @@ export type MessageName =
   | "options_showRemoteSerpInfoButton"
   | "options_removeRemoteSerpInfoButton"
   | "options_updateAllRemoteSerpInfoButton"
+  | "options_remoteSerpInfoUpdateDone"
   | "options_addRemoteSerpInfoButton"
   | "options_addRemoteSerpInfoDialog_title"
   | "options_addRemoteSerpInfoDialog_urlLabel"
