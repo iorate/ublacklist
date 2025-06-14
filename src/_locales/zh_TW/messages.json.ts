@@ -187,18 +187,4 @@ export default exportAsMessages({
   clouds_dropboxSync: "與 Dropbox 同步",
   clouds_dropboxSyncDescription: "同步檔案將會儲存在 /Apps/uBlacklist/",
   clouds_dropboxSyncTurnedOn: "已與 Dropbox 同步",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_bingDescription_firefox:
-    "請關閉「在新的索引標籤或視窗中開啟搜尋結果中的連結」選項。",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription: "請關閉「總是在 Qwant.com 播放影片」選項。",
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });

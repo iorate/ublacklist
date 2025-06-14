@@ -1,1 +1,1 @@
-import("./content-script.js");
+import("./serpinfo/content-script.js");

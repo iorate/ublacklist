@@ -159,6 +159,7 @@ export type MessageName =
   | "options_showRemoteSerpInfoButton"
   | "options_removeRemoteSerpInfoButton"
   | "options_updateAllRemoteSerpInfoButton"
+  | "options_remoteSerpInfoUpdateDone"
   | "options_addRemoteSerpInfoButton"
   | "options_addRemoteSerpInfoDialog_title"
   | "options_addRemoteSerpInfoDialog_urlLabel"
@@ -171,20 +172,7 @@ export type MessageName =
   | "clouds_googleDriveSyncTurnedOn"
   | "clouds_dropboxSync"
   | "clouds_dropboxSyncDescription"
-  | "clouds_dropboxSyncTurnedOn"
-  | "searchEngines_googleName"
-  | "searchEngines_bingName"
-  | "searchEngines_bingDescription_firefox"
-  | "searchEngines_braveName"
-  | "searchEngines_duckduckgoName"
-  | "searchEngines_ecosiaName"
-  | "searchEngines_kagiName"
-  | "searchEngines_qwantName"
-  | "searchEngines_qwantDescription"
-  | "searchEngines_searxName"
-  | "searchEngines_startpageName"
-  | "searchEngines_yahooJapanName"
-  | "searchEngines_yandexName";
+  | "clouds_dropboxSyncTurnedOn";
 
 export type MessageName1 =
   | "error"

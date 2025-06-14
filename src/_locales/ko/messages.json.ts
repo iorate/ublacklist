@@ -147,8 +147,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     '"/Apps/uBlacklist/" 위치에 파일이 생성됩니다.',
   clouds_dropboxSyncTurnedOn: "Dropbox 와 동기화 되었습니다.",
-  searchEngines_bingDescription_firefox:
-    '"검색 결과의 링크를 새 탭 또는 새 창에서 열기" 를 비활성화 해주세요.',
-  searchEngines_qwantDescription:
-    '"Always play videos on Qwant.com" 을 비활성화 해주세요.',
 });

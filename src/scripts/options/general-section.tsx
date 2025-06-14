@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
-import { SEARCH_ENGINES } from "../../common/search-engines.ts";
+import { useEffect, useState } from "react";
 import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -35,13 +34,7 @@ import { usePrevious } from "../components/utilities.ts";
 import { saveToLocalStorage } from "../local-storage.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners } from "../messages.ts";
-import type { SearchEngineId } from "../types.ts";
-import {
-  downloadTextFile,
-  lines,
-  stringKeys,
-  uploadTextFile,
-} from "../utilities.ts";
+import { downloadTextFile, lines, uploadTextFile } from "../utilities.ts";
 import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { Select, SelectOption } from "./select.tsx";
@@ -215,155 +208,6 @@ const ImportBlacklistDialog: React.FC<
   );
 };
 
-const RegisterSearchEnginesDialog: React.FC<DialogProps> = ({
-  close,
-  open,
-}) => {
-  type ID = Exclude<SearchEngineId, "google">;
-  type State = "none" | "partial" | "full";
-
-  const ids = useMemo(
-    () =>
-      stringKeys(SEARCH_ENGINES).filter(
-        (id) => id !== "google",
-      ) as readonly ID[],
-    [],
-  );
-  const matches = useMemo(
-    () =>
-      Object.fromEntries(
-        ids.map((id) => [
-          id,
-          SEARCH_ENGINES[id].contentScripts.flatMap(
-            (contentScript) => contentScript.matches,
-          ) as readonly string[],
-        ]),
-      ) as Readonly<Record<ID, readonly string[]>>,
-    [ids],
-  );
-  const defaultStates = useMemo(
-    () =>
-      Object.fromEntries(ids.map((id) => [id, "none"])) as Readonly<
-        Record<ID, State>
-      >,
-    [ids],
-  );
-  const [states, setStates] = useState(defaultStates);
-
-  const prevOpen = usePrevious(open);
-  useEffect(() => {
-    if (open && !prevOpen) {
-      void (async () => {
-        const regitrationEntries = await Promise.all(
-          ids.map(async (id) => {
-            const permissions = await Promise.all(
-              matches[id].map((match) =>
-                browser.permissions.contains({ origins: [match] }),
-              ),
-            );
-            const [allowed, denied] = permissions.reduce(
-              ([a, d], p) => [a || p, d || !p],
-              [false, false],
-            );
-            return [
-              id,
-              allowed ? (!denied ? "full" : "partial") : "none",
-            ] as const;
-          }),
-        );
-        setStates(Object.fromEntries(regitrationEntries) as Record<ID, State>);
-      })();
-    }
-  }, [open, prevOpen, ids, matches]);
-
-  return (
-    <Dialog
-      aria-labelledby="registerSearchEnginesDialogTitle"
-      close={close}
-      open={open}
-    >
-      <DialogHeader>
-        <DialogTitle id="registerSearchEnginesDialogTitle">
-          {translate("options_otherSearchEngines")}
-        </DialogTitle>
-      </DialogHeader>
-      <DialogBody>
-        {ids.map((id, index) => (
-          <Row key={id}>
-            <RowItem>
-              <Indent>
-                <CheckBox
-                  checked={states[id] === "full"}
-                  className={index === 0 ? FOCUS_START_CLASS : ""}
-                  id={id}
-                  indeterminate={states[id] === "partial"}
-                  onChange={(e) => {
-                    const { checked } = e.currentTarget;
-                    setStates((states) => ({
-                      ...states,
-                      [id]: checked ? "full" : "none",
-                    }));
-                  }}
-                />
-              </Indent>
-            </RowItem>
-            <RowItem expanded>
-              <LabelWrapper>
-                <ControlLabel for={id}>
-                  {translate(SEARCH_ENGINES[id].messageNames.name)}
-                </ControlLabel>
-                {SEARCH_ENGINES[id].messageNames.description && (
-                  <SubLabel>
-                    {/* biome-ignore lint/style/noNonNullAssertion: `description` is not `undefined` */}
-                    {translate(SEARCH_ENGINES[id].messageNames.description!)}
-                  </SubLabel>
-                )}
-              </LabelWrapper>
-            </RowItem>
-          </Row>
-        ))}
-      </DialogBody>
-      <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button onClick={close}>{translate("cancelButton")}</Button>
-          </RowItem>
-          <RowItem>
-            <Button
-              className={FOCUS_END_CLASS}
-              primary
-              onClick={async () => {
-                const originsToRequest = ids.flatMap((id) =>
-                  states[id] === "full" ? matches[id] : [],
-                );
-                if (originsToRequest.length) {
-                  const granted = await browser.permissions.request({
-                    origins: originsToRequest,
-                  });
-                  if (!granted) {
-                    return;
-                  }
-                }
-                const originsToRemove = ids.flatMap((id) =>
-                  states[id] === "none" ? matches[id] : [],
-                );
-                if (originsToRemove.length) {
-                  await browser.permissions.remove({
-                    origins: originsToRemove,
-                  });
-                }
-                close();
-              }}
-            >
-              {translate("options_registerSearchEngine")}
-            </Button>
-          </RowItem>
-        </Row>
-      </DialogFooter>
-    </Dialog>
-  );
-};
-
 const SetBlacklist: React.FC = () => {
   const {
     initialItems: { blacklist: initialBlacklist },
@@ -485,35 +329,30 @@ const SetBlacklist: React.FC = () => {
 };
 
 const RegisterSearchEngines: React.FC = () => {
-  if (process.env.BROWSER === "safari") {
-    return null;
-  }
-  // biome-ignore lint/correctness/useHookAtTopLevel: Not a conditional call
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   return (
     <SectionItem>
       <Row>
         <RowItem expanded>
           <LabelWrapper>
-            <Label>{translate("options_otherSearchEngines")}</Label>
+            <Label>{translate("options_serpInfoLabel")}</Label>
             <SubLabel>
               {translate("options_otherSearchEnginesDescription")}
             </SubLabel>
           </LabelWrapper>
         </RowItem>
         <RowItem>
-          <Button onClick={() => setDialogOpen(true)}>
-            {translate("options_registerSearchEngine")}
+          <Button
+            primary
+            onClick={() => {
+              browser.tabs.create({
+                url: "/pages/serpinfo/options.html",
+              });
+            }}
+          >
+            {translate("options_openSerpInfoOptionsButton")}
           </Button>
         </RowItem>
       </Row>
-      <Portal id="registerSearchEnginesDialogPortal">
-        <RegisterSearchEnginesDialog
-          close={() => setDialogOpen(false)}
-          open={dialogOpen}
-        />
-      </Portal>
     </SectionItem>
   );
 };

@@ -140,14 +140,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'Файл будет создан в папке "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Синхронизирован с Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yandexName: "Яндекс",
 });
