@@ -57,9 +57,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Включить",
   options_searchEngineRegistered: "Включено",
   options_skipBlockDialogLabel: 'Пропустить диалог "Заблокировать сайт"',
-  options_hideBlockLinksLabel: 'Не показывать ссылки "Заблокировать сайт"',
-  options_hideControlLabel:
-    'Скрывать количество заблокированных сайтов и ссылку "Показать"',
   options_blockWholeSiteLabel:
     "Добавить правила, блокирующие целые сайты по умолчанию",
   options_blockWholeSiteDescription:

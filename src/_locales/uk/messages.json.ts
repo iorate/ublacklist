@@ -58,9 +58,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Дозволити",
   options_searchEngineRegistered: "Дозволено",
   options_skipBlockDialogLabel: "Пропускати вікно «Заблокувати цей сайт»",
-  options_hideBlockLinksLabel: "Xовати посилання «Заблокувати сайт»",
-  options_hideControlLabel:
-    "Ховати к-сть заблокованих сайтів і ланку «Показати»",
   options_blockWholeSiteLabel:
     "Додавати правила, що блокують цілі сайти за замовчуванням",
   options_blockWholeSiteDescription:

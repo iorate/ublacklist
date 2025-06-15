@@ -61,9 +61,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "启用",
   options_searchEngineRegistered: "已启用",
   options_skipBlockDialogLabel: "加入黑名单时不显示确认提示框。",
-  options_hideBlockLinksLabel: "不在搜索结果中显示「加入黑名单」按钮",
-  options_hideControlLabel:
-    "不在搜索结果页面顶部显示已被屏蔽的网站数量和「显示」按钮",
   options_blockWholeSiteLabel: "默认添加屏蔽整个网站的规则",
   options_blockWholeSiteDescription:
     '例如屏蔽 "https://a.b.example.uk.com/", 会添加 "*://*.example.uk.com/*" 规则',

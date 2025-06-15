@@ -62,8 +62,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "啟用",
   options_searchEngineRegistered: "已啟用",
   options_skipBlockDialogLabel: "加入封鎖清單時，不顯示「封鎖這個網站」對話框",
-  options_hideBlockLinksLabel: "隱藏「封鎖這個網站」的連結",
-  options_hideControlLabel: "隱藏封鎖的網站數量和「顯示」連結",
   options_blockWholeSiteLabel: "預設在新增規則時，封鎖整個網站",
   options_blockWholeSiteDescription:
     "例如若封鎖「https://a.b.example.uk.com/」，會加入「*://*.example.uk.com/*」規則。",

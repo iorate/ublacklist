@@ -65,9 +65,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Aktivieren",
   options_searchEngineRegistered: "Aktiviert",
   options_skipBlockDialogLabel: 'Dialog "Diese Seite blockieren" überspringen',
-  options_hideBlockLinksLabel: 'Link "Diese Seite blockieren" ausblenden',
-  options_hideControlLabel:
-    'Anzahl der blockierten Seiten und den Link "Anzeigen" ausblenden',
   options_blockWholeSiteLabel:
     "Regeln hinzufügen, die standardmäßig komplette Seiten blockieren",
   options_blockWholeSiteDescription:

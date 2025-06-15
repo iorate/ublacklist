@@ -395,7 +395,7 @@ export const GeneralSection: React.FC = () => (
       <SectionItem>
         <SetBooleanItem
           itemKey="hideBlockLinks"
-          label={translate("options_hideBlockLinksLabel")}
+          label={translate("options_hideBlockButtonsLabel")}
         />
       </SectionItem>
     </SectionBody>

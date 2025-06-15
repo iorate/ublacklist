@@ -64,9 +64,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Habilitar",
   options_searchEngineRegistered: "Habilitado",
   options_skipBlockDialogLabel: 'Pular o diálogo "Bloquear este site"',
-  options_hideBlockLinksLabel: 'Esconder os links "Bloquear este site"',
-  options_hideControlLabel:
-    'Esconder o número de sites bloqueados e o link "Mostrar"',
   options_blockWholeSiteLabel:
     "Adicione regras bloqueando o site inteiro por padrão",
   options_blockWholeSiteDescription:

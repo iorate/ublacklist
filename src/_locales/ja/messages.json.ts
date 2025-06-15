@@ -65,10 +65,7 @@ export default exportAsMessages({
   options_searchEngineRegistered: "有効",
   options_skipBlockDialogLabel:
     "「このサイトをブロックする」ダイアログをスキップする",
-  options_hideBlockLinksLabel:
-    "「このサイトをブロックする」リンクを非表示にする",
-  options_hideControlLabel:
-    "ブロックしたサイトの数と「表示する」リンクを非表示にする",
+  options_hideBlockButtonsLabel: "ブロックボタンを非表示にする",
   options_blockWholeSiteLabel: "サイト全体をブロックするルールを追加する",
   options_blockWholeSiteDescription:
     '例えば、ページ "https://a.b.example.uk.com/" をブロックすると、ルール "*://*.example.uk.com/*" が追加されます。',

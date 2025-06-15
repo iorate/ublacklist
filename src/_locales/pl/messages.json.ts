@@ -57,8 +57,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Włącz",
   options_searchEngineRegistered: "Włączone",
   options_skipBlockDialogLabel: 'Pomiń dialog "Zablokuj tę witrynę"',
-  options_hideBlockLinksLabel: 'Ukryj linki "Zablokuj witrynę"',
-  options_hideControlLabel: 'Ukryj liczbę zablokowanych witryn i link "Pokaż"',
   options_blockWholeSiteLabel: "Domyślnie blokuj całą witrynę",
   options_blockWholeSiteDescription:
     'Na przykład, aby zablokować stronę "https://a.b.example.uk.com/", zostanie dodana reguła "*://*.example.uk.com/*".',

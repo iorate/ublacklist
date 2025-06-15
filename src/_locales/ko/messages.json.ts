@@ -57,8 +57,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "활성화",
   options_searchEngineRegistered: "활성화 됨",
   options_skipBlockDialogLabel: '"이 사이트 차단하기" 대화창 표시하지 않기',
-  options_hideBlockLinksLabel: '"이 사이트 차단하기" 링크 숨기기',
-  options_hideControlLabel: '차단한 사이트 수와 "보기" 링크 숨기기',
   options_blockWholeSiteLabel: "전체 사이트를 차단하는 규칙을 기본으로 추가",
   options_blockWholeSiteDescription:
     '예를 들어, "https://a.b.example.uk.com/" 를 차단하면 "*://*.example.uk.com/*" 규칙이 추가됩니다.',

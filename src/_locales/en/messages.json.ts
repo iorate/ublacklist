@@ -182,12 +182,8 @@ export default exportAsMessages({
   // The label for the switch whether to skip the 'Block this site' dialog
   options_skipBlockDialogLabel: 'Skip the "Block this site" dialog',
 
-  // The label for the switch whether to hide the 'Block this site' links.
-  options_hideBlockLinksLabel: 'Hide the "Block this site" links',
-
-  // The label for the switch whether to hide the number of blocked sites and the 'Show' link.
-  options_hideControlLabel:
-    'Hide the number of blocked sites and the "Show" link',
+  // The label for the switch whether to hide the block buttons.
+  options_hideBlockButtonsLabel: "Hide the block buttons",
 
   // The label for the switch whether to block a whole site by default.
   options_blockWholeSiteLabel: "Add rules blocking whole sites by default",
