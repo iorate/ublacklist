@@ -1,3 +1,4 @@
+import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import { useEffect, useState } from "react";
 import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
@@ -11,6 +12,7 @@ import {
   type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
+import { IconButton } from "../components/icon-button.tsx";
 import { Indent } from "../components/indent.tsx";
 import {
   ControlLabel,
@@ -34,7 +36,12 @@ import { usePrevious } from "../components/utilities.ts";
 import { saveToLocalStorage } from "../local-storage.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners } from "../messages.ts";
-import { downloadTextFile, lines, uploadTextFile } from "../utilities.ts";
+import {
+  downloadTextFile,
+  lines,
+  svgToDataURL,
+  uploadTextFile,
+} from "../utilities.ts";
 import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { Select, SelectOption } from "./select.tsx";
@@ -341,16 +348,15 @@ const RegisterSearchEngines: React.FC = () => {
           </LabelWrapper>
         </RowItem>
         <RowItem>
-          <Button
-            primary
+          <IconButton
+            aria-label={translate("options_openSerpInfoOptionsButton")}
+            iconURL={svgToDataURL(openInNewSVG)}
             onClick={() => {
               browser.tabs.create({
                 url: "/pages/serpinfo/options.html",
               });
             }}
-          >
-            {translate("options_openSerpInfoOptionsButton")}
-          </Button>
+          />
         </RowItem>
       </Row>
     </SectionItem>
