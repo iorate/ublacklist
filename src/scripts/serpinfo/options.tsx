@@ -2,6 +2,7 @@ import deleteSVG from "@mdi/svg/svg/delete.svg";
 import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
 import dayjs from "dayjs";
+import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import { Suspense, use, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { browser } from "../browser.ts";
@@ -17,6 +18,7 @@ import {
   type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
+import { IconButton } from "../components/icon-button.tsx";
 import { Input } from "../components/input.tsx";
 import {
   ControlLabel,
@@ -36,12 +38,10 @@ import {
   SectionTitle,
 } from "../components/section.tsx";
 import { Switch } from "../components/switch.tsx";
+import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
-import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
-import { IconButton } from "../components/icon-button.tsx";
-import { Text } from "../components/text.tsx";
 import { translate } from "../locales.ts";
 import { postMessage, sendMessage } from "../messages.ts";
 import { svgToDataURL } from "../utilities.ts";
