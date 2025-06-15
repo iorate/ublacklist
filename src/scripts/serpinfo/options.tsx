@@ -42,7 +42,7 @@ import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
-import { translate } from "../locales.ts";
+import { getWebsiteURL, translate } from "../locales.ts";
 import { postMessage, sendMessage } from "../messages.ts";
 import { svgToDataURL } from "../utilities.ts";
 import { GOOGLE_SERPINFO_URL } from "./builtins.ts";
@@ -523,7 +523,7 @@ function UserSerpInfoSection() {
           </Row>
           <Row>
             <RowItem expanded>
-              <Link href="https://ublacklist.github.io/docs/serpinfo">
+              <Link href={getWebsiteURL("/docs/serpinfo")}>
                 {translate("options_userSerpInfoDocumentationLink")}
               </Link>
             </RowItem>
