@@ -55,8 +55,11 @@ const personSchema = z.string().or(
   }),
 );
 
+// https://github.com/colinhacks/zod/issues/61
 const bugsSchema = z
-  .object({ url: z.string().url(), email: z.string().email() })
+  .string()
+  .url()
+  .or(z.object({ url: z.string().url(), email: z.string().email() }))
   .or(z.object({ url: z.string().url(), email: z.undefined() }))
   .or(z.object({ url: z.undefined(), email: z.string().email() }));
 
