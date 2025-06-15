@@ -25,19 +25,13 @@ This extension is available in the below search engines.
 | ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Bing         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Brave \*3    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Brave        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | DuckDuckGo   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Ecosia       | :heavy_check_mark: |                    |                    |                    |
-| Kagi         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Qwant        | :heavy_check_mark: | :heavy_check_mark: | \*1                | :heavy_check_mark: |
-| SearX \*2    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Startpage    | :heavy_check_mark: |                    | :heavy_check_mark: | :heavy_check_mark: |
-| Yahoo! JAPAN | :heavy_check_mark: |                    |                    |                    |
-| Yandex       | :heavy_check_mark: |                    |                    |                    |
-
-\*1 Only if "Always play videos on Qwant.com" is turned off<br>
-\*2 Only certain public instances are supported. If you want to add support for your own SearX/SearXNG search engine, edit `src/common/search-engines.ts` and build the extension manually<br>
-\*3 Due to the difficulty in obtaining the full URLs of image links, this extension does not support per-subdomain blocking in Brave Image Search. (For example, if the link is to "www.example.com", it will block the entire "example.com").
+| Ecosia       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| SearXNG      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Startpage    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Yahoo! JAPAN | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    |
+| Yandex       | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
 
 ## For subscription providers
 
@@ -76,7 +70,7 @@ When users click this link, they will be directed to the extension's options pag
 
 ### Build
 
-To build this extension, [pnpm](https://pnpm.io/)>=9.7.0 is required.
+To build this extension, [pnpm](https://pnpm.io/)>=10 is required.
 
 ```shell
 git clone --recurse-submodules https://github.com/iorate/ublacklist.git
@@ -112,7 +106,7 @@ GOOGLE_DRIVE_API_SECRET=...
 To add a locale,
 
 1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/locales/en/messages.json.ts` to `src/locales/${languageCode}/messages.json.ts` and translate entries.
+1. Copy `src/_locales/en/messages.json.ts` to `src/_locales/${languageCode}/messages.json.ts` and translate entries.
 1. Open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
 1. To localize description and screenshots on web stores, create `web-store-assets/${languageCode}/` and add files.
    - Screenshot localization is available only on Chrome Web Store.

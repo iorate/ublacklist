@@ -342,11 +342,6 @@ export const AppearanceSection: React.FC = () => (
     </SectionHeader>
     <SectionBody>
       <SetColorItem
-        initialColor="#1a0dab"
-        itemKey="linkColor"
-        label={translate("options_linkColor")}
-      />
-      <SetColorItem
         initialColor="#ffe0e0"
         itemKey="blockColor"
         label={translate("options_blockColor")}

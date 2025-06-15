@@ -1,32 +1,41 @@
 name: Check
-
-permissions:
-  contents: read
-  pull-requests: read
-
 on:
-  pull_request:
-    branches:
-      - master
   push:
     branches:
       - master
-
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch: {}
+permissions: {}
+defaults:
+  run:
+    shell: bash
 jobs:
   check:
-    name: Check
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          submodules: true
+          submodules: recursive
 
       - name: Setup pnpm
-        uses: ./.github/actions/setup-pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Check
-        run: pnpm check-ci
+        run: pnpm check
 
       - name: Test
         run: pnpm test

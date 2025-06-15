@@ -36,7 +36,6 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   subscriptions: {},
   updateInterval: 120,
 
-  serpInfoEnabled: false,
   serpInfoSettings: getDefault(),
 };
 

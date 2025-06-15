@@ -62,8 +62,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "啟用",
   options_searchEngineRegistered: "已啟用",
   options_skipBlockDialogLabel: "加入封鎖清單時，不顯示「封鎖這個網站」對話框",
-  options_hideBlockLinksLabel: "隱藏「封鎖這個網站」的連結",
-  options_hideControlLabel: "隱藏封鎖的網站數量和「顯示」連結",
   options_blockWholeSiteLabel: "預設在新增規則時，封鎖整個網站",
   options_blockWholeSiteDescription:
     "例如若封鎖「https://a.b.example.uk.com/」，會加入「*://*.example.uk.com/*」規則。",
@@ -187,18 +185,4 @@ export default exportAsMessages({
   clouds_dropboxSync: "與 Dropbox 同步",
   clouds_dropboxSyncDescription: "同步檔案將會儲存在 /Apps/uBlacklist/",
   clouds_dropboxSyncTurnedOn: "已與 Dropbox 同步",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_bingDescription_firefox:
-    "請關閉「在新的索引標籤或視窗中開啟搜尋結果中的連結」選項。",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription: "請關閉「總是在 Qwant.com 播放影片」選項。",
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });

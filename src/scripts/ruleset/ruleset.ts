@@ -355,51 +355,51 @@ function execExpression(
   props: Readonly<LinkProps>,
 ): boolean {
   if (expression[0] === "=") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return prop != null && prop === expression[2];
   }
   if (expression[0] === "=i") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return prop != null && prop.toLowerCase() === expression[2].toLowerCase();
   }
   if (expression[0] === "^=") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
     return prop != null && prop.startsWith(expression[2]);
   }
   if (expression[0] === "^=i") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return (
       // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
       prop != null && prop.toLowerCase().startsWith(expression[2].toLowerCase())
     );
   }
   if (expression[0] === "$=") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
     return prop != null && prop.endsWith(expression[2]);
   }
   if (expression[0] === "$=i") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return (
       // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
       prop != null && prop.toLowerCase().endsWith(expression[2].toLowerCase())
     );
   }
   if (expression[0] === "*=") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
     return prop != null && prop.includes(expression[2]);
   }
   if (expression[0] === "*=i") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return (
       // biome-ignore lint/complexity/useOptionalChain: Return a boolean value
       prop != null && prop.toLowerCase().includes(expression[2].toLowerCase())
     );
   }
   if (expression[0] === "=~") {
-    const prop = props[expression[1]];
+    const prop = getProp(props, expression[1]);
     return prop != null && plainRegExpTest(expression[2], prop);
   }
   if (expression[0] === "!") {
@@ -415,6 +415,13 @@ function execExpression(
   return (
     execExpression(expression[1], props) || execExpression(expression[2], props)
   );
+}
+
+function getProp(props: Readonly<LinkProps>, name: string): string | null {
+  return Object.hasOwn(props, name)
+    ? // biome-ignore lint/style/noNonNullAssertion: `props` has `name`
+      props[name]!
+    : null;
 }
 
 function plainRegExpTest(regExp: PlainRegExp, string: string): boolean {

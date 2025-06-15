@@ -65,10 +65,7 @@ export default exportAsMessages({
   options_searchEngineRegistered: "有効",
   options_skipBlockDialogLabel:
     "「このサイトをブロックする」ダイアログをスキップする",
-  options_hideBlockLinksLabel:
-    "「このサイトをブロックする」リンクを非表示にする",
-  options_hideControlLabel:
-    "ブロックしたサイトの数と「表示する」リンクを非表示にする",
+  options_hideBlockButtonsLabel: "ブロックボタンを非表示にする",
   options_blockWholeSiteLabel: "サイト全体をブロックするルールを追加する",
   options_blockWholeSiteDescription:
     '例えば、ページ "https://a.b.example.uk.com/" をブロックすると、ルール "*://*.example.uk.com/*" が追加されます。',
@@ -181,6 +178,7 @@ export default exportAsMessages({
   options_showRemoteSerpInfoButton: "中身を見る",
   options_removeRemoteSerpInfoButton: "削除する",
   options_updateAllRemoteSerpInfoButton: "今すぐ更新",
+  options_remoteSerpInfoUpdateDone: "完了",
   options_addRemoteSerpInfoButton: "追加",
   options_addRemoteSerpInfoDialog_title: "SERPINFO を追加する",
   options_addRemoteSerpInfoDialog_addButton: "追加",
@@ -188,10 +186,6 @@ export default exportAsMessages({
   options_userSerpInfoSection: "マイ SERPINFO",
   options_userSerpInfoDocumentationLink: "ドキュメント",
   options_saveUserSerpInfo: "保存",
-  searchEngines_bingDescription_firefox:
-    "「新しいタブまたはウィンドウに検索結果のリンク先を開きます」を無効にして下さい。",
-  searchEngines_qwantDescription:
-    '"Always play videos on Qwant.com" を無効にして下さい。',
   clouds_googleDriveSync: "Google ドライブと同期する",
   clouds_googleDriveSyncDescription:
     "非表示のアプリデータフォルダにファイルが作成されます。",

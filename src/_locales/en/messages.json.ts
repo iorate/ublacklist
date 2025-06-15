@@ -182,12 +182,8 @@ export default exportAsMessages({
   // The label for the switch whether to skip the 'Block this site' dialog
   options_skipBlockDialogLabel: 'Skip the "Block this site" dialog',
 
-  // The label for the switch whether to hide the 'Block this site' links.
-  options_hideBlockLinksLabel: 'Hide the "Block this site" links',
-
-  // The label for the switch whether to hide the number of blocked sites and the 'Show' link.
-  options_hideControlLabel:
-    'Hide the number of blocked sites and the "Show" link',
+  // The label for the switch whether to hide the block buttons.
+  options_hideBlockButtonsLabel: "Hide the block buttons",
 
   // The label for the switch whether to block a whole site by default.
   options_blockWholeSiteLabel: "Add rules blocking whole sites by default",
@@ -496,6 +492,9 @@ export default exportAsMessages({
   // Update all remote SERPINFO.
   options_updateAllRemoteSerpInfoButton: "Update now",
 
+  // The message shown when remote SERPINFO update is done.
+  options_remoteSerpInfoUpdateDone: "Completed",
+
   // The text of the button to add remote SERPINFO.
   options_addRemoteSerpInfoButton: "Add",
 
@@ -536,44 +535,4 @@ export default exportAsMessages({
 
   // The label of the radio button to sync with Dropbox.
   clouds_dropboxSyncTurnedOn: "Synced with Dropbox",
-
-  // The localized name of Google (not used).
-  searchEngines_googleName: "Google",
-
-  // The localized name of Bing.
-  searchEngines_bingName: "Bing",
-
-  // The description for Bing in Firefox.
-  searchEngines_bingDescription_firefox:
-    'Turn off "Open links from search results in a new tab or window".',
-
-  // The localized name of Brave
-  searchEngines_braveName: "Brave",
-
-  // The localized name of DuckDuckGo.
-  searchEngines_duckduckgoName: "DuckDuckGo",
-
-  // The localized name of Ecosia.
-  searchEngines_ecosiaName: "Ecosia",
-
-  // The localized name of Kagi.
-  searchEngines_kagiName: "Kagi",
-
-  // The localized name of Qwant.
-  searchEngines_qwantName: "Qwant",
-
-  // The localized name of SearX.
-  searchEngines_searxName: "SearX",
-
-  // The description for Qwant.
-  searchEngines_qwantDescription: 'Turn off "Always play videos on Qwant.com".',
-
-  // The localized name of Startpage.
-  searchEngines_startpageName: "Startpage.com",
-
-  // The localized name of Yahoo! JAPAN.
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-
-  // The localized name of Yandex.
-  searchEngines_yandexName: "Yandex",
 });

@@ -32,7 +32,7 @@ async function main() {
       licenseText: "",
     },
     direct: true,
-    excludePackages: "ublacklist@0.0.0",
+    excludePackages: "ublacklist@0.1.0",
     production: true,
     start: ".",
   })) as Record<string, { name: string; licenseText: string }>;

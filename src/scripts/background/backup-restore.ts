@@ -1,6 +1,4 @@
 import dayjs from "dayjs";
-import { SEARCH_ENGINES } from "../../common/search-engines.ts";
-import { browser } from "../browser.ts";
 import {
   defaultLocalStorageItems,
   loadFromLocalStorage,
@@ -11,7 +9,7 @@ import type {
   LocalStorageItemsBackupRestore,
   Subscriptions,
 } from "../types.ts";
-import { stringEntries, toPlainRuleset } from "../utilities.ts";
+import { toPlainRuleset } from "../utilities.ts";
 import { resetAllInRawStorage } from "./raw-storage.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";
 
@@ -124,12 +122,4 @@ export async function restore(
 
 export async function reset(): Promise<void> {
   await resetAllInRawStorage(() => ({}));
-
-  if (process.env.BROWSER !== "safari") {
-    const matches = stringEntries(SEARCH_ENGINES).flatMap(
-      ([id, { contentScripts }]) =>
-        id !== "google" ? contentScripts.flatMap(({ matches }) => matches) : [],
-    );
-    await browser.permissions.remove({ origins: matches });
-  }
 }

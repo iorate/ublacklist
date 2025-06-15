@@ -1,8 +1,8 @@
-# dependencies
+# Dependency directories
 node_modules
 
-# production
-/dist
+# Build output
+dist
 
-# local env files
+# Dotenv environment variable files
 .env.local

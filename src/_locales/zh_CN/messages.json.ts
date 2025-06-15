@@ -61,9 +61,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "启用",
   options_searchEngineRegistered: "已启用",
   options_skipBlockDialogLabel: "加入黑名单时不显示确认提示框。",
-  options_hideBlockLinksLabel: "不在搜索结果中显示「加入黑名单」按钮",
-  options_hideControlLabel:
-    "不在搜索结果页面顶部显示已被屏蔽的网站数量和「显示」按钮",
   options_blockWholeSiteLabel: "默认添加屏蔽整个网站的规则",
   options_blockWholeSiteDescription:
     '例如屏蔽 "https://a.b.example.uk.com/", 会添加 "*://*.example.uk.com/*" 规则',
@@ -188,18 +185,4 @@ export default exportAsMessages({
   clouds_dropboxSync: "使用 Dropbox 同步",
   clouds_dropboxSyncDescription: "同步文件将会保存在 /Apps/uBlacklist/",
   clouds_dropboxSyncTurnedOn: "已使用 Dropbox 同步",
-  searchEngines_googleName: "谷歌",
-  searchEngines_bingName: "必应",
-  searchEngines_bingDescription_firefox:
-    "关闭「在新标签页或窗口中打开搜索结果中的链接」选项。",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription: "关闭「总是在 Qwant.com 播放视频」选项。",
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });

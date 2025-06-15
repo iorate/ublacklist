@@ -72,7 +72,6 @@ async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
     "pages/serpinfo/options.html",
     "pages/popup.html",
     ...(watch && browser === "chrome" ? ["pages/watch.html"] : []),
-    "scripts/active.js",
     ...(browser === "safari" ? ["scripts/import-content-script.js"] : []),
     "third-party-notices.txt",
   ];
@@ -161,7 +160,6 @@ async function createBuildScripts(
   const { browser, debug, watch, srcDir, destDir } = context;
   const sources = [
     "scripts/background.ts",
-    "scripts/content-script.tsx",
     "scripts/options.tsx",
     "scripts/serpinfo/content-script.tsx",
     "scripts/serpinfo/options.tsx",
