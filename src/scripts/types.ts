@@ -1,9 +1,6 @@
 import type dayjs from "dayjs";
 import type { MessageName0 } from "../common/locales.ts";
-import type { SearchEngine as _SearchEngine } from "../common/search-engines.ts";
-import type { QueryResult } from "./interactive-ruleset.ts";
 import type { RulesetMatches } from "./interactive-ruleset.ts";
-import type { LinkProps } from "./ruleset/ruleset.ts";
 import type {
   SerpInfoSettings,
   Serializable as SerpInfoSettingsSerializable,
@@ -14,8 +11,6 @@ export type {
   MessageName0,
   MessageName1,
 } from "../common/locales.ts";
-export type { SearchEngineId } from "../common/search-engines.ts";
-
 // #region Result
 export type ErrorResult = {
   type: "error";
@@ -81,7 +76,11 @@ export type CloudToken = {
 // #endregion Clouds
 
 // #region LocalStorage
-export type PlainRuleset = { metadata: Record<string, unknown>; rules: string };
+export type PlainRuleset = {
+  metadata: Record<string, unknown>;
+  rules: string;
+  frontMatterUnclosed?: boolean;
+};
 
 export type LocalStorageItems = {
   // ruleset
@@ -118,7 +117,6 @@ export type LocalStorageItems = {
   updateInterval: number;
 
   // serpinfo
-  serpInfoEnabled: boolean;
   serpInfoSettings: SerpInfoSettings;
 };
 
@@ -166,48 +164,7 @@ export type LocalStorageItemsBackupRestore = Pick<
 };
 // #endregion LocalStorage
 
-// #region SearchEngines
-export type SerpControl = {
-  scope: string;
-  root: HTMLElement;
-  onRender: (() => void) | null;
-};
-
-export type SerpEntry = {
-  scope: string;
-  root: HTMLElement;
-  actionRoot: HTMLElement;
-  onActionRender: (() => void) | null;
-  props: LinkProps;
-  state: QueryResult | null;
-};
-
-export type SerpHandlerResult = {
-  controls: SerpControl[];
-  entries: SerpEntry[];
-};
-
-export type SerpColors = {
-  linkColor: string | null;
-  blockColor: string | null;
-  highlightColors: string[];
-};
-
 export type DialogTheme = "light" | "dark";
-
-export type SerpHandler = {
-  onSerpStart: () => SerpHandlerResult;
-  onSerpHead: (colors: SerpColors) => SerpHandlerResult;
-  onSerpElement: (element: HTMLElement) => SerpHandlerResult;
-  getDialogTheme: () => DialogTheme;
-  observeRemoval: boolean;
-  delay: number;
-};
-
-export type SearchEngine = _SearchEngine & {
-  getSerpHandler(): SerpHandler | null;
-};
-// #endregion SearchEngines
 
 // #region Subscriptions
 export type SubscriptionId = number;

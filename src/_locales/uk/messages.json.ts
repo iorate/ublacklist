@@ -58,9 +58,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Дозволити",
   options_searchEngineRegistered: "Дозволено",
   options_skipBlockDialogLabel: "Пропускати вікно «Заблокувати цей сайт»",
-  options_hideBlockLinksLabel: "Xовати посилання «Заблокувати сайт»",
-  options_hideControlLabel:
-    "Ховати к-сть заблокованих сайтів і ланку «Показати»",
   options_blockWholeSiteLabel:
     "Додавати правила, що блокують цілі сайти за замовчуванням",
   options_blockWholeSiteDescription:
@@ -141,14 +138,4 @@ export default exportAsMessages({
   clouds_dropboxSync: "Синхр. з Dropbox",
   clouds_dropboxSyncDescription: 'Файл створиться в "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Синхронізовано з Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
 });

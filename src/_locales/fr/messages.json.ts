@@ -59,9 +59,6 @@ export default exportAsMessages({
   options_searchEngineRegistered: "Activé",
   options_skipBlockDialogLabel:
     'Ignorer la boite de dialogue "Bloquer ce site"',
-  options_hideBlockLinksLabel: 'Cacher les liens "Bloquer ce site"',
-  options_hideControlLabel:
-    'Cacher le nombre de sites bloqué et le bouton "Afficher"',
   options_blockWholeSiteLabel:
     "Ajouter des règles pour bloquer tout le site par défaut",
   options_blockWholeSiteDescription:
@@ -153,16 +150,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'Un fichier sera crée dans "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Synchronisé avec Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_qwantDescription:
-    'Désactive "Toujours lire les vidéos sur Qwant.com".',
-  searchEngines_startpageName: "Startpage.com",
-  searchEngines_yahooJapanName: "Yahoo! JAPAN",
-  searchEngines_yandexName: "Yandex",
 });

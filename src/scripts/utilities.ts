@@ -269,12 +269,13 @@ export function fromPlainRuleset(
           source: source.split("\n"),
           metadata: ruleset.metadata,
           rules: JSON.parse(ruleset.rules) as RulesetJSON["rules"],
+          frontMatterUnclosed: ruleset.frontMatterUnclosed ?? false,
         }
       : source,
   );
 }
 
 export function toPlainRuleset(source: string): PlainRuleset {
-  const { metadata, rules } = new Ruleset(source).toJSON();
-  return { metadata, rules: JSON.stringify(rules) };
+  const { metadata, rules, frontMatterUnclosed } = new Ruleset(source).toJSON();
+  return { metadata, rules: JSON.stringify(rules), frontMatterUnclosed };
 }

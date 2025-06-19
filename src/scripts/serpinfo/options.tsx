@@ -2,6 +2,7 @@ import deleteSVG from "@mdi/svg/svg/delete.svg";
 import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
 import dayjs from "dayjs";
+import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import { Suspense, use, useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { browser } from "../browser.ts";
@@ -17,6 +18,7 @@ import {
   type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
+import { IconButton } from "../components/icon-button.tsx";
 import { Input } from "../components/input.tsx";
 import {
   ControlLabel,
@@ -36,12 +38,11 @@ import {
   SectionTitle,
 } from "../components/section.tsx";
 import { Switch } from "../components/switch.tsx";
+import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
-import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
-import { IconButton } from "../components/icon-button.tsx";
-import { translate } from "../locales.ts";
+import { getWebsiteURL, translate } from "../locales.ts";
 import { postMessage, sendMessage } from "../messages.ts";
 import { svgToDataURL } from "../utilities.ts";
 import { GOOGLE_SERPINFO_URL } from "./builtins.ts";
@@ -56,7 +57,6 @@ import type { SerpInfo } from "./types.ts";
 dayjs.extend(dayjsLocalizedFormat);
 
 function BasicSettingsSection() {
-  const enabled = storageStore.use.serpInfoEnabled();
   const settings = storageStore.use.serpInfoSettings();
   const [hostPermissionsRequired, setHostPermissionsRequired] = useState(false);
   useEffect(() => {
@@ -82,31 +82,9 @@ function BasicSettingsSection() {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
-              <LabelWrapper>
-                <ControlLabel for="enableSerpInfo">
-                  {translate("options_enableSerpInfo")}
-                </ControlLabel>
-              </LabelWrapper>
-            </RowItem>
-            <RowItem>
-              <Switch
-                checked={enabled}
-                id="enableSerpInfo"
-                onChange={(e) => {
-                  const value = e.currentTarget.checked;
-                  storageStore.set({ serpInfoEnabled: value });
-                  if (value) {
-                    postMessage("update-all-remote-serpinfo");
-                  }
-                }}
-              />
-            </RowItem>
-          </Row>
-        </SectionItem>
-        <EnableSubscriptionURL type="serpinfo" />
+        {process.env.BROWSER !== "safari" && (
+          <EnableSubscriptionURL type="serpinfo" />
+        )}
         <SectionItem>
           <Row>
             <RowItem expanded>
@@ -187,7 +165,9 @@ function RemoteSerpInfoSection() {
   const [showDialogProps, setShowDialogProps] = useState<{
     remote: RemoteSerpInfo;
   } | null>(null);
-  const [updating, setUpdating] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<
+    "idle" | "updating" | "done"
+  >("idle");
   useEffect(() => {
     const here = new URL(location.href);
     const url = here.searchParams.get("url");
@@ -197,6 +177,14 @@ function RemoteSerpInfoSection() {
     history.replaceState(null, "", here.pathname);
     return () => history.replaceState(null, "", here);
   }, []);
+  useEffect(() => {
+    if (updateStatus === "done") {
+      const timer = window.setTimeout(() => setUpdateStatus("idle"), 3000);
+      return () => {
+        window.clearTimeout(timer);
+      };
+    }
+  }, [updateStatus]);
   return (
     <Section aria-labelledby="remoteSerpInfoSectionTitle">
       <SectionHeader>
@@ -313,20 +301,26 @@ function RemoteSerpInfoSection() {
             </RowItem>
           </Row>
           <Row>
-            <RowItem expanded>
+            <RowItem>
               <LinkButton
-                disabled={updating}
+                disabled={updateStatus === "updating"}
                 onClick={async () => {
-                  setUpdating(true);
+                  setUpdateStatus("updating");
                   try {
                     await sendMessage("update-all-remote-serpinfo");
-                  } finally {
-                    setUpdating(false);
+                    setUpdateStatus("done");
+                  } catch {
+                    setUpdateStatus("idle");
                   }
                 }}
               >
                 {translate("options_updateAllRemoteSerpInfoButton")}
               </LinkButton>
+            </RowItem>
+            <RowItem expanded>
+              {updateStatus === "done" && (
+                <Text>{translate("options_remoteSerpInfoUpdateDone")}</Text>
+              )}
             </RowItem>
             <RowItem>
               <Button
@@ -529,7 +523,7 @@ function UserSerpInfoSection() {
           </Row>
           <Row>
             <RowItem expanded>
-              <Link href="https://ublacklist.github.io/docs/serpinfo">
+              <Link href={getWebsiteURL("/docs/serpinfo")}>
                 {translate("options_userSerpInfoDocumentationLink")}
               </Link>
             </RowItem>

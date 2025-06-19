@@ -59,9 +59,6 @@ export default exportAsMessages({
   options_registerSearchEngine: "Activar",
   options_searchEngineRegistered: "Activado",
   options_skipBlockDialogLabel: 'Omitir el diálogo "Bloquear este sitio" ',
-  options_hideBlockLinksLabel: 'Ocultar los enlaces "Bloquear este sitio" ',
-  options_hideControlLabel:
-    'Ocultar el número de sitios bloqueados y el enlace "Mostrar" ',
   options_blockWholeSiteLabel:
     "Añadir reglas que bloqueen sitios enteros por defecto",
   options_blockWholeSiteDescription:
@@ -135,13 +132,4 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'Se creará un archivo dentro de "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Sincronizado con Dropbox",
-  searchEngines_googleName: "Google",
-  searchEngines_bingName: "Bing",
-  searchEngines_braveName: "Brave",
-  searchEngines_duckduckgoName: "DuckDuckGo",
-  searchEngines_ecosiaName: "Ecosia",
-  searchEngines_kagiName: "Kagi",
-  searchEngines_qwantName: "Qwant",
-  searchEngines_searxName: "SearX",
-  searchEngines_startpageName: "Startpage.com",
 });

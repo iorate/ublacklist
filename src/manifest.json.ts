@@ -1,8 +1,7 @@
-import { parseMatchPattern } from "./common/match-pattern.ts";
-import { SEARCH_ENGINES } from "./common/search-engines.ts";
+import { GOOGLE_MATCHES } from "./common/google-matches.ts";
 
 export default {
-  [process.env.BROWSER === "chrome" ? "action" : "browser_action"]: {
+  action: {
     default_icon: {
       32:
         process.env.BROWSER === "safari"
@@ -13,56 +12,31 @@ export default {
   },
 
   background: {
-    ...(process.env.BROWSER === "chrome"
-      ? {
-          service_worker: "scripts/background.js",
-        }
-      : {
-          persistent: process.env.BROWSER === "firefox",
-          scripts: ["scripts/background.js"],
-        }),
+    ...(process.env.BROWSER === "firefox"
+      ? { scripts: ["scripts/background.js"] }
+      : { service_worker: "scripts/background.js" }),
   },
 
   ...(process.env.BROWSER === "firefox"
     ? {
         browser_specific_settings: {
-          gecko: {
-            id: "@ublacklist",
-          },
+          gecko: { id: "@ublacklist" },
           gecko_android: {},
         },
       }
     : {}),
 
-  content_scripts:
-    process.env.BROWSER === "safari"
-      ? Object.values(SEARCH_ENGINES).flatMap(({ contentScripts }) =>
-          contentScripts.map(({ matches, runAt }) => ({
-            js: ["scripts/import-content-script.js"],
-            matches: [
-              ...new Set(
-                matches.map((match) => {
-                  const parsed = parseMatchPattern(match);
-                  if (!parsed) {
-                    throw new Error(`Invalid match pattern: ${match}`);
-                  }
-                  return parsed.allURLs
-                    ? "<all_urls>"
-                    : `${parsed.scheme}://${parsed.host}/*`;
-                }),
-              ),
-            ],
-            run_at: runAt,
-          })),
-        )
-      : SEARCH_ENGINES.google.contentScripts.map(({ matches, runAt }) => ({
-          js: [
-            "scripts/content-script.js",
-            "scripts/serpinfo/content-script.js",
-          ],
-          matches,
-          run_at: runAt,
-        })),
+  content_scripts: [
+    {
+      matches: GOOGLE_MATCHES,
+      js: [
+        process.env.BROWSER === "safari"
+          ? "scripts/import-content-script.js"
+          : "scripts/serpinfo/content-script.js",
+      ],
+      run_at: "document_start",
+    },
+  ],
 
   default_locale: "en",
 
@@ -79,28 +53,14 @@ export default {
       }
     : {}),
 
-  manifest_version: process.env.BROWSER === "chrome" ? 3 : 2,
+  manifest_version: 3,
 
   name: "__MSG_extensionName__",
 
-  [process.env.BROWSER === "chrome"
-    ? "optional_host_permissions"
-    : "optional_permissions"]:
-    process.env.BROWSER === "safari"
-      ? ["https://iorate.github.io/*", "https://ublacklist.github.io/*"]
-      : ["*://*/*"],
+  optional_host_permissions: ["*://*/*"],
 
   options_ui: {
-    ...(process.env.BROWSER === "firefox"
-      ? {
-          browser_style: false,
-        }
-      : {}),
-    ...(process.env.BROWSER !== "safari"
-      ? {
-          open_in_tab: true,
-        }
-      : {}),
+    ...(process.env.BROWSER !== "safari" ? { open_in_tab: true } : {}),
     page: "pages/options.html",
   },
 
@@ -108,42 +68,28 @@ export default {
     "activeTab",
     "alarms",
     ...(process.env.BROWSER !== "safari"
-      ? ["declarativeNetRequestWithHostAccess", "identity", "scripting"]
+      ? ["declarativeNetRequestWithHostAccess", "identity"]
       : []),
+    "scripting",
     "storage",
     "unlimitedStorage",
   ],
 
   version: process.env.VERSION,
 
-  ...(process.env.BROWSER === "chrome"
-    ? {
-        web_accessible_resources: [
-          {
-            matches: ["*://*/*"],
-            resources: ["pages/options.html", "pages/serpinfo/options.html"],
-          },
-          ...(process.env.DEBUG === "true"
-            ? [
-                {
-                  matches: ["*://*/*"],
-                  resources: [
-                    "scripts/content-script.js.map",
-                    "scripts/serpinfo/content-script.js.map",
-                  ],
-                },
-              ]
-            : []),
-        ],
-      }
-    : process.env.BROWSER === "firefox"
-      ? {
-          web_accessible_resources: [
-            "pages/options.html",
-            "pages/serpinfo/options.html",
-          ],
-        }
-      : {
-          web_accessible_resources: ["scripts/content-script.js"],
-        }),
+  web_accessible_resources: [
+    {
+      matches: ["*://*/*"],
+      resources: [
+        "pages/options.html",
+        "pages/serpinfo/options.html",
+        ...(process.env.BROWSER === "safari"
+          ? ["scripts/serpinfo/content-script.js"]
+          : []),
+        ...(process.env.DEBUG === "true" && process.env.BROWSER === "chrome"
+          ? ["scripts/serpinfo/content-script.js.map"]
+          : []),
+      ],
+    },
+  ],
 };

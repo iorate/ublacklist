@@ -1,15 +1,11 @@
-# dependencies
+# Dependency directories
 node_modules
 
-# production
-/dist
-/website/build
+# Build output
+dist
 
-# local env files
+# Dotenv environment variable files
 .env.local
-
-# docusaurus
-.docusaurus
 
 .DS_Store
 .vscode/
