@@ -28,7 +28,7 @@ export default {
 
   content_scripts: [
     {
-      matches: GOOGLE_MATCHES,
+      matches: process.env.BROWSER === "safari" ? ["*://*/*"] : GOOGLE_MATCHES,
       js: [
         process.env.BROWSER === "safari"
           ? "scripts/import-content-script.js"
