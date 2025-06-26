@@ -96,8 +96,7 @@ const syncSections: readonly SyncSection[] = [
         cloudItems.timestamp != null &&
         dayjs(cloudItems.timestamp).isBefore(latestLocalItems.timestamp)
       ) {
-        const { ruleset, blacklist, timestamp, ...newCloudItems } = cloudItems;
-        return newCloudItems;
+        return omit(cloudItems, ["ruleset", "blacklist", "timestamp"]);
       }
       return { ...cloudItems };
     },
@@ -165,17 +164,15 @@ const syncSections: readonly SyncSection[] = [
           latestLocalItems.generalLastModified,
         )
       ) {
-        const {
-          skipBlockDialog,
-          hideBlockLinks,
-          hideControl,
-          enablePathDepth,
-          enableMatchingRules,
-          blockWholeSite,
-          generalLastModified,
-          ...newCloudItems
-        } = cloudItems;
-        return newCloudItems;
+        return omit(cloudItems, [
+          "skipBlockDialog",
+          "hideBlockLinks",
+          "hideControl",
+          "enablePathDepth",
+          "enableMatchingRules",
+          "blockWholeSite",
+          "generalLastModified",
+        ]);
       }
       return { ...cloudItems };
     },
@@ -228,15 +225,13 @@ const syncSections: readonly SyncSection[] = [
           latestLocalItems.appearanceLastModified,
         )
       ) {
-        const {
-          linkColor,
-          blockColor,
-          highlightColors,
-          dialogTheme,
-          appearanceLastModified,
-          ...newCloudItems
-        } = cloudItems;
-        return newCloudItems;
+        return omit(cloudItems, [
+          "linkColor",
+          "blockColor",
+          "highlightColors",
+          "dialogTheme",
+          "appearanceLastModified",
+        ]);
       }
       return { ...cloudItems };
     },
@@ -300,13 +295,11 @@ const syncSections: readonly SyncSection[] = [
           latestLocalItems.subscriptionsLastModified,
         )
       ) {
-        const {
-          subscriptions,
-          nextSubscriptionId,
-          subscriptionsLastModified,
-          ...newCloudItems
-        } = cloudItems;
-        return newCloudItems;
+        return omit(cloudItems, [
+          "subscriptions",
+          "nextSubscriptionId",
+          "subscriptionsLastModified",
+        ]);
       }
       return { ...cloudItems };
     },
