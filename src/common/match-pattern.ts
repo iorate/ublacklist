@@ -28,12 +28,12 @@ export function parseMatchPattern(pattern: string): ParsedMatchPattern | null {
 }
 
 const matchPatternRegExp = (() => {
-  const allURLs = String.raw`(?<allURLs><all_urls>)`;
+  const allURLs = "(?<allURLs><all_urls>)";
   const scheme = String.raw`(?<scheme>\*|[A-Za-z][0-9A-Za-z+.-]*)`;
-  const label = String.raw`(?:[0-9A-Za-z](?:[0-9A-Za-z-]*[0-9A-Za-z])?)`;
+  const label = "(?:[0-9A-Za-z](?:[0-9A-Za-z-]*[0-9A-Za-z])?)";
   const host = String.raw`(?<host>(?:\*|${label})(?:\.${label})*)`;
   const path = String.raw`(?<path>/(?:\*|[0-9A-Za-z._~:/?[\]@!$&'()+,;=-]|%[0-9A-Fa-f]{2})*)`;
-  return new RegExp(String.raw`^(?:${allURLs}|${scheme}://${host}${path})$`);
+  return new RegExp(`^(?:${allURLs}|${scheme}://${host}${path})$`);
 })();
 
 export type MatchPatternMapJSON<T> = [allURLs: T[], hostMap: HostMap<T>];
