@@ -1,5 +1,5 @@
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -53,6 +53,7 @@ const ImportBlacklistDialog: React.FC<
     setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
   } & DialogProps
 > = ({ close, open, setBlacklist, setBlacklistDirty }) => {
+  const id = useId();
   const [state, setState] = useState({
     source: "file" as "file" | "pb",
     pb: "",
@@ -79,13 +80,9 @@ const ImportBlacklistDialog: React.FC<
   };
 
   return (
-    <Dialog
-      aria-labelledby="importBlacklistDialogTitle"
-      close={close}
-      open={open}
-    >
+    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
-        <DialogTitle id="importBlacklistDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {translate("options_importBlacklistDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -142,7 +139,7 @@ const ImportBlacklistDialog: React.FC<
             <Indent>
               <CheckBox
                 checked={state.append}
-                id="append"
+                id={`${id}-append`}
                 onChange={(e) => {
                   const { checked } = e.currentTarget;
                   setState((s) => ({ ...s, append: checked }));
@@ -152,7 +149,7 @@ const ImportBlacklistDialog: React.FC<
           </RowItem>
           <RowItem expanded>
             <LabelWrapper>
-              <ControlLabel for="append">
+              <ControlLabel for={`${id}-append`}>
                 {translate("options_importBlacklistDialog_append")}
               </ControlLabel>
             </LabelWrapper>
@@ -216,6 +213,7 @@ const ImportBlacklistDialog: React.FC<
 };
 
 const SetBlacklist: React.FC = () => {
+  const id = useId();
   const {
     initialItems: { blacklist: initialBlacklist },
   } = useOptionsContext();
@@ -323,7 +321,7 @@ const SetBlacklist: React.FC = () => {
           </Row>
         </RowItem>
       </Row>
-      <Portal id="importBlacklistDialogPortal">
+      <Portal id={`${id}-portal`}>
         <ImportBlacklistDialog
           close={() => setImportBlacklistDialogOpen(false)}
           open={importBlacklistDialogOpen}
@@ -363,41 +361,45 @@ const RegisterSearchEngines: React.FC = () => {
   );
 };
 
-export const GeneralSection: React.FC = () => (
-  <Section aria-labelledby="generalSectionTitle" id="general">
-    <SectionHeader>
-      <SectionTitle id="generalSectionTitle">
-        {translate("options_generalTitle")}
-      </SectionTitle>
-    </SectionHeader>
-    <SectionBody>
-      <SetBlacklist />
-      <RegisterSearchEngines />
-      <SectionItem>
-        <SetBooleanItem
-          itemKey="blockWholeSite"
-          label={translate("options_blockWholeSiteLabel")}
-          subLabels={[translate("options_blockWholeSiteDescription")]}
-        />
-      </SectionItem>
-      <SectionItem>
-        <SetBooleanItem
-          itemKey="enableMatchingRules"
-          label={translate("options_enableMatchingRules")}
-        />
-      </SectionItem>
-      <SectionItem>
-        <SetBooleanItem
-          itemKey="skipBlockDialog"
-          label={translate("options_skipBlockDialogLabel")}
-        />
-      </SectionItem>
-      <SectionItem>
-        <SetBooleanItem
-          itemKey="hideBlockLinks"
-          label={translate("options_hideBlockButtonsLabel")}
-        />
-      </SectionItem>
-    </SectionBody>
-  </Section>
-);
+export const GeneralSection: React.FC = () => {
+  const id = useId();
+  return (
+    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
+    <Section aria-labelledby={`${id}-title`} id="general">
+      <SectionHeader>
+        <SectionTitle id={`${id}-title`}>
+          {translate("options_generalTitle")}
+        </SectionTitle>
+      </SectionHeader>
+      <SectionBody>
+        <SetBlacklist />
+        <RegisterSearchEngines />
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="blockWholeSite"
+            label={translate("options_blockWholeSiteLabel")}
+            subLabels={[translate("options_blockWholeSiteDescription")]}
+          />
+        </SectionItem>
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="enableMatchingRules"
+            label={translate("options_enableMatchingRules")}
+          />
+        </SectionItem>
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="skipBlockDialog"
+            label={translate("options_skipBlockDialogLabel")}
+          />
+        </SectionItem>
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="hideBlockLinks"
+            label={translate("options_hideBlockButtonsLabel")}
+          />
+        </SectionItem>
+      </SectionBody>
+    </Section>
+  );
+};

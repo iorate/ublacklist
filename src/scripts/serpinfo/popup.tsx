@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import icon from "../../icons/icon.svg";
 import { Button, LinkButton } from "../components/button.tsx";
 import {
@@ -36,13 +36,14 @@ export function SerpInfoEmbeddedDialog({
   tabId: number;
   initialHideBlockedResults: boolean;
 }): React.ReactNode {
+  const id = useId();
   const [hideBlockedResults, setHideBlockedResults] = useState(
     initialHideBlockedResults,
   );
   return (
     <EmbeddedDialog close={() => window.close()} width="360px">
       <DialogHeader>
-        <DialogTitle id="title">
+        <DialogTitle id={`${id}-title`}>
           <Row>
             <RowItem>
               <Icon iconSize="24px" url={svgToDataURL(icon)} />
@@ -55,7 +56,7 @@ export function SerpInfoEmbeddedDialog({
         <Row>
           <RowItem expanded>
             <LabelWrapper>
-              <ControlLabel for="showBlockedResults">
+              <ControlLabel for={`${id}-switch`}>
                 {translate("popup_serpInfoMode_showBlockedResults")}
               </ControlLabel>
             </LabelWrapper>
@@ -63,7 +64,7 @@ export function SerpInfoEmbeddedDialog({
           <RowItem>
             <Switch
               checked={!hideBlockedResults}
-              id="showBlockedResults"
+              id={`${id}-switch`}
               onChange={(e) => {
                 const hideBlockedResults = !e.currentTarget.checked;
                 setHideBlockedResults(hideBlockedResults);

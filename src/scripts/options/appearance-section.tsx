@@ -1,6 +1,6 @@
 import removeIcon from "@mdi/svg/svg/delete.svg";
 import addIcon from "@mdi/svg/svg/plus.svg";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { ColorPicker } from "../components/color-picker.tsx";
 import { IconButton } from "../components/icon-button.tsx";
 import { Indent } from "../components/indent.tsx";
@@ -240,6 +240,7 @@ const SetHighlightColors: React.FC = () => {
 };
 
 const SetDialogTheme: React.FC = () => {
+  const id = useId();
   const {
     initialItems: { dialogTheme: initialDialogTheme },
   } = useOptionsContext();
@@ -259,7 +260,7 @@ const SetDialogTheme: React.FC = () => {
           <Indent>
             <RadioButton
               checked={dialogTheme === "default"}
-              id="dialogThemeDefault"
+              id={`${id}-default`}
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
@@ -275,7 +276,7 @@ const SetDialogTheme: React.FC = () => {
         </RowItem>
         <RowItem expanded>
           <LabelWrapper>
-            <ControlLabel for="dialogThemeDefault">
+            <ControlLabel for={`${id}-default`}>
               {translate("options_dialogThemeDefault")}
             </ControlLabel>
           </LabelWrapper>
@@ -286,7 +287,7 @@ const SetDialogTheme: React.FC = () => {
           <Indent>
             <RadioButton
               checked={dialogTheme === "light"}
-              id="dialogThemeLight"
+              id={`${id}-light`}
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
@@ -299,7 +300,7 @@ const SetDialogTheme: React.FC = () => {
         </RowItem>
         <RowItem expanded>
           <LabelWrapper>
-            <ControlLabel for="dialogThemeLight">
+            <ControlLabel for={`${id}-light`}>
               {translate("options_dialogThemeLight")}
             </ControlLabel>
           </LabelWrapper>
@@ -310,7 +311,7 @@ const SetDialogTheme: React.FC = () => {
           <Indent>
             <RadioButton
               checked={dialogTheme === "dark"}
-              id="dialogThemeDark"
+              id={`${id}-dark`}
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
@@ -323,7 +324,7 @@ const SetDialogTheme: React.FC = () => {
         </RowItem>
         <RowItem expanded>
           <LabelWrapper>
-            <ControlLabel for="dialogThemeDark">
+            <ControlLabel for={`${id}-dark`}>
               {translate("options_dialogThemeDark")}
             </ControlLabel>
           </LabelWrapper>
@@ -333,21 +334,25 @@ const SetDialogTheme: React.FC = () => {
   );
 };
 
-export const AppearanceSection: React.FC = () => (
-  <Section aria-labelledby="appearanceSectionTitle" id="appearance">
-    <SectionHeader>
-      <SectionTitle id="appearanceSectionTitle">
-        {translate("options_appearanceTitle")}
-      </SectionTitle>
-    </SectionHeader>
-    <SectionBody>
-      <SetColorItem
-        initialColor="#ffe0e0"
-        itemKey="blockColor"
-        label={translate("options_blockColor")}
-      />
-      <SetHighlightColors />
-      <SetDialogTheme />
-    </SectionBody>
-  </Section>
-);
+export const AppearanceSection: React.FC = () => {
+  const id = useId();
+  return (
+    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
+    <Section aria-labelledby={`${id}-title`} id="appearance">
+      <SectionHeader>
+        <SectionTitle id={`${id}-title`}>
+          {translate("options_appearanceTitle")}
+        </SectionTitle>
+      </SectionHeader>
+      <SectionBody>
+        <SetColorItem
+          initialColor="#ffe0e0"
+          itemKey="blockColor"
+          label={translate("options_blockColor")}
+        />
+        <SetHighlightColors />
+        <SetDialogTheme />
+      </SectionBody>
+    </Section>
+  );
+};

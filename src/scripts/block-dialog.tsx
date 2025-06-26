@@ -1,5 +1,5 @@
 import * as punycode from "punycode/";
-import { useState } from "react";
+import { useId, useState } from "react";
 import * as tldts from "tldts";
 import icon from "../icons/icon.svg";
 import { ScopedBaseline } from "./components/baseline.tsx";
@@ -39,6 +39,7 @@ type BlockDialogContentProps = {
   enablePathDepth: boolean;
   enableMatchingRules: boolean;
   entryProps: LinkProps;
+  id: string;
   open: boolean;
   openOptionsPage: () => Promise<void>;
   ruleset: InteractiveRuleset;
@@ -51,6 +52,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   enablePathDepth,
   enableMatchingRules,
   entryProps,
+  id,
   open,
   openOptionsPage,
   ruleset,
@@ -113,7 +115,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   return (
     <>
       <DialogHeader>
-        <DialogTitle id="title">
+        <DialogTitle id={`${id}-title`}>
           <Row>
             <RowItem>
               <Icon iconSize="24px" url={svgToDataURL(icon)} />
@@ -153,14 +155,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
-                      <ControlLabel for="url">
+                      <ControlLabel for={`${id}-url`}>
                         {translate("popup_pageURLLabel")}
                       </ControlLabel>
                     </LabelWrapper>
                     {open && (
                       <TextArea
                         breakAll
-                        id="url"
+                        id={`${id}-url`}
                         readOnly
                         rows={2}
                         value={entryProps.url}
@@ -172,14 +174,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <Row>
                     <RowItem expanded>
                       <LabelWrapper disabled={state.disabled} fullWidth>
-                        <ControlLabel for="depth">
+                        <ControlLabel for={`${id}-depth`}>
                           {translate("popup_pathDepth")}
                         </ControlLabel>
                       </LabelWrapper>
                       {open && (
                         <Input
                           disabled={state.disabled}
-                          id="depth"
+                          id={`${id}-depth`}
                           max={state.pathDepth?.maxDepth() ?? 0}
                           min={0}
                           type="number"
@@ -215,12 +217,12 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper fullWidth>
-                      <ControlLabel for="pageTitle">
+                      <ControlLabel for={`${id}-page-title`}>
                         {translate("popup_pageTitleLabel")}
                       </ControlLabel>
                     </LabelWrapper>
                     <TextArea
-                      id="pageTitle"
+                      id={`${id}-page-title`}
                       readOnly
                       rows={2}
                       spellCheck="false"
@@ -231,7 +233,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper disabled={state.disabled} fullWidth>
-                      <ControlLabel for="rulesToAdd">
+                      <ControlLabel for={`${id}-rules-to-add`}>
                         {translate("popup_addedRulesLabel")}
                       </ControlLabel>
                     </LabelWrapper>
@@ -239,7 +241,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                       <TextArea
                         breakAll
                         disabled={state.disabled}
-                        id="rulesToAdd"
+                        id={`${id}-rules-to-add`}
                         rows={2}
                         spellCheck="false"
                         value={state.rulesToAdd}
@@ -259,7 +261,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 <Row>
                   <RowItem expanded>
                     <LabelWrapper disabled={state.disabled} fullWidth>
-                      <ControlLabel for="rulesToRemove">
+                      <ControlLabel for={`${id}-rules-to-remove`}>
                         {translate("popup_removedRulesLabel")}
                       </ControlLabel>
                     </LabelWrapper>
@@ -267,7 +269,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                       <TextArea
                         breakAll
                         disabled={state.disabled}
-                        id="rulesToRemove"
+                        id={`${id}-rules-to-remove`}
                         readOnly
                         rows={2}
                         value={state.rulesToRemove}
@@ -299,14 +301,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <Row>
                     <RowItem expanded>
                       <LabelWrapper fullWidth>
-                        <ControlLabel for="blocking-rules-text">
+                        <ControlLabel for={`${id}-blocking-rules`}>
                           {translate("popup_blockingRulesLabel")}
                         </ControlLabel>
                       </LabelWrapper>
                       {state.matchingRulesOpen && (
                         <TextArea
                           breakAll
-                          id="blocking-rules-text"
+                          id={`${id}-blocking-rules`}
                           readOnly
                           monospace
                           nowrap
@@ -320,14 +322,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <Row>
                     <RowItem expanded>
                       <LabelWrapper fullWidth>
-                        <ControlLabel for="unblocking-rules-text">
+                        <ControlLabel for={`${id}-unblocking-rules`}>
                           {translate("popup_unblockingRulesLabel")}
                         </ControlLabel>
                       </LabelWrapper>
                       {state.matchingRulesOpen && (
                         <TextArea
                           breakAll
-                          id="unblocking-rules-text"
+                          id={`${id}-unblocking-rules`}
                           readOnly
                           monospace
                           nowrap
@@ -341,14 +343,14 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   <Row>
                     <RowItem expanded>
                       <LabelWrapper fullWidth>
-                        <ControlLabel for="highlight-rules-text">
+                        <ControlLabel for={`${id}-highlight-rules`}>
                           {translate("popup_highlightingRulesLabel")}
                         </ControlLabel>
                       </LabelWrapper>
                       {state.matchingRulesOpen && (
                         <TextArea
                           breakAll
-                          id="highlight-rules-text"
+                          id={`${id}-highlight-rules`}
                           readOnly
                           monospace
                           nowrap
@@ -412,35 +414,48 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
 export type BlockDialogProps = {
   target: HTMLElement | ShadowRoot;
   theme: DialogTheme;
-} & BlockDialogContentProps;
+} & Omit<BlockDialogContentProps, "id">;
 
 export const BlockDialog: React.FC<BlockDialogProps> = ({
   target,
   theme,
   ...props
-}) => (
-  <StylesProvider target={target}>
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-      <ScopedBaseline>
-        <Dialog
-          aria-labelledby="title"
-          close={props.close}
-          open={props.open}
-          width="360px"
-        >
-          <BlockDialogContent {...props} />
-        </Dialog>
-      </ScopedBaseline>
-    </ThemeProvider>
-  </StylesProvider>
-);
+}) => {
+  const id = useId();
+  return (
+    <StylesProvider target={target}>
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <ScopedBaseline>
+          <Dialog
+            aria-labelledby={`${id}-title`}
+            close={props.close}
+            open={props.open}
+            width="360px"
+          >
+            <BlockDialogContent id={id} {...props} />
+          </Dialog>
+        </ScopedBaseline>
+      </ThemeProvider>
+    </StylesProvider>
+  );
+};
 
-export type BlockEmbeddedDialogProps = Omit<BlockDialogContentProps, "open">;
+export type BlockEmbeddedDialogProps = Omit<
+  BlockDialogContentProps,
+  "id" | "open"
+>;
 
 export const BlockEmbeddedDialog: React.FC<BlockEmbeddedDialogProps> = (
   props,
-) => (
-  <EmbeddedDialog close={props.close} width="360px">
-    <BlockDialogContent open={true} {...props} />
-  </EmbeddedDialog>
-);
+) => {
+  const id = useId();
+  return (
+    <EmbeddedDialog
+      aria-labelledby={`${id}-title`}
+      close={props.close}
+      width="360px"
+    >
+      <BlockDialogContent id={id} open={true} {...props} />
+    </EmbeddedDialog>
+  );
+};
