@@ -1,6 +1,22 @@
 {
   "name": "ublacklist",
   "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "check": "pnpm run /^check:/",
+    "check:biome": "biome check",
+    "check:prettier": "prettier --check **/*.{html,yml,yaml,md}",
+    "check:tsc": "tsc",
+    "fix": "pnpm run /^fix:/",
+    "fix:biome": "biome check --write",
+    "fix:prettier": "prettier --write **/*.{html,yml,yaml,md}",
+    "generate": "pnpm run /^generate:/",
+    "generate:ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.js --noTerms",
+    "generate:third-party-notices": "tsx scripts/generate-third-party-notices.ts",
+    "test": "tsx --test src/**/*.test.ts"
+  },
   "dependencies": {
     "@codemirror/commands": "^6.8.1",
     "@codemirror/lang-yaml": "^6.1.2",
@@ -58,24 +74,8 @@
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
+  "packageManager": "pnpm@10.11.0",
   "engines": {
     "pnpm": ">=10"
-  },
-  "packageManager": "pnpm@10.11.0",
-  "private": true,
-  "scripts": {
-    "build": "tsx scripts/build.ts",
-    "check": "pnpm run /^check:/",
-    "check:biome": "biome check",
-    "check:prettier": "prettier --check **/*.{html,yml,yaml,md}",
-    "check:tsc": "tsc",
-    "fix": "pnpm run /^fix:/",
-    "fix:biome": "biome check --write",
-    "fix:prettier": "prettier --write **/*.{html,yml,yaml,md}",
-    "generate": "pnpm run /^generate:/",
-    "generate:ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.js --noTerms",
-    "generate:third-party-notices": "tsx scripts/generate-third-party-notices.ts",
-    "test": "tsx --test src/**/*.test.ts"
-  },
-  "type": "module"
+  }
 }
