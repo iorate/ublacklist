@@ -24,7 +24,7 @@ import { ControlLabel, LabelWrapper } from "./components/label.tsx";
 import { Row, RowItem } from "./components/row.tsx";
 import { StylesProvider } from "./components/styles.tsx";
 import { TextArea } from "./components/textarea.tsx";
-import { ThemeProvider, darkTheme, lightTheme } from "./components/theme.tsx";
+import { darkTheme, lightTheme, ThemeProvider } from "./components/theme.tsx";
 import { useClassName, usePrevious } from "./components/utilities.ts";
 import type { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";

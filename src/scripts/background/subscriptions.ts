@@ -2,8 +2,8 @@ import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
 import type { SubscriptionId } from "../types.ts";
 import {
-  HTTPError,
   errorResult,
+  HTTPError,
   numberKeys,
   successResult,
   toPlainRuleset,

@@ -32,7 +32,10 @@ async function openOptionsPage(): Promise<void> {
 export function SerpInfoEmbeddedDialog({
   tabId,
   initialHideBlockedResults,
-}: { tabId: number; initialHideBlockedResults: boolean }): React.ReactNode {
+}: {
+  tabId: number;
+  initialHideBlockedResults: boolean;
+}): React.ReactNode {
   const [hideBlockedResults, setHideBlockedResults] = useState(
     initialHideBlockedResults,
   );

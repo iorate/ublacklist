@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from "./constants.ts";
-import { FocusCircle, applyClassName, useInnerRef } from "./helpers.tsx";
+import { applyClassName, FocusCircle, useInnerRef } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
 export type CheckBoxProps = React.JSX.IntrinsicElements["input"] & {

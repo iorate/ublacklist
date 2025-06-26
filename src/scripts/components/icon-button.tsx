@@ -1,6 +1,6 @@
 import React from "react";
 import { DISABLED_OPACITY } from "./constants.ts";
-import { FocusCircle, applyClassName } from "./helpers.tsx";
+import { applyClassName, FocusCircle } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";
 import { useTheme } from "./theme.tsx";
 import { useClassName } from "./utilities.ts";

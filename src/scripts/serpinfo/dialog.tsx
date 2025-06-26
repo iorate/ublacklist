@@ -1,5 +1,5 @@
 import { colord } from "colord";
-import { type Root, createRoot } from "react-dom/client";
+import { createRoot, type Root } from "react-dom/client";
 import { BlockDialog } from "../block-dialog.tsx";
 import type { InteractiveRuleset } from "../interactive-ruleset.ts";
 import { saveToLocalStorage } from "../local-storage.ts";

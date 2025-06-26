@@ -7,8 +7,8 @@ import { updateAllRemote as updateAllRemoteSerpInfo } from "../serpinfo/backgrou
 import * as SerpInfoSettings from "../serpinfo/settings.ts";
 import type { Result, Subscriptions } from "../types.ts";
 import {
-  Mutex,
   errorResult,
+  Mutex,
   numberKeys,
   parseJSON,
   successResult,
@@ -16,9 +16,9 @@ import {
 } from "../utilities.ts";
 import { syncFile } from "./clouds.ts";
 import {
-  type RawStorageItems,
   loadAllFromRawStorage,
   modifyAllInRawStorage,
+  type RawStorageItems,
   saveToRawStorage,
 } from "./raw-storage.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";

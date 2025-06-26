@@ -12,10 +12,10 @@ import {
 import { HTTPError } from "../utilities.ts";
 import * as C from "./constants.ts";
 import {
-  type SerpInfoSettings,
   addRemote,
   mergeBuiltins,
   removeRemote,
+  type SerpInfoSettings,
   setRemoteDownloaded,
   setRemoteEnabled,
   setUser,
