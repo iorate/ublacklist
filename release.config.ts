@@ -3,6 +3,7 @@ import type { Options, PluginSpec } from "semantic-release";
 const chromePluginSpec: PluginSpec = [
   "semantic-release-chrome",
   {
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: This is a template string processed by es-toolkit.
     asset: "ublacklist-${nextRelease.gitTag}-chrome.zip",
     distFolder: "dist/chrome",
     extensionId: "pncfbmialoiaghdehhbnbhkkgmjanfhe",
@@ -14,6 +15,7 @@ const amoPluginSpec: PluginSpec = [
   {
     addonId: "ublacklist",
     addonDirPath: "dist/firefox",
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: This is a template string processed by es-toolkit.
     addonZipPath: "ublacklist-${nextRelease.gitTag}-firefox.zip",
     approvalNotes: `To build this add-on, pnpm>=10 is required.
 
