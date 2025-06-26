@@ -119,7 +119,6 @@ export const ColorPicker = React.forwardRef<
       <div
         className={popoverClassName}
         ref={popoverRef}
-        // biome-ignore lint/a11y/useSemanticElements: to be replaced in the future
         role="dialog"
         tabIndex={-1}
         onKeyDown={(e) => {
