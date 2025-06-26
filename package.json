@@ -46,7 +46,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.5",
     "@lezer/generator": "^1.7.3",
     "@types/css-tree": "^2.3.10",
     "@types/fs-extra": "^11.0.4",
