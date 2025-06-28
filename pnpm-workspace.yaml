@@ -4,7 +4,6 @@ onlyBuiltDependencies:
   - lefthook
 
 patchedDependencies:
-  goober: patches/goober.patch
   zod: patches/zod.patch
 
 useNodeVersion: 24.3.0
