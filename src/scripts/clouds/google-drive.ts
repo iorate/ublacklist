@@ -118,12 +118,13 @@ ${content}\r
       if (!parseResult.success) {
         throw new UnexpectedResponse(responseBody);
       }
-      if (!parseResult.data.files.length) {
+      const file = parseResult.data.files[0];
+      if (!file) {
         return null;
       }
       return {
-        id: parseResult.data.files[0].id,
-        modifiedTime: dayjs(parseResult.data.files[0].modifiedTime),
+        id: file.id,
+        modifiedTime: dayjs(file.modifiedTime),
       };
     }
     throw new HTTPError(response.status, response.statusText);

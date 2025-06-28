@@ -5,6 +5,7 @@
   "compilerOptions": {
     // Type Checking
     "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
     "strict": true,
 
     // Modules

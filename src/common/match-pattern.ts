@@ -143,7 +143,7 @@ function testPath(pathPattern: string, path: string): boolean {
   if (pathPattern === "/*") {
     return true;
   }
-  const [first, ...rest] = pathPattern.split("*");
+  const [first, ...rest] = pathPattern.split("*") as [string, ...string[]];
   if (rest.length === 0) {
     return path === first;
   }
@@ -158,5 +158,6 @@ function testPath(pathPattern: string, path: string): boolean {
     }
     pos = partPos + part.length;
   }
-  return path.slice(pos).endsWith(rest[rest.length - 1]);
+  // biome-ignore lint/style/noNonNullAssertion: `rest` is not empty
+  return path.slice(pos).endsWith(rest[rest.length - 1]!);
 }

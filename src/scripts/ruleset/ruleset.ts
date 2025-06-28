@@ -335,8 +335,10 @@ function collectExpression(
     const [leftNode, rightNode] = expressionNode.getChildren("Expression");
     return [
       "&",
-      collectExpression(leftNode, source),
-      collectExpression(rightNode, source),
+      // biome-ignore lint/style/noNonNullAssertion: "AndExpression" always has two "Expression"s
+      collectExpression(leftNode!, source),
+      // biome-ignore lint/style/noNonNullAssertion: "AndExpression" always has two "Expression"s
+      collectExpression(rightNode!, source),
     ];
   }
   {
@@ -344,8 +346,10 @@ function collectExpression(
     const [leftNode, rightNode] = expressionNode.getChildren("Expression");
     return [
       "|",
-      collectExpression(leftNode, source),
-      collectExpression(rightNode, source),
+      // biome-ignore lint/style/noNonNullAssertion: "OrExpression" always has two "Expression"s
+      collectExpression(leftNode!, source),
+      // biome-ignore lint/style/noNonNullAssertion: "OrExpression" always has two "Expression"s
+      collectExpression(rightNode!, source),
     ];
   }
 }

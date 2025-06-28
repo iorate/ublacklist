@@ -194,7 +194,11 @@ const SetHighlightColors: React.FC = () => {
                       aria-labelledby={`highlightColor${index}`}
                       value={color}
                       onChange={(value) => {
-                        colorsAndKeys[index] = [value, colorsAndKeys[index][1]];
+                        colorsAndKeys[index] = [
+                          value,
+                          // biome-ignore lint/style/noNonNullAssertion: `colorsAndKeys` always has a value at `index`.
+                          colorsAndKeys[index]![1],
+                        ];
                         setColorsAndKeys([...colorsAndKeys]);
                         void saveToLocalStorage(
                           {

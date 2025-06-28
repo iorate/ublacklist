@@ -29,7 +29,8 @@ function moveFocus(
   } else {
     nextIndex = items.length - 1;
   }
-  const nextItem = items[nextIndex];
+  // biome-ignore lint/style/noNonNullAssertion: `nextIndex` is always within bounds.
+  const nextItem = items[nextIndex]!;
   nextItem.focus();
 }
 
