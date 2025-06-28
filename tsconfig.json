@@ -1,19 +1,7 @@
 {
-  "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowJs": true,
-    "exactOptionalPropertyTypes": true,
-    "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "noEmit": true,
-    "paths": {
-      "@builtin/*": ["./builtin/*"]
-    },
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ESNext",
-    "verbatimModuleSyntax": true
-  },
-  "exclude": ["dist"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.browser.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

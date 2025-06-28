@@ -112,6 +112,7 @@ async function createBuildJSON(context: Context): Promise<() => Promise<void>> {
     outExtension: { ".js": ".cjs" },
     outbase: srcDir,
     outdir: tempDir,
+    tsconfig: "tsconfig.node.json",
   };
   const require = module.createRequire(import.meta.url);
   const requireModule = (mod: string): string => {
@@ -183,6 +184,7 @@ async function createBuildScripts(
     outbase: srcDir,
     outdir: destDir,
     sourcemap: debug,
+    tsconfig: "tsconfig.browser.json",
   };
   if (watch) {
     const esbuildContext = await esbuild.context(esbuildOptions);

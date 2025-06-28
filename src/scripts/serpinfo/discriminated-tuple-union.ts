@@ -5,7 +5,7 @@ type Option =
   | z.ZodTuple<[z.ZodLiteral<z.Primitive>, ...z.ZodTypeAny[]]>
   | ZodTupleWithOptional<[z.ZodLiteral<z.Primitive>, ...z.ZodTypeAny[]]>;
 
-interface Def<Options extends readonly Option[]> extends z.ZodTypeDef {
+export interface Def<Options extends readonly Option[]> extends z.ZodTypeDef {
   options: Options;
   optionsMap: Map<z.Primitive, Option>;
 }

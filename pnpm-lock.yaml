@@ -4,6 +4,14 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  goober:
+    hash: b030f38b3cf6081edae13a0361aec015c44349fbeb6f8780c7e7abbaf41558b9
+    path: patches/goober.patch
+  zod:
+    hash: 0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b
+    path: patches/zod.patch
+
 importers:
 
   .:
@@ -52,7 +60,7 @@ importers:
         version: 1.38.0
       goober:
         specifier: 2.1.10
-        version: 2.1.10(csstype@3.1.3)
+        version: 2.1.10(patch_hash=b030f38b3cf6081edae13a0361aec015c44349fbeb6f8780c7e7abbaf41558b9)(csstype@3.1.3)
       is-mobile:
         specifier: ^5.0.0
         version: 5.0.0
@@ -76,13 +84,13 @@ importers:
         version: 7.0.7
       zod:
         specifier: ^3.24.4
-        version: 3.24.4
+        version: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
       zod-tuple-with-optional:
         specifier: ^1.0.2
-        version: 1.0.2(zod@3.24.4)
+        version: 1.0.2(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b))
       zod-validation-error:
         specifier: ^3.4.1
-        version: 3.4.1(zod@3.24.4)
+        version: 3.4.1(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b))
       zustand:
         specifier: ^5.0.4
         version: 5.0.4(@types/react@19.1.5)(react@19.1.0)
@@ -3143,7 +3151,7 @@ snapshots:
       slash: 5.1.0
       unicorn-magic: 0.3.0
 
-  goober@2.1.10(csstype@3.1.3):
+  goober@2.1.10(patch_hash=b030f38b3cf6081edae13a0361aec015c44349fbeb6f8780c7e7abbaf41558b9)(csstype@3.1.3):
     dependencies:
       csstype: 3.1.3
 
@@ -4128,15 +4136,15 @@ snapshots:
       compress-commons: 4.1.2
       readable-stream: 3.6.2
 
-  zod-tuple-with-optional@1.0.2(zod@3.24.4):
+  zod-tuple-with-optional@1.0.2(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)):
     dependencies:
-      zod: 3.24.4
+      zod: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
 
-  zod-validation-error@3.4.1(zod@3.24.4):
+  zod-validation-error@3.4.1(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)):
     dependencies:
-      zod: 3.24.4
+      zod: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
 
-  zod@3.24.4: {}
+  zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b): {}
 
   zustand@5.0.4(@types/react@19.1.5)(react@19.1.0):
     optionalDependencies:

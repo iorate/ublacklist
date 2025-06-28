@@ -1,0 +1,16 @@
+diff --git a/package.json b/package.json
+index de0c7806877efb751c4ce9a4abccaf024d61e99a..332e9dbd91355e1d413d0321ac76a1fd5e135872 100644
+--- a/package.json
++++ b/package.json
+@@ -54,7 +54,10 @@
+       "import": "./lib/index.mjs"
+     },
+     "./package.json": "./package.json",
+-    "./locales/*": "./lib/locales/*"
++    "./locales/*": "./lib/locales/*",
++    "./lib/standard-schema": {
++      "types": "./lib/standard-schema.d.ts"
++    }
+   },
+   "bugs": {
+     "url": "https://github.com/colinhacks/zod/issues"
