@@ -228,7 +228,7 @@ async function createBuild(context: Context): Promise<() => Promise<void>> {
 }
 
 async function main() {
-  dotenv.config({ path: [".env.local", ".env"] });
+  dotenv.config({ path: [".env.local", ".env"], quiet: true });
 
   const { values } = util.parseArgs({
     options: {

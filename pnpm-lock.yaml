@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   zod:
-    hash: 0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b
+    hash: 0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5
     path: patches/zod.patch
 
 importers:
@@ -20,8 +20,8 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
       '@codemirror/language':
-        specifier: ^6.11.0
-        version: 6.11.0
+        specifier: ^6.11.2
+        version: 6.11.2
       '@codemirror/lint':
         specifier: ^6.8.5
         version: 6.8.5
@@ -29,8 +29,8 @@ importers:
         specifier: ^6.5.2
         version: 6.5.2
       '@codemirror/view':
-        specifier: ^6.36.8
-        version: 6.36.8
+        specifier: ^6.38.0
+        version: 6.38.0
       '@lezer/common':
         specifier: ^1.2.3
         version: 1.2.3
@@ -56,8 +56,8 @@ importers:
         specifier: ^1.11.13
         version: 1.11.13
       es-toolkit:
-        specifier: ^1.38.0
-        version: 1.38.0
+        specifier: ^1.39.5
+        version: 1.39.5
       goober:
         specifier: ^2.1.16
         version: 2.1.16(csstype@3.1.3)
@@ -80,20 +80,20 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       tldts:
-        specifier: ^7.0.7
-        version: 7.0.7
+        specifier: ^7.0.9
+        version: 7.0.9
       zod:
-        specifier: ^3.24.4
-        version: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
+        specifier: ^3.25.67
+        version: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
       zod-tuple-with-optional:
         specifier: ^1.0.2
-        version: 1.0.2(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b))
+        version: 1.0.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5))
       zod-validation-error:
-        specifier: ^3.4.1
-        version: 3.4.1(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b))
+        specifier: ^3.5.2
+        version: 3.5.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5))
       zustand:
-        specifier: ^5.0.4
-        version: 5.0.4(@types/react@19.1.8)(react@19.1.0)
+        specifier: ^5.0.6
+        version: 5.0.6(@types/react@19.1.8)(react@19.1.0)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.0.6
@@ -114,8 +114,8 @@ importers:
         specifier: ^25.0.6
         version: 25.0.6
       '@types/node':
-        specifier: ^22.15.34
-        version: 22.15.34
+        specifier: ^24.0.7
+        version: 24.0.7
       '@types/punycode':
         specifier: ^2.1.4
         version: 2.1.4
@@ -138,8 +138,8 @@ importers:
         specifier: ^3.1.3
         version: 3.1.3
       dotenv:
-        specifier: ^16.6.1
-        version: 16.6.1
+        specifier: ^17.0.0
+        version: 17.0.0
       esbuild:
         specifier: ^0.25.5
         version: 0.25.5
@@ -252,8 +252,8 @@ packages:
   '@codemirror/lang-yaml@6.1.2':
     resolution: {integrity: sha512-dxrfG8w5Ce/QbT7YID7mWZFKhdhsaTNOYjOkSIMt1qmC4VQnXSDSYVHHHn8k6kJUfIhtLo8t1JJgltlxWdsITw==}
 
-  '@codemirror/language@6.11.0':
-    resolution: {integrity: sha512-A7+f++LodNNc1wGgoRDTt78cOwWm9KVezApgjOMp1W4hM0898nsqBXwF+sbePE7ZRcjN7Sa1Z5m2oN27XkmEjQ==}
+  '@codemirror/language@6.11.2':
+    resolution: {integrity: sha512-p44TsNArL4IVXDTbapUmEkAlvWs2CFQbcfc0ymDsis1kH2wh0gcY96AS29c/vp2d0y2Tquk1EDSaawpzilUiAw==}
 
   '@codemirror/lint@6.8.5':
     resolution: {integrity: sha512-s3n3KisH7dx3vsoeGMxsbRAgKe4O1vbrnKBClm99PU0fWxmxsx5rR2PfqQgIt+2MMJBHbiJ5rfIdLYfB9NNvsA==}
@@ -261,8 +261,8 @@ packages:
   '@codemirror/state@6.5.2':
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
 
-  '@codemirror/view@6.36.8':
-    resolution: {integrity: sha512-yoRo4f+FdnD01fFt4XpfpMCcCAo9QvZOtbrXExn4SqzH32YC6LgzqxfLZw/r6Ge65xyY03mK/UfUqrVw1gFiFg==}
+  '@codemirror/view@6.38.0':
+    resolution: {integrity: sha512-yvSchUwHOdupXkd7xJ0ob36jdsSR/I+/C+VbY0ffBiL5NiSTEBDfB1ZGWbbIlDd5xgdUkody+lukAdOxYrOBeg==}
 
   '@colors/colors@1.5.0':
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
@@ -595,8 +595,8 @@ packages:
   '@types/license-checker@25.0.6':
     resolution: {integrity: sha512-ju/75+YPkNE5vX1iPer+qtI1eI/LqJVYZgOsmSHI1iiEM1bQL5Gh1lEvyjR9T7ZXVE1FwJa2doWJEEmPNwbZkw==}
 
-  '@types/node@22.15.34':
-    resolution: {integrity: sha512-8Y6E5WUupYy1Dd0II32BsWAx5MWdcnRd8L84Oys3veg1YrYtNtzgO4CFhiBg6MDSjk7Ay36HYOnU7/tuOzIzcw==}
+  '@types/node@24.0.7':
+    resolution: {integrity: sha512-YIEUUr4yf8q8oQoXPpSlnvKNVKDQlPMWrmOcgzoduo7kvA2UF0/BwJ/eMKFTiTtkNL17I0M6Xe2tvwFU7be6iw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -928,8 +928,8 @@ packages:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
 
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+  dotenv@17.0.0:
+    resolution: {integrity: sha512-A0BJ5lrpJVSfnMMXjmeO0xUnoxqsBHWCoqqTnGwGYVdnctqXXUEhJOO7LxmgxJon9tEZFGpe0xPRX0h2v3AANQ==}
     engines: {node: '>=12'}
 
   duplexer2@0.1.4:
@@ -962,8 +962,8 @@ packages:
   error-ex@1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
 
-  es-toolkit@1.38.0:
-    resolution: {integrity: sha512-OT3AxczYYd3W50bCj4V0hKoOAfqIy9tof0leNQYekEDxVKir3RTVTJOLij7VAe6fsCNsGhC0JqIkURpMXTCSEA==}
+  es-toolkit@1.39.5:
+    resolution: {integrity: sha512-z9V0qU4lx1TBXDNFWfAASWk6RNU6c6+TJBKE+FLIg8u0XJ6Yw58Hi0yX8ftEouj6p1QARRlXLFfHbIli93BdQQ==}
 
   esbuild@0.25.5:
     resolution: {integrity: sha512-P8OtKZRv/5J5hhz0cUAdu/cLuPIKXpQl1R9pZtvmHWQvrAUVd0UNIPT4IB4W3rNOqVO0rlqHmCIbSwxh/c9yUQ==}
@@ -2046,11 +2046,11 @@ packages:
     resolution: {integrity: sha512-75voc/9G4rDIJleOo4jPvN4/YC4GRZrY8yy1uU4lwrB3XEQbWve8zXoO5No4eFrGcTAMYyoY67p8jRQdtA1HbA==}
     engines: {node: '>=12'}
 
-  tldts-core@7.0.7:
-    resolution: {integrity: sha512-ECqb8imSroX1UmUuhRBNPkkmtZ8mHEenieim80UVxG0M5wXVjY2Fp2tYXCPvk+nLy1geOhFpeD5YQhM/gF63Jg==}
+  tldts-core@7.0.9:
+    resolution: {integrity: sha512-/FGY1+CryHsxF9SFiPZlMOcwQsfABkAvOJO5VEKE8TNifVEqgMF7+UVXHGhm1z4gPUfvVS/EYcwhiRU3vUa1ag==}
 
-  tldts@7.0.7:
-    resolution: {integrity: sha512-ETNXj36ql5BXDa4VVJk3wgqansg8TI1Yqo217twSAPjyDnh/b2T+XzrI0ftn6EnzVPbXpMTZHOWj5s3a8/uGPA==}
+  tldts@7.0.9:
+    resolution: {integrity: sha512-/nFtBeNs9nAKIAZE1i3ssOAroci8UqRldFVw5H6RCsNZw7NzDr+Yc3Ek7Tm8XSQKMzw7NSyRSszNxCM0ENsUbg==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -2087,8 +2087,8 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
 
   unicode-emoji-modifier-base@1.0.0:
     resolution: {integrity: sha512-yLSH4py7oFH3oG/9K+XWrz1pSi3dfUrWEnInbxMfArOfc1+33BlGPQtLsOYwvdMy11AwUBetYuaRxSPqgkq+8g==}
@@ -2186,17 +2186,17 @@ packages:
     peerDependencies:
       zod: ^3.10.3
 
-  zod-validation-error@3.4.1:
-    resolution: {integrity: sha512-1KP64yqDPQ3rupxNv7oXhf7KdhHHgaqbKuspVoiN93TT0xrBjql+Svjkdjq/Qh/7GSMmgQs3AfvBT0heE35thw==}
+  zod-validation-error@3.5.2:
+    resolution: {integrity: sha512-mdi7YOLtram5dzJ5aDtm1AG9+mxRma1iaMrZdYIpFO7epdKBUwLHIxTF8CPDeCQ828zAXYtizrKlEJAtzgfgrw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      zod: ^3.24.4
+      zod: ^3.25.0
 
-  zod@3.24.4:
-    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
 
-  zustand@5.0.4:
-    resolution: {integrity: sha512-39VFTN5InDtMd28ZhjLyuTnlytDr9HfwO512Ai4I8ZABCoyAj4F1+sr7sD1jP/+p7k77Iko0Pb5NhgBFDCX0kQ==}
+  zustand@5.0.6:
+    resolution: {integrity: sha512-ihAqNeUVhe0MAD+X8M5UzqyZ9k3FFZLBTtqo6JLPwV53cbRB/mJwBI0PxcIgqhBBHlEs8G45OTDTMq3gNcLq3A==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=18.0.0'
@@ -2266,32 +2266,32 @@ snapshots:
 
   '@codemirror/autocomplete@6.18.6':
     dependencies:
-      '@codemirror/language': 6.11.0
+      '@codemirror/language': 6.11.2
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.8
+      '@codemirror/view': 6.38.0
       '@lezer/common': 1.2.3
 
   '@codemirror/commands@6.8.1':
     dependencies:
-      '@codemirror/language': 6.11.0
+      '@codemirror/language': 6.11.2
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.8
+      '@codemirror/view': 6.38.0
       '@lezer/common': 1.2.3
 
   '@codemirror/lang-yaml@6.1.2':
     dependencies:
       '@codemirror/autocomplete': 6.18.6
-      '@codemirror/language': 6.11.0
+      '@codemirror/language': 6.11.2
       '@codemirror/state': 6.5.2
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
       '@lezer/yaml': 1.0.3
 
-  '@codemirror/language@6.11.0':
+  '@codemirror/language@6.11.2':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.8
+      '@codemirror/view': 6.38.0
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
@@ -2300,16 +2300,17 @@ snapshots:
   '@codemirror/lint@6.8.5':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.8
+      '@codemirror/view': 6.38.0
       crelt: 1.0.6
 
   '@codemirror/state@6.5.2':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
 
-  '@codemirror/view@6.36.8':
+  '@codemirror/view@6.38.0':
     dependencies:
       '@codemirror/state': 6.5.2
+      crelt: 1.0.6
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
 
@@ -2594,7 +2595,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 22.15.34
+      '@types/node': 24.0.7
       '@types/responselike': 1.0.3
 
   '@types/css-tree@2.3.10': {}
@@ -2602,7 +2603,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 22.15.34
+      '@types/node': 24.0.7
 
   '@types/http-cache-semantics@4.0.4': {}
 
@@ -2610,17 +2611,17 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 22.15.34
+      '@types/node': 24.0.7
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 22.15.34
+      '@types/node': 24.0.7
 
   '@types/license-checker@25.0.6': {}
 
-  '@types/node@22.15.34':
+  '@types/node@24.0.7':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 7.8.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -2636,7 +2637,7 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 22.15.34
+      '@types/node': 24.0.7
 
   '@types/webextension-polyfill@0.12.3': {}
 
@@ -2961,7 +2962,7 @@ snapshots:
     dependencies:
       is-obj: 2.0.0
 
-  dotenv@16.6.1: {}
+  dotenv@17.0.0: {}
 
   duplexer2@0.1.4:
     dependencies:
@@ -2992,7 +2993,7 @@ snapshots:
     dependencies:
       is-arrayish: 0.2.1
 
-  es-toolkit@1.38.0: {}
+  es-toolkit@1.39.5: {}
 
   esbuild@0.25.5:
     optionalDependencies:
@@ -3836,7 +3837,7 @@ snapshots:
       '@semantic-release/error': 4.0.0
       adm-zip: 0.5.16
       arktype: 2.1.20
-      es-toolkit: 1.38.0
+      es-toolkit: 1.39.5
       esbuild: 0.25.5
       execa: 9.5.3
       jsonwebtoken: 9.0.2
@@ -4044,11 +4045,11 @@ snapshots:
     dependencies:
       convert-hrtime: 5.0.0
 
-  tldts-core@7.0.7: {}
+  tldts-core@7.0.9: {}
 
-  tldts@7.0.7:
+  tldts@7.0.9:
     dependencies:
-      tldts-core: 7.0.7
+      tldts-core: 7.0.9
 
   to-regex-range@5.0.1:
     dependencies:
@@ -4069,7 +4070,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  undici-types@6.21.0: {}
+  undici-types@7.8.0: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
@@ -4150,17 +4151,17 @@ snapshots:
       compress-commons: 4.1.2
       readable-stream: 3.6.2
 
-  zod-tuple-with-optional@1.0.2(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)):
+  zod-tuple-with-optional@1.0.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)):
     dependencies:
-      zod: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
+      zod: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
 
-  zod-validation-error@3.4.1(zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)):
+  zod-validation-error@3.5.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)):
     dependencies:
-      zod: 3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b)
+      zod: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
 
-  zod@3.24.4(patch_hash=0e18e84b4872e20f8bfe8375a589bfe4deba6d7edd9b796f0814eea7553cb81b): {}
+  zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5): {}
 
-  zustand@5.0.4(@types/react@19.1.8)(react@19.1.0):
+  zustand@5.0.6(@types/react@19.1.8)(react@19.1.0):
     optionalDependencies:
       '@types/react': 19.1.8
       react: 19.1.0

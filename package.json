@@ -20,10 +20,10 @@
   "dependencies": {
     "@codemirror/commands": "^6.8.1",
     "@codemirror/lang-yaml": "^6.1.2",
-    "@codemirror/language": "^6.11.0",
+    "@codemirror/language": "^6.11.2",
     "@codemirror/lint": "^6.8.5",
     "@codemirror/state": "^6.5.2",
-    "@codemirror/view": "^6.36.8",
+    "@codemirror/view": "^6.38.0",
     "@lezer/common": "^1.2.3",
     "@lezer/highlight": "^1.2.1",
     "@lezer/lr": "^1.4.2",
@@ -32,7 +32,7 @@
     "colord": "^2.9.3",
     "css-tree": "^3.1.0",
     "dayjs": "^1.11.13",
-    "es-toolkit": "^1.38.0",
+    "es-toolkit": "^1.39.5",
     "goober": "^2.1.16",
     "is-mobile": "^5.0.0",
     "js-yaml": "^4.1.0",
@@ -40,11 +40,11 @@
     "react": "^19.1.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^19.1.0",
-    "tldts": "^7.0.7",
-    "zod": "^3.24.4",
+    "tldts": "^7.0.9",
+    "zod": "^3.25.67",
     "zod-tuple-with-optional": "^1.0.2",
-    "zod-validation-error": "^3.4.1",
-    "zustand": "^5.0.4"
+    "zod-validation-error": "^3.5.2",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
@@ -53,7 +53,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/license-checker": "^25.0.6",
-    "@types/node": "^22.15.34",
+    "@types/node": "^24.0.7",
     "@types/punycode": "^2.1.4",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
@@ -61,7 +61,7 @@
     "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
     "csstype": "^3.1.3",
-    "dotenv": "^16.6.1",
+    "dotenv": "^17.0.0",
     "esbuild": "^0.25.5",
     "fs-extra": "^11.3.0",
     "globby": "^14.1.0",
@@ -74,7 +74,7 @@
     "semantic-release-chrome": "^3.2.0",
     "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@10.12.3",
+  "packageManager": "pnpm@10.12.4",
   "engines": {
     "pnpm": ">=10"
   }
