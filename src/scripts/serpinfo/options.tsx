@@ -465,7 +465,7 @@ function ShowRemoteSerpInfoDialog(
         <Row>
           <RowItem expanded>
             <Editor
-              height="max(200px, 100vh - 170px)"
+              height="max(200px, 100dvh - 170px)"
               readOnly
               value={remote.content ?? ""}
             />
