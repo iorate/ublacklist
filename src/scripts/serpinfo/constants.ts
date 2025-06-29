@@ -1,6 +1,6 @@
 export const RESULT_ATTRIBUTE = "data-ub-result";
-export const BLOCK_ATTRIBUTE = "data-ub-result-block";
-export const HIGHLIGHT_ATTRIBUTE = "data-ub-result-highlight";
+export const RESULT_BLOCK_ATTRIBUTE = "data-ub-result-block";
+export const RESULT_HIGHLIGHT_ATTRIBUTE = "data-ub-result-highlight";
 export const BUTTON_ATTRIBUTE = "data-ub-button";
 
 export const ALLOWED_ORIGINS = ["https://raw.githubusercontent.com"];

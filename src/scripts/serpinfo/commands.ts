@@ -1,11 +1,13 @@
+import stringHash from "@sindresorhus/string-hash";
 import * as csstree from "css-tree";
+import type { PropertiesHyphen } from "csstype";
 import punycode from "punycode/";
 import { z } from "zod";
 import { tupleWithOptional } from "zod-tuple-with-optional";
-import { css, glob } from "../styles.ts";
 import { type ButtonProps, createButton } from "./button.ts";
 import * as C from "./constants.ts";
 import { discriminatedTupleUnion } from "./discriminated-tuple-union.ts";
+import * as GlobalStyles from "./global-styles.ts";
 
 type ExtractArgs<C, K> = C extends [K, ...infer Args] ? Args : never;
 
@@ -310,6 +312,12 @@ export type ButtonCommand = z.infer<typeof buttonCommandSchema>;
 
 const cssLengthPercentageSchema = z.literal(0).or(z.string());
 
+function cssStringify(properties: PropertiesHyphen): string {
+  return `{${Object.entries(properties)
+    .map(([key, value]) => (value != null ? `${key}:${value};` : ""))
+    .join("")}}`;
+}
+
 export const buttonCommandSchema = discriminatedTupleUnion([
   tupleWithOptional([
     z.literal("inset"),
@@ -338,37 +346,51 @@ type ButtonCommandImpl = {
 };
 
 const buttonCommandImpl: ButtonCommandImpl = {
-  inset(context, options, rootCommand) {
-    const BUTTON_PARENT_ATTRIBUTE = "data-ub-button-parent";
-    const BUTTON_OPACITY = 0.65;
+  inset(context, options = { top: 0, right: 0 }, rootCommand) {
+    const BI = "data-ub-button-inset";
+    const BPI = "data-ub-button-parent-inset";
+    const R = C.RESULT_ATTRIBUTE;
+    const OPACITY = 0.65;
 
     const parent = getRoot(context, rootCommand);
     if (parent == null) {
       return null;
     }
-    glob({ [`[${BUTTON_PARENT_ATTRIBUTE}]`]: { position: "relative" } });
-    parent.setAttribute(BUTTON_PARENT_ATTRIBUTE, "1");
+    if (!GlobalStyles.has("button-parent-inset")) {
+      GlobalStyles.set("button-parent-inset", `[${BPI}]{position:relative;}`);
+    }
+    parent.setAttribute(BPI, "1");
 
     const button = createButton(context.buttonProps);
-    button.className = css({
-      position: "absolute",
-      opacity: BUTTON_OPACITY,
-      "@media (hover: hover)": {
-        opacity: 0,
-        [`[${C.RESULT_ATTRIBUTE}]:hover &, [${C.RESULT_ATTRIBUTE}]:focus-within &`]:
-          {
-            opacity: BUTTON_OPACITY,
-          },
-      },
-      zIndex: 1,
-      ...(options || { top: 0, right: 0 }),
-    });
     button.setAttribute(C.BUTTON_ATTRIBUTE, "1");
+    if (!GlobalStyles.has("button-inset")) {
+      GlobalStyles.set(
+        "button-inset",
+        `[${BI}]{position:absolute;opacity:${OPACITY};}` +
+          `@media (hover: hover){[${BI}]{opacity:0;}[${R}]:hover [${BI}],[${R}]:focus-within [${BI}]{opacity:${OPACITY};}}`,
+      );
+    }
+    const buttonStyle = cssStringify({
+      // property order is fixed for consistent CSS stringification
+      top: options.top,
+      right: options.right,
+      bottom: options.bottom,
+      left: options.left,
+      "z-index": options.zIndex ?? 1,
+    });
+    const buttonStyleHash = stringHash(buttonStyle);
+    if (!GlobalStyles.has(`button-inset-${buttonStyleHash}`)) {
+      GlobalStyles.set(
+        `button-inset-${buttonStyleHash}`,
+        `[${BI}="${buttonStyleHash}"]${buttonStyle}`,
+      );
+    }
+    button.setAttribute(BI, String(buttonStyleHash));
     parent.appendChild(button);
 
     return () => {
       parent.removeChild(button);
-      parent.removeAttribute(BUTTON_PARENT_ATTRIBUTE);
+      parent.removeAttribute(BPI);
     };
   },
 };
