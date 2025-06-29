@@ -31,7 +31,6 @@ export const AboutSection: React.FC = () => {
     [],
   );
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section aria-labelledby={`${id}-title`} id="about">
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>

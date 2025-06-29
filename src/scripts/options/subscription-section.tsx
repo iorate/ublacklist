@@ -524,7 +524,6 @@ export const SubscriptionSection: React.FC = () => {
   } = useOptionsContext();
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section aria-labelledby={`${id}-title`} id="subscription">
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>

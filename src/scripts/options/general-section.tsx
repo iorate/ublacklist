@@ -364,7 +364,6 @@ const RegisterSearchEngines: React.FC = () => {
 export const GeneralSection: React.FC = () => {
   const id = useId();
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section aria-labelledby={`${id}-title`} id="general">
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>

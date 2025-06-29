@@ -76,7 +76,6 @@ function BasicSettingsSection() {
     }
   }, [settings]);
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section id="basic-settings" aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
@@ -189,7 +188,6 @@ function RemoteSerpInfoSection() {
     }
   }, [updateStatus]);
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section id="remote-serpinfo" aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
@@ -503,7 +501,6 @@ function UserSerpInfoSection() {
     [],
   );
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section id="user-serpinfo" aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>

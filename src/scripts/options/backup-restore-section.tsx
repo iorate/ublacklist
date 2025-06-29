@@ -22,7 +22,6 @@ export const BackupRestoreSection: React.FC = () => {
   const [fileInvalid, setFileInvalid] = useState(false);
 
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section aria-labelledby={`${id}-title`} id="backup-restore">
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>

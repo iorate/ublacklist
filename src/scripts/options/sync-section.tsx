@@ -469,7 +469,6 @@ export const SyncSection: React.FC = () => {
   } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
   return (
-    // biome-ignore lint/nursery/useUniqueElementIds: This component is instantiated only once in the options page
     <Section aria-labelledby={`${id}-title`} id="sync">
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
