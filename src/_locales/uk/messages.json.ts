@@ -63,7 +63,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     'Наприклад, щоб заблокувати сторінку "https://a.b.example.uk.com/", буде додано правило "*://*.example.uk.com/*".',
   options_appearanceTitle: "Вигляд",
-  options_linkColor: "Колір посилань",
   options_blockColor: "Колір заблокованих пошукових результатів",
   options_colorUseDefault: "Типовий",
   options_colorSpecify: "Власний",

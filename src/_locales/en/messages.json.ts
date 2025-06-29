@@ -70,7 +70,6 @@ export default exportAsMessages({
   options_enableMatchingRules:
     'Show matching rules in the "Block this site" dialog',
   options_appearanceTitle: "Appearance",
-  options_linkColor: "The color of links",
   options_blockColor: "The color of blocked search results",
   options_colorUseDefault: "Default",
   options_colorSpecify: "Custom",

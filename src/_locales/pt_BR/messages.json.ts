@@ -69,7 +69,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     'Por exemplo, para bloquear a página "https://a.b.exemplo.com.br/", a regra "*://*.exemplo.com.br/*" será adicionada.',
   options_appearanceTitle: "Aparência",
-  options_linkColor: "Cor dos links",
   options_blockColor: "Cor dos resultados de busca bloqueados",
   options_colorUseDefault: "Padrão",
   options_colorSpecify: "Customizado",

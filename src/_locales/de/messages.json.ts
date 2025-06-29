@@ -72,7 +72,6 @@ export default exportAsMessages({
   options_enableMatchingRules:
     'Übereinstimmende Regeln im Dialogfeld "Diese Seite blockieren" anzeigen',
   options_appearanceTitle: "Aussehen",
-  options_linkColor: "Die Farbe von Links",
   options_blockColor: "Die Farbe von blockierten Suchergebnissen",
   options_colorUseDefault: "Standard",
   options_colorSpecify: "Benutzerdefiniert",

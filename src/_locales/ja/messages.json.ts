@@ -72,7 +72,6 @@ export default exportAsMessages({
   options_enableMatchingRules:
     "「このサイトをブロックする」ダイアログに「マッチするルール」を表示する",
   options_appearanceTitle: "外観",
-  options_linkColor: "リンクの色",
   options_blockColor: "ブロックされた検索結果の色",
   options_colorUseDefault: "デフォルト",
   options_colorSpecify: "カスタム",

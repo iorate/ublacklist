@@ -1,12 +1,12 @@
-import type { MessageName } from "../common/locales.ts";
+import type { MessageName, Messages } from "../common/locales.ts";
 
-export function exportAsMessages<T extends MessageName>(
-  messages: Record<T, string>,
-): Record<T, { message: string }> {
+export function exportAsMessages(
+  messages: Partial<Messages>,
+): Partial<Record<MessageName, { message: string }>> {
   return Object.fromEntries(
     Object.entries(messages).map(([messageName, message]) => [
       messageName,
       { message },
     ]),
-  ) as Record<T, { message: string }>;
+  ) as Partial<Record<MessageName, { message: string }>>;
 }

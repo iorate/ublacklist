@@ -66,7 +66,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     "例如若封鎖「https://a.b.example.uk.com/」，會加入「*://*.example.uk.com/*」規則。",
   options_appearanceTitle: "外觀",
-  options_linkColor: "連結的顏色",
   options_blockColor: "被封鎖的搜尋結果的顏色",
   options_colorUseDefault: "預設",
   options_colorSpecify: "自訂",

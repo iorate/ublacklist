@@ -61,7 +61,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     'Na przykład, aby zablokować stronę "https://a.b.example.uk.com/", zostanie dodana reguła "*://*.example.uk.com/*".',
   options_appearanceTitle: "Wygląd",
-  options_linkColor: "Kolor linków",
   options_blockColor: "Kolor zablokowanych wyników wyszukiwania",
   options_colorUseDefault: "Domyślny",
   options_colorSpecify: "Niestandardowy",
