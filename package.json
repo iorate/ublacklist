@@ -15,7 +15,7 @@
     "generate": "pnpm run /^generate:/",
     "generate:ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.ts --noTerms --typeScript",
     "generate:third-party-notices": "node scripts/generate-third-party-notices.ts",
-    "test": "node --test src/**/*.test.ts"
+    "test": "node scripts/test.ts"
   },
   "dependencies": {
     "@codemirror/commands": "^6.8.1",
