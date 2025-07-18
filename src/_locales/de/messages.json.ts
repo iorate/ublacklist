@@ -65,6 +65,7 @@ export default exportAsMessages({
   options_registerSearchEngine: "Aktivieren",
   options_searchEngineRegistered: "Aktiviert",
   options_skipBlockDialogLabel: 'Dialog "Diese Seite blockieren" überspringen',
+  options_hideBlockButtonsLabel: "Schaltflächen zum Blockieren ausblenden",
   options_blockWholeSiteLabel:
     "Regeln hinzufügen, die standardmäßig komplette Seiten blockieren",
   options_blockWholeSiteDescription:
@@ -182,6 +183,7 @@ export default exportAsMessages({
   options_showRemoteSerpInfoButton: "Anzeigen",
   options_removeRemoteSerpInfoButton: "Entfernen",
   options_updateAllRemoteSerpInfoButton: "Jetzt aktualisieren",
+  options_remoteSerpInfoUpdateDone: "Abgeschlossen",
   options_addRemoteSerpInfoButton: "Hinzufügen",
   options_addRemoteSerpInfoDialog_title: "SERPINFO hinzufügen",
   options_addRemoteSerpInfoDialog_urlLabel: "URL",
