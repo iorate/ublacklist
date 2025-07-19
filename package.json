@@ -33,7 +33,7 @@
     "css-tree": "^3.1.0",
     "dayjs": "^1.11.13",
     "es-toolkit": "^1.39.5",
-    "goober": "^2.1.16",
+    "goober": "2.1.15",
     "is-mobile": "^5.0.0",
     "js-yaml": "^4.1.0",
     "punycode": "^2.3.1",
