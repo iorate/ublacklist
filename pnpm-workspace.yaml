@@ -3,7 +3,4 @@ onlyBuiltDependencies:
   - esbuild
   - lefthook
 
-patchedDependencies:
-  zod: patches/zod.patch
-
 useNodeVersion: 24.3.0

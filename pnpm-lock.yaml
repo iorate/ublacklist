@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  zod:
-    hash: 0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5
-    path: patches/zod.patch
-
 importers:
 
   .:
@@ -83,14 +78,11 @@ importers:
         specifier: ^7.0.9
         version: 7.0.9
       zod:
-        specifier: ^3.25.67
-        version: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
-      zod-tuple-with-optional:
-        specifier: ^1.0.2
-        version: 1.0.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5))
+        specifier: ^4.0.5
+        version: 4.0.5
       zod-validation-error:
-        specifier: ^3.5.2
-        version: 3.5.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5))
+        specifier: 4.0.0-beta.2
+        version: 4.0.0-beta.2(zod@4.0.5)
       zustand:
         specifier: ^5.0.6
         version: 5.0.6(@types/react@19.1.8)(react@19.1.0)
@@ -2180,20 +2172,14 @@ packages:
     resolution: {integrity: sha512-9qv4rlDiopXg4E69k+vMHjNN63YFMe9sZMrdlvKnCjlCRWeCBswPPMPUfx+ipsAWq1LXHe70RcbaHdJJpS6hyQ==}
     engines: {node: '>= 10'}
 
-  zod-tuple-with-optional@1.0.2:
-    resolution: {integrity: sha512-2QhG9/LPxuye8avBguOe+Wg/HBA+4KOJzeO/FKrr4aVI8qudCja6eiE5VhaNN6dIrikf47uI/59HL3TJk5mIKQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.10.3
-
-  zod-validation-error@3.5.2:
-    resolution: {integrity: sha512-mdi7YOLtram5dzJ5aDtm1AG9+mxRma1iaMrZdYIpFO7epdKBUwLHIxTF8CPDeCQ828zAXYtizrKlEJAtzgfgrw==}
+  zod-validation-error@4.0.0-beta.2:
+    resolution: {integrity: sha512-b28j4as9+flRiw+tpci8YKh9T+WXMEGP4RIT7Uuwr71+8xmj3ddeENdKSZLdSVh0iNbNkyIBpnz2dl043r/utQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      zod: ^3.25.0
+      zod: ^3.25.0 || ^4.0.0
 
-  zod@3.25.67:
-    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+  zod@4.0.5:
+    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
 
   zustand@5.0.6:
     resolution: {integrity: sha512-ihAqNeUVhe0MAD+X8M5UzqyZ9k3FFZLBTtqo6JLPwV53cbRB/mJwBI0PxcIgqhBBHlEs8G45OTDTMq3gNcLq3A==}
@@ -4151,15 +4137,11 @@ snapshots:
       compress-commons: 4.1.2
       readable-stream: 3.6.2
 
-  zod-tuple-with-optional@1.0.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)):
+  zod-validation-error@4.0.0-beta.2(zod@4.0.5):
     dependencies:
-      zod: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
+      zod: 4.0.5
 
-  zod-validation-error@3.5.2(zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)):
-    dependencies:
-      zod: 3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5)
-
-  zod@3.25.67(patch_hash=0e51fec4756a59ba5169c9f26e394c0c72e21a5fab93a0466a837251f74344d5): {}
+  zod@4.0.5: {}
 
   zustand@5.0.6(@types/react@19.1.8)(react@19.1.0):
     optionalDependencies:

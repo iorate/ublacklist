@@ -4,9 +4,10 @@
     "src/_locales",
     "src/common",
     "src/manifest.json.ts",
-    "src/scripts/ruleset",
     "src/scripts/interactive-ruleset.test.ts",
     "src/scripts/interactive-ruleset.ts",
+    "src/scripts/ruleset",
+    "src/scripts/zod",
     "release.config.ts"
   ],
 

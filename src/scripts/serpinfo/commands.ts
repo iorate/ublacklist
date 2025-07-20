@@ -3,37 +3,30 @@ import * as csstree from "css-tree";
 import type { PropertiesHyphen } from "csstype";
 import punycode from "punycode/";
 import { z } from "zod";
-import { tupleWithOptional } from "zod-tuple-with-optional";
+import { discriminatedTupleUnion } from "../zod/discriminated-tuple-union.ts";
 import { type ButtonProps, createButton } from "./button.ts";
 import * as C from "./constants.ts";
-import { discriminatedTupleUnion } from "./discriminated-tuple-union.ts";
 import * as GlobalStyles from "./global-styles.ts";
 
 type ExtractArgs<C, K> = C extends [K, ...infer Args] ? Args : never;
 
-export const selectorSchema = z.string().refine(
-  (value) => {
-    try {
-      csstree.parse(value, { context: "selectorList" });
-      return true;
-    } catch {
-      return false;
-    }
-  },
-  { message: "Invalid selector" },
-);
+export const selectorSchema = z.string().refine((value) => {
+  try {
+    csstree.parse(value, { context: "selectorList" });
+    return true;
+  } catch {
+    return false;
+  }
+}, "Invalid selector");
 
-export const regexSchema = z.string().refine(
-  (value) => {
-    try {
-      new RegExp(value);
-      return true;
-    } catch {
-      return false;
-    }
-  },
-  { message: "Invalid regular expression" },
-);
+export const regexSchema = z.string().refine((value) => {
+  try {
+    new RegExp(value);
+    return true;
+  } catch {
+    return false;
+  }
+}, "Invalid regular expression");
 
 function upward(
   element: Element,
@@ -57,18 +50,18 @@ function upward(
 }
 
 export type ElementCommand =
-  | ["selector", string, ElementCommand?]
-  | ["upward", number | string, ElementCommand?]
+  | ["selector", string, (ElementCommand | undefined)?]
+  | ["upward", number | string, (ElementCommand | undefined)?]
   | string;
 
 export const elementCommandSchema: z.ZodType<ElementCommand> =
   discriminatedTupleUnion([
-    tupleWithOptional([
+    z.tuple([
       z.literal("selector"),
       selectorSchema,
       z.lazy(() => elementCommandSchema).optional(),
     ]),
-    tupleWithOptional([
+    z.tuple([
       z.literal("upward"),
       z.number().or(z.string()),
       z.lazy(() => elementCommandSchema).optional(),
@@ -137,7 +130,7 @@ export const rootsCommandSchema: z.ZodType<RootsCommand> =
     z.tuple([
       z.literal("upward"),
       z.number().or(z.string()),
-      z.lazy(() => rootsCommandSchema),
+      z.lazy(() => rootsCommandSchema).nonoptional(),
     ]),
   ]).or(selectorSchema);
 
@@ -169,11 +162,11 @@ export function runRootsCommand(command: RootsCommand): Element[] {
 }
 
 export type PropertyCommand =
-  | ["attribute", string, ElementCommand?]
+  | ["attribute", string, (ElementCommand | undefined)?]
   | ["const", string]
   | ["domainToURL", PropertyCommand]
-  | ["or", PropertyCommand[], ElementCommand?]
-  | ["property", string, ElementCommand?]
+  | ["or", PropertyCommand[], (ElementCommand | undefined)?]
+  | ["property", string, (ElementCommand | undefined)?]
   | ["regexExclude", string, PropertyCommand]
   | ["regexInclude", string, PropertyCommand]
   | ["regexSubstitute", string, string, PropertyCommand]
@@ -181,19 +174,22 @@ export type PropertyCommand =
 
 export const propertyCommandSchema: z.ZodType<PropertyCommand> =
   discriminatedTupleUnion([
-    tupleWithOptional([
+    z.tuple([
       z.literal("attribute"),
       z.string(),
       elementCommandSchema.optional(),
     ]),
     z.tuple([z.literal("const"), z.string()]),
-    z.tuple([z.literal("domainToURL"), z.lazy(() => propertyCommandSchema)]),
-    tupleWithOptional([
+    z.tuple([
+      z.literal("domainToURL"),
+      z.lazy(() => propertyCommandSchema).nonoptional(),
+    ]),
+    z.tuple([
       z.literal("or"),
       z.lazy(() => propertyCommandSchema).array(),
       elementCommandSchema.optional(),
     ]),
-    tupleWithOptional([
+    z.tuple([
       z.literal("property"),
       z.string(),
       elementCommandSchema.optional(),
@@ -201,18 +197,18 @@ export const propertyCommandSchema: z.ZodType<PropertyCommand> =
     z.tuple([
       z.literal("regexExclude"),
       regexSchema,
-      z.lazy(() => propertyCommandSchema),
+      z.lazy(() => propertyCommandSchema).nonoptional(),
     ]),
     z.tuple([
       z.literal("regexInclude"),
       regexSchema,
-      z.lazy(() => propertyCommandSchema),
+      z.lazy(() => propertyCommandSchema).nonoptional(),
     ]),
     z.tuple([
       z.literal("regexSubstitute"),
       regexSchema,
       z.string(),
-      z.lazy(() => propertyCommandSchema),
+      z.lazy(() => propertyCommandSchema).nonoptional(),
     ]),
   ]).or(selectorSchema);
 
@@ -319,7 +315,7 @@ function cssStringify(properties: PropertiesHyphen): string {
 }
 
 export const buttonCommandSchema = discriminatedTupleUnion([
-  tupleWithOptional([
+  z.tuple([
     z.literal("inset"),
     z
       .object({
