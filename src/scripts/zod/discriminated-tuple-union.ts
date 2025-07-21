@@ -138,7 +138,7 @@ export function discriminatedTupleUnion<
       customError &&
       (issue.code === "invalid_type" || issue.code === "custom")
     ) {
-      const customMessage = util.unwrapMessage(customError(issue));
+      const customMessage = customError(issue);
       if (customMessage != null) {
         return customMessage;
       }
