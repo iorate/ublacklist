@@ -2,7 +2,7 @@ import { yamlFrontmatter } from "@codemirror/lang-yaml";
 import { LanguageSupport, LRLanguage, syntaxTree } from "@codemirror/language";
 import { type Diagnostic, linter } from "@codemirror/lint";
 import { styleTags, tags as t } from "@lezer/highlight";
-import { parser as rulesetParser } from "./parser.ts";
+import { parser as rulesetParser } from "./parser.generated.ts";
 import { parseRegExp, parseString } from "./utils.ts";
 
 const rulesetLanguage = LRLanguage.define({

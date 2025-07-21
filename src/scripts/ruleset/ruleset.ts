@@ -8,7 +8,7 @@ import {
   type MatchPatternMapJSON,
 } from "../../common/match-pattern.ts";
 import { ruleset } from "./lang.ts";
-import { parser } from "./parser.ts";
+import { parser } from "./parser.generated.ts";
 import { parseRegExp, parseString } from "./utils.ts";
 
 export type RulesetJSON = {
