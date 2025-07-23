@@ -20,17 +20,29 @@ export async function connect(
     }
     const cloud = supportedClouds[id];
     try {
-      const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
-      await saveToRawStorage({
-        syncCloudId: id,
-        syncCloudToken: {
-          accessToken: token.accessToken,
-          expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
-          refreshToken: token.refreshToken,
-        },
-      });
+      if (cloud.type === "token") {
+        // For token/credential providers, credentials are passed as a JSON string
+        const credentials = JSON.parse(authorizationCode);
+        await saveToRawStorage({
+          syncCloudId: id,
+          syncCloudToken: credentials,
+        });
+      } else if (cloud.type === "oauth") {
+        const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
+        await saveToRawStorage({
+          syncCloudId: id,
+          syncCloudToken: {
+            accessToken: token.accessToken,
+            expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
+            refreshToken: token.refreshToken,
+          },
+        });
+      } else {
+        throw new Error("Unknown cloud provider type");
+      }
       return true;
-    } catch {
+    } catch (err) {
+      console.error("[connect] Error:", err);
       return false;
     }
   });
@@ -67,76 +79,120 @@ export function syncFile(
     if (!syncCloudToken) {
       throw new Error(translate("unauthorizedError"));
     }
-    let accessToken = syncCloudToken.accessToken;
-    let expiresAt = dayjs(syncCloudToken.expiresAt);
-    const refreshToken = syncCloudToken.refreshToken;
-    const refresh = async (): Promise<void> => {
-      try {
-        const newToken = await cloud.refreshAccessToken(refreshToken);
-        accessToken = newToken.accessToken;
-        expiresAt = dayjs().add(newToken.expiresIn, "second");
-        await saveToRawStorage({
-          syncCloudToken: {
-            accessToken,
-            expiresAt: expiresAt.toISOString(),
-            refreshToken,
-          },
-        });
-      } catch (e: unknown) {
-        if (e instanceof HTTPError && e.status === 400) {
-          await saveToRawStorage({ syncCloudToken: false });
-          throw new Error(translate("unauthorizedError"));
+    if (cloud.type === "token") {
+      // Use credentials for token/credential providers
+      const credentials = syncCloudToken as unknown as {
+        url: string;
+        username: string;
+        password: string;
+      };
+      const cloudFile = await cloud.findFile(credentials, filename);
+      if (cloudFile) {
+        if (
+          modifiedTime.isBefore(
+            cloudFile.modifiedTime,
+            cloud.modifiedTimePrecision,
+          )
+        ) {
+          const { content: cloudContent } = await cloud.readFile(
+            credentials,
+            cloudFile.id,
+          );
+          return {
+            content: cloudContent,
+            modifiedTime: cloudFile.modifiedTime,
+          };
         }
-        throw e;
+        if (
+          modifiedTime.isSame(
+            cloudFile.modifiedTime,
+            cloud.modifiedTimePrecision,
+          )
+        ) {
+          return null;
+        }
+        await cloud.writeFile(credentials, cloudFile.id, content, modifiedTime);
+        return null;
       }
-    };
-    if (dayjs().isAfter(expiresAt)) {
-      await refresh();
+      await cloud.createFile(credentials, filename, content, modifiedTime);
+      return null;
     }
-    const refreshOnUnauthorized = async <T>(
-      f: () => Promise<T>,
-    ): Promise<T> => {
-      try {
-        return await f();
-      } catch (e: unknown) {
-        if (e instanceof HTTPError && e.status === 401) {
-          await refresh();
-          return await f();
+    if (cloud.type === "oauth") {
+      let accessToken = syncCloudToken.accessToken;
+      let expiresAt = dayjs(syncCloudToken.expiresAt);
+      const refreshToken = syncCloudToken.refreshToken;
+      const refresh = async (): Promise<void> => {
+        try {
+          const newToken = await cloud.refreshAccessToken(refreshToken);
+          accessToken = newToken.accessToken;
+          expiresAt = dayjs().add(newToken.expiresIn, "second");
+          await saveToRawStorage({
+            syncCloudToken: {
+              accessToken,
+              expiresAt: expiresAt.toISOString(),
+              refreshToken,
+            },
+          });
+        } catch (e: unknown) {
+          if (e instanceof HTTPError && e.status === 400) {
+            await saveToRawStorage({ syncCloudToken: false });
+            throw new Error(translate("unauthorizedError"));
+          }
+          throw e;
         }
-        throw e;
+      };
+      if (dayjs().isAfter(expiresAt)) {
+        await refresh();
       }
-    };
-    const cloudFile = await refreshOnUnauthorized(() =>
-      cloud.findFile(accessToken, filename),
-    );
-    if (cloudFile) {
-      if (
-        modifiedTime.isBefore(
-          cloudFile.modifiedTime,
-          cloud.modifiedTimePrecision,
-        )
-      ) {
-        const { content: cloudContent } = await refreshOnUnauthorized(() =>
-          cloud.readFile(accessToken, cloudFile.id),
+      const refreshOnUnauthorized = async <T>(
+        f: () => Promise<T>,
+      ): Promise<T> => {
+        try {
+          return await f();
+        } catch (e: unknown) {
+          if (e instanceof HTTPError && e.status === 401) {
+            await refresh();
+            return await f();
+          }
+          throw e;
+        }
+      };
+      const cloudFile = await refreshOnUnauthorized(() =>
+        cloud.findFile(accessToken, filename),
+      );
+      if (cloudFile) {
+        if (
+          modifiedTime.isBefore(
+            cloudFile.modifiedTime,
+            cloud.modifiedTimePrecision,
+          )
+        ) {
+          const { content: cloudContent } = await refreshOnUnauthorized(() =>
+            cloud.readFile(accessToken, cloudFile.id),
+          );
+          return {
+            content: cloudContent,
+            modifiedTime: cloudFile.modifiedTime,
+          };
+        }
+        if (
+          modifiedTime.isSame(
+            cloudFile.modifiedTime,
+            cloud.modifiedTimePrecision,
+          )
+        ) {
+          return null;
+        }
+        await refreshOnUnauthorized(() =>
+          cloud.writeFile(accessToken, cloudFile.id, content, modifiedTime),
         );
-        return {
-          content: cloudContent,
-          modifiedTime: cloudFile.modifiedTime,
-        };
-      }
-      if (
-        modifiedTime.isSame(cloudFile.modifiedTime, cloud.modifiedTimePrecision)
-      ) {
         return null;
       }
       await refreshOnUnauthorized(() =>
-        cloud.writeFile(accessToken, cloudFile.id, content, modifiedTime),
+        cloud.createFile(accessToken, filename, content, modifiedTime),
       );
       return null;
     }
-    await refreshOnUnauthorized(() =>
-      cloud.createFile(accessToken, filename, content, modifiedTime),
-    );
-    return null;
+    throw new Error("Unknown cloud provider type");
   });
 }
