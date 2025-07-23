@@ -3,6 +3,7 @@ import brave from "@builtin/serpinfo/brave.yml";
 import duckduckgo from "@builtin/serpinfo/duckduckgo.yml";
 import ecosia from "@builtin/serpinfo/ecosia.yml";
 import google from "@builtin/serpinfo/google.yml";
+import kagi from "@builtin/serpinfo/kagi.yml";
 import searxng from "@builtin/serpinfo/searxng.yml";
 import startpage from "@builtin/serpinfo/startpage.yml";
 import yahooJapan from "@builtin/serpinfo/yahoo-japan.yml";
@@ -39,6 +40,10 @@ export const BUILTINS: readonly BuiltinSerpInfo[] = [
   {
     url: getURL("ecosia.yml"),
     content: ecosia,
+  },
+  {
+    url: getURL("kagi.yml"),
+    content: kagi,
   },
   {
     url: getURL("searxng.yml"),
