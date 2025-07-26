@@ -343,6 +343,20 @@ export type Messages = {
   clouds_dropboxSyncDescription: string;
   /** Message indicating Dropbox sync is turned on. */
   clouds_dropboxSyncTurnedOn: string;
+  /** Label for the WebDAV URL input. */
+  clouds_webdavUrlLabel: string;
+  /** Label for the WebDAV username input. */
+  clouds_webdavUsernameLabel: string;
+  /** Label for the WebDAV password input. */
+  clouds_webdavPasswordLabel: string;
+  /** Label for the radio button to sync with WebDAV. */
+  clouds_webdavSync: string;
+  /** Description for WebDAV sync. */
+  clouds_webdavSyncDescription: string;
+  /** Message indicating WebDAV sync is turned on. */
+  clouds_webdavSyncTurnedOn: string;
+  /** Error message for invalid WebDAV credentials. */
+  clouds_webdavUrlFormatError: string;
 };
 
 export type MessageName = keyof Messages;

@@ -196,4 +196,11 @@ export default exportAsMessages({
   clouds_dropboxSyncDescription:
     'A file will be created within "/Apps/uBlacklist/".',
   clouds_dropboxSyncTurnedOn: "Synced with Dropbox",
+  clouds_webdavSync: "Sync with WebDAV",
+  clouds_webdavSyncDescription: "A file will be created at the URL specified.",
+  clouds_webdavSyncTurnedOn: "Synced with WebDAV",
+  clouds_webdavUrlLabel: "WebDAV URL (including destination folder)",
+  clouds_webdavUsernameLabel: "Username",
+  clouds_webdavPasswordLabel: "Password",
+  clouds_webdavUrlFormatError: "WebDAV URL format error.",
 });
