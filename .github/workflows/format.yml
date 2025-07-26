@@ -1,0 +1,48 @@
+name: Format
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: {}
+permissions: {}
+defaults:
+  run:
+    shell: bash
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          submodules: recursive
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Format by Biome
+        run: pnpm biome format --write
+
+      - name: Format by Prettier
+        run: pnpm prettier --write '**/*.{html,yml,yaml,md}'
+
+      - name: Commit changes
+        run: |
+          if ! git diff --quiet; then
+            git config user.name github-actions[bot]
+            git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+            git add .
+            git commit -m "style: format by biome and prettier [skip ci]"
+            git push
+          fi
