@@ -4,7 +4,6 @@ export default exportAsMessages({
   extensionDescription:
     "Bloqueia sites que você escolher de aparecer nos resultados de pesquisa do Google",
   lang: "pt-BR",
-  websiteLocale: "pt-BR",
   error: "Erro: $1",
   unauthorizedError:
     "Não autorizado. Por favor, desative e ative a sincronização.",
