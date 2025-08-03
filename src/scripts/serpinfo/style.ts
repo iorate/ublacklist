@@ -46,7 +46,7 @@ function setBlockColor(color: string) {
   );
 }
 
-function setHightlightColors(colors: readonly string[]) {
+function setHighlightColors(colors: readonly string[]) {
   const RH = C.RESULT_HIGHLIGHT_ATTRIBUTE;
   GlobalStyles.set(
     "result-highlight",
@@ -65,7 +65,7 @@ export function style() {
   hideBlockedResults(hideBlockedResultsStore.getState());
   hideBlockButtons(state.hideBlockLinks);
   setBlockColor(state.blockColor);
-  setHightlightColors(state.highlightColors);
+  setHighlightColors(state.highlightColors);
 
   hideBlockedResultsStore.subscribe((hide) => hideBlockedResults(hide));
   storageStore.subscribe(
@@ -78,7 +78,7 @@ export function style() {
   );
   storageStore.subscribe(
     (state) => state.highlightColors,
-    (colors) => setHightlightColors(colors),
+    (colors) => setHighlightColors(colors),
     { equalityFn: shallow },
   );
 }
