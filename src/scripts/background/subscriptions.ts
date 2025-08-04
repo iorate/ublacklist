@@ -1,9 +1,10 @@
+import { omit } from "es-toolkit";
 import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
 import type { SubscriptionId } from "../types.ts";
 import {
-  HTTPError,
   errorResult,
+  HTTPError,
   numberKeys,
   successResult,
   toPlainRuleset,
@@ -31,11 +32,9 @@ async function tryLock(
 
 export function update(id: SubscriptionId): Promise<void> {
   return tryLock(id, async () => {
-    const {
-      subscriptions: {
-        [id]: { compiledRules, ...subscription },
-      },
-    } = await loadFromRawStorage(["subscriptions"]);
+    const { subscriptions } = await loadFromRawStorage(["subscriptions"]);
+    const subscription =
+      subscriptions[id] && omit(subscriptions[id], ["compiledRules"]);
     if (!subscription || !(subscription.enabled ?? true)) {
       return;
     }

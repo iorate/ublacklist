@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import icon from "../../icons/icon.svg";
 import { browser } from "../browser.ts";
 import { Icon } from "../components/icon.tsx";
@@ -18,6 +18,7 @@ import { getWebsiteURL, translate } from "../locales.ts";
 import { svgToDataURL } from "../utilities.ts";
 
 export const AboutSection: React.FC = () => {
+  const id = useId();
   const version = useMemo(() => browser.runtime.getManifest().version, []);
   const thirdPartyNoticesURL = useMemo(
     () => browser.runtime.getURL("third-party-notices.txt"),
@@ -30,9 +31,9 @@ export const AboutSection: React.FC = () => {
     [],
   );
   return (
-    <Section aria-labelledby="aboutSectionTitle" id="about">
+    <Section aria-labelledby={`${id}-title`} id="about">
       <SectionHeader>
-        <SectionTitle id="aboutSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_aboutTitle")}
         </SectionTitle>
       </SectionHeader>

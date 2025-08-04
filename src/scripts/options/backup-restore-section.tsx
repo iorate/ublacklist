@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { z } from "zod";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
@@ -18,12 +18,13 @@ import type { LocalStorageItemsBackupRestore } from "../types.ts";
 import { downloadTextFile, parseJSON, uploadTextFile } from "../utilities.ts";
 
 export const BackupRestoreSection: React.FC = () => {
+  const id = useId();
   const [fileInvalid, setFileInvalid] = useState(false);
 
   return (
-    <Section aria-labelledby="backupRestoreSectionTitle" id="backupRestore">
+    <Section aria-labelledby={`${id}-title`} id="backup-restore">
       <SectionHeader>
-        <SectionTitle id="backupRestoreSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_backupRestoreTitle")}
         </SectionTitle>
       </SectionHeader>

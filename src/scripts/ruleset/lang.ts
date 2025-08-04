@@ -1,8 +1,8 @@
 import { yamlFrontmatter } from "@codemirror/lang-yaml";
-import { LRLanguage, LanguageSupport, syntaxTree } from "@codemirror/language";
+import { LanguageSupport, LRLanguage, syntaxTree } from "@codemirror/language";
 import { type Diagnostic, linter } from "@codemirror/lint";
 import { styleTags, tags as t } from "@lezer/highlight";
-import { parser as rulesetParser } from "./parser.js";
+import { parser as rulesetParser } from "./parser.generated.ts";
 import { parseRegExp, parseString } from "./utils.ts";
 
 const rulesetLanguage = LRLanguage.define({

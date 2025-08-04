@@ -17,7 +17,7 @@ function getSerpDescriptions(
       const serp =
         index[0] === "user"
           ? settings.user.parsed?.pages[index[1]]
-          : settings.remote[index[1]].parsed?.pages[index[2]];
+          : settings.remote[index[1]]?.parsed?.pages[index[2]];
       if (!serp) {
         return [];
       }

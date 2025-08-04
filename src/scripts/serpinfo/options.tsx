@@ -3,7 +3,7 @@ import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
-import { Suspense, use, useEffect, useRef, useState } from "react";
+import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { browser } from "../browser.ts";
 import { Baseline } from "../components/baseline.tsx";
@@ -57,6 +57,7 @@ import type { SerpInfo } from "./types.ts";
 dayjs.extend(dayjsLocalizedFormat);
 
 function BasicSettingsSection() {
+  const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [hostPermissionsRequired, setHostPermissionsRequired] = useState(false);
   useEffect(() => {
@@ -75,9 +76,9 @@ function BasicSettingsSection() {
     }
   }, [settings]);
   return (
-    <Section aria-labelledby="basicSettingsSectionTitle">
+    <Section id="basic-settings" aria-labelledby={`${id}-title`}>
       <SectionHeader>
-        <SectionTitle id="basicSettingsSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_serpInfoBasicSettingsSection")}
         </SectionTitle>
       </SectionHeader>
@@ -158,6 +159,7 @@ function collectMatches(serpInfo: SerpInfo): string[] {
 }
 
 function RemoteSerpInfoSection() {
+  const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [addDialogProps, setAddDialogProps] = useState<{
     initialURL: string;
@@ -186,9 +188,9 @@ function RemoteSerpInfoSection() {
     }
   }, [updateStatus]);
   return (
-    <Section aria-labelledby="remoteSerpInfoSectionTitle">
+    <Section id="remote-serpinfo" aria-labelledby={`${id}-title`}>
       <SectionHeader>
-        <SectionTitle id="remoteSerpInfoSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_remoteSerpInfoSection")}
         </SectionTitle>
       </SectionHeader>
@@ -334,7 +336,7 @@ function RemoteSerpInfoSection() {
           </Row>
         </SectionItem>
       </SectionBody>
-      <Portal id="addRemoteSerpInfoDialog">
+      <Portal id={`${id}-add-portal`}>
         {addDialogProps && (
           <AddRemoteSerpInfoDialog
             open={true}
@@ -345,7 +347,7 @@ function RemoteSerpInfoSection() {
           />
         )}
       </Portal>
-      <Portal id="showRemoteSerpInfoDialog">
+      <Portal id={`${id}-show-portal`}>
         {showDialogProps && (
           <ShowRemoteSerpInfoDialog
             open={true}
@@ -362,6 +364,7 @@ function RemoteSerpInfoSection() {
 
 function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
   const { initialURL, ...dialogProps } = props;
+  const id = useId();
   const [url, setURL] = useState(initialURL);
   const [urlValid, setURLValid] = useState(false);
   const urlInputRef = useRef<HTMLInputElement>(null);
@@ -372,9 +375,9 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
   }, []);
   const addable = urlValid;
   return (
-    <Dialog aria-labelledby="addRemoteSerpInfoDialogTitle" {...dialogProps}>
+    <Dialog aria-labelledby={`${id}-title`} {...dialogProps}>
       <DialogHeader>
-        <DialogTitle id="addRemoteSerpInfoDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {translate("options_addRemoteSerpInfoDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -382,13 +385,13 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <ControlLabel for="remoteSerpInfoURL">
+              <ControlLabel for={`${id}-url`}>
                 {translate("options_addRemoteSerpInfoDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
             <Input
               className={FOCUS_START_CLASS}
-              id="remoteSerpInfoURL"
+              id={`${id}-url`}
               pattern="https?:.*"
               ref={urlInputRef}
               required={true}
@@ -448,14 +451,11 @@ function ShowRemoteSerpInfoDialog(
   props: DialogProps & { remote: RemoteSerpInfo },
 ) {
   const { remote, ...dialogProps } = props;
+  const id = useId();
   return (
-    <Dialog
-      aria-labelledby="showRemoteSerpInfoDialogTitle"
-      width="600px"
-      {...dialogProps}
-    >
+    <Dialog aria-labelledby={`${id}-title`} width="600px" {...dialogProps}>
       <DialogHeader>
-        <DialogTitle id="showRemoteSerpInfoDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {remote.parsed?.name ?? remote.url}
         </DialogTitle>
       </DialogHeader>
@@ -463,7 +463,7 @@ function ShowRemoteSerpInfoDialog(
         <Row>
           <RowItem expanded>
             <Editor
-              height="max(200px, 100vh - 170px)"
+              height="max(200px, 100dvh - 170px)"
               readOnly
               value={remote.content ?? ""}
             />
@@ -484,6 +484,7 @@ function ShowRemoteSerpInfoDialog(
 }
 
 function UserSerpInfoSection() {
+  const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [userInput, setUserInput] = useState(settings.user.content);
   const [userInputDirty, setUserInputDirty] = useState(false);
@@ -500,9 +501,9 @@ function UserSerpInfoSection() {
     [],
   );
   return (
-    <Section aria-labelledby="userSerpInfoSectionTitle">
+    <Section id="user-serpinfo" aria-labelledby={`${id}-title`}>
       <SectionHeader>
-        <SectionTitle id="userSerpInfoSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_userSerpInfoSection")}
         </SectionTitle>
       </SectionHeader>

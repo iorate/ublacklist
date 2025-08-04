@@ -61,12 +61,12 @@ export default exportAsMessages({
   options_registerSearchEngine: "启用",
   options_searchEngineRegistered: "已启用",
   options_skipBlockDialogLabel: "加入黑名单时不显示确认提示框。",
+  options_hideBlockButtonsLabel: "隐藏屏蔽按钮",
   options_blockWholeSiteLabel: "默认添加屏蔽整个网站的规则",
   options_blockWholeSiteDescription:
     '例如屏蔽 "https://a.b.example.uk.com/", 会添加 "*://*.example.uk.com/*" 规则',
   options_enableMatchingRules: "在「加入黑名单」对话框中显示匹配规则",
   options_appearanceTitle: "外观",
-  options_linkColor: "链接的颜色",
   options_blockColor: "被屏蔽的搜索结果的颜色",
   options_colorUseDefault: "默认",
   options_colorSpecify: "自定义",

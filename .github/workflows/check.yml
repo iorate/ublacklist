@@ -1,8 +1,5 @@
 name: Check
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -22,20 +19,18 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+      - name: Setup
+        uses: ./.github/actions/setup
 
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: 20
-          cache: pnpm
+      - name: Check by Biome
+        run: pnpm biome ci --formatter-enabled=false --reporter=github
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Check by Prettier
+        # Allow formatting issues (exit code 1) but fail on syntax errors (exit code 2).
+        run: pnpm prettier --check '**/*.{html,yml,yaml,md}' || (( $? == 1 ))
 
-      - name: Check
-        run: pnpm check
+      - name: Check by TypeScript
+        run: pnpm tsc --build
 
       - name: Test
         run: pnpm test
@@ -50,9 +45,3 @@ jobs:
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: dist
-          path: dist

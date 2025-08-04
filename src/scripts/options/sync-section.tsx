@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import dayjsDuration from "dayjs/plugin/duration";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -56,10 +56,10 @@ const TurnOnSyncDialog: React.FC<
     >;
   } & DialogProps
 > = ({ close, open, setSyncCloudId }) => {
+  const id = useId();
   const {
     platformInfo: { os },
   } = useOptionsContext();
-
   const [state, setState] = useState({
     phase: "none" as "none" | "auth" | "auth-alt" | "conn" | "conn-alt",
     selectedCloudId: "googleDrive" as CloudId,
@@ -77,9 +77,9 @@ const TurnOnSyncDialog: React.FC<
     supportedClouds[state.selectedCloudId].shouldUseAltFlow(os);
 
   return (
-    <Dialog aria-labelledby="turnOnSyncDialogTitle" close={close} open={open}>
+    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
-        <DialogTitle id="turnOnSyncDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {translate("options_turnOnSyncDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -122,7 +122,7 @@ const TurnOnSyncDialog: React.FC<
               <CheckBox
                 checked={forceAltFlow || state.useAltFlow}
                 disabled={state.phase !== "none" || forceAltFlow}
-                id="useAltFlow"
+                id={`${id}-use-alt-flow`}
                 onChange={(e) => {
                   const { checked } = e.currentTarget;
                   setState((s) => ({
@@ -135,7 +135,7 @@ const TurnOnSyncDialog: React.FC<
           </RowItem>
           <RowItem expanded>
             <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
-              <ControlLabel for="useAltFlow">
+              <ControlLabel for={`${id}-use-alt-flow`}>
                 {translate("options_turnOnSyncDialog_useAltFlow")}
               </ControlLabel>
             </LabelWrapper>
@@ -157,7 +157,7 @@ const TurnOnSyncDialog: React.FC<
           <Row>
             <RowItem expanded>
               <LabelWrapper fullWidth>
-                <ControlLabel for="authCode">
+                <ControlLabel for={`${id}-auth-code`}>
                   {translate("options_turnOnSyncDialog_altFlowAuthCodeLabel")}
                 </ControlLabel>
               </LabelWrapper>
@@ -165,7 +165,7 @@ const TurnOnSyncDialog: React.FC<
                 breakAll
                 className={state.phase === "auth-alt" ? FOCUS_START_CLASS : ""}
                 disabled={state.phase !== "auth-alt"}
-                id="authCode"
+                id={`${id}-auth-code`}
                 rows={2}
                 value={state.authCode}
                 onChange={(e) => {
@@ -278,6 +278,7 @@ const TurnOnSync: React.FC<{
   syncCloudId: CloudId | false | null;
   setSyncCloudId: React.Dispatch<React.SetStateAction<CloudId | false | null>>;
 }> = ({ syncCloudId, setSyncCloudId }) => {
+  const id = useId();
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
     <SectionItem>
@@ -320,7 +321,7 @@ const TurnOnSync: React.FC<{
           )}
         </RowItem>
       </Row>
-      <Portal id="turnOnSyncDialogPortal">
+      <Portal id={`${id}-portal`}>
         <TurnOnSyncDialog
           close={() => setTurnOnSyncDialogOpen(false)}
           open={turnOnSyncDialogOpen}
@@ -462,14 +463,15 @@ const SyncCategories: React.FC<{ disabled: boolean }> = ({ disabled }) => (
 );
 
 export const SyncSection: React.FC = () => {
+  const id = useId();
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
   } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
   return (
-    <Section aria-labelledby="syncSectionTitle" id="sync">
+    <Section aria-labelledby={`${id}-title`} id="sync">
       <SectionHeader>
-        <SectionTitle id="syncSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_syncTitle")}
         </SectionTitle>
       </SectionHeader>

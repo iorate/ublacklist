@@ -8,8 +8,8 @@ import type {
 } from "../types.ts";
 import { numberKeys, toPlainRuleset } from "../utilities.ts";
 import {
-  type RawStorageItems,
   modifyInRawStorage,
+  type RawStorageItems,
   saveToRawStorage,
 } from "./raw-storage.ts";
 import {

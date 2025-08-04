@@ -45,10 +45,12 @@ const Popup: React.FC = () => {
   >({ type: "loading" });
   useEffect(() => {
     void (async () => {
-      const [{ id: tabId, url, title = null }] = await browser.tabs.query({
-        active: true,
-        currentWindow: true,
-      });
+      const {
+        id: tabId,
+        url,
+        title = null,
+        // biome-ignore lint/style/noNonNullAssertion: We can expect that this query returns at least one tab.
+      } = (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
       if (tabId == null || url == null) {
         return;
       }

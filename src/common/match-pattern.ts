@@ -28,12 +28,12 @@ export function parseMatchPattern(pattern: string): ParsedMatchPattern | null {
 }
 
 const matchPatternRegExp = (() => {
-  const allURLs = String.raw`(?<allURLs><all_urls>)`;
+  const allURLs = "(?<allURLs><all_urls>)";
   const scheme = String.raw`(?<scheme>\*|[A-Za-z][0-9A-Za-z+.-]*)`;
-  const label = String.raw`(?:[0-9A-Za-z](?:[0-9A-Za-z-]*[0-9A-Za-z])?)`;
+  const label = "(?:[0-9A-Za-z](?:[0-9A-Za-z-]*[0-9A-Za-z])?)";
   const host = String.raw`(?<host>(?:\*|${label})(?:\.${label})*)`;
   const path = String.raw`(?<path>/(?:\*|[0-9A-Za-z._~:/?[\]@!$&'()+,;=-]|%[0-9A-Fa-f]{2})*)`;
-  return new RegExp(String.raw`^(?:${allURLs}|${scheme}://${host}${path})$`);
+  return new RegExp(`^(?:${allURLs}|${scheme}://${host}${path})$`);
 })();
 
 export type MatchPatternMapJSON<T> = [allURLs: T[], hostMap: HostMap<T>];
@@ -143,7 +143,7 @@ function testPath(pathPattern: string, path: string): boolean {
   if (pathPattern === "/*") {
     return true;
   }
-  const [first, ...rest] = pathPattern.split("*");
+  const [first, ...rest] = pathPattern.split("*") as [string, ...string[]];
   if (rest.length === 0) {
     return path === first;
   }
@@ -158,5 +158,6 @@ function testPath(pathPattern: string, path: string): boolean {
     }
     pos = partPos + part.length;
   }
-  return path.slice(pos).endsWith(rest[rest.length - 1]);
+  // biome-ignore lint/style/noNonNullAssertion: `rest` is not empty
+  return path.slice(pos).endsWith(rest[rest.length - 1]!);
 }

@@ -23,10 +23,9 @@ export function shouldUseAltFlow(): (os: string) => boolean {
 const altFlowRedirectURL = getWebsiteURL("/callback");
 
 async function launchAltFlow(params: { url: string }): Promise<string> {
-  const [{ id: openerTabId }] = await browser.tabs.query({
-    active: true,
-    currentWindow: true,
-  });
+  const { id: openerTabId } =
+    // biome-ignore lint/style/noNonNullAssertion: We can expect that this query returns at least one tab.
+    (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
   if (openerTabId == null) {
     throw new Error("failed to get the current tab");
   }

@@ -1,0 +1,43 @@
+{
+  "include": [
+    "scripts",
+    "src/_locales",
+    "src/common",
+    "src/manifest.json.ts",
+    "src/scripts/interactive-ruleset.test.ts",
+    "src/scripts/interactive-ruleset.ts",
+    "src/scripts/ruleset",
+    "src/scripts/zod",
+    "release.config.ts"
+  ],
+
+  "compilerOptions": {
+    // Type Checking
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+
+    // Modules
+    "allowImportingTsExtensions": true,
+    "module": "node18",
+    "types": ["fs-extra", "license-checker", "node"],
+
+    // Emit
+    "noEmit": true,
+
+    // Interop Constraints
+    "erasableSyntaxOnly": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    // Language and Environment
+    "lib": ["es2024"],
+    "target": "es2024",
+
+    // Projects
+    "composite": true,
+
+    // Completeness
+    "skipLibCheck": true
+  }
+}

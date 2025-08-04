@@ -271,6 +271,7 @@ export const EmbeddedDialog = React.forwardRef<
     <div
       {...applyClassName(props, className)}
       ref={innerRef}
+      role="dialog"
       tabIndex={-1}
       onKeyDown={(e) => {
         if (innerRef.current) {

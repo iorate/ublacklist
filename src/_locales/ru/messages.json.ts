@@ -62,7 +62,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     'Например, для блокировки страницы "https://a.b.example.uk.com/", необходимо добавить правило "*://*.example.uk.com/*".',
   options_appearanceTitle: "Внешний вид",
-  options_linkColor: "Цвет ссылок",
   options_blockColor: "Цвет заблокированных результатов поиска",
   options_colorUseDefault: "По умолчанию",
   options_colorSpecify: "Пользовательский",

@@ -9,9 +9,7 @@ import {
 
 const matchPatternSchema = z
   .string()
-  .refine((value) => parseMatchPattern(value) != null, {
-    message: "Invalid match pattern",
-  });
+  .refine((value) => parseMatchPattern(value) != null, "Invalid match pattern");
 
 const propNameSchema = z.string().regex(
   // Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
@@ -50,18 +48,17 @@ const serpDescriptionSchema = z.object({
 const personSchema = z.string().or(
   z.object({
     name: z.string(),
-    email: z.string().email().optional(),
-    url: z.string().url().optional(),
+    email: z.email().optional(),
+    url: z.url().optional(),
   }),
 );
 
 // https://github.com/colinhacks/zod/issues/61
 const bugsSchema = z
-  .string()
   .url()
-  .or(z.object({ url: z.string().url(), email: z.string().email() }))
-  .or(z.object({ url: z.string().url(), email: z.undefined() }))
-  .or(z.object({ url: z.undefined(), email: z.string().email() }));
+  .or(z.object({ url: z.url(), email: z.email() }))
+  .or(z.object({ url: z.url(), email: z.undefined() }))
+  .or(z.object({ url: z.undefined(), email: z.email() }));
 
 export type SerpInfo = z.infer<typeof serpInfoSchema>;
 
@@ -72,26 +69,22 @@ export const serpInfoSchema = z.object({
   name: z.string(),
   version: z.string().optional(),
   description: z.string().optional(),
-  homepage: z.string().url().optional(),
+  homepage: z.url().optional(),
   bugs: bugsSchema.optional(),
   license: z.string().optional(),
   author: personSchema.optional(),
   contributors: personSchema.array().optional(),
 
-  lastModified: z.string().datetime().optional(),
+  lastModified: z.iso.datetime().optional(),
   pages: serpDescriptionSchema.array(),
 });
 
 export type SerpInfoStrict = z.infer<typeof serpInfoStrictSchema>;
 
-export const serpInfoStrictSchema = serpInfoSchema.merge(
-  z.object({
-    pages: serpDescriptionSchema
-      .merge(
-        z.object({
-          results: resultDescriptionSchema.array(),
-        }),
-      )
-      .array(),
-  }),
-);
+export const serpInfoStrictSchema = serpInfoSchema.extend({
+  pages: serpDescriptionSchema
+    .extend({
+      results: resultDescriptionSchema.array(),
+    })
+    .array(),
+});

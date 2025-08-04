@@ -8,7 +8,8 @@ export class PathDepth {
   constructor(url: AltURL) {
     this.scheme = url.scheme;
     this.host = url.host;
-    this.dirs = url.path.split("?", 1)[0].split("/").slice(1, -1);
+    // biome-ignore lint/style/noNonNullAssertion: `split("?", 1)` always returns at least one element.
+    this.dirs = url.path.split("?", 1)[0]!.split("/").slice(1, -1);
   }
 
   maxDepth(): number {

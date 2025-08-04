@@ -2,4 +2,5 @@ onlyBuiltDependencies:
   - "@biomejs/biome"
   - esbuild
   - lefthook
-useNodeVersion: 22.15.0
+
+useNodeVersion: 24.4.1

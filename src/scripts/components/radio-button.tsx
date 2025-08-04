@@ -1,6 +1,6 @@
 import React from "react";
 import { DISABLED_OPACITY, INPUT_Z_INDEX } from "./constants.ts";
-import { FocusCircle, applyClassName } from "./helpers.tsx";
+import { applyClassName, FocusCircle } from "./helpers.tsx";
 import { useClassName } from "./utilities.ts";
 
 export type RadioButtonProps = React.JSX.IntrinsicElements["input"];

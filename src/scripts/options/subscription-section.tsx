@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useId, useState } from "react";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
@@ -93,6 +93,7 @@ const AddSubscriptionDialog: React.FC<
     setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
 > = ({ close, open, initialName, initialURL, setSubscriptions }) => {
+  const id = useId();
   const [state, setState] = useState(() => ({
     url: initialURL,
     urlValid: (() => {
@@ -120,13 +121,9 @@ const AddSubscriptionDialog: React.FC<
   const ok = state.urlValid;
 
   return (
-    <Dialog
-      aria-labelledby="addSubscriptionDialogTitle"
-      close={close}
-      open={open}
-    >
+    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
-        <DialogTitle id="addSubscriptionDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {translate("options_addSubscriptionDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -134,13 +131,13 @@ const AddSubscriptionDialog: React.FC<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <ControlLabel for="subscriptionURL">
+              <ControlLabel for={`${id}-url`}>
                 {translate("options_addSubscriptionDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
             <Input
               className={FOCUS_START_CLASS}
-              id="subscriptionURL"
+              id={`${id}-url`}
               pattern="https?:.*"
               required={true}
               type="url"
@@ -158,7 +155,7 @@ const AddSubscriptionDialog: React.FC<
         <Row>
           <RowItem expanded>
             <LabelWrapper fullWidth>
-              <ControlLabel for="subscriptionName">
+              <ControlLabel for={`${id}-name`}>
                 {translate("options_addSubscriptionDialog_altNameLabel")}
               </ControlLabel>
               <SubLabel>
@@ -166,7 +163,7 @@ const AddSubscriptionDialog: React.FC<
               </SubLabel>
             </LabelWrapper>
             <Input
-              id="subscriptionName"
+              id={`${id}-name`}
               required={true}
               value={state.name}
               onChange={(e) => {
@@ -222,6 +219,7 @@ const AddSubscriptionDialog: React.FC<
 const ShowSubscriptionDialog: React.FC<
   { subscription: Subscription | null } & DialogProps
 > = ({ close, open, subscription }) => {
+  const id = useId();
   const urlClassName = useClassName(
     () => ({
       wordBreak: "break-all",
@@ -229,13 +227,9 @@ const ShowSubscriptionDialog: React.FC<
     [],
   );
   return (
-    <Dialog
-      aria-labelledby="showSubscriptionDialogTitle"
-      close={close}
-      open={open}
-    >
+    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
-        <DialogTitle id="showSubscriptionDialogTitle">
+        <DialogTitle id={`${id}-title`}>
           {subscription ? getName(subscription) : ""}
         </DialogTitle>
       </DialogHeader>
@@ -374,8 +368,8 @@ export const ManageSubscriptions: React.FC<{
   subscriptions: Subscriptions;
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
 }> = ({ subscriptions, setSubscriptions }) => {
+  const id = useId();
   const { query } = useOptionsContext();
-
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(
     query.addSubscriptionName != null || query.addSubscriptionURL != null,
@@ -503,7 +497,7 @@ export const ManageSubscriptions: React.FC<{
           </Button>
         </RowItem>
       </Row>
-      <Portal id="addSubscriptionDialogPortal">
+      <Portal id={`${id}-add-portal`}>
         <AddSubscriptionDialog
           close={() => setAddSubscriptionDialogOpen(false)}
           initialName={query.addSubscriptionName ?? ""}
@@ -512,7 +506,7 @@ export const ManageSubscriptions: React.FC<{
           setSubscriptions={setSubscriptions}
         />
       </Portal>
-      <Portal id="showSubscriptionDialogPortal">
+      <Portal id={`${id}-show-portal`}>
         <ShowSubscriptionDialog
           close={() => setShowSubscriptionDialogOpen(false)}
           open={showSubscriptionDialogOpen}
@@ -524,14 +518,15 @@ export const ManageSubscriptions: React.FC<{
 };
 
 export const SubscriptionSection: React.FC = () => {
+  const id = useId();
   const {
     initialItems: { subscriptions: initialSubscriptions },
   } = useOptionsContext();
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   return (
-    <Section aria-labelledby="subscriptionSectionTitle" id="subscription">
+    <Section aria-labelledby={`${id}-title`} id="subscription">
       <SectionHeader>
-        <SectionTitle id="subscriptionSectionTitle">
+        <SectionTitle id={`${id}-title`}>
           {translate("options_subscriptionTitle")}
         </SectionTitle>
       </SectionHeader>

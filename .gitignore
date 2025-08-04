@@ -1,10 +1,13 @@
-# Dependency directories
-node_modules
+# Dependencies
+node_modules/
 
-# Build output
-dist
+# Build outputs
+dist/
 
-# Dotenv environment variable files
+# TypeScript cache files
+*.tsbuildinfo
+
+# Environment files
 .env.local
 
 .DS_Store

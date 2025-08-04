@@ -61,7 +61,6 @@ export default exportAsMessages({
   options_blockWholeSiteDescription:
     '예를 들어, "https://a.b.example.uk.com/" 를 차단하면 "*://*.example.uk.com/*" 규칙이 추가됩니다.',
   options_appearanceTitle: "겉보기",
-  options_linkColor: "링크 색상",
   options_blockColor: "차단된 검색 결과 색상",
   options_colorUseDefault: "기본값",
   options_colorSpecify: "직접 선택",

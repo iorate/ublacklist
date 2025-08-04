@@ -277,20 +277,20 @@ class Filter {
   #removeResult(result: Result) {
     result.removeButton?.();
     result.root.removeAttribute(C.RESULT_ATTRIBUTE);
-    if (result.root.hasAttribute(C.BLOCK_ATTRIBUTE)) {
-      result.root.removeAttribute(C.BLOCK_ATTRIBUTE);
+    if (result.root.hasAttribute(C.RESULT_BLOCK_ATTRIBUTE)) {
+      result.root.removeAttribute(C.RESULT_BLOCK_ATTRIBUTE);
       --this.#blockedResultCount;
     }
-    result.root.removeAttribute(C.HIGHLIGHT_ATTRIBUTE);
+    result.root.removeAttribute(C.RESULT_HIGHLIGHT_ATTRIBUTE);
     this.#results.delete(result.root);
   }
 
   #judgeResult(result: Result) {
-    if (result.root.hasAttribute(C.BLOCK_ATTRIBUTE)) {
-      result.root.removeAttribute(C.BLOCK_ATTRIBUTE);
+    if (result.root.hasAttribute(C.RESULT_BLOCK_ATTRIBUTE)) {
+      result.root.removeAttribute(C.RESULT_BLOCK_ATTRIBUTE);
       --this.#blockedResultCount;
     }
-    result.root.removeAttribute(C.HIGHLIGHT_ATTRIBUTE);
+    result.root.removeAttribute(C.RESULT_HIGHLIGHT_ATTRIBUTE);
     if (result.url != null) {
       const queryResult = this.#ruleset.query({
         ...result.props,
@@ -298,13 +298,13 @@ class Filter {
       });
       if (queryResult?.type === "block") {
         result.root.setAttribute(
-          C.BLOCK_ATTRIBUTE,
+          C.RESULT_BLOCK_ATTRIBUTE,
           result.description.preserveSpace ? "2" : "1",
         );
         ++this.#blockedResultCount;
       } else if (queryResult?.type === "highlight") {
         result.root.setAttribute(
-          C.HIGHLIGHT_ATTRIBUTE,
+          C.RESULT_HIGHLIGHT_ATTRIBUTE,
           String(queryResult.colorNumber),
         );
       }
