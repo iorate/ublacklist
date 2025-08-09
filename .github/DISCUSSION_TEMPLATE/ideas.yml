@@ -1,0 +1,37 @@
+title: ""
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feel free to suggest your feature idea.
+
+        #### For Search Engine Support Requests
+        If you want to request support for a new search engine, please note that:
+        - **We will not add builtin search engine support**
+        - You can add support yourself by writing SERPINFO
+        - Other users can share their SERPINFO with you, which you can copy or subscribe to
+        - For help with writing SERPINFO or finding existing ones, please use [Q&A](https://github.com/iorate/ublacklist/discussions/categories/q-a) instead of this category
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe your idea. What problem does it solve? How would it work?"
+      placeholder: |
+        - What problem are you trying to solve?
+        - How would this feature work?
+        - How would users benefit from it?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Please confirm:"
+      options:
+        - label: "I have searched existing discussions and issues to ensure this idea hasn't been suggested before"
+          required: true
+        - label: "I'm willing to help implement this feature (write code, test, etc.)"
+          required: false
