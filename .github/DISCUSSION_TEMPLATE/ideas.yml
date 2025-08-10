@@ -7,11 +7,7 @@ body:
         Feel free to suggest your feature idea.
 
         #### For Search Engine Support Requests
-        If you want to request support for a new search engine, please note that:
-        - **We will not add builtin search engine support**
-        - You can add support yourself by writing SERPINFO
-        - Other users can share their SERPINFO with you, which you can copy or subscribe to
-        - For help with writing SERPINFO or finding existing ones, please use [Q&A](https://github.com/iorate/ublacklist/discussions/categories/q-a) instead of this category
+        **We do not plan to add builtin support.** You can write your own SERPINFO or subscribe to others' SERPINFO to add support. Use [Q&A](https://github.com/iorate/ublacklist/discussions/categories/q-a) for help.
 
   - type: textarea
     id: description
