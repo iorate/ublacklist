@@ -1,0 +1,33 @@
+title: ""
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a general discussion category for topics that don't fit into other specific categories (Bugs, Ideas, or Q&A).
+        Feel free to discuss anything related to uBlacklist, share experiences, provide feedback, or start conversations about the project.
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: "Discussion Topic"
+      description: "What would you like to discuss? This could be anything related to uBlacklist that doesn't fit into other categories."
+      placeholder: |
+        Share your thoughts, experiences, feedback, or any general discussion about:
+        - Usage experiences and tips
+        - Community feedback
+        - General project discussion
+        - Anything else related to uBlacklist
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Please confirm:"
+      options:
+        - label: "I have searched existing discussions and issues to ensure this topic hasn't been discussed before"
+          required: true
+        - label: "This topic doesn't fit better in the Bugs, Ideas, or Q&A categories"
+          required: true
