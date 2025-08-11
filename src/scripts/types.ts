@@ -26,9 +26,10 @@ export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
 // #region Clouds
-export type CloudId = "googleDrive" | "dropbox";
+export type CloudId = "googleDrive" | "dropbox" | "webdav";
 
-export type Cloud = {
+export type OAuthCloud = {
+  type: "oauth";
   hostPermissions: string[];
   messageNames: {
     sync: MessageName0;
@@ -36,9 +37,17 @@ export type Cloud = {
     syncTurnedOn: MessageName0;
   };
   modifiedTimePrecision: "millisecond" | "second";
-
   shouldUseAltFlow(os: string): boolean;
-  authorize(useAltFlow: boolean): Promise<{ authorizationCode: string }>;
+  requiredParams: Array<{
+    key: string;
+    label: MessageName0;
+    type: "text" | "password" | "url";
+    required?: boolean;
+  }>;
+  shouldHideAltFlow: boolean;
+  authorize(params: {
+    useAltFlow: boolean;
+  }): Promise<{ authorizationCode: string }>;
   getAccessToken(
     authorizationCode: string,
     useAltFlow: boolean,
@@ -46,7 +55,6 @@ export type Cloud = {
   refreshAccessToken(
     refreshToken: string,
   ): Promise<{ accessToken: string; expiresIn: number }>;
-
   createFile(
     accessToken: string,
     filename: string,
@@ -66,6 +74,50 @@ export type Cloud = {
   ): Promise<void>;
 };
 
+export type TokenCloud = {
+  type: "token";
+  hostPermissions: string[];
+  messageNames: {
+    sync: MessageName0;
+    syncDescription: MessageName0;
+    syncTurnedOn: MessageName0;
+  };
+  modifiedTimePrecision: "millisecond" | "second";
+  requiredParams: Array<{
+    key: string;
+    label: MessageName0;
+    type: "text" | "password" | "url";
+    required?: boolean;
+  }>;
+  authorize(params: {
+    url: string;
+    username: string;
+    password: string;
+  }): Promise<{ authorizationCode: string }>;
+  // No getAccessToken/refreshAccessToken for token clouds
+  createFile(
+    credentials: { url: string; username: string; password: string },
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+  findFile(
+    credentials: { url: string; username: string; password: string },
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  readFile(
+    credentials: { url: string; username: string; password: string },
+    id: string,
+  ): Promise<{ content: string }>;
+  writeFile(
+    credentials: { url: string; username: string; password: string },
+    id: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+};
+
+export type Cloud = OAuthCloud | TokenCloud;
 export type Clouds = Record<CloudId, Cloud>;
 
 export type CloudToken = {
