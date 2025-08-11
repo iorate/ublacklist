@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🐛 Bugs
+    url: https://github.com/iorate/ublacklist/discussions/new?category=bugs
+    about: "Raise a bug report"
+  - name: 💬 General
+    url: https://github.com/iorate/ublacklist/discussions/new?category=general
+    about: "Anything that doesn't fit into other categories"
+  - name: 💡 Ideas
+    url: https://github.com/iorate/ublacklist/discussions/new?category=ideas
+    about: "Suggest your feature idea"
+  - name: ❓ Q&A
+    url: https://github.com/iorate/ublacklist/discussions/new?category=q-a
+    about: "Ask about usage, configuration, or troubleshooting"
