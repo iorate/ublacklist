@@ -17,6 +17,16 @@
 您还可以订阅公共规则集。该网站列出了一些订阅：
 https://ublacklist.github.io/subscriptions
 
+## 浏览器支持策略
+
+uBlacklist 支持以下浏览器版本：
+
+- **Chrome**：仅支持最新稳定版
+- **Firefox**：仅支持最新稳定版和最新 ESR 版
+- **Safari**：仅支持最新稳定版（macOS 和 iOS）
+
+不过，我们欢迎社区为较旧的浏览器版本或基于 Chromium/Firefox 的浏览器提供贡献。
+
 ## 支持的搜索引擎
 
 此扩展支持以下搜索引擎。

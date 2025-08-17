@@ -17,6 +17,16 @@ You can synchronize rulesets across devices via cloud storage. At the moment, Go
 You can also subscribe to public rulesets. Some subscriptions are listed on the website:
 https://ublacklist.github.io/subscriptions
 
+## Browser support policy
+
+uBlacklist supports the following browser versions:
+
+- **Chrome**: Latest stable version only
+- **Firefox**: Latest stable version and latest ESR only
+- **Safari**: Latest stable version only (macOS and iOS)
+
+However, community contributions for older browser versions or browsers based on Chromium/Firefox are welcome.
+
 ## Supported search engines
 
 This extension is available in the below search engines.
