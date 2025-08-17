@@ -1,0 +1,17 @@
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+
+preserve_hierarchy: true
+
+files:
+  - source: /src/_locales/en/messages.json
+    dest: /messages.json
+    translation: /src/_locales/%locale_with_underscore%/messages.json
+
+  - source: /web-store-assets/en/description.txt
+    dest: /description.txt
+    translation: /web-store-assets/%locale_with_underscore%/description.txt
+
+  - source: /web-store-assets/en/chrome-screenshot-*.png
+    dest: /chrome-screenshots/%original_file_name%
+    translation: /web-store-assets/%locale_with_underscore%/%original_file_name%
