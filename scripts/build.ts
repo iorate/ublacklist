@@ -63,6 +63,7 @@ function defineProcessEnv(context: Context): Record<string, string> {
 async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
   const { browser, watch, srcDir, destDir } = context;
   const sources = [
+    ...(await globby("_locales/*/messages.json", { cwd: srcDir })),
     ...(browser === "safari"
       ? ["icons/template-icon-32.png"]
       : ["icons/icon-32.png"]),
@@ -99,10 +100,7 @@ async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
 
 async function createBuildJSON(context: Context): Promise<() => Promise<void>> {
   const { watch, srcDir, destDir, tempDir } = context;
-  const sources = [
-    ...(await globby("_locales/*/messages.json.ts", { cwd: srcDir })),
-    "manifest.json.ts",
-  ];
+  const sources = ["manifest.json.ts"];
   const esbuildOptions: esbuild.BuildOptions = {
     bundle: true,
     define: defineProcessEnv(context),

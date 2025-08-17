@@ -1,0 +1,482 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Блокує визначені Вами сайти, що появляються в результатах пошуку Google",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "uk",
+    "description": "The language code."
+  },
+  "error": {
+    "message": "Помилка: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "Не авторизовано. Вимкніть синхронізацію і спробуйте ще раз.",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "Скасувати",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "Гаразд",
+    "description": "Text for the OK button."
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist заблокував 1 сайт",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist заблокував $1 сайтів",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "Показати",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Сховати",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Заблокувати сайт",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Розблокувати сайт",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Заблокувати цей сайт",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Розблокувати цей сайт",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "Деталі",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "URL сторінки",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "Depth",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "Заголовок сторінки",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "Правила, що додаються",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "Правила, що вилучаються",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "Блокувати",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "Розблокувати",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "Параметри",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "uBlacklist активовано",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "uBlacklist не активовано",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "Активувати",
+    "description": "Text for the button to activate the extension."
+  },
+  "options_generalTitle": {
+    "message": "Загальні",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "Сайти, що вилучаються з пошукових результатів Google",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "Можна використовувати [зіставляння з маскою](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) або [регулярні вирази](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "Приклад: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "Щоб заблокувати сайт за заголовком сторінки, додайте перед регулярним виразом \"title\".",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "Оновлено",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "Оновити",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "Імпорт",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "Експорт",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "Зберегти",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Імпортувати",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "Імпортувати з файлу",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "Обрати файл",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "Імпортувати особистий список",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "Домени",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "Дописати до наявного списку",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Імпорт",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Вставте домени з Вашого особистого списку.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "Інші пошукові системи",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Це розширення можна використовувати для перелічених нижче пошуковиків.",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "Дозволити",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "Дозволено",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "Пропускати вікно «Заблокувати цей сайт»",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "Додавати правила, що блокують цілі сайти за замовчуванням",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "Наприклад, щоб заблокувати сторінку \"https://a.b.example.uk.com/\", буде додано правило \"*://*.example.uk.com/*\".",
+    "description": "Description of the block whole site feature."
+  },
+  "options_appearanceTitle": {
+    "message": "Вигляд",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "Колір заблокованих пошукових результатів",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "Типовий",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "Власний",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "Кольори виділених результатів пошуку",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "Для виділення пошукового результату кольором N додайте на початку правила «@N».",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "Колір $1",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "Додати",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "Вилучити",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "Тема вікна «Заблокувати цей сайт» у результатах пошуку",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "Типова",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "Світла",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "Темна",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "Синхронізація",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "Функцію синхронізування оновлено. Щоб продовжити користуватися синхронізуванням, натисніть кнопку «Увімкнути».",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "Синхронізувати з хмарою",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "Списки блокування можна синхронізувати з Вашими пристроями через хмару.",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "Увімкнути",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "Увімкнути синхронізацію",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Увімкнути",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "Відкрити сторінку автентифікації в новій вкладці",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "Вас можуть запитати дозвіл доступу до $1 перед автентифікацією, але Ваша персональна інформація не зберігатиметься на цьому домені.",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "Код авторизації",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOffSync": {
+    "message": "Вимкнути",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "Остання синхронізація",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "Не синхронізовано",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "Синхронізування...",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "Оновити",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "Синхр. зараз",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "Що синхронізувати?",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "Заблоковані сайти",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "Загальні налаштування",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "Вигляд",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "Підписки",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncInterval": {
+    "message": "Період синхронізації",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "Підписка",
+    "description": "Title of the Subscription section."
+  },
+  "options_subscriptionFeature": {
+    "message": "Підписатися на списки блокування",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "Коли Ви додасьте підписку — списки блокування періодично завантажуватимуться з вказаної URL-адреси.",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Додати джерело",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Назва",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL-адреса",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Востаннє оновлено",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "Дозволено",
+    "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "Меню",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "Не додано підписок",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Оновлення...",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Показати",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Оновити зараз",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Вилучити",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Оновити зараз",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Додати джерело",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Назва",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL-адреса",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Додати",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "Правила",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "Період оновлення",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_aboutTitle": {
+    "message": "Про uBlacklist",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "Версія",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "Документація",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "Нотатки до випуску",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "Політика приватності",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "Сторонні примітки",
+    "description": "Text for the link to third-party notices."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Синхр. з Google Drive",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "Файл створиться в теці для програмних даних, що прихована від користувача.",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Синхронізовано з Google Drive",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Синхр. з Dropbox",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "Файл створиться в \"/Apps/uBlacklist/\".",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Синхронізовано з Dropbox",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}

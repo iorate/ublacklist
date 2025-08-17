@@ -1,0 +1,518 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Blokuj wybrane witryny w wynikach wyszukiwania Google",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "pl",
+    "description": "The language code."
+  },
+  "error": {
+    "message": "Błąd: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "Błąd autoryzacji. Wyłącz i włącz synchronizację, aby spróbować ponownie.",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "Anuluj",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "OK",
+    "description": "Text for the OK button."
+  },
+  "content_singleSiteBlocked": {
+    "message": "Rozszerzenie uBlacklist zablokowało 1 witrynę",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "Rozszerzenie uBlacklist zablokowało $1 witryn",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "Pokaż",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Schowaj",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Zablokuj witrynę",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Odblokuj witrynę",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Zablokuj tę witrynę",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Odblokuj tę witrynę",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "Szczegóły",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "URL strony",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "Głębokość ścieżki",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "Tytuł strony",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "Reguły do dodania",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "Reguły do usunięcia",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "Zablokuj",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "Odblokuj",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "Ustawienia",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "Rozszerzenie uBlacklist jest aktywne",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "Rozszerzenie uBlacklist jest nieaktywne",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "Aktywuj",
+    "description": "Text for the button to activate the extension."
+  },
+  "options_generalTitle": {
+    "message": "Ogólne",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "Witryny zablokowane w wynikach wyszukiwania Google",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "Możesz użyć [wzorców dopasowania](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) lub [wyrażeń regularnych](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions).",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "Przykład: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "Aby zablokować witryny według tytułu strony, dodaj \"title\" przed wyrażeniem regularnym.",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "Zaktualizowano",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "Odśwież",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "Importuj",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "Eksportuj",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "Zapisz",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Importuj",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "Importuj z pliku",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "Wybierz plik",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "Importuj z Personalnej listy blokowania",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "Domeny",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "Dołącz do istniejącej listy",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Importuj",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Wklej domeny wyeksportowane z Personalnej listy blokowania.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "Inne wyszukiwarki",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Możesz użyć tego rozszerzenia na następujących wyszukiwarkach.",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "Włącz",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "Włączone",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "Pomiń dialog \"Zablokuj tę witrynę\"",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "Domyślnie blokuj całą witrynę",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "Na przykład, aby zablokować stronę \"https://a.b.example.uk.com/\", zostanie dodana reguła \"*://*.example.uk.com/*\".",
+    "description": "Description of the block whole site feature."
+  },
+  "options_appearanceTitle": {
+    "message": "Wygląd",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "Kolor zablokowanych wyników wyszukiwania",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "Domyślny",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "Niestandardowy",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "Kolory podświetlonych wyników wyszukiwania",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "Aby podświetlić wyniki wyszukiwania kolorem N, dodaj \"@N\" przed regułą.",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "Kolor $1",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "Dodaj",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "Usuń",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "Motyw okna dialogowego \"Zablokuj tę witrynę\" w wynikach wyszukiwania",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "Domyślny",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "Jasny",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "Ciemny",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "Synchronizacja",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "Funkcja synchronizacji została zaktualizowana. Aby kontynuować korzystanie z synchronizacji, naciśnij przycisk \"Włącz synchronizację\".",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "Synchronizuj z chmurą",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "Możesz synchronizować czarne listy pomiędzy urządzeniami za pośrednictwem chmury.",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "Włącz synchronizację",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "Włącz synchronizację",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Włącz",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "Otwórz stronę uwierzytelniania w nowej karcie",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "Możesz być poproszony o zezwolenie na dostęp do $1 przed uwierzytelnieniem, ale Twoje dane osobowe NIE zostaną zapisane w tej domenie.",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "Kod autoryzacyjny",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOffSync": {
+    "message": "Wyłącz",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "Ostatnia synchronizacja",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "Nigdy nie zsynchronizowano",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "Synchronizacja…",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "Odśwież",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "Synchronizuj teraz",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "Wybierz dane do synchronizacji",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "Zablokowane witryny",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "Ustawienia ogólne",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "Wygląd",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "Subskrypcje",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncInterval": {
+    "message": "Interwał synchronizacji",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "Subskrypcja",
+    "description": "Title of the Subscription section."
+  },
+  "options_subscriptionFeature": {
+    "message": "Subskrybuj listy blokowania",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "Jeśli dodasz subskrypcję, listy blokowania będą regularnie pobierane z określonego URL.",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Dodaj subskrypcję",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Nazwa",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Ostatnia aktualizacja",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "Włączone",
+    "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "Menu",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "Nie dodano subskrypcji",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Aktualizacja…",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Pokaż",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Aktualizuj teraz",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Usuń",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Aktualizuj wszystkie teraz",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Dodaj subskrypcję",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Nazwa",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Dodaj",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "Reguły",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "Interwał aktualizacji",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_backupRestoreTitle": {
+    "message": "Kopia zapasowa i przywracanie",
+    "description": "Title of the Backup and Restore section."
+  },
+  "options_backupSettingsLabel": {
+    "message": "Kopia zapasowa ustawień",
+    "description": "Label for backup settings."
+  },
+  "options_backupSettingsButton": {
+    "message": "Utwórz kopię zapasową",
+    "description": "Text for the button to backup settings."
+  },
+  "options_restoreSettingsLabel": {
+    "message": "Przywracanie ustawień",
+    "description": "Label for restore settings."
+  },
+  "options_restoreSettingsButton": {
+    "message": "Przywróć",
+    "description": "Text for the button to restore settings."
+  },
+  "options_restoreSettingsInvalidFile": {
+    "message": "Nieprawidłowy format pliku.",
+    "description": "Error message shown when the backup file is invalid."
+  },
+  "options_resetSettingsLabel": {
+    "message": "Inicializuj ustawienia",
+    "description": "Label for reset settings."
+  },
+  "options_resetSettingsButton": {
+    "message": "Inicjalizuj",
+    "description": "Text for the button to reset settings."
+  },
+  "options_resetSettingsConfirmation": {
+    "message": "Czy na pewno chcesz zainicjalizować ustawienia?",
+    "description": "Confirmation message to reset settings."
+  },
+  "options_aboutTitle": {
+    "message": "O uBlacklist",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "Wersja",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "Dokumentacja",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "Informacje o wydaniu",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "Polityka prywatności",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "Oświadczenia o prawach autorskich stron trzecich",
+    "description": "Text for the link to third-party notices."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Synchronizuj z Google Drive",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "Plik zostanie utworzony w ukrytym przed użytkownikiem folderze aplikacji.",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Zsynchonizowano z Google Drive",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Synchronizuj z Dropbox",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "Plik zostanie utworzony w folderze \"/Apps/uBlacklist/\".",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Zsynchronizowano z Dropbox",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}

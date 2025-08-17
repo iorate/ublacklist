@@ -1,0 +1,478 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Блокирует сайты в поисковой выдаче Google",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "ru",
+    "description": "The language code."
+  },
+  "error": {
+    "message": "Ошибка: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "Ошибка авторизации. Пожалуйста, выключите синхронизацию и включите снова.",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "Отмена",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "ОК",
+    "description": "Text for the OK button."
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist заблокировал 1 сайт",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist заблокировал $1 сайт(ов)",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "Показать",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Скрыть",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Заблокировать сайт",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Разблокировать сайт",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Заблокировать сайт",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Разблокировать сайт",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "Подробности",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "URL страницы",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "глубина",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "Заголовок страницы",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "Правила, которые будут добавлены",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "Правила, которые будут удалены",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "Заблокировать",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "Разблокировать",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "Настройки",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "uBlacklist включен",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "uBlacklist выключен",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "Включить",
+    "description": "Text for the button to activate the extension."
+  },
+  "options_generalTitle": {
+    "message": "Общие",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "Выбранные сайты не будут отображаться в поисковой выдаче Google",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "Вы можете использовать [шаблоны совпадения](https://developer.mozilla.org/ru/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) или [регулярные выражения](https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Regular_Expressions).",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "Пример: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "Чтобы блокировать сайты по заголовку страницы, добавьте «title» к регулярным выражениям.",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "Внесены изменения",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "Обновить список",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "Импорт",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "Экспорт",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "Сохранить",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Импорт",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "Импорт из файла",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "Выбрать файл",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "Импорт из Personal Blocklist",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "Список доменов",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "Добавить в конец текущего списка",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Импортировать",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Вставьте список доменов из Personal Blocklist.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "Поисковые системы",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Вы можете использовать расширение с другими поисковыми системами.",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "Включить",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "Включено",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "Пропустить диалог \"Заблокировать сайт\"",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "Добавить правила, блокирующие целые сайты по умолчанию",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "Например, для блокировки страницы \"https://a.b.example.uk.com/\", необходимо добавить правило \"*://*.example.uk.com/*\".",
+    "description": "Description of the block whole site feature."
+  },
+  "options_appearanceTitle": {
+    "message": "Внешний вид",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "Цвет заблокированных результатов поиска",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "По умолчанию",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "Пользовательский",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "Цвет выделенных результатов поиска",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "Чтобы выделить результаты поиска цветом N, добавьте к правилам \"@N\".",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "Цвет $1",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "Добавить цвет",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "Удалить цвет",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "Тема диалога \"Заблокировать сайт\" в результатах поиска",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "По умолчанию",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "Светлая",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "Темная",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "Синхронизация",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "Функция синхронизации была обновлена. Чтобы продолжить использование синхронизации, нажмите кнопку \"Включить синхронизацию\".",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "Синхронизация с облаком",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "Вы можете синхронизировать чёрные списки между Вашими устройствами.",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "Включить синхронизацию",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "Включить синхронизацию",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Включить",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "Открыть страницу аутентификации в новой вкладке",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "У Вас могут попросить разрешение на доступ к $1 перед аутентификацией, но ваша личная информация НЕ будет храниться в этом домене.",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "Код авторизации",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOffSync": {
+    "message": "Отключить",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "Последняя синхронизация",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "Синхронизация отключена",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "Синхронизируем...",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "Обновить",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "Синхронизировать",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "Что синхронизировать",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "Заблокированные сайты",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "Общие настройки",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "Внешний вид",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "Подписки",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncInterval": {
+    "message": "Интервал синхронизации",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "Подписки",
+    "description": "Title of the Subscription section."
+  },
+  "options_subscriptionFeature": {
+    "message": "Подписаться на чёрные списки",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "Если Вы добавите подписку, то список блокируемых сайтов будет регулярно загружаться по указанному URL.",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Добавить подписку",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Название",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Последнее обновление",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "Меню подписок",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "Нет подписок",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Обновляем...",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Показать",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Обновить",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Удалить",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Обновить все подписки",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Добавить подписку",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Название",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Добавить",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "Список правил подписки",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "Интервал обновления",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_aboutTitle": {
+    "message": "О uBlacklist",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "Версия",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "Документация",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "Примечания к выпуску",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "Политика конфиденциальности",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "Уведомления третьих лиц",
+    "description": "Text for the link to third-party notices."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Синхронизировать с Google Диском",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "Файл будет создан в папке данных приложения, скрытой от пользователя.",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Синхронизирован с Google Диском",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Синхронизировать с Dropbox",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "Файл будет создан в папке \"/Apps/uBlacklist/\".",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Синхронизирован с Dropbox",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}
