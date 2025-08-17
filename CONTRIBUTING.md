@@ -17,7 +17,7 @@ Issues are created from discussions after verification and approval.
 
 **For major changes, please start with a discussion first.**
 
-For simple contributions like translations, documentation improvements, or obvious bug fixes, you can create a pull request directly.
+For simple contributions like typo fixes, you can create a pull request directly.
 
 ## Development
 
