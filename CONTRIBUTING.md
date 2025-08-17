@@ -61,19 +61,11 @@ GOOGLE_DRIVE_API_KEY=...
 GOOGLE_DRIVE_API_SECRET=...
 ```
 
-## Adding a New Locale
+## Translation
 
-To add support for a new language:
+**Please use [Crowdin](https://crowdin.com/project/ublacklist) for all translations.**
 
-1. **Determine the language code**: Use an ISO language code from [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc) (e.g., `en`, `ja`, `de`).
-
-2. **Create translation file**: Copy `src/_locales/en/messages.json.ts` to `src/_locales/${languageCode}/messages.json.ts` and translate all entries.
-
-3. **Add dayjs locale**: Open `src/scripts/dayjs-locales.ts` and import the corresponding dayjs locale.
-
-4. **Add web store assets** (optional): Create `web-store-assets/${languageCode}/` and add:
-   - `description.txt` - Translated extension description
-   - Screenshots (1280x800, Chrome Web Store only)
+Do not submit pull requests directly to `src/_locales/` or `web-store-assets/` directories. All translation work should be done through Crowdin.
 
 ## License
 
