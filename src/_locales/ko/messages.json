@@ -1,0 +1,518 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Google 검색 결과에 나타나는 특정 사이트들을 차단합니다",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "ko",
+    "description": "The language code."
+  },
+  "error": {
+    "message": "오류: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "계정 인증에 실패했습니다. 동기화 중단 후 다시 설정해 주세요.",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "취소",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "확인",
+    "description": "Text for the OK button."
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 가 사이트 1개를 차단했습니다",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist 가 사이트 $1개를 차단했습니다",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "보기",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "숨기기",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "이 사이트 차단하기",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "이 사이트 차단 해제하기",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "이 사이트 차단하기",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "이 사이트 차단 해제하기",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "자세히",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "페이지 URL",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "계층",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "페이지 제목",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "추가할 규칙",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "제거할 규칙",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "차단",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "차단 해제",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "옵션",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "uBlacklist 가 활성화 되었습니다.",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "uBlacklist 가 비활성화 되었습니다.",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "활성화",
+    "description": "Text for the button to activate the extension."
+  },
+  "options_generalTitle": {
+    "message": "일반",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "Google 검색 결과에서 차단한 사이트",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "[매치 패턴](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 또는 [정규 표현식](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions)을 사용할 수 있습니다.",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "예시: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "페이지 제목으로 사이트를 차단하려면 정규 표현식 앞에 \"title\" 을 추가해주세요.",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "업데이트 했습니다.",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "새로고침",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "가져오기",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "내보내기",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "저장",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "가져오기",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "파일에서 가져오기",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "파일 선택",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "차단 목록 붙여넣기",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "도메인 목록",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "기존 목록에 덧붙이기",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "가져오기",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "차단 목록에서 도메인을 복사해 붙여넣어주세요.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "다른 검색 엔진",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "다른 검색 엔진에서도 차단 기능을 사용할 수 있습니다.",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "활성화",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "활성화 됨",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "\"이 사이트 차단하기\" 대화창 표시하지 않기",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "전체 사이트를 차단하는 규칙을 기본으로 추가",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "예를 들어, \"https://a.b.example.uk.com/\" 를 차단하면 \"*://*.example.uk.com/*\" 규칙이 추가됩니다.",
+    "description": "Description of the block whole site feature."
+  },
+  "options_appearanceTitle": {
+    "message": "겉보기",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "차단된 검색 결과 색상",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "기본값",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "직접 선택",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "검색 결과 배경색",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "\"색 N\" 을 배경색으로 지정하려면 규칙 앞에 \"@N\" 을 붙여주세요.",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "색 $1",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "추가",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "제거",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "\"이 사이트 차단하기\" 대화창 배경",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "기본",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "밝게",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "어둡게",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "동기화",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "동기화 기능이 업데이트 되었습니다. 계속 동기화를 사용하려면 \"동기화 설정\" 버튼을 눌러주세요.",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "클라우드 동기화",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "클라우드를 통해 여러 기기간에 차단 목록을 동기화 할 수 있습니다.",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "동기화 설정",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "동기화 설정",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "확인",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "새 탭에서 인증 페이지 열기",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "인증 과정중에 $1 에 대한 데이터 접근 권한을 요청하지만, 개인 정보는 해당 도메인에 저장되지 않습니다.",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "인증 코드",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOffSync": {
+    "message": "동기화 중지",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "최근 동기화",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "동기화를 하지 않았습니다.",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "동기화 중...",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "새로고침",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "지금 동기화",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "동기화할 항목",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "차단한 사이트",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "일반 설정",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "겉보기 설정",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "구독 목록",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncInterval": {
+    "message": "동기화 주기",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "구독",
+    "description": "Title of the Subscription section."
+  },
+  "options_subscriptionFeature": {
+    "message": "차단 목록 구독",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "구독을 추가하면 해당 URL에서 차단 목록이 정기적으로 다운로드됩니다.",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "구독 추가",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "이름",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "최근 업데이트",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "활성화 됨",
+    "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "메뉴",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "추가한 구독이 없습니다",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "업데이트 중...",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "보기",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "지금 업데이트",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "삭제",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "지금 업데이트",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "구독 추가",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "이름",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "추가",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "규칙",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "업데이트 주기",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_backupRestoreTitle": {
+    "message": "백업 및 복구",
+    "description": "Title of the Backup and Restore section."
+  },
+  "options_backupSettingsLabel": {
+    "message": "백업 설정",
+    "description": "Label for backup settings."
+  },
+  "options_backupSettingsButton": {
+    "message": "백업",
+    "description": "Text for the button to backup settings."
+  },
+  "options_restoreSettingsLabel": {
+    "message": "복구 설정",
+    "description": "Label for restore settings."
+  },
+  "options_restoreSettingsButton": {
+    "message": "복구",
+    "description": "Text for the button to restore settings."
+  },
+  "options_restoreSettingsInvalidFile": {
+    "message": "잘못된 파일 형식입니다.",
+    "description": "Error message shown when the backup file is invalid."
+  },
+  "options_resetSettingsLabel": {
+    "message": "설정 초기화",
+    "description": "Label for reset settings."
+  },
+  "options_resetSettingsButton": {
+    "message": "초기화",
+    "description": "Text for the button to reset settings."
+  },
+  "options_resetSettingsConfirmation": {
+    "message": "정말 설정을 초기화 할까요?",
+    "description": "Confirmation message to reset settings."
+  },
+  "options_aboutTitle": {
+    "message": "uBlacklist 에 관하여",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "버전",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "문서",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "릴리즈 노트",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "개인정보처리방침",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "서드 파티 고지",
+    "description": "Text for the link to third-party notices."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Google Drive 와 동기화",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "숨겨진 앱 데이터 공간에 파일이 생성됩니다.",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Google Drive 와 동기화 되었습니다.",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Dropbox 와 동기화",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "\"/Apps/uBlacklist/\" 위치에 파일이 생성됩니다.",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Dropbox 와 동기화 되었습니다.",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}

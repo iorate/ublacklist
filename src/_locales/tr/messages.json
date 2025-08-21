@@ -1,0 +1,78 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "tr",
+    "description": "The language code."
+  },
+  "okButton": {
+    "message": "Tamam",
+    "description": "Text for the OK button."
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 1 siteyi engelledi",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist $1 siteyi engelledi",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "Göster",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Gizle",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Bu siteyi engelle",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Bu sitenin engelini kaldır",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Bu siteyi engelle",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Bu sitenin engelini kaldır",
+    "description": "Title of the popup to unblock a site."
+  },
+  "options_blacklistLabel": {
+    "message": "Google arama sonuçlarında görünmesi engellenen siteler",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "[Eşleşme desenleri](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) veya [düzenli ifadeler](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) kullanabilirsiniz.",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "İçe aktar",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Personal Blocklist eklentisinden dışa aktarılmış alan adı listesini yapıştırın.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_turnOnSync": {
+    "message": "Senkronizasyonu etkinleştir",
+    "description": "Text for the button to turn on sync."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Google Drive ile senkronize et",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_dropboxSync": {
+    "message": "Dropbox ile senkronize et",
+    "description": "Label for the radio button to sync with Dropbox."
+  }
+}

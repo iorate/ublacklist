@@ -20,6 +20,7 @@
     // Modules
     "allowImportingTsExtensions": true,
     "module": "node18",
+    "resolveJsonModule": true,
     "types": ["fs-extra", "license-checker", "node"],
 
     // Emit
@@ -31,8 +32,8 @@
     "verbatimModuleSyntax": true,
 
     // Language and Environment
-    "lib": ["es2024"],
-    "target": "es2024",
+    "lib": ["esnext"],
+    "target": "esnext",
 
     // Projects
     "composite": true,
