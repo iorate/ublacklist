@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Blockiert Seiten, damit diese nicht in den Suchergebnissen von Google auftauchen",
     "description": "The description of the extension."
@@ -22,10 +18,6 @@
   "cancelButton": {
     "message": "Abbrechen",
     "description": "Text for the Cancel button."
-  },
-  "okButton": {
-    "message": "OK",
-    "description": "Text for the OK button."
   },
   "personalBlocklist": {
     "message": "Persönliche Sperrliste",
@@ -62,10 +54,6 @@
   "popup_unblockSiteTitle": {
     "message": "Diese Seite nicht blockieren",
     "description": "Title of the popup to unblock a site."
-  },
-  "popup_details": {
-    "message": "Details",
-    "description": "Title of the details disclosure widget."
   },
   "popup_pageURLLabel": {
     "message": "Seiten-URL",
@@ -315,10 +303,6 @@
     "message": "Synchronisation einschalten",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "Einschalten",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "Authentifizierungsseite in neuem Tab öffnen",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -330,6 +314,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "Autorisierungscode",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Einschalten",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "Ausschalten",
@@ -375,10 +363,6 @@
     "message": "Abonnements",
     "description": "Label for the switch to sync subscriptions."
   },
-  "options_syncSerpInfo": {
-    "message": "SERPINFO",
-    "description": "Label for the switch to sync SERPINFO."
-  },
   "options_syncInterval": {
     "message": "Synchronisationsintervall",
     "description": "Label for the select to choose a sync interval."
@@ -414,14 +398,6 @@
   "options_addSubscriptionButton": {
     "message": "Abonnement hinzufügen",
     "description": "Text for the button to add a subscription."
-  },
-  "options_subscriptionNameHeader": {
-    "message": "Name",
-    "description": "Header text for the name column in the subscriptions table."
-  },
-  "options_subscriptionURLHeader": {
-    "message": "URL",
-    "description": "Header text for the URL column in the subscriptions table."
   },
   "options_subscriptionUpdateResultHeader": {
     "message": "Letzte Aktualisierung",
@@ -462,14 +438,6 @@
   "options_addSubscriptionDialog_title": {
     "message": "Abonnement hinzufügen",
     "description": "Title of the add subscription dialog."
-  },
-  "options_addSubscriptionDialog_nameLabel": {
-    "message": "Name",
-    "description": "Label for the name input in the add subscription dialog."
-  },
-  "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_altNameLabel": {
     "message": "Alternativer Name (optional)",
@@ -531,10 +499,6 @@
     "message": "Über uBlacklist",
     "description": "Title of the About section."
   },
-  "options_aboutVersion": {
-    "message": "Version",
-    "description": "Label for the version."
-  },
   "options_aboutDocumentation": {
     "message": "Dokumentation",
     "description": "Text for the link to the documentation."
@@ -554,10 +518,6 @@
   "options_experimentalSectionTitle": {
     "message": "Experimentelle Funktionen",
     "description": "Title of the Experimental section."
-  },
-  "options_serpInfoLabel": {
-    "message": "SERPINFO",
-    "description": "Label for SERPINFO."
   },
   "options_openSerpInfoOptionsButton": {
     "message": "Optionen",
@@ -603,17 +563,9 @@
     "message": "SERPINFO-Liste",
     "description": "Title of the Remote SERPINFO section."
   },
-  "options_remoteSerpInfoVersion": {
-    "message": "Version",
-    "description": "Version of remote SERPINFO."
-  },
   "options_remoteSerpInfoLastModified": {
     "message": "Letzte Änderung",
     "description": "Last modified date of remote SERPINFO."
-  },
-  "options_remoteSerpInfoHomepage": {
-    "message": "Homepage",
-    "description": "Homepage of remote SERPINFO."
   },
   "options_showRemoteSerpInfoButton": {
     "message": "Anzeigen",
@@ -638,10 +590,6 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "SERPINFO hinzufügen",
     "description": "Title of the add SERPINFO dialog."
-  },
-  "options_addRemoteSerpInfoDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "Hinzufügen",

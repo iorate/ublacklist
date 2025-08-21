@@ -7,6 +7,9 @@ https://github.com/iorate/ublacklist#supported-search-engines
 
 Puedes sincronizar conjuntos de reglas entre tus dispositivos mediante Google Drive o Dropbox, y también puedes suscribirte a conjuntos de reglas públicos.
 
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
+https://ublacklist.github.io/subscriptions
+
 Uso:
 https://ublacklist.github.io/docs/getting-started
 

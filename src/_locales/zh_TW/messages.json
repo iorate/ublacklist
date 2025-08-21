@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "封鎖 Google 搜尋結果中的特定網站結果",
     "description": "The description of the extension."
@@ -307,10 +303,6 @@
     "message": "開啟同步",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "開啟",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "用新分頁開啟登入頁面",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -322,6 +314,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "認證碼",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "開啟",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "關閉",
@@ -543,10 +539,6 @@
     "message": "實驗功能",
     "description": "Title of the Experimental section."
   },
-  "options_serpInfoLabel": {
-    "message": "SERPINFO",
-    "description": "Label for SERPINFO."
-  },
   "options_openSerpInfoOptionsButton": {
     "message": "選項",
     "description": "Text for the button to open SERPINFO options."
@@ -622,10 +614,6 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "新增 SERPINFO",
     "description": "Title of the add SERPINFO dialog."
-  },
-  "options_addRemoteSerpInfoDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "新增",

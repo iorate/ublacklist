@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Блокирует сайты в поисковой выдаче Google",
     "description": "The description of the extension."
@@ -283,10 +279,6 @@
     "message": "Включить синхронизацию",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "Включить",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "Открыть страницу аутентификации в новой вкладке",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -298,6 +290,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "Код авторизации",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Включить",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "Отключить",
@@ -367,10 +363,6 @@
     "message": "Название",
     "description": "Header text for the name column in the subscriptions table."
   },
-  "options_subscriptionURLHeader": {
-    "message": "URL",
-    "description": "Header text for the URL column in the subscriptions table."
-  },
   "options_subscriptionUpdateResultHeader": {
     "message": "Последнее обновление",
     "description": "Header text for the update result column in the subscriptions table."
@@ -410,10 +402,6 @@
   "options_addSubscriptionDialog_nameLabel": {
     "message": "Название",
     "description": "Label for the name input in the add subscription dialog."
-  },
-  "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "Добавить",

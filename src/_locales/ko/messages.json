@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Google 검색 결과에 나타나는 특정 사이트들을 차단합니다",
     "description": "The description of the extension."
@@ -283,10 +279,6 @@
     "message": "동기화 설정",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "확인",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "새 탭에서 인증 페이지 열기",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -298,6 +290,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "인증 코드",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "확인",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "동기화 중지",
@@ -367,10 +363,6 @@
     "message": "이름",
     "description": "Header text for the name column in the subscriptions table."
   },
-  "options_subscriptionURLHeader": {
-    "message": "URL",
-    "description": "Header text for the URL column in the subscriptions table."
-  },
   "options_subscriptionUpdateResultHeader": {
     "message": "최근 업데이트",
     "description": "Header text for the update result column in the subscriptions table."
@@ -414,10 +406,6 @@
   "options_addSubscriptionDialog_nameLabel": {
     "message": "이름",
     "description": "Label for the name input in the add subscription dialog."
-  },
-  "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "추가",
