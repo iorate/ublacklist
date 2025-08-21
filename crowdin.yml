@@ -5,13 +5,22 @@ preserve_hierarchy: true
 
 files:
   - source: /src/_locales/en/messages.json
+    translation: /src/_locales/%two_letters_code%/messages.json
     dest: /messages.json
-    translation: /src/_locales/%locale_with_underscore%/messages.json
+    languages_mapping: &languages_mapping
+      two_letters_code:
+        pt-BR: pt_BR
+        zh-CN: zh_CN
+        zh-TW: zh_TW
+    skip_untranslated_strings: true
 
   - source: /web-store-assets/en/description.txt
+    translation: /web-store-assets/%two_letters_code%/description.txt
     dest: /description.txt
-    translation: /web-store-assets/%locale_with_underscore%/description.txt
+    languages_mapping: *languages_mapping
 
   - source: /web-store-assets/en/chrome-screenshot-*.png
+    translation: /web-store-assets/%two_letters_code%/%original_file_name%
     dest: /chrome-screenshots/%original_file_name%
-    translation: /web-store-assets/%locale_with_underscore%/%original_file_name%
+    languages_mapping: *languages_mapping
+    skip_untranslated_files: true
