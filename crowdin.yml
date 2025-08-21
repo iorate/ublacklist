@@ -9,7 +9,12 @@ files:
     dest: /messages.json
     languages_mapping: &languages_mapping
       two_letters_code:
+        en-AU: en_AU
+        en-GB: en_GB
+        en-US: en_US
+        es-419: es_419
         pt-BR: pt_BR
+        pt-PT: pt_PT
         zh-CN: zh_CN
         zh-TW: zh_TW
     skip_untranslated_strings: true
