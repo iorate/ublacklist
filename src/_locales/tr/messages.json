@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Seçili sitelerin Google arama sonuçlarında görünmesini engeller",
     "description": "The description of the extension."

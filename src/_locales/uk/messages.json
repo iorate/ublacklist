@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Блокує визначені Вами сайти, що появляються в результатах пошуку Google",
     "description": "The description of the extension."
@@ -66,10 +62,6 @@
   "popup_pageURLLabel": {
     "message": "URL сторінки",
     "description": "Label for the textarea showing the page URL."
-  },
-  "popup_pathDepth": {
-    "message": "Depth",
-    "description": "Label for the input showing the path depth for rules to be added."
   },
   "popup_pageTitleLabel": {
     "message": "Заголовок сторінки",
@@ -283,10 +275,6 @@
     "message": "Увімкнути синхронізацію",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "Увімкнути",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "Відкрити сторінку автентифікації в новій вкладці",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -298,6 +286,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "Код авторизації",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Увімкнути",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "Вимкнути",

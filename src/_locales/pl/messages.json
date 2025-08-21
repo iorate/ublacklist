@@ -1,8 +1,4 @@
 {
-  "extensionName": {
-    "message": "uBlacklist",
-    "description": "The name of the extension."
-  },
   "extensionDescription": {
     "message": "Blokuj wybrane witryny w wynikach wyszukiwania Google",
     "description": "The description of the extension."
@@ -22,10 +18,6 @@
   "cancelButton": {
     "message": "Anuluj",
     "description": "Text for the Cancel button."
-  },
-  "okButton": {
-    "message": "OK",
-    "description": "Text for the OK button."
   },
   "content_singleSiteBlocked": {
     "message": "Rozszerzenie uBlacklist zablokowało 1 witrynę",
@@ -283,10 +275,6 @@
     "message": "Włącz synchronizację",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "Włącz",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "Otwórz stronę uwierzytelniania w nowej karcie",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -298,6 +286,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "Kod autoryzacyjny",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Włącz",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "Wyłącz",
@@ -367,10 +359,6 @@
     "message": "Nazwa",
     "description": "Header text for the name column in the subscriptions table."
   },
-  "options_subscriptionURLHeader": {
-    "message": "URL",
-    "description": "Header text for the URL column in the subscriptions table."
-  },
   "options_subscriptionUpdateResultHeader": {
     "message": "Ostatnia aktualizacja",
     "description": "Header text for the update result column in the subscriptions table."
@@ -378,10 +366,6 @@
   "options_subscriptionCheckBoxLabel": {
     "message": "Włączone",
     "description": "Label for the checkbox in the subscriptions table."
-  },
-  "options_subscriptionMenuButtonLabel": {
-    "message": "Menu",
-    "description": "Label for the menu buttons in the subscriptions table."
   },
   "options_noSubscriptionsAdded": {
     "message": "Nie dodano subskrypcji",
@@ -414,10 +398,6 @@
   "options_addSubscriptionDialog_nameLabel": {
     "message": "Nazwa",
     "description": "Label for the name input in the add subscription dialog."
-  },
-  "options_addSubscriptionDialog_urlLabel": {
-    "message": "URL",
-    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "Dodaj",
