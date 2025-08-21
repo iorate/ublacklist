@@ -11,6 +11,10 @@
     "message": "zh-cn",
     "description": "The language code."
   },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
+  },
   "error": {
     "message": "出现错误: $1",
     "description": "Error message. '$1' will be replaced with the actual error."
@@ -126,6 +130,10 @@
   "popup_highlightingRulesLabel": {
     "message": "高亮显示此条目的规则",
     "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_serpInfoMode_showBlockedResults": {
+    "message": "显示被屏蔽的搜索结果",
+    "description": "Label for the switch to show blocked results."
   },
   "options_generalTitle": {
     "message": "常规",
@@ -311,10 +319,6 @@
     "message": "开启同步",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "开启",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "在新标签页中打开认证页面",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -326,6 +330,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "认证码",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "开启",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "关闭同步",
@@ -370,6 +378,10 @@
   "options_syncSubscriptions": {
     "message": "订阅设置",
     "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
   },
   "options_syncInterval": {
     "message": "同步间隔",
@@ -618,6 +630,10 @@
   "options_updateAllRemoteSerpInfoButton": {
     "message": "立即更新",
     "description": "Text for the button to update all remote SERPINFO."
+  },
+  "options_remoteSerpInfoUpdateDone": {
+    "message": "完成",
+    "description": "Message shown when remote SERPINFO update is done."
   },
   "options_addRemoteSerpInfoButton": {
     "message": "添加",

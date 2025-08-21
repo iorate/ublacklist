@@ -11,6 +11,10 @@
     "message": "de",
     "description": "The language code."
   },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
+  },
   "error": {
     "message": "Fehler: $1",
     "description": "Error message. '$1' will be replaced with the actual error."
@@ -315,10 +319,6 @@
     "message": "Synchronisation einschalten",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "Einschalten",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "Authentifizierungsseite in neuem Tab öffnen",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -330,6 +330,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "Autorisierungscode",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Einschalten",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "Ausschalten",

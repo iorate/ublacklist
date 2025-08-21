@@ -31,6 +31,10 @@
     "message": "OK",
     "description": "Text for the OK button."
   },
+  "personalBlocklist": {
+    "message": "Personal Blocklist",
+    "description": "Label for the user's personal blocklist."
+  },
   "content_singleSiteBlocked": {
     "message": "uBlacklist により 1 サイトがブロックされました",
     "description": "Message shown when one site is blocked."
@@ -315,10 +319,6 @@
     "message": "同期を有効にする",
     "description": "Title of the turn-on-sync dialog."
   },
-  "options_turnOnSyncDialog_turnOnSyncButton": {
-    "message": "有効にする",
-    "description": "Text for the button to turn on sync in the dialog."
-  },
   "options_turnOnSyncDialog_useAltFlow": {
     "message": "新しいタブで認証ページを開く",
     "description": "Label for the switch to use the alternative authentication flow."
@@ -330,6 +330,10 @@
   "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
     "message": "認証コード",
     "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "有効にする",
+    "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOffSync": {
     "message": "オフにする",
@@ -575,10 +579,6 @@
     "message": "SERPINFO 購読リンクを有効にする",
     "description": "Text for the button to enable SERPINFO subscription URL."
   },
-  "options_serpInfoSubscriptionURLIsEnabled": {
-    "message": "SERPINFO 購読リンクが有効です",
-    "description": "Message indicating SERPINFO subscription links are enabled."
-  },
   "options_enableSerpInfoSubscriptionURLDescription": {
     "message": "$1 をこのページにリダイレクトし、SERPINFO を追加できるようにします。",
     "description": "Description for the SERPINFO subscription URL feature. '$1' will be replaced with the domain."
@@ -586,6 +586,10 @@
   "options_enableSerpInfoSubscriptionURLButton": {
     "message": "有効にする",
     "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_serpInfoSubscriptionURLIsEnabled": {
+    "message": "SERPINFO 購読リンクが有効です",
+    "description": "Message indicating SERPINFO subscription links are enabled."
   },
   "options_accessPermissionLabel": {
     "message": "アクセス許可を更新する",
@@ -639,13 +643,13 @@
     "message": "SERPINFO を追加する",
     "description": "Title of the add SERPINFO dialog."
   },
-  "options_addRemoteSerpInfoDialog_addButton": {
-    "message": "追加",
-    "description": "Text for the add button in the add SERPINFO dialog."
-  },
   "options_addRemoteSerpInfoDialog_urlLabel": {
     "message": "URL",
     "description": "Label for the input in the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_addButton": {
+    "message": "追加",
+    "description": "Text for the add button in the add SERPINFO dialog."
   },
   "options_userSerpInfoSection": {
     "message": "マイ SERPINFO",

@@ -1,0 +1,17 @@
+This extension prevents the sites you specify from appearing in Google search results.
+
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by match patterns (e.g. *://*.example.com/*) or by regular expressions (e.g. /example\.(net|org)/).
+
+You can use this extension in several search engines other than Google. The list of supported search engines is available at:
+https://github.com/iorate/ublacklist#supported-search-engines
+
+You can synchronize rulesets across devices via cloud storage. At the moment, Google Drive and Dropbox are supported.
+
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
+https://ublacklist.github.io/subscriptions
+
+Usage:
+https://ublacklist.github.io/docs/getting-started
+
+Changelog:
+https://github.com/iorate/ublacklist/releases
