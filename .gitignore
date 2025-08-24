@@ -9,3 +9,7 @@ dist/
 
 # Environment files
 .env.local
+
+# Markdown files not yet translated
+README.*.md
+!README.zh-CN.md
