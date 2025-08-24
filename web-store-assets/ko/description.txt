@@ -13,5 +13,5 @@ https://ublacklist.github.io/subscriptions
 사용 방법:
 https://ublacklist.github.io/docs/getting-started
 
-Changelog:
+업데이트 내역:
 https://github.com/iorate/ublacklist/releases

@@ -23,6 +23,14 @@
     "message": "キャンセル",
     "description": "Text for the Cancel button."
   },
+  "okButton": {
+    "message": "OK",
+    "description": "Text for the OK button."
+  },
+  "personalBlocklist": {
+    "message": "Personal Blocklist",
+    "description": "Label for the user's personal blocklist."
+  },
   "content_singleSiteBlocked": {
     "message": "uBlacklist により 1 サイトがブロックされました",
     "description": "Message shown when one site is blocked."
@@ -367,6 +375,10 @@
     "message": "購読",
     "description": "Label for the switch to sync subscriptions."
   },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
+  },
   "options_syncInterval": {
     "message": "同期の間隔",
     "description": "Label for the select to choose a sync interval."
@@ -406,6 +418,10 @@
   "options_subscriptionNameHeader": {
     "message": "名前",
     "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
   },
   "options_subscriptionUpdateResultHeader": {
     "message": "最後の更新",
@@ -450,6 +466,10 @@
   "options_addSubscriptionDialog_nameLabel": {
     "message": "名前",
     "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_altNameLabel": {
     "message": "代替の名前 (オプション)",
@@ -535,6 +555,10 @@
     "message": "実験的な機能",
     "description": "Title of the Experimental section."
   },
+  "options_serpInfoLabel": {
+    "message": "SERPINFO",
+    "description": "Label for SERPINFO."
+  },
   "options_openSerpInfoOptionsButton": {
     "message": "設定を開く",
     "description": "Text for the button to open SERPINFO options."
@@ -614,6 +638,10 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "SERPINFO を追加する",
     "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "追加",
