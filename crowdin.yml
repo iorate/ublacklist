@@ -7,7 +7,8 @@ files:
   - source: /src/_locales/en/messages.json
     translation: /src/_locales/%two_letters_code%/messages.json
     dest: /messages.json
-    languages_mapping: &languages_mapping
+    excluded_target_languages: []
+    languages_mapping:
       two_letters_code:
         pt-BR: pt_BR
         zh-CN: zh_CN
@@ -17,10 +18,34 @@ files:
   - source: /web-store-assets/en/description.txt
     translation: /web-store-assets/%two_letters_code%/description.txt
     dest: /store/description.txt
-    languages_mapping: *languages_mapping
+    excluded_target_languages: []
+    languages_mapping: &languages_mapping_hyphen
+      two_letter_code:
+        pt-BR: pt-BR
+        zh-CN: zh-CN
+        zh-TW: zh-TW
 
   - source: /web-store-assets/en/chrome-screenshot-*.png
     translation: /web-store-assets/%two_letters_code%/%original_file_name%
     dest: /store/chrome/screenshots/%original_file_name%
-    languages_mapping: *languages_mapping
+    excluded_target_languages: []
+    languages_mapping: *languages_mapping_hyphen
     skip_untranslated_files: true
+
+  - source: /README.md
+    translation: /README.%two_letters_code%.md
+    dest: /README.md
+    excluded_target_languages:
+      # Not yet translated
+      - de
+      - es-ES
+      - fr
+      - ja
+      - ko
+      - pl
+      - pt-BR
+      - ru
+      - tr
+      - uk
+      - zh-TW
+    languages_mapping: *languages_mapping_hyphen
