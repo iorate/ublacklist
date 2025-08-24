@@ -1,6 +1,6 @@
 # uBlacklist
 
-[English](README.md)
+[English](README.md) | 简体中文
 
 在搜索结果中屏蔽指定的网站
 
@@ -31,8 +31,8 @@ uBlacklist 支持以下浏览器版本：
 
 此扩展支持以下搜索引擎。
 
-|              | 网页               | 图片               | 视频               | 新闻               |
-| ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
+|              | 网页                                                                                           | 图片                                                                                           | 视频                                                                                           | 新闻                                                                                           |
+| ------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Bing         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Brave        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
@@ -41,8 +41,8 @@ uBlacklist 支持以下浏览器版本：
 | Kagi         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | SearXNG      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Startpage    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Yahoo! JAPAN | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    |
-| Yandex       | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
+| Yahoo! JAPAN | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                                                                                              |
+| Yandex       | :heavy_check_mark: |                                                                                              | :heavy_check_mark: |                                                                                              |
 
 ## 发布订阅
 
