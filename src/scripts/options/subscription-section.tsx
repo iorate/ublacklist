@@ -517,14 +517,14 @@ export const ManageSubscriptions: React.FC<{
   );
 };
 
-export const SubscriptionSection: React.FC = () => {
+export const SubscriptionSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   const {
     initialItems: { subscriptions: initialSubscriptions },
   } = useOptionsContext();
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   return (
-    <Section aria-labelledby={`${id}-title`} id="subscription">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_subscriptionTitle")}

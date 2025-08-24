@@ -16,12 +16,14 @@ const Options: React.FC = () => (
     <Baseline>
       <OptionsContextProvider>
         <Container>
-          <GeneralSection />
-          <AppearanceSection />
-          <SyncSection />
-          <SubscriptionSection />
-          <BackupRestoreSection />
-          <AboutSection />
+          {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+          <GeneralSection id="general" />
+          <AppearanceSection id="appearance" />
+          <SyncSection id="sync" />
+          <SubscriptionSection id="subscription" />
+          <BackupRestoreSection id="backup-restore" />
+          <AboutSection id="about" />
+          {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
         </Container>
       </OptionsContextProvider>
     </Baseline>

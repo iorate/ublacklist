@@ -338,10 +338,10 @@ const SetDialogTheme: React.FC = () => {
   );
 };
 
-export const AppearanceSection: React.FC = () => {
+export const AppearanceSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   return (
-    <Section aria-labelledby={`${id}-title`} id="appearance">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_appearanceTitle")}

@@ -361,10 +361,10 @@ const RegisterSearchEngines: React.FC = () => {
   );
 };
 
-export const GeneralSection: React.FC = () => {
+export const GeneralSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   return (
-    <Section aria-labelledby={`${id}-title`} id="general">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_generalTitle")}

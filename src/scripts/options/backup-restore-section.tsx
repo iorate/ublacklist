@@ -17,12 +17,12 @@ import * as SerpInfoSettings from "../serpinfo/settings.ts";
 import type { LocalStorageItemsBackupRestore } from "../types.ts";
 import { downloadTextFile, parseJSON, uploadTextFile } from "../utilities.ts";
 
-export const BackupRestoreSection: React.FC = () => {
+export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   const [fileInvalid, setFileInvalid] = useState(false);
 
   return (
-    <Section aria-labelledby={`${id}-title`} id="backup-restore">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_backupRestoreTitle")}
