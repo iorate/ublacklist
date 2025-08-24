@@ -20,7 +20,7 @@ files:
     dest: /store/description.txt
     excluded_target_languages: []
     languages_mapping: &languages_mapping_hyphen
-      two_letter_code:
+      two_letters_code:
         pt-BR: pt-BR
         zh-CN: zh-CN
         zh-TW: zh-TW
