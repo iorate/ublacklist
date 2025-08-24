@@ -27,7 +27,6 @@ files:
     translation: /web-store-assets/%two_letters_code%/%original_file_name%
     dest: /store/chrome/screenshots/%original_file_name%
     languages_mapping: *languages_mapping_hyphen
-    skip_untranslated_files: true
 
   - source: /README.md
     translation: /README.%two_letters_code%.md
