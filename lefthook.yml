@@ -5,6 +5,6 @@ pre-commit:
       run: pnpm biome check --write --files-ignore-unknown=true --no-errors-on-unmatched {staged_files}
       stage_fixed: true
     prettier:
-      glob: "*.{html,yml,yaml,md}"
+      glob: "*.{html,md,yaml,yml}"
       run: pnpm prettier --write {staged_files}
       stage_fixed: true

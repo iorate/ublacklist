@@ -15,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           token: ${{ secrets.PULL_REQUEST_TOKEN }}
 
       - name: Crowdin
-        uses: crowdin/github-action@590c05e09a29f392b203faf4d6aa8e0cd32c7835 # v2.9.1
+        uses: crowdin/github-action@9787f4fcb6a8450929673f1e8db841e8a5c35a2f # v2.10.0
         with:
           download_translations: true
           export_only_approved: true
