@@ -24,6 +24,7 @@ jobs:
         with:
           download_translations: true
           export_only_approved: true
+          download_translations_args: --ignore-match
           pull_request_base_branch_name: master
         env:
           GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_TOKEN }}
