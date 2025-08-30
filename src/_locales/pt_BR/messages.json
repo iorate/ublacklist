@@ -7,6 +7,10 @@
     "message": "pt-BR",
     "description": "The language code."
   },
+  "websiteLocale": {
+    "message": "pt-BR",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
+  },
   "error": {
     "message": "Erro: $1",
     "description": "Error message. '$1' will be replaced with the actual error."
@@ -18,6 +22,10 @@
   "cancelButton": {
     "message": "Cancelar",
     "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "OK",
+    "description": "Text for the OK button."
   },
   "personalBlocklist": {
     "message": "Lista pessoal de bloqueio",
@@ -367,6 +375,10 @@
     "message": "Inscrições",
     "description": "Label for the switch to sync subscriptions."
   },
+  "options_syncSerpInfo": {
+    "message": "SERPINFOs",
+    "description": "Label for the switch to sync SERPINFO."
+  },
   "options_syncInterval": {
     "message": "Intervalo de sincronização",
     "description": "Label for the select to choose a sync interval."
@@ -407,6 +419,10 @@
     "message": "Nome",
     "description": "Header text for the name column in the subscriptions table."
   },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
   "options_subscriptionUpdateResultHeader": {
     "message": "Última atualização",
     "description": "Header text for the update result column in the subscriptions table."
@@ -414,6 +430,10 @@
   "options_subscriptionCheckBoxLabel": {
     "message": "Ativada",
     "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "Menu",
+    "description": "Label for the menu buttons in the subscriptions table."
   },
   "options_noSubscriptionsAdded": {
     "message": "Não há inscrições",
@@ -446,6 +466,10 @@
   "options_addSubscriptionDialog_nameLabel": {
     "message": "Nome",
     "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_altNameLabel": {
     "message": "Nome alternativo (opcional)",
@@ -531,6 +555,10 @@
     "message": "Recursos experimentais",
     "description": "Title of the Experimental section."
   },
+  "options_serpInfoLabel": {
+    "message": "SERPINFOs",
+    "description": "Label for SERPINFO."
+  },
   "options_openSerpInfoOptionsButton": {
     "message": "Opções",
     "description": "Text for the button to open SERPINFO options."
@@ -610,6 +638,10 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "Adicionar SERPINFO",
     "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "Adicionar",
