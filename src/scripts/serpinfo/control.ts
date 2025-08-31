@@ -16,6 +16,7 @@ function create() {
       top: 4px;
       right: 4px;
       z-index: 99999;
+      pointer-events: none;
     }
     button {
       background: white;
@@ -26,6 +27,7 @@ function create() {
       display: inline-flex;
       gap: 4px;
       padding: 4px;
+      pointer-events: auto;
     }
     svg {
       width: 20px;
