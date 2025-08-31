@@ -1,6 +1,7 @@
 import { Draggable } from "@neodrag/vanilla";
 import iconSVG from "../../icons/icon.svg";
 import { blockedResultCountStore } from "./filter.ts";
+import { isDarkMode } from "./is-dark-mode.ts";
 import { storageStore } from "./storage-store.ts";
 import { hideBlockedResultsStore } from "./style.ts";
 
@@ -10,6 +11,7 @@ function create() {
   const shadowRoot = host.attachShadow({ mode: "open" });
 
   const style = document.createElement("style");
+  const darkMode = isDarkMode();
   style.textContent = `
     :host {
       position: fixed;
@@ -19,14 +21,14 @@ function create() {
       pointer-events: none;
     }
     button {
-      background: white;
+      background: ${darkMode ? "rgb(41, 42, 45)" : "white"};
       border: none;
       border-radius: 4px;
-      box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 2px 2px 2px rgba(0, 0, 0, 0.24);
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.24);
       cursor: pointer;
       display: inline-flex;
-      gap: 4px;
-      padding: 4px;
+      gap: 8px;
+      padding: 4px 8px;
       pointer-events: auto;
     }
     svg {
@@ -34,7 +36,7 @@ function create() {
       height: 20px;
     }
     span {
-      color: black;
+      color: ${darkMode ? "rgb(232, 234, 237)" : "rgb(32, 33, 36)"};
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       font-size: 14px;
       line-height: 20px;
@@ -64,7 +66,7 @@ function create() {
       blockedResultCountStore.getState() > 0
         ? hideBlockedResultsStore.getState()
           ? "1"
-          : "0.4"
+          : "0.38"
         : "0";
     span.textContent = blockedResultCountStore.getState().toString();
   };

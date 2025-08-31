@@ -1,10 +1,10 @@
-import { colord } from "colord";
 import { createRoot, type Root } from "react-dom/client";
 import { BlockDialog } from "../block-dialog.tsx";
 import type { InteractiveRuleset } from "../interactive-ruleset.ts";
 import { saveToLocalStorage } from "../local-storage.ts";
 import { sendMessage } from "../messages.ts";
 import type { DialogTheme } from "../types.ts";
+import { isDarkMode } from "./is-dark-mode.ts";
 import { storageStore } from "./storage-store.ts";
 
 type DialogRoot = { root: Root; shadowRoot: ShadowRoot };
@@ -23,20 +23,7 @@ function getDialogRoot(): DialogRoot {
 }
 
 function getDialogTheme(): DialogTheme {
-  try {
-    const bodyColor = colord(
-      window.getComputedStyle(document.body).backgroundColor,
-    );
-    if (bodyColor.alpha() !== 0) {
-      return bodyColor.isDark() ? "dark" : "light";
-    }
-    const htmlColor = colord(
-      window.getComputedStyle(document.documentElement).backgroundColor,
-    );
-    return htmlColor.alpha() !== 0 && htmlColor.isDark() ? "dark" : "light";
-  } catch {
-    return "light";
-  }
+  return isDarkMode() ? "dark" : "light";
 }
 
 export function closeDialog() {
