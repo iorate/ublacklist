@@ -38,6 +38,9 @@ importers:
       '@mdi/svg':
         specifier: ^7.4.47
         version: 7.4.47
+      '@neodrag/vanilla':
+        specifier: ^2.3.1
+        version: 2.3.1
       '@sindresorhus/string-hash':
         specifier: ^2.0.0
         version: 2.0.0
@@ -437,6 +440,9 @@ packages:
 
   '@mdi/svg@7.4.47':
     resolution: {integrity: sha512-WQ2gDll12T9WD34fdRFgQVgO8bag3gavrAgJ0frN4phlwdJARpE6gO1YvLEMJR0KKgoc+/Ea/A0Pp11I00xBvw==}
+
+  '@neodrag/vanilla@2.3.1':
+    resolution: {integrity: sha512-VwFqjXrjNJXCYfUfbbxJgeyiQF3QCOovR21TH/mSy6muUx1mhfM3fMDWchaXNNKhP2nhs4gouzVE0RBJtIqd9Q==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2411,6 +2417,8 @@ snapshots:
   '@marijn/find-cluster-break@1.0.2': {}
 
   '@mdi/svg@7.4.47': {}
+
+  '@neodrag/vanilla@2.3.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

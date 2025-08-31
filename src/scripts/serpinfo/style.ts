@@ -5,7 +5,7 @@ import * as C from "./constants.ts";
 import * as GlobalStyles from "./global-styles.ts";
 import { storageStore } from "./storage-store.ts";
 
-const hideBlockedResultsStore = createStore(() => true);
+export const hideBlockedResultsStore = createStore(() => true);
 
 export function setupPopupListeners() {
   addMessageListeners({
