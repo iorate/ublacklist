@@ -61,13 +61,12 @@ function create() {
   document.body.appendChild(host);
 
   const update = () => {
-    button.style.opacity =
-      !storageStore.getState().hideControl &&
-      blockedResultCountStore.getState() > 0
-        ? hideBlockedResultsStore.getState()
-          ? "1"
-          : "0.38"
-        : "0";
+    host.style.display =
+      storageStore.getState().hideControl ||
+      blockedResultCountStore.getState() === 0
+        ? "none"
+        : "";
+    button.style.opacity = hideBlockedResultsStore.getState() ? "1" : "0.38";
     span.textContent = blockedResultCountStore.getState().toString();
   };
   update();
