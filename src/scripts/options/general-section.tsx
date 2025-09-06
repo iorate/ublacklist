@@ -398,6 +398,12 @@ export const GeneralSection: React.FC<{ id: string }> = (props) => {
             label={translate("options_hideBlockButtonsLabel")}
           />
         </SectionItem>
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="hideControl"
+            label={translate("options_hideControlLabel")}
+          />
+        </SectionItem>
       </SectionBody>
     </Section>
   );

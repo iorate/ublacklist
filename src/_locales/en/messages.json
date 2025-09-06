@@ -231,6 +231,10 @@
     "message": "Hide the block buttons",
     "description": "Label for the switch to hide block buttons."
   },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
   "options_blockWholeSiteLabel": {
     "message": "Add rules blocking whole sites by default",
     "description": "Label for the switch to block the whole site by default."

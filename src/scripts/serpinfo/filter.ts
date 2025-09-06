@@ -1,4 +1,5 @@
 import { isEqual } from "es-toolkit";
+import { createStore } from "zustand/vanilla";
 import { shallow } from "zustand/vanilla/shallow";
 import { InteractiveRuleset } from "../interactive-ruleset.ts";
 import { translate } from "../locales.ts";
@@ -16,6 +17,8 @@ import * as C from "./constants.ts";
 import { closeDialog, openDialog } from "./dialog.tsx";
 import { storageStore } from "./storage-store.ts";
 import type { ResultDescription, SerpDescription } from "./types.ts";
+
+export const blockedResultCountStore = createStore(() => 0);
 
 type Result = {
   root: Element;
@@ -312,6 +315,7 @@ class Filter {
   }
 
   #notifyBlockedResultCount() {
+    blockedResultCountStore.setState(this.#blockedResultCount);
     postMessage("notify-blocked-result-count", this.#blockedResultCount);
   }
 
