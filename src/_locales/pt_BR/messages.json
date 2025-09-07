@@ -1,4 +1,8 @@
 {
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
   "extensionDescription": {
     "message": "Bloqueia sites que você escolher de aparecer nos resultados de pesquisa do Google",
     "description": "The description of the extension."
@@ -226,6 +230,10 @@
   "options_hideBlockButtonsLabel": {
     "message": "Ocultar os botões de bloqueio",
     "description": "Label for the switch to hide block buttons."
+  },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {
     "message": "Adicionar por padrão regras que bloqueiam sites inteiros",

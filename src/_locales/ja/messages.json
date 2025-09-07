@@ -1,4 +1,8 @@
 {
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
   "extensionDescription": {
     "message": "指定したサイトが Google の検索結果で表示されないようにします",
     "description": "The description of the extension."

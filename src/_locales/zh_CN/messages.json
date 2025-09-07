@@ -1,4 +1,8 @@
 {
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
   "extensionDescription": {
     "message": "在谷歌的搜索结果中屏蔽特定的网站显示。",
     "description": "The description of the extension."
@@ -6,6 +10,10 @@
   "lang": {
     "message": "zh-cn",
     "description": "The language code."
+  },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
   },
   "error": {
     "message": "出现错误: $1",
@@ -223,6 +231,10 @@
     "message": "隐藏屏蔽按钮",
     "description": "Label for the switch to hide block buttons."
   },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
   "options_blockWholeSiteLabel": {
     "message": "默认添加屏蔽整个网站的规则",
     "description": "Label for the switch to block the whole site by default."
@@ -370,6 +382,10 @@
   "options_syncSubscriptions": {
     "message": "订阅设置",
     "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
   },
   "options_syncInterval": {
     "message": "同步间隔",
@@ -547,6 +563,10 @@
     "message": "实验性功能",
     "description": "Title of the Experimental section."
   },
+  "options_serpInfoLabel": {
+    "message": "SERPINFO",
+    "description": "Label for SERPINFO."
+  },
   "options_openSerpInfoOptionsButton": {
     "message": "选项",
     "description": "Text for the button to open SERPINFO options."
@@ -626,6 +646,10 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "添加 SERPINFO",
     "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "添加",
