@@ -160,8 +160,8 @@ importers:
         specifier: ^24.2.7
         version: 24.2.7(typescript@5.9.2)
       semantic-release-amo:
-        specifier: ^2.0.0
-        version: 2.0.0(semantic-release@24.2.7(typescript@5.9.2))
+        specifier: ^2.0.1
+        version: 2.0.1(semantic-release@24.2.7(typescript@5.9.2))
       semantic-release-chrome:
         specifier: ^3.2.0
         version: 3.2.0
@@ -1874,9 +1874,9 @@ packages:
   scheduler@0.26.0:
     resolution: {integrity: sha512-NlHwttCI/l5gCPR3D1nNXtWABUmBwvZpEQiD4IXSbIDq8BzLIK/7Ir5gTFSGZDUu37K5cMNp0hFtzO38sC7gWA==}
 
-  semantic-release-amo@2.0.0:
-    resolution: {integrity: sha512-2H15Wp46PIhQN16s5kjAwRY8YqcT4dZdE7PcJxjPhLmCG+MM/cgPJiLyEDMwcZaOdGY1cNEAR4YMdoSEWatGjQ==}
-    engines: {node: '>=18'}
+  semantic-release-amo@2.0.1:
+    resolution: {integrity: sha512-NIvOzBCrAwuxdQIZiUOh0jwLlm1Us2y1d3aSDIIgId5xmfzVu5nM6Rm7vwvXK1M2nm+lqNPZmArxhQOGfiyd4Q==}
+    engines: {pnpm: '>=10'}
     peerDependencies:
       semantic-release: '>=20'
 
@@ -3836,7 +3836,7 @@ snapshots:
 
   scheduler@0.26.0: {}
 
-  semantic-release-amo@2.0.0(semantic-release@24.2.7(typescript@5.9.2)):
+  semantic-release-amo@2.0.1(semantic-release@24.2.7(typescript@5.9.2)):
     dependencies:
       '@semantic-release/error': 4.0.0
       adm-zip: 0.5.16
@@ -3845,7 +3845,6 @@ snapshots:
       esbuild: 0.25.9
       execa: 9.6.0
       jsonwebtoken: 9.0.2
-      marked: 15.0.12
       semantic-release: 24.2.7(typescript@5.9.2)
 
   semantic-release-chrome@3.2.0:
