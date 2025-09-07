@@ -6,14 +6,14 @@ import { translate } from "../locales.ts";
 import { postMessage } from "../messages.ts";
 import type { PlainRuleset, Subscriptions } from "../types.ts";
 import { fromPlainRuleset } from "../utilities.ts";
-import type { ButtonProps } from "./button.ts";
 import {
+  type ButtonProps,
   type PropertyCommand,
   runButtonCommand,
   runPropertyCommand,
-  runRootsCommand,
+  runRootCommand,
 } from "./commands.ts";
-import * as C from "./constants.ts";
+import { attributes as a } from "./constants.ts";
 import { closeDialog, openDialog } from "./dialog.tsx";
 import { storageStore } from "./storage-store.ts";
 import type { ResultDescription, SerpDescription } from "./types.ts";
@@ -31,7 +31,7 @@ type Result = {
 
 function getRoots(desc: ResultDescription): Element[] {
   try {
-    return runRootsCommand(desc.root);
+    return runRootCommand(desc.root);
   } catch (error) {
     console.error(error);
     return [];
@@ -96,7 +96,7 @@ function addButton(
   try {
     return runButtonCommand(
       { root, buttonProps },
-      description.button || ["inset"],
+      description.button || ["icon"],
     );
   } catch (error) {
     console.error(error);
@@ -189,9 +189,9 @@ class Filter {
           continue;
         }
         for (
-          let root = record.target.closest(`[${C.RESULT_ATTRIBUTE}]`);
+          let root = record.target.closest(`[${a.result}]`);
           root;
-          root = root.parentElement?.closest(`[${C.RESULT_ATTRIBUTE}]`) ?? null
+          root = root.parentElement?.closest(`[${a.result}]`) ?? null
         ) {
           const result = this.#results.get(root);
           if (!result) {
@@ -243,7 +243,7 @@ class Filter {
           continue;
         }
         for (const root of getRoots(desc)) {
-          if (root.hasAttribute(C.RESULT_ATTRIBUTE)) {
+          if (root.hasAttribute(a.result)) {
             continue;
           }
           const result = getResult(root, desc, serpDesc);
@@ -262,7 +262,8 @@ class Filter {
       result.removeButton = addButton(
         result.root,
         {
-          ariaLabel: translate("content_blockSiteLink"),
+          blockLabel: translate("content_blockSiteLink"),
+          unblockLabel: translate("content_unblockSiteLink"),
           onClick: () => {
             if (result.url != null) {
               openDialog(result.url, result.props, this.#ruleset);
@@ -272,28 +273,28 @@ class Filter {
         result.description,
       );
     }
-    result.root.setAttribute(C.RESULT_ATTRIBUTE, "1");
+    result.root.setAttribute(a.result, "1");
     this.#judgeResult(result);
     this.#results.set(result.root, result);
   }
 
   #removeResult(result: Result) {
     result.removeButton?.();
-    result.root.removeAttribute(C.RESULT_ATTRIBUTE);
-    if (result.root.hasAttribute(C.RESULT_BLOCK_ATTRIBUTE)) {
-      result.root.removeAttribute(C.RESULT_BLOCK_ATTRIBUTE);
+    result.root.removeAttribute(a.result);
+    if (result.root.hasAttribute(a.block)) {
+      result.root.removeAttribute(a.block);
       --this.#blockedResultCount;
     }
-    result.root.removeAttribute(C.RESULT_HIGHLIGHT_ATTRIBUTE);
+    result.root.removeAttribute(a.highlight);
     this.#results.delete(result.root);
   }
 
   #judgeResult(result: Result) {
-    if (result.root.hasAttribute(C.RESULT_BLOCK_ATTRIBUTE)) {
-      result.root.removeAttribute(C.RESULT_BLOCK_ATTRIBUTE);
+    if (result.root.hasAttribute(a.block)) {
+      result.root.removeAttribute(a.block);
       --this.#blockedResultCount;
     }
-    result.root.removeAttribute(C.RESULT_HIGHLIGHT_ATTRIBUTE);
+    result.root.removeAttribute(a.highlight);
     if (result.url != null) {
       const queryResult = this.#ruleset.query({
         ...result.props,
@@ -301,15 +302,12 @@ class Filter {
       });
       if (queryResult?.type === "block") {
         result.root.setAttribute(
-          C.RESULT_BLOCK_ATTRIBUTE,
+          a.block,
           result.description.preserveSpace ? "2" : "1",
         );
         ++this.#blockedResultCount;
       } else if (queryResult?.type === "highlight") {
-        result.root.setAttribute(
-          C.RESULT_HIGHLIGHT_ATTRIBUTE,
-          String(queryResult.colorNumber),
-        );
+        result.root.setAttribute(a.highlight, String(queryResult.colorNumber));
       }
     }
   }
@@ -327,6 +325,6 @@ class Filter {
   #blockedResultCount: number;
 }
 
-export function filter(serps: readonly SerpDescription[]) {
+export function setupFilter(serps: readonly SerpDescription[]) {
   new Filter(serps).start();
 }
