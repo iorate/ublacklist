@@ -1,4 +1,8 @@
 {
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
   "extensionDescription": {
     "message": "Блокирует сайты в поисковой выдаче Google",
     "description": "The description of the extension."
@@ -6,6 +10,10 @@
   "lang": {
     "message": "ru",
     "description": "The language code."
+  },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
   },
   "error": {
     "message": "Ошибка: $1",
@@ -22,6 +30,10 @@
   "okButton": {
     "message": "ОК",
     "description": "Text for the OK button."
+  },
+  "personalBlocklist": {
+    "message": "Personal Blocklist",
+    "description": "Label for the user's personal blocklist."
   },
   "content_singleSiteBlocked": {
     "message": "uBlacklist заблокировал 1 сайт",
@@ -102,6 +114,26 @@
   "popup_activateButton": {
     "message": "Включить",
     "description": "Text for the button to activate the extension."
+  },
+  "popup_matchingRules": {
+    "message": "Matching Rules",
+    "description": "Title of the disclosure widget containing matching rules information."
+  },
+  "popup_blockingRulesLabel": {
+    "message": "Rules blocking this entry",
+    "description": "Label for the textarea showing rules blocking the entry."
+  },
+  "popup_unblockingRulesLabel": {
+    "message": "Rules unblocking this entry",
+    "description": "Label for the textarea showing rules unblocking the entry."
+  },
+  "popup_highlightingRulesLabel": {
+    "message": "Rules highlighting this entry",
+    "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_serpInfoMode_showBlockedResults": {
+    "message": "Show blocked search results",
+    "description": "Label for the switch to show blocked results."
   },
   "options_generalTitle": {
     "message": "Общие",
@@ -195,6 +227,14 @@
     "message": "Пропустить диалог \"Заблокировать сайт\"",
     "description": "Label for the switch to skip the block dialog."
   },
+  "options_hideBlockButtonsLabel": {
+    "message": "Hide the block buttons",
+    "description": "Label for the switch to hide block buttons."
+  },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
   "options_blockWholeSiteLabel": {
     "message": "Добавить правила, блокирующие целые сайты по умолчанию",
     "description": "Label for the switch to block the whole site by default."
@@ -202,6 +242,10 @@
   "options_blockWholeSiteDescription": {
     "message": "Например, для блокировки страницы \"https://a.b.example.uk.com/\", необходимо добавить правило \"*://*.example.uk.com/*\".",
     "description": "Description of the block whole site feature."
+  },
+  "options_enableMatchingRules": {
+    "message": "Show matching rules in the \"Block this site\" dialog",
+    "description": "Label for the switch to enable matching rules."
   },
   "options_appearanceTitle": {
     "message": "Внешний вид",
@@ -339,6 +383,10 @@
     "message": "Подписки",
     "description": "Label for the switch to sync subscriptions."
   },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
+  },
   "options_syncInterval": {
     "message": "Интервал синхронизации",
     "description": "Label for the select to choose a sync interval."
@@ -346,6 +394,22 @@
   "options_subscriptionTitle": {
     "message": "Подписки",
     "description": "Title of the Subscription section."
+  },
+  "options_enableRulesetSubscriptionURL": {
+    "message": "Enable ruleset subscription links",
+    "description": "Text for the button to enable ruleset subscription links."
+  },
+  "options_enableRulesetSubscriptionURLDescription": {
+    "message": "Redirects $1 to this page to add a ruleset subscription.",
+    "description": "Description for the ruleset subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableRulesetSubscriptionURLButton": {
+    "message": "Enable",
+    "description": "Text for the button to enable ruleset subscription URL."
+  },
+  "options_rulesetSubscriptionURLIsEnabled": {
+    "message": "Ruleset subscription links are enabled",
+    "description": "Message indicating ruleset subscription links are enabled."
   },
   "options_subscriptionFeature": {
     "message": "Подписаться на чёрные списки",
@@ -363,9 +427,17 @@
     "message": "Название",
     "description": "Header text for the name column in the subscriptions table."
   },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
   "options_subscriptionUpdateResultHeader": {
     "message": "Последнее обновление",
     "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "Enabled",
+    "description": "Label for the checkbox in the subscriptions table."
   },
   "options_subscriptionMenuButtonLabel": {
     "message": "Меню подписок",
@@ -403,6 +475,18 @@
     "message": "Название",
     "description": "Label for the name input in the add subscription dialog."
   },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameLabel": {
+    "message": "Alternative name (optional)",
+    "description": "Label for the alternative name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameDescription": {
+    "message": "The alternative name used when a downloaded ruleset does not contain a name.",
+    "description": "Helper text for the alternative name input in the add subscription dialog."
+  },
   "options_addSubscriptionDialog_addButton": {
     "message": "Добавить",
     "description": "Text for the add button in the add subscription dialog."
@@ -414,6 +498,42 @@
   "options_updateInterval": {
     "message": "Интервал обновления",
     "description": "Label for the select to choose an update interval."
+  },
+  "options_backupRestoreTitle": {
+    "message": "Backup and restore",
+    "description": "Title of the Backup and Restore section."
+  },
+  "options_backupSettingsLabel": {
+    "message": "Backup settings",
+    "description": "Label for backup settings."
+  },
+  "options_backupSettingsButton": {
+    "message": "Backup",
+    "description": "Text for the button to backup settings."
+  },
+  "options_restoreSettingsLabel": {
+    "message": "Restore settings",
+    "description": "Label for restore settings."
+  },
+  "options_restoreSettingsButton": {
+    "message": "Restore",
+    "description": "Text for the button to restore settings."
+  },
+  "options_restoreSettingsInvalidFile": {
+    "message": "The file format is invalid.",
+    "description": "Error message shown when the backup file is invalid."
+  },
+  "options_resetSettingsLabel": {
+    "message": "Reset settings",
+    "description": "Label for reset settings."
+  },
+  "options_resetSettingsButton": {
+    "message": "Reset",
+    "description": "Text for the button to reset settings."
+  },
+  "options_resetSettingsConfirmation": {
+    "message": "Do you really want to reset your settings?",
+    "description": "Confirmation message to reset settings."
   },
   "options_aboutTitle": {
     "message": "О uBlacklist",
@@ -438,6 +558,114 @@
   "options_aboutThirdPartyNotices": {
     "message": "Уведомления третьих лиц",
     "description": "Text for the link to third-party notices."
+  },
+  "options_experimentalSectionTitle": {
+    "message": "Experimental features",
+    "description": "Title of the Experimental section."
+  },
+  "options_serpInfoLabel": {
+    "message": "SERPINFO",
+    "description": "Label for SERPINFO."
+  },
+  "options_openSerpInfoOptionsButton": {
+    "message": "Options",
+    "description": "Text for the button to open SERPINFO options."
+  },
+  "options_serpInfoBasicSettingsSection": {
+    "message": "Basic settings",
+    "description": "Title of the Basic Settings section for SERPINFO."
+  },
+  "options_enableSerpInfo": {
+    "message": "Enable SERPINFO",
+    "description": "Label for the switch to enable SERPINFO."
+  },
+  "options_enableSerpInfoSubscriptionURL": {
+    "message": "Enable SERPINFO subscription links",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_enableSerpInfoSubscriptionURLDescription": {
+    "message": "Redirects $1 to this page to add SERPINFO.",
+    "description": "Description for the SERPINFO subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableSerpInfoSubscriptionURLButton": {
+    "message": "Enable",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_serpInfoSubscriptionURLIsEnabled": {
+    "message": "SERPINFO subscription links are enabled",
+    "description": "Message indicating SERPINFO subscription links are enabled."
+  },
+  "options_accessPermissionLabel": {
+    "message": "Update access permissions",
+    "description": "Label for the access permission."
+  },
+  "options_accessPermissionDescription": {
+    "message": "If SERPINFO settings are synced from another device or otherwise changed, you may be required to update access permissions.",
+    "description": "Description for the access permission."
+  },
+  "options_accessPermissionButton": {
+    "message": "Update",
+    "description": "Text for the button to update access permission."
+  },
+  "options_remoteSerpInfoSection": {
+    "message": "SERPINFO list",
+    "description": "Title of the Remote SERPINFO section."
+  },
+  "options_remoteSerpInfoVersion": {
+    "message": "Version",
+    "description": "Version of remote SERPINFO."
+  },
+  "options_remoteSerpInfoLastModified": {
+    "message": "Last modified",
+    "description": "Last modified date of remote SERPINFO."
+  },
+  "options_remoteSerpInfoHomepage": {
+    "message": "Homepage",
+    "description": "Homepage of remote SERPINFO."
+  },
+  "options_showRemoteSerpInfoButton": {
+    "message": "Show",
+    "description": "Text for the button to show remote SERPINFO."
+  },
+  "options_removeRemoteSerpInfoButton": {
+    "message": "Remove",
+    "description": "Text for the button to remove remote SERPINFO."
+  },
+  "options_updateAllRemoteSerpInfoButton": {
+    "message": "Update now",
+    "description": "Text for the button to update all remote SERPINFO."
+  },
+  "options_remoteSerpInfoUpdateDone": {
+    "message": "Completed",
+    "description": "Message shown when remote SERPINFO update is done."
+  },
+  "options_addRemoteSerpInfoButton": {
+    "message": "Add",
+    "description": "Text for the button to add remote SERPINFO."
+  },
+  "options_addRemoteSerpInfoDialog_title": {
+    "message": "Add SERPINFO",
+    "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_addButton": {
+    "message": "Add",
+    "description": "Text for the add button in the add SERPINFO dialog."
+  },
+  "options_userSerpInfoSection": {
+    "message": "My SERPINFO",
+    "description": "Title of the User SERPINFO section."
+  },
+  "options_userSerpInfoDocumentationLink": {
+    "message": "Documentation",
+    "description": "Link to the documentation for SERPINFO."
+  },
+  "options_saveUserSerpInfo": {
+    "message": "Save",
+    "description": "Text for the button to save user SERPINFO."
   },
   "clouds_googleDriveSync": {
     "message": "Синхронизировать с Google Диском",

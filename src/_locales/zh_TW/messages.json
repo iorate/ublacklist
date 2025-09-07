@@ -1,4 +1,8 @@
 {
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
   "extensionDescription": {
     "message": "封鎖 Google 搜尋結果中的特定網站結果",
     "description": "The description of the extension."
@@ -6,6 +10,10 @@
   "lang": {
     "message": "zh-tw",
     "description": "The language code."
+  },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
   },
   "error": {
     "message": "錯誤：$1",
@@ -123,6 +131,10 @@
     "message": "強調顯示此項目的規則",
     "description": "Label for the textarea showing rules highlighting the entry."
   },
+  "popup_serpInfoMode_showBlockedResults": {
+    "message": "Show blocked search results",
+    "description": "Label for the switch to show blocked results."
+  },
   "options_generalTitle": {
     "message": "一般",
     "description": "Title of the General section."
@@ -219,6 +231,10 @@
     "message": "隱藏封鎖按鈕",
     "description": "Label for the switch to hide block buttons."
   },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
   "options_blockWholeSiteLabel": {
     "message": "預設在新增規則時，封鎖整個網站",
     "description": "Label for the switch to block the whole site by default."
@@ -226,6 +242,10 @@
   "options_blockWholeSiteDescription": {
     "message": "例如若封鎖「https://a.b.example.uk.com/」，會加入「*://*.example.uk.com/*」規則。",
     "description": "Description of the block whole site feature."
+  },
+  "options_enableMatchingRules": {
+    "message": "Show matching rules in the \"Block this site\" dialog",
+    "description": "Label for the switch to enable matching rules."
   },
   "options_appearanceTitle": {
     "message": "外觀",
@@ -362,6 +382,10 @@
   "options_syncSubscriptions": {
     "message": "訂閱項目",
     "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
   },
   "options_syncInterval": {
     "message": "同步間隔",
@@ -539,6 +563,10 @@
     "message": "實驗功能",
     "description": "Title of the Experimental section."
   },
+  "options_serpInfoLabel": {
+    "message": "SERPINFO",
+    "description": "Label for SERPINFO."
+  },
   "options_openSerpInfoOptionsButton": {
     "message": "選項",
     "description": "Text for the button to open SERPINFO options."
@@ -607,6 +635,10 @@
     "message": "立即更新",
     "description": "Text for the button to update all remote SERPINFO."
   },
+  "options_remoteSerpInfoUpdateDone": {
+    "message": "Completed",
+    "description": "Message shown when remote SERPINFO update is done."
+  },
   "options_addRemoteSerpInfoButton": {
     "message": "新增",
     "description": "Text for the button to add remote SERPINFO."
@@ -614,6 +646,10 @@
   "options_addRemoteSerpInfoDialog_title": {
     "message": "新增 SERPINFO",
     "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
     "message": "新增",
