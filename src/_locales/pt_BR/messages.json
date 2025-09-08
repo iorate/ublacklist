@@ -1,0 +1,694 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "Bloqueia sites que você escolher de aparecer nos resultados de pesquisa do Google",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "pt-BR",
+    "description": "The language code."
+  },
+  "websiteLocale": {
+    "message": "pt-BR",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
+  },
+  "error": {
+    "message": "Erro: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "Não autorizado. Por favor, desative e ative a sincronização.",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "Cancelar",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "OK",
+    "description": "Text for the OK button."
+  },
+  "personalBlocklist": {
+    "message": "Lista pessoal de bloqueio",
+    "description": "Label for the user's personal blocklist."
+  },
+  "content_singleSiteBlocked": {
+    "message": "O uBlacklist bloqueou um site",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "O uBlacklist bloqueou $1 sites",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "Mostrar",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "Ocultar",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "Bloquear este site",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "Desbloquear este site",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "Bloquear este site",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "Desbloquear este site",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "Detalhes",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "URL da página",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "Profundidade",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "Título da página",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "Regras que serão adicionadas",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "Regras que serão removidas",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "Bloquear",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "Desbloquear",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "Opções",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "O uBlacklist está ativo",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "O uBlacklist está inativo",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "Ativar",
+    "description": "Text for the button to activate the extension."
+  },
+  "popup_matchingRules": {
+    "message": "Regras em efeito",
+    "description": "Title of the disclosure widget containing matching rules information."
+  },
+  "popup_blockingRulesLabel": {
+    "message": "Regras que bloqueiam este resultado",
+    "description": "Label for the textarea showing rules blocking the entry."
+  },
+  "popup_unblockingRulesLabel": {
+    "message": "Regras que bloqueiam este resultado",
+    "description": "Label for the textarea showing rules unblocking the entry."
+  },
+  "popup_highlightingRulesLabel": {
+    "message": "Regras que destacam este resultado",
+    "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_serpInfoMode_showBlockedResults": {
+    "message": "Mostrar resultados de busca bloqueados",
+    "description": "Label for the switch to show blocked results."
+  },
+  "options_generalTitle": {
+    "message": "Geral",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "Sites bloqueados de aparecer nos resultados de busca do Google",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "Você pode usar [match patterns](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) e [expressões regulares](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_Expressions).",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "Exemplo: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "Para bloquear sites pelo título da página, adicione o prefixo \"title\" às expressões regulares.",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "Atualizada",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "Recarregar",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "Importar",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "Exportar",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "Salvar",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "Importar",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "Importar de um arquivo",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "Selecione um arquivo",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "Importar da lista pessoal de bloqueio",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "Domínios",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "Adicionar à lista existente",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "Importar",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "Cole os domínios exportados da lista pessoal de bloqueio.",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "Outros mecanismos de busca",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "Você pode usar esta extensão nos seguintes mecanismos de busca.",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "Ativar",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "Ativado",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "Pular o diálogo \"Bloquear este site\"",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_hideBlockButtonsLabel": {
+    "message": "Ocultar os botões de bloqueio",
+    "description": "Label for the switch to hide block buttons."
+  },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "Adicionar por padrão regras que bloqueiam sites inteiros",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "Por exemplo, para bloquear a página \"https://a.b.exemplo.com.br/\", a regra \"*://*.exemplo.com.br/*\" será adicionada.",
+    "description": "Description of the block whole site feature."
+  },
+  "options_enableMatchingRules": {
+    "message": "Mostrar regras em efeito no diálogo do \"Bloquear este site\"",
+    "description": "Label for the switch to enable matching rules."
+  },
+  "options_appearanceTitle": {
+    "message": "Aparência",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "Cor dos resultados de busca bloqueados",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "Padrão",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "Customizado",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "Cor dos resultados de busca destacados",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "Para destacar um resultado de busca com a Nª cor, adicione o prefixo @N às regras.",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "$1ª cor",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "Adicionar",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "Remover",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "O tema do diálogo \"Bloquear este site\" nos resultados de busca",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "Padrão",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "Claro",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "Escuro",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "Sincronização",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "O recurso de sincronização foi atualizada. Para continuar usando a sincronização, clique no botão \"Ativar sincronização\".",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "Sincronizar com uma nuvem",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "Você pode sincronizar conjuntos de regras entre os seus dispositivos por meio de uma nuvem.",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "Ativar sincronização",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "Ativar sincronização",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "Abrir a página de autentificação em uma nova aba",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "Poderá ser solicitada permissão para acessar $1 antes da autenticação, mas suas informações pessoais NÃO serão armazenadas nesse domínio.",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "Código de autorização",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "Ativar",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOffSync": {
+    "message": "Desativar",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "Última sincronização",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "Nunca foi sincronizado",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "Sincronizando…",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "Recarregar",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "Sincronizar agora",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "O que deve ser sincronizado",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "Sites bloqueados",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "Configurações gerais",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "Aparência",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "Inscrições",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncSerpInfo": {
+    "message": "SERPINFOs",
+    "description": "Label for the switch to sync SERPINFO."
+  },
+  "options_syncInterval": {
+    "message": "Intervalo de sincronização",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "Inscrição",
+    "description": "Title of the Subscription section."
+  },
+  "options_enableRulesetSubscriptionURL": {
+    "message": "Ativar links de inscrição em conjunto de regras",
+    "description": "Text for the button to enable ruleset subscription links."
+  },
+  "options_enableRulesetSubscriptionURLDescription": {
+    "message": "Redireciona $1 para esta página para adicionar uma inscrição em conjunto de regras.",
+    "description": "Description for the ruleset subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableRulesetSubscriptionURLButton": {
+    "message": "Ativar",
+    "description": "Text for the button to enable ruleset subscription URL."
+  },
+  "options_rulesetSubscriptionURLIsEnabled": {
+    "message": "Os links de inscrição em conjunto de regras estão ativados",
+    "description": "Message indicating ruleset subscription links are enabled."
+  },
+  "options_subscriptionFeature": {
+    "message": "Inscreva-se em conjuntos de regras",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "Se você adicionar uma inscrição, os conjuntos de regras serão regularmente baixados do URL informado.",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "Adicionar uma inscrição",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "Nome",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "URL",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "Última atualização",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "Ativada",
+    "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "Menu",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "Não há inscrições",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "Atualizando…",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "Mostrar",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "Atualizar agora",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "Remover",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "Atualizar agora",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "Adicionar uma inscrição",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Nome",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameLabel": {
+    "message": "Nome alternativo (opcional)",
+    "description": "Label for the alternative name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameDescription": {
+    "message": "O nome alternativo usado quando um conjunto de regras baixado não contém um nome.",
+    "description": "Helper text for the alternative name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "Adicionar",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "Regras",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "Intervalo de atualização",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_backupRestoreTitle": {
+    "message": "Backup e restauração",
+    "description": "Title of the Backup and Restore section."
+  },
+  "options_backupSettingsLabel": {
+    "message": "Fazer backup das configurações",
+    "description": "Label for backup settings."
+  },
+  "options_backupSettingsButton": {
+    "message": "Fazer backup",
+    "description": "Text for the button to backup settings."
+  },
+  "options_restoreSettingsLabel": {
+    "message": "Restaurar configurações",
+    "description": "Label for restore settings."
+  },
+  "options_restoreSettingsButton": {
+    "message": "Restaurar",
+    "description": "Text for the button to restore settings."
+  },
+  "options_restoreSettingsInvalidFile": {
+    "message": "O formato do arquivo é inválido.",
+    "description": "Error message shown when the backup file is invalid."
+  },
+  "options_resetSettingsLabel": {
+    "message": "Redefinir configurações",
+    "description": "Label for reset settings."
+  },
+  "options_resetSettingsButton": {
+    "message": "Redefinir",
+    "description": "Text for the button to reset settings."
+  },
+  "options_resetSettingsConfirmation": {
+    "message": "Você realmente quer redefinir suas configurações?",
+    "description": "Confirmation message to reset settings."
+  },
+  "options_aboutTitle": {
+    "message": "Sobre o uBlacklist",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "Versão",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "Documentação",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "Notas de lançamento",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "Política de privacidade",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "Avisos de terceiros",
+    "description": "Text for the link to third-party notices."
+  },
+  "options_experimentalSectionTitle": {
+    "message": "Recursos experimentais",
+    "description": "Title of the Experimental section."
+  },
+  "options_serpInfoLabel": {
+    "message": "SERPINFOs",
+    "description": "Label for SERPINFO."
+  },
+  "options_openSerpInfoOptionsButton": {
+    "message": "Opções",
+    "description": "Text for the button to open SERPINFO options."
+  },
+  "options_serpInfoBasicSettingsSection": {
+    "message": "Configurações básicas",
+    "description": "Title of the Basic Settings section for SERPINFO."
+  },
+  "options_enableSerpInfo": {
+    "message": "Ativar as SERPINFOs",
+    "description": "Label for the switch to enable SERPINFO."
+  },
+  "options_enableSerpInfoSubscriptionURL": {
+    "message": "Ativar os links de inscrição das SERPINFOs",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_enableSerpInfoSubscriptionURLDescription": {
+    "message": "Redireciona $1 para esta página para adicionar as SERPINFOs.",
+    "description": "Description for the SERPINFO subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableSerpInfoSubscriptionURLButton": {
+    "message": "Ativar",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_serpInfoSubscriptionURLIsEnabled": {
+    "message": "Os links de inscrição das SERPINFOs estão ativados",
+    "description": "Message indicating SERPINFO subscription links are enabled."
+  },
+  "options_accessPermissionLabel": {
+    "message": "Atualizar permissões de acesso",
+    "description": "Label for the access permission."
+  },
+  "options_accessPermissionDescription": {
+    "message": "Se as configurações das SERPINFOs foram sincronizadas vindo de outro dispositivo, ou não foram alteradas, você pode precisar atualizar as permissões de acesso.",
+    "description": "Description for the access permission."
+  },
+  "options_accessPermissionButton": {
+    "message": "Atualizar",
+    "description": "Text for the button to update access permission."
+  },
+  "options_remoteSerpInfoSection": {
+    "message": "Lista de SERPINFOs",
+    "description": "Title of the Remote SERPINFO section."
+  },
+  "options_remoteSerpInfoVersion": {
+    "message": "Versão",
+    "description": "Version of remote SERPINFO."
+  },
+  "options_remoteSerpInfoLastModified": {
+    "message": "Última modificação",
+    "description": "Last modified date of remote SERPINFO."
+  },
+  "options_remoteSerpInfoHomepage": {
+    "message": "Página inicial",
+    "description": "Homepage of remote SERPINFO."
+  },
+  "options_showRemoteSerpInfoButton": {
+    "message": "Mostrar",
+    "description": "Text for the button to show remote SERPINFO."
+  },
+  "options_removeRemoteSerpInfoButton": {
+    "message": "Remover",
+    "description": "Text for the button to remove remote SERPINFO."
+  },
+  "options_updateAllRemoteSerpInfoButton": {
+    "message": "Atualizar agora",
+    "description": "Text for the button to update all remote SERPINFO."
+  },
+  "options_remoteSerpInfoUpdateDone": {
+    "message": "Concluído",
+    "description": "Message shown when remote SERPINFO update is done."
+  },
+  "options_addRemoteSerpInfoButton": {
+    "message": "Adicionar",
+    "description": "Text for the button to add remote SERPINFO."
+  },
+  "options_addRemoteSerpInfoDialog_title": {
+    "message": "Adicionar SERPINFO",
+    "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_addButton": {
+    "message": "Adicionar",
+    "description": "Text for the add button in the add SERPINFO dialog."
+  },
+  "options_userSerpInfoSection": {
+    "message": "Minha SERPINFO",
+    "description": "Title of the User SERPINFO section."
+  },
+  "options_userSerpInfoDocumentationLink": {
+    "message": "Documentação",
+    "description": "Link to the documentation for SERPINFO."
+  },
+  "options_saveUserSerpInfo": {
+    "message": "Salvar",
+    "description": "Text for the button to save user SERPINFO."
+  },
+  "clouds_googleDriveSync": {
+    "message": "Sincronizar com o Google Drive",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "Um arquivo será criado dentro da pasta de dados do aplicativo, que é oculta para o usuário.",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "Sincronizado com o Google Drive",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "Sincronizar com o Dropbox",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "Um arquivo será criado em \"/Apps/uBlacklist/\".",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "Sincronizado com o Dropbox",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}

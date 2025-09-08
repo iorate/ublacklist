@@ -462,14 +462,14 @@ const SyncCategories: React.FC<{ disabled: boolean }> = ({ disabled }) => (
   </SectionItem>
 );
 
-export const SyncSection: React.FC = () => {
+export const SyncSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   const {
     initialItems: { syncCloudId: initialSyncCloudId },
   } = useOptionsContext();
   const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
   return (
-    <Section aria-labelledby={`${id}-title`} id="sync">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_syncTitle")}

@@ -7,6 +7,9 @@ https://github.com/iorate/ublacklist#supported-search-engines
 
 설정한 규칙 목록은 Google Drive 또는 Dropbox를 통해 여러 장치 간에 동기화 할 수 있으며, 다른 누군가가 공개해둔 규칙 목록을 구독할 수도 있습니다.
 
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
+https://ublacklist.github.io/subscriptions
+
 사용 방법:
 https://ublacklist.github.io/docs/getting-started
 

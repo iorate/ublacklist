@@ -1,0 +1,102 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feel free to raise a bug report if something isn't working as expected.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: "Bug Description"
+      description: "A clear and concise description of what the bug is."
+      placeholder: "Describe the unexpected behavior you encountered..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Detailed steps to reproduce the behavior"
+      placeholder: |
+        1. Open Google
+        2. Search for "example query"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "Expected Behavior"
+      description: "A clear and concise description of what you expected to happen."
+      placeholder: "Describe what should have happened instead..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "Actual Behavior"
+      description: "What actually happened instead?"
+      placeholder: "Describe what actually happened..."
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: "Browser"
+      description: "Which browser and version are you using?"
+      placeholder: "e.g., Chrome 118.0.5993.70, Firefox 119.0, Safari 17.1"
+    validations:
+      required: true
+
+  - type: input
+    id: ublacklist-version
+    attributes:
+      label: "uBlacklist Version"
+      description: "Which version of uBlacklist are you using? (Check in extension settings)"
+      placeholder: "e.g., 9.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: search-engine
+    attributes:
+      label: "Search Engine"
+      description: "Which search engine were you using when the bug occurred?"
+      options:
+        - Google
+        - Bing
+        - Brave
+        - DuckDuckGo
+        - Ecosia
+        - Kagi
+        - SearXNG
+        - Startpage
+        - Yahoo! JAPAN
+        - Yandex
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional Context"
+      description: "Any other relevant information about the problem"
+      placeholder: |
+        - Screenshots or videos (if applicable)
+        - Error messages from browser console (F12 → Console tab)
+        - Any workarounds you've found
+        - Related discussions or issues
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Please confirm the following:"
+      options:
+        - label: "I have searched existing discussions and issues to ensure this bug hasn't been reported before"
+          required: true
+        - label: "I have tried disabling other extensions to isolate the issue"
+          required: true

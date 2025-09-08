@@ -1,6 +1,6 @@
 # uBlacklist
 
-[简体中文](README.zh-CN.md)
+English | [简体中文](README.zh-CN.md)
 
 Blocks specific sites from appearing in Google search results
 
@@ -17,22 +17,36 @@ You can synchronize rulesets across devices via cloud storage. At the moment, Go
 You can also subscribe to public rulesets. Some subscriptions are listed on the website:
 https://ublacklist.github.io/subscriptions
 
+## Browser support policy
+
+uBlacklist supports the following browser versions:
+
+- **Chrome**: Latest stable version only
+- **Firefox**: Latest stable version and latest ESR only
+- **Safari**: Latest stable version only (macOS and iOS)
+
+However, community contributions for older browser versions or browsers based on Chromium/Firefox are welcome.
+
 ## Supported search engines
 
 This extension is available in the below search engines.
 
-|              | Web                | Images             | Videos             | News               |
-| ------------ | ------------------ | ------------------ | ------------------ | ------------------ |
-| Google       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Bing         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Brave        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| DuckDuckGo   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Ecosia       | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Kagi         | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| SearXNG      | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Startpage    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Yahoo! JAPAN | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                    |
-| Yandex       | :heavy_check_mark: |                    | :heavy_check_mark: |                    |
+<!-- prettier-ignore-start -->
+
+|  | Web | Images | Videos | News |
+| --- | --- | --- | --- | --- |
+| Google | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Bing | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Brave | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| DuckDuckGo | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Ecosia | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Kagi | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| SearXNG | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Startpage | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Yahoo! JAPAN | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |
+| Yandex | :heavy_check_mark: |  | :heavy_check_mark: |  |
+
+<!-- prettier-ignore-end -->
 
 ## For subscription providers
 
@@ -49,73 +63,13 @@ name: Your ruleset name
 *://*.example.com/*
 ```
 
-### Subscription links
+## Contributing
 
-**NOTE:** This feature is available in v8.11.0 or later. Users need to explicitly enable this feature by turning on "Enable ruleset subscription links" in the extension's options page.
-
-**NOTE:** This feature does not work in Safari at the moment.
-
-Subscription links are available to make it easier for users to add your ruleset. To create a subscription link for your ruleset, use the following format:
-
-```
-https://ublacklist.github.io/rulesets/subscribe?url=<url-encoded-url>
-```
-
-For the above example:
-
-https://ublacklist.github.io/rulesets/subscribe?url=https%3A%2F%2Fraw.githubusercontent.com%2Fiorate%2Fublacklist-example-subscription%2Fmaster%2FuBlacklist.txt
-
-When users click this link, they will be directed to the extension's options page with your subscription pre-filled.
-
-## For developers
-
-### Build
-
-To build this extension, [pnpm](https://pnpm.io/)>=10 is required.
-
-```shell
-git clone --recurse-submodules https://github.com/iorate/ublacklist.git
-
-cd ublacklist
-
-pnpm install
-
-# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug] [--watch]
-pnpm build
-```
-
-Before opening a pull request, you should make sure that `pnpm check` passes.
-
-```shell
-pnpm check
-
-# Some lint errors can be fixed automatically
-pnpm fix
-```
-
-**NOTE:** The API keys and secrets for the sync feature are not included in this repository. To develop the sync feature, set your own API keys and secrets in the `.env` file.
-
-```
-DROPBOX_API_KEY=...
-DROPBOX_API_SECRET=...
-GOOGLE_DRIVE_API_KEY=...
-GOOGLE_DRIVE_API_SECRET=...
-```
-
-### Locale
-
-To add a locale,
-
-1. Determine an ISO language code such as `en` referring to [kLanguageInfoTable](https://src.chromium.org/viewvc/chrome/trunk/src/third_party/cld/languages/internal/languages.cc).
-1. Copy `src/_locales/en/messages.json.ts` to `src/_locales/${languageCode}/messages.json.ts` and translate entries.
-1. Open `src/scripts/dayjs-locales.ts` and import the dayjs locale.
-1. To localize description and screenshots on web stores, create `web-store-assets/${languageCode}/` and add files.
-   - Screenshot localization is available only on Chrome Web Store.
-   - Screenshots should be 1280x800.
+See our [Contributing Guide](CONTRIBUTING.md) for detailed development setup and guidelines.
 
 ## Author
 
-[iorate](https://github.com/iorate) ([Twitter](https://twitter.com/iorate))
+[iorate](https://github.com/iorate) ([X](https://x.com/iorate))
 
 ## License
 

@@ -17,7 +17,7 @@ import { useClassName } from "../components/utilities.ts";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { svgToDataURL } from "../utilities.ts";
 
-export const AboutSection: React.FC = () => {
+export const AboutSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   const version = useMemo(() => browser.runtime.getManifest().version, []);
   const thirdPartyNoticesURL = useMemo(
@@ -31,7 +31,7 @@ export const AboutSection: React.FC = () => {
     [],
   );
   return (
-    <Section aria-labelledby={`${id}-title`} id="about">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_aboutTitle")}

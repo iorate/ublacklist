@@ -56,7 +56,7 @@ import type { SerpInfo } from "./types.ts";
 
 dayjs.extend(dayjsLocalizedFormat);
 
-function BasicSettingsSection() {
+function BasicSettingsSection(props: { id: string }) {
   const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [hostPermissionsRequired, setHostPermissionsRequired] = useState(false);
@@ -76,7 +76,7 @@ function BasicSettingsSection() {
     }
   }, [settings]);
   return (
-    <Section id="basic-settings" aria-labelledby={`${id}-title`}>
+    <Section id={props.id} aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_serpInfoBasicSettingsSection")}
@@ -158,7 +158,7 @@ function collectMatches(serpInfo: SerpInfo): string[] {
   );
 }
 
-function RemoteSerpInfoSection() {
+function RemoteSerpInfoSection(props: { id: string }) {
   const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [addDialogProps, setAddDialogProps] = useState<{
@@ -188,7 +188,7 @@ function RemoteSerpInfoSection() {
     }
   }, [updateStatus]);
   return (
-    <Section id="remote-serpinfo" aria-labelledby={`${id}-title`}>
+    <Section id={props.id} aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_remoteSerpInfoSection")}
@@ -483,7 +483,7 @@ function ShowRemoteSerpInfoDialog(
   );
 }
 
-function UserSerpInfoSection() {
+function UserSerpInfoSection(props: { id: string }) {
   const id = useId();
   const settings = storageStore.use.serpInfoSettings();
   const [userInput, setUserInput] = useState(settings.user.content);
@@ -501,7 +501,7 @@ function UserSerpInfoSection() {
     [],
   );
   return (
-    <Section id="user-serpinfo" aria-labelledby={`${id}-title`}>
+    <Section id={props.id} aria-labelledby={`${id}-title`}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_userSerpInfoSection")}
@@ -574,9 +574,11 @@ function OptionsImpl() {
   use(storageStore.attachPromise);
   return (
     <Container>
-      <BasicSettingsSection />
-      <RemoteSerpInfoSection />
-      <UserSerpInfoSection />
+      {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+      <BasicSettingsSection id="basic-settings" />
+      <RemoteSerpInfoSection id="remote-serpinfo" />
+      <UserSerpInfoSection id="user-serpinfo" />
+      {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
     </Container>
   );
 }

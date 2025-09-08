@@ -1,0 +1,694 @@
+{
+  "extensionName": {
+    "message": "uBlacklist",
+    "description": "The name of the extension."
+  },
+  "extensionDescription": {
+    "message": "在谷歌的搜索结果中屏蔽特定的网站显示。",
+    "description": "The description of the extension."
+  },
+  "lang": {
+    "message": "zh-cn",
+    "description": "The language code."
+  },
+  "websiteLocale": {
+    "message": "en",
+    "description": "The locale code for the website. Do not translate this message until the website is translated."
+  },
+  "error": {
+    "message": "出现错误: $1",
+    "description": "Error message. '$1' will be replaced with the actual error."
+  },
+  "unauthorizedError": {
+    "message": "未授权的操作。请尝试先关闭同步后，再开启同步。",
+    "description": "Error message shown when unauthorized to access a cloud service."
+  },
+  "cancelButton": {
+    "message": "取消",
+    "description": "Text for the Cancel button."
+  },
+  "okButton": {
+    "message": "确定",
+    "description": "Text for the OK button."
+  },
+  "personalBlocklist": {
+    "message": "个人黑名单",
+    "description": "Label for the user's personal blocklist."
+  },
+  "content_singleSiteBlocked": {
+    "message": "uBlacklist 已经屏蔽了 1 个网站",
+    "description": "Message shown when one site is blocked."
+  },
+  "content_multipleSitesBlocked": {
+    "message": "uBlacklist 已经屏蔽了 $1 个网站",
+    "description": "Message shown when multiple sites are blocked. '$1' will be replaced with the count."
+  },
+  "content_showBlockedSitesLink": {
+    "message": "显示",
+    "description": "Link text to show blocked sites."
+  },
+  "content_hideBlockedSitesLink": {
+    "message": "隐藏",
+    "description": "Link text to hide blocked sites."
+  },
+  "content_blockSiteLink": {
+    "message": "加入黑名单",
+    "description": "Link text to block a site."
+  },
+  "content_unblockSiteLink": {
+    "message": "不再屏蔽这个网站",
+    "description": "Link text to unblock a site."
+  },
+  "popup_blockSiteTitle": {
+    "message": "将该网站加入黑名单",
+    "description": "Title of the popup to block a site."
+  },
+  "popup_unblockSiteTitle": {
+    "message": "不再屏蔽这个网站",
+    "description": "Title of the popup to unblock a site."
+  },
+  "popup_details": {
+    "message": "详情",
+    "description": "Title of the details disclosure widget."
+  },
+  "popup_pageURLLabel": {
+    "message": "页面地址",
+    "description": "Label for the textarea showing the page URL."
+  },
+  "popup_pathDepth": {
+    "message": "深度",
+    "description": "Label for the input showing the path depth for rules to be added."
+  },
+  "popup_pageTitleLabel": {
+    "message": "页面标题",
+    "description": "Label for the textarea showing the page title."
+  },
+  "popup_addedRulesLabel": {
+    "message": "要添加的规则",
+    "description": "Label for the textarea showing rules to be added."
+  },
+  "popup_removedRulesLabel": {
+    "message": "要移除的规则",
+    "description": "Label for the textarea showing rules to be removed."
+  },
+  "popup_blockSiteButton": {
+    "message": "确定",
+    "description": "Text for the button to block a site."
+  },
+  "popup_unblockSiteButton": {
+    "message": "移除",
+    "description": "Text for the button to unblock a site."
+  },
+  "popup_openOptionsLink": {
+    "message": "选项",
+    "description": "Link text to open the options page."
+  },
+  "popup_active": {
+    "message": "uBlacklist 已启用",
+    "description": "Message indicating the extension is active."
+  },
+  "popup_inactive": {
+    "message": "uBlacklist 已禁用",
+    "description": "Message indicating the extension is inactive."
+  },
+  "popup_activateButton": {
+    "message": "启用",
+    "description": "Text for the button to activate the extension."
+  },
+  "popup_matchingRules": {
+    "message": "匹配规则",
+    "description": "Title of the disclosure widget containing matching rules information."
+  },
+  "popup_blockingRulesLabel": {
+    "message": "屏蔽此条目的规则",
+    "description": "Label for the textarea showing rules blocking the entry."
+  },
+  "popup_unblockingRulesLabel": {
+    "message": "解除屏蔽此条目的规则",
+    "description": "Label for the textarea showing rules unblocking the entry."
+  },
+  "popup_highlightingRulesLabel": {
+    "message": "高亮显示此条目的规则",
+    "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_serpInfoMode_showBlockedResults": {
+    "message": "显示被屏蔽的搜索结果",
+    "description": "Label for the switch to show blocked results."
+  },
+  "options_generalTitle": {
+    "message": "常规",
+    "description": "Title of the General section."
+  },
+  "options_blacklistLabel": {
+    "message": "在谷歌的搜索结果中将不会显示以下网站",
+    "description": "Label for the blacklist textarea."
+  },
+  "options_blacklistHelper": {
+    "message": "你可以使用 [匹配模式](https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions/Match_patterns) 或 [正则表达式](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)。",
+    "description": "Helper text for the blacklist textarea."
+  },
+  "options_blacklistExample": {
+    "message": "例如: $1",
+    "description": "Example of a rule. '$1' will be replaced with an example rule."
+  },
+  "options_blockByTitle": {
+    "message": "要使用页面标题来屏蔽网站，请在正则表达式前添加「title」。",
+    "description": "Description of the title blocking feature."
+  },
+  "options_blacklistUpdated": {
+    "message": "黑名单已更新",
+    "description": "Message indicating the blacklist has been updated."
+  },
+  "options_reloadBlacklistButton": {
+    "message": "重新加载",
+    "description": "Text for the button to reload the blacklist."
+  },
+  "options_importBlacklistButton": {
+    "message": "导入",
+    "description": "Text for the button to import a blacklist."
+  },
+  "options_exportBlacklistButton": {
+    "message": "导出",
+    "description": "Text for the button to export a blacklist."
+  },
+  "options_saveBlacklistButton": {
+    "message": "保存",
+    "description": "Text for the button to save the blacklist."
+  },
+  "options_importBlacklistDialog_title": {
+    "message": "导入",
+    "description": "Title of the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_fromFile": {
+    "message": "从文件中导入",
+    "description": "Label for the option to import from a file."
+  },
+  "options_importBlacklistDialog_selectFile": {
+    "message": "选择一个文件",
+    "description": "Text for the button to select a file to import."
+  },
+  "options_importBlacklistDialog_fromPB": {
+    "message": "贴上从 Personal Blocklist 导出的网站黑名单",
+    "description": "Label for the option to import from Personal Blocklist."
+  },
+  "options_importBlacklistDialog_pbLabel": {
+    "message": "域名",
+    "description": "Label for the textarea to import from Personal Blocklist (for accessibility)."
+  },
+  "options_importBlacklistDialog_append": {
+    "message": "附加到现有列表之后",
+    "description": "Text for the checkbox to append to the existing blacklist."
+  },
+  "options_importBlacklistDialog_importButton": {
+    "message": "导入",
+    "description": "Text for the import button in the import blacklist dialog."
+  },
+  "options_importBlacklistDialog_helper": {
+    "message": "贴上你从 Personal Blocklist 导出的的网站黑名单",
+    "description": "Helper text for the textarea in the import blacklist dialog."
+  },
+  "options_otherSearchEngines": {
+    "message": "其他搜索引擎",
+    "description": "Title of the section for other search engines."
+  },
+  "options_otherSearchEnginesDescription": {
+    "message": "当前还支持以下搜索引擎（需要手动开启，并同意读取和更改网页数据）",
+    "description": "Description of the section for other search engines."
+  },
+  "options_registerSearchEngine": {
+    "message": "启用",
+    "description": "Text for the button to enable a search engine."
+  },
+  "options_searchEngineRegistered": {
+    "message": "已启用",
+    "description": "Message indicating a search engine is enabled."
+  },
+  "options_skipBlockDialogLabel": {
+    "message": "加入黑名单时不显示确认提示框。",
+    "description": "Label for the switch to skip the block dialog."
+  },
+  "options_hideBlockButtonsLabel": {
+    "message": "隐藏屏蔽按钮",
+    "description": "Label for the switch to hide block buttons."
+  },
+  "options_hideControlLabel": {
+    "message": "Hide the show/hide button for blocked results",
+    "description": "Label for the switch to hide the button that shows/hides blocked results."
+  },
+  "options_blockWholeSiteLabel": {
+    "message": "默认添加屏蔽整个网站的规则",
+    "description": "Label for the switch to block the whole site by default."
+  },
+  "options_blockWholeSiteDescription": {
+    "message": "例如屏蔽 \"https://a.b.example.uk.com/\", 会添加 \"*://*.example.uk.com/*\" 规则",
+    "description": "Description of the block whole site feature."
+  },
+  "options_enableMatchingRules": {
+    "message": "在「加入黑名单」对话框中显示匹配规则",
+    "description": "Label for the switch to enable matching rules."
+  },
+  "options_appearanceTitle": {
+    "message": "外观",
+    "description": "Title of the Appearance section."
+  },
+  "options_blockColor": {
+    "message": "被屏蔽的搜索结果的颜色",
+    "description": "Color of blocked search results."
+  },
+  "options_colorUseDefault": {
+    "message": "默认",
+    "description": "Label for the radio button to use the default color."
+  },
+  "options_colorSpecify": {
+    "message": "自定义",
+    "description": "Label for the radio button to specify a custom color."
+  },
+  "options_highlightColors": {
+    "message": "高亮显示的搜索结果的颜色",
+    "description": "Colors for highlighted search results."
+  },
+  "options_highlightDescription": {
+    "message": "要使用「颜色 N」来高亮显示某个搜索结果，请在规则前加上「@N」",
+    "description": "Description of the highlighting feature."
+  },
+  "options_highlightColorNth": {
+    "message": "颜色 $1",
+    "description": "Name of the nth highlight color. '$1' will be replaced with the color number."
+  },
+  "options_highlightColorAdd": {
+    "message": "增加",
+    "description": "Label for the button to add a highlight color."
+  },
+  "options_highlightColorRemove": {
+    "message": "移除",
+    "description": "Label for the button to remove a highlight color."
+  },
+  "options_dialogTheme": {
+    "message": "「加入黑名单」弹窗的主题",
+    "description": "Dialog theme."
+  },
+  "options_dialogThemeDefault": {
+    "message": "默认",
+    "description": "Label for the radio button to use the default dialog theme."
+  },
+  "options_dialogThemeLight": {
+    "message": "浅色",
+    "description": "Label for the radio button to use the light theme."
+  },
+  "options_dialogThemeDark": {
+    "message": "深色",
+    "description": "Label for the radio button to use the dark theme."
+  },
+  "options_syncTitle": {
+    "message": "同步",
+    "description": "Title of the Sync section."
+  },
+  "options_syncFeatureUpdated": {
+    "message": "同步功能已更新。需要继续使用同步功能，请点击「开启同步」按钮。",
+    "description": "Message indicating the sync feature has been updated."
+  },
+  "options_syncFeature": {
+    "message": "通过云端服务同步",
+    "description": "Label for the switch to enable cloud sync."
+  },
+  "options_syncFeatureDescription": {
+    "message": "可以通过云端服务在不同的设备之间同步你的黑名单数据。",
+    "description": "Description of the cloud sync feature."
+  },
+  "options_turnOnSync": {
+    "message": "开启同步",
+    "description": "Text for the button to turn on sync."
+  },
+  "options_turnOnSyncDialog_title": {
+    "message": "开启同步",
+    "description": "Title of the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_useAltFlow": {
+    "message": "在新标签页中打开认证页面",
+    "description": "Label for the switch to use the alternative authentication flow."
+  },
+  "options_turnOnSyncDialog_altFlowDescription": {
+    "message": "在认证之前，您可能会被要求获得访问 $1 的许可，但您的个人信息不会被存储在该域中。",
+    "description": "Description for the alternative authentication flow. '$1' will be replaced with the domain."
+  },
+  "options_turnOnSyncDialog_altFlowAuthCodeLabel": {
+    "message": "认证码",
+    "description": "Label for the input for the alternative authentication code."
+  },
+  "options_turnOnSyncDialog_turnOnSyncButton": {
+    "message": "开启",
+    "description": "Text for the button to turn on sync in the dialog."
+  },
+  "options_turnOffSync": {
+    "message": "关闭同步",
+    "description": "Text for the button to turn off sync."
+  },
+  "options_syncResult": {
+    "message": "最近同步",
+    "description": "Message indicating the result of the last sync."
+  },
+  "options_syncNever": {
+    "message": "从未同步",
+    "description": "Message indicating sync has never been performed."
+  },
+  "options_syncRunning": {
+    "message": "正在同步中...",
+    "description": "Message indicating sync is running."
+  },
+  "options_syncReloadButton": {
+    "message": "重新加载",
+    "description": "Text for the button to reload sync."
+  },
+  "options_syncNowButton": {
+    "message": "立即同步",
+    "description": "Text for the button to sync now."
+  },
+  "options_syncCategories": {
+    "message": "同步选项",
+    "description": "Label for the list to choose what to sync."
+  },
+  "options_syncBlocklist": {
+    "message": "屏蔽列表",
+    "description": "Label for the switch to sync the blocklist."
+  },
+  "options_syncGeneral": {
+    "message": "常规设置",
+    "description": "Label for the switch to sync general settings."
+  },
+  "options_syncAppearance": {
+    "message": "外观设置",
+    "description": "Label for the switch to sync appearance."
+  },
+  "options_syncSubscriptions": {
+    "message": "订阅设置",
+    "description": "Label for the switch to sync subscriptions."
+  },
+  "options_syncSerpInfo": {
+    "message": "SERPINFO",
+    "description": "Label for the switch to sync SERPINFO."
+  },
+  "options_syncInterval": {
+    "message": "同步间隔",
+    "description": "Label for the select to choose a sync interval."
+  },
+  "options_subscriptionTitle": {
+    "message": "订阅",
+    "description": "Title of the Subscription section."
+  },
+  "options_enableRulesetSubscriptionURL": {
+    "message": "启用规则集订阅链接",
+    "description": "Text for the button to enable ruleset subscription links."
+  },
+  "options_enableRulesetSubscriptionURLDescription": {
+    "message": "将 $1 重定向到此页面以添加规则集订阅。",
+    "description": "Description for the ruleset subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableRulesetSubscriptionURLButton": {
+    "message": "启用",
+    "description": "Text for the button to enable ruleset subscription URL."
+  },
+  "options_rulesetSubscriptionURLIsEnabled": {
+    "message": "规则集订阅链接已启用",
+    "description": "Message indicating ruleset subscription links are enabled."
+  },
+  "options_subscriptionFeature": {
+    "message": "订阅黑名单列表",
+    "description": "Label for the subscription feature."
+  },
+  "options_subscriptionFeatureDescription": {
+    "message": "如果你添加了订阅，黑名单将会定期从指定的订阅源更新。",
+    "description": "Description of the subscription feature."
+  },
+  "options_addSubscriptionButton": {
+    "message": "添加订阅",
+    "description": "Text for the button to add a subscription."
+  },
+  "options_subscriptionNameHeader": {
+    "message": "名称",
+    "description": "Header text for the name column in the subscriptions table."
+  },
+  "options_subscriptionURLHeader": {
+    "message": "订阅源地址",
+    "description": "Header text for the URL column in the subscriptions table."
+  },
+  "options_subscriptionUpdateResultHeader": {
+    "message": "最近更新",
+    "description": "Header text for the update result column in the subscriptions table."
+  },
+  "options_subscriptionCheckBoxLabel": {
+    "message": "启用",
+    "description": "Label for the checkbox in the subscriptions table."
+  },
+  "options_subscriptionMenuButtonLabel": {
+    "message": "菜单",
+    "description": "Label for the menu buttons in the subscriptions table."
+  },
+  "options_noSubscriptionsAdded": {
+    "message": "未添加任何订阅",
+    "description": "Message indicating no subscriptions have been added."
+  },
+  "options_subscriptionUpdateRunning": {
+    "message": "正在更新...",
+    "description": "Message indicating an update is running."
+  },
+  "options_showSubscriptionMenu": {
+    "message": "显示黑名单",
+    "description": "Text for the menu item to show a subscription."
+  },
+  "options_updateSubscriptionNowMenu": {
+    "message": "立即更新",
+    "description": "Text for the menu item to update a subscription now."
+  },
+  "options_removeSubscriptionMenu": {
+    "message": "移除此订阅",
+    "description": "Text for the menu item to remove a subscription."
+  },
+  "options_updateAllSubscriptionsNowButton": {
+    "message": "立即更新",
+    "description": "Text for the button to update all subscriptions now."
+  },
+  "options_addSubscriptionDialog_title": {
+    "message": "添加订阅",
+    "description": "Title of the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "名称",
+    "description": "Label for the name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_urlLabel": {
+    "message": "订阅源地址",
+    "description": "Label for the URL input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameLabel": {
+    "message": "备用名称（可选）",
+    "description": "Label for the alternative name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_altNameDescription": {
+    "message": "当下载的规则集不包含名称时使用的备用名称。",
+    "description": "Helper text for the alternative name input in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_addButton": {
+    "message": "添加",
+    "description": "Text for the add button in the add subscription dialog."
+  },
+  "options_showSubscriptionDialog_blacklistLabel": {
+    "message": "规则",
+    "description": "Label for the textarea in the show subscription dialog."
+  },
+  "options_updateInterval": {
+    "message": "更新间隔",
+    "description": "Label for the select to choose an update interval."
+  },
+  "options_backupRestoreTitle": {
+    "message": "备份和恢复",
+    "description": "Title of the Backup and Restore section."
+  },
+  "options_backupSettingsLabel": {
+    "message": "备份设置",
+    "description": "Label for backup settings."
+  },
+  "options_backupSettingsButton": {
+    "message": "备份",
+    "description": "Text for the button to backup settings."
+  },
+  "options_restoreSettingsLabel": {
+    "message": "恢复设置",
+    "description": "Label for restore settings."
+  },
+  "options_restoreSettingsButton": {
+    "message": "恢复",
+    "description": "Text for the button to restore settings."
+  },
+  "options_restoreSettingsInvalidFile": {
+    "message": "无效的文件格式",
+    "description": "Error message shown when the backup file is invalid."
+  },
+  "options_resetSettingsLabel": {
+    "message": "初始化设置",
+    "description": "Label for reset settings."
+  },
+  "options_resetSettingsButton": {
+    "message": "初始化",
+    "description": "Text for the button to reset settings."
+  },
+  "options_resetSettingsConfirmation": {
+    "message": "确定要初始化设置吗？",
+    "description": "Confirmation message to reset settings."
+  },
+  "options_aboutTitle": {
+    "message": "关于 uBlacklist",
+    "description": "Title of the About section."
+  },
+  "options_aboutVersion": {
+    "message": "版本",
+    "description": "Label for the version."
+  },
+  "options_aboutDocumentation": {
+    "message": "文档",
+    "description": "Text for the link to the documentation."
+  },
+  "options_aboutReleaseNotes": {
+    "message": "发行说明",
+    "description": "Text for the link to the release notes."
+  },
+  "options_aboutPrivacyPolicy": {
+    "message": "隐私政策",
+    "description": "Text for the link to the privacy policy."
+  },
+  "options_aboutThirdPartyNotices": {
+    "message": "第三方声明",
+    "description": "Text for the link to third-party notices."
+  },
+  "options_experimentalSectionTitle": {
+    "message": "实验性功能",
+    "description": "Title of the Experimental section."
+  },
+  "options_serpInfoLabel": {
+    "message": "SERPINFO",
+    "description": "Label for SERPINFO."
+  },
+  "options_openSerpInfoOptionsButton": {
+    "message": "选项",
+    "description": "Text for the button to open SERPINFO options."
+  },
+  "options_serpInfoBasicSettingsSection": {
+    "message": "基本设置",
+    "description": "Title of the Basic Settings section for SERPINFO."
+  },
+  "options_enableSerpInfo": {
+    "message": "启用 SERPINFO",
+    "description": "Label for the switch to enable SERPINFO."
+  },
+  "options_enableSerpInfoSubscriptionURL": {
+    "message": "启用 SERPINFO 订阅链接",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_enableSerpInfoSubscriptionURLDescription": {
+    "message": "将 $1 重定向到此页面以添加 SERPINFO。",
+    "description": "Description for the SERPINFO subscription URL feature. '$1' will be replaced with the domain."
+  },
+  "options_enableSerpInfoSubscriptionURLButton": {
+    "message": "启用",
+    "description": "Text for the button to enable SERPINFO subscription URL."
+  },
+  "options_serpInfoSubscriptionURLIsEnabled": {
+    "message": "SERPINFO 订阅链接已启用",
+    "description": "Message indicating SERPINFO subscription links are enabled."
+  },
+  "options_accessPermissionLabel": {
+    "message": "更新访问权限",
+    "description": "Label for the access permission."
+  },
+  "options_accessPermissionDescription": {
+    "message": "如果 SERPINFO 设置从其他设备同步或以其他方式更改，您可能需要更新访问权限。",
+    "description": "Description for the access permission."
+  },
+  "options_accessPermissionButton": {
+    "message": "更新",
+    "description": "Text for the button to update access permission."
+  },
+  "options_remoteSerpInfoSection": {
+    "message": "SERPINFO 列表",
+    "description": "Title of the Remote SERPINFO section."
+  },
+  "options_remoteSerpInfoVersion": {
+    "message": "版本",
+    "description": "Version of remote SERPINFO."
+  },
+  "options_remoteSerpInfoLastModified": {
+    "message": "最后修改时间",
+    "description": "Last modified date of remote SERPINFO."
+  },
+  "options_remoteSerpInfoHomepage": {
+    "message": "主页",
+    "description": "Homepage of remote SERPINFO."
+  },
+  "options_showRemoteSerpInfoButton": {
+    "message": "显示",
+    "description": "Text for the button to show remote SERPINFO."
+  },
+  "options_removeRemoteSerpInfoButton": {
+    "message": "移除",
+    "description": "Text for the button to remove remote SERPINFO."
+  },
+  "options_updateAllRemoteSerpInfoButton": {
+    "message": "立即更新",
+    "description": "Text for the button to update all remote SERPINFO."
+  },
+  "options_remoteSerpInfoUpdateDone": {
+    "message": "完成",
+    "description": "Message shown when remote SERPINFO update is done."
+  },
+  "options_addRemoteSerpInfoButton": {
+    "message": "添加",
+    "description": "Text for the button to add remote SERPINFO."
+  },
+  "options_addRemoteSerpInfoDialog_title": {
+    "message": "添加 SERPINFO",
+    "description": "Title of the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_urlLabel": {
+    "message": "URL",
+    "description": "Label for the input in the add SERPINFO dialog."
+  },
+  "options_addRemoteSerpInfoDialog_addButton": {
+    "message": "添加",
+    "description": "Text for the add button in the add SERPINFO dialog."
+  },
+  "options_userSerpInfoSection": {
+    "message": "我的 SERPINFO",
+    "description": "Title of the User SERPINFO section."
+  },
+  "options_userSerpInfoDocumentationLink": {
+    "message": "文档",
+    "description": "Link to the documentation for SERPINFO."
+  },
+  "options_saveUserSerpInfo": {
+    "message": "保存",
+    "description": "Text for the button to save user SERPINFO."
+  },
+  "clouds_googleDriveSync": {
+    "message": "使用 Google Drive 同步",
+    "description": "Label for the radio button to sync with Google Drive."
+  },
+  "clouds_googleDriveSyncDescription": {
+    "message": "同步文件将会保存在一个用户不可见的应用程序数据文件夹中。",
+    "description": "Description for Google Drive sync."
+  },
+  "clouds_googleDriveSyncTurnedOn": {
+    "message": "已使用 Google Drive 同步",
+    "description": "Message indicating Google Drive sync is turned on."
+  },
+  "clouds_dropboxSync": {
+    "message": "使用 Dropbox 同步",
+    "description": "Label for the radio button to sync with Dropbox."
+  },
+  "clouds_dropboxSyncDescription": {
+    "message": "同步文件将会保存在 /Apps/uBlacklist/",
+    "description": "Description for Dropbox sync."
+  },
+  "clouds_dropboxSyncTurnedOn": {
+    "message": "已使用 Dropbox 同步",
+    "description": "Message indicating Dropbox sync is turned on."
+  }
+}

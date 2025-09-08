@@ -1,5 +1,5 @@
 import type dayjs from "dayjs";
-import type { MessageName0 } from "../common/locales.ts";
+import type { MessageName0 } from "../common/message-names.generated.ts";
 import type { RulesetMatches } from "./interactive-ruleset.ts";
 import type {
   SerpInfoSettings,
@@ -10,7 +10,7 @@ export type {
   MessageName,
   MessageName0,
   MessageName1,
-} from "../common/locales.ts";
+} from "../common/message-names.generated.ts";
 // #region Result
 export type ErrorResult = {
   type: "error";

@@ -1,5 +1,6 @@
 import isMobile from "is-mobile";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
+import { control } from "./control.ts";
 import { filter } from "./filter.ts";
 import type { SerpIndex, SerpInfoSettings } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
@@ -86,6 +87,7 @@ storageStore.attachPromise.then(() => {
   const start = () => {
     style();
     filter(serps);
+    control();
   };
   const delay = Math.max(
     ...serps.map(({ delay }) =>

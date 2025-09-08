@@ -2,7 +2,16 @@ Diese Erweiterung verhindert die Anzeige von festgelegten Seiten in den Sucherge
 
 Sie können Regeln auf Suchergebnissenseiten hinzufügen oder auf Seiten die durch einen klick auf das Symbol in der Werkzeugleiste blockiert werden sollen. Regeln können entweder mit Mustern (z.B. *://*.example.com/*) oder mit regulären Ausdrücken (z.B. /example\.(net|org)/) definiert werden.
 
+You can use this extension in several search engines other than Google. The list of supported search engines is available at:
+https://github.com/iorate/ublacklist#supported-search-engines
+
 Sie können Ihre Regeln mit all Ihren Geräten synchronisieren, in dem Sie Google Drive oder Dropbox verwenden. Weiterhin können Sie öffentlich zur Verfügung gestellte Regeln abonnieren.
+
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
+https://ublacklist.github.io/subscriptions
+
+Usage:
+https://ublacklist.github.io/docs/getting-started
 
 Änderungen:
 https://github.com/iorate/ublacklist/releases

@@ -361,10 +361,10 @@ const RegisterSearchEngines: React.FC = () => {
   );
 };
 
-export const GeneralSection: React.FC = () => {
+export const GeneralSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   return (
-    <Section aria-labelledby={`${id}-title`} id="general">
+    <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
         <SectionTitle id={`${id}-title`}>
           {translate("options_generalTitle")}
@@ -396,6 +396,12 @@ export const GeneralSection: React.FC = () => {
           <SetBooleanItem
             itemKey="hideBlockLinks"
             label={translate("options_hideBlockButtonsLabel")}
+          />
+        </SectionItem>
+        <SectionItem>
+          <SetBooleanItem
+            itemKey="hideControl"
+            label={translate("options_hideControlLabel")}
           />
         </SectionItem>
       </SectionBody>

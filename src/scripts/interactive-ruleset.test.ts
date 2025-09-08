@@ -19,7 +19,7 @@ function createInteractiveRuleset(
 test("InteractiveRuleset", async (t) => {
   await t.test("Title", () => {
     {
-      const ruleset = createInteractiveRuleset(`*://example.com/*
+      const ruleset = createInteractiveRuleset(String.raw`*://example.com/*
 url/example\.(net|org)/
 title/Example/
 @title/allowed/i`);
@@ -39,7 +39,7 @@ title/Example/
       );
     }
     {
-      const ruleset = createInteractiveRuleset(`/example\.net/
+      const ruleset = createInteractiveRuleset(String.raw`/example\.net/
 u/example\.org/
 t/Example/
 @t/allowed/i`);
@@ -62,7 +62,7 @@ t/Example/
 
   await t.test("Highlight", () => {
     {
-      const ruleset = createInteractiveRuleset(`*://example.com/*
+      const ruleset = createInteractiveRuleset(String.raw`*://example.com/*
  @ *://example.net/*
 @1*://example.org/*
   @2 *://example.edu/*

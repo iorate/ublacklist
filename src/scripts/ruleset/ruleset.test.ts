@@ -755,7 +755,7 @@ example\.(net|org)
     ruleset.extend("");
     assert.deepStrictEqual(testRaw(ruleset, props1), []);
 
-    ruleset.extend(`*://example.com/*
+    ruleset.extend(String.raw`*://example.com/*
 @https://example.net/*
   @1 /example\.edu/
 *://*.net/*`);

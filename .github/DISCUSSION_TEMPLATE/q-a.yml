@@ -1,0 +1,41 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feel free to ask about uBlacklist usage, configuration, or troubleshooting.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: "Question"
+      description: "What would you like to know? Be as specific as possible."
+      placeholder: "Describe your question in detail..."
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: "Browser"
+      description: "Which browser and version are you using?"
+      placeholder: "e.g., Chrome 118.0.5993.70, Firefox 119.0, Safari 17.1"
+    validations:
+      required: false
+
+  - type: input
+    id: ublacklist-version
+    attributes:
+      label: "uBlacklist Version"
+      description: "Which version of uBlacklist are you using? (Check in extension settings)"
+      placeholder: "e.g., 9.1.0"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Please confirm:"
+      options:
+        - label: "I have searched existing discussions and issues to ensure this question hasn't been asked before"
+          required: true
