@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import * as esbuild from "esbuild";
 import fse from "fs-extra";
 import { z } from "zod";
-import { type ManifestContext, manifest } from "../src/manifest.json.ts";
+import { getManifest, type ManifestContext } from "../src/manifest.ts";
 
 type Context = ManifestContext & {
   srcDir: string;
@@ -78,7 +78,7 @@ async function buildManifestJSON(context: Context) {
   const { destDir } = context;
   await fse.outputFile(
     path.join(destDir, "manifest.json"),
-    `${JSON.stringify(manifest(context), null, 2)}\n`,
+    `${JSON.stringify(getManifest(context), null, 2)}\n`,
   );
 }
 
