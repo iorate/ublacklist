@@ -47,10 +47,14 @@ function defineProcessEnv(context: Context): Record<string, string> {
     VERSION: version,
     DEBUG: debug ? "true" : "false",
     WATCH: watch ? "true" : "false",
-    DROPBOX_API_KEY: process.env.DROPBOX_API_KEY,
-    DROPBOX_API_SECRET: process.env.DROPBOX_API_SECRET,
-    GOOGLE_DRIVE_API_KEY: process.env.GOOGLE_DRIVE_API_KEY,
-    GOOGLE_DRIVE_API_SECRET: process.env.GOOGLE_DRIVE_API_SECRET,
+    DROPBOX_API_KEY: process.env.DROPBOX_API_KEY ?? "<DROPBOX_API_KEY not set>",
+    DROPBOX_API_SECRET:
+      process.env.DROPBOX_API_SECRET ?? "<DROPBOX_API_SECRET not set>",
+    GOOGLE_DRIVE_API_KEY:
+      process.env.GOOGLE_DRIVE_API_KEY ?? "<GOOGLE_DRIVE_API_KEY not set>",
+    GOOGLE_DRIVE_API_SECRET:
+      process.env.GOOGLE_DRIVE_API_SECRET ??
+      "<GOOGLE_DRIVE_API_SECRET not set>",
   };
   return Object.fromEntries(
     Object.entries(vars).map(([key, value]) => [
