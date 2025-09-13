@@ -3,7 +3,7 @@
     "scripts",
     "src/_locales",
     "src/common",
-    "src/manifest.json.ts",
+    "src/manifest.ts",
     "src/scripts/interactive-ruleset.test.ts",
     "src/scripts/interactive-ruleset.ts",
     "src/scripts/ruleset",

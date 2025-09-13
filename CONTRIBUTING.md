@@ -36,7 +36,7 @@ pnpm install
 ### Build
 
 ```shell
-# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug] [--watch]
+# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug]
 pnpm build
 pnpm build --browser=firefox
 ```
