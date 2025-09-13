@@ -1,17 +1,25 @@
+import { Draggable } from "@neodrag/vanilla";
 import isMobile from "is-mobile";
+import { createStore } from "zustand/vanilla";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
-import { control } from "./control.ts";
-import { filter } from "./filter.ts";
-import type { SerpIndex, SerpInfoSettings } from "./settings.ts";
+import iconSVG from "../../icons/icon.svg";
+import { translate } from "../locales.ts";
+import { addMessageListeners } from "../messages.ts";
+import { attributes as a, classes as c } from "./constants.ts";
+import { type CSSProperties, cssStringify } from "./css-stringify.ts";
+import { blockedResultCountStore, setupFilter } from "./filter.ts";
+import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
+import { isDarkMode } from "./is-dark-mode.ts";
+import type { SerpIndex } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
-import { setupPopupListeners, style } from "./style.ts";
 import type { SerpDescription } from "./types.ts";
 
-function getSerpDescriptions(
-  settings: Readonly<SerpInfoSettings>,
-  url: string,
-  mobile: boolean,
-): SerpDescription[] {
+const hideBlockedResultsStore = createStore(() => true);
+
+function getSerpDescriptions(): SerpDescription[] {
+  const settings = storageStore.getState().serpInfoSettings;
+  const url = window.location.href;
+  const mobile = isMobile({ tablet: true });
   return new MatchPatternMap<SerpIndex>(settings.serpIndexMap)
     .get(url)
     .flatMap((index) => {
@@ -47,6 +55,193 @@ function getSerpDescriptions(
     });
 }
 
+function getDelay(serps: readonly SerpDescription[]): number | null {
+  const maxDelay = Math.max(
+    ...serps.map(({ delay }) =>
+      typeof delay === "number" ? delay : delay ? 0 : -1,
+    ),
+  );
+  return maxDelay >= 0 ? maxDelay : null;
+}
+
+function setupPopupListeners() {
+  addMessageListeners({
+    "get-hide-blocked-results"() {
+      return hideBlockedResultsStore.getState();
+    },
+    "set-hide-blocked-results"(hide) {
+      hideBlockedResultsStore.setState(hide);
+    },
+  });
+}
+
+function setupStyles() {
+  // Hide blocked results
+  setStaticGlobalStyle("hide-blocked-results", {
+    [`[${a.hideBlockedResults}] [${a.block}="1"]`]: {
+      display: "none !important",
+    },
+    [`[${a.hideBlockedResults}] [${a.block}="2"], [${a.hideBlockedResults}] [${a.block}="2"] *`]:
+      {
+        visibility: "hidden !important" as "hidden",
+      },
+  });
+  toggleDocumentAttribute(
+    a.hideBlockedResults,
+    hideBlockedResultsStore.getState(),
+  );
+  hideBlockedResultsStore.subscribe((value) =>
+    toggleDocumentAttribute(a.hideBlockedResults, value),
+  );
+  // Hide buttons
+  setStaticGlobalStyle("hide-buttons", {
+    [`[${a.hideButtons}] .${c.button}`]: {
+      display: "none",
+    },
+  });
+  storageStore.subscribe(
+    (state) => state.hideBlockLinks,
+    (value) => toggleDocumentAttribute(a.hideButtons, value),
+    { fireImmediately: true },
+  );
+  // Hide control
+  setStaticGlobalStyle("hide-control", {
+    [`[${a.hideControl}] .${c.control}`]: {
+      display: "none",
+    },
+  });
+  storageStore.subscribe(
+    (state) => state.hideControl,
+    (value) => toggleDocumentAttribute(a.hideControl, value),
+    { fireImmediately: true },
+  );
+  // Block color
+  storageStore.subscribe(
+    (state) => state.blockColor,
+    (color) => {
+      setGlobalStyle("block-color", {
+        [`[${a.block}]`]: {
+          backgroundColor: `${color !== "default" ? color : "rgb(255 192 192 / 0.5)"} !important`,
+        },
+        [`[${a.block}] *`]: {
+          backgroundColor: "transparent !important",
+        },
+      });
+    },
+    { fireImmediately: true },
+  );
+  // Highlight colors
+  storageStore.subscribe(
+    (state) => state.highlightColors,
+    (colors) => {
+      let properties: CSSProperties = {};
+      for (const [index, color] of colors.entries()) {
+        properties = {
+          ...properties,
+          [`[${a.highlight}="${index + 1}"]`]: {
+            backgroundColor: `${color} !important`,
+          },
+          [`[${a.highlight}="${index + 1}"] *`]: {
+            backgroundColor: "transparent !important",
+          },
+        };
+      }
+      setGlobalStyle("highlight-colors", properties);
+    },
+    { fireImmediately: true },
+  );
+}
+
+function toggleDocumentAttribute(name: string, value: boolean) {
+  if (value) {
+    document.documentElement.setAttribute(name, "1");
+  } else {
+    document.documentElement.removeAttribute(name);
+  }
+}
+
+function setupControl() {
+  const control = document.createElement("div");
+  setStaticGlobalStyle("control", {
+    [`.${c.control}`]: {
+      position: "fixed",
+      top: "4px",
+      right: "4px",
+      zIndex: 99999,
+    },
+  });
+  control.classList.add(c.control);
+
+  const shadowRoot = control.attachShadow({ mode: "open" });
+  const darkMode = isDarkMode();
+  shadowRoot.innerHTML = `
+    <style>${cssStringify(
+      {
+        ":host": {
+          pointerEvents: "none",
+        },
+        button: {
+          background: darkMode ? "rgb(41 42 45)" : "white",
+          border: "none",
+          borderRadius: "4px",
+          boxShadow: "0 0 2px rgb(0 0 0 / 0.12), 0 2px 2px rgb(0 0 0 / 0.24)",
+          cursor: "pointer",
+          display: "flex",
+          gap: "8px",
+          padding: "4px 8px",
+          pointerEvents: "auto",
+        },
+        svg: {
+          width: "20px",
+          height: "20px",
+        },
+        span: {
+          color: darkMode ? "rgb(232 234 237)" : "rgb(32 33 36)",
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+          fontSize: "14px",
+          lineHeight: "20px",
+        },
+      },
+      2,
+    )}</style>
+    <button type="button">
+      ${iconSVG}
+      <span>
+      </span>
+    </button>
+  `;
+  // biome-ignore lint/style/noNonNullAssertion: `button` always exists
+  const button = shadowRoot.querySelector("button")!;
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    hideBlockedResultsStore.setState((value) => !value);
+  });
+  // biome-ignore lint/style/noNonNullAssertion: `span` always exists
+  const span = button.querySelector("span")!;
+
+  const onHideBlockedResultsChanged = (value: boolean) => {
+    button.ariaLabel = value
+      ? translate("content_showBlockedSitesLink")
+      : translate("content_hideBlockedSitesLink");
+    button.style.opacity = value ? "" : "0.38";
+  };
+  onHideBlockedResultsChanged(hideBlockedResultsStore.getState());
+  hideBlockedResultsStore.subscribe(onHideBlockedResultsChanged);
+
+  const onBlockedResultCountChanged = (value: number) => {
+    control.style.display = value > 0 ? "" : "none";
+    span.textContent = String(value);
+  };
+  onBlockedResultCountChanged(blockedResultCountStore.getState());
+  blockedResultCountStore.subscribe(onBlockedResultCountChanged);
+
+  document.body.appendChild(control);
+
+  // Make the button draggable in case it interferes with other elements
+  new Draggable(button);
+}
+
 function awaitBody(callback: () => void) {
   if (document.body) {
     callback();
@@ -61,42 +256,31 @@ function awaitBody(callback: () => void) {
   }
 }
 
-function awaitLoad(delay: number, callback: () => void) {
+function awaitLoad(callback: () => void) {
   if (document.readyState === "complete") {
     callback();
   } else {
-    window.addEventListener("load", () => {
-      window.setTimeout(callback, delay);
-    });
+    window.addEventListener("load", callback);
   }
 }
 
 storageStore.attachPromise.then(() => {
-  const { serpInfoSettings } = storageStore.get();
-  const serps = getSerpDescriptions(
-    serpInfoSettings,
-    window.location.href,
-    isMobile({ tablet: true }),
-  );
+  const serps = getSerpDescriptions();
   if (serps.length === 0) {
     return;
   }
+  const delay = getDelay(serps);
 
   setupPopupListeners();
 
   const start = () => {
-    style();
-    filter(serps);
-    control();
+    setupStyles();
+    setupControl();
+    setupFilter(serps);
   };
-  const delay = Math.max(
-    ...serps.map(({ delay }) =>
-      typeof delay === "number" ? delay : delay ? 0 : -1,
-    ),
-  );
-  if (delay < 0) {
-    awaitBody(start);
+  if (delay != null) {
+    awaitLoad(() => window.setTimeout(start, delay));
   } else {
-    awaitLoad(delay, start);
+    awaitBody(start);
   }
 });

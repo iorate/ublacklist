@@ -6,11 +6,14 @@ import {
 import { syncDelayed } from "../background/sync.ts";
 import { browser } from "../browser.ts";
 import {
+  rulesetSubscriptionURL,
+  serpinfoSubscriptionURL,
+} from "../constants.ts";
+import {
   addMessageFromTabListeners,
   addMessageListeners,
 } from "../messages.ts";
 import { HTTPError } from "../utilities.ts";
-import * as C from "./constants.ts";
 import {
   addRemote,
   mergeBuiltins,
@@ -83,7 +86,7 @@ function setupSubscriptionURL(): Promise<void> {
             },
           },
           condition: {
-            regexFilter: `^${escapeRegExp(C.RULESET_SUBSCRIPTION_URL)}(\\?.*)`,
+            regexFilter: `^${escapeRegExp(rulesetSubscriptionURL)}(\\?.*)`,
             resourceTypes: ["main_frame"],
           },
         },
@@ -97,7 +100,7 @@ function setupSubscriptionURL(): Promise<void> {
             },
           },
           condition: {
-            regexFilter: `^${escapeRegExp(C.SERPINFO_SUBSCRIPTION_URL)}(\\?.*)`,
+            regexFilter: `^${escapeRegExp(serpinfoSubscriptionURL)}(\\?.*)`,
             resourceTypes: ["main_frame"],
           },
         },

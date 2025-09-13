@@ -42,11 +42,11 @@ import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
+import { permissionExemptOrigins } from "../constants.ts";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { postMessage, sendMessage } from "../messages.ts";
 import { svgToDataURL } from "../utilities.ts";
 import { GOOGLE_SERPINFO_URL } from "./builtins.ts";
-import { ALLOWED_ORIGINS } from "./constants.ts";
 import { Editor } from "./editor.tsx";
 import { EnableSubscriptionURL } from "./enable-subscription-url.tsx";
 import { parse } from "./parse.ts";
@@ -137,7 +137,11 @@ function collectHostPermissions(
   for (const r of remote) {
     if (r.enabled) {
       try {
-        if (!ALLOWED_ORIGINS.includes(new URL(r.url).origin)) {
+        if (
+          !(permissionExemptOrigins as readonly string[]).includes(
+            new URL(r.url).origin,
+          )
+        ) {
           hostPermissions.push(r.url);
         }
       } catch {
@@ -427,7 +431,9 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
               onClick={async () => {
                 const origin = new URL(url).origin;
                 if (
-                  !ALLOWED_ORIGINS.includes(origin) &&
+                  !(permissionExemptOrigins as readonly string[]).includes(
+                    origin,
+                  ) &&
                   !(await browser.permissions.request({
                     origins: [`${origin}/*`],
                   }))

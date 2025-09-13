@@ -1,15 +1,10 @@
 import { z } from "zod";
-import { parseMatchPattern } from "../../common/match-pattern.ts";
 import {
   buttonCommandSchema,
   propertyCommandSchema,
-  regexSchema,
-  rootsCommandSchema,
+  rootCommandSchema,
 } from "./commands.ts";
-
-const matchPatternSchema = z
-  .string()
-  .refine((value) => parseMatchPattern(value) != null, "Invalid match pattern");
+import { matchPatternSchema, regexSchema } from "./schemas.ts";
 
 const propNameSchema = z.string().regex(
   // Identifier { "$"? (@asciiLetter | "_") (@digit | @asciiLetter | "_")* }
@@ -21,7 +16,7 @@ export type ResultDescription = z.infer<typeof resultDescriptionSchema>;
 
 const resultDescriptionSchema = z.object({
   name: z.string().optional(),
-  root: rootsCommandSchema,
+  root: rootCommandSchema,
   url: propertyCommandSchema,
   props: z.record(propNameSchema, propertyCommandSchema).optional(),
   button: buttonCommandSchema.optional(),
