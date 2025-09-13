@@ -8,6 +8,7 @@ dist/
 *.tsbuildinfo
 
 # Environment files
+.env
 .env.local
 
 # Untranslated readme files
