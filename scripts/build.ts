@@ -72,7 +72,6 @@ async function createCopyFiles(context: Context): Promise<() => Promise<void>> {
     "pages/options.html",
     "pages/serpinfo/options.html",
     "pages/popup.html",
-    ...(watch && browser === "chrome" ? ["pages/watch.html"] : []),
     ...(browser === "safari" ? ["scripts/import-content-script.js"] : []),
     "third-party-notices.txt",
   ];
@@ -156,16 +155,13 @@ async function createBuildJSON(context: Context): Promise<() => Promise<void>> {
 async function createBuildScripts(
   context: Context,
 ): Promise<() => Promise<void>> {
-  const { browser, debug, watch, srcDir, destDir } = context;
+  const { debug, watch, srcDir, destDir } = context;
   const sources = [
     "scripts/background.ts",
     "scripts/options.tsx",
     "scripts/serpinfo/content-script.tsx",
     "scripts/serpinfo/options.tsx",
     "scripts/popup.tsx",
-    ...(watch && browser === "chrome"
-      ? ["scripts/watch.ts", "scripts/watch-worker.ts"]
-      : []),
   ];
   const esbuildOptions: esbuild.BuildOptions = {
     bundle: true,
@@ -196,7 +192,7 @@ async function createBuildScripts(
 }
 
 async function createBuild(context: Context): Promise<() => Promise<void>> {
-  const { browser, watch, destDir } = context;
+  const { watch } = context;
   const [copyFiles, buildJSON, buildScripts] = await Promise.all([
     createCopyFiles(context),
     createBuildJSON(context),
@@ -209,9 +205,6 @@ async function createBuild(context: Context): Promise<() => Promise<void>> {
     process.stdout.write("Building... ");
     try {
       await Promise.all([copyFiles(), buildJSON(), buildScripts()]);
-      if (watch && browser === "chrome") {
-        await fs.outputFile(path.join(destDir, ".watch"), "");
-      }
       process.stdout.write(chalk.green("✔\n"));
     } catch (error) {
       process.stdout.write(chalk.red("✘\n"));
