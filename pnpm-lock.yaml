@@ -41,9 +41,6 @@ importers:
       '@neodrag/vanilla':
         specifier: ^2.3.1
         version: 2.3.1
-      '@sindresorhus/string-hash':
-        specifier: ^2.0.0
-        version: 2.0.0
       colord:
         specifier: ^2.9.3
         version: 2.9.3
@@ -527,10 +524,6 @@ packages:
     peerDependencies:
       semantic-release: '>=20.1.0'
 
-  '@sindresorhus/fnv1a@3.1.0':
-    resolution: {integrity: sha512-KV321z5m/0nuAg83W1dPLy85HpHDk7Sdi4fJbwvacWsEhAh+rZUW4ZfGcXmUIvjZg4ss2bcwNlRhJ7GBEUG08w==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
@@ -538,10 +531,6 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
-
-  '@sindresorhus/string-hash@2.0.0':
-    resolution: {integrity: sha512-eNmMOd5DZkiu9LxIeHdh1XvDbcpFXV4HdBqg9hlg8YNKDvE6qmHiJ+Vy+rFrzXofRYmtheNv4A3ESad8unxwwA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   '@szmarczak/http-timer@4.0.6':
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
@@ -2490,15 +2479,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@sindresorhus/fnv1a@3.1.0': {}
-
   '@sindresorhus/is@4.6.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
-
-  '@sindresorhus/string-hash@2.0.0':
-    dependencies:
-      '@sindresorhus/fnv1a': 3.1.0
 
   '@szmarczak/http-timer@4.0.6':
     dependencies:

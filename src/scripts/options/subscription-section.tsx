@@ -41,6 +41,7 @@ import {
   TableRow,
 } from "../components/table.tsx";
 import { useClassName, usePrevious } from "../components/utilities.ts";
+import { permissionExemptOrigins } from "../constants.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { EnableSubscriptionURL } from "../serpinfo/enable-subscription-url.tsx";
@@ -63,17 +64,11 @@ function getName(subscription: Readonly<Subscription>): string {
     : subscription.name || subscription.url;
 }
 
-const PERMISSION_PASSLIST = [
-  "*://*.githubusercontent.com/*",
-  // A third-party CDN service supporting GitHub, GitLab and BitBucket
-  "*://cdn.statically.io/*",
-];
-
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
   const map = new MatchPatternMap<null>();
-  for (const pass of PERMISSION_PASSLIST) {
-    map.set(pass, null);
+  for (const origin of permissionExemptOrigins) {
+    map.set(`${origin}/*`, null);
   }
   for (const url of urls) {
     if (map.get(url).length) {
