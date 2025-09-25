@@ -188,7 +188,7 @@
     "description": "Text for the button to select a file to import."
   },
   "options_importBlacklistDialog_fromPB": {
-    "message": "Von persönlicher Sperrliste importieren",
+    "message": "Aus persönlicher Sperrliste importieren",
     "description": "Label for the option to import from Personal Blocklist."
   },
   "options_importBlacklistDialog_pbLabel": {
@@ -232,7 +232,7 @@
     "description": "Label for the switch to hide block buttons."
   },
   "options_hideControlLabel": {
-    "message": "Hide the show/hide button for blocked results",
+    "message": "Schaltfläche zum Ein-/Ausblenden blockierter Ergebnisse ausblenden",
     "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {
