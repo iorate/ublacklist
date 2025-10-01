@@ -1,4 +1,5 @@
 import type dayjs from "dayjs";
+import type { WebDAVClient } from "webdav";
 import type { MessageName0 } from "../common/message-names.generated.ts";
 import type { RulesetMatches } from "./interactive-ruleset.ts";
 import type {
@@ -26,9 +27,10 @@ export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
 // #region Clouds
-export type CloudId = "googleDrive" | "dropbox";
+export type CloudId = "googleDrive" | "dropbox" | "webdav";
 
-export type Cloud = {
+export type SyncCloud = {
+  type: string;
   hostPermissions: string[];
   messageNames: {
     sync: MessageName0;
@@ -36,9 +38,22 @@ export type Cloud = {
     syncTurnedOn: MessageName0;
   };
   modifiedTimePrecision: "millisecond" | "second";
+  requiredParams: Array<{
+    key: string;
+    label: MessageName0;
+    type: "text" | "password" | "url";
+    required?: boolean;
+    placeholder?: string;
+    default?: string;
+  }>;
+};
 
+export type OAuthCloud = SyncCloud & {
+  type: "oauth";
   shouldUseAltFlow(os: string): boolean;
-  authorize(useAltFlow: boolean): Promise<{ authorizationCode: string }>;
+  authorize(params: {
+    useAltFlow: boolean;
+  }): Promise<{ authorizationCode: string }>;
   getAccessToken(
     authorizationCode: string,
     useAltFlow: boolean,
@@ -46,7 +61,6 @@ export type Cloud = {
   refreshAccessToken(
     refreshToken: string,
   ): Promise<{ accessToken: string; expiresIn: number }>;
-
   createFile(
     accessToken: string,
     filename: string,
@@ -66,13 +80,55 @@ export type Cloud = {
   ): Promise<void>;
 };
 
-export type Clouds = Record<CloudId, Cloud>;
-
-export type CloudToken = {
+export type OAuthCloudToken = {
   accessToken: string;
   expiresAt: string;
   refreshToken: string;
 };
+
+export type BaseTokenCloudParams = {
+  url: string;
+  username: string;
+  password: string;
+};
+
+export type TokenCloud<
+  TokenCloudParams extends BaseTokenCloudParams = BaseTokenCloudParams,
+> = SyncCloud & {
+  type: "token";
+  authorize(params: TokenCloudParams): Promise<void>;
+  // No getAccessToken/refreshAccessToken for token clouds
+  createFile(
+    credentials: TokenCloudParams,
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+  findFile(
+    credentials: TokenCloudParams,
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  readFile(
+    credentials: TokenCloudParams,
+    id: string,
+  ): Promise<{ content: string }>;
+  writeFile(
+    credentials: TokenCloudParams,
+    id: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+};
+
+export type TokenCloudWebDAVParams = BaseTokenCloudParams & { path: string };
+export type TokenCloudWebDAV = TokenCloud<TokenCloudWebDAVParams> & {
+  getInstance(params: TokenCloudWebDAVParams): WebDAVClient;
+  ensureWebDAVFolder(params: TokenCloudWebDAVParams): Promise<void>;
+};
+
+export type Cloud = OAuthCloud | TokenCloud;
+export type Clouds = Record<CloudId, Cloud>;
+
 // #endregion Clouds
 
 // #region LocalStorage

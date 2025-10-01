@@ -34,6 +34,7 @@ import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
+import { Input } from "../components/input.tsx";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { supportedClouds } from "../supported-clouds.ts";
@@ -66,15 +67,23 @@ const TurnOnSyncDialog: React.FC<
     useAltFlow: false,
     authCode: "",
   });
+  const [params, setParams] = useState<Record<string, string>>({});
   const prevOpen = usePrevious(open);
+  const selectedCloud = supportedClouds[state.selectedCloudId];
+  selectedCloud.requiredParams.forEach((param) => {
+    if (!(param.key in params) && param.default) {
+      params[param.key] = param.default;
+    }
+  });
   if (open && !prevOpen) {
     state.phase = "none";
     state.selectedCloudId = "googleDrive";
     state.useAltFlow = false;
     state.authCode = "";
+    setParams({});
   }
   const forceAltFlow =
-    supportedClouds[state.selectedCloudId].shouldUseAltFlow(os);
+    selectedCloud.type === "oauth" && selectedCloud.shouldUseAltFlow(os);
 
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
@@ -116,31 +125,33 @@ const TurnOnSyncDialog: React.FC<
             </Text>
           </RowItem>
         </Row>
-        <Row>
-          <RowItem>
-            <Indent>
-              <CheckBox
-                checked={forceAltFlow || state.useAltFlow}
-                disabled={state.phase !== "none" || forceAltFlow}
-                id={`${id}-use-alt-flow`}
-                onChange={(e) => {
-                  const { checked } = e.currentTarget;
-                  setState((s) => ({
-                    ...s,
-                    useAltFlow: checked,
-                  }));
-                }}
-              />
-            </Indent>
-          </RowItem>
-          <RowItem expanded>
-            <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
-              <ControlLabel for={`${id}-use-alt-flow`}>
-                {translate("options_turnOnSyncDialog_useAltFlow")}
-              </ControlLabel>
-            </LabelWrapper>
-          </RowItem>
-        </Row>
+        {selectedCloud.type === "oauth" && (
+          <Row>
+            <RowItem>
+              <Indent>
+                <CheckBox
+                  checked={forceAltFlow || state.useAltFlow}
+                  disabled={state.phase !== "none" || forceAltFlow}
+                  id={`${id}-use-alt-flow`}
+                  onChange={(e) => {
+                    const { checked } = e.currentTarget;
+                    setState((s) => ({
+                      ...s,
+                      useAltFlow: checked,
+                    }));
+                  }}
+                />
+              </Indent>
+            </RowItem>
+            <RowItem expanded>
+              <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
+                <ControlLabel for={`${id}-use-alt-flow`}>
+                  {translate("options_turnOnSyncDialog_useAltFlow")}
+                </ControlLabel>
+              </LabelWrapper>
+            </RowItem>
+          </Row>
+        )}
         {(forceAltFlow || state.useAltFlow) && (
           <Row>
             <RowItem expanded>
@@ -176,6 +187,33 @@ const TurnOnSyncDialog: React.FC<
             </RowItem>
           </Row>
         ) : null}
+        {/* Render required params for selected cloud */}
+        {selectedCloud.requiredParams?.map((param) => (
+          // init params base on param default
+          <Row key={param.key}>
+            <RowItem expanded>
+              <LabelWrapper fullWidth>
+                <ControlLabel for={`${id}-param-${param.key}`}>
+                  {translate(param.label)}
+                </ControlLabel>
+              </LabelWrapper>
+              <Input
+                id={`${id}-param-${param.key}`}
+                type={param.type}
+                value={params[param.key] || param.default || ""}
+                placeholder={param.placeholder || ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const currentTarget = e.currentTarget;
+                  setParams((p) => ({
+                    ...p,
+                    [param.key]: currentTarget.value,
+                  }));
+                }}
+                disabled={state.phase !== "none"}
+              />
+            </RowItem>
+          </Row>
+        ))}
       </DialogBody>
       <DialogFooter>
         <Row right>
@@ -207,36 +245,64 @@ const TurnOnSyncDialog: React.FC<
                 !(
                   state.phase === "none" ||
                   (state.phase === "auth-alt" && state.authCode)
+                ) ||
+                selectedCloud.requiredParams?.some(
+                  (param) => param.required && !params[param.key],
                 )
               }
               primary
               onClick={() => {
                 void (async () => {
+                  const selectedCloud = supportedClouds[state.selectedCloudId];
+                  const isToken = selectedCloud.type === "token";
                   let useAltFlow: boolean;
                   let authCode: string;
-                  if (state.phase === "auth-alt") {
+                  if (isToken) {
+                    // For WebDAV, call authorize with credentials to ensure folder exists
+                    useAltFlow = false;
+                    const credentials = {
+                      url: params.url || "",
+                      username: params.username || "",
+                      password: params.password || "",
+                      path: params.path || "",
+                    };
+                    const origins = [credentials.url];
+                    const granted = await browser.permissions.request({
+                      origins,
+                    });
+                    if (!granted) {
+                      throw new Error("Not granted");
+                    }
+                    await selectedCloud.authorize(credentials);
+                    authCode = JSON.stringify(credentials);
+                    setState((s) => ({ ...s, phase: "conn" }));
+                  } else if (state.phase === "auth-alt") {
                     useAltFlow = true;
                     authCode = state.authCode;
                   } else {
-                    const cloud = supportedClouds[state.selectedCloudId];
                     useAltFlow = forceAltFlow || state.useAltFlow;
                     setState((s) => ({
                       ...s,
                       phase: useAltFlow ? "auth-alt" : "auth",
                     }));
                     try {
+                      const origins = [
+                        ...selectedCloud.hostPermissions,
+                        ...(useAltFlow ? [altFlowRedirectURL] : []),
+                      ];
                       const granted = await browser.permissions.request({
-                        origins: [
-                          ...cloud.hostPermissions,
-                          ...(useAltFlow ? [altFlowRedirectURL] : []),
-                        ],
+                        origins,
                       });
                       if (!granted) {
                         throw new Error("Not granted");
                       }
-                      authCode = (await cloud.authorize(useAltFlow))
+                      authCode = (await selectedCloud.authorize({ useAltFlow }))
                         .authorizationCode;
-                    } catch {
+                    } catch (err) {
+                      console.error(
+                        "[TurnOnSyncDialog] Error in OAuth flow:",
+                        err,
+                      );
                       setState((s) => ({ ...s, phase: "none" }));
                       return;
                     }
@@ -246,16 +312,18 @@ const TurnOnSyncDialog: React.FC<
                     phase: useAltFlow ? "conn-alt" : "conn",
                   }));
                   try {
+                    const authArg = authCode;
                     const connected = await sendMessage(
                       "connect-to-cloud",
                       state.selectedCloudId,
-                      authCode,
+                      authArg,
                       useAltFlow,
                     );
                     if (!connected) {
                       throw new Error("Not connected");
                     }
-                  } catch {
+                  } catch (err) {
+                    console.error("[TurnOnSyncDialog] Connection error:", err);
                     return;
                   } finally {
                     setState((s) => ({ ...s, phase: "none" }));

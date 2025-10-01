@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { z } from "zod";
-import type { Cloud } from "../types.ts";
+import type { OAuthCloud } from "../types.ts";
 import { HTTPError, UnexpectedResponse } from "../utilities.ts";
 import * as Helpers from "./helpers.ts";
 
@@ -9,7 +9,8 @@ const CLIENT_SECRET = process.env.GOOGLE_DRIVE_API_SECRET;
 const MULTIPART_RELATED_BOUNDARY =
   "----------uBlacklistMultipartRelatedBoundaryJMPRhmg2VV4JBuua";
 
-export const googleDrive: Cloud = {
+export const googleDrive: OAuthCloud = {
+  type: "oauth",
   hostPermissions:
     process.env.BROWSER === "firefox" ? ["https://www.googleapis.com/*"] : [],
 
@@ -24,12 +25,13 @@ export const googleDrive: Cloud = {
   shouldUseAltFlow: Helpers.shouldUseAltFlow(),
 
   // https://developers.google.com/identity/protocols/oauth2/web-server
-  authorize: Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
-    client_id: CLIENT_ID,
-    scope: "https://www.googleapis.com/auth/drive.appdata",
-    access_type: "offline",
-    prompt: "consent select_account",
-  }),
+  authorize: (params: { useAltFlow: boolean }) =>
+    Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
+      client_id: CLIENT_ID,
+      scope: "https://www.googleapis.com/auth/drive.appdata",
+      access_type: "offline",
+      prompt: "consent select_account",
+    })(params.useAltFlow),
 
   getAccessToken: Helpers.getAccessToken(
     "https://oauth2.googleapis.com/token",
@@ -194,4 +196,6 @@ ${content}\r
     }
     throw new HTTPError(response.status, response.statusText);
   },
+
+  requiredParams: [],
 };
