@@ -76,12 +76,13 @@ function setupPopupListeners() {
 }
 
 function setupStyles() {
+  const specificityBoost = ":not(#ub-never)";
   // Hide blocked results
   setStaticGlobalStyle("hide-blocked-results", {
-    [`[${a.hideBlockedResults}] [${a.block}="1"]`]: {
+    [`[${a.hideBlockedResults}] [${a.block}="1"]${specificityBoost}`]: {
       display: "none !important",
     },
-    [`[${a.hideBlockedResults}] [${a.block}="2"], [${a.hideBlockedResults}] [${a.block}="2"] *`]:
+    [`[${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost}, [${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost} *`]:
       {
         visibility: "hidden !important" as "hidden",
       },
@@ -120,10 +121,10 @@ function setupStyles() {
     (state) => state.blockColor,
     (color) => {
       setGlobalStyle("block-color", {
-        [`[${a.block}]`]: {
+        [`[${a.block}]${specificityBoost}`]: {
           backgroundColor: `${color !== "default" ? color : "rgb(255 192 192 / 0.5)"} !important`,
         },
-        [`[${a.block}] *`]: {
+        [`[${a.block}]${specificityBoost} *`]: {
           backgroundColor: "transparent !important",
         },
       });
@@ -138,10 +139,10 @@ function setupStyles() {
       for (const [index, color] of colors.entries()) {
         properties = {
           ...properties,
-          [`[${a.highlight}="${index + 1}"]`]: {
+          [`[${a.highlight}="${index + 1}"]${specificityBoost}`]: {
             backgroundColor: `${color} !important`,
           },
-          [`[${a.highlight}="${index + 1}"] *`]: {
+          [`[${a.highlight}="${index + 1}"]${specificityBoost} *`]: {
             backgroundColor: "transparent !important",
           },
         };
