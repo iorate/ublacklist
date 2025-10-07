@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
 import { z } from "zod";
-import type { Cloud } from "../types.ts";
+import type { OAuthCloud } from "../types.ts";
 import { HTTPError, UnexpectedResponse } from "../utilities.ts";
 import * as Helpers from "./helpers.ts";
 
@@ -14,7 +14,8 @@ function toISOStringSecond(time: dayjs.Dayjs): string {
   return time.utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
 }
 
-export const dropbox: Cloud = {
+export const dropbox: OAuthCloud = {
+  type: "oauth",
   hostPermissions: [],
 
   messageNames: {
@@ -28,11 +29,12 @@ export const dropbox: Cloud = {
   shouldUseAltFlow: Helpers.shouldUseAltFlow(),
 
   // https://www.dropbox.com/developers/documentation/http/documentation
-  authorize: Helpers.authorize("https://www.dropbox.com/oauth2/authorize", {
-    client_id: APP_KEY,
-    token_access_type: "offline",
-    force_reapprove: "true",
-  }),
+  authorize: (params: { useAltFlow: boolean }) =>
+    Helpers.authorize("https://www.dropbox.com/oauth2/authorize", {
+      client_id: APP_KEY,
+      token_access_type: "offline",
+      force_reapprove: "true",
+    })(params.useAltFlow),
 
   getAccessToken: Helpers.getAccessToken(
     "https://api.dropboxapi.com/oauth2/token",
@@ -194,4 +196,5 @@ export const dropbox: Cloud = {
     }
     throw new HTTPError(response.status, response.statusText);
   },
+  requiredParams: [],
 };

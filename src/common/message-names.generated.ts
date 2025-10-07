@@ -169,6 +169,14 @@ export type MessageName0 =
   | "clouds_dropboxSync"
   | "clouds_dropboxSyncDescription"
   | "clouds_dropboxSyncTurnedOn"
+  | "clouds_webdavSync"
+  | "clouds_webdavSyncDescription"
+  | "clouds_webdavSyncTurnedOn"
+  | "clouds_webdavUrlLabel"
+  | "clouds_webdavUsernameLabel"
+  | "clouds_webdavPasswordLabel"
+  | "clouds_webdavPathLabel"
+  | "clouds_webdavUrlFormatError"
 
 export type MessageName1 =
   | "error"
