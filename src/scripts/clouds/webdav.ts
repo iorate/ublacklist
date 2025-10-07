@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
 import { createClient, type FileStat, type WebDAVClientError } from "webdav";
 import type { TokenCloudWebDAV, TokenCloudWebDAVParams } from "../types.ts";
-import { HTTPError, UnexpectedResponse } from "../utilities.ts";
+import { UnexpectedResponse } from "../utilities.ts";
 
 dayjs.extend(dayjsUTC);
 
@@ -10,7 +10,7 @@ function getFullPath(basePath: string, filename: string): string {
   return `${basePath.replace(/\/+$/u, "")}/${filename}`;
 }
 
-function isWebDAVClientError(error: any): error is WebDAVClientError {
+function isWebDAVClientError(error: unknown): error is WebDAVClientError {
   return (
     error instanceof Error &&
     typeof (error as WebDAVClientError).status === "number" &&

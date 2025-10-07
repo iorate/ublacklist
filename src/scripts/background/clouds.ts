@@ -5,7 +5,6 @@ import type {
   BaseTokenCloudParams,
   CloudId,
   OAuthCloudToken,
-  TokenCloudWebDAV,
 } from "../types.ts";
 import { HTTPError, Mutex } from "../utilities.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
