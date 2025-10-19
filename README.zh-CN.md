@@ -1,6 +1,6 @@
 # uBlacklist
 
-[English](README.md) | 简体中文
+[English](README.md) | [Deutsch](README.de.md) | 简体中文
 
 在搜索结果中屏蔽指定的网站
 
