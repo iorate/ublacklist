@@ -530,11 +530,9 @@ export const SubscriptionSection: React.FC<{ id: string }> = (props) => {
           setSubscriptions={setSubscriptions}
           subscriptions={subscriptions}
         />
-        {process.env.BROWSER !== "safari" && (
-          <Suspense fallback={null}>
-            <EnableSubscriptionURL type="ruleset" />
-          </Suspense>
-        )}
+        <Suspense fallback={null}>
+          <EnableSubscriptionURL type="ruleset" />
+        </Suspense>
         <SectionItem>
           <SetIntervalItem
             disabled={

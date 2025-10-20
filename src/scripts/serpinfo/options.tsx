@@ -83,9 +83,7 @@ function BasicSettingsSection(props: { id: string }) {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        {process.env.BROWSER !== "safari" && (
-          <EnableSubscriptionURL type="serpinfo" />
-        )}
+        <EnableSubscriptionURL type="serpinfo" />
         <SectionItem>
           <Row>
             <RowItem expanded>
