@@ -2,8 +2,9 @@ import dayjs from "dayjs";
 import { browser } from "../browser.ts";
 import { defaultLocalStorageItems } from "../local-storage.ts";
 import type {
-  CloudToken,
+  BaseTokenCloudParams,
   LocalStorageItems,
+  OAuthCloudToken,
   SubscriptionId,
 } from "../types.ts";
 import { Mutex } from "../utilities.ts";
@@ -13,7 +14,7 @@ export type RawStorageItems = LocalStorageItems & {
   generalLastModified: string;
   appearanceLastModified: string;
   sync: boolean; // unused
-  syncCloudToken: CloudToken | false | null;
+  syncCloudToken: OAuthCloudToken | BaseTokenCloudParams | false | null;
   nextSubscriptionId: SubscriptionId;
   subscriptionsLastModified: string;
 };
