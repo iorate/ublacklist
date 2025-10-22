@@ -8,24 +8,13 @@ dist/
 *.tsbuildinfo
 
 # Environment files
+.env
 .env.local
 
 .DS_Store
 .vscode/
 
-# Files not yet translated
-/README.*.md
-!/README.zh-CN.md
-/web-store-assets/*/chrome-screenshot-*.png
-/web-store-assets/*/description.txt
-!/web-store-assets/en/
-!/web-store-assets/de/description.txt
-!/web-store-assets/es/description.txt
-!/web-store-assets/fr/description.txt
-!/web-store-assets/ja/
-!/web-store-assets/ko/description.txt
-!/web-store-assets/pt-BR/description.txt
-!/web-store-assets/ru/description.txt
-!/web-store-assets/uk/description.txt
-!/web-store-assets/zh-CN/description.txt
-!/web-store-assets/zh-TW/description.txt
+# Untranslated readme files
+README.*.md
+!README.de.md
+!README.zh-CN.md

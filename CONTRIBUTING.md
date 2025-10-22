@@ -36,7 +36,7 @@ pnpm install
 ### Build
 
 ```shell
-# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug] [--watch]
+# Usage: pnpm build [--browser BROWSER] [--version VERSION] [--debug]
 pnpm build
 pnpm build --browser=firefox
 ```
@@ -65,7 +65,7 @@ GOOGLE_DRIVE_API_SECRET=...
 
 **Please use [Crowdin](https://crowdin.com/project/ublacklist) for all translations.**
 
-Do not submit pull requests directly to `src/_locales/` or `web-store-assets/` directories. All translation work should be done through Crowdin.
+Do not submit pull requests directly to `src/_locales/`. All translation work should be done through Crowdin.
 
 ## License
 

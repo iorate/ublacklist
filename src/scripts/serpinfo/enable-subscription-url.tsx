@@ -4,11 +4,15 @@ import { Button } from "../components/button.tsx";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { SectionItem } from "../components/section.tsx";
+import {
+  rulesetSubscriptionURL,
+  serpinfoSubscriptionURL,
+  subscriptionURLOrigin,
+} from "../constants.ts";
 import { translate } from "../locales.ts";
-import * as C from "./constants.ts";
 
 const hasPermissionPromise = browser.permissions.contains({
-  origins: [`${C.SUBSCRIPTION_URL_ORIGIN}/*`],
+  origins: [`${subscriptionURLOrigin}/*`],
 });
 
 export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
@@ -20,7 +24,7 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
           enable: translate("options_enableRulesetSubscriptionURL"),
           enableDescription: translate(
             "options_enableRulesetSubscriptionURLDescription",
-            `${C.RULESET_SUBSCRIPTION_URL}?url=...`,
+            `${rulesetSubscriptionURL}?url=...`,
           ),
           enableButton: translate("options_enableRulesetSubscriptionURLButton"),
           isEnabled: translate("options_rulesetSubscriptionURLIsEnabled"),
@@ -29,7 +33,7 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
           enable: translate("options_enableSerpInfoSubscriptionURL"),
           enableDescription: translate(
             "options_enableSerpInfoSubscriptionURLDescription",
-            `${C.SERPINFO_SUBSCRIPTION_URL}?url=...`,
+            `${serpinfoSubscriptionURL}?url=...`,
           ),
           enableButton: translate(
             "options_enableSerpInfoSubscriptionURLButton",
@@ -60,7 +64,7 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
               onClick={() => {
                 void browser.permissions
                   .request({
-                    origins: [`${C.SUBSCRIPTION_URL_ORIGIN}/*`],
+                    origins: [`${subscriptionURLOrigin}/*`],
                   })
                   .then((granted) => {
                     if (granted) {

@@ -13,21 +13,11 @@ files:
         zh-CN: zh_CN
         zh-TW: zh_TW
 
-  - source: /web-store-assets/en/description.txt
-    translation: /web-store-assets/%two_letters_code%/description.txt
-    dest: /store/description.txt
-    languages_mapping: &languages_mapping_hyphen
+  - source: /README.md
+    translation: /README.%two_letters_code%.md
+    dest: /README.md
+    languages_mapping:
       two_letters_code:
         pt-BR: pt-BR
         zh-CN: zh-CN
         zh-TW: zh-TW
-
-  - source: /web-store-assets/en/chrome-screenshot-*.png
-    translation: /web-store-assets/%two_letters_code%/%original_file_name%
-    dest: /store/chrome/screenshots/%original_file_name%
-    languages_mapping: *languages_mapping_hyphen
-
-  - source: /README.md
-    translation: /README.%two_letters_code%.md
-    dest: /README.md
-    languages_mapping: *languages_mapping_hyphen

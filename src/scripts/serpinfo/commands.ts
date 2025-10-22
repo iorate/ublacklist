@@ -1,53 +1,18 @@
-import stringHash from "@sindresorhus/string-hash";
-import * as csstree from "css-tree";
-import type { PropertiesHyphen } from "csstype";
 import punycode from "punycode/";
 import { z } from "zod";
+import iconSVG from "../../icons/icon.svg";
 import { discriminatedTupleUnion } from "../zod/discriminated-tuple-union.ts";
-import { type ButtonProps, createButton } from "./button.ts";
-import * as C from "./constants.ts";
-import * as GlobalStyles from "./global-styles.ts";
+import { attributes as a, classes as c } from "./constants.ts";
+import { cssStringify } from "./css-stringify.ts";
+import { setStaticGlobalStyle } from "./global-styles.ts";
+import {
+  cssDeclarationListSchema,
+  cssSelectorListSchema,
+  cssValueSchema,
+  regexSchema,
+} from "./schemas.ts";
 
-type ExtractArgs<C, K> = C extends [K, ...infer Args] ? Args : never;
-
-export const selectorSchema = z.string().refine((value) => {
-  try {
-    csstree.parse(value, { context: "selectorList" });
-    return true;
-  } catch {
-    return false;
-  }
-}, "Invalid selector");
-
-export const regexSchema = z.string().refine((value) => {
-  try {
-    new RegExp(value);
-    return true;
-  } catch {
-    return false;
-  }
-}, "Invalid regular expression");
-
-function upward(
-  element: Element,
-  levelOrSelector: number | string,
-): Element | null {
-  if (typeof levelOrSelector === "number") {
-    let parent: Element | null = element;
-    for (let i = 0; i < levelOrSelector; ++i) {
-      parent = parent.parentElement;
-      if (parent == null) {
-        return null;
-      }
-    }
-    return parent;
-  }
-  const parent = element.parentElement;
-  if (parent == null) {
-    return null;
-  }
-  return parent.closest(levelOrSelector);
-}
+/* Element Commands */
 
 export type ElementCommand =
   | ["selector", string, (ElementCommand | undefined)?]
@@ -58,7 +23,7 @@ export const elementCommandSchema: z.ZodType<ElementCommand> =
   discriminatedTupleUnion([
     z.tuple([
       z.literal("selector"),
-      selectorSchema,
+      cssSelectorListSchema,
       z.lazy(() => elementCommandSchema).optional(),
     ]),
     z.tuple([
@@ -66,7 +31,7 @@ export const elementCommandSchema: z.ZodType<ElementCommand> =
       z.number().or(z.string()),
       z.lazy(() => elementCommandSchema).optional(),
     ]),
-  ]).or(selectorSchema);
+  ]).or(cssSelectorListSchema);
 
 export type ElementCommandContext = { root: Element };
 
@@ -76,6 +41,8 @@ type ElementCommandImpl = {
     ...args: ExtractArgs<ElementCommand, K>
   ) => Element | null;
 };
+
+type ExtractArgs<C, K> = C extends [K, ...infer Args] ? Args : never;
 
 const elementCommandImpl: ElementCommandImpl = {
   selector(context, selector, rootCommand) {
@@ -103,6 +70,27 @@ function getRoot(
     : context.root;
 }
 
+function upward(
+  element: Element,
+  levelOrSelector: number | string,
+): Element | null {
+  if (typeof levelOrSelector === "number") {
+    let parent: Element | null = element;
+    for (let i = 0; i < levelOrSelector; ++i) {
+      parent = parent.parentElement;
+      if (parent == null) {
+        return null;
+      }
+    }
+    return parent;
+  }
+  const parent = element.parentElement;
+  if (parent == null) {
+    return null;
+  }
+  return parent.closest(levelOrSelector);
+}
+
 export function runElementCommand(
   context: ElementCommandContext,
   command: ElementCommand,
@@ -119,39 +107,41 @@ export function runElementCommand(
   )(context, ...args);
 }
 
-export type RootsCommand =
+/* Root Commands */
+
+export type RootCommand =
   | ["selector", string]
-  | ["upward", number | string, RootsCommand]
+  | ["upward", number | string, RootCommand]
   | string;
 
-export const rootsCommandSchema: z.ZodType<RootsCommand> =
+export const rootCommandSchema: z.ZodType<RootCommand> =
   discriminatedTupleUnion([
-    z.tuple([z.literal("selector"), selectorSchema]),
+    z.tuple([z.literal("selector"), cssSelectorListSchema]),
     z.tuple([
       z.literal("upward"),
       z.number().or(z.string()),
-      z.lazy(() => rootsCommandSchema).nonoptional(),
+      z.lazy(() => rootCommandSchema).nonoptional(),
     ]),
-  ]).or(selectorSchema);
+  ]).or(cssSelectorListSchema);
 
-type RootsCommandImpl = {
-  [K in Exclude<RootsCommand, string>[0]]: (
-    ...args: ExtractArgs<RootsCommand, K>
+type RootCommandImpl = {
+  [K in Exclude<RootCommand, string>[0]]: (
+    ...args: ExtractArgs<RootCommand, K>
   ) => Element[];
 };
 
-const rootCommandImpl: RootsCommandImpl = {
+const rootCommandImpl: RootCommandImpl = {
   selector(selector) {
     return [...document.body.querySelectorAll(selector)];
   },
   upward(levelOrSelector, command) {
-    return runRootsCommand(command).flatMap(
+    return runRootCommand(command).flatMap(
       (root) => upward(root, levelOrSelector) || [],
     );
   },
 };
 
-export function runRootsCommand(command: RootsCommand): Element[] {
+export function runRootCommand(command: RootCommand): Element[] {
   if (typeof command === "string") {
     return rootCommandImpl.selector(command);
   }
@@ -160,6 +150,8 @@ export function runRootsCommand(command: RootsCommand): Element[] {
     ...args,
   );
 }
+
+/* Proprety Commands */
 
 export type PropertyCommand =
   | ["attribute", string, (ElementCommand | undefined)?]
@@ -210,7 +202,7 @@ export const propertyCommandSchema: z.ZodType<PropertyCommand> =
       z.string(),
       z.lazy(() => propertyCommandSchema).nonoptional(),
     ]),
-  ]).or(selectorSchema);
+  ]).or(cssSelectorListSchema);
 
 export type PropertyCommandContext = ElementCommandContext;
 
@@ -304,26 +296,37 @@ export function runPropertyCommand(
   )(context, ...args);
 }
 
+/* Button Commands */
+
 export type ButtonCommand = z.infer<typeof buttonCommandSchema>;
 
-const cssLengthPercentageSchema = z.literal(0).or(z.string());
-
-function cssStringify(properties: PropertiesHyphen): string {
-  return `{${Object.entries(properties)
-    .map(([key, value]) => (value != null ? `${key}:${value};` : ""))
-    .join("")}}`;
-}
-
 export const buttonCommandSchema = discriminatedTupleUnion([
+  z.tuple([
+    z.literal("icon"),
+    z.object({ style: cssDeclarationListSchema.optional() }).optional(),
+    elementCommandSchema.optional(),
+  ]),
   z.tuple([
     z.literal("inset"),
     z
       .object({
-        top: cssLengthPercentageSchema.optional(),
-        right: cssLengthPercentageSchema.optional(),
-        bottom: cssLengthPercentageSchema.optional(),
-        left: cssLengthPercentageSchema.optional(),
-        zIndex: z.number().optional(),
+        top: cssValueSchema.or(z.literal(0)).optional(),
+        right: cssValueSchema.or(z.literal(0)).optional(),
+        bottom: cssValueSchema.or(z.literal(0)).optional(),
+        left: cssValueSchema.or(z.literal(0)).optional(),
+        zIndex: cssValueSchema.or(z.number().int()).optional(),
+      })
+      .optional(),
+    elementCommandSchema.optional(),
+  ]),
+  z.tuple([
+    z.literal("text"),
+    z
+      .object({
+        position: z
+          .enum(["afterbegin", "afterend", "beforebegin", "beforeend"])
+          .optional(),
+        style: cssDeclarationListSchema.optional(),
       })
       .optional(),
     elementCommandSchema.optional(),
@@ -334,6 +337,12 @@ export type ButtonCommandContext = ElementCommandContext & {
   buttonProps: ButtonProps;
 };
 
+export type ButtonProps = {
+  blockLabel: string;
+  unblockLabel: string;
+  onClick: () => void;
+};
+
 type ButtonCommandImpl = {
   [K in Exclude<ButtonCommand, string>[0]]: (
     context: ButtonCommandContext,
@@ -342,54 +351,175 @@ type ButtonCommandImpl = {
 };
 
 const buttonCommandImpl: ButtonCommandImpl = {
-  inset(context, options = { top: 0, right: 0 }, rootCommand) {
-    const BI = "data-ub-button-inset";
-    const BPI = "data-ub-button-parent-inset";
-    const R = C.RESULT_ATTRIBUTE;
-    const OPACITY = 0.65;
-
+  icon(context, options = {}, rootCommand) {
     const parent = getRoot(context, rootCommand);
-    if (parent == null) {
+    if (parent == null || !context.root.contains(parent)) {
       return null;
     }
-    if (!GlobalStyles.has("button-parent-inset")) {
-      GlobalStyles.set("button-parent-inset", `[${BPI}]{position:relative;}`);
-    }
-    parent.setAttribute(BPI, "1");
-
-    const button = createButton(context.buttonProps);
-    button.setAttribute(C.BUTTON_ATTRIBUTE, "1");
-    if (!GlobalStyles.has("button-inset")) {
-      GlobalStyles.set(
-        "button-inset",
-        `[${BI}]{position:absolute;opacity:${OPACITY};}` +
-          `@media (hover: hover){[${BI}]{opacity:0;}[${R}]:hover [${BI}],[${R}]:focus-within [${BI}]{opacity:${OPACITY};}}`,
-      );
-    }
-    const buttonStyle = cssStringify({
-      // property order is fixed for consistent CSS stringification
-      top: options.top,
-      right: options.right,
-      bottom: options.bottom,
-      left: options.left,
-      "z-index": options.zIndex ?? 1,
+    setStaticGlobalStyle("icon-button-parent", {
+      [`[${a.iconButtonParent}]`]: {
+        position: "relative",
+      },
     });
-    const buttonStyleHash = stringHash(buttonStyle);
-    if (!GlobalStyles.has(`button-inset-${buttonStyleHash}`)) {
-      GlobalStyles.set(
-        `button-inset-${buttonStyleHash}`,
-        `[${BI}="${buttonStyleHash}"]${buttonStyle}`,
-      );
+    parent.setAttribute(a.iconButtonParent, "1");
+
+    const button = document.createElement("div");
+    setStaticButtonStyle();
+    button.classList.add(c.button);
+    setStaticGlobalStyle("icon-button", {
+      [`.${c.iconButton}`]: {
+        position: "absolute",
+        zIndex: 1,
+        top: 0,
+        right: 0,
+        height: "max-content",
+        width: "max-content",
+        opacity: 0.65,
+      },
+      "@media (hover: hover)": {
+        [`[${a.result}]:not(:hover):not(:focus-within) .${c.iconButton}`]: {
+          opacity: 0,
+        },
+      },
+    });
+    button.classList.add(c.iconButton);
+    if (options.style) {
+      button.style = options.style;
     }
-    button.setAttribute(BI, String(buttonStyleHash));
+
+    const shadowRoot = button.attachShadow({ mode: "open" });
+    shadowRoot.innerHTML = `
+      <style>${cssStringify(
+        {
+          ":host": {
+            "--ub-icon-size": "24px",
+          },
+          button: {
+            alignItems: "center",
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            height: "max(var(--ub-icon-size), 40px)",
+            justifyContent: "center",
+            padding: 0,
+            width: "max(var(--ub-icon-size), 40px)",
+          },
+          span: {
+            display: "block",
+            height: "var(--ub-icon-size)",
+            width: "var(--ub-icon-size)",
+          },
+        },
+        2,
+      )}</style>
+      <button type="button">
+        <span part="block" aria-label=${context.buttonProps.blockLabel}>
+          ${iconSVG}
+        </span>
+        <span part="unblock" aria-label=${context.buttonProps.unblockLabel}>
+          ${iconSVG}
+        </span>
+      </button>
+    `;
+    shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      context.buttonProps.onClick();
+    });
+
     parent.appendChild(button);
 
     return () => {
       parent.removeChild(button);
-      parent.removeAttribute(BPI);
+      parent.removeAttribute(a.iconButtonParent);
+    };
+  },
+
+  inset(context, options = { top: 0, right: 0 }, rootCommand) {
+    return this.icon(
+      context,
+      { style: cssStringify({ top: "auto", right: "auto", ...options }) },
+      rootCommand,
+    );
+  },
+
+  text(context, options = {}, rootCommand) {
+    const parent = getRoot(context, rootCommand);
+    if (
+      parent == null ||
+      !context.root.contains(parent) ||
+      (parent === context.root &&
+        (options.position === "beforebegin" || options.position === "afterend"))
+    ) {
+      return null;
+    }
+
+    const button = document.createElement("div");
+    setStaticButtonStyle();
+    button.classList.add(c.button);
+    setStaticGlobalStyle("text-button", {
+      [`.${c.textButton}`]: {
+        display: "inline",
+      },
+    });
+    button.classList.add(c.textButton);
+    if (options.style) {
+      button.style = options.style;
+    }
+
+    const shadowRoot = button.attachShadow({ mode: "open" });
+    shadowRoot.innerHTML = `
+      <style>${cssStringify(
+        {
+          ":host": {
+            fontSize: "12px",
+          },
+          button: {
+            background: "transparent",
+            border: "none",
+            color: "inherit",
+            cursor: "pointer",
+            font: "inherit",
+            padding: 0,
+          },
+          "button:hover": {
+            textDecoration: "underline",
+          },
+        },
+        2,
+      )}</style>
+      <button type="button">
+        <span part="block">
+          ${context.buttonProps.blockLabel}
+        </span>
+        <span part="unblock">
+          ${context.buttonProps.unblockLabel}
+        </span>
+      </button>
+    `;
+    shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      context.buttonProps.onClick();
+    });
+
+    parent.insertAdjacentElement(options.position ?? "beforeend", button);
+
+    return () => {
+      button.parentElement?.removeChild(button);
     };
   },
 };
+
+function setStaticButtonStyle() {
+  setStaticGlobalStyle("button", {
+    [`[${a.result}][${a.block}] .${c.button}::part(block)`]: {
+      display: "none",
+    },
+    [`[${a.result}]:not([${a.block}]) .${c.button}::part(unblock)`]: {
+      display: "none",
+    },
+  });
+}
 
 export function runButtonCommand(
   context: ButtonCommandContext,

@@ -3,4 +3,4 @@ onlyBuiltDependencies:
   - esbuild
   - lefthook
 
-useNodeVersion: 24.6.0
+useNodeVersion: 24.8.0

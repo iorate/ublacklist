@@ -1,17 +1,25 @@
+import { Draggable } from "@neodrag/vanilla";
 import isMobile from "is-mobile";
+import { createStore } from "zustand/vanilla";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
-import { control } from "./control.ts";
-import { filter } from "./filter.ts";
-import type { SerpIndex, SerpInfoSettings } from "./settings.ts";
+import iconSVG from "../../icons/icon.svg";
+import { translate } from "../locales.ts";
+import { addMessageListeners } from "../messages.ts";
+import { attributes as a, classes as c } from "./constants.ts";
+import { type CSSProperties, cssStringify } from "./css-stringify.ts";
+import { blockedResultCountStore, setupFilter } from "./filter.ts";
+import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
+import { isDarkMode } from "./is-dark-mode.ts";
+import type { SerpIndex } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
-import { setupPopupListeners, style } from "./style.ts";
 import type { SerpDescription } from "./types.ts";
 
-function getSerpDescriptions(
-  settings: Readonly<SerpInfoSettings>,
-  url: string,
-  mobile: boolean,
-): SerpDescription[] {
+const hideBlockedResultsStore = createStore(() => true);
+
+function getSerpDescriptions(): SerpDescription[] {
+  const settings = storageStore.getState().serpInfoSettings;
+  const url = window.location.href;
+  const mobile = isMobile({ tablet: true });
   return new MatchPatternMap<SerpIndex>(settings.serpIndexMap)
     .get(url)
     .flatMap((index) => {
@@ -47,6 +55,199 @@ function getSerpDescriptions(
     });
 }
 
+function getDelay(serps: readonly SerpDescription[]): number | null {
+  const maxDelay = Math.max(
+    ...serps.map(({ delay }) =>
+      typeof delay === "number" ? delay : delay ? 0 : -1,
+    ),
+  );
+  return maxDelay >= 0 ? maxDelay : null;
+}
+
+function setupPopupListeners() {
+  addMessageListeners({
+    "get-hide-blocked-results"() {
+      return hideBlockedResultsStore.getState();
+    },
+    "set-hide-blocked-results"(hide) {
+      hideBlockedResultsStore.setState(hide);
+    },
+  });
+}
+
+function setupStyles() {
+  const specificityBoost = ":not(#ub-never)";
+  // Hide blocked results
+  setStaticGlobalStyle("hide-blocked-results", {
+    [`[${a.hideBlockedResults}] [${a.block}="1"]${specificityBoost}`]: {
+      display: "none !important",
+    },
+    [`[${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost}, [${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost} *`]:
+      {
+        visibility: "hidden !important" as "hidden",
+      },
+  });
+  toggleDocumentAttribute(
+    a.hideBlockedResults,
+    hideBlockedResultsStore.getState(),
+  );
+  hideBlockedResultsStore.subscribe((value) =>
+    toggleDocumentAttribute(a.hideBlockedResults, value),
+  );
+  // Hide buttons
+  setStaticGlobalStyle("hide-buttons", {
+    [`[${a.hideButtons}] .${c.button}`]: {
+      display: "none",
+    },
+  });
+  storageStore.subscribe(
+    (state) => state.hideBlockLinks,
+    (value) => toggleDocumentAttribute(a.hideButtons, value),
+    { fireImmediately: true },
+  );
+  // Hide control
+  setStaticGlobalStyle("hide-control", {
+    [`[${a.hideControl}] .${c.control}`]: {
+      display: "none",
+    },
+  });
+  storageStore.subscribe(
+    (state) => state.hideControl,
+    (value) => toggleDocumentAttribute(a.hideControl, value),
+    { fireImmediately: true },
+  );
+  // Block color
+  storageStore.subscribe(
+    (state) => state.blockColor,
+    (color) => {
+      setGlobalStyle("block-color", {
+        [`[${a.block}]${specificityBoost}`]: {
+          backgroundColor: `${color !== "default" ? color : "rgb(255 192 192 / 0.5)"} !important`,
+        },
+        [`[${a.block}]${specificityBoost} *`]: {
+          backgroundColor: "transparent !important",
+        },
+      });
+    },
+    { fireImmediately: true },
+  );
+  // Highlight colors
+  storageStore.subscribe(
+    (state) => state.highlightColors,
+    (colors) => {
+      let properties: CSSProperties = {};
+      for (const [index, color] of colors.entries()) {
+        properties = {
+          ...properties,
+          [`[${a.highlight}="${index + 1}"]${specificityBoost}`]: {
+            backgroundColor: `${color} !important`,
+          },
+          [`[${a.highlight}="${index + 1}"]${specificityBoost} *`]: {
+            backgroundColor: "transparent !important",
+          },
+        };
+      }
+      setGlobalStyle("highlight-colors", properties);
+    },
+    { fireImmediately: true },
+  );
+}
+
+function toggleDocumentAttribute(name: string, value: boolean) {
+  if (value) {
+    document.documentElement.setAttribute(name, "1");
+  } else {
+    document.documentElement.removeAttribute(name);
+  }
+}
+
+function setupControl() {
+  const control = document.createElement("div");
+  setStaticGlobalStyle("control", {
+    [`.${c.control}`]: {
+      position: "fixed",
+      top: "4px",
+      right: "4px",
+      zIndex: 99999,
+      visibility: "hidden",
+    },
+  });
+  control.classList.add(c.control);
+
+  const shadowRoot = control.attachShadow({ mode: "open" });
+  const darkMode = isDarkMode();
+  shadowRoot.innerHTML = `
+    <style>${cssStringify(
+      {
+        button: {
+          alignItems: "center",
+          background: darkMode ? "rgb(41 42 45)" : "white",
+          border: "none",
+          borderRadius: "4px",
+          boxShadow: "0 0 2px rgb(0 0 0 / 0.12), 0 2px 2px rgb(0 0 0 / 0.24)",
+          color: darkMode ? "rgb(232 234 237)" : "rgb(32 33 36)",
+          cursor: "pointer",
+          display: "flex",
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
+          fontSize: "14px",
+          gap: "8px",
+          justifyContent: "center",
+          height: "28px",
+          padding: "0 8px",
+          visibility: "visible",
+        },
+        svg: {
+          width: "20px",
+          height: "20px",
+        },
+        ".hidden": {
+          visibility: "hidden",
+        },
+        ".translucent": {
+          opacity: "0.38",
+        },
+      },
+      2,
+    )}</style>
+    <button type="button">
+      ${iconSVG}
+      <span></span>
+    </button>
+  `;
+  // biome-ignore lint/style/noNonNullAssertion: <button> always exists
+  const button = shadowRoot.querySelector("button")!;
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    hideBlockedResultsStore.setState((value) => !value);
+  });
+  // biome-ignore lint/style/noNonNullAssertion: <svg> always exists
+  const svg = button.querySelector("svg")!;
+  // biome-ignore lint/style/noNonNullAssertion: <span> always exists
+  const span = button.querySelector("span")!;
+
+  const handleHideBlockedResultsChange = (value: boolean) => {
+    button.classList.toggle("translucent", !value);
+    svg.ariaLabel = value
+      ? translate("content_showBlockedSitesLink")
+      : translate("content_hideBlockedSitesLink");
+  };
+  handleHideBlockedResultsChange(hideBlockedResultsStore.getState());
+  hideBlockedResultsStore.subscribe(handleHideBlockedResultsChange);
+
+  const handleBlockedResultCountChange = (value: number) => {
+    button.classList.toggle("hidden", value === 0);
+    span.textContent = String(value);
+  };
+  handleBlockedResultCountChange(blockedResultCountStore.getState());
+  blockedResultCountStore.subscribe(handleBlockedResultCountChange);
+
+  document.body.appendChild(control);
+
+  // Make the button draggable in case it interferes with other elements
+  new Draggable(button);
+}
+
 function awaitBody(callback: () => void) {
   if (document.body) {
     callback();
@@ -61,42 +262,31 @@ function awaitBody(callback: () => void) {
   }
 }
 
-function awaitLoad(delay: number, callback: () => void) {
+function awaitLoad(callback: () => void) {
   if (document.readyState === "complete") {
     callback();
   } else {
-    window.addEventListener("load", () => {
-      window.setTimeout(callback, delay);
-    });
+    window.addEventListener("load", callback);
   }
 }
 
 storageStore.attachPromise.then(() => {
-  const { serpInfoSettings } = storageStore.get();
-  const serps = getSerpDescriptions(
-    serpInfoSettings,
-    window.location.href,
-    isMobile({ tablet: true }),
-  );
+  const serps = getSerpDescriptions();
   if (serps.length === 0) {
     return;
   }
+  const delay = getDelay(serps);
 
   setupPopupListeners();
 
   const start = () => {
-    style();
-    filter(serps);
-    control();
+    setupStyles();
+    setupControl();
+    setupFilter(serps);
   };
-  const delay = Math.max(
-    ...serps.map(({ delay }) =>
-      typeof delay === "number" ? delay : delay ? 0 : -1,
-    ),
-  );
-  if (delay < 0) {
-    awaitBody(start);
+  if (delay != null) {
+    awaitLoad(() => window.setTimeout(start, delay));
   } else {
-    awaitLoad(delay, start);
+    awaitBody(start);
   }
 });
