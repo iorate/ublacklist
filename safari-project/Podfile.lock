@@ -1,5 +1,5 @@
 PODS:
-  - RevenueCat (5.18.0)
+  - RevenueCat (5.44.1)
   - SnapKit (5.0.1)
   - SVProgressHUD (2.3.1):
     - SVProgressHUD/Core (= 2.3.1)
@@ -17,7 +17,7 @@ SPEC REPOS:
     - SVProgressHUD
 
 SPEC CHECKSUMS:
-  RevenueCat: e825836f5d6baa870c53d7281be25a5fd91abd91
+  RevenueCat: c63342889404269918c1196708246d7c21cf8e6d
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
 
