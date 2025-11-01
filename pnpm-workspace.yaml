@@ -1,4 +1,4 @@
-minimumReleaseAge: 10080 # 1 week
+minimumReleaseAge: 1440 # 1 day
 
 onlyBuiltDependencies:
   - "@biomejs/biome"
@@ -7,4 +7,4 @@ onlyBuiltDependencies:
   - esbuild
   - lefthook
 
-useNodeVersion: 24.10.0
+useNodeVersion: 24.11.0
