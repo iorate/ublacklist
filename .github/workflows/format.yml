@@ -32,7 +32,7 @@ jobs:
         run: pnpm biome format --write
 
       - name: Format by Prettier
-        run: pnpm prettier --write '**/*.{html,md,yaml,yml}'
+        run: pnpm prettier --write '**/*.{md,yaml,yml}'
 
       - name: Commit changes
         run: |
