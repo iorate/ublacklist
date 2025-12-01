@@ -232,7 +232,7 @@
     "description": "Label for the switch to hide block buttons."
   },
   "options_hideControlLabel": {
-    "message": "Hide the show/hide button for blocked results",
+    "message": "隐藏已屏蔽结果的显示/隐藏按钮",
     "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {

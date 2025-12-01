@@ -10,5 +10,16 @@
   },
   "formatter": {
     "indentStyle": "space"
+  },
+  "linter": {
+    "domains": {
+      "project": "recommended",
+      "react": "recommended"
+    },
+    "rules": {
+      "correctness": {
+        "useImportExtensions": "warn"
+      }
+    }
   }
 }

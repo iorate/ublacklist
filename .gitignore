@@ -13,4 +13,5 @@ dist/
 
 # Untranslated readme files
 README.*.md
+!README.de.md
 !README.zh-CN.md

@@ -75,9 +75,8 @@ export function getManifest(context: ManifestContext) {
     permissions: [
       "activeTab",
       "alarms",
-      ...(browser !== "safari"
-        ? ["declarativeNetRequestWithHostAccess", "identity"]
-        : []),
+      "declarativeNetRequestWithHostAccess",
+      ...(browser !== "safari" ? ["identity"] : []),
       "scripting",
       "storage",
       "unlimitedStorage",

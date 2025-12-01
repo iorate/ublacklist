@@ -12,7 +12,7 @@
     "description": "The language code."
   },
   "websiteLocale": {
-    "message": "en",
+    "message": "de",
     "description": "The locale code for the website. Do not translate this message until the website is translated."
   },
   "error": {
@@ -232,7 +232,7 @@
     "description": "Label for the switch to hide block buttons."
   },
   "options_hideControlLabel": {
-    "message": "Hide the show/hide button for blocked results",
+    "message": "Schaltfläche zum Ein-/Ausblenden blockierter Ergebnisse ausblenden",
     "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {
