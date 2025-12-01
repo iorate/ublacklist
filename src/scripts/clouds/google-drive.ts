@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { z } from "zod";
-import type { OAuthCloud } from "../types.ts";
+import type { Cloud } from "../types.ts";
 import { HTTPError, UnexpectedResponse } from "../utilities.ts";
 import * as Helpers from "./helpers.ts";
 
@@ -9,29 +9,22 @@ const CLIENT_SECRET = process.env.GOOGLE_DRIVE_API_SECRET;
 const MULTIPART_RELATED_BOUNDARY =
   "----------uBlacklistMultipartRelatedBoundaryJMPRhmg2VV4JBuua";
 
-export const googleDrive: OAuthCloud = {
-  type: "oauth",
+export const googleDrive: Cloud = {
   hostPermissions:
     process.env.BROWSER === "firefox" ? ["https://www.googleapis.com/*"] : [],
-
-  messageNames: {
-    sync: "clouds_googleDriveSync",
-    syncDescription: "clouds_googleDriveSyncDescription",
-    syncTurnedOn: "clouds_googleDriveSyncTurnedOn",
-  },
 
   modifiedTimePrecision: "millisecond",
 
   shouldUseAltFlow: Helpers.shouldUseAltFlow(),
 
   // https://developers.google.com/identity/protocols/oauth2/web-server
-  authorize: (params: { useAltFlow: boolean }) =>
+  authorize: (useAltFlow: boolean) =>
     Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
       client_id: CLIENT_ID,
       scope: "https://www.googleapis.com/auth/drive.appdata",
       access_type: "offline",
       prompt: "consent select_account",
-    })(params.useAltFlow),
+    })(useAltFlow),
 
   getAccessToken: Helpers.getAccessToken(
     "https://oauth2.googleapis.com/token",
@@ -160,7 +153,7 @@ ${content}\r
 
   // https://developers.google.com/drive/api/v3/reference/files/update
   // https://developers.google.com/drive/api/v3/manage-uploads#multipart
-  async writeFile(
+  async updateFile(
     accessToken: string,
     id: string,
     content: string,
@@ -196,6 +189,4 @@ ${content}\r
     }
     throw new HTTPError(response.status, response.statusText);
   },
-
-  requiredParams: [],
 };

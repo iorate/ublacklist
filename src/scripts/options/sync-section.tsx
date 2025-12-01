@@ -34,12 +34,13 @@ import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
 import "../dayjs-locales.ts";
+import { omit } from "es-toolkit";
 import { Input } from "../components/input.tsx";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { supportedClouds } from "../supported-clouds.ts";
-import type { CloudId } from "../types.ts";
-import { AltURL, isErrorResult, stringEntries } from "../utilities.ts";
+import type { MessageName0, SyncBackendId } from "../types.ts";
+import { AltURL, isErrorResult } from "../utilities.ts";
 import { FromNow } from "./from-now.tsx";
 import { useOptionsContext } from "./options-context.tsx";
 import { Select, SelectOption } from "./select.tsx";
@@ -50,40 +51,69 @@ dayjs.extend(dayjsDuration);
 
 const altFlowRedirectURL = getWebsiteURL("/callback");
 
+const messageNames: Record<
+  SyncBackendId,
+  Record<"sync" | "syncTurnedOn" | "syncDescription", MessageName0>
+> = {
+  googleDrive: {
+    sync: "clouds_googleDriveSync",
+    syncTurnedOn: "clouds_googleDriveSyncTurnedOn",
+    syncDescription: "clouds_googleDriveSyncDescription",
+  },
+  dropbox: {
+    sync: "clouds_dropboxSync",
+    syncTurnedOn: "clouds_dropboxSyncTurnedOn",
+    syncDescription: "clouds_dropboxSyncDescription",
+  },
+  webdav: {
+    sync: "clouds_webdavSync",
+    syncTurnedOn: "clouds_webdavSyncTurnedOn",
+    syncDescription: "clouds_webdavSyncDescription",
+  },
+};
+
+const initialWebDAVParams = {
+  url: "",
+  urlValid: false,
+  username: "",
+  password: "",
+  path: "/Apps/uBlacklist",
+};
+
 const TurnOnSyncDialog: React.FC<
   {
-    setSyncCloudId: React.Dispatch<
-      React.SetStateAction<CloudId | false | null>
-    >;
+    setBackendId: (id: SyncBackendId | false | null) => void;
   } & DialogProps
-> = ({ close, open, setSyncCloudId }) => {
+> = ({ close, open, setBackendId }) => {
   const id = useId();
   const {
     platformInfo: { os },
   } = useOptionsContext();
   const [state, setState] = useState({
     phase: "none" as "none" | "auth" | "auth-alt" | "conn" | "conn-alt",
-    selectedCloudId: "googleDrive" as CloudId,
+    backendId: "googleDrive" as SyncBackendId,
     useAltFlow: false,
     authCode: "",
+    webDAVParams: initialWebDAVParams,
+    errorMessage: "",
   });
-  const [params, setParams] = useState<Record<string, string>>({});
   const prevOpen = usePrevious(open);
-  const selectedCloud = supportedClouds[state.selectedCloudId];
-  selectedCloud.requiredParams.forEach((param) => {
-    if (!(param.key in params) && param.default) {
-      params[param.key] = param.default;
-    }
-  });
   if (open && !prevOpen) {
     state.phase = "none";
-    state.selectedCloudId = "googleDrive";
+    state.backendId = "googleDrive";
     state.useAltFlow = false;
     state.authCode = "";
-    setParams({});
+    state.webDAVParams = initialWebDAVParams;
+    state.errorMessage = "";
   }
   const forceAltFlow =
-    selectedCloud.type === "oauth" && selectedCloud.shouldUseAltFlow(os);
+    state.backendId !== "webdav" &&
+    supportedClouds[state.backendId].shouldUseAltFlow(os);
+  const okButtonEnabled =
+    state.backendId !== "webdav"
+      ? state.phase === "none" ||
+        (state.phase === "auth-alt" && state.authCode !== "")
+      : state.phase === "none" && state.webDAVParams.urlValid;
 
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
@@ -98,125 +128,209 @@ const TurnOnSyncDialog: React.FC<
             <Select
               className={state.phase === "none" ? FOCUS_START_CLASS : ""}
               disabled={state.phase !== "none"}
-              value={state.selectedCloudId}
+              value={state.backendId}
               onChange={(e) => {
                 const { value } = e.currentTarget;
                 setState((s) => ({
                   ...s,
-                  selectedCloudId: value as CloudId,
+                  backendId: value as SyncBackendId,
                 }));
               }}
             >
-              {stringEntries(supportedClouds).map(([id, cloud]) => (
-                <SelectOption key={id} value={id}>
-                  {translate(cloud.messageNames.sync)}
-                </SelectOption>
-              ))}
+              <SelectOption value="googleDrive">
+                {translate(messageNames.googleDrive.sync)}
+              </SelectOption>
+              <SelectOption value="dropbox">
+                {translate(messageNames.dropbox.sync)}
+              </SelectOption>
+              <SelectOption value="webdav">
+                {translate(messageNames.webdav.sync)}
+              </SelectOption>
             </Select>
           </RowItem>
         </Row>
         <Row>
           <RowItem expanded>
             <Text>
-              {translate(
-                supportedClouds[state.selectedCloudId].messageNames
-                  .syncDescription,
-              )}
+              {translate(messageNames[state.backendId].syncDescription)}
             </Text>
           </RowItem>
         </Row>
-        {selectedCloud.type === "oauth" && (
-          <Row>
-            <RowItem>
-              <Indent>
-                <CheckBox
-                  checked={forceAltFlow || state.useAltFlow}
-                  disabled={state.phase !== "none" || forceAltFlow}
-                  id={`${id}-use-alt-flow`}
+        {state.backendId !== "webdav" ? (
+          <>
+            <Row>
+              <RowItem>
+                <Indent>
+                  <CheckBox
+                    checked={forceAltFlow || state.useAltFlow}
+                    disabled={state.phase !== "none" || forceAltFlow}
+                    id={`${id}-use-alt-flow`}
+                    onChange={(e) => {
+                      const { checked } = e.currentTarget;
+                      setState((s) => ({
+                        ...s,
+                        useAltFlow: checked,
+                      }));
+                    }}
+                  />
+                </Indent>
+              </RowItem>
+              <RowItem expanded>
+                <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
+                  <ControlLabel for={`${id}-use-alt-flow`}>
+                    {translate("options_turnOnSyncDialog_useAltFlow")}
+                  </ControlLabel>
+                </LabelWrapper>
+              </RowItem>
+            </Row>
+            {(forceAltFlow || state.useAltFlow) && (
+              <Row>
+                <RowItem expanded>
+                  <Text>
+                    {translate(
+                      "options_turnOnSyncDialog_altFlowDescription",
+                      new AltURL(altFlowRedirectURL).host,
+                    )}
+                  </Text>
+                </RowItem>
+              </Row>
+            )}
+            {(state.phase === "auth-alt" || state.phase === "conn-alt") && (
+              <Row>
+                <RowItem expanded>
+                  <LabelWrapper fullWidth>
+                    <ControlLabel for={`${id}-auth-code`}>
+                      {translate(
+                        "options_turnOnSyncDialog_altFlowAuthCodeLabel",
+                      )}
+                    </ControlLabel>
+                  </LabelWrapper>
+                  <TextArea
+                    breakAll
+                    className={
+                      state.phase === "auth-alt" ? FOCUS_START_CLASS : ""
+                    }
+                    disabled={state.phase !== "auth-alt"}
+                    id={`${id}-auth-code`}
+                    rows={2}
+                    value={state.authCode}
+                    onChange={(e) => {
+                      const { value } = e.currentTarget;
+                      setState((s) => ({ ...s, authCode: value }));
+                    }}
+                  />
+                </RowItem>
+              </Row>
+            )}
+          </>
+        ) : (
+          <>
+            <Row>
+              <RowItem expanded>
+                <LabelWrapper fullWidth>
+                  <ControlLabel for={`${id}-webdav-url`}>
+                    {translate("clouds_webdavUrlLabel")}
+                  </ControlLabel>
+                </LabelWrapper>
+                <Input
+                  disabled={state.phase !== "none"}
+                  id={`${id}-webdav-url`}
+                  pattern="https?:.*"
+                  placeholder="https://example.com/webdav"
+                  type="url"
+                  value={state.webDAVParams.url}
                   onChange={(e) => {
-                    const { checked } = e.currentTarget;
+                    const {
+                      value,
+                      validity: { valid },
+                    } = e.currentTarget;
                     setState((s) => ({
                       ...s,
-                      useAltFlow: checked,
+                      webDAVParams: {
+                        ...s.webDAVParams,
+                        url: value,
+                        urlValid: valid,
+                      },
                     }));
                   }}
                 />
-              </Indent>
-            </RowItem>
-            <RowItem expanded>
-              <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
-                <ControlLabel for={`${id}-use-alt-flow`}>
-                  {translate("options_turnOnSyncDialog_useAltFlow")}
-                </ControlLabel>
-              </LabelWrapper>
-            </RowItem>
-          </Row>
+              </RowItem>
+            </Row>
+            <Row>
+              <RowItem expanded>
+                <LabelWrapper fullWidth>
+                  <ControlLabel for={`${id}-webdav-username`}>
+                    {translate("clouds_webdavUsernameLabel")}
+                  </ControlLabel>
+                </LabelWrapper>
+                <Input
+                  disabled={state.phase !== "none"}
+                  id={`${id}-webdav-username`}
+                  value={state.webDAVParams.username}
+                  onChange={(e) => {
+                    const { value } = e.currentTarget;
+                    setState((s) => ({
+                      ...s,
+                      webDAVParams: { ...s.webDAVParams, username: value },
+                    }));
+                  }}
+                />
+              </RowItem>
+            </Row>
+            <Row>
+              <RowItem expanded>
+                <LabelWrapper fullWidth>
+                  <ControlLabel for={`${id}-webdav-password`}>
+                    {translate("clouds_webdavPasswordLabel")}
+                  </ControlLabel>
+                </LabelWrapper>
+                <Input
+                  disabled={state.phase !== "none"}
+                  id={`${id}-webdav-password`}
+                  type="password"
+                  value={state.webDAVParams.password}
+                  onChange={(e) => {
+                    const { value } = e.currentTarget;
+                    setState((s) => ({
+                      ...s,
+                      webDAVParams: { ...s.webDAVParams, password: value },
+                    }));
+                  }}
+                />
+              </RowItem>
+            </Row>
+            <Row>
+              <RowItem expanded>
+                <LabelWrapper fullWidth>
+                  <ControlLabel for={`${id}-webdav-path`}>
+                    {translate("clouds_webdavPathLabel")}
+                  </ControlLabel>
+                </LabelWrapper>
+                <Input
+                  disabled={state.phase !== "none"}
+                  id={`${id}-webdav-path`}
+                  placeholder="/Apps/uBlacklist"
+                  value={state.webDAVParams.path}
+                  onChange={(e) => {
+                    const { value } = e.currentTarget;
+                    setState((s) => ({
+                      ...s,
+                      webDAVParams: { ...s.webDAVParams, path: value },
+                    }));
+                  }}
+                />
+              </RowItem>
+            </Row>
+          </>
         )}
-        {(forceAltFlow || state.useAltFlow) && (
-          <Row>
-            <RowItem expanded>
-              <Text>
-                {translate(
-                  "options_turnOnSyncDialog_altFlowDescription",
-                  new AltURL(altFlowRedirectURL).host,
-                )}
-              </Text>
-            </RowItem>
-          </Row>
-        )}
-        {state.phase === "auth-alt" || state.phase === "conn-alt" ? (
-          <Row>
-            <RowItem expanded>
-              <LabelWrapper fullWidth>
-                <ControlLabel for={`${id}-auth-code`}>
-                  {translate("options_turnOnSyncDialog_altFlowAuthCodeLabel")}
-                </ControlLabel>
-              </LabelWrapper>
-              <TextArea
-                breakAll
-                className={state.phase === "auth-alt" ? FOCUS_START_CLASS : ""}
-                disabled={state.phase !== "auth-alt"}
-                id={`${id}-auth-code`}
-                rows={2}
-                value={state.authCode}
-                onChange={(e) => {
-                  const { value } = e.currentTarget;
-                  setState((s) => ({ ...s, authCode: value }));
-                }}
-              />
-            </RowItem>
-          </Row>
-        ) : null}
-        {/* Render required params for selected cloud */}
-        {selectedCloud.requiredParams?.map((param) => (
-          // init params base on param default
-          <Row key={param.key}>
-            <RowItem expanded>
-              <LabelWrapper fullWidth>
-                <ControlLabel for={`${id}-param-${param.key}`}>
-                  {translate(param.label)}
-                </ControlLabel>
-              </LabelWrapper>
-              <Input
-                id={`${id}-param-${param.key}`}
-                type={param.type}
-                value={params[param.key] || param.default || ""}
-                placeholder={param.placeholder || ""}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const currentTarget = e.currentTarget;
-                  setParams((p) => ({
-                    ...p,
-                    [param.key]: currentTarget.value,
-                  }));
-                }}
-                disabled={state.phase !== "none"}
-              />
-            </RowItem>
-          </Row>
-        ))}
       </DialogBody>
       <DialogFooter>
-        <Row right>
+        <Row>
+          <RowItem expanded>
+            {state.errorMessage && (
+              <Text>{translate("error", state.errorMessage)}</Text>
+            )}
+          </RowItem>
           <RowItem>
             <Button
               className={
@@ -224,9 +338,9 @@ const TurnOnSyncDialog: React.FC<
                 state.phase === "conn" ||
                 state.phase === "conn-alt"
                   ? `${FOCUS_START_CLASS} ${FOCUS_END_CLASS}`
-                  : state.phase === "auth-alt" && !state.authCode
-                    ? FOCUS_END_CLASS
-                    : ""
+                  : okButtonEnabled
+                    ? ""
+                    : FOCUS_END_CLASS
               }
               onClick={close}
             >
@@ -235,48 +349,52 @@ const TurnOnSyncDialog: React.FC<
           </RowItem>
           <RowItem>
             <Button
-              className={
-                state.phase === "none" ||
-                (state.phase === "auth-alt" && state.authCode)
-                  ? FOCUS_END_CLASS
-                  : ""
-              }
-              disabled={
-                !(
-                  state.phase === "none" ||
-                  (state.phase === "auth-alt" && state.authCode)
-                ) ||
-                selectedCloud.requiredParams?.some(
-                  (param) => param.required && !params[param.key],
-                )
-              }
+              className={okButtonEnabled ? FOCUS_END_CLASS : ""}
+              disabled={!okButtonEnabled}
               primary
               onClick={() => {
                 void (async () => {
-                  const selectedCloud = supportedClouds[state.selectedCloudId];
-                  const isToken = selectedCloud.type === "token";
+                  if (state.backendId === "webdav") {
+                    // state.phase === "none"
+                    try {
+                      const origins = [
+                        new AltURL(state.webDAVParams.url).toString(),
+                      ];
+                      const granted = await browser.permissions.request({
+                        origins,
+                      });
+                      if (!granted) {
+                        return;
+                      }
+                    } catch {
+                      return;
+                    }
+                    setState((s) => ({ ...s, phase: "conn" }));
+                    try {
+                      const error = await sendMessage(
+                        "connect-to-webdav",
+                        omit(state.webDAVParams, ["urlValid"]),
+                      );
+                      if (error) {
+                        setState((s) => ({
+                          ...s,
+                          errorMessage: error.message,
+                        }));
+                        return;
+                      }
+                    } catch {
+                      return;
+                    } finally {
+                      setState((s) => ({ ...s, phase: "none" }));
+                    }
+                    setBackendId("webdav");
+                    close();
+                    return;
+                  }
+                  const selectedCloud = supportedClouds[state.backendId];
                   let useAltFlow: boolean;
                   let authCode: string;
-                  if (isToken) {
-                    // For WebDAV, call authorize with credentials to ensure folder exists
-                    useAltFlow = false;
-                    const credentials = {
-                      url: params.url || "",
-                      username: params.username || "",
-                      password: params.password || "",
-                      path: params.path || "",
-                    };
-                    const origins = [credentials.url];
-                    const granted = await browser.permissions.request({
-                      origins,
-                    });
-                    if (!granted) {
-                      throw new Error("Not granted");
-                    }
-                    await selectedCloud.authorize(credentials);
-                    authCode = JSON.stringify(credentials);
-                    setState((s) => ({ ...s, phase: "conn" }));
-                  } else if (state.phase === "auth-alt") {
+                  if (state.phase === "auth-alt") {
                     useAltFlow = true;
                     authCode = state.authCode;
                   } else {
@@ -294,15 +412,11 @@ const TurnOnSyncDialog: React.FC<
                         origins,
                       });
                       if (!granted) {
-                        throw new Error("Not granted");
+                        return;
                       }
-                      authCode = (await selectedCloud.authorize({ useAltFlow }))
+                      authCode = (await selectedCloud.authorize(useAltFlow))
                         .authorizationCode;
-                    } catch (err) {
-                      console.error(
-                        "[TurnOnSyncDialog] Error in OAuth flow:",
-                        err,
-                      );
+                    } catch {
                       setState((s) => ({ ...s, phase: "none" }));
                       return;
                     }
@@ -312,23 +426,22 @@ const TurnOnSyncDialog: React.FC<
                     phase: useAltFlow ? "conn-alt" : "conn",
                   }));
                   try {
-                    const authArg = authCode;
-                    const connected = await sendMessage(
+                    const error = await sendMessage(
                       "connect-to-cloud",
-                      state.selectedCloudId,
-                      authArg,
+                      state.backendId,
+                      authCode,
                       useAltFlow,
                     );
-                    if (!connected) {
-                      throw new Error("Not connected");
+                    if (error) {
+                      setState((s) => ({ ...s, errorMessage: error.message }));
+                      return;
                     }
-                  } catch (err) {
-                    console.error("[TurnOnSyncDialog] Connection error:", err);
+                  } catch {
                     return;
                   } finally {
                     setState((s) => ({ ...s, phase: "none" }));
                   }
-                  setSyncCloudId(state.selectedCloudId);
+                  setBackendId(state.backendId);
                   close();
                 })();
               }}
@@ -343,22 +456,18 @@ const TurnOnSyncDialog: React.FC<
 };
 
 const TurnOnSync: React.FC<{
-  syncCloudId: CloudId | false | null;
-  setSyncCloudId: React.Dispatch<React.SetStateAction<CloudId | false | null>>;
-}> = ({ syncCloudId, setSyncCloudId }) => {
+  backendId: SyncBackendId | false | null;
+  setBackendId: (id: SyncBackendId | false | null) => void;
+}> = ({ backendId, setBackendId }) => {
   const id = useId();
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
     <SectionItem>
       <Row>
         <RowItem expanded>
-          {syncCloudId ? (
+          {backendId ? (
             <LabelWrapper>
-              <Label>
-                {translate(
-                  supportedClouds[syncCloudId].messageNames.syncTurnedOn,
-                )}
-              </Label>
+              <Label>{translate(messageNames[backendId].syncTurnedOn)}</Label>
             </LabelWrapper>
           ) : (
             <LabelWrapper>
@@ -368,11 +477,11 @@ const TurnOnSync: React.FC<{
           )}
         </RowItem>
         <RowItem>
-          {syncCloudId ? (
+          {backendId ? (
             <Button
               onClick={() => {
                 void sendMessage("disconnect-from-cloud");
-                setSyncCloudId(false);
+                setBackendId(false);
               }}
             >
               {translate("options_turnOffSync")}
@@ -393,14 +502,16 @@ const TurnOnSync: React.FC<{
         <TurnOnSyncDialog
           close={() => setTurnOnSyncDialogOpen(false)}
           open={turnOnSyncDialogOpen}
-          setSyncCloudId={setSyncCloudId}
+          setBackendId={setBackendId}
         />
       </Portal>
     </SectionItem>
   );
 };
 
-const SyncNow: React.FC<{ syncCloudId: CloudId | false | null }> = (props) => {
+const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
+  props,
+) => {
   const {
     initialItems: { syncResult: initialSyncResult },
   } = useOptionsContext();
@@ -411,14 +522,14 @@ const SyncNow: React.FC<{ syncCloudId: CloudId | false | null }> = (props) => {
     () =>
       addMessageListeners({
         syncing: (id) => {
-          if (id !== props.syncCloudId) {
+          if (id !== props.backendId) {
             return;
           }
           setUpdated(false);
           setSyncing(true);
         },
         synced: (id, result, updated) => {
-          if (id !== props.syncCloudId) {
+          if (id !== props.backendId) {
             return;
           }
           setSyncResult(result);
@@ -426,7 +537,7 @@ const SyncNow: React.FC<{ syncCloudId: CloudId | false | null }> = (props) => {
           setSyncing(false);
         },
       }),
-    [props.syncCloudId],
+    [props.backendId],
   );
   return (
     <SectionItem>
@@ -437,7 +548,7 @@ const SyncNow: React.FC<{ syncCloudId: CloudId | false | null }> = (props) => {
             <SubLabel>
               {syncing ? (
                 translate("options_syncRunning")
-              ) : !props.syncCloudId || !syncResult ? (
+              ) : !props.backendId || !syncResult ? (
                 translate("options_syncNever")
               ) : isErrorResult(syncResult) ? (
                 translate("error", syncResult.message)
@@ -461,7 +572,7 @@ const SyncNow: React.FC<{ syncCloudId: CloudId | false | null }> = (props) => {
         </RowItem>
         <RowItem>
           <Button
-            disabled={syncing || !props.syncCloudId}
+            disabled={syncing || !props.backendId}
             onClick={() => {
               void sendMessage("sync");
             }}
@@ -533,9 +644,9 @@ const SyncCategories: React.FC<{ disabled: boolean }> = ({ disabled }) => (
 export const SyncSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   const {
-    initialItems: { syncCloudId: initialSyncCloudId },
+    initialItems: { syncCloudId: initialBackendId },
   } = useOptionsContext();
-  const [syncCloudId, setSyncCloudId] = useState(initialSyncCloudId);
+  const [backendId, setBackendId] = useState(initialBackendId);
   return (
     <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
@@ -544,12 +655,12 @@ export const SyncSection: React.FC<{ id: string }> = (props) => {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <TurnOnSync setSyncCloudId={setSyncCloudId} syncCloudId={syncCloudId} />
-        <SyncNow syncCloudId={syncCloudId} />
-        <SyncCategories disabled={!syncCloudId} />
+        <TurnOnSync backendId={backendId} setBackendId={setBackendId} />
+        <SyncNow backendId={backendId} />
+        <SyncCategories disabled={!backendId} />
         <SectionItem>
           <SetIntervalItem
-            disabled={!syncCloudId}
+            disabled={!backendId}
             itemKey="syncInterval"
             label={translate("options_syncInterval")}
             valueOptions={[5, 10, 15, 30, 60, 120]}

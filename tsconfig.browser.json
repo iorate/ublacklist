@@ -20,7 +20,9 @@
       "punycode",
       "react",
       "react-dom",
-      "webextension-polyfill"
+      "webextension-polyfill",
+      // "webdav" package pulls in "@types/node" implicitly; explicitly listed here for clarity
+      "node"
     ],
 
     // Emit

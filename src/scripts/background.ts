@@ -12,6 +12,7 @@ import * as SerpInfo from "./serpinfo/background.ts";
 function main() {
   addMessageListeners({
     "connect-to-cloud": Clouds.connect,
+    "connect-to-webdav": Clouds.connectToWebDAV,
     "disconnect-from-cloud": Clouds.disconnect,
 
     "save-to-local-storage": LocalStorage.save,

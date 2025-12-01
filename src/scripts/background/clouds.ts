@@ -1,11 +1,8 @@
 import dayjs from "dayjs";
+import { webdav } from "../clouds/webdav.ts";
 import { translate } from "../locales.ts";
 import { supportedClouds } from "../supported-clouds.ts";
-import type {
-  BaseTokenCloudParams,
-  CloudId,
-  OAuthCloudToken,
-} from "../types.ts";
+import type { Cloud, CloudId, CloudToken, WebDAVParams } from "../types.ts";
 import { HTTPError, Mutex } from "../utilities.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
@@ -16,44 +13,55 @@ export async function connect(
   id: CloudId,
   authorizationCode: string,
   useAltFlow: boolean,
-): Promise<boolean> {
-  const connected = await mutex.lock(async () => {
-    const { syncCloudId: oldId } = await loadFromRawStorage(["syncCloudId"]);
-    if (oldId) {
-      return oldId === id;
-    }
-    const cloud = supportedClouds[id];
-    try {
-      if (cloud.type === "token") {
-        // For token/credential providers, credentials are passed as a JSON string
-        const credentials = JSON.parse(authorizationCode);
-        await saveToRawStorage({
-          syncCloudId: id,
-          syncCloudToken: credentials,
-        });
-      } else if (cloud.type === "oauth") {
-        const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
-        await saveToRawStorage({
-          syncCloudId: id,
-          syncCloudToken: {
-            accessToken: token.accessToken,
-            expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
-            refreshToken: token.refreshToken,
-          },
-        });
-      } else {
-        throw new Error("Unknown cloud provider type");
+): Promise<{ message: string } | null> {
+  try {
+    await mutex.lock(async () => {
+      const { syncCloudId: oldId } = await loadFromRawStorage(["syncCloudId"]);
+      if (oldId) {
+        if (oldId !== id) {
+          throw new Error("Already connected to another backend");
+        }
       }
-      return true;
-    } catch (err) {
-      console.error("[connect] Error:", err);
-      return false;
-    }
-  });
-  if (connected) {
+      const cloud = supportedClouds[id];
+      const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
+      await saveToRawStorage({
+        syncCloudId: id,
+        syncCloudToken: {
+          accessToken: token.accessToken,
+          expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
+          refreshToken: token.refreshToken,
+        },
+      });
+    });
     void sync();
+    return null;
+  } catch (e) {
+    return { message: e instanceof Error ? e.message : "Unknown error" };
   }
-  return connected;
+}
+
+export async function connectToWebDAV(
+  params: WebDAVParams,
+): Promise<{ message: string } | null> {
+  try {
+    await mutex.lock(async () => {
+      const { syncCloudId: oldId } = await loadFromRawStorage(["syncCloudId"]);
+      if (oldId) {
+        if (oldId !== "webdav") {
+          throw new Error("Already connected to another backend");
+        }
+      }
+      await webdav.ensureWebDAVFolder(params);
+      await saveToRawStorage({
+        syncCloudId: "webdav",
+        syncCloudToken: params,
+      });
+    });
+    void sync();
+    return null;
+  } catch (e) {
+    return { message: e instanceof Error ? e.message : "Unknown error" };
+  }
 }
 
 export function disconnect(): Promise<void> {
@@ -64,6 +72,97 @@ export function disconnect(): Promise<void> {
     }
     await saveToRawStorage({ syncCloudId: false, syncCloudToken: false });
   });
+}
+
+type Client = {
+  createFile(
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+  findFile(
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  readFile(id: string): Promise<{ content: string }>;
+  updateFile(
+    id: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+  modifiedTimePrecision: "second" | "millisecond";
+};
+
+function createCloudClient(cloud: Cloud, initialToken: CloudToken): Client {
+  let token = { ...initialToken };
+  const refresh = async (): Promise<void> => {
+    try {
+      const newToken = await cloud.refreshAccessToken(token.refreshToken);
+      token = {
+        accessToken: newToken.accessToken,
+        expiresAt: dayjs().add(newToken.expiresIn, "second").toISOString(),
+        refreshToken: token.refreshToken,
+      };
+      await saveToRawStorage({ syncCloudToken: token });
+    } catch (e: unknown) {
+      if (e instanceof HTTPError && e.status === 400) {
+        await saveToRawStorage({ syncCloudToken: false });
+        throw new Error(translate("unauthorizedError"));
+      }
+      throw e;
+    }
+  };
+  const handleRefresh = async <T>(f: () => Promise<T>): Promise<T> => {
+    if (dayjs().isAfter(dayjs(token.expiresAt))) {
+      await refresh();
+    }
+    try {
+      return await f();
+    } catch (e: unknown) {
+      if (e instanceof HTTPError && e.status === 401) {
+        await refresh();
+        return await f();
+      }
+      throw e;
+    }
+  };
+  return {
+    createFile: (
+      filename: string,
+      content: string,
+      modifiedTime: dayjs.Dayjs,
+    ) =>
+      handleRefresh(() =>
+        cloud.createFile(token.accessToken, filename, content, modifiedTime),
+      ),
+    findFile: (filename: string) =>
+      handleRefresh(() => cloud.findFile(token.accessToken, filename)),
+    readFile: (id: string) =>
+      handleRefresh(() => cloud.readFile(token.accessToken, id)),
+    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
+      handleRefresh(() =>
+        cloud.updateFile(token.accessToken, id, content, modifiedTime),
+      ),
+    modifiedTimePrecision: cloud.modifiedTimePrecision,
+  };
+}
+
+function createWebDAVClient(params: WebDAVParams): Client {
+  return {
+    createFile: async (
+      filename: string,
+      content: string,
+      modifiedTime: dayjs.Dayjs,
+    ) => {
+      // Ensure folder exists in case it was deleted externally
+      await webdav.ensureWebDAVFolder(params);
+      await webdav.writeFile(params, filename, content, modifiedTime);
+    },
+    findFile: (filename: string) => webdav.findFile(params, filename),
+    readFile: (id: string) => webdav.readFile(params, id),
+    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
+      webdav.writeFile(params, id, content, modifiedTime),
+    modifiedTimePrecision: "second",
+  };
 }
 
 export function syncFile(
@@ -79,125 +178,44 @@ export function syncFile(
     if (!syncCloudId) {
       throw new Error("Not connected");
     }
-    const cloud = supportedClouds[syncCloudId];
     if (!syncCloudToken) {
       throw new Error(translate("unauthorizedError"));
     }
-
-    if (cloud.type === "token") {
-      // Use credentials for token/credential providers
-      const credentials = syncCloudToken as BaseTokenCloudParams;
-
-      // TODO: this code is duplicated as oauth clouds, consider refactoring
-      const cloudFile = await cloud.findFile(credentials, filename);
-      if (cloudFile) {
-        if (
-          modifiedTime.isBefore(
-            cloudFile.modifiedTime,
-            cloud.modifiedTimePrecision,
-          )
-        ) {
-          const { content: cloudContent } = await cloud.readFile(
-            credentials,
-            cloudFile.id,
+    // `syncCloudId` and `syncCloudToken` are always consistent in storage,
+    // so type assertions are safe here
+    const client =
+      syncCloudId === "webdav"
+        ? createWebDAVClient(syncCloudToken as WebDAVParams)
+        : createCloudClient(
+            supportedClouds[syncCloudId],
+            syncCloudToken as CloudToken,
           );
-          return {
-            content: cloudContent,
-            modifiedTime: cloudFile.modifiedTime,
-          };
-        }
-        if (
-          modifiedTime.isSame(
-            cloudFile.modifiedTime,
-            cloud.modifiedTimePrecision,
-          )
-        ) {
-          return null;
-        }
-        await cloud.writeFile(credentials, cloudFile.id, content, modifiedTime);
+    const cloudFile = await client.findFile(filename);
+    if (cloudFile) {
+      if (
+        modifiedTime.isBefore(
+          cloudFile.modifiedTime,
+          client.modifiedTimePrecision,
+        )
+      ) {
+        const { content: cloudContent } = await client.readFile(cloudFile.id);
+        return {
+          content: cloudContent,
+          modifiedTime: cloudFile.modifiedTime,
+        };
+      }
+      if (
+        modifiedTime.isSame(
+          cloudFile.modifiedTime,
+          client.modifiedTimePrecision,
+        )
+      ) {
         return null;
       }
-      await cloud.createFile(credentials, filename, content, modifiedTime);
+      await client.updateFile(cloudFile.id, content, modifiedTime);
       return null;
-    } else if (cloud.type === "oauth") {
-      const credentials = syncCloudToken as OAuthCloudToken;
-      let accessToken = credentials.accessToken;
-      let expiresAt = dayjs(credentials.expiresAt);
-      const refreshToken = credentials.refreshToken;
-      const refresh = async (): Promise<void> => {
-        try {
-          const newToken = await cloud.refreshAccessToken(refreshToken);
-          accessToken = newToken.accessToken;
-          expiresAt = dayjs().add(newToken.expiresIn, "second");
-          await saveToRawStorage({
-            syncCloudToken: {
-              accessToken,
-              expiresAt: expiresAt.toISOString(),
-              refreshToken,
-            },
-          });
-        } catch (e: unknown) {
-          if (e instanceof HTTPError && e.status === 400) {
-            await saveToRawStorage({ syncCloudToken: false });
-            throw new Error(translate("unauthorizedError"));
-          }
-          throw e;
-        }
-      };
-
-      if (dayjs().isAfter(expiresAt)) {
-        await refresh();
-      }
-      const refreshOnUnauthorized = async <T>(
-        f: () => Promise<T>,
-      ): Promise<T> => {
-        try {
-          return await f();
-        } catch (e: unknown) {
-          if (e instanceof HTTPError && e.status === 401) {
-            await refresh();
-            return await f();
-          }
-          throw e;
-        }
-      };
-      const cloudFile = await refreshOnUnauthorized(() =>
-        cloud.findFile(accessToken, filename),
-      );
-      if (cloudFile) {
-        if (
-          modifiedTime.isBefore(
-            cloudFile.modifiedTime,
-            cloud.modifiedTimePrecision,
-          )
-        ) {
-          const { content: cloudContent } = await refreshOnUnauthorized(() =>
-            cloud.readFile(accessToken, cloudFile.id),
-          );
-          return {
-            content: cloudContent,
-            modifiedTime: cloudFile.modifiedTime,
-          };
-        }
-        if (
-          modifiedTime.isSame(
-            cloudFile.modifiedTime,
-            cloud.modifiedTimePrecision,
-          )
-        ) {
-          return null;
-        }
-        await refreshOnUnauthorized(() =>
-          cloud.writeFile(accessToken, cloudFile.id, content, modifiedTime),
-        );
-        return null;
-      }
-      await refreshOnUnauthorized(() =>
-        cloud.createFile(accessToken, filename, content, modifiedTime),
-      );
-      return null;
-    } else {
-      throw new Error("Unknown cloud provider type");
     }
+    await client.createFile(filename, content, modifiedTime);
+    return null;
   });
 }
