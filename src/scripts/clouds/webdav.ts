@@ -32,7 +32,15 @@ function isWebDAVClientError(error: unknown): error is WebDAVClientError {
 export const webdav: WebDAV = {
   async ensureWebDAVFolder(params: WebDAVParams): Promise<void> {
     const client = createClient(params);
-    if (!(await client.exists(params.path))) {
+    let dirExists = false;
+    try {
+      dirExists = await client.exists(params.path);
+    } catch (e) {
+      // Some WebDAV server returns HTTP 409 if parent directory does not exist.
+      // Here we silently ignore this error.
+      if (!isWebDAVClientError(e)) throw e;
+    }
+    if (!dirExists) {
       await client.createDirectory(params.path, { recursive: true });
     }
   },
