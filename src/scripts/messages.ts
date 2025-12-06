@@ -7,6 +7,7 @@ import type {
   SaveSource,
   Subscription,
   SubscriptionId,
+  SyncBackendId,
 } from "./types.ts";
 
 type MessageSignatures = {
@@ -14,7 +15,13 @@ type MessageSignatures = {
     id: CloudId,
     authorizationCode: string,
     useAltFlow: boolean,
-  ) => boolean;
+  ) => { message: string } | null;
+  "connect-to-webdav": (params: {
+    url: string;
+    username: string;
+    password: string;
+    path: string;
+  }) => { message: string } | null;
   "disconnect-from-cloud": () => void;
 
   "save-to-local-storage": (
@@ -27,8 +34,8 @@ type MessageSignatures = {
   "enable-subscription": (id: SubscriptionId, enabled: boolean) => void;
 
   sync: () => void;
-  syncing: (id: CloudId) => void;
-  synced: (id: CloudId, result: Result, updated: boolean) => void;
+  syncing: (id: SyncBackendId) => void;
+  synced: (id: SyncBackendId, result: Result, updated: boolean) => void;
 
   "update-subscription": (id: SubscriptionId) => void;
   "update-all-subscriptions": () => void;

@@ -5,6 +5,7 @@ import type {
   CloudToken,
   LocalStorageItems,
   SubscriptionId,
+  WebDAVParams,
 } from "../types.ts";
 import { Mutex } from "../utilities.ts";
 
@@ -13,7 +14,7 @@ export type RawStorageItems = LocalStorageItems & {
   generalLastModified: string;
   appearanceLastModified: string;
   sync: boolean; // unused
-  syncCloudToken: CloudToken | false | null;
+  syncCloudToken: CloudToken | WebDAVParams | false | null;
   nextSubscriptionId: SubscriptionId;
   subscriptionsLastModified: string;
 };

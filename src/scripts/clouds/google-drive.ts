@@ -13,23 +13,18 @@ export const googleDrive: Cloud = {
   hostPermissions:
     process.env.BROWSER === "firefox" ? ["https://www.googleapis.com/*"] : [],
 
-  messageNames: {
-    sync: "clouds_googleDriveSync",
-    syncDescription: "clouds_googleDriveSyncDescription",
-    syncTurnedOn: "clouds_googleDriveSyncTurnedOn",
-  },
-
   modifiedTimePrecision: "millisecond",
 
   shouldUseAltFlow: Helpers.shouldUseAltFlow(),
 
   // https://developers.google.com/identity/protocols/oauth2/web-server
-  authorize: Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
-    client_id: CLIENT_ID,
-    scope: "https://www.googleapis.com/auth/drive.appdata",
-    access_type: "offline",
-    prompt: "consent select_account",
-  }),
+  authorize: (useAltFlow: boolean) =>
+    Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
+      client_id: CLIENT_ID,
+      scope: "https://www.googleapis.com/auth/drive.appdata",
+      access_type: "offline",
+      prompt: "consent select_account",
+    })(useAltFlow),
 
   getAccessToken: Helpers.getAccessToken(
     "https://oauth2.googleapis.com/token",
@@ -158,7 +153,7 @@ ${content}\r
 
   // https://developers.google.com/drive/api/v3/reference/files/update
   // https://developers.google.com/drive/api/v3/manage-uploads#multipart
-  async writeFile(
+  async updateFile(
     accessToken: string,
     id: string,
     content: string,
