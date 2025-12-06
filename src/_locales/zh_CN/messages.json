@@ -690,5 +690,37 @@
   "clouds_dropboxSyncTurnedOn": {
     "message": "已使用 Dropbox 同步",
     "description": "Message indicating Dropbox sync is turned on."
+  },
+  "clouds_webdavSync": {
+    "message": "Sync with WebDAV",
+    "description": "Label for the radio button to sync with WebDAV."
+  },
+  "clouds_webdavSyncDescription": {
+    "message": "A file will be created at the URL specified.",
+    "description": "Label for the WebDAV URL input."
+  },
+  "clouds_webdavSyncTurnedOn": {
+    "message": "Synced with WebDAV",
+    "description": "Message indicating WebDAV sync is turned on."
+  },
+  "clouds_webdavUrlLabel": {
+    "message": "WebDAV URL (without destination folder)",
+    "description": "Label for the input for the WebDAV URL."
+  },
+  "clouds_webdavUsernameLabel": {
+    "message": "Username",
+    "description": "Label for the input for the WebDAV username."
+  },
+  "clouds_webdavPasswordLabel": {
+    "message": "Password",
+    "description": "Label for the input for the WebDAV password."
+  },
+  "clouds_webdavPathLabel": {
+    "message": "Destination folder",
+    "description": "Label for the input for the WebDAV destination folder."
+  },
+  "clouds_webdavUrlFormatError": {
+    "message": "WebDAV URL format error.",
+    "description": "Error message shown when the WebDAV URL format is invalid."
   }
 }
