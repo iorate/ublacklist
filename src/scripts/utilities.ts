@@ -185,7 +185,9 @@ export function getMatchingRulesText(
   for (const ruleType of ruleTypes) {
     for (const match of matchingRules) {
       // Check whether the ruleset contains rules of the current rule type
-      if (match[ruleType].length === 0) continue;
+      if (match[ruleType].length === 0) {
+        continue;
+      }
       // Add header with ruleset name
       const headerContent =
         match.rulesetName === "personal-blocklist"
@@ -210,7 +212,6 @@ export function getMatchingRulesText(
 
   return matchingRulesText;
 }
-
 // #endregion string
 
 export function downloadTextFile(

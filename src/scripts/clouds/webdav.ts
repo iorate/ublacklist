@@ -38,7 +38,9 @@ export const webdav: WebDAV = {
     } catch (e) {
       // Some WebDAV server returns HTTP 409 if parent directory does not exist.
       // Here we silently ignore this error.
-      if (!isWebDAVClientError(e)) throw e;
+      if (!isWebDAVClientError(e)) {
+        throw e;
+      }
     }
     if (!dirExists) {
       await client.createDirectory(params.path, { recursive: true });

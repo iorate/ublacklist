@@ -19,6 +19,9 @@
     "rules": {
       "correctness": {
         "useImportExtensions": "warn"
+      },
+      "style": {
+        "useBlockStatements": "warn"
       }
     }
   }
