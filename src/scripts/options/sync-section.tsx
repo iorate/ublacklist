@@ -70,6 +70,11 @@ const messageNames: Record<
     syncTurnedOn: "clouds_webdavSyncTurnedOn",
     syncDescription: "clouds_webdavSyncDescription",
   },
+  browserSync: {
+    sync: "clouds_browserSync",
+    syncTurnedOn: "clouds_browserSyncTurnedOn",
+    syncDescription: "clouds_browserSyncDescription",
+  },
 };
 
 const initialWebDAVParams = {
@@ -107,13 +112,16 @@ const TurnOnSyncDialog: React.FC<
     state.errorMessage = "";
   }
   const forceAltFlow =
-    state.backendId !== "webdav" &&
-    supportedClouds[state.backendId].shouldUseAltFlow(os);
+    state.backendId === "webdav" || state.backendId === "browserSync"
+      ? false
+      : supportedClouds[state.backendId].shouldUseAltFlow(os);
   const okButtonEnabled =
-    state.backendId !== "webdav"
-      ? state.phase === "none" ||
-        (state.phase === "auth-alt" && state.authCode !== "")
-      : state.phase === "none" && state.webDAVParams.urlValid;
+    state.backendId === "webdav"
+      ? state.phase === "none" && state.webDAVParams.urlValid
+      : state.backendId === "browserSync"
+        ? true
+        : state.phase === "none" ||
+          (state.phase === "auth-alt" && state.authCode !== "");
 
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
@@ -146,6 +154,12 @@ const TurnOnSyncDialog: React.FC<
               <SelectOption value="webdav">
                 {translate(messageNames.webdav.sync)}
               </SelectOption>
+              {(process.env.BROWSER === "chrome" ||
+                (process.env.BROWSER === "firefox" && os !== "android")) && (
+                <SelectOption value="browserSync">
+                  {translate(messageNames.browserSync.sync)}
+                </SelectOption>
+              )}
             </Select>
           </RowItem>
         </Row>
@@ -156,74 +170,7 @@ const TurnOnSyncDialog: React.FC<
             </Text>
           </RowItem>
         </Row>
-        {state.backendId !== "webdav" ? (
-          <>
-            <Row>
-              <RowItem>
-                <Indent>
-                  <CheckBox
-                    checked={forceAltFlow || state.useAltFlow}
-                    disabled={state.phase !== "none" || forceAltFlow}
-                    id={`${id}-use-alt-flow`}
-                    onChange={(e) => {
-                      const { checked } = e.currentTarget;
-                      setState((s) => ({
-                        ...s,
-                        useAltFlow: checked,
-                      }));
-                    }}
-                  />
-                </Indent>
-              </RowItem>
-              <RowItem expanded>
-                <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
-                  <ControlLabel for={`${id}-use-alt-flow`}>
-                    {translate("options_turnOnSyncDialog_useAltFlow")}
-                  </ControlLabel>
-                </LabelWrapper>
-              </RowItem>
-            </Row>
-            {(forceAltFlow || state.useAltFlow) && (
-              <Row>
-                <RowItem expanded>
-                  <Text>
-                    {translate(
-                      "options_turnOnSyncDialog_altFlowDescription",
-                      new AltURL(altFlowRedirectURL).host,
-                    )}
-                  </Text>
-                </RowItem>
-              </Row>
-            )}
-            {(state.phase === "auth-alt" || state.phase === "conn-alt") && (
-              <Row>
-                <RowItem expanded>
-                  <LabelWrapper fullWidth>
-                    <ControlLabel for={`${id}-auth-code`}>
-                      {translate(
-                        "options_turnOnSyncDialog_altFlowAuthCodeLabel",
-                      )}
-                    </ControlLabel>
-                  </LabelWrapper>
-                  <TextArea
-                    breakAll
-                    className={
-                      state.phase === "auth-alt" ? FOCUS_START_CLASS : ""
-                    }
-                    disabled={state.phase !== "auth-alt"}
-                    id={`${id}-auth-code`}
-                    rows={2}
-                    value={state.authCode}
-                    onChange={(e) => {
-                      const { value } = e.currentTarget;
-                      setState((s) => ({ ...s, authCode: value }));
-                    }}
-                  />
-                </RowItem>
-              </Row>
-            )}
-          </>
-        ) : (
+        {state.backendId === "webdav" ? (
           <>
             <Row>
               <RowItem expanded>
@@ -322,6 +269,73 @@ const TurnOnSyncDialog: React.FC<
               </RowItem>
             </Row>
           </>
+        ) : state.backendId === "browserSync" ? null : (
+          <>
+            <Row>
+              <RowItem>
+                <Indent>
+                  <CheckBox
+                    checked={forceAltFlow || state.useAltFlow}
+                    disabled={state.phase !== "none" || forceAltFlow}
+                    id={`${id}-use-alt-flow`}
+                    onChange={(e) => {
+                      const { checked } = e.currentTarget;
+                      setState((s) => ({
+                        ...s,
+                        useAltFlow: checked,
+                      }));
+                    }}
+                  />
+                </Indent>
+              </RowItem>
+              <RowItem expanded>
+                <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
+                  <ControlLabel for={`${id}-use-alt-flow`}>
+                    {translate("options_turnOnSyncDialog_useAltFlow")}
+                  </ControlLabel>
+                </LabelWrapper>
+              </RowItem>
+            </Row>
+            {(forceAltFlow || state.useAltFlow) && (
+              <Row>
+                <RowItem expanded>
+                  <Text>
+                    {translate(
+                      "options_turnOnSyncDialog_altFlowDescription",
+                      new AltURL(altFlowRedirectURL).host,
+                    )}
+                  </Text>
+                </RowItem>
+              </Row>
+            )}
+            {(state.phase === "auth-alt" || state.phase === "conn-alt") && (
+              <Row>
+                <RowItem expanded>
+                  <LabelWrapper fullWidth>
+                    <ControlLabel for={`${id}-auth-code`}>
+                      {translate(
+                        "options_turnOnSyncDialog_altFlowAuthCodeLabel",
+                      )}
+                    </ControlLabel>
+                  </LabelWrapper>
+                  <TextArea
+                    breakAll
+                    className={
+                      state.phase === "auth-alt" ? FOCUS_START_CLASS : ""
+                    }
+                    disabled={state.phase !== "auth-alt"}
+                    id={`${id}-auth-code`}
+                    rows={2}
+                    value={state.authCode}
+                    onChange={(e) => {
+                      const { value } = e.currentTarget;
+                      setState((s) => ({ ...s, authCode: value }));
+                    }}
+                  />
+                </RowItem>
+              </Row>
+            )}
+          </>
         )}
       </DialogBody>
       <DialogFooter>
@@ -388,6 +402,25 @@ const TurnOnSyncDialog: React.FC<
                       setState((s) => ({ ...s, phase: "none" }));
                     }
                     setBackendId("webdav");
+                    close();
+                    return;
+                  }
+                  if (state.backendId === "browserSync") {
+                    try {
+                      const error = await sendMessage(
+                        "connect-to-browser-sync",
+                      );
+                      if (error) {
+                        setState((s) => ({
+                          ...s,
+                          errorMessage: error.message,
+                        }));
+                        return;
+                      }
+                    } catch {
+                      return;
+                    }
+                    setBackendId("browserSync");
                     close();
                     return;
                   }

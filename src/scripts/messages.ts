@@ -22,6 +22,7 @@ type MessageSignatures = {
     password: string;
     path: string;
   }) => { message: string } | null;
+  "connect-to-browser-sync": () => { message: string } | null;
   "disconnect-from-cloud": () => void;
 
   "save-to-local-storage": (

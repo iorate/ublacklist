@@ -177,6 +177,9 @@ export type MessageName0 =
   | "clouds_webdavPasswordLabel"
   | "clouds_webdavPathLabel"
   | "clouds_webdavUrlFormatError"
+  | "clouds_browserSync"
+  | "clouds_browserSyncDescription"
+  | "clouds_browserSyncTurnedOn"
 
 export type MessageName1 =
   | "error"
