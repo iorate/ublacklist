@@ -14,7 +14,12 @@ export type RawStorageItems = LocalStorageItems & {
   generalLastModified: string;
   appearanceLastModified: string;
   sync: boolean; // unused
-  syncCloudToken: CloudToken | WebDAVParams | false | null;
+  syncCloudToken:
+    | CloudToken
+    | WebDAVParams
+    | Record<string, never>
+    | false
+    | null;
   nextSubscriptionId: SubscriptionId;
   subscriptionsLastModified: string;
 };

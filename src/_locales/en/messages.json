@@ -722,5 +722,17 @@
   "clouds_webdavUrlFormatError": {
     "message": "WebDAV URL format error.",
     "description": "Error message shown when the WebDAV URL format is invalid."
+  },
+  "clouds_browserSync": {
+    "message": "Sync with browser",
+    "description": "Label for the radio button to sync with browser storage."
+  },
+  "clouds_browserSyncDescription": {
+    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Can only sync a few hundred rules.",
+    "description": "Description for browser storage sync."
+  },
+  "clouds_browserSyncTurnedOn": {
+    "message": "Synced with browser",
+    "description": "Message indicating browser storage sync is turned on."
   }
 }
