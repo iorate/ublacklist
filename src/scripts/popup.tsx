@@ -1,3 +1,4 @@
+import isMobile from "is-mobile";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -12,7 +13,11 @@ import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
 import { translate } from "./locales.ts";
 import { sendMessage, sendMessageToTab } from "./messages.ts";
-import { SerpInfoEmbeddedDialog } from "./serpinfo/popup.tsx";
+import {
+  canEnableSerpInfo,
+  EnableSerpInfoEmbeddedDialog,
+  SerpInfoEmbeddedDialog,
+} from "./serpinfo/popup.tsx";
 import { fromPlainRuleset } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
@@ -34,6 +39,18 @@ const Loading: React.FC = () => {
   return <div className={className} />;
 };
 
+async function queryUserAgent(tabId: number): Promise<string> {
+  const [result] = await browser.scripting.executeScript({
+    target: { tabId },
+    func: () => window.navigator.userAgent,
+    injectImmediately: true,
+  });
+  if (!result || typeof result.result !== "string") {
+    throw new Error("Failed to get user agent");
+  }
+  return result.result;
+}
+
 const Popup: React.FC = () => {
   const [state, setState] = useState<
     | { type: "loading" }
@@ -41,6 +58,7 @@ const Popup: React.FC = () => {
         type: "serpInfo";
         props: React.ComponentProps<typeof SerpInfoEmbeddedDialog>;
       }
+    | { type: "enableSerpInfo" }
     | { type: "block"; props: BlockEmbeddedDialogProps }
   >({ type: "loading" });
   useEffect(() => {
@@ -69,6 +87,16 @@ const Popup: React.FC = () => {
         return;
       } catch {
         // SERPINFO mode is not applied
+      }
+      try {
+        const userAgent = await queryUserAgent(tabId);
+        const mobile = isMobile({ ua: userAgent });
+        if (await canEnableSerpInfo(url, mobile)) {
+          setState({ type: "enableSerpInfo" });
+          return;
+        }
+      } catch {
+        // Should not happen
       }
       const options = await loadFromLocalStorage([
         "ruleset",
@@ -113,6 +141,8 @@ const Popup: React.FC = () => {
           <Loading />
         ) : state.type === "serpInfo" ? (
           <SerpInfoEmbeddedDialog {...state.props} />
+        ) : state.type === "enableSerpInfo" ? (
+          <EnableSerpInfoEmbeddedDialog />
         ) : (
           <BlockEmbeddedDialog {...state.props} />
         )}
