@@ -9,7 +9,7 @@ import { attributes as a, classes as c } from "./constants.ts";
 import { type CSSProperties, cssStringify } from "./css-stringify.ts";
 import { blockedResultCountStore, setupFilter } from "./filter.ts";
 import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
-import { isDarkMode } from "./is-dark-mode.ts";
+import { createIsDarkModeStore } from "./is-dark-mode.ts";
 import type { SerpIndex } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
 import type { SerpDescription } from "./types.ts";
@@ -173,19 +173,31 @@ function setupControl() {
     },
   });
   control.classList.add(c.control);
+  const updateColors = (dark: boolean) => {
+    control.style.setProperty(
+      "--ub-control-background-color",
+      dark ? "rgb(41 42 45)" : "white",
+    );
+    control.style.setProperty(
+      "--ub-control-color",
+      dark ? "rgb(232 234 237)" : "rgb(32 33 36)",
+    );
+  };
+  const isDarkModeStore = createIsDarkModeStore();
+  updateColors(isDarkModeStore.getState());
+  isDarkModeStore.subscribe(updateColors);
 
   const shadowRoot = control.attachShadow({ mode: "open" });
-  const darkMode = isDarkMode();
   shadowRoot.innerHTML = `
     <style>${cssStringify(
       {
         button: {
           alignItems: "center",
-          background: darkMode ? "rgb(41 42 45)" : "white",
+          backgroundColor: "var(--ub-control-background-color)",
           border: "none",
           borderRadius: "4px",
           boxShadow: "0 0 2px rgb(0 0 0 / 0.12), 0 2px 2px rgb(0 0 0 / 0.24)",
-          color: darkMode ? "rgb(232 234 237)" : "rgb(32 33 36)",
+          color: "var(--ub-control-color)",
           cursor: "pointer",
           display: "flex",
           fontFamily:

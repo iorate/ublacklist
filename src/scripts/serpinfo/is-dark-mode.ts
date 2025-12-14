@@ -1,4 +1,5 @@
 import { colord } from "colord";
+import { createStore, type StoreApi } from "zustand";
 
 export function isDarkMode(): boolean {
   try {
@@ -15,4 +16,13 @@ export function isDarkMode(): boolean {
   } catch {
     return false;
   }
+}
+
+export function createIsDarkModeStore(): StoreApi<boolean> {
+  const store = createStore<boolean>(() => false);
+  const update = () => store.setState(isDarkMode());
+  update();
+  document.documentElement.addEventListener("transitionstart", update);
+  document.body.addEventListener("transitionstart", update);
+  return store;
 }
