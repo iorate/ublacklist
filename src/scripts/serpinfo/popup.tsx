@@ -147,7 +147,9 @@ export function EnableSerpInfoEmbeddedDialog() {
             <RowItem>
               <Icon iconSize="24px" url={svgToDataURL(icon)} />
             </RowItem>
-            <RowItem expanded>{translate("popup_inactive")}</RowItem>
+            <RowItem expanded>
+              {translate("popup_serpInfoMode_available")}
+            </RowItem>
           </Row>
         </DialogTitle>
       </DialogHeader>
@@ -174,7 +176,7 @@ export function EnableSerpInfoEmbeddedDialog() {
                 window.close();
               }}
             >
-              {translate("popup_activateButton")}
+              {translate("popup_serpInfoMode_setupButton")}
             </Button>
           </RowItem>
         </Row>
