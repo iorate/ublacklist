@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { browserSync } from "../clouds/browser-sync.ts";
 import { webdav } from "../clouds/webdav.ts";
 import { translate } from "../locales.ts";
 import { supportedClouds } from "../supported-clouds.ts";
@@ -55,6 +56,29 @@ export async function connectToWebDAV(
       await saveToRawStorage({
         syncCloudId: "webdav",
         syncCloudToken: params,
+      });
+    });
+    void sync();
+    return null;
+  } catch (e) {
+    return { message: e instanceof Error ? e.message : "Unknown error" };
+  }
+}
+
+export async function connectToBrowserSync(): Promise<{
+  message: string;
+} | null> {
+  try {
+    await mutex.lock(async () => {
+      const { syncCloudId: oldId } = await loadFromRawStorage(["syncCloudId"]);
+      if (oldId) {
+        if (oldId !== "browserSync") {
+          throw new Error("Already connected to another backend");
+        }
+      }
+      await saveToRawStorage({
+        syncCloudId: "browserSync",
+        syncCloudToken: {},
       });
     });
     void sync();
@@ -165,6 +189,16 @@ function createWebDAVClient(params: WebDAVParams): Client {
   };
 }
 
+function createBrowserSyncClient(): Client {
+  return {
+    createFile: browserSync.writeFile,
+    findFile: browserSync.findFile,
+    readFile: browserSync.readFile,
+    updateFile: browserSync.writeFile,
+    modifiedTimePrecision: "millisecond",
+  };
+}
+
 export function syncFile(
   filename: string,
   content: string,
@@ -186,10 +220,12 @@ export function syncFile(
     const client =
       syncCloudId === "webdav"
         ? createWebDAVClient(syncCloudToken as WebDAVParams)
-        : createCloudClient(
-            supportedClouds[syncCloudId],
-            syncCloudToken as CloudToken,
-          );
+        : syncCloudId === "browserSync"
+          ? createBrowserSyncClient()
+          : createCloudClient(
+              supportedClouds[syncCloudId],
+              syncCloudToken as CloudToken,
+            );
     const cloudFile = await client.findFile(filename);
     if (cloudFile) {
       if (

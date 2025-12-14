@@ -26,7 +26,7 @@ export type Result = ErrorResult | SuccessResult;
 
 // #region Clouds
 export type CloudId = "googleDrive" | "dropbox";
-export type SyncBackendId = CloudId | "webdav";
+export type SyncBackendId = CloudId | "webdav" | "browserSync";
 
 export type Cloud = {
   hostPermissions: string[];
