@@ -35,6 +35,8 @@ export type MessageName0 =
   | "popup_unblockingRulesLabel"
   | "popup_highlightingRulesLabel"
   | "popup_serpInfoMode_showBlockedResults"
+  | "popup_serpInfoMode_available"
+  | "popup_serpInfoMode_setupButton"
   | "options_generalTitle"
   | "options_blacklistLabel"
   | "options_blacklistHelper"

@@ -135,6 +135,14 @@
     "message": "Show blocked search results",
     "description": "Label for the switch to show blocked results."
   },
+  "popup_serpInfoMode_available": {
+    "message": "You can use uBlacklist on this page",
+    "description": "Message indicating uBlacklist can be used on the current page."
+  },
+  "popup_serpInfoMode_setupButton": {
+    "message": "Set up",
+    "description": "Text for the button to open SERPINFO options."
+  },
   "options_generalTitle": {
     "message": "General",
     "description": "Title of the General section."

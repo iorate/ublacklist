@@ -339,7 +339,7 @@ const RegisterSearchEngines: React.FC = () => {
       <Row>
         <RowItem expanded>
           <LabelWrapper>
-            <Label>{translate("options_serpInfoLabel")}</Label>
+            <Label>{translate("options_otherSearchEngines")}</Label>
             <SubLabel>
               {translate("options_otherSearchEnginesDescription")}
             </SubLabel>
