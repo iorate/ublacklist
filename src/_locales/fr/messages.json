@@ -135,6 +135,14 @@
     "message": "Show blocked search results",
     "description": "Label for the switch to show blocked results."
   },
+  "popup_serpInfoMode_available": {
+    "message": "You can use uBlacklist on this page",
+    "description": "Message indicating uBlacklist can be used on the current page."
+  },
+  "popup_serpInfoMode_setupButton": {
+    "message": "Set up",
+    "description": "Text for the button to open SERPINFO options."
+  },
   "options_generalTitle": {
     "message": "Général",
     "description": "Title of the General section."
@@ -722,5 +730,17 @@
   "clouds_webdavUrlFormatError": {
     "message": "WebDAV URL format error.",
     "description": "Error message shown when the WebDAV URL format is invalid."
+  },
+  "clouds_browserSync": {
+    "message": "Sync with browser",
+    "description": "Label for the radio button to sync with browser storage."
+  },
+  "clouds_browserSyncDescription": {
+    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Can only sync a few hundred rules.",
+    "description": "Description for browser storage sync."
+  },
+  "clouds_browserSyncTurnedOn": {
+    "message": "Synced with browser",
+    "description": "Message indicating browser storage sync is turned on."
   }
 }

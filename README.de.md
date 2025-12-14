@@ -4,17 +4,17 @@
 
 Verhindert, dass bestimmte Seiten in den Google-Suchergebnissen angezeigt werden
 
-[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (für macOS und iOS, danke an [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (for macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Beschreibung
 
 Diese Erweiterung verhindert, dass die von Ihnen angegebenen Seiten in Google-Suchergebnissen erscheinen.
 
-Sie können Regeln auf Suchergebnisseiten oder auf Seiten, die blockiert werden sollen, hinzufügen, indem Sie auf das Symbol in der Symbolleiste klicken. Regeln können entweder durch [Übereinstimmende Muster](https://ublacklist.github.io/docs/advanced-features# match-patterns) (z. B. `*://*.example.com/*`) oder durch [Ausdrücke](https://ublacklist.github.io/docs/advanced-features#expressions) einschließlich regulärer Ausdrücke, Variablen und Zeichenfolgenübereinstimmungen (z. B. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…) festgelegt werden.
+You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://ublacklist.github.io/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://ublacklist.github.io/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
 
 Sie können Regelsätze über Cloud-Speicher geräteübergreifend synchronisieren. Derzeit werden Google Drive und Dropbox unterstützt.
 
-Sie können auch öffentliche Regelsätze abonnieren. Einige Abonnements sind auf der Seite aufgelistet:
+You can also subscribe to public rulesets. Some subscriptions are listed on the website:
 https://ublacklist.github.io/subscriptions
 
 ## Browser-Unterstützungsrichtlinie
@@ -65,7 +65,7 @@ name: Your ruleset name
 
 ## Beitrag leisten
 
-Ausführliche Informationen zur Entwicklungsumgebung und Richtlinien finden Sie in unserem [Beitragsleitfaden](CONTRIBUTING.md).
+See our [Contributing Guide](CONTRIBUTING.md) for detailed development setup and guidelines.
 
 ## Autor
 
