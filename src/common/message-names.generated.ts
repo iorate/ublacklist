@@ -178,7 +178,6 @@ export type MessageName0 =
   | "clouds_webdavUsernameLabel"
   | "clouds_webdavPasswordLabel"
   | "clouds_webdavPathLabel"
-  | "clouds_webdavUrlFormatError"
   | "clouds_browserSync"
   | "clouds_browserSyncDescription"
   | "clouds_browserSyncTurnedOn"
