@@ -136,11 +136,11 @@
     "description": "Label for the switch to show blocked results."
   },
   "popup_serpInfoMode_available": {
-    "message": "You can use uBlacklist on this page",
+    "message": "このページで uBlacklist を利用できます",
     "description": "Message indicating uBlacklist can be used on the current page."
   },
   "popup_serpInfoMode_setupButton": {
-    "message": "Set up",
+    "message": "設定する",
     "description": "Text for the button to open SERPINFO options."
   },
   "options_generalTitle": {
@@ -700,47 +700,43 @@
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_webdavSync": {
-    "message": "Sync with WebDAV",
+    "message": "WebDAV で同期する",
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created at the URL specified.",
+    "message": "指定した URL にファイルが作成されます。",
     "description": "Label for the WebDAV URL input."
   },
   "clouds_webdavSyncTurnedOn": {
-    "message": "Synced with WebDAV",
+    "message": "WebDAV で同期しています",
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL (without destination folder)",
+    "message": "WebDAV URL (保存先フォルダーを除く)",
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
-    "message": "Username",
+    "message": "ユーザー名",
     "description": "Label for the input for the WebDAV username."
   },
   "clouds_webdavPasswordLabel": {
-    "message": "Password",
+    "message": "パスワード",
     "description": "Label for the input for the WebDAV password."
   },
   "clouds_webdavPathLabel": {
-    "message": "Destination folder",
+    "message": "保存先フォルダ",
     "description": "Label for the input for the WebDAV destination folder."
   },
-  "clouds_webdavUrlFormatError": {
-    "message": "WebDAV URL format error.",
-    "description": "Error message shown when the WebDAV URL format is invalid."
-  },
   "clouds_browserSync": {
-    "message": "Sync with browser",
+    "message": "ブラウザで同期する",
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Can only sync a few hundred rules.",
+    "message": "ブラウザ組み込みの同期機能を使用します。同期のタイミングはブラウザーの実装に依存します。数百のルールのみ同期できます。",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
-    "message": "Synced with browser",
+    "message": "ブラウザで同期しています",
     "description": "Message indicating browser storage sync is turned on."
   }
 }
