@@ -700,36 +700,32 @@
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_webdavSync": {
-    "message": "Sync with WebDAV",
+    "message": "Mit WebDAV synchronisieren",
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created at the URL specified.",
+    "message": "Unter der angegebenen URL wird eine Datei erstellt.",
     "description": "Label for the WebDAV URL input."
   },
   "clouds_webdavSyncTurnedOn": {
-    "message": "Synced with WebDAV",
+    "message": "Mit WebDAV synchronisiert",
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL (without destination folder)",
+    "message": "WebDAV-URL (ohne Zielordner)",
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
-    "message": "Username",
+    "message": "Benutzername",
     "description": "Label for the input for the WebDAV username."
   },
   "clouds_webdavPasswordLabel": {
-    "message": "Password",
+    "message": "Passwort",
     "description": "Label for the input for the WebDAV password."
   },
   "clouds_webdavPathLabel": {
-    "message": "Destination folder",
+    "message": "Zielordner",
     "description": "Label for the input for the WebDAV destination folder."
-  },
-  "clouds_webdavUrlFormatError": {
-    "message": "WebDAV URL format error.",
-    "description": "Error message shown when the WebDAV URL format is invalid."
   },
   "clouds_browserSync": {
     "message": "Sync with browser",

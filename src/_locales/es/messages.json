@@ -727,10 +727,6 @@
     "message": "Destination folder",
     "description": "Label for the input for the WebDAV destination folder."
   },
-  "clouds_webdavUrlFormatError": {
-    "message": "WebDAV URL format error.",
-    "description": "Error message shown when the WebDAV URL format is invalid."
-  },
   "clouds_browserSync": {
     "message": "Sync with browser",
     "description": "Label for the radio button to sync with browser storage."
