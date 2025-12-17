@@ -191,7 +191,7 @@ function createWebDAVClient(params: WebDAVParams): Client {
 
 function createBrowserSyncClient(): Client {
   return {
-    createFile: browserSync.writeFile,
+    createFile: browserSync.createFile,
     findFile: browserSync.findFile,
     readFile: browserSync.readFile,
     updateFile: browserSync.writeFile,
