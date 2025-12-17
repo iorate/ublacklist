@@ -99,6 +99,9 @@ export const browserSync = {
         return null;
       }
       const metadata = metadataSchema.parse(metadataRaw);
+      if (metadata.filename !== filename) {
+        throw new Error(`Hash collision for filename: ${filename}`);
+      }
       return { id, modifiedTime: dayjs(metadata.lastModified) };
     });
   },
