@@ -181,7 +181,7 @@ export type MessageName0 =
   | "clouds_browserSync"
   | "clouds_browserSyncDescription"
   | "clouds_browserSyncTurnedOn"
-  | "clouds_syncQuotaExceeded"
+  | "clouds_browserSyncQuotaExceeded"
 
 export type MessageName1 =
   | "error"

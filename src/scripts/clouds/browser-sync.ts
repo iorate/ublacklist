@@ -44,7 +44,7 @@ async function writeFileInternal(
   const compressed = LZString.compressToBase64(content);
   const chunkCount = Math.ceil(compressed.length / CHUNK_SIZE);
   if (chunkCount > MAX_CHUNK_COUNT) {
-    throw new Error(translate("clouds_syncQuotaExceeded"));
+    throw new Error(translate("clouds_browserSyncQuotaExceeded"));
   }
   try {
     await browser.storage.sync.set({
@@ -62,7 +62,7 @@ async function writeFileInternal(
     });
   } catch (e) {
     if (e instanceof Error && /quota/i.test(e.message)) {
-      throw new Error(translate("clouds_syncQuotaExceeded"));
+      throw new Error(translate("clouds_browserSyncQuotaExceeded"));
     }
     throw e;
   }
