@@ -11,9 +11,10 @@ import { translate } from "../locales.ts";
 // - double quotes (2 bytes for JSON serialization)
 const CHUNK_SIZE = 8192 - 10 - 2;
 
-// QUOTA_BYTES (102400) / QUOTA_BYTES_PER_ITEM (8192) = 12.5
-// Maximum number of chunks allowed per file
-const MAX_CHUNK_COUNT = 12;
+// Maximum number of chunks to fix key length at 10 bytes ("HHHHHHHH.H" format).
+// NOTE: QUOTA_BYTES (102400) / QUOTA_BYTES_PER_ITEM (8192) = 12.5,
+// so the limit of 15 is effectively unreachable.
+const MAX_CHUNK_COUNT = 15;
 
 const metadataSchema = z.object({
   chunkCount: z.int().min(0).max(MAX_CHUNK_COUNT),
@@ -26,8 +27,8 @@ function computeId(filename: string): string {
 }
 
 function makeChunkKeys(id: string, chunkCount: number): string[] {
-  // chunkCount is guaranteed to be <= MAX_CHUNK_COUNT (12),
-  // so i.toString(16) is always a single hex digit (0-b)
+  // chunkCount is guaranteed to be <= MAX_CHUNK_COUNT (15),
+  // so i.toString(16) is always a single hex digit (0-e)
   return range(chunkCount).map((i) => `${id}.${i.toString(16)}`);
 }
 
