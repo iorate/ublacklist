@@ -732,11 +732,15 @@
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "ブラウザ組み込みの同期機能を使用します。同期のタイミングはブラウザーの実装に依存します。数百のルールのみ同期できます。",
+    "message": "ブラウザ組み込みの同期機能を使用します。同期のタイミングはブラウザの実装に依存します。ストレージの容量制限があります。",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
     "message": "ブラウザで同期しています",
     "description": "Message indicating browser storage sync is turned on."
+  },
+  "clouds_browserSyncQuotaExceeded": {
+    "message": "データサイズがブラウザのストレージ容量制限を超えています。ルール数を減らすか、別の同期方法に切り替えてください。",
+    "description": "Error message shown when sync fails due to quota exceeded."
   }
 }

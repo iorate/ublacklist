@@ -732,11 +732,15 @@
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Can only sync a few hundred rules.",
+    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Has storage size limitations.",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
     "message": "Synced with browser",
     "description": "Message indicating browser storage sync is turned on."
+  },
+  "clouds_browserSyncQuotaExceeded": {
+    "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
+    "description": "Error message shown when sync fails due to quota exceeded."
   }
 }
