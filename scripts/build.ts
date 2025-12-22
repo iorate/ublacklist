@@ -35,7 +35,7 @@ function getScripts(): string[] {
   return [
     "scripts/background.ts",
     "scripts/options.tsx",
-    "scripts/serpinfo/content-script.tsx",
+    "scripts/serpinfo/content-script.ts",
     "scripts/serpinfo/options.tsx",
     "scripts/popup.tsx",
   ];

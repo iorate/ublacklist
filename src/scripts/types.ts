@@ -1,5 +1,4 @@
 import type dayjs from "dayjs";
-import type { MessageName0 } from "../common/message-names.generated.ts";
 import type { RulesetMatches } from "./interactive-ruleset.ts";
 import type {
   SerpInfoSettings,
@@ -27,16 +26,11 @@ export type Result = ErrorResult | SuccessResult;
 
 // #region Clouds
 export type CloudId = "googleDrive" | "dropbox";
+export type SyncBackendId = CloudId | "webdav" | "browserSync";
 
 export type Cloud = {
   hostPermissions: string[];
-  messageNames: {
-    sync: MessageName0;
-    syncDescription: MessageName0;
-    syncTurnedOn: MessageName0;
-  };
   modifiedTimePrecision: "millisecond" | "second";
-
   shouldUseAltFlow(os: string): boolean;
   authorize(useAltFlow: boolean): Promise<{ authorizationCode: string }>;
   getAccessToken(
@@ -46,7 +40,6 @@ export type Cloud = {
   refreshAccessToken(
     refreshToken: string,
   ): Promise<{ accessToken: string; expiresIn: number }>;
-
   createFile(
     accessToken: string,
     filename: string,
@@ -58,7 +51,7 @@ export type Cloud = {
     filename: string,
   ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
   readFile(accessToken: string, id: string): Promise<{ content: string }>;
-  writeFile(
+  updateFile(
     accessToken: string,
     id: string,
     content: string,
@@ -66,12 +59,32 @@ export type Cloud = {
   ): Promise<void>;
 };
 
-export type Clouds = Record<CloudId, Cloud>;
-
 export type CloudToken = {
   accessToken: string;
   expiresAt: string;
   refreshToken: string;
+};
+
+export type WebDAV = {
+  ensureWebDAVFolder(params: WebDAVParams): Promise<void>;
+  findFile(
+    params: WebDAVParams,
+    filename: string,
+  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  readFile(params: WebDAVParams, id: string): Promise<{ content: string }>;
+  writeFile(
+    params: WebDAVParams,
+    id: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
+};
+
+export type WebDAVParams = {
+  url: string;
+  username: string;
+  password: string;
+  path: string;
 };
 // #endregion Clouds
 
@@ -103,7 +116,7 @@ export type LocalStorageItems = {
   dialogTheme: DialogTheme | "default";
 
   // sync
-  syncCloudId: CloudId | false | null;
+  syncCloudId: SyncBackendId | false | null;
   syncBlocklist: boolean;
   syncGeneral: boolean;
   syncAppearance: boolean;
@@ -183,9 +196,7 @@ export type Subscriptions = Record<SubscriptionId, Subscription>;
 // #endregion Subscriptions
 
 // #region MatchingRules
-
 export type MatchingRuleKind = keyof Omit<RulesetMatches, "rulesetName">;
 
 export type MatchingRulesText = Record<MatchingRuleKind, string>;
-
 // #endregion MatchingRules

@@ -17,22 +17,17 @@ function toISOStringSecond(time: dayjs.Dayjs): string {
 export const dropbox: Cloud = {
   hostPermissions: [],
 
-  messageNames: {
-    sync: "clouds_dropboxSync",
-    syncDescription: "clouds_dropboxSyncDescription",
-    syncTurnedOn: "clouds_dropboxSyncTurnedOn",
-  },
-
   modifiedTimePrecision: "second",
 
   shouldUseAltFlow: Helpers.shouldUseAltFlow(),
 
   // https://www.dropbox.com/developers/documentation/http/documentation
-  authorize: Helpers.authorize("https://www.dropbox.com/oauth2/authorize", {
-    client_id: APP_KEY,
-    token_access_type: "offline",
-    force_reapprove: "true",
-  }),
+  authorize: (useAltFlow: boolean) =>
+    Helpers.authorize("https://www.dropbox.com/oauth2/authorize", {
+      client_id: APP_KEY,
+      token_access_type: "offline",
+      force_reapprove: "true",
+    })(useAltFlow),
 
   getAccessToken: Helpers.getAccessToken(
     "https://api.dropboxapi.com/oauth2/token",
@@ -164,7 +159,7 @@ export const dropbox: Cloud = {
   },
 
   // https://www.dropbox.com/developers/documentation/http/documentation#files-upload
-  async writeFile(
+  async updateFile(
     accessToken: string,
     id: string,
     content: string,

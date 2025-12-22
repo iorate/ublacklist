@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import * as BackupRestore from "./background/backup-restore.ts";
 import * as Clouds from "./background/clouds.ts";
 import * as LocalStorage from "./background/local-storage.ts";
+import { loadFromRawStorage } from "./background/raw-storage.ts";
 import * as SearchEngines from "./background/search-engines.ts";
 import * as Subscriptions from "./background/subscriptions.ts";
 import * as Sync from "./background/sync.ts";
@@ -12,6 +13,8 @@ import * as SerpInfo from "./serpinfo/background.ts";
 function main() {
   addMessageListeners({
     "connect-to-cloud": Clouds.connect,
+    "connect-to-webdav": Clouds.connectToWebDAV,
+    "connect-to-browser-sync": Clouds.connectToBrowserSync,
     "disconnect-from-cloud": Clouds.disconnect,
 
     "save-to-local-storage": LocalStorage.save,
@@ -88,6 +91,14 @@ function main() {
       })();
     });
   }
+
+  // Trigger sync immediately after `browser.storage.sync` is changed
+  browser.storage.sync?.onChanged.addListener(async () => {
+    const { syncCloudId } = await loadFromRawStorage(["syncCloudId"]);
+    if (syncCloudId === "browserSync") {
+      await Sync.sync();
+    }
+  });
 
   SerpInfo.main();
 }

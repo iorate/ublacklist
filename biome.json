@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/*.generated.ts"]
+    "includes": ["**", "!**/*.generated.ts", "!!**/dist"]
   },
   "vcs": {
     "enabled": true,
@@ -10,5 +10,19 @@
   },
   "formatter": {
     "indentStyle": "space"
+  },
+  "linter": {
+    "domains": {
+      "project": "recommended",
+      "react": "recommended"
+    },
+    "rules": {
+      "correctness": {
+        "useImportExtensions": "warn"
+      },
+      "style": {
+        "useBlockStatements": "warn"
+      }
+    }
   }
 }
