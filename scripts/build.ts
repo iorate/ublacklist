@@ -19,7 +19,7 @@ async function getStaticAssets(context: Context): Promise<string[]> {
       fs.glob("_locales/*/messages.json", { cwd: srcDir }),
     )),
     ...(browser === "safari"
-      ? ["icons/template-icon-32.png"]
+      ? ["icons/template-icon.svg"]
       : ["icons/icon-32.png"]),
     "icons/icon-48.png",
     "icons/icon-128.png",

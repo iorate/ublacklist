@@ -10,12 +10,10 @@ export function getManifest(context: ManifestContext) {
   const { browser, version, debug } = context;
   return {
     action: {
-      default_icon: {
-        32:
-          browser === "safari"
-            ? "icons/template-icon-32.png"
-            : "icons/icon-32.png",
-      },
+      default_icon:
+        browser === "safari"
+          ? "icons/template-icon.svg"
+          : { 32: "icons/icon-32.png" },
       default_popup: "pages/popup.html",
     },
 
