@@ -264,9 +264,9 @@ class Filter {
         {
           blockLabel: translate("content_blockSiteLink"),
           unblockLabel: translate("content_unblockSiteLink"),
-          onClick: () => {
+          onClick: (event) => {
             if (result.url != null) {
-              openDialog(result.url, result.props, this.#ruleset);
+              openDialog(result.url, result.props, this.#ruleset, event);
             }
           },
         },

@@ -340,7 +340,7 @@ export type ButtonCommandContext = ElementCommandContext & {
 export type ButtonProps = {
   blockLabel: string;
   unblockLabel: string;
-  onClick: () => void;
+  onClick: (event: MouseEvent) => void;
 };
 
 type ButtonCommandImpl = {
@@ -424,7 +424,7 @@ const buttonCommandImpl: ButtonCommandImpl = {
     `;
     shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
       event.stopPropagation();
-      context.buttonProps.onClick();
+      context.buttonProps.onClick(event);
     });
 
     parent.appendChild(button);
@@ -499,7 +499,7 @@ const buttonCommandImpl: ButtonCommandImpl = {
     `;
     shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
       event.stopPropagation();
-      context.buttonProps.onClick();
+      context.buttonProps.onClick(event);
     });
 
     parent.insertAdjacentElement(options.position ?? "beforeend", button);

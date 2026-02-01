@@ -37,6 +37,7 @@ export function openDialog(
   url: string,
   props: Record<string, string>,
   ruleset: InteractiveRuleset,
+  event: MouseEvent,
 ) {
   const state = storageStore.get();
   const entryProps = { ...props, url };
@@ -45,7 +46,10 @@ export function openDialog(
       { blacklist: ruleset.toString() },
       "content-script",
     );
-  if (state.skipBlockDialog) {
+  const shouldSkipDialog = event.shiftKey
+    ? !state.skipBlockDialog
+    : state.skipBlockDialog;
+  if (shouldSkipDialog) {
     ruleset.createPatch(entryProps, state.blockWholeSite);
     ruleset.applyPatch();
     onBlocked();

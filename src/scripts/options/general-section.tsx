@@ -390,6 +390,7 @@ export const GeneralSection: React.FC<{ id: string }> = (props) => {
           <SetBooleanItem
             itemKey="skipBlockDialog"
             label={translate("options_skipBlockDialogLabel")}
+            subLabels={[translate("options_skipBlockDialogDescription")]}
           />
         </SectionItem>
         <SectionItem>
