@@ -235,6 +235,10 @@
     "message": "Пропустить диалог \"Заблокировать сайт\"",
     "description": "Label for the switch to skip the block dialog."
   },
+  "options_skipBlockDialogDescription": {
+    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "description": "Description of the skip block dialog feature."
+  },
   "options_hideBlockButtonsLabel": {
     "message": "Hide the block buttons",
     "description": "Label for the switch to hide block buttons."
