@@ -29,11 +29,10 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Check by Biome
-        run: pnpm biome ci --formatter-enabled=false --reporter=github
+        run: pnpm biome ci --reporter=github
 
       - name: Check by Prettier
-        # Allow formatting issues (exit code 1) but fail on syntax errors (exit code 2).
-        run: pnpm prettier --check '**/*.{md,yaml,yml}' || (( $? == 1 ))
+        run: pnpm prettier --check '**/*.{md,yaml,yml}'
 
       - name: Check by TypeScript
         run: pnpm tsc --build
