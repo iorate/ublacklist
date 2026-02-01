@@ -235,6 +235,10 @@
     "message": "Dialog \"Diese Seite blockieren\" überspringen",
     "description": "Label for the switch to skip the block dialog."
   },
+  "options_skipBlockDialogDescription": {
+    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "description": "Description of the skip block dialog feature."
+  },
   "options_hideBlockButtonsLabel": {
     "message": "Schaltflächen zum Blockieren ausblenden",
     "description": "Label for the switch to hide block buttons."
@@ -732,7 +736,7 @@
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Has storage size limitations.",
+    "message": "Verwendet die integrierte Synchronisierungsfunktion des Browsers. Der Zeitpunkt der Synchronisierung hängt von der Implementierung des Browsers ab. Es gelten Speicherplatzbeschränkungen.",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
@@ -740,7 +744,7 @@
     "description": "Message indicating browser storage sync is turned on."
   },
   "clouds_browserSyncQuotaExceeded": {
-    "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
+    "message": "Die Datengröße überschreitet das Speicherlimit des Browsers. Versuchen Sie, die Anzahl der Regeln zu reduzieren, oder wechseln Sie zu einer anderen Synchronisierungsmethode.",
     "description": "Error message shown when sync fails due to quota exceeded."
   }
 }

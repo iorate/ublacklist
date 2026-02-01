@@ -235,6 +235,10 @@
     "message": "「このサイトをブロックする」ダイアログをスキップする",
     "description": "Label for the switch to skip the block dialog."
   },
+  "options_skipBlockDialogDescription": {
+    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "description": "Description of the skip block dialog feature."
+  },
   "options_hideBlockButtonsLabel": {
     "message": "ブロックボタンを非表示にする",
     "description": "Label for the switch to hide block buttons."

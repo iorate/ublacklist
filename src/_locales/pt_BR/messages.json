@@ -235,6 +235,10 @@
     "message": "Pular o diálogo \"Bloquear este site\"",
     "description": "Label for the switch to skip the block dialog."
   },
+  "options_skipBlockDialogDescription": {
+    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "description": "Description of the skip block dialog feature."
+  },
   "options_hideBlockButtonsLabel": {
     "message": "Ocultar os botões de bloqueio",
     "description": "Label for the switch to hide block buttons."
