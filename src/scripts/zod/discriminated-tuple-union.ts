@@ -104,11 +104,15 @@ export type $ZodDiscriminatedTupleUnionParams = core.TypeParams<
 export interface ZodDiscriminatedTupleUnion<
   T extends
     readonly $ZodDiscriminatedTupleUnionOption[] = readonly $ZodDiscriminatedTupleUnionOption[],
-> extends z._ZodType<$ZodDiscriminatedTupleUnionInternals<T>>,
-    $ZodDiscriminatedTupleUnion<T> {}
+> extends z.ZodType,
+    $ZodDiscriminatedTupleUnion<T> {
+  "~standard": z.ZodStandardSchemaWithJSON<this>;
+  _zod: $ZodDiscriminatedTupleUnionInternals<T>;
+  def: $ZodDiscriminatedTupleUnionDef<T>;
+}
 
 export const ZodDiscriminatedTupleUnion: core.$constructor<ZodDiscriminatedTupleUnion> =
-  core.$constructor("$ZodDiscriminatedTupleUnion", (inst, def) => {
+  core.$constructor("ZodDiscriminatedTupleUnion", (inst, def) => {
     z.ZodType.init(inst, def);
     $ZodDiscriminatedTupleUnion.init(inst, def);
   });
