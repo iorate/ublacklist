@@ -73,8 +73,12 @@
     "semantic-release-chrome": "^3.2.0",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.20.0",
-  "engines": {
-    "pnpm": ">=10"
+  "packageManager": "pnpm@10.28.2",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.13.0",
+      "onFail": "download"
+    }
   }
 }

@@ -1,10 +1,9 @@
+allowBuilds:
+  esbuild: true
+  lefthook: true
+
 minimumReleaseAge: 1440 # 1 day
 
-onlyBuiltDependencies:
-  - "@biomejs/biome"
-  - core-js
-  - core-js-pure
-  - esbuild
-  - lefthook
+trustPolicy: no-downgrade
 
-useNodeVersion: 24.11.0
+blockExoticSubdeps: true
