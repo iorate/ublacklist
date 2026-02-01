@@ -59,6 +59,7 @@ export type MessageName0 =
   | "options_registerSearchEngine"
   | "options_searchEngineRegistered"
   | "options_skipBlockDialogLabel"
+  | "options_skipBlockDialogDescription"
   | "options_hideBlockButtonsLabel"
   | "options_hideControlLabel"
   | "options_blockWholeSiteLabel"
