@@ -8,7 +8,7 @@
     "check": "pnpm run /^check:/",
     "check:biome": "biome check",
     "check:prettier": "prettier --check **/*.{md,yaml,yml}",
-    "check:tsc": "tsc --build",
+    "check:tsc": "tsc",
     "fix": "pnpm run /^fix:/",
     "fix:biome": "biome check --write",
     "fix:prettier": "prettier --write **/*.{md,yaml,yml}",
