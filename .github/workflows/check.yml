@@ -35,7 +35,7 @@ jobs:
         run: pnpm prettier --check '**/*.{md,yaml,yml}'
 
       - name: Check by TypeScript
-        run: pnpm tsc
+        run: pnpm tsgo
 
       - name: Test
         run: pnpm test

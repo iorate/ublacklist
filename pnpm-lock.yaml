@@ -129,6 +129,9 @@ importers:
       '@types/webextension-polyfill':
         specifier: ^0.12.4
         version: 0.12.4
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260201.1
+        version: 7.0.0-dev.20260201.1
       csstype:
         specifier: ^3.2.3
         version: 3.2.3
@@ -162,9 +165,6 @@ importers:
       semantic-release-chrome:
         specifier: ^3.2.0
         version: 3.2.0
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
 
 packages:
 
@@ -773,6 +773,45 @@ packages:
 
   '@types/webextension-polyfill@0.12.4':
     resolution: {integrity: sha512-wK8YdSI0pDiaehSLDIvtvonYmLwUUivg4Z6JCJO8rkyssMAG82cFJgwPK/V7NO61mJBLg/tXeoXQL8AFzpXZmQ==}
+
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-gWQiigYMGYEMT8DZELK04KJWHtNKuWxsrvjMZIYC5leEYegxU9KfVX4uCs/zMvnCBmucccAKidq04RRoi77gqg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-3bofmAfBzBqZruBJP1DDsAIMuOvTpKRaHMfl1lQ1YQwJwmKIhsMOWn241vtxFZcaqCPOXobQHUFCmCXPCT3heA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-DBzCiGSbvO37XM0Idxy5PQEP1LJ2f2kKod7tDxFwiChay7y0M0G2MchPVIWJ22OYVFuQFkE1UcXVQ8XgRytdLw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-D0cPUILpdhwdnTb44HqUbphsglpu6R1w6EFXpqOu8PXlfaCjrtdlnuLdKFkLro0mfVnxuC0yaT2XVzE3+2UPaQ==}
+    cpu: [arm]
+    os: [linux]
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-6LcmGJ0BRr0cPJw5kMC/rP4jG1PUBr/VNlwYcfpLSmyxU/OB4zhiHLPehCZZ0jD6D9BW2ninud32rUpK3N0xCQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-6YltsvcfK7ke3TZnXl55HonVULuSwbYjy8NqyhKY0DZmstIo8l4Gai9XqCQ/DBFWZO+B6PsFs2cuEVR9VTNT8g==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-fNT3ua4cw17c/vzU5PmaeeaAARPNyZv7ULLe9mMuAYvyOwit9GA6bqCal/c7psgH7jCVyCRCy3FNGY240io9/w==}
+    cpu: [x64]
+    os: [win32]
+
+  '@typescript/native-preview@7.0.0-dev.20260201.1':
+    resolution: {integrity: sha512-UNr61SrdLWNsl+hedT3gJY8xbpdJtkS/cphjmS1xUXnVu9apYv/uMlVw02CTlSxsMoVsVGQ7CLXRABUODTjDVQ==}
+    hasBin: true
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -3098,6 +3137,37 @@ snapshots:
 
   '@types/webextension-polyfill@0.12.4': {}
 
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260201.1':
+    optional: true
+
+  '@typescript/native-preview@7.0.0-dev.20260201.1':
+    optionalDependencies:
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260201.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260201.1
+
   abbrev@1.1.1: {}
 
   adm-zip@0.5.16: {}
@@ -4643,7 +4713,8 @@ snapshots:
     dependencies:
       tagged-tag: 1.0.0
 
-  typescript@5.9.3: {}
+  typescript@5.9.3:
+    optional: true
 
   uglify-js@3.19.3:
     optional: true

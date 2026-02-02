@@ -7,5 +7,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
-  }
+  },
+  "typescript.experimental.useTsgo": true
 }
