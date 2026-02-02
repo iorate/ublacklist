@@ -1,13 +1,13 @@
-import bing from "@builtin/serpinfo/bing.yml";
-import brave from "@builtin/serpinfo/brave.yml";
-import duckduckgo from "@builtin/serpinfo/duckduckgo.yml";
-import ecosia from "@builtin/serpinfo/ecosia.yml";
-import google from "@builtin/serpinfo/google.yml";
-import kagi from "@builtin/serpinfo/kagi.yml";
-import searxng from "@builtin/serpinfo/searxng.yml";
-import startpage from "@builtin/serpinfo/startpage.yml";
-import yahooJapan from "@builtin/serpinfo/yahoo-japan.yml";
-import yandex from "@builtin/serpinfo/yandex.yml";
+import bing from "#builtin/serpinfo/bing.yml";
+import brave from "#builtin/serpinfo/brave.yml";
+import duckduckgo from "#builtin/serpinfo/duckduckgo.yml";
+import ecosia from "#builtin/serpinfo/ecosia.yml";
+import google from "#builtin/serpinfo/google.yml";
+import kagi from "#builtin/serpinfo/kagi.yml";
+import searxng from "#builtin/serpinfo/searxng.yml";
+import startpage from "#builtin/serpinfo/startpage.yml";
+import yahooJapan from "#builtin/serpinfo/yahoo-japan.yml";
+import yandex from "#builtin/serpinfo/yandex.yml";
 
 export type BuiltinSerpInfo = {
   url: string;

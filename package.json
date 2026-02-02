@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "imports": {
+    "#builtin/*": "./builtin/*"
+  },
   "scripts": {
     "build": "node scripts/build.ts",
     "check": "pnpm run /^check:/",

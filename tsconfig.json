@@ -10,9 +10,6 @@
     // Modules
     "allowImportingTsExtensions": true,
     "module": "preserve",
-    "paths": {
-      "@builtin/*": ["./builtin/*"]
-    },
 
     // Emit
     "noEmit": true,
