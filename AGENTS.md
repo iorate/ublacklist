@@ -18,7 +18,7 @@ pnpm build --browser=firefox    # Firefox
 pnpm build --browser=safari     # Safari
 pnpm build --debug              # Debug build with sourcemaps
 
-# Run all checks (biome, prettier, tsc)
+# Run all checks (biome, prettier, typescript)
 pnpm check
 
 # Run tests
@@ -72,12 +72,6 @@ pnpm generate:message-names     # Generate message name constants
 - `scripts/build.ts` - esbuild-based bundler
 - `src/manifest.ts` - Generates browser-specific manifest.json
 - Environment variables for cloud API keys loaded from `.env` or `.env.local`
-
-### TypeScript Configuration
-
-- `tsconfig.browser.json` - For extension code
-- `tsconfig.node.json` - For build scripts
-- Uses project references with root `tsconfig.json`
 
 ## Code Style
 

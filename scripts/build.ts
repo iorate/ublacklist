@@ -96,7 +96,6 @@ async function buildScripts(context: Context): Promise<void> {
     outbase: srcDir,
     outdir: destDir,
     sourcemap: debug,
-    tsconfig: "tsconfig.browser.json",
   });
 }
 
