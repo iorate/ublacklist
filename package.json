@@ -10,16 +10,16 @@
     "build": "node scripts/build.ts",
     "check": "pnpm run /^check:/",
     "check:biome": "biome check",
-    "check:prettier": "prettier --check **/*.{md,yaml,yml}",
+    "check:prettier": "prettier --check \"**/*.{md,yaml,yml}\"",
     "check:typescript": "tsgo",
     "fix": "pnpm run /^fix:/",
     "fix:biome": "biome check --write",
-    "fix:prettier": "prettier --write **/*.{md,yaml,yml}",
+    "fix:prettier": "prettier --write \"**/*.{md,yaml,yml}\"",
     "generate": "pnpm run /^generate:/",
     "generate:message-names": "node scripts/generate-message-names.ts",
     "generate:ruleset-parser": "lezer-generator src/scripts/ruleset/ruleset.grammar -o src/scripts/ruleset/parser.generated.ts --noTerms --typeScript",
     "generate:third-party-notices": "node scripts/generate-third-party-notices.ts",
-    "test": "node scripts/test.ts"
+    "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.2",
