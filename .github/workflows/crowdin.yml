@@ -1,6 +1,12 @@
 name: Crowdin
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - src/_locales/en/messages.json
+      - README.md
   workflow_dispatch: {}
 
 permissions: {}
