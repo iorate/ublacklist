@@ -14,7 +14,7 @@ import {
   successResult,
   toPlainRuleset,
 } from "../utilities.ts";
-import { syncFile } from "./clouds.ts";
+import { syncFiles } from "./clouds.ts";
 import {
   loadAllFromRawStorage,
   modifyAllInRawStorage,
@@ -378,44 +378,54 @@ async function doSync(
       });
     }
 
-    let cloudItems: Partial<RawStorageItems> = {};
-    const promises: Promise<void>[] = [];
+    // Collect files to sync
+    const filesToSync: Array<{
+      section: SyncSection;
+      filename: string;
+      content: string;
+      modifiedTime: dayjs.Dayjs;
+    }> = [];
+
     for (const section of syncSections) {
       if (section.beforeSync(localItems, dirtyFlags).shouldUpload) {
-        promises.push(
-          (async () => {
-            const {
-              filename,
-              content: localContent,
-              modifiedTime: localModifiedTime,
-            } = section.beforeUpload(localItems);
-            const cloudFile = await syncFile(
-              filename,
-              localContent,
-              localModifiedTime,
-            );
-            if (!cloudFile) {
-              return;
-            }
-            cloudItems = section.afterDownload(
-              cloudItems,
-              cloudFile.content,
-              cloudFile.modifiedTime,
-              localItems,
-            );
-          })(),
-        );
+        const { filename, content, modifiedTime } =
+          section.beforeUpload(localItems);
+        filesToSync.push({ section, filename, content, modifiedTime });
       }
     }
-    if (!promises.length) {
+
+    if (!filesToSync.length) {
       return;
     }
 
     postMessage("syncing", localItems.syncCloudId);
 
+    let cloudItems: Partial<RawStorageItems> = {};
     let result: Result;
+
     try {
-      await Promise.all(promises);
+      const syncResults = await syncFiles(
+        filesToSync.map((f) => ({
+          filename: f.filename,
+          content: f.content,
+          modifiedTime: f.modifiedTime,
+        })),
+      );
+
+      // Process results
+      for (let i = 0; i < filesToSync.length; i++) {
+        const fileToSync = filesToSync[i];
+        const syncResult = syncResults[i];
+        if (fileToSync && syncResult?.cloudFile) {
+          cloudItems = fileToSync.section.afterDownload(
+            cloudItems,
+            syncResult.cloudFile.content,
+            syncResult.cloudFile.modifiedTime,
+            localItems,
+          );
+        }
+      }
+
       await modifyAllInRawStorage((latestLocalItems) => {
         if (latestLocalItems.syncCloudId !== localItems.syncCloudId) {
           return {};
@@ -425,13 +435,17 @@ async function doSync(
         }
         return cloudItems;
       });
+
       for (const section of syncSections) {
         section.afterSync?.(cloudItems);
       }
+
       result = successResult();
     } catch (e: unknown) {
+      console.error("Sync error:", e);
       result = errorResult(e instanceof Error ? e.message : "Unknown error");
     }
+
     await saveToRawStorage({ syncResult: result });
 
     postMessage(

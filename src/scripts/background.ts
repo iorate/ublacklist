@@ -14,6 +14,7 @@ function main() {
   addMessageListeners({
     "connect-to-cloud": Clouds.connect,
     "connect-to-webdav": Clouds.connectToWebDAV,
+    "connect-to-git-repo": Clouds.connectToGitRepo,
     "connect-to-browser-sync": Clouds.connectToBrowserSync,
     "disconnect-from-cloud": Clouds.disconnect,
 

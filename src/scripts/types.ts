@@ -26,7 +26,7 @@ export type Result = ErrorResult | SuccessResult;
 
 // #region Clouds
 export type CloudId = "googleDrive" | "dropbox";
-export type SyncBackendId = CloudId | "webdav" | "browserSync";
+export type SyncBackendId = CloudId | "webdav" | "browserSync" | "gitRepo";
 
 export type Cloud = {
   hostPermissions: string[];
@@ -85,6 +85,18 @@ export type WebDAVParams = {
   username: string;
   password: string;
   path: string;
+};
+
+export type GitRepoPlatform = "github" | "gitlab" | "codeberg" | "gitea";
+
+export type GitRepoParams = {
+  platform: GitRepoPlatform;
+  owner: string;
+  repo: string;
+  branch: string;
+  path: string;
+  token: string;
+  apiBase?: string;
 };
 // #endregion Clouds
 
