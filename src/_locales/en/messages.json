@@ -746,5 +746,61 @@
   "clouds_browserSyncQuotaExceeded": {
     "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
     "description": "Error message shown when sync fails due to quota exceeded."
+  },
+  "clouds_gitRepoSync": {
+    "message": "Sync with Git Repository",
+    "description": "Label for the radio button to sync with a Git repository."
+  },
+  "clouds_gitRepoSyncDescription": {
+    "message": "Sync settings to a Git repository (GitHub, GitLab, Gitea, or Codeberg). Requires a personal access token with repository write permissions.",
+    "description": "Description for Git repository sync."
+  },
+  "clouds_gitRepoSyncTurnedOn": {
+    "message": "Synced with Git Repository",
+    "description": "Message indicating Git repository sync is turned on."
+  },
+  "clouds_gitRepoPlatformLabel": {
+    "message": "Platform",
+    "description": "Label for the Git platform selector."
+  },
+  "clouds_gitRepoFolderUrlLabel": {
+    "message": "Folder URL (optional, for auto-fill)",
+    "description": "Label for the folder URL input."
+  },
+  "clouds_gitRepoFolderUrlPlaceholder": {
+    "message": "https://github.com/owner/repo/tree/main/folder",
+    "description": "Placeholder for the folder URL input."
+  },
+  "clouds_gitRepoOwnerLabel": {
+    "message": "Owner",
+    "description": "Label for the repository owner input."
+  },
+  "clouds_gitRepoRepoLabel": {
+    "message": "Repository",
+    "description": "Label for the repository name input."
+  },
+  "clouds_gitRepoBranchLabel": {
+    "message": "Branch",
+    "description": "Label for the branch input."
+  },
+  "clouds_gitRepoPathLabel": {
+    "message": "Folder path (optional)",
+    "description": "Label for the folder path input."
+  },
+  "clouds_gitRepoTokenLabel": {
+    "message": "Personal Access Token",
+    "description": "Label for the personal access token input."
+  },
+  "clouds_gitRepoApiBaseLabel": {
+    "message": "API Base URL (for self-hosted instances)",
+    "description": "Label for the API base URL input."
+  },
+  "clouds_gitRepoApiBaseOptionalGitLab": {
+    "message": "Optional. Leave empty for gitlab.com; set for self-hosted GitLab.",
+    "description": "Helper text for optional GitLab API base URL."
+  },
+  "clouds_gitRepoApiBaseRequired": {
+    "message": "Required for self-hosted Gitea.",
+    "description": "Helper text for required Gitea API base URL."
   }
 }
