@@ -4,7 +4,7 @@
 
 Verhindert, dass bestimmte Seiten in den Google-Suchergebnissen angezeigt werden
 
-[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/de/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/de/app/ublacklist-for-safari/id1547912640) (für macOS und iOS, Dank an [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+[Chrome Web Store](https://chromewebstore.google.com/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/de/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/de/app/ublacklist-for-safari/id1547912640) (für macOS und iOS, Dank an [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Beschreibung
 
