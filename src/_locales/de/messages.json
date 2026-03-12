@@ -236,7 +236,7 @@
     "description": "Label for the switch to skip the block dialog."
   },
   "options_skipBlockDialogDescription": {
-    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "message": "Halten Sie die Umschalttaste gedrückt, wenn Sie auf die Blockieren-Schaltfläche klicken, um dieses Verhalten umzuschalten.",
     "description": "Description of the skip block dialog feature."
   },
   "options_hideBlockButtonsLabel": {
