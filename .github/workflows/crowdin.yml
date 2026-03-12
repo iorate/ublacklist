@@ -19,20 +19,28 @@ jobs:
   crowdin:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Generate token for pull request
+        id: generate-token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
         with:
-          token: ${{ secrets.PULL_REQUEST_TOKEN }}
+          app-id: ${{ vars.PULL_REQUESTS_APP_ID }}
+          private-key: ${{ secrets.PULL_REQUESTS_PRIVATE_KEY }}
 
       - name: Crowdin
-        uses: crowdin/github-action@b4b468cffefb50bdd99dd83e5d2eaeb63c880380 # v2.14.0
+        uses: crowdin/github-action@app_token
         with:
           download_translations: true
           export_only_approved: true
           download_translations_args: --ignore-match
           pull_request_base_branch_name: master
         env:
-          GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_TOKEN }}
-          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
