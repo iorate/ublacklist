@@ -36,7 +36,7 @@ jobs:
           private-key: ${{ secrets.PULL_REQUESTS_PRIVATE_KEY }}
 
       - name: Crowdin
-        uses: crowdin/github-action@app_token
+        uses: crowdin/github-action@d649adabd0daa7ea2ceeb232f66c30224575bb7e # v2.15.1
         with:
           download_translations: true
           export_only_approved: true
