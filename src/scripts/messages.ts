@@ -1,6 +1,7 @@
 import { type Browser, browser } from "./browser.ts";
 import type {
   CloudId,
+  GitRepoParams,
   LocalStorageItemsBackupRestore,
   LocalStorageItemsSavable,
   Result,
@@ -22,6 +23,7 @@ type MessageSignatures = {
     password: string;
     path: string;
   }) => { message: string } | null;
+  "connect-to-git-repo": (params: GitRepoParams) => { message: string } | null;
   "connect-to-browser-sync": () => { message: string } | null;
   "disconnect-from-cloud": () => void;
 

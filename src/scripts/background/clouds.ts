@@ -1,9 +1,17 @@
 import dayjs from "dayjs";
 import { browserSync } from "../clouds/browser-sync.ts";
+import { gitRepo } from "../clouds/git-repo.ts";
 import { webdav } from "../clouds/webdav.ts";
 import { translate } from "../locales.ts";
 import { supportedClouds } from "../supported-clouds.ts";
-import type { Cloud, CloudId, CloudToken, WebDAVParams } from "../types.ts";
+import type {
+  Cloud,
+  CloudId,
+  CloudToken,
+  GitRepoParams,
+  SyncBackendId,
+  WebDAVParams,
+} from "../types.ts";
 import { HTTPError, Mutex } from "../utilities.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
@@ -37,6 +45,7 @@ export async function connect(
     void sync();
     return null;
   } catch (e) {
+    console.error("Connect to cloud error:", e);
     return { message: e instanceof Error ? e.message : "Unknown error" };
   }
 }
@@ -61,6 +70,7 @@ export async function connectToWebDAV(
     void sync();
     return null;
   } catch (e) {
+    console.error("Connect to WebDAV error:", e);
     return { message: e instanceof Error ? e.message : "Unknown error" };
   }
 }
@@ -84,6 +94,33 @@ export async function connectToBrowserSync(): Promise<{
     void sync();
     return null;
   } catch (e) {
+    console.error("Connect to browser sync error:", e);
+    return { message: e instanceof Error ? e.message : "Unknown error" };
+  }
+}
+
+export async function connectToGitRepo(
+  params: GitRepoParams,
+): Promise<{ message: string } | null> {
+  try {
+    await mutex.lock(async () => {
+      const { syncCloudId: oldId } = await loadFromRawStorage(["syncCloudId"]);
+      if (oldId) {
+        if (oldId !== "gitRepo") {
+          throw new Error("Already connected to another backend");
+        }
+      }
+      await gitRepo.verifyConnection(params);
+      await saveToRawStorage({
+        syncCloudId: "gitRepo",
+        syncCloudToken: params,
+        syncGitRepoFileHashes: {},
+      });
+    });
+    void sync();
+    return null;
+  } catch (e) {
+    console.error("Connect to Git repo error:", e);
     return { message: e instanceof Error ? e.message : "Unknown error" };
   }
 }
@@ -94,7 +131,11 @@ export function disconnect(): Promise<void> {
     if (!id) {
       return;
     }
-    await saveToRawStorage({ syncCloudId: false, syncCloudToken: false });
+    await saveToRawStorage({
+      syncCloudId: false,
+      syncCloudToken: false,
+      syncGitRepoFileHashes: {},
+    });
   });
 }
 
@@ -113,6 +154,7 @@ type Client = {
     content: string,
     modifiedTime: dayjs.Dayjs,
   ): Promise<void>;
+  listFileHashes?(filenames: string[]): Promise<Record<string, string>>;
   modifiedTimePrecision: "second" | "millisecond";
 };
 
@@ -199,59 +241,258 @@ function createBrowserSyncClient(): Client {
   };
 }
 
-export function syncFile(
-  filename: string,
-  content: string,
-  modifiedTime: dayjs.Dayjs,
-): Promise<{ content: string; modifiedTime: dayjs.Dayjs } | null> {
+function createGitRepoClient(params: GitRepoParams): Client {
+  return {
+    createFile: async (
+      filename: string,
+      content: string,
+      modifiedTime: dayjs.Dayjs,
+    ) => {
+      await gitRepo.writeFile(params, filename, content, modifiedTime);
+    },
+    findFile: (filename: string) => gitRepo.findFile(params, filename),
+    readFile: (id: string) => gitRepo.readFile(params, id),
+    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
+      gitRepo.writeFile(params, id, content, modifiedTime),
+    listFileHashes: (filenames: string[]) =>
+      gitRepo.listFileHashes(params, filenames),
+    modifiedTimePrecision: "second",
+  };
+}
+
+function createClient(
+  syncCloudId: SyncBackendId,
+  syncCloudToken: unknown,
+): Client {
+  return syncCloudId === "webdav"
+    ? createWebDAVClient(syncCloudToken as WebDAVParams)
+    : syncCloudId === "browserSync"
+      ? createBrowserSyncClient()
+      : syncCloudId === "gitRepo"
+        ? createGitRepoClient(syncCloudToken as GitRepoParams)
+        : createCloudClient(
+            supportedClouds[syncCloudId],
+            syncCloudToken as CloudToken,
+          );
+}
+
+type SyncFileInput = {
+  filename: string;
+  content: string;
+  modifiedTime: dayjs.Dayjs;
+};
+
+type SyncFileResult = {
+  filename: string;
+  cloudFile: { content: string; modifiedTime: dayjs.Dayjs } | null;
+};
+
+type GitRepoFileHashState = Record<
+  string,
+  {
+    remoteSha: string | null;
+    localHash: string;
+  }
+>;
+
+async function hashContent(content: string): Promise<string> {
+  const bytes = new TextEncoder().encode(content);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", bytes);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function syncFileByTimestamp(
+  client: Client,
+  file: SyncFileInput,
+): Promise<SyncFileResult> {
+  const cloudFile = await client.findFile(file.filename);
+
+  if (!cloudFile) {
+    await client.createFile(file.filename, file.content, file.modifiedTime);
+    return {
+      filename: file.filename,
+      cloudFile: null,
+    };
+  }
+
+  if (
+    file.modifiedTime.isBefore(
+      cloudFile.modifiedTime,
+      client.modifiedTimePrecision,
+    )
+  ) {
+    const { content: cloudContent } = await client.readFile(cloudFile.id);
+    return {
+      filename: file.filename,
+      cloudFile: {
+        content: cloudContent,
+        modifiedTime: cloudFile.modifiedTime,
+      },
+    };
+  }
+
+  if (
+    file.modifiedTime.isSame(
+      cloudFile.modifiedTime,
+      client.modifiedTimePrecision,
+    )
+  ) {
+    return {
+      filename: file.filename,
+      cloudFile: null,
+    };
+  }
+
+  await client.updateFile(cloudFile.id, file.content, file.modifiedTime);
+  return {
+    filename: file.filename,
+    cloudFile: null,
+  };
+}
+
+type HashSyncRuntime = {
+  remoteHashes: Record<string, string> | undefined;
+  nextHashState: GitRepoFileHashState;
+  localHashes: Map<string, string>;
+  wroteToCloud: boolean;
+};
+
+async function syncFileByGitRepoHash(
+  client: Client,
+  file: SyncFileInput,
+  runtime: HashSyncRuntime,
+): Promise<SyncFileResult> {
+  const localHash = await hashContent(file.content);
+  runtime.localHashes.set(file.filename, localHash);
+
+  const savedState = runtime.nextHashState[file.filename];
+  const remoteSha = runtime.remoteHashes?.[file.filename] ?? null;
+  const hasSavedState = savedState != null;
+  const remoteChanged = hasSavedState
+    ? savedState.remoteSha !== remoteSha
+    : true;
+  const localChanged = hasSavedState
+    ? savedState.localHash !== localHash
+    : true;
+
+  if (hasSavedState && !remoteChanged && !localChanged) {
+    return { filename: file.filename, cloudFile: null };
+  }
+
+  if (hasSavedState && remoteChanged && !localChanged) {
+    if (remoteSha == null) {
+      // Keep local as source of truth: if remote file was deleted while local
+      // is unchanged, recreate it so synced files remain present remotely.
+      await client.createFile(file.filename, file.content, file.modifiedTime);
+      runtime.wroteToCloud = true;
+      return { filename: file.filename, cloudFile: null };
+    }
+
+    const { content: cloudContent } = await client.readFile(file.filename);
+    const cloudHash = await hashContent(cloudContent);
+    runtime.nextHashState[file.filename] = {
+      remoteSha,
+      localHash: cloudHash,
+    };
+    return {
+      filename: file.filename,
+      cloudFile: {
+        content: cloudContent,
+        modifiedTime: dayjs.utc(),
+      },
+    };
+  }
+
+  if (remoteSha != null) {
+    await client.updateFile(file.filename, file.content, file.modifiedTime);
+  } else {
+    await client.createFile(file.filename, file.content, file.modifiedTime);
+  }
+  runtime.wroteToCloud = true;
+  return { filename: file.filename, cloudFile: null };
+}
+
+async function saveGitRepoHashState(
+  client: Client,
+  files: SyncFileInput[],
+  results: SyncFileResult[],
+  runtime: HashSyncRuntime,
+): Promise<void> {
+  const refreshedRemoteHashes =
+    runtime.wroteToCloud || !runtime.remoteHashes
+      ? await client.listFileHashes?.(files.map((file) => file.filename))
+      : runtime.remoteHashes;
+
+  for (const file of files) {
+    const result = results.find((r) => r.filename === file.filename);
+    const finalLocalHash = result?.cloudFile
+      ? await hashContent(result.cloudFile.content)
+      : (runtime.localHashes.get(file.filename) ??
+        (await hashContent(file.content)));
+    runtime.nextHashState[file.filename] = {
+      remoteSha: refreshedRemoteHashes?.[file.filename] ?? null,
+      localHash: finalLocalHash,
+    };
+  }
+
+  await saveToRawStorage({ syncGitRepoFileHashes: runtime.nextHashState });
+}
+
+export function syncFiles(files: SyncFileInput[]): Promise<SyncFileResult[]> {
   return mutex.lock(async () => {
-    const { syncCloudId, syncCloudToken } = await loadFromRawStorage([
-      "syncCloudId",
-      "syncCloudToken",
-    ]);
+    const { syncCloudId, syncCloudToken, syncGitRepoFileHashes } =
+      await loadFromRawStorage([
+        "syncCloudId",
+        "syncCloudToken",
+        "syncGitRepoFileHashes",
+      ]);
     if (!syncCloudId) {
       throw new Error("Not connected");
     }
     if (!syncCloudToken) {
       throw new Error(translate("unauthorizedError"));
     }
-    // `syncCloudId` and `syncCloudToken` are always consistent in storage,
-    // so type assertions are safe here
-    const client =
-      syncCloudId === "webdav"
-        ? createWebDAVClient(syncCloudToken as WebDAVParams)
-        : syncCloudId === "browserSync"
-          ? createBrowserSyncClient()
-          : createCloudClient(
-              supportedClouds[syncCloudId],
-              syncCloudToken as CloudToken,
-            );
-    const cloudFile = await client.findFile(filename);
-    if (cloudFile) {
-      if (
-        modifiedTime.isBefore(
-          cloudFile.modifiedTime,
-          client.modifiedTimePrecision,
-        )
-      ) {
-        const { content: cloudContent } = await client.readFile(cloudFile.id);
-        return {
-          content: cloudContent,
-          modifiedTime: cloudFile.modifiedTime,
-        };
-      }
-      if (
-        modifiedTime.isSame(
-          cloudFile.modifiedTime,
-          client.modifiedTimePrecision,
-        )
-      ) {
-        return null;
-      }
-      await client.updateFile(cloudFile.id, content, modifiedTime);
-      return null;
+
+    const client = createClient(syncCloudId, syncCloudToken);
+
+    const shouldUseGitRepoHashCompare =
+      syncCloudId === "gitRepo" && !!client.listFileHashes;
+
+    if (syncCloudId === "gitRepo" && !shouldUseGitRepoHashCompare) {
+      throw new Error("Git repo sync requires hash-based sync");
     }
-    await client.createFile(filename, content, modifiedTime);
-    return null;
+
+    if (!shouldUseGitRepoHashCompare) {
+      return Promise.all(
+        files.map((file) => syncFileByTimestamp(client, file)),
+      );
+    }
+
+    const results: SyncFileResult[] = [];
+    const runtime: HashSyncRuntime = {
+      remoteHashes: shouldUseGitRepoHashCompare
+        ? await client.listFileHashes?.(files.map((file) => file.filename))
+        : undefined,
+      nextHashState: {
+        ...(syncGitRepoFileHashes as GitRepoFileHashState),
+      },
+      localHashes: new Map<string, string>(),
+      wroteToCloud: false,
+    };
+
+    for (const file of files) {
+      if (shouldUseGitRepoHashCompare) {
+        results.push(await syncFileByGitRepoHash(client, file, runtime));
+      } else {
+        results.push(await syncFileByTimestamp(client, file));
+      }
+    }
+
+    if (shouldUseGitRepoHashCompare) {
+      await saveGitRepoHashState(client, files, results, runtime);
+    }
+
+    return results;
   });
 }
