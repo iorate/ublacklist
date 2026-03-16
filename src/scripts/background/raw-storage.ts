@@ -3,6 +3,7 @@ import { browser } from "../browser.ts";
 import { defaultLocalStorageItems } from "../local-storage.ts";
 import type {
   CloudToken,
+  GitRepoParams,
   LocalStorageItems,
   SubscriptionId,
   WebDAVParams,
@@ -17,11 +18,19 @@ export type RawStorageItems = LocalStorageItems & {
   syncCloudToken:
     | CloudToken
     | WebDAVParams
+    | GitRepoParams
     | Record<string, never>
     | false
     | null;
   nextSubscriptionId: SubscriptionId;
   subscriptionsLastModified: string;
+  syncGitRepoFileHashes: Record<
+    string,
+    {
+      remoteSha: string | null;
+      localHash: string;
+    }
+  >;
 };
 
 export type RawStorageItemsFor<T extends readonly (keyof RawStorageItems)[]> = {
@@ -39,6 +48,7 @@ const defaultRawStorageItems: Readonly<RawStorageItems> = {
   appearanceLastModified: timeZero,
   nextSubscriptionId: 0,
   subscriptionsLastModified: timeZero,
+  syncGitRepoFileHashes: {},
 };
 
 const mutex = new Mutex();
