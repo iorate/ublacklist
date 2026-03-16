@@ -5,11 +5,11 @@
     // Type Checking
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
-    "strict": true,
 
     // Modules
     "allowImportingTsExtensions": true,
     "module": "preserve",
+    "types": ["*"],
 
     // Emit
     "noEmit": true,
