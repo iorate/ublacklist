@@ -1,4 +1,5 @@
 import type * as Browser from "webextension-polyfill";
+
 export type { Browser };
 
 declare global {
