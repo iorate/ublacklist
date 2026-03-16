@@ -19,7 +19,15 @@ defaults:
     shell: bash
 
 jobs:
-  build:
+  check:
+    permissions:
+      contents: read
+
+    uses: ./.github/workflows/check.yml
+
+  deploy:
+    needs: check
+
     runs-on: ubuntu-latest
 
     permissions:
