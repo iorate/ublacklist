@@ -7,7 +7,7 @@ on:
     paths:
       - src/_locales/en/messages.json
       - README.md
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 permissions: {}
 
