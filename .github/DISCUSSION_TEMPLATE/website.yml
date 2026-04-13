@@ -1,0 +1,34 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report issues or suggest improvements for the website.
+
+  - type: input
+    id: url
+    attributes:
+      label: "URL"
+      description: "The URL of the page related to this report."
+      placeholder: "e.g., https://ublacklist.github.io/docs/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: "Describe the issue or your suggestion."
+      placeholder: |
+        - What is wrong or could be improved?
+        - What would you expect instead?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: "Checklist"
+      description: "Please confirm:"
+      options:
+        - label: "I have searched existing discussions and issues to ensure this hasn't been reported before"
+          required: true

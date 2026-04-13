@@ -48,6 +48,14 @@ This extension is available in the below search engines.
 
 <!-- prettier-ignore-end -->
 
+No additional builtin search engine support is planned. You can use [SERPINFO](https://ublacklist.github.io/docs/serpinfo) to add support for any search engine yourself.
+
+## Related repositories
+
+- [ublacklist/builtin](https://github.com/ublacklist/builtin) — Builtin SERPINFO files. The extension periodically downloads the latest SERPINFO from here.
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — Website and documentation (https://ublacklist.github.io)
+- [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — Store listing descriptions and screenshots
+
 ## For subscription providers
 
 To publish a ruleset as a subscription, place a ruleset file encoded in UTF-8 on a suitable HTTP(S) server, and publish the URL. Here is an example hosted on GitHub:

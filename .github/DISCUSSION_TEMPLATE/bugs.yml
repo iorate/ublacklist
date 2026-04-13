@@ -4,6 +4,8 @@ body:
       value: |
         Feel free to raise a bug report if something isn't working as expected.
 
+        This form is for bugs in the **uBlacklist extension itself**. For issues with the [website](https://ublacklist.github.io), please use the [Website category](https://github.com/iorate/ublacklist/discussions/new?category=website) instead.
+
   - type: textarea
     id: bug-description
     attributes:

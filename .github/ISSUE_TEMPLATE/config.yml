@@ -12,3 +12,6 @@ contact_links:
   - name: ❓ Q&A
     url: https://github.com/iorate/ublacklist/discussions/new?category=q-a
     about: "Ask about usage, configuration, or troubleshooting"
+  - name: 🌐 Website
+    url: https://github.com/iorate/ublacklist/discussions/new?category=website
+    about: "Report issues or suggest improvements for the website"
