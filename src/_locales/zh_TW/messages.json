@@ -236,7 +236,7 @@
     "description": "Label for the switch to skip the block dialog."
   },
   "options_skipBlockDialogDescription": {
-    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "message": "點擊屏蔽按鈕時按住 Shift 鍵可切換此行為。",
     "description": "Description of the skip block dialog feature."
   },
   "options_hideBlockButtonsLabel": {

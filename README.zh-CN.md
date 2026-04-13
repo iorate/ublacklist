@@ -48,6 +48,14 @@ uBlacklist 支持以下浏览器版本：
 
 <!-- prettier-ignore-end -->
 
+No additional builtin search engine support is planned. You can use [SERPINFO](https://ublacklist.github.io/docs/serpinfo) to add support for any search engine yourself.
+
+## Related repositories
+
+- [ublacklist/builtin](https://github.com/ublacklist/builtin) — Builtin SERPINFO files. The extension periodically downloads the latest SERPINFO from here.
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — Website and documentation (https://ublacklist.github.io)
+- [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — Store listing descriptions and screenshots
+
 ## 发布订阅
 
 要将规则集发布为订阅，请将以 UTF-8 编码的规则集文件放在合适的 HTTP(S) 服务器上，然后发布 URL。这是托管在 GitHub 上的示例：
