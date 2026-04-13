@@ -19,6 +19,8 @@ Issues are created from discussions after verification and approval.
 
 For simple contributions like typo fixes, you can create a pull request directly.
 
+Contributors are expected to be able to answer questions about the code in their pull requests.
+
 ## Development
 
 ### Prerequisites
