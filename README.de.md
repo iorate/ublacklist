@@ -48,6 +48,14 @@ Diese Erweiterung ist in den folgenden Suchmaschinen verfügbar.
 
 <!-- prettier-ignore-end -->
 
+No additional builtin search engine support is planned. You can use [SERPINFO](https://ublacklist.github.io/docs/serpinfo) to add support for any search engine yourself.
+
+## Related repositories
+
+- [ublacklist/builtin](https://github.com/ublacklist/builtin) — Builtin SERPINFO files. The extension periodically downloads the latest SERPINFO from here.
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — Website and documentation (https://ublacklist.github.io)
+- [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — Store listing descriptions and screenshots
+
 ## Für Anbieter von Abonnements
 
 Um einen Regelsatz als Abonnement zu veröffentlichen, legen Sie eine in UTF-8 codierte Regelsatzdatei auf einem geeigneten HTTP(S)-Server ab und veröffentlichen Sie die URL. Hier ist ein Beispiel, das auf GitHub gehostet wird:
