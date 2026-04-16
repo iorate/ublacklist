@@ -1,0 +1,81 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Request to add your ruleset to the [Community Rulesets](https://ublacklist.github.io/rulesets) page.
+
+  - type: input
+    id: name
+    attributes:
+      label: "Ruleset Name"
+      placeholder: "e.g., My Blocklist"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      placeholder: "Brief description of what this ruleset blocks."
+    validations:
+      required: false
+
+  - type: input
+    id: homepage
+    attributes:
+      label: "Homepage URL"
+      placeholder: "e.g., https://github.com/user/repo"
+    validations:
+      required: true
+
+  - type: input
+    id: author-name
+    attributes:
+      label: "Author Name"
+    validations:
+      required: false
+
+  - type: input
+    id: author-url
+    attributes:
+      label: "Author URL"
+      placeholder: "e.g., https://github.com/user"
+    validations:
+      required: false
+
+  - type: input
+    id: subscription-url
+    attributes:
+      label: "Subscription URL"
+      description: "Direct URL to the raw ruleset file."
+      placeholder: "e.g., https://raw.githubusercontent.com/user/repo/main/ublacklist.txt"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category"
+      description: "Which category best fits your ruleset? See the Community Rulesets page for existing categories."
+      options:
+        - AI-Generated Content
+        - Copycat Sites
+        - Gaming
+        - Media Sites
+        - Spam
+        - Specific Sites
+        - Chinese
+        - Italian
+        - Japanese
+        - Portuguese
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: category-other
+    attributes:
+      label: "Category (if 'Other')"
+      description: "Suggest a category name if none of the above fits."
+    validations:
+      required: false
