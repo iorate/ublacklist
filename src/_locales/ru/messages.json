@@ -351,6 +351,22 @@
     "message": "Включить",
     "description": "Text for the button to turn on sync in the dialog."
   },
+  "options_turnOnSyncDialog_initialSyncLabel": {
+    "message": "Initial sync",
+    "description": "Label for the initial-sync-behavior selector in the turn-on-sync dialog."
+  },
+  "options_turnOnSyncDialog_initialSyncLastWriteWins": {
+    "message": "Keep newest version",
+    "description": "Option that keeps whichever side (local or cloud) was modified most recently for each category."
+  },
+  "options_turnOnSyncDialog_initialSyncUseLocal": {
+    "message": "Use local version",
+    "description": "Option that uses the local version of settings, overwriting the remote version, on the first sync."
+  },
+  "options_turnOnSyncDialog_initialSyncUseRemote": {
+    "message": "Use remote version",
+    "description": "Option that uses the remote version of settings, overwriting local settings, on the first sync."
+  },
   "options_turnOffSync": {
     "message": "Отключить",
     "description": "Text for the button to turn off sync."
