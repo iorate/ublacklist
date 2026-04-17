@@ -28,6 +28,8 @@ export type Result = ErrorResult | SuccessResult;
 export type CloudId = "googleDrive" | "dropbox";
 export type SyncBackendId = CloudId | "webdav" | "browserSync";
 
+export type SyncForce = "none" | "upload" | "download";
+
 export type Cloud = {
   hostPermissions: string[];
   modifiedTimePrecision: "millisecond" | "second";

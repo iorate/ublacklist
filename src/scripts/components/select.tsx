@@ -28,6 +28,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const theme = useTheme();
     const wrapperClassName = useClassName(
       () => ({
+        display: "inline-block",
         position: "relative",
       }),
       [],

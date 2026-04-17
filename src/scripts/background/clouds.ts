@@ -3,7 +3,13 @@ import { browserSync } from "../clouds/browser-sync.ts";
 import { webdav } from "../clouds/webdav.ts";
 import { translate } from "../locales.ts";
 import { supportedClouds } from "../supported-clouds.ts";
-import type { Cloud, CloudId, CloudToken, WebDAVParams } from "../types.ts";
+import type {
+  Cloud,
+  CloudId,
+  CloudToken,
+  SyncForce,
+  WebDAVParams,
+} from "../types.ts";
 import { HTTPError, Mutex } from "../utilities.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
@@ -14,6 +20,7 @@ export async function connect(
   id: CloudId,
   authorizationCode: string,
   useAltFlow: boolean,
+  initialForce: SyncForce,
 ): Promise<{ message: string } | null> {
   try {
     await mutex.lock(async () => {
@@ -34,7 +41,7 @@ export async function connect(
         },
       });
     });
-    void sync();
+    void sync(initialForce);
     return null;
   } catch (e) {
     return { message: e instanceof Error ? e.message : "Unknown error" };
@@ -43,6 +50,7 @@ export async function connect(
 
 export async function connectToWebDAV(
   params: WebDAVParams,
+  initialForce: SyncForce,
 ): Promise<{ message: string } | null> {
   try {
     await mutex.lock(async () => {
@@ -58,14 +66,14 @@ export async function connectToWebDAV(
         syncCloudToken: params,
       });
     });
-    void sync();
+    void sync(initialForce);
     return null;
   } catch (e) {
     return { message: e instanceof Error ? e.message : "Unknown error" };
   }
 }
 
-export async function connectToBrowserSync(): Promise<{
+export async function connectToBrowserSync(initialForce: SyncForce): Promise<{
   message: string;
 } | null> {
   try {
@@ -81,7 +89,7 @@ export async function connectToBrowserSync(): Promise<{
         syncCloudToken: {},
       });
     });
-    void sync();
+    void sync(initialForce);
     return null;
   } catch (e) {
     return { message: e instanceof Error ? e.message : "Unknown error" };
@@ -203,6 +211,7 @@ export function syncFile(
   filename: string,
   content: string,
   modifiedTime: dayjs.Dayjs,
+  force: SyncForce,
 ): Promise<{ content: string; modifiedTime: dayjs.Dayjs } | null> {
   return mutex.lock(async () => {
     const { syncCloudId, syncCloudToken } = await loadFromRawStorage([
@@ -227,6 +236,24 @@ export function syncFile(
               syncCloudToken as CloudToken,
             );
     const cloudFile = await client.findFile(filename);
+    if (force === "upload") {
+      // Use `now` so this device's version wins on other devices' next sync,
+      // regardless of their existing local/cloud timestamps.
+      const forcedTime = dayjs();
+      if (cloudFile) {
+        await client.updateFile(cloudFile.id, content, forcedTime);
+      } else {
+        await client.createFile(filename, content, forcedTime);
+      }
+      return { content, modifiedTime: forcedTime };
+    }
+    if (force === "download") {
+      if (!cloudFile) {
+        return null;
+      }
+      const { content: cloudContent } = await client.readFile(cloudFile.id);
+      return { content: cloudContent, modifiedTime: cloudFile.modifiedTime };
+    }
     if (cloudFile) {
       if (
         modifiedTime.isBefore(

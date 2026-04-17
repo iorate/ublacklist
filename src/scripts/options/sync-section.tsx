@@ -39,7 +39,7 @@ import { Input } from "../components/input.tsx";
 import { getWebsiteURL, translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { supportedClouds } from "../supported-clouds.ts";
-import type { MessageName0, SyncBackendId } from "../types.ts";
+import type { MessageName0, SyncBackendId, SyncForce } from "../types.ts";
 import { AltURL, isErrorResult } from "../utilities.ts";
 import { FromNow } from "./from-now.tsx";
 import { useOptionsContext } from "./options-context.tsx";
@@ -101,6 +101,7 @@ const TurnOnSyncDialog: React.FC<
     authCode: "",
     webDAVParams: initialWebDAVParams,
     errorMessage: "",
+    initialForce: "none" as SyncForce,
   });
   const prevOpen = usePrevious(open);
   if (open && !prevOpen) {
@@ -110,6 +111,7 @@ const TurnOnSyncDialog: React.FC<
     state.authCode = "";
     state.webDAVParams = initialWebDAVParams;
     state.errorMessage = "";
+    state.initialForce = "none";
   }
   const forceAltFlow =
     state.backendId === "webdav" || state.backendId === "browserSync"
@@ -337,6 +339,37 @@ const TurnOnSyncDialog: React.FC<
             )}
           </>
         )}
+        <Row>
+          <RowItem expanded>
+            <LabelWrapper fullWidth>
+              <ControlLabel for={`${id}-initial-direction`}>
+                {translate("options_turnOnSyncDialog_initialSyncLabel")}
+              </ControlLabel>
+            </LabelWrapper>
+            <Select
+              disabled={state.phase !== "none"}
+              id={`${id}-initial-direction`}
+              value={state.initialForce}
+              onChange={(e) => {
+                const { value } = e.currentTarget;
+                setState((s) => ({
+                  ...s,
+                  initialForce: value as SyncForce,
+                }));
+              }}
+            >
+              <SelectOption value="none">
+                {translate("options_turnOnSyncDialog_initialSyncLastWriteWins")}
+              </SelectOption>
+              <SelectOption value="upload">
+                {translate("options_turnOnSyncDialog_initialSyncUseLocal")}
+              </SelectOption>
+              <SelectOption value="download">
+                {translate("options_turnOnSyncDialog_initialSyncUseRemote")}
+              </SelectOption>
+            </Select>
+          </RowItem>
+        </Row>
       </DialogBody>
       <DialogFooter>
         <Row>
@@ -388,6 +421,7 @@ const TurnOnSyncDialog: React.FC<
                       const error = await sendMessage(
                         "connect-to-webdav",
                         omit(state.webDAVParams, ["urlValid"]),
+                        state.initialForce,
                       );
                       if (error) {
                         setState((s) => ({
@@ -409,6 +443,7 @@ const TurnOnSyncDialog: React.FC<
                     try {
                       const error = await sendMessage(
                         "connect-to-browser-sync",
+                        state.initialForce,
                       );
                       if (error) {
                         setState((s) => ({
@@ -464,6 +499,7 @@ const TurnOnSyncDialog: React.FC<
                       state.backendId,
                       authCode,
                       useAltFlow,
+                      state.initialForce,
                     );
                     if (error) {
                       setState((s) => ({ ...s, errorMessage: error.message }));
@@ -618,7 +654,7 @@ const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
   );
 };
 
-const SyncCategories: React.FC<{ disabled: boolean }> = ({ disabled }) => (
+const SyncCategories: React.FC = () => (
   <SectionItem>
     <Row>
       <RowItem expanded>
@@ -635,35 +671,30 @@ const SyncCategories: React.FC<{ disabled: boolean }> = ({ disabled }) => (
         <List>
           <ListItem>
             <SetBooleanItem
-              disabled={disabled}
               itemKey="syncBlocklist"
               label={translate("options_syncBlocklist")}
             />
           </ListItem>
           <ListItem>
             <SetBooleanItem
-              disabled={disabled}
               itemKey="syncGeneral"
               label={translate("options_syncGeneral")}
             />
           </ListItem>
           <ListItem>
             <SetBooleanItem
-              disabled={disabled}
               itemKey="syncAppearance"
               label={translate("options_syncAppearance")}
             />
           </ListItem>
           <ListItem>
             <SetBooleanItem
-              disabled={disabled}
               itemKey="syncSubscriptions"
               label={translate("options_syncSubscriptions")}
             />
           </ListItem>
           <ListItem>
             <SetBooleanItem
-              disabled={disabled}
               itemKey="syncSerpInfo"
               label={translate("options_syncSerpInfo")}
             />
@@ -690,7 +721,7 @@ export const SyncSection: React.FC<{ id: string }> = (props) => {
       <SectionBody>
         <TurnOnSync backendId={backendId} setBackendId={setBackendId} />
         <SyncNow backendId={backendId} />
-        <SyncCategories disabled={!backendId} />
+        <SyncCategories />
         <SectionItem>
           <SetIntervalItem
             disabled={!backendId}
