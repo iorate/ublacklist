@@ -8,6 +8,7 @@ import type {
   Subscription,
   SubscriptionId,
   SyncBackendId,
+  SyncForce,
 } from "./types.ts";
 
 type MessageSignatures = {
@@ -15,14 +16,20 @@ type MessageSignatures = {
     id: CloudId,
     authorizationCode: string,
     useAltFlow: boolean,
+    initialForce: SyncForce,
   ) => { message: string } | null;
-  "connect-to-webdav": (params: {
-    url: string;
-    username: string;
-    password: string;
-    path: string;
-  }) => { message: string } | null;
-  "connect-to-browser-sync": () => { message: string } | null;
+  "connect-to-webdav": (
+    params: {
+      url: string;
+      username: string;
+      password: string;
+      path: string;
+    },
+    initialForce: SyncForce,
+  ) => { message: string } | null;
+  "connect-to-browser-sync": (
+    initialForce: SyncForce,
+  ) => { message: string } | null;
   "disconnect-from-cloud": () => void;
 
   "save-to-local-storage": (
