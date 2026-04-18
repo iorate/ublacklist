@@ -23,45 +23,18 @@ pnpm test
 
 # Fix linting/formatting issues
 pnpm fix
-
-# Generate files
-pnpm generate:ruleset-parser    # Rebuild Lezer parser from grammar
-pnpm generate:message-names     # Generate message name constants
 ```
 
-## Architecture
+## Verifying Changes
 
-### Entry Points
+After editing, run `pnpm check` to verify (this runs biome, prettier, and tsgo together).
 
-- `src/scripts/background.ts` - Service worker / background script
-- `src/scripts/serpinfo/content-script.ts` - Content script injected into SERPs
-- `src/scripts/options.tsx` - Options page (React)
-- `src/scripts/popup.tsx` - Browser action popup (React)
+## Subsystem References
 
-### Key Subsystems
+- Ruleset syntax: `docs/ruleset-spec.md`
+- SERPINFO format: `docs/serpinfo-spec.md`
 
-**Ruleset Engine** (`src/scripts/ruleset/`):
+## Adding or Changing Messages
 
-- Uses Lezer parser generated from `ruleset.grammar`
-- Supports match patterns (`*://*.example.com/*`) and expressions with regex, variables, string matchers
-- Parser output is `parser.generated.ts` - regenerate with `pnpm generate:ruleset-parser`
-- Syntax reference: `docs/ruleset-spec.md`
-
-**SERPINFO System** (`src/scripts/serpinfo/`):
-
-- Declarative system for defining how to find/filter results on different search engines
-- `filter.ts` - Core filtering logic using MutationObserver
-- `schemas.ts` - Zod schemas for SERP configuration
-- User-defined configurations stored via `storage-store.ts`
-- Format reference: `docs/serpinfo-spec.md`
-
-## Code Style
-
-- Use `.ts` import extensions (enforced by linter)
-- React components use goober for CSS-in-JS styling
-- State management via Zustand stores
-
-## Localization
-
-- Translations managed via Crowdin - do not edit `src/_locales/` directly
-- Message names generated from English messages - run `pnpm generate:message-names` after changing
+1. Edit `src/_locales/en/messages.json` (English is the source of truth; other locales are managed via Crowdin — do not edit them directly).
+2. Run `pnpm generate:message-names` to regenerate message name constants.
