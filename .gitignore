@@ -12,3 +12,11 @@ dist/
 README.*.md
 !README.de.md
 !README.zh-CN.md
+
+# Claude Code
+.claude/settings.local.json
+
+# Playwright CLI
+.playwright/
+.playwright-cli/
+.claude/skills/playwright-cli/
