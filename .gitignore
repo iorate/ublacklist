@@ -15,3 +15,8 @@ README.*.md
 
 # Claude Code
 .claude/settings.local.json
+
+# Playwright CLI
+.playwright/
+.playwright-cli/
+.claude/skills/playwright-cli/
