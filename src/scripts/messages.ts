@@ -40,6 +40,7 @@ type MessageSignatures = {
   "add-subscription": (subscription: Subscription) => SubscriptionId;
   "remove-subscription": (id: SubscriptionId) => void;
   "enable-subscription": (id: SubscriptionId, enabled: boolean) => void;
+  "rename-subscription": (id: SubscriptionId, name: string) => void;
 
   sync: () => void;
   syncing: (id: SyncBackendId) => void;
