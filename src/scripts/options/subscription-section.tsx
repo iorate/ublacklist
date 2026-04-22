@@ -58,10 +58,11 @@ import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
 
 function getName(subscription: Readonly<Subscription>): string {
+  if (subscription.name) {
+    return subscription.name;
+  }
   const name = subscription.ruleset?.metadata.name;
-  return typeof name === "string"
-    ? name
-    : subscription.name || subscription.url;
+  return typeof name === "string" ? name : subscription.url;
 }
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
@@ -151,15 +152,14 @@ const AddSubscriptionDialog: React.FC<
           <RowItem expanded>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-name`}>
-                {translate("options_addSubscriptionDialog_altNameLabel")}
+                {translate("options_addSubscriptionDialog_nameLabel")}
               </ControlLabel>
               <SubLabel>
-                {translate("options_addSubscriptionDialog_altNameDescription")}
+                {translate("options_addSubscriptionDialog_nameDescription")}
               </SubLabel>
             </LabelWrapper>
             <Input
               id={`${id}-name`}
-              required={true}
               value={state.name}
               onChange={(e) => {
                 const name = e.currentTarget.value;
@@ -203,6 +203,92 @@ const AddSubscriptionDialog: React.FC<
               }}
             >
               {translate("options_addSubscriptionDialog_addButton")}
+            </Button>
+          </RowItem>
+        </Row>
+      </DialogFooter>
+    </Dialog>
+  );
+};
+
+const RenameSubscriptionDialog: React.FC<
+  {
+    subscriptionId: SubscriptionId | null;
+    subscription: Subscription | null;
+    setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
+  } & DialogProps
+> = ({ close, open, subscriptionId, subscription, setSubscriptions }) => {
+  const id = useId();
+  const [state, setState] = useState(() => ({
+    name: subscription?.name ?? "",
+  }));
+  const prevOpen = usePrevious(open);
+  if (open && prevOpen === false) {
+    state.name = subscription?.name ?? "";
+  }
+  return (
+    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
+      <DialogHeader>
+        <DialogTitle id={`${id}-title`}>
+          {translate("options_renameSubscriptionDialog_title")}
+        </DialogTitle>
+      </DialogHeader>
+      <DialogBody>
+        <Row>
+          <RowItem expanded>
+            <LabelWrapper fullWidth>
+              <ControlLabel for={`${id}-name`}>
+                {translate("options_addSubscriptionDialog_nameLabel")}
+              </ControlLabel>
+              <SubLabel>
+                {translate("options_addSubscriptionDialog_nameDescription")}
+              </SubLabel>
+            </LabelWrapper>
+            <Input
+              className={FOCUS_START_CLASS}
+              id={`${id}-name`}
+              value={state.name}
+              onChange={(e) => {
+                const name = e.currentTarget.value;
+                setState((s) => ({ ...s, name }));
+              }}
+            />
+          </RowItem>
+        </Row>
+      </DialogBody>
+      <DialogFooter>
+        <Row right>
+          <RowItem>
+            <Button onClick={close}>{translate("cancelButton")}</Button>
+          </RowItem>
+          <RowItem>
+            <Button
+              className={FOCUS_END_CLASS}
+              primary
+              onClick={async () => {
+                if (subscriptionId == null) {
+                  close();
+                  return;
+                }
+                await sendMessage(
+                  "rename-subscription",
+                  subscriptionId,
+                  state.name,
+                );
+                setSubscriptions((subscriptions) => {
+                  const newSubscriptions = { ...subscriptions };
+                  if (subscriptions[subscriptionId]) {
+                    newSubscriptions[subscriptionId] = {
+                      ...subscriptions[subscriptionId],
+                      name: state.name,
+                    };
+                  }
+                  return newSubscriptions;
+                });
+                close();
+              }}
+            >
+              {translate("options_renameSubscriptionDialog_renameButton")}
             </Button>
           </RowItem>
         </Row>
@@ -270,6 +356,15 @@ const ManageSubscription: React.FC<{
   setShowSubscriptionDialogSubscription: React.Dispatch<
     React.SetStateAction<Subscription | null>
   >;
+  setRenameSubscriptionDialogOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+  setRenameSubscriptionDialogSubscriptionId: React.Dispatch<
+    React.SetStateAction<SubscriptionId | null>
+  >;
+  setRenameSubscriptionDialogSubscription: React.Dispatch<
+    React.SetStateAction<Subscription | null>
+  >;
   setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   subscription: Subscription;
   updating: boolean;
@@ -278,6 +373,9 @@ const ManageSubscription: React.FC<{
   setSubscriptions,
   setShowSubscriptionDialogOpen,
   setShowSubscriptionDialogSubscription,
+  setRenameSubscriptionDialogOpen,
+  setRenameSubscriptionDialogSubscriptionId,
+  setRenameSubscriptionDialogSubscription,
   subscription,
   updating,
 }) => {
@@ -342,6 +440,17 @@ const ManageSubscription: React.FC<{
             {translate("options_updateSubscriptionNowMenu")}
           </MenuItem>
           <MenuItem
+            onClick={() => {
+              requestAnimationFrame(() => {
+                setRenameSubscriptionDialogOpen(true);
+                setRenameSubscriptionDialogSubscriptionId(id);
+                setRenameSubscriptionDialogSubscription(subscription);
+              });
+            }}
+          >
+            {translate("options_renameSubscriptionMenu")}
+          </MenuItem>
+          <MenuItem
             onClick={async () => {
               await sendMessage("remove-subscription", id);
               setSubscriptions((subscriptions) => {
@@ -374,6 +483,16 @@ export const ManageSubscriptions: React.FC<{
   const [
     showSubscriptionDialogSubscription,
     setShowSubscriptionDialogSubscription,
+  ] = useState<Subscription | null>(null);
+  const [renameSubscriptionDialogOpen, setRenameSubscriptionDialogOpen] =
+    useState(false);
+  const [
+    renameSubscriptionDialogSubscriptionId,
+    setRenameSubscriptionDialogSubscriptionId,
+  ] = useState<SubscriptionId | null>(null);
+  const [
+    renameSubscriptionDialogSubscription,
+    setRenameSubscriptionDialogSubscription,
   ] = useState<Subscription | null>(null);
 
   useEffect(
@@ -453,6 +572,15 @@ export const ManageSubscriptions: React.FC<{
                       setShowSubscriptionDialogSubscription={
                         setShowSubscriptionDialogSubscription
                       }
+                      setRenameSubscriptionDialogOpen={
+                        setRenameSubscriptionDialogOpen
+                      }
+                      setRenameSubscriptionDialogSubscriptionId={
+                        setRenameSubscriptionDialogSubscriptionId
+                      }
+                      setRenameSubscriptionDialogSubscription={
+                        setRenameSubscriptionDialogSubscription
+                      }
                       setSubscriptions={setSubscriptions}
                       subscription={subscription}
                       updating={updating[id] ?? false}
@@ -506,6 +634,15 @@ export const ManageSubscriptions: React.FC<{
           close={() => setShowSubscriptionDialogOpen(false)}
           open={showSubscriptionDialogOpen}
           subscription={showSubscriptionDialogSubscription}
+        />
+      </Portal>
+      <Portal id={`${id}-rename-portal`}>
+        <RenameSubscriptionDialog
+          close={() => setRenameSubscriptionDialogOpen(false)}
+          open={renameSubscriptionDialogOpen}
+          setSubscriptions={setSubscriptions}
+          subscription={renameSubscriptionDialogSubscription}
+          subscriptionId={renameSubscriptionDialogSubscriptionId}
         />
       </Portal>
     </SectionItem>

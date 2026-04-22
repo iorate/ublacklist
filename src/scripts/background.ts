@@ -21,6 +21,7 @@ function main() {
     "add-subscription": LocalStorage.addSubscription,
     "remove-subscription": LocalStorage.removeSubscription,
     "enable-subscription": LocalStorage.enableSubscription,
+    "rename-subscription": LocalStorage.renameSubscription,
 
     sync: Sync.sync,
 

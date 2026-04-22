@@ -136,6 +136,23 @@ export async function removeSubscription(id: SubscriptionId): Promise<void> {
   syncDelayed({ subscriptions: true });
 }
 
+export async function renameSubscription(
+  id: SubscriptionId,
+  name: string,
+): Promise<void> {
+  await modifyInRawStorage(["subscriptions"], ({ subscriptions }) => {
+    const newSubscriptions = { ...subscriptions };
+    if (subscriptions[id]) {
+      newSubscriptions[id] = { ...subscriptions[id], name };
+    }
+    return {
+      subscriptions: newSubscriptions,
+      subscriptionsLastModified: dayjs().toISOString(),
+    };
+  });
+  syncDelayed({ subscriptions: true });
+}
+
 export async function enableSubscription(
   id: SubscriptionId,
   enabled: boolean,
