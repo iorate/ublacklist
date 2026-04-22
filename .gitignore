@@ -1,12 +1,15 @@
-# Dependencies
-node_modules/
+# Environment files
+.env
 
 # Build outputs
 dist/
 
-# Environment files
-.env
-.env.local
+# Dependencies
+node_modules/
+
+# Local development
+*.local
+local/
 
 # Untranslated readme files
 README.*.md
@@ -15,6 +18,7 @@ README.*.md
 
 # Claude Code
 .claude/settings.local.json
+.claude/worktrees/
 
 # Playwright CLI
 .playwright/
