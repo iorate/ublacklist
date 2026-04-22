@@ -487,9 +487,21 @@
     "message": "立即更新",
     "description": "Text for the menu item to update a subscription now."
   },
+  "options_renameSubscriptionMenu": {
+    "message": "Rename",
+    "description": "Text for the menu item to rename a subscription."
+  },
   "options_removeSubscriptionMenu": {
     "message": "移除",
     "description": "Text for the menu item to remove a subscription."
+  },
+  "options_renameSubscriptionDialog_title": {
+    "message": "Rename subscription",
+    "description": "Title of the rename subscription dialog."
+  },
+  "options_renameSubscriptionDialog_renameButton": {
+    "message": "Rename",
+    "description": "Text for the rename button in the rename subscription dialog."
   },
   "options_updateAllSubscriptionsNowButton": {
     "message": "立即更新",
@@ -499,21 +511,17 @@
     "message": "加入訂閱項目",
     "description": "Title of the add subscription dialog."
   },
-  "options_addSubscriptionDialog_nameLabel": {
-    "message": "名稱",
-    "description": "Label for the name input in the add subscription dialog."
-  },
   "options_addSubscriptionDialog_urlLabel": {
     "message": "網址",
     "description": "Label for the URL input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameLabel": {
-    "message": "備用名稱（選填）",
-    "description": "Label for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "名稱",
+    "description": "Label for the name input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameDescription": {
-    "message": "當下載的規則集不包含名稱時使用的備用名稱。",
-    "description": "Helper text for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameDescription": {
+    "message": "If empty, the name of the downloaded ruleset or the URL will be used.",
+    "description": "Helper text for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "加入",

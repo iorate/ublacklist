@@ -487,9 +487,21 @@
     "message": "Atualizar agora",
     "description": "Text for the menu item to update a subscription now."
   },
+  "options_renameSubscriptionMenu": {
+    "message": "Rename",
+    "description": "Text for the menu item to rename a subscription."
+  },
   "options_removeSubscriptionMenu": {
     "message": "Remover",
     "description": "Text for the menu item to remove a subscription."
+  },
+  "options_renameSubscriptionDialog_title": {
+    "message": "Rename subscription",
+    "description": "Title of the rename subscription dialog."
+  },
+  "options_renameSubscriptionDialog_renameButton": {
+    "message": "Rename",
+    "description": "Text for the rename button in the rename subscription dialog."
   },
   "options_updateAllSubscriptionsNowButton": {
     "message": "Atualizar agora",
@@ -499,21 +511,17 @@
     "message": "Adicionar uma inscrição",
     "description": "Title of the add subscription dialog."
   },
-  "options_addSubscriptionDialog_nameLabel": {
-    "message": "Nome",
-    "description": "Label for the name input in the add subscription dialog."
-  },
   "options_addSubscriptionDialog_urlLabel": {
     "message": "URL",
     "description": "Label for the URL input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameLabel": {
-    "message": "Nome alternativo (opcional)",
-    "description": "Label for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "Nome",
+    "description": "Label for the name input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameDescription": {
-    "message": "O nome alternativo usado quando um conjunto de regras baixado não contém um nome.",
-    "description": "Helper text for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameDescription": {
+    "message": "If empty, the name of the downloaded ruleset or the URL will be used.",
+    "description": "Helper text for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "Adicionar",

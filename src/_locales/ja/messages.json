@@ -352,19 +352,19 @@
     "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOnSyncDialog_initialSyncLabel": {
-    "message": "Initial sync",
+    "message": "初回同期",
     "description": "Label for the initial-sync-behavior selector in the turn-on-sync dialog."
   },
   "options_turnOnSyncDialog_initialSyncLastWriteWins": {
-    "message": "Keep newest version",
+    "message": "新しい方を残す",
     "description": "Option that keeps whichever side (local or cloud) was modified most recently for each category."
   },
   "options_turnOnSyncDialog_initialSyncUseLocal": {
-    "message": "Use local version",
+    "message": "ローカルを優先",
     "description": "Option that uses the local version of settings, overwriting the remote version, on the first sync."
   },
   "options_turnOnSyncDialog_initialSyncUseRemote": {
-    "message": "Use remote version",
+    "message": "リモートを優先",
     "description": "Option that uses the remote version of settings, overwriting local settings, on the first sync."
   },
   "options_turnOffSync": {
@@ -487,9 +487,21 @@
     "message": "今すぐ更新",
     "description": "Text for the menu item to update a subscription now."
   },
+  "options_renameSubscriptionMenu": {
+    "message": "Rename",
+    "description": "Text for the menu item to rename a subscription."
+  },
   "options_removeSubscriptionMenu": {
     "message": "削除",
     "description": "Text for the menu item to remove a subscription."
+  },
+  "options_renameSubscriptionDialog_title": {
+    "message": "Rename subscription",
+    "description": "Title of the rename subscription dialog."
+  },
+  "options_renameSubscriptionDialog_renameButton": {
+    "message": "Rename",
+    "description": "Text for the rename button in the rename subscription dialog."
   },
   "options_updateAllSubscriptionsNowButton": {
     "message": "今すぐ更新",
@@ -499,21 +511,17 @@
     "message": "購読を追加する",
     "description": "Title of the add subscription dialog."
   },
-  "options_addSubscriptionDialog_nameLabel": {
-    "message": "名前",
-    "description": "Label for the name input in the add subscription dialog."
-  },
   "options_addSubscriptionDialog_urlLabel": {
     "message": "URL",
     "description": "Label for the URL input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameLabel": {
-    "message": "代替の名前 (オプション)",
-    "description": "Label for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameLabel": {
+    "message": "名前",
+    "description": "Label for the name input in the add subscription dialog."
   },
-  "options_addSubscriptionDialog_altNameDescription": {
-    "message": "ダウンロードしたルールセットに名前が含まれないときに、代わりに使用される名前です。",
-    "description": "Helper text for the alternative name input in the add subscription dialog."
+  "options_addSubscriptionDialog_nameDescription": {
+    "message": "If empty, the name of the downloaded ruleset or the URL will be used.",
+    "description": "Helper text for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
     "message": "追加",
