@@ -1,5 +1,5 @@
 {
-  "exclude": ["dist", "node_modules"],
+  "exclude": ["dist", "node_modules", "local", ".claude/worktrees"],
 
   "compilerOptions": {
     // Type Checking
