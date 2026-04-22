@@ -41,6 +41,7 @@ export async function backup(): Promise<LocalStorageItemsBackupRestore> {
     subscriptions: Object.values(items.subscriptions).map((s) => ({
       name: s.name,
       url: s.url,
+      ...(s.type ? { type: s.type } : {}),
       enabled: s.enabled ?? true,
     })),
     serpInfoSettings: SerpInfoSettings.toSerializable(items.serpInfoSettings),
@@ -58,11 +59,12 @@ export async function restore(
     const ruleset = toPlainRuleset(blacklist);
 
     const subscriptions: Subscriptions = {};
-    for (const { name, url, enabled } of items.subscriptions ||
+    for (const { name, url, type, enabled } of items.subscriptions ||
       Object.values(defaults.subscriptions)) {
       subscriptions[nextSubscriptionId] = {
         name,
         url,
+        ...(type ? { type } : {}),
         ruleset: toPlainRuleset(""),
         blacklist: "",
         updateResult: false,

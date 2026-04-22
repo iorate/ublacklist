@@ -174,7 +174,12 @@ export type LocalStorageItemsBackupRestore = Pick<
   | "syncInterval"
   | "updateInterval"
 > & {
-  subscriptions: readonly { name: string; url: string; enabled: boolean }[];
+  subscriptions: readonly {
+    name: string;
+    url: string;
+    type?: SubscriptionType;
+    enabled: boolean;
+  }[];
   serpInfoSettings: SerpInfoSettingsSerializable;
 };
 // #endregion LocalStorage
@@ -184,9 +189,12 @@ export type DialogTheme = "light" | "dark";
 // #region Subscriptions
 export type SubscriptionId = number;
 
+export type SubscriptionType = "ruleset" | "domains";
+
 export type Subscription = {
   name: string;
   url: string;
+  type?: SubscriptionType;
   ruleset?: PlainRuleset;
   blacklist: string;
   compiledRules?: string;

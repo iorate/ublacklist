@@ -106,6 +106,7 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
                         .object({
                           name: z.string(),
                           url: z.string(),
+                          type: z.enum(["ruleset", "domains"]).optional(),
                           enabled: z.boolean(),
                         })
                         .array()
