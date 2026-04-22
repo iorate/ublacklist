@@ -219,10 +219,12 @@ const RenameSubscriptionDialog: React.FC<
   } & DialogProps
 > = ({ close, open, subscriptionId, subscription, setSubscriptions }) => {
   const id = useId();
-  const [name, setName] = useState(subscription?.name ?? "");
+  const [state, setState] = useState(() => ({
+    name: subscription?.name ?? "",
+  }));
   const prevOpen = usePrevious(open);
   if (open && prevOpen === false) {
-    setName(subscription?.name ?? "");
+    state.name = subscription?.name ?? "";
   }
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
@@ -245,9 +247,10 @@ const RenameSubscriptionDialog: React.FC<
             <Input
               className={FOCUS_START_CLASS}
               id={`${id}-name`}
-              value={name}
+              value={state.name}
               onChange={(e) => {
-                setName(e.currentTarget.value);
+                const name = e.currentTarget.value;
+                setState((s) => ({ ...s, name }));
               }}
             />
           </RowItem>
@@ -267,13 +270,17 @@ const RenameSubscriptionDialog: React.FC<
                   close();
                   return;
                 }
-                await sendMessage("rename-subscription", subscriptionId, name);
+                await sendMessage(
+                  "rename-subscription",
+                  subscriptionId,
+                  state.name,
+                );
                 setSubscriptions((subscriptions) => {
                   const newSubscriptions = { ...subscriptions };
                   if (subscriptions[subscriptionId]) {
                     newSubscriptions[subscriptionId] = {
                       ...subscriptions[subscriptionId],
-                      name,
+                      name: state.name,
                     };
                   }
                   return newSubscriptions;
