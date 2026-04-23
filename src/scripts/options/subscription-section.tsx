@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { Suspense, useEffect, useId, useState } from "react";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
+import { Badge } from "../components/badge.tsx";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
@@ -354,6 +355,12 @@ const ShowSubscriptionDialog: React.FC<
       <DialogHeader>
         <DialogTitle id={`${id}-title`}>
           {subscription ? getName(subscription) : ""}
+          {subscription?.type && subscription.type !== "ruleset" ? (
+            <>
+              {" "}
+              <Badge>{subscription.type}</Badge>
+            </>
+          ) : null}
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
@@ -452,7 +459,15 @@ const ManageSubscription: React.FC<{
       </TableCell>
       <TableCell>
         <LabelWrapper>
-          <ControlLabel for={checkboxId}>{getName(subscription)}</ControlLabel>
+          <ControlLabel for={checkboxId}>
+            {getName(subscription)}
+            {subscription.type && subscription.type !== "ruleset" ? (
+              <>
+                {" "}
+                <Badge>{subscription.type}</Badge>
+              </>
+            ) : null}
+          </ControlLabel>
         </LabelWrapper>
       </TableCell>
       <TableCell>
