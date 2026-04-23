@@ -202,7 +202,7 @@ export function getMatchingRulesText(
       // Add header with ruleset name
       const headerContent =
         match.rulesetName === "personal-blocklist"
-          ? translate("personalBlocklist")
+          ? translate("popup_myRulesetHeader")
           : match.rulesetName;
       matchingRulesText[ruleType] += `# ${headerContent}\n`;
       // Add individual rules
