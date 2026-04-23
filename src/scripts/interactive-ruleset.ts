@@ -1,4 +1,4 @@
-import * as tldts from "tldts";
+import { getRegistrableDomain } from "./registrable-domain.ts";
 import {
   type LinkProps,
   Ruleset,
@@ -316,7 +316,10 @@ function suggestMatchPattern(
 ): string {
   let host = new URL(url).hostname;
   if (blockWholeSite) {
-    const domain = tldts.getDomain(host);
+    // `domain` is null when `host` itself is a public suffix (e.g.
+    // `vercel.app`). Fall back to the bare host to avoid suggesting
+    // `*.vercel.app`, which would match unrelated users' deployments.
+    const domain = getRegistrableDomain(host);
     if (domain != null) {
       host = `*.${domain}`;
     }
