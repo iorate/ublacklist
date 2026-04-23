@@ -31,10 +31,6 @@
     "message": "确定",
     "description": "Text for the OK button."
   },
-  "personalBlocklist": {
-    "message": "个人黑名单",
-    "description": "Label for the user's personal blocklist."
-  },
   "content_singleSiteBlocked": {
     "message": "uBlacklist 已经屏蔽了 1 个网站",
     "description": "Message shown when one site is blocked."
@@ -130,6 +126,10 @@
   "popup_highlightingRulesLabel": {
     "message": "高亮显示此条目的规则",
     "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_myRulesetHeader": {
+    "message": "My ruleset",
+    "description": "Header shown above rules from the user's own ruleset in the matching rules view."
   },
   "popup_serpInfoMode_showBlockedResults": {
     "message": "显示被屏蔽的搜索结果",

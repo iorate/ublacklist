@@ -31,10 +31,6 @@
     "message": "Гаразд",
     "description": "Text for the OK button."
   },
-  "personalBlocklist": {
-    "message": "Personal Blocklist",
-    "description": "Label for the user's personal blocklist."
-  },
   "content_singleSiteBlocked": {
     "message": "uBlacklist заблокував 1 сайт",
     "description": "Message shown when one site is blocked."
@@ -130,6 +126,10 @@
   "popup_highlightingRulesLabel": {
     "message": "Rules highlighting this entry",
     "description": "Label for the textarea showing rules highlighting the entry."
+  },
+  "popup_myRulesetHeader": {
+    "message": "My ruleset",
+    "description": "Header shown above rules from the user's own ruleset in the matching rules view."
   },
   "popup_serpInfoMode_showBlockedResults": {
     "message": "Show blocked search results",
