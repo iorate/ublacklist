@@ -11,9 +11,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         border: `1px solid ${theme.select.border}`,
         borderRadius: "4px",
         color: theme.text.secondary,
-        fontSize: "0.75em",
+        fontSize: "12px",
         padding: "0 0.4em",
         verticalAlign: "middle",
+        whiteSpace: "nowrap",
       }),
       [],
     );

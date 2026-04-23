@@ -350,16 +350,19 @@ const ShowSubscriptionDialog: React.FC<
     }),
     [],
   );
+  const badgeClassName = useClassName(
+    () => ({
+      marginLeft: "0.5em",
+    }),
+    [],
+  );
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
         <DialogTitle id={`${id}-title`}>
           {subscription ? getName(subscription) : ""}
           {subscription?.type && subscription.type !== "ruleset" ? (
-            <>
-              {" "}
-              <Badge>{subscription.type}</Badge>
-            </>
+            <Badge className={badgeClassName}>{subscription.type}</Badge>
           ) : null}
         </DialogTitle>
       </DialogHeader>
@@ -437,6 +440,12 @@ const ManageSubscription: React.FC<{
   updating,
 }) => {
   const checkboxId = `enableSubscription${id}`;
+  const badgeClassName = useClassName(
+    () => ({
+      marginLeft: "0.5em",
+    }),
+    [],
+  );
   return (
     <TableRow>
       <TableCell>
@@ -462,10 +471,7 @@ const ManageSubscription: React.FC<{
           <ControlLabel for={checkboxId}>
             {getName(subscription)}
             {subscription.type && subscription.type !== "ruleset" ? (
-              <>
-                {" "}
-                <Badge>{subscription.type}</Badge>
-              </>
+              <Badge className={badgeClassName}>{subscription.type}</Badge>
             ) : null}
           </ControlLabel>
         </LabelWrapper>
