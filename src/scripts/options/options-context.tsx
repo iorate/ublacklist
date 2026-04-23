@@ -30,7 +30,8 @@ export const OptionsContextProvider: React.FC<{ children: React.ReactNode }> = (
       const searchParams = new URL(window.location.href).searchParams;
       const typeParam = searchParams.get("type");
       const query: OptionsQuery = {
-        addSubscriptionName: searchParams.get("addSubscriptionName"),
+        addSubscriptionName:
+          searchParams.get("addSubscriptionName") ?? searchParams.get("name"),
         addSubscriptionURL:
           searchParams.get("addSubscriptionURL") ?? searchParams.get("url"),
         addSubscriptionType:
