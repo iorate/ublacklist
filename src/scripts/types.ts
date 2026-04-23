@@ -194,6 +194,7 @@ export type SubscriptionType = "ruleset" | "domains";
 export type Subscription = {
   name: string;
   url: string;
+  // string (not SubscriptionType) to preserve unknown types from future versions.
   type?: string;
   ruleset?: PlainRuleset;
   blacklist: string;
