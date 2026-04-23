@@ -244,7 +244,7 @@ const syncSections: readonly SyncSection[] = [
           Object.values(localItems.subscriptions).map((s) => ({
             name: s.name,
             url: s.url,
-            ...(s.type ? { type: s.type } : {}),
+            type: s.type ?? "ruleset",
             enabled: s.enabled ?? true,
           })),
         ),
@@ -271,7 +271,7 @@ const syncSections: readonly SyncSection[] = [
         subscriptions[nextSubscriptionId++] = {
           name,
           url,
-          ...(type ? { type } : {}),
+          type: type ?? "ruleset",
           blacklist: "",
           updateResult: null,
           enabled: enabled ?? true,

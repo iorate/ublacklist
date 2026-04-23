@@ -231,7 +231,7 @@ const AddSubscriptionDialog: React.FC<
                 const subscription: Subscription = {
                   name: state.name,
                   url: state.url,
-                  ...(state.type !== "ruleset" ? { type: state.type } : {}),
+                  type: state.type,
                   blacklist: "",
                   updateResult: null,
                   enabled: true,
