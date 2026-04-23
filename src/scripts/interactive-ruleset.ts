@@ -1,4 +1,4 @@
-import * as tldts from "tldts";
+import { getRegistrableDomain } from "./registrable-domain.ts";
 import {
   type LinkProps,
   Ruleset,
@@ -316,7 +316,7 @@ function suggestMatchPattern(
 ): string {
   let host = new URL(url).hostname;
   if (blockWholeSite) {
-    const domain = tldts.getDomain(host);
+    const domain = getRegistrableDomain(host);
     if (domain != null) {
       host = `*.${domain}`;
     }

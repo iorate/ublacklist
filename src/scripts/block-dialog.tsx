@@ -1,6 +1,5 @@
 import * as punycode from "punycode/";
 import { useId, useState } from "react";
-import * as tldts from "tldts";
 import icon from "../icons/icon.svg";
 import { ScopedBaseline } from "./components/baseline.tsx";
 import { Button, LinkButton } from "./components/button.tsx";
@@ -29,6 +28,7 @@ import { useClassName, usePrevious } from "./components/utilities.ts";
 import type { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import { PathDepth } from "./path-depth.ts";
+import { getRegistrableDomain } from "./registrable-domain.ts";
 import type { LinkProps } from "./ruleset/ruleset.ts";
 import type { DialogTheme, MatchingRulesText } from "./types.ts";
 import { getMatchingRulesText, makeAltURL, svgToDataURL } from "./utilities.ts";
@@ -79,7 +79,9 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
       state.disabled = false;
       state.unblock = patch.unblock;
       state.host = punycode.toUnicode(
-        blockWholeSite ? (tldts.getDomain(url.host) ?? url.host) : url.host,
+        blockWholeSite
+          ? (getRegistrableDomain(url.host) ?? url.host)
+          : url.host,
       );
       state.detailsOpen = false;
       state.matchingRulesOpen = false;
