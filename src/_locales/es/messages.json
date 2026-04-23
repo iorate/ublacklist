@@ -515,6 +515,18 @@
     "message": "URL",
     "description": "Label for the URL input in the add subscription dialog."
   },
+  "options_addSubscriptionDialog_typeLabel": {
+    "message": "Type",
+    "description": "Label for the type select in the add subscription dialog."
+  },
+  "options_addSubscriptionDialog_typeRuleset": {
+    "message": "Ruleset",
+    "description": "Label for the ruleset option in the type select."
+  },
+  "options_addSubscriptionDialog_typeDomains": {
+    "message": "Domains",
+    "description": "Label for the domains option in the type select."
+  },
   "options_addSubscriptionDialog_nameLabel": {
     "message": "Nombre",
     "description": "Label for the name input in the add subscription dialog."
