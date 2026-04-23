@@ -256,7 +256,7 @@ const syncSections: readonly SyncSection[] = [
         .object({
           name: z.string(),
           url: z.string(),
-          type: z.enum(["ruleset", "domains"]).optional(),
+          type: z.string().optional(),
           enabled: z.boolean().optional(),
         })
         .array()

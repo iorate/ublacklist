@@ -177,7 +177,7 @@ export type LocalStorageItemsBackupRestore = Pick<
   subscriptions: readonly {
     name: string;
     url: string;
-    type?: SubscriptionType;
+    type?: string;
     enabled: boolean;
   }[];
   serpInfoSettings: SerpInfoSettingsSerializable;
@@ -194,7 +194,7 @@ export type SubscriptionType = "ruleset" | "domains";
 export type Subscription = {
   name: string;
   url: string;
-  type?: SubscriptionType;
+  type?: string;
   ruleset?: PlainRuleset;
   blacklist: string;
   compiledRules?: string;
