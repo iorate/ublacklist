@@ -5,7 +5,7 @@ import { InteractiveRuleset } from "../interactive-ruleset.ts";
 import { translate } from "../locales.ts";
 import { postMessage } from "../messages.ts";
 import type { PlainRuleset, Subscriptions } from "../types.ts";
-import { fromPlainRuleset } from "../utilities.ts";
+import { fromPlainRuleset, getSubscriptionDisplayName } from "../utilities.ts";
 import {
   type ButtonProps,
   type PropertyCommand,
@@ -113,9 +113,12 @@ function createInteractiveRuleset(
     fromPlainRuleset(ruleset || null, blacklist),
     Object.values(subscriptions)
       .filter((subscription) => subscription.enabled ?? true)
-      .map(({ ruleset, blacklist, name }) => ({
-        name,
-        ruleset: fromPlainRuleset(ruleset || null, blacklist),
+      .map((subscription) => ({
+        name: getSubscriptionDisplayName(subscription),
+        ruleset: fromPlainRuleset(
+          subscription.ruleset || null,
+          subscription.blacklist,
+        ),
       })),
   );
 }

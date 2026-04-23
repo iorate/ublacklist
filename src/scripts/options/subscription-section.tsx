@@ -56,6 +56,7 @@ import type {
 } from "../types.ts";
 import {
   AltURL,
+  getSubscriptionDisplayName,
   isErrorResult,
   numberEntries,
   numberKeys,
@@ -64,14 +65,6 @@ import { FromNow } from "./from-now.tsx";
 import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
-
-function getName(subscription: Readonly<Subscription>): string {
-  if (subscription.name) {
-    return subscription.name;
-  }
-  const name = subscription.ruleset?.metadata.name;
-  return typeof name === "string" ? name : subscription.url;
-}
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
@@ -360,7 +353,7 @@ const ShowSubscriptionDialog: React.FC<
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
         <DialogTitle id={`${id}-title`}>
-          {subscription ? getName(subscription) : ""}
+          {subscription ? getSubscriptionDisplayName(subscription) : ""}
           {subscription?.type && subscription.type !== "ruleset" ? (
             <Badge className={badgeClassName}>{subscription.type}</Badge>
           ) : null}
@@ -469,7 +462,7 @@ const ManageSubscription: React.FC<{
       <TableCell>
         <LabelWrapper>
           <ControlLabel for={checkboxId}>
-            {getName(subscription)}
+            {getSubscriptionDisplayName(subscription)}
             {subscription.type && subscription.type !== "ruleset" ? (
               <Badge className={badgeClassName}>{subscription.type}</Badge>
             ) : null}

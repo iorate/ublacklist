@@ -18,7 +18,7 @@ import {
   EnableSerpInfoEmbeddedDialog,
   SerpInfoEmbeddedDialog,
 } from "./serpinfo/popup.tsx";
-import { fromPlainRuleset } from "./utilities.ts";
+import { fromPlainRuleset, getSubscriptionDisplayName } from "./utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -110,9 +110,12 @@ const Popup: React.FC = () => {
         fromPlainRuleset(options.ruleset || null, options.blacklist),
         Object.values(options.subscriptions)
           .filter((subscription) => subscription.enabled ?? true)
-          .map(({ ruleset, blacklist, name }) => ({
-            name,
-            ruleset: fromPlainRuleset(ruleset || null, blacklist),
+          .map((subscription) => ({
+            name: getSubscriptionDisplayName(subscription),
+            ruleset: fromPlainRuleset(
+              subscription.ruleset || null,
+              subscription.blacklist,
+            ),
           })),
       );
       setState({
