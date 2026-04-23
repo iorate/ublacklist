@@ -12,6 +12,7 @@ import type {
   MatchingRulesText,
   PlainRuleset,
   Result,
+  Subscription,
   SuccessResult,
 } from "./types.ts";
 
@@ -153,6 +154,16 @@ export function numberEntries<Key extends number, Value>(
 // #region string
 export function lines(s: string): string[] {
   return s ? s.split("\n") : [];
+}
+
+export function getSubscriptionDisplayName(
+  subscription: Readonly<Subscription>,
+): string {
+  if (subscription.name) {
+    return subscription.name;
+  }
+  const name = subscription.ruleset?.metadata.name;
+  return typeof name === "string" ? name : subscription.url;
 }
 
 export function getMatchingRulesText(
