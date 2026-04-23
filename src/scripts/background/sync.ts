@@ -244,6 +244,7 @@ const syncSections: readonly SyncSection[] = [
           Object.values(localItems.subscriptions).map((s) => ({
             name: s.name,
             url: s.url,
+            type: s.type ?? "ruleset",
             enabled: s.enabled ?? true,
           })),
         ),
@@ -255,6 +256,7 @@ const syncSections: readonly SyncSection[] = [
         .object({
           name: z.string(),
           url: z.string(),
+          type: z.string().optional(),
           enabled: z.boolean().optional(),
         })
         .array()
@@ -265,10 +267,11 @@ const syncSections: readonly SyncSection[] = [
       const items = parseResult.data;
       const subscriptions: Subscriptions = {};
       let nextSubscriptionId = localItems.nextSubscriptionId;
-      for (const { name, url, enabled } of items) {
+      for (const { name, url, type, enabled } of items) {
         subscriptions[nextSubscriptionId++] = {
           name,
           url,
+          type: type ?? "ruleset",
           blacklist: "",
           updateResult: null,
           enabled: enabled ?? true,

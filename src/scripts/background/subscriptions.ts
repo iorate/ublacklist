@@ -1,6 +1,7 @@
 import { omit } from "es-toolkit";
 import { browser } from "../browser.ts";
 import { postMessage } from "../messages.ts";
+import { domainsToRuleset } from "../ruleset/domains.ts";
 import type { SubscriptionId } from "../types.ts";
 import {
   errorResult,
@@ -45,7 +46,9 @@ export function update(id: SubscriptionId): Promise<void> {
       const response = await fetch(subscription.url);
       if (response.ok) {
         const source = await response.text();
-        subscription.ruleset = toPlainRuleset(source);
+        const rulesetSource =
+          subscription.type === "domains" ? domainsToRuleset(source) : source;
+        subscription.ruleset = toPlainRuleset(rulesetSource);
         subscription.blacklist = source;
         subscription.updateResult = successResult();
       } else {

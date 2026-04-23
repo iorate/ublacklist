@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { Suspense, useEffect, useId, useState } from "react";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
+import { Badge } from "../components/badge.tsx";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
@@ -13,6 +14,7 @@ import {
   type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
+import { Editor } from "../components/editor.tsx";
 import { Input } from "../components/input.tsx";
 import {
   ControlLabel,
@@ -31,6 +33,7 @@ import {
   SectionItem,
   SectionTitle,
 } from "../components/section.tsx";
+import { Select, SelectOption } from "../components/select.tsx";
 import {
   Table,
   TableBody,
@@ -45,7 +48,12 @@ import { permissionExemptOrigins } from "../constants.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners, sendMessage } from "../messages.ts";
 import { EnableSubscriptionURL } from "../serpinfo/enable-subscription-url.tsx";
-import type { Subscription, SubscriptionId, Subscriptions } from "../types.ts";
+import type {
+  Subscription,
+  SubscriptionId,
+  Subscriptions,
+  SubscriptionType,
+} from "../types.ts";
 import {
   AltURL,
   isErrorResult,
@@ -86,9 +94,17 @@ const AddSubscriptionDialog: React.FC<
   {
     initialName: string;
     initialURL: string;
+    initialType: SubscriptionType;
     setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
-> = ({ close, open, initialName, initialURL, setSubscriptions }) => {
+> = ({
+  close,
+  open,
+  initialName,
+  initialURL,
+  initialType,
+  setSubscriptions,
+}) => {
   const id = useId();
   const [state, setState] = useState(() => ({
     url: initialURL,
@@ -107,12 +123,14 @@ const AddSubscriptionDialog: React.FC<
       return true;
     })(),
     name: initialName,
+    type: initialType,
   }));
   const prevOpen = usePrevious(open);
   if (open && prevOpen === false) {
     state.url = "";
     state.urlValid = false;
     state.name = "";
+    state.type = initialType;
   }
   const ok = state.urlValid;
 
@@ -146,6 +164,30 @@ const AddSubscriptionDialog: React.FC<
                 setState((s) => ({ ...s, url, urlValid }));
               }}
             />
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem expanded>
+            <LabelWrapper fullWidth>
+              <ControlLabel for={`${id}-type`}>
+                {translate("options_addSubscriptionDialog_typeLabel")}
+              </ControlLabel>
+            </LabelWrapper>
+            <Select
+              id={`${id}-type`}
+              value={state.type}
+              onChange={(e) => {
+                const type = e.currentTarget.value as SubscriptionType;
+                setState((s) => ({ ...s, type }));
+              }}
+            >
+              <SelectOption value="ruleset">
+                {translate("options_addSubscriptionDialog_typeRuleset")}
+              </SelectOption>
+              <SelectOption value="domains">
+                {translate("options_addSubscriptionDialog_typeDomains")}
+              </SelectOption>
+            </Select>
           </RowItem>
         </Row>
         <Row>
@@ -190,6 +232,7 @@ const AddSubscriptionDialog: React.FC<
                 const subscription: Subscription = {
                   name: state.name,
                   url: state.url,
+                  type: state.type,
                   blacklist: "",
                   updateResult: null,
                   enabled: true,
@@ -307,11 +350,20 @@ const ShowSubscriptionDialog: React.FC<
     }),
     [],
   );
+  const badgeClassName = useClassName(
+    () => ({
+      marginLeft: "0.5em",
+    }),
+    [],
+  );
   return (
     <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
       <DialogHeader>
         <DialogTitle id={`${id}-title`}>
           {subscription ? getName(subscription) : ""}
+          {subscription?.type && subscription.type !== "ruleset" ? (
+            <Badge className={badgeClassName}>{subscription.type}</Badge>
+          ) : null}
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
@@ -326,14 +378,22 @@ const ShowSubscriptionDialog: React.FC<
         </Row>
         <Row>
           <RowItem expanded>
-            {open && (
-              <RulesetEditor
-                height="200px"
-                readOnly
-                resizable
-                value={subscription?.blacklist ?? ""}
-              />
-            )}
+            {open &&
+              (subscription?.type === "domains" ? (
+                <Editor
+                  height="200px"
+                  readOnly
+                  resizable
+                  value={subscription?.blacklist ?? ""}
+                />
+              ) : (
+                <RulesetEditor
+                  height="200px"
+                  readOnly
+                  resizable
+                  value={subscription?.blacklist ?? ""}
+                />
+              ))}
           </RowItem>
         </Row>
       </DialogBody>
@@ -380,6 +440,12 @@ const ManageSubscription: React.FC<{
   updating,
 }) => {
   const checkboxId = `enableSubscription${id}`;
+  const badgeClassName = useClassName(
+    () => ({
+      marginLeft: "0.5em",
+    }),
+    [],
+  );
   return (
     <TableRow>
       <TableCell>
@@ -402,7 +468,12 @@ const ManageSubscription: React.FC<{
       </TableCell>
       <TableCell>
         <LabelWrapper>
-          <ControlLabel for={checkboxId}>{getName(subscription)}</ControlLabel>
+          <ControlLabel for={checkboxId}>
+            {getName(subscription)}
+            {subscription.type && subscription.type !== "ruleset" ? (
+              <Badge className={badgeClassName}>{subscription.type}</Badge>
+            ) : null}
+          </ControlLabel>
         </LabelWrapper>
       </TableCell>
       <TableCell>
@@ -476,7 +547,9 @@ export const ManageSubscriptions: React.FC<{
   const { query } = useOptionsContext();
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(
-    query.addSubscriptionName != null || query.addSubscriptionURL != null,
+    query.addSubscriptionName != null ||
+      query.addSubscriptionURL != null ||
+      query.addSubscriptionType != null,
   );
   const [showSubscriptionDialogOpen, setShowSubscriptionDialogOpen] =
     useState(false);
@@ -625,6 +698,7 @@ export const ManageSubscriptions: React.FC<{
           close={() => setAddSubscriptionDialogOpen(false)}
           initialName={query.addSubscriptionName ?? ""}
           initialURL={query.addSubscriptionURL ?? ""}
+          initialType={query.addSubscriptionType ?? "ruleset"}
           open={addSubscriptionDialogOpen}
           setSubscriptions={setSubscriptions}
         />

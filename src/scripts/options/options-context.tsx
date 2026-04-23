@@ -6,6 +6,7 @@ import type { LocalStorageItems } from "../types.ts";
 export type OptionsQuery = {
   addSubscriptionName: string | null;
   addSubscriptionURL: string | null;
+  addSubscriptionType: "ruleset" | "domains" | null;
 };
 
 export type OptionsContextValue = {
@@ -27,10 +28,14 @@ export const OptionsContextProvider: React.FC<{ children: React.ReactNode }> = (
         browser.runtime.getPlatformInfo(),
       ]);
       const searchParams = new URL(window.location.href).searchParams;
-      const query = {
-        addSubscriptionName: searchParams.get("addSubscriptionName"),
+      const typeParam = searchParams.get("type");
+      const query: OptionsQuery = {
+        addSubscriptionName:
+          searchParams.get("addSubscriptionName") ?? searchParams.get("name"),
         addSubscriptionURL:
           searchParams.get("addSubscriptionURL") ?? searchParams.get("url"),
+        addSubscriptionType:
+          typeParam === "ruleset" || typeParam === "domains" ? typeParam : null,
       };
       setValue({ initialItems, platformInfo, query });
     })();
