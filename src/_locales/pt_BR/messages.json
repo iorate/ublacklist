@@ -55,6 +55,10 @@
     "message": "Desbloquear este site",
     "description": "Link text to unblock a site."
   },
+  "content_unhighlightSiteLink": {
+    "message": "Unhighlight this site",
+    "description": "Link text to unhighlight a site."
+  },
   "popup_blockSiteTitle": {
     "message": "Bloquear este site",
     "description": "Title of the popup to block a site."
@@ -63,21 +67,21 @@
     "message": "Desbloquear este site",
     "description": "Title of the popup to unblock a site."
   },
+  "popup_highlightSiteTitle": {
+    "message": "Highlight this site",
+    "description": "Title of the popup to highlight a site."
+  },
+  "popup_unhighlightSiteTitle": {
+    "message": "Unhighlight this site",
+    "description": "Title of the popup to unhighlight a site."
+  },
   "popup_details": {
     "message": "Detalhes",
     "description": "Title of the details disclosure widget."
   },
-  "popup_pageURLLabel": {
-    "message": "URL da página",
-    "description": "Label for the textarea showing the page URL."
-  },
-  "popup_pathDepth": {
-    "message": "Profundidade",
-    "description": "Label for the input showing the path depth for rules to be added."
-  },
-  "popup_pageTitleLabel": {
-    "message": "Título da página",
-    "description": "Label for the textarea showing the page title."
+  "popup_propertiesLabel": {
+    "message": "Properties",
+    "description": "Label for the table showing the entry's URL, title, and other properties."
   },
   "popup_addedRulesLabel": {
     "message": "Regras que serão adicionadas",
@@ -87,6 +91,10 @@
     "message": "Regras que serão removidas",
     "description": "Label for the textarea showing rules to be removed."
   },
+  "popup_noRules": {
+    "message": "(none)",
+    "description": "Placeholder shown in a rules list when no rules apply."
+  },
   "popup_blockSiteButton": {
     "message": "Bloquear",
     "description": "Text for the button to block a site."
@@ -94,6 +102,18 @@
   "popup_unblockSiteButton": {
     "message": "Desbloquear",
     "description": "Text for the button to unblock a site."
+  },
+  "popup_highlightSiteButton": {
+    "message": "Highlight",
+    "description": "Text for the button to highlight a site."
+  },
+  "popup_unhighlightSiteButton": {
+    "message": "Unhighlight",
+    "description": "Text for the button to unhighlight a site."
+  },
+  "popup_changeActionLabel": {
+    "message": "Change action",
+    "description": "Accessibility label for the dropdown arrow that lets the user change the main action (block / unblock / highlight)."
   },
   "popup_openOptionsLink": {
     "message": "Opções",
