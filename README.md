@@ -12,10 +12,10 @@ This extension prevents the sites you specify from appearing in Google search re
 
 You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://ublacklist.github.io/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://ublacklist.github.io/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
 
-You can synchronize rulesets across devices via cloud storage. At the moment, Google Drive and Dropbox are supported.
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, WebDAV) or browser sync.
 
-You can also subscribe to public rulesets. Some subscriptions are listed on the website:
-https://ublacklist.github.io/subscriptions
+You can also subscribe to public rulesets. Some public rulesets are listed on the website:
+https://ublacklist.github.io/rulesets
 
 ## Browser support policy
 
@@ -25,7 +25,7 @@ uBlacklist supports the following browser versions:
 - **Firefox**: Latest stable version and latest ESR only
 - **Safari**: Latest stable version only (macOS and iOS)
 
-However, community contributions for older browser versions or browsers based on Chromium/Firefox are welcome.
+Support for browsers outside the list above depends on community contributions. Please open a [Discussion](https://github.com/iorate/ublacklist/discussions) with a concrete implementation proposal — reports without one are unlikely to be addressed.
 
 ## Supported search engines
 
