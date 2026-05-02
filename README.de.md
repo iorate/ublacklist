@@ -12,10 +12,10 @@ Diese Erweiterung verhindert, dass die von Ihnen angegebenen Seiten in Google-Su
 
 Sie können Regeln auf Suchergebnisseiten oder auf Seiten, die blockiert werden sollen, hinzufügen, indem Sie auf das Symbol in der Symbolleiste klicken. Regeln können entweder durch [Übereinstimmende Muster](https://ublacklist.github.io/de/docs/advanced-features#match-patterns) (z. B. `*://*.example.com/*`) oder durch [Ausdrücke](https://ublacklist.github.io/de/docs/advanced-features#expressions) einschließlich regulärer Ausdrücke, Variablen und Zeichenfolgenübereinstimmungen (z. B. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…) festgelegt werden.
 
-Sie können Regelsätze über Cloud-Speicher geräteübergreifend synchronisieren. Derzeit werden Google Drive und Dropbox unterstützt.
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, WebDAV) or browser sync.
 
-Sie können auch öffentliche Regelsätze abonnieren. Einige Abonnements sind auf der Seite aufgelistet:
-https://ublacklist.github.io/de/subscriptions
+You can also subscribe to public rulesets. Some public rulesets are listed on the website:
+https://ublacklist.github.io/rulesets
 
 ## Browser-Unterstützungsrichtlinie
 
@@ -25,7 +25,7 @@ uBlacklist unterstützt folgende Browserversionen:
 - **Firefox**: Nur die neueste stabile Version und die neueste ESR
 - **Safari**: Nur die neueste stabile Version (macOS und iOS)
 
-Beiträge der Community für ältere Browserversionen oder Browser auf Basis von Chromium/Firefox sind jedoch willkommen.
+Support for browsers outside the list above depends on community contributions. Please open a [Discussion](https://github.com/iorate/ublacklist/discussions) with a concrete implementation proposal — reports without one are unlikely to be addressed.
 
 ## Unterstützte Suchmaschinen
 

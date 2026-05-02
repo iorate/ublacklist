@@ -12,10 +12,10 @@
 
 您可以为搜索结果添加规则或点击工具栏图标以屏蔽指定的网站。规则可以通过以下方式指定：[匹配模式](https://ublacklist.github.io/docs/advanced-features#match-patterns) (示例：`*://*.example.com/*`) 或使用[表达式](https://ublacklist.github.io/docs/advanced-features#expressions)包括正则表达式、变量和字符串匹配器 (示例：`/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…)。
 
-您可以通过云存储跨设备同步规则集。目前，支持 Google Drive 和 Dropbox。
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, WebDAV) or browser sync.
 
-您还可以订阅公共规则集。该网站列出了一些订阅：
-https://ublacklist.github.io/subscriptions
+You can also subscribe to public rulesets. Some public rulesets are listed on the website:
+https://ublacklist.github.io/rulesets
 
 ## 浏览器支持策略
 
@@ -25,7 +25,7 @@ uBlacklist 支持以下浏览器版本：
 - **Firefox**：仅支持最新稳定版和最新 ESR 版
 - **Safari**：仅支持最新稳定版（macOS 和 iOS）
 
-不过，我们欢迎社区为较旧的浏览器版本或基于 Chromium/Firefox 的浏览器提供贡献。
+Support for browsers outside the list above depends on community contributions. Please open a [Discussion](https://github.com/iorate/ublacklist/discussions) with a concrete implementation proposal — reports without one are unlikely to be addressed.
 
 ## 支持的搜索引擎
 
