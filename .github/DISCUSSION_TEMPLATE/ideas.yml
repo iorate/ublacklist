@@ -4,8 +4,7 @@ body:
       value: |
         Feel free to suggest your feature idea.
 
-        #### For Search Engine Support Requests
-        **We do not plan to add builtin support.** You can write your own SERPINFO or subscribe to others' SERPINFO to add support. Use [Q&A](https://github.com/iorate/ublacklist/discussions/categories/q-a) for help.
+        > **Looking to add support for a search engine?** uBlacklist will not add new built-in search engine support. Write your own SERPINFO ([guide](https://ublacklist.github.io/docs/serpinfo)) or subscribe to one published by others. If you need help, ask in [Q&A](https://github.com/iorate/ublacklist/discussions/categories/q-a) instead of opening an idea here.
 
   - type: textarea
     id: description
