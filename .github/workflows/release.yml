@@ -1,0 +1,148 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_chrome:
+        type: boolean
+        default: false
+        description: Skip Chrome Web Store submission
+      skip_firefox:
+        type: boolean
+        default: false
+        description: Skip Firefox Add-ons submission
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check:
+    permissions:
+      contents: read
+
+    uses: ./.github/workflows/check.yml
+
+  release:
+    needs: check
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          submodules: recursive
+          fetch-depth: 0 # git-cliff and `git describe` need full history
+
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+        with:
+          run_install: true
+          cache: true
+
+      - name: Determine next version
+        id: next-version
+        run: |
+          NEXT_TAG=$(pnpm git-cliff --bumped-version)
+          CURRENT_TAG=$(git describe --tags --abbrev=0)
+          if [[ "$NEXT_TAG" == "$CURRENT_TAG" ]]; then
+            echo "::error::No qualifying commits since $CURRENT_TAG" >&2
+            exit 1
+          fi
+          {
+            echo "tag=$NEXT_TAG"
+            echo "version=${NEXT_TAG#v}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Ensure dist directory
+        run: mkdir -p dist
+
+      - name: Build and archive Chrome
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+        run: |
+          pnpm build --version "$VERSION"
+          (cd dist/chrome && zip -qr ../chrome.zip .)
+
+      - name: Build and archive Firefox
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+        run: |
+          pnpm build --browser firefox --version "$VERSION"
+          (cd dist/firefox && zip -qr ../firefox.zip .)
+
+      - name: Archive source
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+        run: |
+          git ls-files --recurse-submodules | zip -q -@ dist/source.zip
+          {
+            echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
+            echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
+            echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
+            echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
+          } > .env
+          zip -q dist/source.zip .env
+          rm .env
+
+      - name: Generate approval notes
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$VERSION' < approval-notes.template.txt > dist/approval-notes.txt
+
+      - name: Generate release notes
+        env:
+          TAG: ${{ steps.next-version.outputs.tag }}
+        run: pnpm git-cliff --tag "$TAG" --unreleased > dist/release-notes.md
+
+      - name: Publish to Chrome Web Store
+        if: ${{ !inputs.skip_chrome }}
+        env:
+          WEPUB_CHROME_PUBLISHER_ID: ${{ vars.CHROME_PUBLISHER_ID }}
+          WEPUB_CHROME_ITEM_ID: ${{ vars.CHROME_ITEM_ID }}
+          WEPUB_CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          WEPUB_CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: pnpm wepub chrome dist/chrome.zip
+
+      - name: Publish to Firefox Add-ons
+        if: ${{ !inputs.skip_firefox }}
+        env:
+          WEPUB_FIREFOX_ADDON_ID: ${{ vars.FIREFOX_ADDON_ID }}
+          WEPUB_FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
+          WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
+        run: |
+          pnpm wepub firefox dist/firefox.zip \
+            --source dist/source.zip \
+            --approval-notes-file dist/approval-notes.txt \
+            --release-notes-file dist/release-notes.md \
+            --compatibility firefox,android
+
+      - name: Create GitHub Release
+        env:
+          TAG: ${{ steps.next-version.outputs.tag }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$TAG" \
+            --target "$GITHUB_SHA" \
+            --notes-file dist/release-notes.md \
+            "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
