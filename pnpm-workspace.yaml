@@ -1,13 +1,10 @@
 allowBuilds:
+  "@iorate/wepub": true
   esbuild: true
   lefthook: true
 
 blockExoticSubdeps: true
 
 minimumReleaseAge: 1440 # 1 day
-
-overrides:
-  lodash.template@<=4.5.0: ^4.5.1
-  lodash.template@>=4.0.0 <4.18.0: ^4.18.0
 
 trustPolicy: no-downgrade

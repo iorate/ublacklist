@@ -540,7 +540,7 @@ react-colorful
 
 MIT License
 
-Copyright (c) 2020 Vlad Shilov <omgovich@ya.ru>
+Copyright (c) 2020-present Vlad Shilov <omgovich@ya.ru>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

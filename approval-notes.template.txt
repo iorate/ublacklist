@@ -1,0 +1,7 @@
+This add-on requires pnpm 10 or later to build.
+
+$ pnpm install
+
+$ pnpm build --browser firefox --version $VERSION
+
+The build output is placed in the dist/firefox directory.
