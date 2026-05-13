@@ -143,6 +143,7 @@ jobs:
         run: |
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
+            --title "$TAG" \
             --notes-file dist/release-notes.md \
             "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
             "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
