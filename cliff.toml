@@ -55,9 +55,10 @@ commit_parsers = [
     { message = "^(feat|fix)\\(i18n\\)", group = "<!-- 2 -->🌐 Translations" },
     { message = "^feat", group = "<!-- 0 -->🚀 Features" },
     { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
+    { message = ".*", skip = true },
 ]
 # Exclude commits that are not matched by any commit parser.
-filter_commits = true
+filter_commits = false
 # Fail on a commit that is not matched by any commit parser.
 fail_on_unmatched_commit = false
 # An array of link parsers for extracting external references, and turning them into URLs, using regex.
