@@ -110,7 +110,9 @@ async function main() {
   });
   const { browser, version, debug } = z
     .object({
-      browser: z.enum(["chrome", "firefox", "safari"]).default("chrome"),
+      browser: z
+        .enum(["chrome", "edge", "firefox", "safari"])
+        .default("chrome"),
       version: z.string().default("0.1.0"),
       debug: z.boolean().default(false),
     })

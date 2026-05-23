@@ -10,7 +10,7 @@ export type AuthorizeParams = {
 
 export function shouldUseAltFlow(): (os: string) => boolean {
   return (os) => {
-    if (process.env.BROWSER === "chrome") {
+    if (process.env.BROWSER === "chrome" || process.env.BROWSER === "edge") {
       return false;
     }
     if (process.env.BROWSER === "firefox") {

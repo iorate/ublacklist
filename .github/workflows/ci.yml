@@ -48,6 +48,7 @@ jobs:
       - name: pnpm build
         run: |
           pnpm build
+          pnpm build --browser edge
           pnpm build --browser firefox
           pnpm build --browser safari
         env:

@@ -157,6 +157,7 @@ const TurnOnSyncDialog: React.FC<
                 {translate(messageNames.webdav.sync)}
               </SelectOption>
               {(process.env.BROWSER === "chrome" ||
+                process.env.BROWSER === "edge" ||
                 (process.env.BROWSER === "firefox" && os !== "android")) && (
                 <SelectOption value="browserSync">
                   {translate(messageNames.browserSync.sync)}
