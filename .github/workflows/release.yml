@@ -7,6 +7,10 @@ on:
         type: boolean
         default: false
         description: Skip Chrome Web Store submission
+      skip_edge:
+        type: boolean
+        default: false
+        description: Skip Microsoft Edge Add-ons submission
       skip_firefox:
         type: boolean
         default: false
@@ -54,7 +58,7 @@ jobs:
       - name: Ensure dist directory
         run: mkdir -p dist
 
-      - name: Build and archive Chrome
+      - name: Build and archive (Chrome)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
@@ -65,7 +69,18 @@ jobs:
           pnpm build --version "$VERSION"
           (cd dist/chrome && zip -qr ../chrome.zip .)
 
-      - name: Build and archive Firefox
+      - name: Build and archive (Edge)
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+        run: |
+          pnpm build --browser edge --version "$VERSION"
+          (cd dist/edge && zip -qr ../edge.zip .)
+
+      - name: Build and archive (Firefox)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
@@ -93,12 +108,19 @@ jobs:
           zip -q dist/source.zip .env
           rm .env
 
-      - name: Generate approval notes
+      - name: Generate notes for certification (Edge)
+        env:
+          TAG: ${{ steps.next-version.outputs.tag }}
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$TAG' < release/notes-for-certification.template.txt > dist/notes-for-certification.txt
+
+      - name: Generate approval notes (Firefox)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
         run: |
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$VERSION' < approval-notes.template.txt > dist/approval-notes.txt
+          envsubst '$VERSION' < release/approval-notes.template.txt > dist/approval-notes.txt
 
       - name: Generate release notes
         env:
@@ -115,6 +137,14 @@ jobs:
           WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
         run: pnpm wepub chrome dist/chrome.zip
 
+      - name: Publish to Microsoft Edge Add-ons
+        if: ${{ !inputs.skip_edge }}
+        env:
+          WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
+          WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          WEPUB_EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        run: pnpm wepub edge dist/edge.zip --notes-file dist/notes-for-certification.txt
+
       - name: Publish to Firefox Add-ons
         if: ${{ !inputs.skip_firefox }}
         env:
@@ -123,10 +153,11 @@ jobs:
           WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
         run: |
           pnpm wepub firefox dist/firefox.zip \
-            --source dist/source.zip \
+            --channel listed \
+            --compatibility firefox,android \
             --approval-notes-file dist/approval-notes.txt \
             --release-notes-file dist/release-notes.md \
-            --compatibility firefox,android
+            --source dist/source.zip
 
       - name: Create GitHub Release
         env:
@@ -138,4 +169,5 @@ jobs:
             --title "$TAG" \
             --notes-file dist/release-notes.md \
             "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "dist/edge.zip#ublacklist-$TAG-edge.zip" \
             "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
