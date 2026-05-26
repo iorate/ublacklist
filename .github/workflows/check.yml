@@ -1,10 +1,6 @@
 name: Check
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
   workflow_call:
   workflow_dispatch:
 
@@ -34,19 +30,19 @@ jobs:
           run_install: true
           cache: true
 
-      - name: Check by Biome
+      - name: pnpm biome ci
         run: pnpm biome ci --reporter=github
 
-      - name: Check by Prettier
+      - name: pnpm prettier
         run: pnpm prettier --check '**/*.{md,yaml,yml}'
 
-      - name: Check by TypeScript
+      - name: pnpm tsgo
         run: pnpm tsgo
 
-      - name: Test
+      - name: pnpm test
         run: pnpm test
 
-      - name: Build
+      - name: pnpm build
         run: |
           pnpm build
           pnpm build --browser firefox
