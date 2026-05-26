@@ -32,8 +32,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install actionlint
+        run: bash <(curl -s https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
       - name: Run actionlint
-        uses: raven-actions/actionlint@205b530c5d9fa8f44ae9ed59f341a0db994aa6f8 # v2.1.2
+        run: ./actionlint -color
 
   zizmor:
     runs-on: ubuntu-latest
