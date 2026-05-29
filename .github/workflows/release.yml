@@ -10,7 +10,7 @@ on:
       skip_edge:
         type: boolean
         default: false
-        description: Skip Microsoft Edge Add-ons submission
+        description: Skip Edge Add-ons submission
       skip_firefox:
         type: boolean
         default: false
@@ -144,7 +144,7 @@ jobs:
           WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
         run: wepub chrome "$RUNNER_TEMP/chrome.zip"
 
-      - name: Publish to Microsoft Edge Add-ons
+      - name: Publish to Edge Add-ons
         if: ${{ !inputs.skip_edge }}
         env:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}

@@ -6,7 +6,7 @@ Blocks specific sites from appearing in Google search results
 
 - **Chrome**: [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe)
 - **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
-- **Edge**: [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/315ba111-9241-4a17-a52f-6d342e6b3731)
+- **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/315ba111-9241-4a17-a52f-6d342e6b3731)
 - **Safari**: [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Description
