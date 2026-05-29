@@ -4,7 +4,10 @@ English | [Deutsch](README.de.md) | [简体中文](README.zh-CN.md)
 
 Blocks specific sites from appearing in Google search results
 
-[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (for macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+- **Chrome**: [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe)
+- **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
+- **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/feedneoaheedjlhokipclogaoejelcbb)
+- **Safari**: [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Description
 
@@ -23,6 +26,7 @@ uBlacklist supports the following browser versions:
 
 - **Chrome**: Latest stable version only
 - **Firefox**: Latest stable version and latest ESR only
+- **Edge**: Latest stable version only
 - **Safari**: Latest stable version only (macOS and iOS)
 
 Support for browsers outside the list above depends on community contributions. Please open a [Discussion](https://github.com/iorate/ublacklist/discussions) with a concrete implementation proposal — reports without one are unlikely to be addressed.

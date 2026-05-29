@@ -7,6 +7,10 @@ on:
         type: boolean
         default: false
         description: Skip Chrome Web Store submission
+      skip_edge:
+        type: boolean
+        default: false
+        description: Skip Edge Add-ons submission
       skip_firefox:
         type: boolean
         default: false
@@ -26,35 +30,42 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
           submodules: recursive
-          fetch-depth: 0 # git-cliff and `git describe` need full history
+          fetch-depth: 0 # git-cliff needs full history
 
-      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
         with:
           run_install: true
           cache: true
 
+      - name: Install git-cliff
+        uses: taiki-e/install-action@13608cbb45b01feb47ef444ab1a42dc41ad56f1a # v2.79.11
+        with:
+          tool: git-cliff
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
+
       - name: Determine next version
         id: next-version
         run: |
-          NEXT_TAG=$(pnpm git-cliff --bumped-version)
-          CURRENT_TAG=$(git describe --tags --abbrev=0)
-          if [[ "$NEXT_TAG" == "$CURRENT_TAG" ]]; then
-            echo "::error::No qualifying commits since $CURRENT_TAG" >&2
+          context=$(git-cliff --unreleased --bump --context)
+          if ! jq -e '.[0].bump_type' <<<"$context" >/dev/null; then
+            echo "::error::No version bump since the latest release" >&2
             exit 1
           fi
+          tag=$(jq -r '.[0].version' <<<"$context")
           {
-            echo "tag=$NEXT_TAG"
-            echo "version=${NEXT_TAG#v}"
+            echo "tag=$tag"
+            echo "version=${tag#v}"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Ensure dist directory
-        run: mkdir -p dist
-
-      - name: Build and archive Chrome
+      - name: Build and archive (Chrome)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
@@ -63,9 +74,20 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --version "$VERSION"
-          (cd dist/chrome && zip -qr ../chrome.zip .)
+          (cd dist/chrome && zip -qr "$RUNNER_TEMP/chrome.zip" .)
 
-      - name: Build and archive Firefox
+      - name: Build and archive (Edge)
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+        run: |
+          pnpm build --browser edge --version "$VERSION"
+          (cd dist/edge && zip -qr "$RUNNER_TEMP/edge.zip" .)
+
+      - name: Build and archive (Firefox)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
@@ -74,7 +96,7 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --browser firefox --version "$VERSION"
-          (cd dist/firefox && zip -qr ../firefox.zip .)
+          (cd dist/firefox && zip -qr "$RUNNER_TEMP/firefox.zip" .)
 
       - name: Archive source
         env:
@@ -83,27 +105,34 @@ jobs:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
-          git ls-files --recurse-submodules | zip -q -@ dist/source.zip
+          git ls-files --recurse-submodules | zip -q -@ "$RUNNER_TEMP/source.zip"
           {
             echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
             echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
             echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
             echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
           } > .env
-          zip -q dist/source.zip .env
+          zip -q "$RUNNER_TEMP/source.zip" .env
           rm .env
 
-      - name: Generate approval notes
+      - name: Generate notes for certification (Edge)
+        env:
+          TAG: ${{ steps.next-version.outputs.tag }}
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$TAG' < release/notes-for-certification.template.txt > "$RUNNER_TEMP/notes-for-certification.txt"
+
+      - name: Generate approval notes (Firefox)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
         run: |
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$VERSION' < approval-notes.template.txt > dist/approval-notes.txt
+          envsubst '$VERSION' < release/approval-notes.template.txt > "$RUNNER_TEMP/approval-notes.txt"
 
       - name: Generate release notes
         env:
           TAG: ${{ steps.next-version.outputs.tag }}
-        run: pnpm git-cliff --tag "$TAG" --unreleased > dist/release-notes.md
+        run: git-cliff --tag "$TAG" --unreleased > "$RUNNER_TEMP/release-notes.md"
 
       - name: Publish to Chrome Web Store
         if: ${{ !inputs.skip_chrome }}
@@ -113,7 +142,15 @@ jobs:
           WEPUB_CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           WEPUB_CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: pnpm wepub chrome dist/chrome.zip
+        run: wepub chrome "$RUNNER_TEMP/chrome.zip"
+
+      - name: Publish to Edge Add-ons
+        if: ${{ !inputs.skip_edge }}
+        env:
+          WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
+          WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          WEPUB_EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        run: wepub edge "$RUNNER_TEMP/edge.zip" --notes-file "$RUNNER_TEMP/notes-for-certification.txt"
 
       - name: Publish to Firefox Add-ons
         if: ${{ !inputs.skip_firefox }}
@@ -122,11 +159,12 @@ jobs:
           WEPUB_FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
         run: |
-          pnpm wepub firefox dist/firefox.zip \
-            --source dist/source.zip \
-            --approval-notes-file dist/approval-notes.txt \
-            --release-notes-file dist/release-notes.md \
-            --compatibility firefox,android
+          wepub firefox "$RUNNER_TEMP/firefox.zip" \
+            --channel listed \
+            --compatibility firefox,android \
+            --approval-notes-file "$RUNNER_TEMP/approval-notes.txt" \
+            --release-notes-file "$RUNNER_TEMP/release-notes.md" \
+            --source "$RUNNER_TEMP/source.zip"
 
       - name: Create GitHub Release
         env:
@@ -136,6 +174,7 @@ jobs:
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
             --title "$TAG" \
-            --notes-file dist/release-notes.md \
-            "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
-            "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            "$RUNNER_TEMP/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "$RUNNER_TEMP/edge.zip#ublacklist-$TAG-edge.zip" \
+            "$RUNNER_TEMP/firefox.zip#ublacklist-$TAG-firefox.zip"

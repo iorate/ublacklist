@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Project Overview
 
-uBlacklist is a browser extension that blocks specific sites from appearing in search engine results. It supports Chrome, Firefox, and Safari, with cloud sync via Google Drive, Dropbox, WebDAV, and browser sync.
+uBlacklist is a browser extension that blocks specific sites from appearing in search engine results. It supports Chrome, Firefox, Edge, and Safari, with cloud sync via Google Drive, Dropbox, WebDAV, and browser sync.
 
 ## Development Commands
 
@@ -13,7 +13,7 @@ uBlacklist is a browser extension that blocks specific sites from appearing in s
 pnpm install
 
 # Build extension (outputs to dist/<browser>[-debug])
-pnpm build [--browser=chrome|firefox|safari] [--debug]
+pnpm build [--browser=chrome|firefox|edge|safari] [--debug]
 
 # Run all checks (biome, prettier, typescript)
 pnpm check

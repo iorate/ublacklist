@@ -1,7 +1,7 @@
 import { GOOGLE_MATCHES } from "./common/google-matches.ts";
 
 export type ManifestContext = {
-  browser: "chrome" | "firefox" | "safari";
+  browser: "chrome" | "edge" | "firefox" | "safari";
   version: string;
   debug: boolean;
 };
@@ -59,7 +59,11 @@ export function getManifest(context: ManifestContext) {
       ? {
           key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm+2y1Q2VH/S9rGxa/2kzRRspyxcA8R5QBa49JK/wca2kqyfpI/traqNnNY8SfRzOugtVP+8/WbyOY44wgr427VYws6thZ//cV2NDadEMqUF5dba9LR26QHXPFUWdbUyCtNHNVP4keG/OeGJ6thOrKUlxYorK9JAmdG1szucyOKt8+k8HNVfZFTi2UHGLn1ANLAsu6f4ykb6Z0QNNCysWuNHqtFEy4j0B4T+h5VZ+Il2l3yf8uGk/zAbJE7x0C7SIscBrWQ9jcliS/e25C6mEr5lrMhQ+VpVVsRVGg7PwY7xLywKHZM8z1nzLdpMs7egEqV25HiA/PEcaQRWwDKDqwQIDAQAB",
         }
-      : {}),
+      : browser === "edge"
+        ? {
+            key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApHmUo0Lm4MLiXUB3qzfI0uwtiU3T77zYc2/oTKC8CwcUPaMAwro92p7Q2Iup9kmUWgXCy6hbiH3aU0sjwHojwSPQhlJW0IXe8OtgEK8raUBcvUhrBZhkZN4yDjwo62GPnBBiH0hFFOYfh0wyJML7g01K2MMvJbMGstnvcabN8NrUD/Ux+g05QchfNOM4J8e65Aq+nI3c77jQYj/Es5013WJLEFO/KQfn7dPSKY9CKvbvBXDtcjmZRr8cEM94IxwyBhwHwCE7hlk8wfQ+ChK3FnbQE5mUu3kP9XAKKvcrA9dlJPrJJdycVPfViacfSeK6/iCQGNIUaBAgJEBaKuFISwIDAQAB",
+          }
+        : {}),
 
     manifest_version: 3,
 
@@ -93,7 +97,7 @@ export function getManifest(context: ManifestContext) {
           ...(browser === "safari"
             ? ["scripts/serpinfo/content-script.js"]
             : []),
-          ...(debug && browser === "chrome"
+          ...(debug && (browser === "chrome" || browser === "edge")
             ? ["scripts/serpinfo/content-script.js.map"]
             : []),
         ],

@@ -54,7 +54,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
-    "@iorate/wepub": "^0.2.0",
     "@lezer/generator": "^1.8.0",
     "@types/css-tree": "^2.3.11",
     "@types/fs-extra": "^11.0.4",
@@ -70,7 +69,6 @@
     "dotenv": "^17.4.2",
     "esbuild": "^0.27.7",
     "fs-extra": "^11.3.5",
-    "git-cliff": "^2.13.1",
     "lefthook": "^2.1.6",
     "license-checker": "^25.0.1",
     "prettier": "^3.8.3"

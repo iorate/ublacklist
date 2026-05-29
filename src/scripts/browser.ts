@@ -9,5 +9,7 @@ declare global {
 
 // biome-ignore lint/suspicious/noRedeclare: This is an exported variable
 export const browser = (
-  process.env.BROWSER === "chrome" ? globalThis.chrome : globalThis.browser
+  process.env.BROWSER === "chrome" || process.env.BROWSER === "edge"
+    ? globalThis.chrome
+    : globalThis.browser
 ) as typeof import("webextension-polyfill");
