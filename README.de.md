@@ -4,7 +4,10 @@
 
 Verhindert, dass bestimmte Seiten in den Google-Suchergebnissen angezeigt werden
 
-[Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox Add-ons](https://addons.mozilla.org/de/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/de/app/ublacklist-for-safari/id1547912640) (für macOS und iOS, Dank an [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+- **Chrome**: [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe)
+- **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
+- **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/feedneoaheedjlhokipclogaoejelcbb)
+- **Safari**: [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Beschreibung
 
@@ -23,6 +26,7 @@ uBlacklist unterstützt folgende Browserversionen:
 
 - **Chrome**: Nur die neueste stabile Version
 - **Firefox**: Nur die neueste stabile Version und die neueste ESR
+- **Edge**: Latest stable version only
 - **Safari**: Nur die neueste stabile Version (macOS und iOS)
 
 Die Unterstützung für Browser, die nicht in der obigen Liste aufgeführt sind, hängt von Beiträgen der Community ab. Bitte eröffnen Sie eine [Diskussion](https://github.com/iorate/ublacklist/discussions) mit einem konkreten Umsetzungsvorschlag – Meldungen ohne einen solchen Vorschlag werden wahrscheinlich nicht bearbeitet.
