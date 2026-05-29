@@ -1,5 +1,4 @@
 allowBuilds:
-  "@iorate/wepub": true
   esbuild: true
   lefthook: true
 
