@@ -4,7 +4,10 @@
 
 在搜索结果中屏蔽指定的网站
 
-[Chrome 应用商店](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe) / [Firefox 扩展](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/) / [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (支持 macOS 和 iOS，特别鸣谢 [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+- **Chrome**: [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe)
+- **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
+- **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/feedneoaheedjlhokipclogaoejelcbb)
+- **Safari**: [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## 介绍
 
@@ -23,6 +26,7 @@ uBlacklist 支持以下浏览器版本：
 
 - **Chrome**：仅支持最新稳定版
 - **Firefox**：仅支持最新稳定版和最新 ESR 版
+- **Edge**: Latest stable version only
 - **Safari**：仅支持最新稳定版（macOS 和 iOS）
 
 Support for browsers outside the list above depends on community contributions. Please open a [Discussion](https://github.com/iorate/ublacklist/discussions) with a concrete implementation proposal — reports without one are unlikely to be addressed.
