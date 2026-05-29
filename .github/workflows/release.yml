@@ -65,9 +65,6 @@ jobs:
             echo "version=${tag#v}"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Ensure dist directory
-        run: mkdir -p dist
-
       - name: Build and archive (Chrome)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
@@ -77,7 +74,7 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --version "$VERSION"
-          (cd dist/chrome && zip -qr ../chrome.zip .)
+          (cd dist/chrome && zip -qr "$RUNNER_TEMP/chrome.zip" .)
 
       - name: Build and archive (Edge)
         env:
@@ -88,7 +85,7 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --browser edge --version "$VERSION"
-          (cd dist/edge && zip -qr ../edge.zip .)
+          (cd dist/edge && zip -qr "$RUNNER_TEMP/edge.zip" .)
 
       - name: Build and archive (Firefox)
         env:
@@ -99,7 +96,7 @@ jobs:
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --browser firefox --version "$VERSION"
-          (cd dist/firefox && zip -qr ../firefox.zip .)
+          (cd dist/firefox && zip -qr "$RUNNER_TEMP/firefox.zip" .)
 
       - name: Archive source
         env:
@@ -108,14 +105,14 @@ jobs:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
-          git ls-files --recurse-submodules | zip -q -@ dist/source.zip
+          git ls-files --recurse-submodules | zip -q -@ "$RUNNER_TEMP/source.zip"
           {
             echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
             echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
             echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
             echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
           } > .env
-          zip -q dist/source.zip .env
+          zip -q "$RUNNER_TEMP/source.zip" .env
           rm .env
 
       - name: Generate notes for certification (Edge)
@@ -123,19 +120,19 @@ jobs:
           TAG: ${{ steps.next-version.outputs.tag }}
         run: |
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$TAG' < release/notes-for-certification.template.txt > dist/notes-for-certification.txt
+          envsubst '$TAG' < release/notes-for-certification.template.txt > "$RUNNER_TEMP/notes-for-certification.txt"
 
       - name: Generate approval notes (Firefox)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
         run: |
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$VERSION' < release/approval-notes.template.txt > dist/approval-notes.txt
+          envsubst '$VERSION' < release/approval-notes.template.txt > "$RUNNER_TEMP/approval-notes.txt"
 
       - name: Generate release notes
         env:
           TAG: ${{ steps.next-version.outputs.tag }}
-        run: git-cliff --tag "$TAG" --unreleased > dist/release-notes.md
+        run: git-cliff --tag "$TAG" --unreleased > "$RUNNER_TEMP/release-notes.md"
 
       - name: Publish to Chrome Web Store
         if: ${{ !inputs.skip_chrome }}
@@ -145,7 +142,7 @@ jobs:
           WEPUB_CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           WEPUB_CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: wepub chrome dist/chrome.zip
+        run: wepub chrome "$RUNNER_TEMP/chrome.zip"
 
       - name: Publish to Microsoft Edge Add-ons
         if: ${{ !inputs.skip_edge }}
@@ -153,7 +150,7 @@ jobs:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
           WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           WEPUB_EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
-        run: wepub edge dist/edge.zip --notes-file dist/notes-for-certification.txt
+        run: wepub edge "$RUNNER_TEMP/edge.zip" --notes-file "$RUNNER_TEMP/notes-for-certification.txt"
 
       - name: Publish to Firefox Add-ons
         if: ${{ !inputs.skip_firefox }}
@@ -162,12 +159,12 @@ jobs:
           WEPUB_FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
         run: |
-          wepub firefox dist/firefox.zip \
+          wepub firefox "$RUNNER_TEMP/firefox.zip" \
             --channel listed \
             --compatibility firefox,android \
-            --approval-notes-file dist/approval-notes.txt \
-            --release-notes-file dist/release-notes.md \
-            --source dist/source.zip
+            --approval-notes-file "$RUNNER_TEMP/approval-notes.txt" \
+            --release-notes-file "$RUNNER_TEMP/release-notes.md" \
+            --source "$RUNNER_TEMP/source.zip"
 
       - name: Create GitHub Release
         env:
@@ -177,7 +174,7 @@ jobs:
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
             --title "$TAG" \
-            --notes-file dist/release-notes.md \
-            "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
-            "dist/edge.zip#ublacklist-$TAG-edge.zip" \
-            "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
+            "$RUNNER_TEMP/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "$RUNNER_TEMP/edge.zip#ublacklist-$TAG-edge.zip" \
+            "$RUNNER_TEMP/firefox.zip#ublacklist-$TAG-firefox.zip"
