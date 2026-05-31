@@ -2,19 +2,6 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      skip_chrome:
-        type: boolean
-        default: false
-        description: Skip Chrome Web Store submission
-      skip_edge:
-        type: boolean
-        default: false
-        description: Skip Edge Add-ons submission
-      skip_firefox:
-        type: boolean
-        default: false
-        description: Skip Firefox Add-ons submission
 
 permissions: {}
 
@@ -23,11 +10,12 @@ defaults:
     shell: bash
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+    outputs:
+      tag: ${{ steps.next-version.outputs.tag }}
+      version: ${{ steps.next-version.outputs.version }}
 
     steps:
       - name: Checkout
@@ -48,9 +36,6 @@ jobs:
         with:
           tool: git-cliff
 
-      - name: Install wepub
-        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
-
       - name: Determine next version
         id: next-version
         run: |
@@ -66,115 +51,193 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Build and archive (Chrome)
-        env:
-          VERSION: ${{ steps.next-version.outputs.version }}
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --version "$VERSION"
-          (cd dist/chrome && zip -qr "$RUNNER_TEMP/chrome.zip" .)
+          (cd dist/chrome && zip -qr ../chrome.zip .)
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
       - name: Build and archive (Edge)
-        env:
-          VERSION: ${{ steps.next-version.outputs.version }}
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --browser edge --version "$VERSION"
-          (cd dist/edge && zip -qr "$RUNNER_TEMP/edge.zip" .)
+          (cd dist/edge && zip -qr ../edge.zip .)
+        env:
+          VERSION: ${{ steps.next-version.outputs.version }}
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
       - name: Build and archive (Firefox)
-        env:
-          VERSION: ${{ steps.next-version.outputs.version }}
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
         run: |
           pnpm build --browser firefox --version "$VERSION"
-          (cd dist/firefox && zip -qr "$RUNNER_TEMP/firefox.zip" .)
-
-      - name: Archive source
+          (cd dist/firefox && zip -qr ../firefox.zip .)
         env:
+          VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
           DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
-        run: |
-          git ls-files --recurse-submodules | zip -q -@ "$RUNNER_TEMP/source.zip"
-          {
-            echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
-            echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
-            echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
-            echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
-          } > .env
-          zip -q "$RUNNER_TEMP/source.zip" .env
-          rm .env
-
-      - name: Generate notes for certification (Edge)
-        env:
-          TAG: ${{ steps.next-version.outputs.tag }}
-        run: |
-          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$TAG' < release/notes-for-certification.template.txt > "$RUNNER_TEMP/notes-for-certification.txt"
-
-      - name: Generate approval notes (Firefox)
-        env:
-          VERSION: ${{ steps.next-version.outputs.version }}
-        run: |
-          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$VERSION' < release/approval-notes.template.txt > "$RUNNER_TEMP/approval-notes.txt"
 
       - name: Generate release notes
+        run: git-cliff --tag "$TAG" --unreleased > dist/release-notes.md
         env:
           TAG: ${{ steps.next-version.outputs.tag }}
-        run: git-cliff --tag "$TAG" --unreleased > "$RUNNER_TEMP/release-notes.md"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v7.0.1
+        with:
+          name: dist
+          path: |
+            dist/chrome.zip
+            dist/edge.zip
+            dist/firefox.zip
+            dist/release-notes.md
+
+  chrome:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
 
       - name: Publish to Chrome Web Store
-        if: ${{ !inputs.skip_chrome }}
+        run: wepub chrome dist/chrome.zip
         env:
           WEPUB_CHROME_PUBLISHER_ID: ${{ vars.CHROME_PUBLISHER_ID }}
           WEPUB_CHROME_ITEM_ID: ${{ vars.CHROME_ITEM_ID }}
           WEPUB_CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           WEPUB_CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: wepub chrome "$RUNNER_TEMP/chrome.zip"
+
+  edge:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Download artifact
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Generate notes for certification
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$TAG' < release/notes-for-certification.template.txt > dist/notes-for-certification.txt
+        env:
+          TAG: ${{ needs.build.outputs.tag }}
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
 
       - name: Publish to Edge Add-ons
-        if: ${{ !inputs.skip_edge }}
+        run: wepub edge dist/edge.zip --notes-file dist/notes-for-certification.txt
         env:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
           WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           WEPUB_EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
-        run: wepub edge "$RUNNER_TEMP/edge.zip" --notes-file "$RUNNER_TEMP/notes-for-certification.txt"
+
+  firefox:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Download artifact
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Generate approval notes
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$VERSION' < release/approval-notes.template.txt > dist/approval-notes.txt
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+
+      - name: Archive source
+        run: |
+          git ls-files --recurse-submodules | zip -q -@ dist/source.zip
+          {
+            echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
+            echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
+            echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
+            echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
+          } > .env
+          zip -q dist/source.zip .env
+          rm .env
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
 
       - name: Publish to Firefox Add-ons
-        if: ${{ !inputs.skip_firefox }}
+        run: |
+          wepub firefox dist/firefox.zip \
+            --channel listed \
+            --compatibility firefox,android \
+            --approval-notes-file dist/approval-notes.txt \
+            --release-notes-file dist/release-notes.md \
+            --source dist/source.zip
         env:
           WEPUB_FIREFOX_ADDON_ID: ${{ vars.FIREFOX_ADDON_ID }}
           WEPUB_FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
-        run: |
-          wepub firefox "$RUNNER_TEMP/firefox.zip" \
-            --channel listed \
-            --compatibility firefox,android \
-            --approval-notes-file "$RUNNER_TEMP/approval-notes.txt" \
-            --release-notes-file "$RUNNER_TEMP/release-notes.md" \
-            --source "$RUNNER_TEMP/source.zip"
+
+  github:
+    needs: [build, chrome, edge, firefox]
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v8.0.1
+        with:
+          name: dist
+          path: dist
 
       - name: Create GitHub Release
-        env:
-          TAG: ${{ steps.next-version.outputs.tag }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
             --title "$TAG" \
-            --notes-file "$RUNNER_TEMP/release-notes.md" \
-            "$RUNNER_TEMP/chrome.zip#ublacklist-$TAG-chrome.zip" \
-            "$RUNNER_TEMP/edge.zip#ublacklist-$TAG-edge.zip" \
-            "$RUNNER_TEMP/firefox.zip#ublacklist-$TAG-firefox.zip"
+            --notes-file dist/release-notes.md \
+            "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "dist/edge.zip#ublacklist-$TAG-edge.zip" \
+            "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
+        env:
+          TAG: ${{ needs.build.outputs.tag }}
+          GH_TOKEN: ${{ github.token }}
