@@ -772,8 +772,12 @@
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL (without destination folder)",
+    "message": "WebDAV URL",
     "description": "Label for the input for the WebDAV URL."
+  },
+  "clouds_webdavUrlDescription": {
+    "message": "The folder specified by the URL must already exist.",
+    "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
     "message": "Username",
@@ -782,10 +786,6 @@
   "clouds_webdavPasswordLabel": {
     "message": "Password",
     "description": "Label for the input for the WebDAV password."
-  },
-  "clouds_webdavPathLabel": {
-    "message": "Destination folder",
-    "description": "Label for the input for the WebDAV destination folder."
   },
   "clouds_browserSync": {
     "message": "Sync with browser",

@@ -772,8 +772,12 @@
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL (保存先フォルダーを除く)",
+    "message": "WebDAV URL",
     "description": "Label for the input for the WebDAV URL."
+  },
+  "clouds_webdavUrlDescription": {
+    "message": "URL で指定したフォルダーは、あらかじめ作成しておく必要があります。",
+    "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
     "message": "ユーザー名",
@@ -782,10 +786,6 @@
   "clouds_webdavPasswordLabel": {
     "message": "パスワード",
     "description": "Label for the input for the WebDAV password."
-  },
-  "clouds_webdavPathLabel": {
-    "message": "保存先フォルダ",
-    "description": "Label for the input for the WebDAV destination folder."
   },
   "clouds_browserSync": {
     "message": "ブラウザで同期する",
