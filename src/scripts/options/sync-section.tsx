@@ -82,7 +82,7 @@ const initialWebDAVParams = {
   urlValid: false,
   username: "",
   password: "",
-  path: "/Apps/uBlacklist",
+  path: "",
 };
 
 const TurnOnSyncDialog: React.FC<
@@ -181,12 +181,15 @@ const TurnOnSyncDialog: React.FC<
                   <ControlLabel for={`${id}-webdav-url`}>
                     {translate("clouds_webdavUrlLabel")}
                   </ControlLabel>
+                  <SubLabel>
+                    {translate("clouds_webdavUrlDescription")}
+                  </SubLabel>
                 </LabelWrapper>
                 <Input
                   disabled={state.phase !== "none"}
                   id={`${id}-webdav-url`}
                   pattern="https?:.*"
-                  placeholder="https://example.com/webdav"
+                  placeholder="https://example.com/webdav/"
                   type="url"
                   value={state.webDAVParams.url}
                   onChange={(e) => {
@@ -244,28 +247,6 @@ const TurnOnSyncDialog: React.FC<
                     setState((s) => ({
                       ...s,
                       webDAVParams: { ...s.webDAVParams, password: value },
-                    }));
-                  }}
-                />
-              </RowItem>
-            </Row>
-            <Row>
-              <RowItem expanded>
-                <LabelWrapper fullWidth>
-                  <ControlLabel for={`${id}-webdav-path`}>
-                    {translate("clouds_webdavPathLabel")}
-                  </ControlLabel>
-                </LabelWrapper>
-                <Input
-                  disabled={state.phase !== "none"}
-                  id={`${id}-webdav-path`}
-                  placeholder="/Apps/uBlacklist"
-                  value={state.webDAVParams.path}
-                  onChange={(e) => {
-                    const { value } = e.currentTarget;
-                    setState((s) => ({
-                      ...s,
-                      webDAVParams: { ...s.webDAVParams, path: value },
                     }));
                   }}
                 />
