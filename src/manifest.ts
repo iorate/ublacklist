@@ -28,7 +28,10 @@ export function getManifest(context: ManifestContext) {
     ...(browser === "firefox"
       ? {
           browser_specific_settings: {
-            gecko: { id: "@ublacklist" },
+            gecko: {
+              id: "@ublacklist",
+              data_collection_permissions: { required: ["none"] },
+            },
             gecko_android: {},
           },
         }
