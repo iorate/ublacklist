@@ -106,23 +106,31 @@ async function main() {
       browser: { type: "string", short: "b" },
       version: { type: "string", short: "v" },
       debug: { type: "boolean", short: "d" },
+      "no-key": { type: "boolean" },
     },
   });
-  const { browser, version, debug } = z
+  const {
+    browser,
+    version,
+    debug,
+    "no-key": noKey,
+  } = z
     .object({
       browser: z
         .enum(["chrome", "edge", "firefox", "safari"])
         .default("chrome"),
       version: z.string().default("0.1.0"),
       debug: z.boolean().default(false),
+      "no-key": z.boolean().default(false),
     })
     .parse(args);
   const context = {
     browser,
     version,
     debug,
+    noKey,
     srcDir: "src",
-    destDir: `dist/${browser}${debug ? "-debug" : ""}`,
+    destDir: `dist/${browser}${debug ? "-debug" : ""}${noKey ? "-no-key" : ""}`,
   };
   await Promise.all([
     buildStaticAssets(context),
