@@ -244,4 +244,5 @@ jobs:
             "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
         env:
           TAG: ${{ needs.build.outputs.tag }}
+          GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ github.token }}
