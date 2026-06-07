@@ -764,8 +764,8 @@
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created at the URL specified.",
-    "description": "Label for the WebDAV URL input."
+    "message": "A file will be created within the folder at the URL.",
+    "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
     "message": "Synced with WebDAV",

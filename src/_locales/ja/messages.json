@@ -764,8 +764,8 @@
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "指定した URL にファイルが作成されます。",
-    "description": "Label for the WebDAV URL input."
+    "message": "URL で指定したフォルダーにファイルが作成されます。",
+    "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
     "message": "WebDAV で同期しています",
