@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
 import {
-  createClient as createWebDAVClient,
+  createClient as _createClient,
   type FileStat,
+  getPatcher,
   type WebDAVClientError,
 } from "webdav";
 import type { WebDAV, WebDAVParams } from "../types.ts";
@@ -10,8 +11,13 @@ import { UnexpectedResponse } from "../utilities.ts";
 
 dayjs.extend(dayjsUTC);
 
+// Force `credentials: "omit"` so the host's cookies are never sent; we authenticate via the Authorization header.
+getPatcher().patch("fetch", (url: unknown, options: unknown) =>
+  fetch(url as string, { ...(options as RequestInit), credentials: "omit" }),
+);
+
 function createClient(params: WebDAVParams) {
-  return createWebDAVClient(params.url, {
+  return _createClient(params.url, {
     username: params.username,
     password: params.password,
   });
