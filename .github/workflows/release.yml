@@ -63,8 +63,11 @@ jobs:
 
       - name: Build and archive (Edge)
         run: |
+          # Edge Add-ons rejects a manifest with the `key` field.
           pnpm build --browser edge --version "$VERSION"
           (cd dist/edge && zip -qr ../edge.zip .)
+          pnpm build --browser edge --version "$VERSION" --no-key
+          (cd dist/edge-no-key && zip -qr ../edge-no-key.zip .)
         env:
           VERSION: ${{ steps.next-version.outputs.version }}
           DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
@@ -95,6 +98,7 @@ jobs:
           path: |
             dist/chrome.zip
             dist/edge.zip
+            dist/edge-no-key.zip
             dist/firefox.zip
             dist/release-notes.md
 
@@ -150,7 +154,7 @@ jobs:
         uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
 
       - name: Publish to Edge Add-ons
-        run: wepub edge dist/edge.zip --notes-file dist/notes-for-certification.txt
+        run: wepub edge dist/edge-no-key.zip --notes-file dist/notes-for-certification.txt
         env:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
           WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
