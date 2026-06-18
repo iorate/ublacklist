@@ -1,11 +1,10 @@
+import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import { z } from "zod";
 import {
   MatchPatternMap,
   type MatchPatternMapJSON,
 } from "../../common/match-pattern.ts";
 import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtins.ts";
-import { parse } from "./parse.ts";
-import type { SerpInfo } from "./types.ts";
 
 export type UserSerpInfo = {
   content: string;

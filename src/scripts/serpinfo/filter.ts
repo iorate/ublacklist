@@ -1,3 +1,8 @@
+import type {
+  PropertyCommand,
+  ResultDescription,
+  SerpDescription,
+} from "@ublacklist/serpinfo";
 import { isEqual } from "es-toolkit";
 import { createStore } from "zustand/vanilla";
 import { shallow } from "zustand/vanilla/shallow";
@@ -7,7 +12,6 @@ import { postMessage } from "../messages.ts";
 import { createInteractiveRuleset } from "../utilities.ts";
 import {
   type ButtonProps,
-  type PropertyCommand,
   runButtonCommand,
   runPropertyCommand,
   runRootCommand,
@@ -15,7 +19,6 @@ import {
 import { attributes as a } from "./constants.ts";
 import { closeDialog, openDialog } from "./dialog.tsx";
 import { storageStore } from "./storage-store.ts";
-import type { ResultDescription, SerpDescription } from "./types.ts";
 
 export const blockedResultCountStore = createStore(() => 0);
 

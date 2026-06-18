@@ -44,6 +44,9 @@ importers:
       '@sindresorhus/fnv1a':
         specifier: ^3.1.0
         version: 3.1.0
+      '@ublacklist/serpinfo':
+        specifier: ^1.1.0
+        version: 1.1.0
       colord:
         specifier: ^2.9.3
         version: 2.9.3
@@ -89,9 +92,6 @@ importers:
       zod:
         specifier: ^4.4.3
         version: 4.4.3
-      zod-validation-error:
-        specifier: ^5.0.0
-        version: 5.0.0(zod@4.4.3)
       zustand:
         specifier: ^5.0.13
         version: 5.0.13(@types/react@19.2.14)(react@19.2.6)
@@ -498,6 +498,12 @@ packages:
   '@typescript/native-preview@7.0.0-dev.20260421.2':
     resolution: {integrity: sha512-CmajHI25HpVWE9R1XFoxr+cphJPxoYD3eFioQtAvXYkMFKnLdICMS9pXre9Pybizb75ejRxjKD5/CVG055rEIg==}
     hasBin: true
+
+  '@ublacklist/match-pattern@1.1.0':
+    resolution: {integrity: sha512-FYnDdJuTl+uAYiwnJ/nQyxigfaqhm54Zd/KUO28Un14lZDszieP+ItRCynU3KHgur2lXOHgbeO0Seu/yAXaqHQ==}
+
+  '@ublacklist/serpinfo@1.1.0':
+    resolution: {integrity: sha512-k4amdtFl6+gA1l/006qgG9QTFcznAE3QXqIksj6EnhZnbvc5e5/7MiXaQuf5EUtljz0ORPvGJfmE7Kz11R2z8g==}
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -1376,6 +1382,16 @@ snapshots:
       '@typescript/native-preview-linux-x64': 7.0.0-dev.20260421.2
       '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260421.2
       '@typescript/native-preview-win32-x64': 7.0.0-dev.20260421.2
+
+  '@ublacklist/match-pattern@1.1.0': {}
+
+  '@ublacklist/serpinfo@1.1.0':
+    dependencies:
+      '@ublacklist/match-pattern': 1.1.0
+      css-tree: 3.2.1
+      js-yaml: 4.1.1
+      zod: 4.4.3
+      zod-validation-error: 5.0.0(zod@4.4.3)
 
   abbrev@1.1.1: {}
 

@@ -1,6 +1,7 @@
 import deleteSVG from "@mdi/svg/svg/delete.svg";
 import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
+import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
@@ -49,10 +50,8 @@ import { svgToDataURL } from "../utilities.ts";
 import { GOOGLE_SERPINFO_URL } from "./builtins.ts";
 import { Editor } from "./editor.tsx";
 import { EnableSubscriptionURL } from "./enable-subscription-url.tsx";
-import { parse } from "./parse.ts";
 import type { RemoteSerpInfo, UserSerpInfo } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
-import type { SerpInfo } from "./types.ts";
 
 dayjs.extend(dayjsLocalizedFormat);
 
