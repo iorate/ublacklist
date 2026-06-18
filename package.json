@@ -34,6 +34,7 @@
     "@mdi/svg": "^7.4.47",
     "@neodrag/vanilla": "^2.3.1",
     "@sindresorhus/fnv1a": "^3.1.0",
+    "@ublacklist/serpinfo": "^1.1.0",
     "colord": "^2.9.3",
     "css-tree": "^3.2.1",
     "dayjs": "^1.11.20",
@@ -49,7 +50,6 @@
     "tldts": "^7.0.30",
     "webdav": "^5.10.0",
     "zod": "^4.4.3",
-    "zod-validation-error": "^5.0.0",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

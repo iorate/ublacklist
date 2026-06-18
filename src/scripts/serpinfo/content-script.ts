@@ -1,4 +1,5 @@
 import { Draggable } from "@neodrag/vanilla";
+import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
@@ -13,7 +14,6 @@ import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
 import { createIsDarkModeStore } from "./is-dark-mode.ts";
 import type { SerpIndex } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
-import type { SerpDescription } from "./types.ts";
 
 const hideBlockedResultsStore = createStore(() => true);
 
