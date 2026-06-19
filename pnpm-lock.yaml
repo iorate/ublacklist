@@ -483,9 +483,6 @@ packages:
     resolution: {integrity: sha512-CmajHI25HpVWE9R1XFoxr+cphJPxoYD3eFioQtAvXYkMFKnLdICMS9pXre9Pybizb75ejRxjKD5/CVG055rEIg==}
     hasBin: true
 
-  '@ublacklist/match-pattern@1.1.0':
-    resolution: {integrity: sha512-FYnDdJuTl+uAYiwnJ/nQyxigfaqhm54Zd/KUO28Un14lZDszieP+ItRCynU3KHgur2lXOHgbeO0Seu/yAXaqHQ==}
-
   '@ublacklist/match-pattern@1.2.0':
     resolution: {integrity: sha512-IIf45TnANZvEvYYqDQKXlFYoM58P0xK6NEgtQr21VRbCQgjHUwfaGFKVNvd6+X8cyKcinoOLUXqtCcdeG10/5A==}
 
@@ -1366,8 +1363,6 @@ snapshots:
       '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260421.2
       '@typescript/native-preview-win32-x64': 7.0.0-dev.20260421.2
 
-  '@ublacklist/match-pattern@1.1.0': {}
-
   '@ublacklist/match-pattern@1.2.0': {}
 
   '@ublacklist/ruleset@1.0.2':
@@ -1382,7 +1377,7 @@ snapshots:
 
   '@ublacklist/serpinfo@1.1.0':
     dependencies:
-      '@ublacklist/match-pattern': 1.1.0
+      '@ublacklist/match-pattern': 1.2.0
       css-tree: 3.2.1
       js-yaml: 4.1.1
       zod: 4.4.3
