@@ -1,6 +1,6 @@
 import cog from "@mdi/svg/svg/cog.svg";
+import { MatchPattern } from "@ublacklist/match-pattern";
 import { useId, useState } from "react";
-import { MatchPatternMap } from "../../common/match-pattern.ts";
 import icon from "../../icons/icon.svg";
 import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
@@ -118,11 +118,7 @@ export function SerpInfoEmbeddedDialog({
 }
 
 function matches(url: string, patterns: readonly string[]): boolean {
-  const matchPatternMap = new MatchPatternMap<1>();
-  for (const pattern of patterns) {
-    matchPatternMap.set(pattern, 1);
-  }
-  return matchPatternMap.get(url).length > 0;
+  return new MatchPattern(patterns).test(url);
 }
 
 export async function canEnableSerpInfo(

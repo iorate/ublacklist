@@ -1,6 +1,6 @@
+import { MatchPattern } from "@ublacklist/match-pattern";
 import dayjs from "dayjs";
 import { Suspense, useEffect, useId, useState } from "react";
-import { MatchPatternMap } from "../../common/match-pattern.ts";
 import { browser } from "../browser.ts";
 import { Badge } from "../components/badge.tsx";
 import { Button } from "../components/button.tsx";
@@ -68,12 +68,11 @@ import { SetIntervalItem } from "./set-interval-item.tsx";
 
 async function requestPermission(urls: readonly string[]): Promise<boolean> {
   const origins: string[] = [];
-  const map = new MatchPatternMap<null>();
-  for (const origin of permissionExemptOrigins) {
-    map.set(`${origin}/*`, null);
-  }
+  const exemptPattern = new MatchPattern(
+    permissionExemptOrigins.map((origin) => `${origin}/*`),
+  );
   for (const url of urls) {
-    if (map.get(url).length) {
+    if (exemptPattern.test(url)) {
       continue;
     }
     const u = new AltURL(url);

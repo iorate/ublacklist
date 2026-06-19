@@ -1,8 +1,8 @@
 import { Draggable } from "@neodrag/vanilla";
+import { MatchPattern, MatchPatternMap } from "@ublacklist/match-pattern";
 import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
-import { MatchPatternMap } from "../../common/match-pattern.ts";
 import iconSVG from "../../icons/icon.svg";
 import { translate } from "../locales.ts";
 import { addMessageListeners } from "../messages.ts";
@@ -35,14 +35,11 @@ function getSerpDescriptions(): SerpDescription[] {
       if (!serp) {
         return [];
       }
-      if (serp.excludeMatches) {
-        const excludeMap = new MatchPatternMap<1>();
-        for (const match of serp.excludeMatches) {
-          excludeMap.set(match, 1);
-        }
-        if (excludeMap.get(url).length) {
-          return [];
-        }
+      if (
+        serp.excludeMatches &&
+        new MatchPattern(serp.excludeMatches).test(url)
+      ) {
+        return [];
       }
       if (serp.includeRegex && !new RegExp(serp.includeRegex).test(url)) {
         return [];
