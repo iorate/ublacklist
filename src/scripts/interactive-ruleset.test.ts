@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { Ruleset } from "@ublacklist/ruleset";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
-import { Ruleset } from "./ruleset/ruleset.ts";
 
 function createInteractiveRuleset(
   user: string,
@@ -33,15 +33,21 @@ t/Example/
     ]) {
       const ruleset = createInteractiveRuleset(source);
       assert.deepEqual(
-        ruleset.query({ url: "http://example.net", title: "Net" }),
+        ruleset.query({ url: "http://example.net", props: { title: "Net" } }),
         { type: "block" },
       );
       assert.deepEqual(
-        ruleset.query({ url: "https://example.edu", title: "Example Domain" }),
+        ruleset.query({
+          url: "https://example.edu",
+          props: { title: "Example Domain" },
+        }),
         { type: "block" },
       );
       assert.deepEqual(
-        ruleset.query({ url: "http://example.com", title: "Allowed" }),
+        ruleset.query({
+          url: "http://example.com",
+          props: { title: "Allowed" },
+        }),
         { type: "unblock" },
       );
     }
@@ -324,7 +330,7 @@ t/Example/
         url: "https://www.example.edu/",
       });
       assert.equal(patch.mode, "block");
-      assert.equal(patch.props.url, "https://www.example.edu/");
+      assert.equal(patch.searchResult.url, "https://www.example.edu/");
       assert.equal(patch.rulesToAdd, "*://www.example.edu/*");
       assert.equal(patch.rulesToRemove, "");
       // A pattern that does not match the URL is rejected.

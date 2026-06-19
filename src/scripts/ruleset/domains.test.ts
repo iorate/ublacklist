@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { test } from "node:test";
+import { Ruleset } from "@ublacklist/ruleset";
 import { domainsToRuleset, parseDomainLine } from "./domains.ts";
-import { Ruleset } from "./ruleset.ts";
 
 test("parseDomainLine", async (t) => {
   await t.test("accepts valid domains", () => {

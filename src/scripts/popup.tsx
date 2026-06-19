@@ -116,11 +116,8 @@ const Popup: React.FC = () => {
           close: () => window.close(),
           enableMatchingRules: options.enableMatchingRules,
           openOptionsPage,
-          entryProps: {
-            url,
-            ...(title != null ? { title } : {}),
-          },
           ruleset,
+          searchResult: { url, props: title != null ? { title } : {} },
           onBlocked: (newSource) =>
             saveToLocalStorage({ blacklist: newSource }, "popup"),
         },

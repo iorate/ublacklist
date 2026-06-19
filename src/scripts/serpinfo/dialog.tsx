@@ -40,14 +40,14 @@ export function openDialog(
   event: MouseEvent,
 ) {
   const state = storageStore.get();
-  const entryProps = { ...props, url };
+  const searchResult = { url, props };
   const onBlocked = (newSource: string) =>
     void saveToLocalStorage({ blacklist: newSource }, "content-script");
   const shouldSkipDialog = event.shiftKey
     ? !state.skipBlockDialog
     : state.skipBlockDialog;
   if (shouldSkipDialog) {
-    const patch = ruleset.createPatch(null, entryProps, {
+    const patch = ruleset.createPatch(null, searchResult, {
       useRegistrableDomain: state.blockWholeSite,
     });
     onBlocked(ruleset.applyPatch(patch));
@@ -59,10 +59,10 @@ export function openDialog(
       blockWholeSite={state.blockWholeSite}
       close={closeDialog}
       enableMatchingRules={state.enableMatchingRules}
-      entryProps={entryProps}
       open={true}
       openOptionsPage={() => sendMessage("open-options-page")}
       ruleset={ruleset}
+      searchResult={searchResult}
       target={dialogRoot.shadowRoot}
       theme={
         state.dialogTheme !== "default" ? state.dialogTheme : getDialogTheme()

@@ -26,15 +26,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.42.1
         version: 6.42.1
-      '@lezer/common':
-        specifier: ^1.5.2
-        version: 1.5.2
       '@lezer/highlight':
         specifier: ^1.2.3
         version: 1.2.3
-      '@lezer/lr':
-        specifier: ^1.4.10
-        version: 1.4.10
       '@mdi/svg':
         specifier: ^7.4.47
         version: 7.4.47
@@ -47,6 +41,9 @@ importers:
       '@ublacklist/match-pattern':
         specifier: ^1.2.0
         version: 1.2.0
+      '@ublacklist/ruleset':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@ublacklist/serpinfo':
         specifier: ^1.1.0
         version: 1.1.0
@@ -68,9 +65,6 @@ importers:
       is-mobile:
         specifier: ^5.0.0
         version: 5.0.0
-      js-yaml:
-        specifier: ^4.1.1
-        version: 4.1.1
       lz-string:
         specifier: ^1.5.0
         version: 1.5.0
@@ -102,18 +96,12 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.15
         version: 2.4.15
-      '@lezer/generator':
-        specifier: ^1.8.0
-        version: 1.8.0
       '@types/css-tree':
         specifier: ^2.3.11
         version: 2.3.11
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/license-checker':
         specifier: ^25.0.6
         version: 25.0.6
@@ -402,18 +390,14 @@ packages:
   '@lezer/common@1.5.2':
     resolution: {integrity: sha512-sxQE460fPZyU3sdc8lafxiPwJHBzZRy/udNFynGQky1SePYBdhkBl1kOagA9uT3pxR8K09bOrmTUqA9wb/PjSQ==}
 
-  '@lezer/generator@1.8.0':
-    resolution: {integrity: sha512-/SF4EDWowPqV1jOgoGSGTIFsE7Ezdr7ZYxyihl5eMKVO5tlnpIhFcDavgm1hHY5GEonoOAEnJ0CU0x+tvuAuUg==}
-    hasBin: true
-
   '@lezer/highlight@1.2.3':
     resolution: {integrity: sha512-qXdH7UqTvGfdVBINrgKhDsVTJTxactNNxLk7+UMwZhU13lMHaOBlJe9Vqp907ya56Y3+ed2tlqzys7jDkTmW0g==}
 
   '@lezer/lr@1.4.10':
     resolution: {integrity: sha512-rnCpTIBafOx4mRp43xOxDJbFipJm/c0cia/V5TiGlhmMa+wsSdoGmUN3w5Bqrks/09Q/D4tNAmWaT8p6NRi77A==}
 
-  '@lezer/yaml@1.0.3':
-    resolution: {integrity: sha512-GuBLekbw9jDBDhGur82nuwkxKQ+a3W5H0GfaAthDXcAu+XdpS43VlnxA9E9hllkpSP5ellRDKjLLj7Lu9Wr6xA==}
+  '@lezer/yaml@1.0.4':
+    resolution: {integrity: sha512-2lrrHqxalACEbxIbsjhqGpSW8kWpUKuY6RHgnSAFZa6qK62wvnPxA8hGOwOoDbwHcOFs5M4o27mjGu+P7TvBmw==}
 
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
@@ -436,9 +420,6 @@ packages:
 
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
-  '@types/js-yaml@4.0.9':
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/jsonfile@6.1.4':
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
@@ -507,6 +488,9 @@ packages:
 
   '@ublacklist/match-pattern@1.2.0':
     resolution: {integrity: sha512-IIf45TnANZvEvYYqDQKXlFYoM58P0xK6NEgtQr21VRbCQgjHUwfaGFKVNvd6+X8cyKcinoOLUXqtCcdeG10/5A==}
+
+  '@ublacklist/ruleset@1.0.2':
+    resolution: {integrity: sha512-R2eNyRblJyiA9xho5WCPfsBJ0e2US432AUus+AXsHW5KhiOlQzq0vjePUlol1d4LU7arI//nQ02bmAWt2xpJjg==}
 
   '@ublacklist/serpinfo@1.1.0':
     resolution: {integrity: sha512-k4amdtFl6+gA1l/006qgG9QTFcznAE3QXqIksj6EnhZnbvc5e5/7MiXaQuf5EUtljz0ORPvGJfmE7Kz11R2z8g==}
@@ -1190,7 +1174,7 @@ snapshots:
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
       '@lezer/lr': 1.4.10
-      '@lezer/yaml': 1.0.3
+      '@lezer/yaml': 1.0.4
 
   '@codemirror/language@6.12.3':
     dependencies:
@@ -1298,11 +1282,6 @@ snapshots:
 
   '@lezer/common@1.5.2': {}
 
-  '@lezer/generator@1.8.0':
-    dependencies:
-      '@lezer/common': 1.5.2
-      '@lezer/lr': 1.4.10
-
   '@lezer/highlight@1.2.3':
     dependencies:
       '@lezer/common': 1.5.2
@@ -1311,7 +1290,7 @@ snapshots:
     dependencies:
       '@lezer/common': 1.5.2
 
-  '@lezer/yaml@1.0.3':
+  '@lezer/yaml@1.0.4':
     dependencies:
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
@@ -1333,8 +1312,6 @@ snapshots:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 24.12.3
-
-  '@types/js-yaml@4.0.9': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
@@ -1392,6 +1369,16 @@ snapshots:
   '@ublacklist/match-pattern@1.1.0': {}
 
   '@ublacklist/match-pattern@1.2.0': {}
+
+  '@ublacklist/ruleset@1.0.2':
+    dependencies:
+      '@lezer/common': 1.5.2
+      '@lezer/highlight': 1.2.3
+      '@lezer/lr': 1.4.10
+      '@lezer/yaml': 1.0.4
+      '@ublacklist/match-pattern': 1.2.0
+      js-yaml: 4.1.1
+      zod: 4.4.3
 
   '@ublacklist/serpinfo@1.1.0':
     dependencies:

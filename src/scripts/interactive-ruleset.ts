@@ -1,22 +1,15 @@
+import { type Action, Ruleset, type SearchResult } from "@ublacklist/ruleset";
 import { groupBy, partition, zip } from "es-toolkit";
 import { getRegistrableDomain } from "./registrable-domain.ts";
-import { type LinkProps, Ruleset } from "./ruleset/ruleset.ts";
 
 export type NamedRuleset = {
   name: string;
   ruleset: Ruleset;
 };
 
-export type Action =
-  | { type: "block" }
-  | { type: "unblock" }
-  | { type: "highlight"; colorNumber: number };
-
-export type ActionType = Action["type"];
-
 export type Patch = {
   mode: PatchMode;
-  props: LinkProps;
+  searchResult: SearchResult;
   rulesToAdd: string;
   lineNumbersToRemove: readonly number[];
   rulesToRemove: string;
@@ -25,14 +18,14 @@ export type Patch = {
   matchingRules: MatchingRules | null;
 };
 
-export type PatchMode = ActionType | "unhighlight";
+export type PatchMode = Action["type"] | "unhighlight";
 
 export type PatchOptions = {
   useRegistrableDomain?: boolean;
   collectMatchingRules?: boolean;
 };
 
-export type MatchingRules = Record<ActionType, string>;
+export type MatchingRules = Record<Action["type"], string>;
 
 export class InteractiveRuleset {
   constructor(user: NamedRuleset, subscriptions: readonly NamedRuleset[]) {
@@ -40,23 +33,23 @@ export class InteractiveRuleset {
     this.#subscriptions = subscriptions;
   }
 
-  query(props: LinkProps): Action | null {
+  query(searchResult: SearchResult): Action | null {
     return (
-      resolveAction(match(this.#user, props)) ||
+      resolveAction(match(this.#user, searchResult)) ||
       resolveAction(
-        this.#subscriptions.flatMap((ruleset) => match(ruleset, props)),
+        this.#subscriptions.flatMap((ruleset) => match(ruleset, searchResult)),
       )
     );
   }
 
   createPatch(
     mode: PatchMode | null,
-    props: LinkProps,
+    searchResult: SearchResult,
     options: PatchOptions = {},
   ): Patch {
-    const matches = match(this.#user, props);
+    const matches = match(this.#user, searchResult);
     const subscriptionMatches = this.#subscriptions.map((ruleset) =>
-      match(ruleset, props),
+      match(ruleset, searchResult),
     );
     const subscriptionsAction = resolveAction(subscriptionMatches.flat());
     if (!mode) {
@@ -81,7 +74,7 @@ export class InteractiveRuleset {
       ? ""
       : suggestMatchPattern(
           mode,
-          props.url,
+          searchResult.url,
           options.useRegistrableDomain ?? false,
         );
     const matchingRules = options.collectMatchingRules
@@ -94,7 +87,7 @@ export class InteractiveRuleset {
       : null;
     return {
       mode,
-      props,
+      searchResult,
       rulesToAdd,
       lineNumbersToRemove: matchesToRemove.map(({ lineNumber }) => lineNumber),
       rulesToRemove: matchesToRemove.map(({ rule }) => rule).join("\n"),
@@ -108,7 +101,7 @@ export class InteractiveRuleset {
     const rulesetToAdd = new Ruleset("");
     rulesetToAdd.extend(rulesToAdd);
     const actionToAdd = resolveAction(
-      match({ name: "Patch", ruleset: rulesetToAdd }, patch.props),
+      match({ name: "Patch", ruleset: rulesetToAdd }, patch.searchResult),
     );
     let action = patch.userActionNotToRemove;
     if (actionToAdd) {
@@ -136,28 +129,12 @@ type Match = {
   action: Action;
 };
 
-function match(ruleset: NamedRuleset, props: LinkProps): Match[] {
-  const { protocol, hostname, pathname, search } = new URL(props.url);
-  const testRawResult = ruleset.ruleset.testRaw({
-    ...props,
-    scheme: protocol.slice(0, -1),
-    host: hostname,
-    path: `${pathname}${search}`,
-  });
-  const matches: Match[] = [];
-  for (const { lineNumber, specifier } of testRawResult) {
-    const action: Action = !specifier
-      ? { type: "block" }
-      : specifier.type === "negate"
-        ? { type: "unblock" }
-        : { type: "highlight", colorNumber: specifier.colorNumber };
-    matches.push({
-      lineNumber,
-      rule: ruleset.ruleset.get(lineNumber) ?? "",
-      action,
-    });
-  }
-  return matches;
+function match(ruleset: NamedRuleset, searchResult: SearchResult): Match[] {
+  return ruleset.ruleset.exec(searchResult).map(({ lineNumber, action }) => ({
+    lineNumber,
+    rule: ruleset.ruleset.get(lineNumber) ?? "",
+    action,
+  }));
 }
 
 function resolveAction(matches: readonly Match[]): Action | null {
@@ -223,7 +200,7 @@ type RulesetMatches = {
 function collectMatchingRules(
   rulesetMatches: readonly RulesetMatches[],
 ): MatchingRules {
-  const matchingRules: Record<ActionType, RulesetMatches[]> = {
+  const matchingRules: Record<Action["type"], RulesetMatches[]> = {
     block: [],
     unblock: [],
     highlight: [],
