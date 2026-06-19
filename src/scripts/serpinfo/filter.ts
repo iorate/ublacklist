@@ -261,6 +261,12 @@ class Filter {
       );
     }
     result.root.setAttribute(a.result, "1");
+    if (result.description.extraSelector != null) {
+      result.root.setAttribute(
+        a.extraSelector,
+        result.description.extraSelector,
+      );
+    }
     this.#judgeResult(result);
     this.#results.set(result.root, result);
   }
@@ -268,19 +274,22 @@ class Filter {
   #removeResult(result: Result) {
     result.removeButton?.();
     result.root.removeAttribute(a.result);
+    result.root.removeAttribute(a.extraSelector);
     if (result.root.hasAttribute(a.block)) {
-      result.root.removeAttribute(a.block);
       --this.#blockedResultCount;
     }
+    result.root.removeAttribute(a.block);
+    result.root.removeAttribute(a.preserveSpace);
     result.root.removeAttribute(a.highlight);
     this.#results.delete(result.root);
   }
 
   #judgeResult(result: Result) {
     if (result.root.hasAttribute(a.block)) {
-      result.root.removeAttribute(a.block);
       --this.#blockedResultCount;
     }
+    result.root.removeAttribute(a.block);
+    result.root.removeAttribute(a.preserveSpace);
     result.root.removeAttribute(a.highlight);
     if (result.url != null) {
       const queryResult = this.#ruleset.query({
@@ -288,10 +297,10 @@ class Filter {
         url: result.url,
       });
       if (queryResult?.type === "block") {
-        result.root.setAttribute(
-          a.block,
-          result.description.preserveSpace ? "2" : "1",
-        );
+        result.root.setAttribute(a.block, "1");
+        if (result.description.preserveSpace) {
+          result.root.setAttribute(a.preserveSpace, "1");
+        }
         ++this.#blockedResultCount;
       } else if (queryResult?.type === "highlight") {
         result.root.setAttribute(a.highlight, String(queryResult.colorNumber));

@@ -4,16 +4,20 @@ import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
 import { MatchPatternMap } from "../../common/match-pattern.ts";
 import iconSVG from "../../icons/icon.svg";
-import { defaultBlockColor } from "../constants.ts";
 import { translate } from "../locales.ts";
 import { addMessageListeners } from "../messages.ts";
 import { attributes as a, classes as c } from "./constants.ts";
-import { type CSSProperties, cssStringify } from "./css-stringify.ts";
+import { cssStringify } from "./css-stringify.ts";
 import { blockedResultCountStore, setupFilter } from "./filter.ts";
 import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
 import { createIsDarkModeStore } from "./is-dark-mode.ts";
 import type { SerpIndex } from "./settings.ts";
 import { storageStore } from "./storage-store.ts";
+import {
+  buildBlockStyle,
+  buildHideStyle,
+  buildHighlightStyle,
+} from "./style-builders.ts";
 
 const hideBlockedResultsStore = createStore(() => true);
 
@@ -76,18 +80,19 @@ function setupPopupListeners() {
   });
 }
 
-function setupStyles() {
-  const specificityBoost = ":not(#ub-never)";
+function setupStyles(serps: readonly SerpDescription[]) {
+  const extraSelectors = [
+    ...new Set(
+      serps.flatMap((serp) =>
+        serp.results.flatMap((result) =>
+          result?.extraSelector != null ? [result.extraSelector] : [],
+        ),
+      ),
+    ),
+  ];
+
   // Hide blocked results
-  setStaticGlobalStyle("hide-blocked-results", {
-    [`[${a.hideBlockedResults}] [${a.block}="1"]${specificityBoost}`]: {
-      display: "none !important",
-    },
-    [`[${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost}, [${a.hideBlockedResults}] [${a.block}="2"]${specificityBoost} *`]:
-      {
-        visibility: "hidden !important" as "hidden",
-      },
-  });
+  setStaticGlobalStyle("hide-blocked-results", buildHideStyle(extraSelectors));
   toggleDocumentAttribute(
     a.hideBlockedResults,
     hideBlockedResultsStore.getState(),
@@ -120,36 +125,18 @@ function setupStyles() {
   // Block color
   storageStore.subscribe(
     (state) => state.blockColor,
-    (color) => {
-      setGlobalStyle("block-color", {
-        [`[${a.block}]${specificityBoost}`]: {
-          backgroundColor: `${color !== "default" ? color : defaultBlockColor} !important`,
-        },
-        [`[${a.block}]${specificityBoost} *`]: {
-          backgroundColor: "transparent !important",
-        },
-      });
-    },
+    (color) =>
+      setGlobalStyle("block-color", buildBlockStyle(extraSelectors, color)),
     { fireImmediately: true },
   );
   // Highlight colors
   storageStore.subscribe(
     (state) => state.highlightColors,
-    (colors) => {
-      let properties: CSSProperties = {};
-      for (const [index, color] of colors.entries()) {
-        properties = {
-          ...properties,
-          [`[${a.highlight}="${index + 1}"]${specificityBoost}`]: {
-            backgroundColor: `${color} !important`,
-          },
-          [`[${a.highlight}="${index + 1}"]${specificityBoost} *`]: {
-            backgroundColor: "transparent !important",
-          },
-        };
-      }
-      setGlobalStyle("highlight-colors", properties);
-    },
+    (colors) =>
+      setGlobalStyle(
+        "highlight-colors",
+        buildHighlightStyle(extraSelectors, colors),
+      ),
     { fireImmediately: true },
   );
 }
@@ -293,7 +280,7 @@ storageStore.attachPromise.then(() => {
   setupPopupListeners();
 
   const start = () => {
-    setupStyles();
+    setupStyles(serps);
     setupControl();
     setupFilter(serps);
   };

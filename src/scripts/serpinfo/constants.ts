@@ -4,7 +4,9 @@ export const attributes = {
   hideControl: "data-ub-hide-control",
   result: "data-ub-result",
   block: "data-ub-block",
+  preserveSpace: "data-ub-preserve-space",
   highlight: "data-ub-highlight",
+  extraSelector: "data-ub-extra-selector",
   iconButtonParent: "data-ub-icon-button-parent",
 };
 
