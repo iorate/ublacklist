@@ -1,7 +1,7 @@
+import { Ruleset, type RulesetJSON } from "@ublacklist/ruleset";
 import dayjs from "dayjs";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
-import { Ruleset, type RulesetJSON } from "./ruleset/ruleset.ts";
 import type {
   ErrorResult,
   PlainRuleset,
@@ -240,16 +240,22 @@ export function fromPlainRuleset(
   return new Ruleset(
     ruleset
       ? {
-          source: source.split("\n"),
+          source,
           metadata: ruleset.metadata,
-          rules: JSON.parse(ruleset.rules) as RulesetJSON["rules"],
-          frontMatterUnclosed: ruleset.frontMatterUnclosed ?? false,
+          ruleMap: JSON.parse(ruleset.rules) as RulesetJSON["ruleMap"],
+          frontmatterUnclosed: ruleset.frontMatterUnclosed ?? false,
         }
       : source,
   );
 }
 
 export function toPlainRuleset(source: string): PlainRuleset {
-  const { metadata, rules, frontMatterUnclosed } = new Ruleset(source).toJSON();
-  return { metadata, rules: JSON.stringify(rules), frontMatterUnclosed };
+  const { metadata, ruleMap, frontmatterUnclosed } = new Ruleset(
+    source,
+  ).toJSON();
+  return {
+    metadata,
+    rules: JSON.stringify(ruleMap),
+    frontMatterUnclosed: frontmatterUnclosed,
+  };
 }

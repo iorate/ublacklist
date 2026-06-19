@@ -1,4 +1,5 @@
 import cog from "@mdi/svg/svg/cog.svg";
+import type { Props, SearchResult } from "@ublacklist/ruleset";
 import * as punycode from "punycode/";
 import React, { useId, useMemo, useState } from "react";
 import icon from "../icons/icon.svg";
@@ -40,7 +41,6 @@ import type {
 } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import { getRegistrableDomain } from "./registrable-domain.ts";
-import type { LinkProps } from "./ruleset/ruleset.ts";
 import type { DialogTheme, MessageName0 } from "./types.ts";
 import { svgToDataURL } from "./utilities.ts";
 
@@ -81,22 +81,18 @@ const MODE_BUTTON_MESSAGE = {
   unhighlight: "popup_unhighlightSiteButton",
 } as const satisfies Record<PatchMode, MessageName0>;
 
-// Property keys are sorted: `url` first, then non-`$` keys alphabetically,
-// then `$`-prefixed keys alphabetically. SERPINFO insertion order is ignored.
-function sortPropertyKeys(props: LinkProps): string[] {
-  const keys = Object.keys(props).filter(
-    (k) => k !== "url" && props[k] !== undefined,
-  );
+function sortPropertyKeys(props: Props): string[] {
+  const keys = Object.keys(props);
   const dollar = keys.filter((k) => k.startsWith("$")).sort();
   const plain = keys.filter((k) => !k.startsWith("$")).sort();
-  return ["url", ...plain, ...dollar];
+  return [...plain, ...dollar];
 }
 
 // ---------------------------------------------------------------------------
 // Sub-components
 
-const PropertiesTable: React.FC<{ entryProps: LinkProps }> = ({
-  entryProps,
+const PropertiesTable: React.FC<{ searchResult: SearchResult }> = ({
+  searchResult,
 }) => {
   const tableClassName = useClassName(
     () => ({
@@ -117,7 +113,8 @@ const PropertiesTable: React.FC<{ entryProps: LinkProps }> = ({
     }),
     [],
   );
-  const keys = sortPropertyKeys(entryProps);
+  const props = searchResult.props ?? {};
+  const keys = sortPropertyKeys(props);
   return (
     <Row spacing="1.5em">
       <RowItem expanded>
@@ -125,10 +122,12 @@ const PropertiesTable: React.FC<{ entryProps: LinkProps }> = ({
           <Label>{translate("popup_propertiesLabel")}</Label>
         </LabelWrapper>
         <div className={tableClassName}>
+          <div className={cellClassName}>url</div>
+          <div className={cellClassName}>{searchResult.url}</div>
           {keys.map((key) => (
             <React.Fragment key={key}>
               <div className={cellClassName}>{key}</div>
-              <div className={cellClassName}>{entryProps[key]}</div>
+              <div className={cellClassName}>{props[key]}</div>
             </React.Fragment>
           ))}
         </div>
@@ -269,10 +268,10 @@ type BlockDialogContentProps = {
   blockWholeSite: boolean;
   close: () => void;
   enableMatchingRules: boolean;
-  entryProps: LinkProps;
   id: string;
   openOptionsPage: () => Promise<void>;
   ruleset: InteractiveRuleset;
+  searchResult: SearchResult;
   onBlocked: (newSource: string) => void | Promise<void>;
 };
 
@@ -280,20 +279,20 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   blockWholeSite,
   close,
   enableMatchingRules,
-  entryProps,
   id,
   openOptionsPage,
   ruleset,
+  searchResult,
   onBlocked,
 }) => {
   // ---- Derived (pure from props)
   const urlIsProcessable = useMemo(
-    () => isProcessableUrl(entryProps.url),
-    [entryProps.url],
+    () => isProcessableUrl(searchResult.url),
+    [searchResult.url],
   );
   const host = useMemo(
-    () => computeHost(entryProps.url, blockWholeSite),
-    [entryProps.url, blockWholeSite],
+    () => computeHost(searchResult.url, blockWholeSite),
+    [searchResult.url, blockWholeSite],
   );
   // The auto-detected patch (mode = null) is the source of truth for both
   // the initial selected mode and the SplitButton's secondary menu label.
@@ -301,7 +300,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
   const autoPatch = useMemo<Patch | null>(
     () =>
       urlIsProcessable
-        ? ruleset.createPatch(null, entryProps, {
+        ? ruleset.createPatch(null, searchResult, {
             useRegistrableDomain: blockWholeSite,
             collectMatchingRules: enableMatchingRules,
           })
@@ -309,7 +308,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     [
       urlIsProcessable,
       ruleset,
-      entryProps,
+      searchResult,
       blockWholeSite,
       enableMatchingRules,
     ],
@@ -337,7 +336,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     if (manualMode == null || manualMode === autoPatch.mode) {
       return autoPatch;
     }
-    return ruleset.createPatch(manualMode, entryProps, {
+    return ruleset.createPatch(manualMode, searchResult, {
       useRegistrableDomain: blockWholeSite,
       collectMatchingRules: enableMatchingRules,
     });
@@ -345,7 +344,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     autoPatch,
     manualMode,
     ruleset,
-    entryProps,
+    searchResult,
     blockWholeSite,
     enableMatchingRules,
   ]);
@@ -402,7 +401,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                 {translate("popup_details")}
               </DetailsSummary>
               <DetailsBody>
-                <PropertiesTable entryProps={entryProps} />
+                <PropertiesTable searchResult={searchResult} />
                 <RulesToAddInput
                   id={`${id}-rules-to-add`}
                   value={rulesToAdd}
@@ -522,7 +521,7 @@ export const BlockDialog: React.FC<BlockDialogProps> = ({
           >
             {open && (
               <BlockDialogContent
-                key={contentProps.entryProps.url}
+                key={contentProps.searchResult.url}
                 id={id}
                 {...contentProps}
               />
@@ -546,7 +545,7 @@ export const BlockEmbeddedDialog: React.FC<BlockEmbeddedDialogProps> = (
       close={props.close}
       width="360px"
     >
-      <BlockDialogContent key={props.entryProps.url} id={id} {...props} />
+      <BlockDialogContent key={props.searchResult.url} id={id} {...props} />
     </EmbeddedDialog>
   );
 };

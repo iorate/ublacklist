@@ -293,8 +293,8 @@ class Filter {
     result.root.removeAttribute(a.highlight);
     if (result.url != null) {
       const queryResult = this.#ruleset.query({
-        ...result.props,
         url: result.url,
+        props: result.props,
       });
       if (queryResult?.type === "block") {
         result.root.setAttribute(a.block, "1");

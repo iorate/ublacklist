@@ -1,27 +1,10 @@
-import { yamlFrontmatter } from "@codemirror/lang-yaml";
 import { LanguageSupport, LRLanguage, syntaxTree } from "@codemirror/language";
 import { type Diagnostic, linter } from "@codemirror/lint";
-import { styleTags, tags as t } from "@lezer/highlight";
-import { parser as rulesetParser } from "./parser.generated.ts";
-import { parseRegExp, parseString } from "./utils.ts";
+import { parseRegExp, parser, parseString } from "@ublacklist/ruleset";
 
 const rulesetLanguage = LRLanguage.define({
   name: "ruleset",
-  parser: rulesetParser.configure({
-    props: [
-      styleTags({
-        Comment: t.lineComment,
-        "@ AtInteger @if": t.modifier,
-        Identifier: t.variableName,
-        "StringMatchOperator CaseSensitivity RegExpMatchOperator":
-          t.compareOperator,
-        String: t.string,
-        RegExp: t.regexp,
-        "( )": t.paren,
-        '"!" & |': t.logicOperator,
-      }),
-    ],
-  }),
+  parser,
   languageData: {
     commentTokens: { line: "#" },
   },
@@ -67,7 +50,5 @@ const rulesetLinter = linter((view) => {
 });
 
 export function ruleset(): LanguageSupport {
-  return yamlFrontmatter({
-    content: new LanguageSupport(rulesetLanguage, rulesetLinter),
-  });
+  return new LanguageSupport(rulesetLanguage, rulesetLinter);
 }
