@@ -1,9 +1,9 @@
-import { parse, type SerpInfo } from "@ublacklist/serpinfo";
-import { z } from "zod";
 import {
   MatchPatternMap,
   type MatchPatternMapJSON,
-} from "../../common/match-pattern.ts";
+} from "@ublacklist/match-pattern";
+import { parse, type SerpInfo } from "@ublacklist/serpinfo";
+import { z } from "zod";
 import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtins.ts";
 
 export type UserSerpInfo = {

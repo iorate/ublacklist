@@ -1,12 +1,12 @@
 import { DocInput } from "@codemirror/language";
 import { Text } from "@codemirror/state";
 import type { SyntaxNode } from "@lezer/common";
-import yaml from "js-yaml";
-import { z } from "zod";
 import {
   MatchPatternMap,
   type MatchPatternMapJSON,
-} from "../../common/match-pattern.ts";
+} from "@ublacklist/match-pattern";
+import yaml from "js-yaml";
+import { z } from "zod";
 import { ruleset } from "./lang.ts";
 import { parser } from "./parser.generated.ts";
 import { parseRegExp, parseString } from "./utils.ts";
