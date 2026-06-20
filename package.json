@@ -17,7 +17,6 @@
     "fix:prettier": "prettier --write \"**/*.{md,yaml,yml}\"",
     "generate": "pnpm run /^generate:/",
     "generate:message-names": "node scripts/generate-message-names.ts",
-    "generate:third-party-notices": "node scripts/generate-third-party-notices.ts",
     "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
@@ -66,7 +65,6 @@
     "esbuild": "^0.27.7",
     "fs-extra": "^11.3.5",
     "lefthook": "^2.1.6",
-    "license-checker": "^25.0.1",
     "prettier": "^3.8.3"
   },
   "packageManager": "pnpm@11.1.1",
