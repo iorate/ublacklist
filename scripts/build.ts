@@ -6,10 +6,12 @@ import * as esbuild from "esbuild";
 import fse from "fs-extra";
 import { z } from "zod";
 import { getManifest, type ManifestContext } from "../src/manifest.ts";
+import { getLicenseTexts } from "./get-license-texts.ts";
 
 type Context = ManifestContext & {
   srcDir: string;
   destDir: string;
+  licenseFallbackDir: string;
 };
 
 async function getStaticAssets(context: Context): Promise<string[]> {
@@ -27,7 +29,6 @@ async function getStaticAssets(context: Context): Promise<string[]> {
     "pages/serpinfo/options.html",
     "pages/popup.html",
     ...(browser === "safari" ? ["scripts/import-content-script.js"] : []),
-    "third-party-notices.txt",
   ];
 }
 
@@ -82,9 +83,9 @@ async function buildManifestJSON(context: Context) {
   );
 }
 
-async function buildScripts(context: Context): Promise<void> {
+async function buildScripts(context: Context): Promise<string[]> {
   const { debug, srcDir, destDir } = context;
-  await esbuild.build({
+  const { metafile } = await esbuild.build({
     bundle: true,
     define: getDefine(context),
     entryPoints: getScripts().map((file) => path.join(srcDir, file)),
@@ -93,10 +94,27 @@ async function buildScripts(context: Context): Promise<void> {
     jsxDev: debug,
     loader: { ".svg": "text", ".yml": "text" },
     logLevel: "silent",
+    metafile: true,
     outbase: srcDir,
     outdir: destDir,
     sourcemap: debug,
   });
+  return Object.keys(metafile.inputs);
+}
+
+async function buildThirdPartyNotices(
+  context: Context,
+  paths: readonly string[],
+): Promise<void> {
+  const { destDir, licenseFallbackDir } = context;
+  const licenseTexts = await getLicenseTexts(paths, licenseFallbackDir);
+  const thirdPartyNotices = licenseTexts
+    .map(([name, licenseText]) => `${name}\n\n${licenseText}\n`)
+    .join("\n\n");
+  await fse.outputFile(
+    path.join(destDir, "third-party-notices.txt"),
+    thirdPartyNotices,
+  );
 }
 
 async function main() {
@@ -131,11 +149,14 @@ async function main() {
     noKey,
     srcDir: "src",
     destDir: `dist/${browser}${debug ? "-debug" : ""}${noKey ? "-no-key" : ""}`,
+    licenseFallbackDir: "licenses",
   };
   await Promise.all([
     buildStaticAssets(context),
     buildManifestJSON(context),
-    buildScripts(context),
+    buildScripts(context).then((paths) =>
+      buildThirdPartyNotices(context, paths),
+    ),
   ]);
 }
 
