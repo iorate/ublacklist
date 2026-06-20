@@ -2,12 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 export async function getLicenseTexts(
-  files: readonly string[],
+  paths: readonly string[],
   fallbackDir: string,
 ): Promise<[name: string, licenseText: string][]> {
   const packageDirs: Record<string, string> = {};
-  for (const file of files) {
-    const dir = path.dirname(file);
+  for (const path_ of paths) {
+    const dir = path.dirname(path_);
     const dirs = dir.split("/");
     const nodeModulesIndex = dirs.lastIndexOf("node_modules");
     if (nodeModulesIndex === -1) {
@@ -34,12 +34,13 @@ export async function getLicenseTexts(
   const licenseTexts: [string, string][] = [];
   await Promise.all(
     Object.entries(packageDirs).map(async ([name, dir]) => {
-      const entries = await fs.readdir(dir);
-      const licenseFile = entries.find((entry) => /^licen[cs]e/i.test(entry));
-      const licensePath =
-        licenseFile != null
-          ? path.join(dir, licenseFile)
-          : path.join(fallbackDir, `${name}.txt`);
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      const licenseEntry = entries.find(
+        (entry) => entry.isFile() && /^licen[cs]e/i.test(entry.name),
+      );
+      const licensePath = licenseEntry
+        ? path.join(dir, licenseEntry.name)
+        : path.join(fallbackDir, `${name}.txt`);
       const licenseText = (await fs.readFile(licensePath, "utf-8")).trim();
       licenseTexts.push([name, licenseText]);
     }),
