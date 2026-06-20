@@ -4,6 +4,7 @@ import type {
   PropertyCommand,
   RootCommand,
 } from "@ublacklist/serpinfo";
+import { zip } from "es-toolkit";
 import punycode from "punycode/";
 import iconSVG from "../../icons/icon.svg";
 import { attributes as a, classes as c } from "./constants.ts";
@@ -284,8 +285,7 @@ const buttonCommandImpl: ButtonCommandImpl = {
             padding: 0,
             width: "max(var(--ub-icon-size), 40px)",
           },
-          span: {
-            display: "block",
+          svg: {
             height: "var(--ub-icon-size)",
             width: "var(--ub-icon-size)",
           },
@@ -293,20 +293,23 @@ const buttonCommandImpl: ButtonCommandImpl = {
         2,
       )}</style>
       <button type="button">
-        <span part="block">${iconSVG}</span>
-        <span part="unblock">${iconSVG}</span>
-        <span part="unhighlight">${iconSVG}</span>
+        ${iconSVG}
+        ${iconSVG}
+        ${iconSVG}
       </button>
     `;
-    const labels = {
-      block: context.buttonProps.blockLabel,
-      unblock: context.buttonProps.unblockLabel,
-      unhighlight: context.buttonProps.unhighlightLabel,
-    };
-    for (const [part, label] of Object.entries(labels)) {
-      // biome-ignore lint/style/noNonNullAssertion: the span always exists
-      shadowRoot.querySelector(`[part="${part}"]`)!.ariaLabel = label;
-    }
+    const partLabels = [
+      ["block", context.buttonProps.blockLabel],
+      ["unblock", context.buttonProps.unblockLabel],
+      ["unhighlight", context.buttonProps.unhighlightLabel],
+    ] as const;
+    zip([...shadowRoot.querySelectorAll("svg")], partLabels).forEach(
+      ([svg, [part, label]]) => {
+        svg.part = part;
+        svg.role = "img";
+        svg.ariaLabel = label;
+      },
+    );
     shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
       event.stopPropagation();
       context.buttonProps.onClick(event);
