@@ -220,6 +220,7 @@ function setupControl() {
   });
   // biome-ignore lint/style/noNonNullAssertion: <svg> always exists
   const svg = button.querySelector("svg")!;
+  svg.role = "img";
   // biome-ignore lint/style/noNonNullAssertion: <span> always exists
   const span = button.querySelector("span")!;
 
