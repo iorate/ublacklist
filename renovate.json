@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices", "config:js-app"],
+  "dependencyDashboardApproval": true,
+  "enabledManagers": ["npm", "github-actions"],
+  "platformCommit": "enabled",
+  "vulnerabilityAlerts": {
+    "dependencyDashboardApproval": false
+  },
+  "packageRules": [
+    {
+      "description": "Bump @types/node major manually to match the Node.js version in devEngines.runtime, which Renovate cannot update yet (renovatebot/renovate#38067)",
+      "matchPackageNames": ["@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "First-party packages; skip the release-age waiting period and update immediately",
+      "matchPackageNames": ["@ublacklist/*"],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Pin to 2.1.15; 2.1.16 and later break functional pseudo-classes with & (cristianbote/goober#605)",
+      "matchPackageNames": ["goober"],
+      "enabled": false
+    }
+  ]
+}
