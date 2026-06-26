@@ -210,6 +210,7 @@ const ActionButton: React.FC<{
   focusDefault: boolean;
   focusEnd: boolean;
   menuDisabled: boolean;
+  testId: string;
   onClick: () => void;
   onSelectMode: (mode: PatchMode) => void;
 }> = ({
@@ -219,12 +220,14 @@ const ActionButton: React.FC<{
   focusDefault,
   focusEnd,
   menuDisabled,
+  testId,
   onClick,
   onSelectMode,
 }) => {
   return autoMode === "block" ? (
     <SplitButton
       className={focusDefault ? FOCUS_DEFAULT_CLASS : undefined}
+      data-testid={testId}
       disabled={disabled}
       menu={
         <>
@@ -252,6 +255,7 @@ const ActionButton: React.FC<{
           .filter(Boolean)
           .join(" ") || undefined
       }
+      data-testid={testId}
       disabled={disabled}
       primary
       onClick={onClick}
@@ -479,6 +483,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   menuDisabled={!urlIsProcessable}
                   focusDefault={urlIsProcessable}
                   focusEnd={urlIsProcessable}
+                  testId="block-dialog-action-button"
                   onClick={() => {
                     void handleApply();
                   }}

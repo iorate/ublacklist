@@ -3,6 +3,7 @@ import type * as React from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { svgToDataURL } from "../utilities.ts";
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from "./constants.ts";
+import { applyClassName } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";
 import { useClassName } from "./utilities.ts";
 
@@ -45,30 +46,26 @@ function moveFocus(
   nextItem.focus();
 }
 
-export type SplitButtonProps = {
-  children: React.ReactNode;
-  className?: string | undefined;
-  disabled?: boolean;
+// The main button receives any intrinsic `<button>` attribute (className,
+// disabled, onClick, data-testid, ...) via rest props, mirroring `Button`. Only
+// the menu-specific and layout props below are handled explicitly.
+export type SplitButtonProps = React.JSX.IntrinsicElements["button"] & {
   menu: React.ReactNode;
   menuAriaLabel: string;
   menuClassName?: string | undefined;
   menuDisabled?: boolean;
   placement?: "top" | "bottom";
   primary?: boolean;
-  onClick: () => void;
 };
 
 export const SplitButton: React.FC<SplitButtonProps> = ({
-  children,
-  className,
-  disabled = false,
   menu,
   menuAriaLabel,
   menuClassName,
   menuDisabled = false,
   placement = "bottom",
   primary = false,
-  onClick,
+  ...buttonProps
 }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLButtonElement>(null);
@@ -208,14 +205,7 @@ export const SplitButton: React.FC<SplitButtonProps> = ({
         }
       }}
     >
-      <button
-        className={className ? `${mainClassName} ${className}` : mainClassName}
-        disabled={disabled}
-        onClick={onClick}
-        type="button"
-      >
-        {children}
-      </button>
+      <button {...applyClassName(buttonProps, mainClassName)} type="button" />
       <button
         aria-expanded={open}
         aria-haspopup="menu"

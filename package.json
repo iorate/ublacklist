@@ -12,6 +12,7 @@
     "check:biome": "biome check",
     "check:prettier": "prettier --check \"**/*.{md,yaml,yml}\"",
     "check:typescript": "tsc",
+    "e2e": "pnpm build --e2e && playwright test --config e2e/playwright.config.ts",
     "fix": "pnpm run /^fix:/",
     "fix:biome": "biome check --write",
     "fix:prettier": "prettier --write \"**/*.{md,yaml,yml}\"",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
+    "@playwright/test": "1.61.1",
     "@types/css-tree": "2.3.11",
     "@types/fs-extra": "11.0.4",
     "@types/license-checker": "25.0.6",
@@ -59,6 +61,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@types/webextension-polyfill": "0.12.5",
+    "chrome-types": "0.1.429",
     "csstype": "3.2.3",
     "dotenv": "17.4.2",
     "esbuild": "0.28.1",
