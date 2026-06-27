@@ -62,6 +62,11 @@ export async function updateAllRemote() {
 }
 
 async function setupUpdateAlarm() {
+  if (process.env.E2E === "true") {
+    // Prevent the e2e tests from updating remote SERPINFO automatically
+    // so that they can run offline and deterministically
+    return;
+  }
   if (await browser.alarms.get(UPDATE_ALARM_NAME)) {
     return;
   }

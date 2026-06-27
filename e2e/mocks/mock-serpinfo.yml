@@ -1,0 +1,10 @@
+name: Google
+pages:
+  - name: Web
+    matches:
+      - https://www.google.com/search?*
+    results:
+      - root: .result
+        url: .result-link
+        props:
+          title: .result-title

@@ -9,6 +9,7 @@ import { getManifest, type ManifestContext } from "../src/manifest.ts";
 import { getLicenseTexts } from "./get-license-texts.ts";
 
 type Context = ManifestContext & {
+  e2e: boolean;
   srcDir: string;
   destDir: string;
   licenseFallbackDir: string;
@@ -43,12 +44,13 @@ function getScripts(): string[] {
 }
 
 function getDefine(context: Context): Record<string, string> {
-  const { browser, version, debug } = context;
+  const { browser, version, debug, e2e } = context;
   const vars = {
     NODE_ENV: debug ? "development" : "production",
     BROWSER: browser,
     VERSION: version,
     DEBUG: debug ? "true" : "false",
+    E2E: e2e ? "true" : "false",
     DROPBOX_API_KEY: process.env.DROPBOX_API_KEY ?? "<DROPBOX_API_KEY not set>",
     DROPBOX_API_SECRET:
       process.env.DROPBOX_API_SECRET ?? "<DROPBOX_API_SECRET not set>",
@@ -124,6 +126,7 @@ async function main() {
       browser: { type: "string", short: "b" },
       version: { type: "string", short: "v" },
       debug: { type: "boolean", short: "d" },
+      e2e: { type: "boolean" },
       "no-key": { type: "boolean" },
     },
   });
@@ -131,6 +134,7 @@ async function main() {
     browser,
     version,
     debug,
+    e2e,
     "no-key": noKey,
   } = z
     .object({
@@ -139,6 +143,7 @@ async function main() {
         .default("chrome"),
       version: z.string().default("0.1.0"),
       debug: z.boolean().default(false),
+      e2e: z.boolean().default(false),
       "no-key": z.boolean().default(false),
     })
     .parse(args);
@@ -146,9 +151,10 @@ async function main() {
     browser,
     version,
     debug,
+    e2e,
     noKey,
     srcDir: "src",
-    destDir: `dist/${browser}${debug ? "-debug" : ""}${noKey ? "-no-key" : ""}`,
+    destDir: `dist/${browser}${debug ? "-debug" : ""}${e2e ? "-e2e" : ""}${noKey ? "-no-key" : ""}`,
     licenseFallbackDir: "licenses",
   };
   await Promise.all([

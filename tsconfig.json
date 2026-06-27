@@ -9,7 +9,7 @@
     // Modules
     "allowImportingTsExtensions": true,
     "module": "preserve",
-    "types": ["*"],
+    "types": ["*", "chrome-types"],
 
     // Emit
     "noEmit": true,
