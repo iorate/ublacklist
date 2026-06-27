@@ -4,6 +4,7 @@
   "dependencyDashboardApproval": true,
   "enabledManagers": ["npm", "github-actions"],
   "platformCommit": "enabled",
+  "semanticCommits": "disabled",
   "vulnerabilityAlerts": {
     "dependencyDashboardApproval": false
   },
