@@ -5,8 +5,4 @@ export default defineConfig({
   outputDir: "./test-results",
   reporter: process.env.CI ? "github" : "list",
   testDir: "./tests",
-  use: {
-    trace: "retain-on-failure",
-  },
-  workers: 1,
 });
