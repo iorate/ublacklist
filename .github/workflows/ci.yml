@@ -48,11 +48,6 @@ jobs:
           pnpm build --browser edge
           pnpm build --browser firefox
           pnpm build --browser safari
-        env:
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
   e2e:
     runs-on: ubuntu-latest
