@@ -4,7 +4,7 @@ allowBuilds:
 
 blockExoticSubdeps: true
 
-minimumReleaseAge: 1440 # 1 day
+minimumReleaseAge: 4320 # 3 days
 
 minimumReleaseAgeExclude:
   - "@ublacklist/*"
