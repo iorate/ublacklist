@@ -2,7 +2,6 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: "development" | "production";
     BROWSER: "chrome" | "edge" | "firefox" | "safari";
-    VERSION: string;
     DEBUG: "true" | "false";
     E2E: "true" | "false";
     DROPBOX_API_KEY: string;

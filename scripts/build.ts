@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import * as esbuild from "esbuild";
 import fse from "fs-extra";
 import { z } from "zod";
+import pkg from "../package.json" with { type: "json" };
 import { getManifest, type ManifestContext } from "../src/manifest.ts";
 import { getLicenseTexts } from "./get-license-texts.ts";
 
@@ -44,11 +45,10 @@ function getScripts(): string[] {
 }
 
 function getDefine(context: Context): Record<string, string> {
-  const { browser, version, debug, e2e } = context;
+  const { browser, debug, e2e } = context;
   const vars = {
     NODE_ENV: debug ? "development" : "production",
     BROWSER: browser,
-    VERSION: version,
     DEBUG: debug ? "true" : "false",
     E2E: e2e ? "true" : "false",
     DROPBOX_API_KEY: process.env.DROPBOX_API_KEY ?? "<DROPBOX_API_KEY not set>",
@@ -124,7 +124,6 @@ async function main() {
   const { values: args } = util.parseArgs({
     options: {
       browser: { type: "string", short: "b" },
-      version: { type: "string", short: "v" },
       debug: { type: "boolean", short: "d" },
       e2e: { type: "boolean" },
       "no-key": { type: "boolean" },
@@ -132,7 +131,6 @@ async function main() {
   });
   const {
     browser,
-    version,
     debug,
     e2e,
     "no-key": noKey,
@@ -141,7 +139,6 @@ async function main() {
       browser: z
         .enum(["chrome", "edge", "firefox", "safari"])
         .default("chrome"),
-      version: z.string().default("0.1.0"),
       debug: z.boolean().default(false),
       e2e: z.boolean().default(false),
       "no-key": z.boolean().default(false),
@@ -149,7 +146,7 @@ async function main() {
     .parse(args);
   const context = {
     browser,
-    version,
+    version: pkg.version,
     debug,
     e2e,
     noKey,

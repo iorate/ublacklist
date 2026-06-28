@@ -1,0 +1,213 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: true
+          cache: true
+
+      - name: Build and archive (Chrome)
+        run: |
+          pnpm build
+          (cd dist/chrome && zip -qr ../chrome.zip .)
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Build and archive (Edge)
+        run: |
+          pnpm build --browser edge
+          (cd dist/edge && zip -qr ../edge.zip .)
+          # Edge Add-ons rejects a manifest with the `key` field.
+          pnpm build --browser edge --no-key
+          (cd dist/edge-no-key && zip -qr ../edge-no-key.zip .)
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Build and archive (Firefox)
+        run: |
+          pnpm build --browser firefox
+          (cd dist/firefox && zip -qr ../firefox.zip .)
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Extract release notes
+        run: pnpm node scripts/extract-release-notes.ts
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist
+          path: |
+            dist/chrome.zip
+            dist/edge.zip
+            dist/edge-no-key.zip
+            dist/firefox.zip
+            dist/release-notes.md
+
+  chrome:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
+
+      - name: Publish to Chrome Web Store
+        run: wepub chrome dist/chrome.zip
+        env:
+          WEPUB_CHROME_PUBLISHER_ID: ${{ vars.CHROME_PUBLISHER_ID }}
+          WEPUB_CHROME_ITEM_ID: ${{ vars.CHROME_ITEM_ID }}
+          WEPUB_CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          WEPUB_CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          WEPUB_CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+  edge:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Download artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Generate notes for certification
+        run: |
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$TAG' < release/notes-for-certification.template.txt > dist/notes-for-certification.txt
+        env:
+          TAG: ${{ github.ref_name }}
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
+
+      - name: Publish to Edge Add-ons
+        run: wepub edge dist/edge-no-key.zip --notes-file dist/notes-for-certification.txt
+        env:
+          WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
+          WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+          WEPUB_EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+
+  firefox:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Download artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Archive source
+        run: |
+          git ls-files --recurse-submodules | zip -q -@ dist/source.zip
+          {
+            echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
+            echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
+            echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
+            echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
+          } > .env
+          zip -q dist/source.zip .env
+          rm .env
+        env:
+          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
+          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
+          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
+          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+
+      - name: Install wepub
+        uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
+
+      - name: Publish to Firefox Add-ons
+        run: |
+          wepub firefox dist/firefox.zip \
+            --channel listed \
+            --compatibility firefox,android \
+            --approval-notes-file release/approval-notes.txt \
+            --release-notes-file dist/release-notes.md \
+            --source dist/source.zip
+        env:
+          WEPUB_FIREFOX_ADDON_ID: ${{ vars.FIREFOX_ADDON_ID }}
+          WEPUB_FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
+          WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
+
+  github:
+    needs: [build, chrome, edge, firefox]
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes-file dist/release-notes.md \
+            "dist/chrome.zip#ublacklist-$TAG-chrome.zip" \
+            "dist/edge.zip#ublacklist-$TAG-edge.zip" \
+            "dist/firefox.zip#ublacklist-$TAG-firefox.zip"
+        env:
+          TAG: ${{ github.ref_name }}
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
