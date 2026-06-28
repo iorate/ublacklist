@@ -1,10 +1,10 @@
 pre-commit:
-  parallel: true
-  commands:
-    biome:
+  # Run serially: parallel `pnpm` invocations race on pnpm's deps-status check.
+  jobs:
+    - name: biome
       run: pnpm biome check --write --files-ignore-unknown=true --no-errors-on-unmatched {staged_files}
       stage_fixed: true
-    prettier:
+    - name: prettier
       glob: "*.{md,yaml,yml}"
       run: pnpm prettier --write {staged_files}
       stage_fixed: true
