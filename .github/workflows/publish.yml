@@ -7,6 +7,9 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}
+
 defaults:
   run:
     shell: bash
@@ -14,6 +17,8 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -80,6 +85,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 30
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -103,6 +110,8 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -137,6 +146,8 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -188,6 +199,8 @@ jobs:
     needs: [build, chrome, edge, firefox]
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 30
 
     permissions:
       contents: write
