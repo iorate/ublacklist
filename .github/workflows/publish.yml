@@ -125,18 +125,11 @@ jobs:
           name: dist
           path: dist
 
-      - name: Generate notes for certification
-        run: |
-          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$TAG' < release/notes-for-certification.template.txt > dist/notes-for-certification.txt
-        env:
-          TAG: ${{ github.ref_name }}
-
       - name: Install wepub
         uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0
 
       - name: Publish to Edge Add-ons
-        run: wepub edge dist/edge-no-key.zip --notes-file dist/notes-for-certification.txt
+        run: wepub edge dist/edge-no-key.zip --notes-file release/edge/notes-for-certification.txt
         env:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
           WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
@@ -187,7 +180,7 @@ jobs:
           wepub firefox dist/firefox.zip \
             --channel listed \
             --compatibility firefox,android \
-            --approval-notes-file release/approval-notes.txt \
+            --approval-notes-file release/firefox/approval-notes.txt \
             --release-notes-file dist/release-notes.md \
             --source dist/source.zip
         env:
