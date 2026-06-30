@@ -151,8 +151,8 @@ importers:
         specifier: runtime:24.18.0
         version: runtime:24.18.0
       prettier:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.0
+        version: 3.9.0
       typescript:
         specifier: 7.0.1-rc
         version: 7.0.1-rc
@@ -1229,8 +1229,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.8.4:
-    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
+  prettier@3.9.0:
+    resolution: {integrity: sha512-LjIqSIC5VYLzs9WedVmJ2ljNAGnU+DteIClbahu4L/DBeWjZ6iT/k1lAYyu9JUh+1xINxWadaPw/Pl63y/agAw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -2318,7 +2318,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.8.4: {}
+  prettier@3.9.0: {}
 
   punycode@2.3.1: {}
 
