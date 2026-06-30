@@ -130,8 +130,8 @@ importers:
         specifier: 0.12.5
         version: 0.12.5
       chrome-types:
-        specifier: 0.1.429
-        version: 0.1.429
+        specifier: 0.1.430
+        version: 0.1.430
       csstype:
         specifier: 3.2.3
         version: 3.2.3
@@ -732,8 +732,8 @@ packages:
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
 
-  chrome-types@0.1.429:
-    resolution: {integrity: sha512-+GZMwJQ4GEhrlZsEanDWnjbw9YDv0nZRxGyEEqDcjI1PvW8ucsKVn/5hmnmKv/j/hgL1pIbU6J1ixaNKRiNaGg==}
+  chrome-types@0.1.430:
+    resolution: {integrity: sha512-Bj78Tn3P95UwSjNeEphZ2wPZiEpq0W6FzklEozkI72OvYz6OwSZh/4AeMzHtGyTkyVVBoTScCC4b9JLcGNRrbQ==}
 
   colord@2.9.3:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
@@ -1976,7 +1976,7 @@ snapshots:
 
   charenc@0.0.2: {}
 
-  chrome-types@0.1.429: {}
+  chrome-types@0.1.430: {}
 
   colord@2.9.3: {}
 
