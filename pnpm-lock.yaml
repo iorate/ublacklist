@@ -57,8 +57,8 @@ importers:
         specifier: 1.11.21
         version: 1.11.21
       es-toolkit:
-        specifier: 1.48.1
-        version: 1.48.1
+        specifier: 1.49.0
+        version: 1.49.0
       goober:
         specifier: 2.1.15
         version: 2.1.15(csstype@3.2.3)
@@ -789,8 +789,8 @@ packages:
     resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
     engines: {node: '>=0.12'}
 
-  es-toolkit@1.48.1:
-    resolution: {integrity: sha512-wfnXlwd5I75eXRtdD2vuEs50xHHESECDsGD7yiQnfFVNoa5522NwXEbmgo98LfiukSQHs+mBM7/YG3qKJB9/mQ==}
+  es-toolkit@1.49.0:
+    resolution: {integrity: sha512-G5iZ6Pc/FNRY/soKZHC+TxGDD83rHUDXxzaWhGCX44vAv/tMs56WMusnm/KMNK+luUPsgA9U28cGr4RDlSzL2g==}
 
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
@@ -2020,7 +2020,7 @@ snapshots:
 
   entities@6.0.1: {}
 
-  es-toolkit@1.48.1: {}
+  es-toolkit@1.49.0: {}
 
   esbuild@0.28.1:
     optionalDependencies:
