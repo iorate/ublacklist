@@ -1,40 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices", "config:js-app"],
-  "dependencyDashboardApproval": true,
-  "enabledManagers": ["npm", "github-actions"],
-  "platformCommit": "enabled",
-  "semanticCommits": "disabled",
-  "vulnerabilityAlerts": {
-    "dependencyDashboardApproval": false
-  },
+  "extends": ["github>ublacklist/.github:renovate-config", "config:js-app"],
   "packageRules": [
-    {
-      "description": "Group npm production minor/patch updates into a single PR",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["dependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "production dependencies (non-major)"
-    },
-    {
-      "description": "Group npm development minor/patch updates into a single PR",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["devDependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "development dependencies (non-major)"
-    },
-    {
-      "description": "Group GitHub Actions non-major updates into a single PR",
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "groupName": "GitHub Actions (non-major)"
-    },
-    {
-      "description": "Bump @types/node major manually to match the Node.js version in devEngines.runtime, which Renovate cannot update yet (renovatebot/renovate#38067)",
-      "matchPackageNames": ["@types/node"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
     {
       "description": "First-party packages; skip the release-age waiting period and update immediately",
       "matchPackageNames": ["@ublacklist/*"],
