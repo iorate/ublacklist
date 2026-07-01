@@ -11,12 +11,12 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: ${{ github.workflow }}
-
 defaults:
   run:
     shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}
 
 jobs:
   crowdin:
