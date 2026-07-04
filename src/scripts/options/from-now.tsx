@@ -10,7 +10,7 @@ export type FromNowProps = {
   time: dayjs.Dayjs;
 };
 
-export const FromNow: React.FC<FromNowProps> = ({ time }) => {
+export function FromNow({ time }: FromNowProps) {
   const [, setState] = useState(0);
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -23,4 +23,4 @@ export const FromNow: React.FC<FromNowProps> = ({ time }) => {
       {time.locale(translate("lang")).fromNow()}
     </time>
   );
-};
+}

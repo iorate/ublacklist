@@ -11,12 +11,17 @@ import localStyles from "./set-interval-item.module.css";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
 
-export const SetIntervalItem: React.FC<{
+export function SetIntervalItem({
+  disabled = false,
+  itemKey,
+  label,
+  valueOptions,
+}: {
   disabled?: boolean;
   itemKey: IntervalItemKey;
   label: string;
   valueOptions: readonly number[];
-}> = ({ disabled = false, itemKey, label, valueOptions }) => {
+}) {
   const item = storageStore.use[itemKey]();
 
   valueOptions = [...new Set([...valueOptions, item])].sort((a, b) => a - b);
@@ -61,4 +66,4 @@ export const SetIntervalItem: React.FC<{
       </div>
     </div>
   );
-};
+}

@@ -20,11 +20,15 @@ import { RenameDialog } from "./rename-dialog.tsx";
 import rowStyles from "./row.module.css";
 import { ShowDialog } from "./show-dialog.tsx";
 
-export const ManageSubscription: React.FC<{
+export function ManageSubscription({
+  id,
+  subscription,
+  updating,
+}: {
   id: SubscriptionId;
   subscription: Subscription;
   updating: boolean;
-}> = ({ id, subscription, updating }) => {
+}) {
   const [showDialogOpen, setShowDialogOpen] = useState(false);
   const [renameDialogOpen, setRenameDialogOpen] = useState(false);
   const checkboxId = `enableSubscription${id}`;
@@ -111,4 +115,4 @@ export const ManageSubscription: React.FC<{
       </td>
     </tr>
   );
-};
+}
