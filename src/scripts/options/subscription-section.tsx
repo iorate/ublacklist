@@ -46,6 +46,7 @@ import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
 import { translate } from "../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../shared/messages.ts";
 import { requestPermission } from "../shared/permissions.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import type {
   Subscription,
   SubscriptionId,
@@ -59,25 +60,22 @@ import {
   numberKeys,
 } from "../shared/utilities.ts";
 import { FromNow } from "./from-now.tsx";
-import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
+
+export type OptionsQuery = {
+  addSubscriptionName: string | null;
+  addSubscriptionURL: string | null;
+  addSubscriptionType: "ruleset" | "domains" | null;
+};
 
 const AddSubscriptionDialog: React.FC<
   {
     initialName: string;
     initialURL: string;
     initialType: SubscriptionType;
-    setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
-> = ({
-  close,
-  open,
-  initialName,
-  initialURL,
-  initialType,
-  setSubscriptions,
-}) => {
+> = ({ close, open, initialName, initialURL, initialType }) => {
   const id = useId();
   const [state, setState] = useState(() => ({
     url: initialURL,
@@ -222,11 +220,7 @@ const AddSubscriptionDialog: React.FC<
                   updateResult: null,
                   enabled: true,
                 };
-                const id = await sendMessage("add-subscription", subscription);
-                setSubscriptions((subscriptions) => ({
-                  ...subscriptions,
-                  [id]: subscription,
-                }));
+                await sendMessage("add-subscription", subscription);
                 close();
               }}
             >
@@ -243,9 +237,8 @@ const RenameSubscriptionDialog: React.FC<
   {
     subscriptionId: SubscriptionId | null;
     subscription: Subscription | null;
-    setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   } & DialogProps
-> = ({ close, open, subscriptionId, subscription, setSubscriptions }) => {
+> = ({ close, open, subscriptionId, subscription }) => {
   const id = useId();
   const [state, setState] = useState(() => ({
     name: subscription?.name ?? "",
@@ -303,16 +296,6 @@ const RenameSubscriptionDialog: React.FC<
                   subscriptionId,
                   state.name,
                 );
-                setSubscriptions((subscriptions) => {
-                  const newSubscriptions = { ...subscriptions };
-                  if (subscriptions[subscriptionId]) {
-                    newSubscriptions[subscriptionId] = {
-                      ...subscriptions[subscriptionId],
-                      name: state.name,
-                    };
-                  }
-                  return newSubscriptions;
-                });
                 close();
               }}
             >
@@ -410,12 +393,10 @@ const ManageSubscription: React.FC<{
   setRenameSubscriptionDialogSubscription: React.Dispatch<
     React.SetStateAction<Subscription | null>
   >;
-  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
   subscription: Subscription;
   updating: boolean;
 }> = ({
   id,
-  setSubscriptions,
   setShowSubscriptionDialogOpen,
   setShowSubscriptionDialogSubscription,
   setRenameSubscriptionDialogOpen,
@@ -438,16 +419,12 @@ const ManageSubscription: React.FC<{
           aria-label={translate("options_subscriptionCheckBoxLabel")}
           checked={subscription.enabled ?? true}
           id={checkboxId}
-          onChange={async (e) => {
-            const enabled = e.currentTarget.checked;
-            await sendMessage("enable-subscription", id, enabled);
-            setSubscriptions((subscriptions) => {
-              const newSubscriptions = { ...subscriptions };
-              if (subscriptions[id]) {
-                newSubscriptions[id] = { ...subscriptions[id], enabled };
-              }
-              return newSubscriptions;
-            });
+          onChange={(e) => {
+            void sendMessage(
+              "enable-subscription",
+              id,
+              e.currentTarget.checked,
+            );
           }}
         />
       </TableCell>
@@ -511,13 +488,8 @@ const ManageSubscription: React.FC<{
           </MenuItem>
           <MenuItem
             data-testid="subscription-menu-remove"
-            onClick={async () => {
-              await sendMessage("remove-subscription", id);
-              setSubscriptions((subscriptions) => {
-                const newSubscriptions = { ...subscriptions };
-                delete newSubscriptions[id];
-                return newSubscriptions;
-              });
+            onClick={() => {
+              void sendMessage("remove-subscription", id);
             }}
           >
             {translate("options_removeSubscriptionMenu")}
@@ -529,11 +501,10 @@ const ManageSubscription: React.FC<{
 };
 
 export const ManageSubscriptions: React.FC<{
+  query: OptionsQuery;
   subscriptions: Subscriptions;
-  setSubscriptions: React.Dispatch<React.SetStateAction<Subscriptions>>;
-}> = ({ subscriptions, setSubscriptions }) => {
+}> = ({ query, subscriptions }) => {
   const id = useId();
-  const { query } = useOptionsContext();
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const [addSubscriptionDialogOpen, setAddSubscriptionDialogOpen] = useState(
     query.addSubscriptionName != null ||
@@ -563,16 +534,11 @@ export const ManageSubscriptions: React.FC<{
         "subscription-updating": (id) => {
           setUpdating((updating) => ({ ...updating, [id]: true }));
         },
-        "subscription-updated": (id, subscription) => {
-          setSubscriptions((subscriptions) =>
-            subscriptions[id]
-              ? { ...subscriptions, [id]: subscription }
-              : subscriptions,
-          );
+        "subscription-updated": (id) => {
           setUpdating((updating) => ({ ...updating, [id]: false }));
         },
       }),
-    [setSubscriptions],
+    [],
   );
 
   const emptyClass = useClassName(
@@ -644,7 +610,6 @@ export const ManageSubscriptions: React.FC<{
                       setRenameSubscriptionDialogSubscription={
                         setRenameSubscriptionDialogSubscription
                       }
-                      setSubscriptions={setSubscriptions}
                       subscription={subscription}
                       updating={updating[id] ?? false}
                     />
@@ -690,7 +655,6 @@ export const ManageSubscriptions: React.FC<{
           initialURL={query.addSubscriptionURL ?? ""}
           initialType={query.addSubscriptionType ?? "ruleset"}
           open={addSubscriptionDialogOpen}
-          setSubscriptions={setSubscriptions}
         />
       </Portal>
       <Portal id={`${id}-show-portal`}>
@@ -704,7 +668,6 @@ export const ManageSubscriptions: React.FC<{
         <RenameSubscriptionDialog
           close={() => setRenameSubscriptionDialogOpen(false)}
           open={renameSubscriptionDialogOpen}
-          setSubscriptions={setSubscriptions}
           subscription={renameSubscriptionDialogSubscription}
           subscriptionId={renameSubscriptionDialogSubscriptionId}
         />
@@ -713,12 +676,12 @@ export const ManageSubscriptions: React.FC<{
   );
 };
 
-export const SubscriptionSection: React.FC<{ id: string }> = (props) => {
+export const SubscriptionSection: React.FC<{
+  id: string;
+  query: OptionsQuery;
+}> = (props) => {
   const id = useId();
-  const {
-    initialItems: { subscriptions: initialSubscriptions },
-  } = useOptionsContext();
-  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
+  const subscriptions = storageStore.use.subscriptions();
   return (
     <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
@@ -728,7 +691,7 @@ export const SubscriptionSection: React.FC<{ id: string }> = (props) => {
       </SectionHeader>
       <SectionBody>
         <ManageSubscriptions
-          setSubscriptions={setSubscriptions}
+          query={props.query}
           subscriptions={subscriptions}
         />
         <Suspense fallback={null}>

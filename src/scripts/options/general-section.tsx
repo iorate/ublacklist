@@ -36,13 +36,13 @@ import { browser } from "../shared/browser.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { addMessageListeners } from "../shared/messages.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import {
   downloadTextFile,
   lines,
   svgToDataURL,
   uploadTextFile,
 } from "../shared/utilities.ts";
-import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { Select, SelectOption } from "./select.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
@@ -214,10 +214,9 @@ const ImportBlacklistDialog: React.FC<
 
 const SetBlacklist: React.FC = () => {
   const id = useId();
-  const {
-    initialItems: { blacklist: initialBlacklist },
-  } = useOptionsContext();
-  const [blacklist, setBlacklist] = useState(initialBlacklist);
+  const [blacklist, setBlacklist] = useState(
+    () => storageStore.get().blacklist,
+  );
   const [blacklistDirty, setBlacklistDirty] = useState(false);
   const [latestBlacklist, setLatestBlacklist] = useState<string | null>(null);
   const [importBlacklistDialogOpen, setImportBlacklistDialogOpen] =

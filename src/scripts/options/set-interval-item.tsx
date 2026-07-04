@@ -1,12 +1,11 @@
 import dayjs from "dayjs";
-import { useState } from "react";
 import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../shared/dayjs-locales.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
-import { useOptionsContext } from "./options-context.tsx";
+import { storageStore } from "../shared/storage-store.ts";
 import { Select, SelectOption } from "./select.tsx";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
@@ -17,14 +16,9 @@ export const SetIntervalItem: React.FC<{
   label: string;
   valueOptions: readonly number[];
 }> = ({ disabled = false, itemKey, label, valueOptions }) => {
-  const {
-    initialItems: { [itemKey]: initialItem },
-  } = useOptionsContext();
-  const [item, setItem] = useState(initialItem);
+  const item = storageStore.use[itemKey]();
 
-  valueOptions = [...new Set([...valueOptions, initialItem])].sort(
-    (a, b) => a - b,
-  );
+  valueOptions = [...new Set([...valueOptions, item])].sort((a, b) => a - b);
 
   const rowClass = useClassName(
     () => ({
@@ -49,12 +43,12 @@ export const SetIntervalItem: React.FC<{
           id={itemKey}
           value={item}
           onChange={(e) => {
-            const value = Number(e.currentTarget.value);
             void saveToLocalStorage(
-              { [itemKey]: value } as Partial<Record<IntervalItemKey, number>>,
+              { [itemKey]: Number(e.currentTarget.value) } as Partial<
+                Record<IntervalItemKey, number>
+              >,
               "options",
             );
-            setItem(value);
           }}
         >
           {valueOptions.map((value) => (
