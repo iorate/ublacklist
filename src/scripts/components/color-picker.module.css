@@ -1,0 +1,52 @@
+.swatch {
+  border: solid 2px var(--ub-color-border);
+  border-radius: 25%;
+  cursor: pointer;
+  height: 36px;
+  outline: none;
+  padding: 0;
+  width: 36px;
+}
+
+.swatch[data-disabled] {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.swatch:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+}
+
+.positioner {
+  z-index: 2;
+}
+
+.popup {
+  background: var(--ub-color-surface);
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px 0 var(--ub-color-shadow-strong),
+    0 3px 6px 2px var(--ub-color-shadow-soft);
+  outline: none;
+  padding: 0.75em;
+}
+
+.input {
+  background: transparent;
+  border: solid 1px var(--ub-color-border);
+  border-radius: 4px;
+  color: var(--ub-color-text-primary);
+  display: block;
+  font: inherit;
+  height: 2.5em;
+  line-height: 1.5;
+  margin: 0.75em auto 0;
+  padding: 0.5em 0.625em;
+  text-align: center;
+  width: 8em;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+  outline: none;
+}
