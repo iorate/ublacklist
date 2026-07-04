@@ -1,0 +1,61 @@
+.ub-root {
+  color-scheme: light;
+
+  --ub-color-background: rgb(248, 249, 250);
+  --ub-color-surface: white;
+  --ub-color-text-primary: rgb(32, 33, 36);
+  --ub-color-text-secondary: rgb(95, 99, 104);
+  --ub-color-text-disabled: rgb(128, 134, 139);
+  --ub-color-accent: rgb(26, 115, 232);
+  --ub-color-on-accent: white;
+  --ub-color-link: rgb(51, 103, 214);
+  --ub-color-border: rgb(218, 220, 224);
+  --ub-color-separator: rgba(0, 0, 0, 0.06);
+  --ub-color-focus-ring: rgba(26, 115, 232, 0.4);
+  --ub-color-focus-circle: rgba(26, 115, 232, 0.2);
+  --ub-color-shadow-strong: rgba(60, 64, 67, 0.3);
+  --ub-color-shadow-soft: rgba(60, 64, 67, 0.15);
+
+  --ub-button-primary-background-hovered: rgba(26, 115, 232, 0.9);
+  --ub-button-primary-background-active: rgba(26, 115, 232, 0.8);
+  --ub-button-primary-background-disabled: rgb(241, 243, 244);
+  --ub-button-secondary-background-hovered: rgba(66, 133, 244, 0.04);
+  --ub-button-secondary-background-active: rgba(66, 133, 244, 0.08);
+  --ub-menu-item-background-hovered: rgba(189, 193, 198, 0.15);
+  --ub-menu-item-background-focused: rgba(189, 193, 198, 0.3);
+  --ub-switch-bar: rgb(189, 193, 198);
+  --ub-switch-bar-checked: rgba(26, 115, 232, 0.5);
+  --ub-switch-knob: white;
+  --ub-switch-knob-border: rgb(218, 220, 224);
+}
+
+.ub-root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ub-color-background: rgb(32, 33, 36);
+  --ub-color-surface: rgb(41, 42, 45);
+  --ub-color-text-primary: rgb(232, 234, 237);
+  --ub-color-text-secondary: rgb(154, 160, 166);
+  --ub-color-text-disabled: rgb(128, 134, 139);
+  --ub-color-accent: rgb(138, 180, 248);
+  --ub-color-on-accent: rgb(32, 33, 36);
+  --ub-color-link: rgb(138, 180, 248);
+  --ub-color-border: rgb(95, 99, 104);
+  --ub-color-separator: rgba(255, 255, 255, 0.1);
+  --ub-color-focus-ring: rgba(138, 180, 248, 0.5);
+  --ub-color-focus-circle: rgba(138, 180, 248, 0.4);
+  --ub-color-shadow-strong: rgba(0, 0, 0, 0.3);
+  --ub-color-shadow-soft: rgba(0, 0, 0, 0.15);
+
+  --ub-button-primary-background-hovered: rgba(138, 180, 248, 0.9);
+  --ub-button-primary-background-active: rgba(138, 180, 248, 0.8);
+  --ub-button-primary-background-disabled: rgb(60, 64, 67);
+  --ub-button-secondary-background-hovered: rgba(138, 180, 248, 0.08);
+  --ub-button-secondary-background-active: rgba(138, 180, 248, 0.16);
+  --ub-menu-item-background-hovered: rgba(95, 99, 104, 0.3);
+  --ub-menu-item-background-focused: rgba(95, 99, 104, 0.6);
+  --ub-switch-bar: rgb(154, 160, 166);
+  --ub-switch-bar-checked: rgba(138, 180, 248, 0.5);
+  --ub-switch-knob: rgb(218, 220, 224);
+  --ub-switch-knob-border: transparent;
+}

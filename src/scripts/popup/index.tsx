@@ -1,3 +1,5 @@
+import "../components/theme.css";
+import "../components/baseline.css";
 import isMobile from "is-mobile";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -5,7 +7,6 @@ import {
   BlockEmbeddedDialog,
   type BlockEmbeddedDialogProps,
 } from "../block-dialog.ts";
-import { Baseline } from "../components/baseline.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
 import { browser } from "../shared/browser.ts";
@@ -129,17 +130,15 @@ const Popup: React.FC = () => {
   }, []);
   return (
     <AutoThemeProvider>
-      <Baseline>
-        {state.type === "loading" ? (
-          <Loading />
-        ) : state.type === "serpInfo" ? (
-          <SerpInfoEmbeddedDialog {...state.props} />
-        ) : state.type === "enableSerpInfo" ? (
-          <EnableSerpInfoEmbeddedDialog />
-        ) : (
-          <BlockEmbeddedDialog {...state.props} />
-        )}
-      </Baseline>
+      {state.type === "loading" ? (
+        <Loading />
+      ) : state.type === "serpInfo" ? (
+        <SerpInfoEmbeddedDialog {...state.props} />
+      ) : state.type === "enableSerpInfo" ? (
+        <EnableSerpInfoEmbeddedDialog />
+      ) : (
+        <BlockEmbeddedDialog {...state.props} />
+      )}
     </AutoThemeProvider>
   );
 };

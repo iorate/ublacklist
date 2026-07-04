@@ -4,9 +4,10 @@ import homeSVG from "@mdi/svg/svg/home.svg";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
+import "../components/theme.css";
+import "../components/baseline.css";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Baseline } from "../components/baseline.tsx";
 import { Button, LinkButton } from "../components/button.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import { Container } from "../components/container.tsx";
@@ -592,11 +593,9 @@ function OptionsImpl() {
 function Options() {
   return (
     <AutoThemeProvider>
-      <Baseline>
-        <Suspense fallback={null}>
-          <OptionsImpl />
-        </Suspense>
-      </Baseline>
+      <Suspense fallback={null}>
+        <OptionsImpl />
+      </Suspense>
     </AutoThemeProvider>
   );
 }

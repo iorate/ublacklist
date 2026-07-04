@@ -1,0 +1,9 @@
+.badge {
+  border: 1px solid var(--ub-color-border);
+  border-radius: 4px;
+  color: var(--ub-color-text-secondary);
+  font-size: 12px;
+  padding: 0 0.4em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
