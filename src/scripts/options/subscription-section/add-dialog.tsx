@@ -19,12 +19,17 @@ import { sendMessage } from "../../shared/messages.ts";
 import { requestPermission } from "../../shared/permissions.ts";
 import type { Subscription, SubscriptionType } from "../../shared/types.ts";
 
-const AddForm: React.FC<{
+function AddForm({
+  close,
+  initialName,
+  initialURL,
+  initialType,
+}: {
   close: () => void;
   initialName: string;
   initialURL: string;
   initialType: SubscriptionType;
-}> = ({ close, initialName, initialURL, initialType }) => {
+}) {
   const id = useId();
   const [url, setURL] = useState(initialURL);
   const [urlValid, setURLValid] = useState(() => {
@@ -168,21 +173,29 @@ const AddForm: React.FC<{
       </DialogFooter>
     </>
   );
-};
+}
 
-export const AddDialog: React.FC<{
+export function AddDialog({
+  close,
+  initialName,
+  initialURL,
+  initialType,
+  open,
+}: {
   close: () => void;
   initialName: string;
   initialURL: string;
   initialType: SubscriptionType;
   open: boolean;
-}> = ({ close, initialName, initialURL, initialType, open }) => (
-  <Dialog close={close} data-testid="add-subscription-dialog" open={open}>
-    <AddForm
-      close={close}
-      initialName={initialName}
-      initialType={initialType}
-      initialURL={initialURL}
-    />
-  </Dialog>
-);
+}) {
+  return (
+    <Dialog close={close} data-testid="add-subscription-dialog" open={open}>
+      <AddForm
+        close={close}
+        initialName={initialName}
+        initialType={initialType}
+        initialURL={initialURL}
+      />
+    </Dialog>
+  );
+}

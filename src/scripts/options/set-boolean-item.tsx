@@ -14,12 +14,17 @@ export type BooleanItemKey = keyof {
     : never]: boolean;
 };
 
-export const SetBooleanItem: React.FC<{
+export function SetBooleanItem({
+  disabled = false,
+  itemKey,
+  label,
+  subLabels = [],
+}: {
   disabled?: boolean;
   itemKey: BooleanItemKey;
   label: string;
   subLabels?: readonly string[];
-}> = ({ disabled = false, itemKey, label, subLabels = [] }) => {
+}) {
   const item = storageStore.use[itemKey]();
 
   return (
@@ -57,4 +62,4 @@ export const SetBooleanItem: React.FC<{
       </div>
     </div>
   );
-};
+}

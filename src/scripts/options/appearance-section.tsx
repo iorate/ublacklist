@@ -24,11 +24,15 @@ import localStyles from "./appearance-section.module.css";
 
 type ColorItemKey = "linkColor" | "blockColor";
 
-const SetColorItem: React.FC<{
+function SetColorItem({
+  initialColor,
+  itemKey,
+  label,
+}: {
   initialColor: string;
   itemKey: ColorItemKey;
   label: string;
-}> = ({ initialColor, itemKey, label }) => {
+}) {
   const [specifyColor, setSpecifyColor] = useState(
     () => storageStore.get()[itemKey] !== "default",
   );
@@ -128,9 +132,9 @@ const SetColorItem: React.FC<{
       </div>
     </div>
   );
-};
+}
 
-const SetHighlightColors: React.FC = () => {
+function SetHighlightColors() {
   const [colorsAndKeys, setColorsAndKeys] = useState(() =>
     storageStore
       .get()
@@ -252,9 +256,9 @@ const SetHighlightColors: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-const SetDialogTheme: React.FC = () => {
+function SetDialogTheme() {
   const id = useId();
   const dialogTheme = storageStore.use.dialogTheme();
 
@@ -351,9 +355,9 @@ const SetDialogTheme: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export const AppearanceSection: React.FC<{ id: string }> = (props) => {
+export function AppearanceSection(props: { id: string }) {
   const id = useId();
   return (
     <section
@@ -377,4 +381,4 @@ export const AppearanceSection: React.FC<{ id: string }> = (props) => {
       </div>
     </section>
   );
-};
+}

@@ -3,6 +3,6 @@ import { ruleset } from "./ruleset-lang.ts";
 
 export type RulesetEditorProps = Omit<EditorProps, "language">;
 
-export const RulesetEditor: React.FC<RulesetEditorProps> = (props) => (
-  <Editor language={ruleset()} {...props} />
-);
+export function RulesetEditor(props: RulesetEditorProps) {
+  return <Editor language={ruleset()} {...props} />;
+}
