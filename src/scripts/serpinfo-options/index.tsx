@@ -8,12 +8,12 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import containerStyles from "../components/container.module.css";
-import { TemplateIcon } from "../components/icon.tsx";
 import iconButtonStyles from "../components/icon-button.module.css";
 import inputStyles from "../components/input.module.css";
 import listStyles from "../components/list.module.css";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
+import { SvgIcon } from "../components/svg-icon.tsx";
 import textStyles from "../components/text.module.css";
 import "../components/theme.css";
 import "../components/baseline.css";
@@ -46,7 +46,6 @@ import type {
   UserSerpInfo,
 } from "../shared/serpinfo-settings.ts";
 import { storageStore } from "../shared/storage-store.ts";
-import { svgToDataURL } from "../shared/utilities.ts";
 import { Editor } from "./editor.tsx";
 import pageStyles from "./index.module.css";
 
@@ -262,10 +261,9 @@ function RemoteSerpInfoSection(props: { id: string }) {
                               void browser.tabs.create({ url: homepage });
                             }}
                           >
-                            <TemplateIcon
+                            <SvgIcon
                               color="var(--ub-color-text-secondary)"
-                              iconSize="24px"
-                              url={svgToDataURL(homeSVG)}
+                              svg={homeSVG}
                             />
                           </button>
                         </div>
@@ -280,10 +278,9 @@ function RemoteSerpInfoSection(props: { id: string }) {
                               setShowDialogRemote(r);
                             }}
                           >
-                            <TemplateIcon
+                            <SvgIcon
                               color="var(--ub-color-text-secondary)"
-                              iconSize="24px"
-                              url={svgToDataURL(eyeSVG)}
+                              svg={eyeSVG}
                             />
                           </button>
                         </div>
@@ -302,10 +299,9 @@ function RemoteSerpInfoSection(props: { id: string }) {
                               postMessage("remove-remote-serpinfo", r.url);
                             }}
                           >
-                            <TemplateIcon
+                            <SvgIcon
                               color="var(--ub-color-text-secondary)"
-                              iconSize="24px"
-                              url={svgToDataURL(deleteSVG)}
+                              svg={deleteSVG}
                             />
                           </button>
                         </div>

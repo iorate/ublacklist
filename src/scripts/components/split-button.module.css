@@ -1,0 +1,34 @@
+.wrapper {
+  display: inline-flex;
+}
+
+.wrapper .main {
+  border-radius: 4px 0 0 4px;
+  position: relative;
+}
+
+.wrapper .main:focus-visible {
+  z-index: 1;
+}
+
+.wrapper .arrow {
+  align-items: center;
+  border-radius: 0 4px 4px 0;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  width: 2.5em;
+}
+
+.wrapper .arrow:focus-visible {
+  z-index: 1;
+}
+
+.wrapper .arrowPrimary {
+  border-left: solid 1px rgba(255, 255, 255, 0.3);
+}
+
+.positioner {
+  z-index: 100000;
+}

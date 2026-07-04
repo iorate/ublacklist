@@ -1,0 +1,17 @@
+.icon {
+  display: block;
+  height: 24px;
+  width: 24px;
+}
+
+.icon.large {
+  height: 36px;
+  width: 36px;
+}
+
+.icon > svg {
+  display: block;
+  fill: currentColor;
+  height: 100%;
+  width: 100%;
+}

@@ -1,9 +1,9 @@
 import { Popover } from "@base-ui/react/popover";
+import clsx from "clsx";
 import { colord } from "colord";
 import type React from "react";
 import { HexColorInput, RgbaColorPicker } from "react-colorful";
 import styles from "./color-picker.module.css";
-import { applyClassName } from "./helpers.tsx";
 
 export type ColorPickerProps = Omit<
   React.JSX.IntrinsicElements["button"],
@@ -15,6 +15,7 @@ export type ColorPickerProps = Omit<
 };
 
 export function ColorPicker({
+  className,
   disabled = false,
   value,
   onChange,
@@ -24,7 +25,8 @@ export function ColorPicker({
   return (
     <Popover.Root>
       <Popover.Trigger
-        {...applyClassName(props, styles.swatch ?? "")}
+        {...props}
+        className={clsx(styles.swatch, className)}
         disabled={disabled}
         style={{ backgroundColor: value, ...style }}
       />

@@ -12,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import { TemplateIcon } from "../components/icon.tsx";
 import iconButtonStyles from "../components/icon-button.module.css";
 import indentStyles from "../components/indent.module.css";
 import labelStyles from "../components/label.module.css";
@@ -20,6 +19,7 @@ import { expandLinks } from "../components/link.tsx";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
 import { Select, SelectOption } from "../components/select.tsx";
+import { SvgIcon } from "../components/svg-icon.tsx";
 import textStyles from "../components/text.module.css";
 import textareaStyles from "../components/textarea.module.css";
 import { browser } from "../shared/browser.ts";
@@ -30,7 +30,6 @@ import { storageStore } from "../shared/storage-store.ts";
 import {
   downloadTextFile,
   lines,
-  svgToDataURL,
   uploadTextFile,
 } from "../shared/utilities.ts";
 import { RulesetEditor } from "./ruleset-editor.tsx";
@@ -354,10 +353,9 @@ const RegisterSearchEngines: React.FC = () => {
               });
             }}
           >
-            <TemplateIcon
+            <SvgIcon
               color="var(--ub-color-text-secondary)"
-              iconSize="24px"
-              url={svgToDataURL(openInNewSVG)}
+              svg={openInNewSVG}
             />
           </button>
         </div>

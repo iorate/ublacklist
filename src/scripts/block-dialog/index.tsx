@@ -1,48 +1,25 @@
+import "../components/theme.css";
+import "./baseline.css";
+import { Button } from "@base-ui/react/button";
 import cog from "@mdi/svg/svg/cog.svg";
 import type { Props, SearchResult } from "@ublacklist/ruleset";
+import clsx from "clsx";
 import * as punycode from "punycode/";
-import React, { useId, useMemo, useState } from "react";
+import React, { useId, useMemo, useRef, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import icon from "../../icons/icon.svg";
-import {
-  FOCUS_DEFAULT_CLASS,
-  FOCUS_END_CLASS,
-  FOCUS_START_CLASS,
-} from "../components/constants.ts";
-import { ScopedBaseline } from "../components/legacy/baseline.tsx";
-import { Button } from "../components/legacy/button.tsx";
-import {
-  Details,
-  DetailsBody,
-  DetailsSummary,
-} from "../components/legacy/details.tsx";
-import {
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  EmbeddedDialog,
-} from "../components/legacy/dialog.tsx";
-import { Icon } from "../components/legacy/icon.tsx";
-import { IconButton } from "../components/legacy/icon-button.tsx";
-import {
-  ControlLabel,
-  Label,
-  LabelWrapper,
-} from "../components/legacy/label.tsx";
-import { MenuItem } from "../components/legacy/menu.tsx";
-import { Row, RowItem } from "../components/legacy/row.tsx";
-import { SplitButton } from "../components/legacy/split-button.tsx";
-import { TextArea } from "../components/legacy/textarea.tsx";
-import { StylesProvider } from "../components/styles.tsx";
-import {
-  darkTheme,
-  lightTheme,
-  ThemeProvider,
-  useTheme,
-} from "../components/theme.tsx";
-import { useClassName } from "../components/utilities.ts";
+import buttonStyles from "../components/button.module.css";
+import dialogStyles from "../components/dialog.module.css";
+import { Dialog } from "../components/dialog.tsx";
+import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
+import iconButtonStyles from "../components/icon-button.module.css";
+import labelStyles from "../components/label.module.css";
+import { MenuItem } from "../components/menu.tsx";
+import rowStyles from "../components/row.module.css";
+import { SplitButton } from "../components/split-button.tsx";
+import { SvgIcon } from "../components/svg-icon.tsx";
+import textareaStyles from "../components/textarea.module.css";
+import { browser } from "../shared/browser.ts";
 import type {
   InteractiveRuleset,
   Patch,
@@ -51,7 +28,7 @@ import type {
 import { translate } from "../shared/locales.ts";
 import { getRegistrableDomain } from "../shared/registrable-domain.ts";
 import type { DialogTheme, MessageName0 } from "../shared/types.ts";
-import { svgToDataURL } from "../shared/utilities.ts";
+import styles from "./index.module.css";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -100,142 +77,115 @@ function sortPropertyKeys(props: Props): string[] {
 // ---------------------------------------------------------------------------
 // Sub-components
 
-const PropertiesTable: React.FC<{ searchResult: SearchResult }> = ({
-  searchResult,
-}) => {
-  const tableClassName = useClassName(
-    () => ({
-      display: "grid",
-      gridTemplateColumns: "6em 1fr",
-      gap: "0.15em 0.75em",
-    }),
-    [],
-  );
-  const cellClassName = useClassName(
-    () => ({
-      fontFamily: "monospace",
-      maxHeight: "4.5em",
-      overflowY: "auto",
-      whiteSpace: "break-spaces",
-      wordBreak: "break-all",
-      lineBreak: "anywhere",
-    }),
-    [],
-  );
+function PropertiesTable({ searchResult }: { searchResult: SearchResult }) {
   const props = searchResult.props ?? {};
   const keys = sortPropertyKeys(props);
   return (
-    <Row spacing="1.5em">
-      <RowItem expanded>
-        <LabelWrapper fullWidth>
-          <Label>{translate("popup_propertiesLabel")}</Label>
-        </LabelWrapper>
-        <div className={tableClassName}>
-          <div className={cellClassName}>url</div>
-          <div className={cellClassName}>{searchResult.url}</div>
+    <div className={rowStyles.row}>
+      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+        <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+          <div className={labelStyles.label}>
+            {translate("popup_propertiesLabel")}
+          </div>
+        </div>
+        <div className={styles.propertiesTable}>
+          <div className={styles.propertiesCell}>url</div>
+          <div className={styles.propertiesCell}>{searchResult.url}</div>
           {keys.map((key) => (
             <React.Fragment key={key}>
-              <div className={cellClassName}>{key}</div>
-              <div className={cellClassName}>{props[key]}</div>
+              <div className={styles.propertiesCell}>{key}</div>
+              <div className={styles.propertiesCell}>{props[key]}</div>
             </React.Fragment>
           ))}
         </div>
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
-};
+}
 
-const RulesToAddInput: React.FC<{
+function RulesToAddInput({
+  id,
+  value,
+  disabled,
+  onChange,
+}: {
   id: string;
   value: string;
   disabled: boolean;
   onChange: (value: string) => void;
-}> = ({ id, value, disabled, onChange }) => {
+}) {
   return (
-    <Row spacing="1.5em">
-      <RowItem expanded>
-        <LabelWrapper disabled={disabled} fullWidth>
-          <ControlLabel for={id}>
+    <div className={rowStyles.row}>
+      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+        <div
+          className={clsx(
+            labelStyles.wrapper,
+            labelStyles.fullWidth,
+            disabled && labelStyles.disabled,
+          )}
+        >
+          <label className={labelStyles.controlLabel} htmlFor={id}>
             {translate("popup_addedRulesLabel")}
-          </ControlLabel>
-        </LabelWrapper>
-        <TextArea
-          breakAll
+          </label>
+        </div>
+        <textarea
+          className={clsx(
+            textareaStyles.textArea,
+            textareaStyles.breakAll,
+            styles.rulesToAdd,
+          )}
           disabled={disabled}
           id={id}
-          monospace
-          resizable
           rows={2}
           spellCheck="false"
           value={value}
           onChange={(e) => onChange(e.currentTarget.value)}
         />
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
-};
+}
 
-const RulesDisplay: React.FC<{ label: string; value: string }> = ({
-  label,
-  value,
-}) => {
-  const theme = useTheme();
-  const bodyClassName = useClassName(
-    () => ({
-      fontFamily: "monospace",
-      whiteSpace: "pre",
-      overflowX: "auto",
-    }),
-    [],
-  );
-  const placeholderClassName = useClassName(
-    () => ({
-      color: theme.text.secondary,
-    }),
-    [theme.text.secondary],
-  );
+function RulesDisplay({ label, value }: { label: string; value: string }) {
   return (
-    <Row spacing="1.5em">
-      <RowItem expanded>
-        <LabelWrapper fullWidth>
-          <Label>{label}</Label>
-        </LabelWrapper>
+    <div className={rowStyles.row}>
+      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+        <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+          <div className={labelStyles.label}>{label}</div>
+        </div>
         {value ? (
-          <div className={bodyClassName}>{value}</div>
+          <div className={styles.rules}>{value}</div>
         ) : (
-          <div className={placeholderClassName}>
-            {translate("popup_noRules")}
-          </div>
+          <div className={styles.noRules}>{translate("popup_noRules")}</div>
         )}
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
-};
+}
 
-const ActionButton: React.FC<{
-  autoMode: PatchMode; // never "highlight"
-  mode: PatchMode;
-  disabled: boolean;
-  focusDefault: boolean;
-  focusEnd: boolean;
-  menuDisabled: boolean;
-  testId: string;
-  onClick: () => void;
-  onSelectMode: (mode: PatchMode) => void;
-}> = ({
+function ActionButton({
   autoMode,
   mode,
   disabled,
-  focusDefault,
-  focusEnd,
   menuDisabled,
+  portalContainer,
+  ref,
   testId,
   onClick,
   onSelectMode,
-}) => {
+}: {
+  autoMode: PatchMode; // never "highlight"
+  mode: PatchMode;
+  disabled: boolean;
+  menuDisabled: boolean;
+  portalContainer?: HTMLElement | ShadowRoot | undefined;
+  ref?: React.Ref<HTMLButtonElement> | undefined;
+  testId: string;
+  onClick: () => void;
+  onSelectMode: (mode: PatchMode) => void;
+}) {
   return autoMode === "block" ? (
     <SplitButton
-      className={focusDefault ? FOCUS_DEFAULT_CLASS : undefined}
       data-testid={testId}
       disabled={disabled}
       menu={
@@ -249,55 +199,55 @@ const ActionButton: React.FC<{
         </>
       }
       menuAriaLabel={translate("popup_changeActionLabel")}
-      menuClassName={focusEnd ? FOCUS_END_CLASS : undefined}
       menuDisabled={menuDisabled}
-      placement="top"
+      portalContainer={portalContainer}
       primary
+      ref={ref}
       onClick={onClick}
     >
       {translate(MODE_BUTTON_MESSAGE[mode])}
     </SplitButton>
   ) : (
     <Button
-      className={
-        [focusDefault && FOCUS_DEFAULT_CLASS, focusEnd && FOCUS_END_CLASS]
-          .filter(Boolean)
-          .join(" ") || undefined
-      }
+      className={clsx(buttonStyles.button, buttonStyles.primary)}
       data-testid={testId}
       disabled={disabled}
-      primary
+      ref={ref}
       onClick={onClick}
     >
       {translate(MODE_BUTTON_MESSAGE[mode])}
     </Button>
   );
-};
+}
 
 // ---------------------------------------------------------------------------
-// BlockDialogContent — body shared by BlockDialog and BlockEmbeddedDialog.
+// BlockForm — body shared by BlockDialog and BlockEmbeddedDialog.
 
-type BlockDialogContentProps = {
+type BlockFormProps = {
   blockWholeSite: boolean;
   close: () => void;
   enableMatchingRules: boolean;
   id: string;
+  initialFocusRef?: React.RefObject<HTMLButtonElement | null>;
   openOptionsPage: () => Promise<void>;
+  portalContainer?: HTMLElement | ShadowRoot;
   ruleset: InteractiveRuleset;
   searchResult: SearchResult;
   onBlocked: (newSource: string) => void | Promise<void>;
 };
 
-const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
+function BlockForm({
   blockWholeSite,
   close,
   enableMatchingRules,
   id,
+  initialFocusRef,
   openOptionsPage,
+  portalContainer,
   ruleset,
   searchResult,
   onBlocked,
-}) => {
+}: BlockFormProps) {
   // ---- Derived (pure from props)
   const urlIsProcessable = useMemo(
     () => isProcessableUrl(searchResult.url),
@@ -378,42 +328,36 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     close();
   };
 
-  // ---- Styles
-  const hostClassName = useClassName(
-    () => ({
-      wordBreak: "break-all",
-    }),
-    [],
-  );
-
   return (
     <>
-      <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
-          <Row>
-            <RowItem>
-              <Icon iconSize="24px" url={svgToDataURL(icon)} />
-            </RowItem>
-            <RowItem expanded>{translate(MODE_TITLE_MESSAGE[mode])}</RowItem>
-          </Row>
-        </DialogTitle>
-      </DialogHeader>
-      <DialogBody>
-        <Row>
-          <RowItem expanded>
-            <span className={hostClassName}>{host}</span>
-          </RowItem>
-        </Row>
-        <Row>
-          <RowItem expanded>
-            <Details
+      <div className={dialogStyles.header}>
+        <h2 className={dialogStyles.title} id={`${id}-title`}>
+          <div className={rowStyles.row}>
+            <div className={rowStyles.rowItem}>
+              <SvgIcon svg={icon} />
+            </div>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+              {translate(MODE_TITLE_MESSAGE[mode])}
+            </div>
+          </div>
+        </h2>
+      </div>
+      <div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <span className={styles.host}>{host}</span>
+          </div>
+        </div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <details
               open={detailsOpen}
               onToggle={(e) => setDetailsOpen(e.currentTarget.open)}
             >
-              <DetailsSummary className={FOCUS_START_CLASS}>
+              <summary className={styles.summary}>
                 {translate("popup_details")}
-              </DetailsSummary>
-              <DetailsBody>
+              </summary>
+              <div className={styles.detailsBody}>
                 <PropertiesTable searchResult={searchResult} />
                 <RulesToAddInput
                   id={`${id}-rules-to-add`}
@@ -425,21 +369,21 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                   label={translate("popup_removedRulesLabel")}
                   value={patch?.rulesToRemove ?? ""}
                 />
-              </DetailsBody>
-            </Details>
-          </RowItem>
-        </Row>
+              </div>
+            </details>
+          </div>
+        </div>
         {patch?.matchingRules && (
-          <Row>
-            <RowItem expanded>
-              <Details
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+              <details
                 open={matchingRulesOpen}
                 onToggle={(e) => setMatchingRulesOpen(e.currentTarget.open)}
               >
-                <DetailsSummary>
+                <summary className={styles.summary}>
                   {translate("popup_matchingRules")}
-                </DetailsSummary>
-                <DetailsBody>
+                </summary>
+                <div className={styles.detailsBody}>
                   <RulesDisplay
                     label={translate("popup_blockingRulesLabel")}
                     value={patch.matchingRules.block}
@@ -452,117 +396,117 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
                     label={translate("popup_highlightingRulesLabel")}
                     value={patch.matchingRules.highlight}
                   />
-                </DetailsBody>
-              </Details>
-            </RowItem>
-          </Row>
+                </div>
+              </details>
+            </div>
+          </div>
         )}
-      </DialogBody>
-      <DialogFooter>
-        <Row multiline right>
-          <RowItem expanded>
-            <IconButton
+      </div>
+      <div className={dialogStyles.footer}>
+        <div
+          className={clsx(rowStyles.row, rowStyles.multiline, rowStyles.right)}
+        >
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <button
               aria-label={translate("popup_openOptionsLink")}
-              iconURL={svgToDataURL(cog)}
+              className={iconButtonStyles.button}
               title={translate("popup_openOptionsLink")}
+              type="button"
               onClick={() => {
                 void openOptionsPage();
               }}
-            />
-          </RowItem>
-          <RowItem>
-            <Row>
-              <RowItem>
+            >
+              <SvgIcon color="var(--ub-color-text-secondary)" svg={cog} />
+            </button>
+          </div>
+          <div className={rowStyles.rowItem}>
+            <div className={rowStyles.row}>
+              <div className={rowStyles.rowItem}>
                 <Button
-                  className={
-                    !urlIsProcessable
-                      ? `${FOCUS_DEFAULT_CLASS} ${FOCUS_END_CLASS}`
-                      : undefined
-                  }
+                  className={clsx(buttonStyles.button, buttonStyles.secondary)}
+                  ref={urlIsProcessable ? undefined : initialFocusRef}
                   onClick={close}
                 >
                   {translate("cancelButton")}
                 </Button>
-              </RowItem>
-              <RowItem>
+              </div>
+              <div className={rowStyles.rowItem}>
                 <ActionButton
                   mode={mode}
                   autoMode={autoMode}
                   disabled={!rulesToAddValid}
                   menuDisabled={!urlIsProcessable}
-                  focusDefault={urlIsProcessable}
-                  focusEnd={urlIsProcessable}
+                  portalContainer={portalContainer}
+                  ref={urlIsProcessable ? initialFocusRef : undefined}
                   testId="block-dialog-action-button"
                   onClick={() => {
                     void handleApply();
                   }}
                   onSelectMode={setManualMode}
                 />
-              </RowItem>
-            </Row>
-          </RowItem>
-        </Row>
-      </DialogFooter>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
-};
+}
 
 // ---------------------------------------------------------------------------
 // Wrappers
 
 export type BlockDialogProps = {
+  container: HTMLElement;
   open: boolean;
-  target: HTMLElement | ShadowRoot;
-  theme: DialogTheme;
-} & Omit<BlockDialogContentProps, "id">;
+} & Omit<BlockFormProps, "id" | "initialFocusRef" | "portalContainer">;
 
-export const BlockDialog: React.FC<BlockDialogProps> = ({
+export function BlockDialog({
+  container,
   open,
-  target,
-  theme,
   ...contentProps
-}) => {
+}: BlockDialogProps) {
   const id = useId();
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
-    <StylesProvider target={target}>
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <ScopedBaseline>
-          <Dialog
-            aria-labelledby={`${id}-title`}
-            close={contentProps.close}
-            open={open}
-            width="360px"
-          >
-            {open && (
-              <BlockDialogContent
-                key={contentProps.searchResult.url}
-                id={id}
-                {...contentProps}
-              />
-            )}
-          </Dialog>
-        </ScopedBaseline>
-      </ThemeProvider>
-    </StylesProvider>
+    <Dialog
+      aria-labelledby={`${id}-title`}
+      close={contentProps.close}
+      container={container}
+      initialFocus={initialFocusRef}
+      open={open}
+      width="360px"
+    >
+      {open && (
+        <BlockForm
+          id={id}
+          initialFocusRef={initialFocusRef}
+          portalContainer={container}
+          {...contentProps}
+        />
+      )}
+    </Dialog>
   );
-};
+}
 
-export type BlockEmbeddedDialogProps = Omit<BlockDialogContentProps, "id">;
+export type BlockEmbeddedDialogProps = Omit<
+  BlockFormProps,
+  "id" | "initialFocusRef" | "portalContainer"
+>;
 
-export const BlockEmbeddedDialog: React.FC<BlockEmbeddedDialogProps> = (
-  props,
-) => {
+export function BlockEmbeddedDialog(props: BlockEmbeddedDialogProps) {
   const id = useId();
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
     <EmbeddedDialog
       aria-labelledby={`${id}-title`}
       close={props.close}
-      width="360px"
+      initialFocus={initialFocusRef}
     >
-      <BlockDialogContent key={props.searchResult.url} id={id} {...props} />
+      <BlockForm id={id} initialFocusRef={initialFocusRef} {...props} />
     </EmbeddedDialog>
   );
-};
+}
 
 export type BlockDialogRequest = {
   url: string;
@@ -576,17 +520,39 @@ export type BlockDialogRequest = {
   openOptionsPage(): void;
 };
 
-type DialogRoot = { root: Root; shadowRoot: ShadowRoot };
+type DialogRoot = { container: HTMLDivElement; root: Root };
 
 let dialogRoot: DialogRoot | null = null;
+let styleSheetPromise: Promise<CSSStyleSheet> | null = null;
 
-function getDialogRoot(): DialogRoot {
+function loadStyleSheet(): Promise<CSSStyleSheet> {
+  styleSheetPromise ??= (async () => {
+    const response = await fetch(
+      browser.runtime.getURL("scripts/block-dialog.css"),
+    );
+    const styleSheet = new CSSStyleSheet();
+    await styleSheet.replace(await response.text());
+    return styleSheet;
+  })();
+  return styleSheetPromise;
+}
+
+async function getDialogRoot(): Promise<DialogRoot> {
+  const styleSheet = await loadStyleSheet();
   if (!dialogRoot) {
     const shadowRoot = document.body
       .appendChild(document.createElement("div"))
       .attachShadow({ mode: "open" });
-    const root = createRoot(shadowRoot);
-    dialogRoot = { root, shadowRoot };
+    shadowRoot.adoptedStyleSheets = [styleSheet];
+    const container = shadowRoot.appendChild(document.createElement("div"));
+    container.className = "root";
+    for (const type of ["keydown", "keypress", "keyup"] as const) {
+      container.addEventListener(type, (e) => {
+        e.stopPropagation();
+      });
+    }
+    const root = createRoot(container);
+    dialogRoot = { container, root };
   }
   return dialogRoot;
 }
@@ -609,19 +575,20 @@ export function openDialog(request: BlockDialogRequest): void {
     request.onBlocked(request.ruleset.applyPatch(patch));
     return;
   }
-  const dialogRoot = getDialogRoot();
-  dialogRoot.root.render(
-    <BlockDialog
-      blockWholeSite={request.blockWholeSite}
-      close={closeDialog}
-      enableMatchingRules={request.enableMatchingRules}
-      open={true}
-      openOptionsPage={async () => request.openOptionsPage()}
-      ruleset={request.ruleset}
-      searchResult={searchResult}
-      target={dialogRoot.shadowRoot}
-      theme={request.theme}
-      onBlocked={request.onBlocked}
-    />,
-  );
+  void getDialogRoot().then(({ container, root }) => {
+    container.dataset.theme = request.theme;
+    root.render(
+      <BlockDialog
+        blockWholeSite={request.blockWholeSite}
+        close={closeDialog}
+        container={container}
+        enableMatchingRules={request.enableMatchingRules}
+        open={true}
+        openOptionsPage={async () => request.openOptionsPage()}
+        ruleset={request.ruleset}
+        searchResult={searchResult}
+        onBlocked={request.onBlocked}
+      />,
+    );
+  });
 }
