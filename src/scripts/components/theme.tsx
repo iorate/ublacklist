@@ -1,7 +1,7 @@
 import React, {
   useContext,
   useEffect,
-  useLayoutEffect,
+  useInsertionEffect,
   useRef,
   useState,
 } from "react";
@@ -380,7 +380,13 @@ export const AutoThemeProvider: React.FC<{ children?: React.ReactNode }> = ({
       setDark(e.matches);
     });
   }, []);
-  useLayoutEffect(() => {
+  // Apply the theme in an insertion effect, which is guaranteed to fire before
+  // any layout effects. A layout effect would be too late: layout effects of
+  // child components (e.g. CodeMirror) run first and force a style
+  // recalculation, and styles computed at that point, with the theme variables
+  // still undefined, would become the start values of CSS transitions
+  // animating on the first paint.
+  useInsertionEffect(() => {
     document.documentElement.classList.add("ub-root");
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   }, [dark]);

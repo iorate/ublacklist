@@ -27,8 +27,8 @@ import {
 } from "../shared/constants.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import { svgToDataURL } from "../shared/utilities.ts";
-import { useOptionsContext } from "./options-context.tsx";
 
 type ColorItemKey = "linkColor" | "blockColor";
 
@@ -37,13 +37,13 @@ const SetColorItem: React.FC<{
   itemKey: ColorItemKey;
   label: string;
 }> = ({ initialColor, itemKey, label }) => {
-  const {
-    initialItems: { [itemKey]: initialItem },
-  } = useOptionsContext();
-  const [specifyColor, setSpecifyColor] = useState(initialItem !== "default");
-  const [color, setColor] = useState(
-    initialItem === "default" ? initialColor : initialItem,
+  const [specifyColor, setSpecifyColor] = useState(
+    () => storageStore.get()[itemKey] !== "default",
   );
+  const [color, setColor] = useState(() => {
+    const initialItem = storageStore.get()[itemKey];
+    return initialItem === "default" ? initialColor : initialItem;
+  });
 
   return (
     <SectionItem>
@@ -131,13 +131,12 @@ const SetColorItem: React.FC<{
 };
 
 const SetHighlightColors: React.FC = () => {
-  const {
-    initialItems: { highlightColors: initialHighlightColors },
-  } = useOptionsContext();
-  const [colorsAndKeys, setColorsAndKeys] = useState(
-    initialHighlightColors.map((color, index) => [color, index] as const),
+  const [colorsAndKeys, setColorsAndKeys] = useState(() =>
+    storageStore
+      .get()
+      .highlightColors.map((color, index) => [color, index] as const),
   );
-  const nextKey = useRef(initialHighlightColors.length);
+  const nextKey = useRef(colorsAndKeys.length);
 
   const spacerClass = useClassName(
     () => ({
@@ -249,10 +248,7 @@ const SetHighlightColors: React.FC = () => {
 
 const SetDialogTheme: React.FC = () => {
   const id = useId();
-  const {
-    initialItems: { dialogTheme: initialDialogTheme },
-  } = useOptionsContext();
-  const [dialogTheme, setDialogTheme] = useState(initialDialogTheme);
+  const dialogTheme = storageStore.use.dialogTheme();
 
   return (
     <SectionItem>
@@ -272,7 +268,6 @@ const SetDialogTheme: React.FC = () => {
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
-                  setDialogTheme("default");
                   void saveToLocalStorage(
                     { dialogTheme: "default" },
                     "options",
@@ -299,7 +294,6 @@ const SetDialogTheme: React.FC = () => {
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
-                  setDialogTheme("light");
                   void saveToLocalStorage({ dialogTheme: "light" }, "options");
                 }
               }}
@@ -323,7 +317,6 @@ const SetDialogTheme: React.FC = () => {
               name="dialogTheme"
               onChange={(e) => {
                 if (e.currentTarget.checked) {
-                  setDialogTheme("dark");
                   void saveToLocalStorage({ dialogTheme: "dark" }, "options");
                 }
               }}
