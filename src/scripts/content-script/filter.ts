@@ -18,7 +18,7 @@ import {
   runRootCommand,
 } from "./commands.ts";
 import { attributes as a } from "./constants.ts";
-import { closeDialog, openDialog } from "./dialog.tsx";
+import { closeDialog, openDialog } from "./dialog.ts";
 
 export const blockedResultCountStore = createStore(() => 0);
 

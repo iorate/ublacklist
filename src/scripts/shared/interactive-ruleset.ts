@@ -1,6 +1,5 @@
 import { type Action, Ruleset, type SearchResult } from "@ublacklist/ruleset";
 import { groupBy, partition, zip } from "es-toolkit";
-import { getRegistrableDomain } from "./registrable-domain.ts";
 
 export type NamedRuleset = {
   name: string;
@@ -21,7 +20,7 @@ export type Patch = {
 export type PatchMode = Action["type"] | "unhighlight";
 
 export type PatchOptions = {
-  useRegistrableDomain?: boolean;
+  getRegistrableDomain?: (host: string) => string | null;
   collectMatchingRules?: boolean;
 };
 
@@ -75,7 +74,7 @@ export class InteractiveRuleset {
       : suggestMatchPattern(
           mode,
           searchResult.url,
-          options.useRegistrableDomain ?? false,
+          options.getRegistrableDomain,
         );
     const matchingRules = options.collectMatchingRules
       ? collectMatchingRules([
@@ -171,10 +170,10 @@ function satisfiesMode(action: Action | null, mode: PatchMode): boolean {
 function suggestMatchPattern(
   mode: PatchMode,
   url: string,
-  useRegistrableDomain: boolean,
+  getRegistrableDomain?: (host: string) => string | null,
 ): string {
   let host = new URL(url).hostname;
-  if (useRegistrableDomain) {
+  if (getRegistrableDomain) {
     // `domain` is null when `host` itself is a public suffix (e.g.
     // `vercel.app`). Fall back to the bare host to avoid suggesting
     // `*.vercel.app`, which would match unrelated users' deployments.
