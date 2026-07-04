@@ -387,7 +387,7 @@ export const AutoThemeProvider: React.FC<{ children?: React.ReactNode }> = ({
   // still undefined, would become the start values of CSS transitions
   // animating on the first paint.
   useInsertionEffect(() => {
-    document.documentElement.classList.add("ub-root");
+    document.documentElement.classList.add("root");
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   }, [dark]);
   return (
