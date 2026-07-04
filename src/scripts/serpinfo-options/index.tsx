@@ -383,7 +383,6 @@ function AddRemoteSerpInfoForm({
     }
     return true;
   });
-  const addable = urlValid;
   return (
     <>
       <DialogHeader>
@@ -424,7 +423,7 @@ function AddRemoteSerpInfoForm({
           </RowItem>
           <RowItem>
             <Button
-              disabled={!addable}
+              disabled={!urlValid}
               primary
               onClick={async () => {
                 if (!(await requestPermission([url]))) {

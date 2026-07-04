@@ -44,7 +44,6 @@ const AddForm: React.FC<{
   });
   const [name, setName] = useState(initialName);
   const [type, setType] = useState(initialType);
-  const ok = urlValid;
 
   return (
     <>
@@ -136,7 +135,7 @@ const AddForm: React.FC<{
           <RowItem>
             <Button
               data-testid="add-subscription-dialog-add-button"
-              disabled={!ok}
+              disabled={!urlValid}
               primary
               onClick={async () => {
                 if (!(await requestPermission([url]))) {
