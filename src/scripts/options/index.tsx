@@ -10,7 +10,7 @@ import { AboutSection } from "./about-section.tsx";
 import { AppearanceSection } from "./appearance-section.tsx";
 import { BackupRestoreSection } from "./backup-restore-section.tsx";
 import { GeneralSection } from "./general-section.tsx";
-import { initializePlatform } from "./platform.ts";
+import { initializePlatform } from "./shared/platform.ts";
 import {
   type OptionsQuery,
   SubscriptionSection,

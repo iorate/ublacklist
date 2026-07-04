@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import labelStyles from "../components/label.module.css";
-import rowStyles from "../components/row.module.css";
-import "../shared/dayjs-locales.ts";
-import { Select, SelectOption } from "../components/select.tsx";
-import { saveToLocalStorage } from "../shared/local-storage.ts";
-import { translate } from "../shared/locales.ts";
-import { storageStore } from "../shared/storage-store.ts";
+import labelStyles from "../../components/label.module.css";
+import rowStyles from "../../components/row.module.css";
+import "../../shared/dayjs-locales.ts";
+import { Select, SelectOption } from "../../components/select.tsx";
+import { saveToLocalStorage } from "../../shared/local-storage.ts";
+import { translate } from "../../shared/locales.ts";
+import { storageStore } from "../../shared/storage-store.ts";
 import localStyles from "./set-interval-item.module.css";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";

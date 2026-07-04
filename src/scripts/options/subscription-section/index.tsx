@@ -13,7 +13,7 @@ import { requestPermission } from "../../shared/permissions.ts";
 import { storageStore } from "../../shared/storage-store.ts";
 import type { SubscriptionId, Subscriptions } from "../../shared/types.ts";
 import { numberEntries, numberKeys } from "../../shared/utilities.ts";
-import { SetIntervalItem } from "../set-interval-item.tsx";
+import { SetIntervalItem } from "../shared/set-interval-item.tsx";
 import { AddDialog } from "./add-dialog.tsx";
 import localStyles from "./index.module.css";
 import { SubscriptionTableRow } from "./table-row.tsx";

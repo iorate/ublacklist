@@ -35,10 +35,10 @@ import type {
   SyncForce,
 } from "../shared/types.ts";
 import { AltURL, isErrorResult } from "../shared/utilities.ts";
-import { FromNow } from "./from-now.tsx";
-import { getOS } from "./platform.ts";
-import { SetBooleanItem } from "./set-boolean-item.tsx";
-import { SetIntervalItem } from "./set-interval-item.tsx";
+import { FromNow } from "./shared/from-now.tsx";
+import { getOS } from "./shared/platform.ts";
+import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
+import { SetIntervalItem } from "./shared/set-interval-item.tsx";
 
 dayjs.extend(dayjsDuration);
 

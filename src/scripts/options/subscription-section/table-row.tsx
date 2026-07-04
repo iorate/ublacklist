@@ -15,7 +15,7 @@ import {
   getSubscriptionDisplayName,
   isErrorResult,
 } from "../../shared/utilities.ts";
-import { FromNow } from "../from-now.tsx";
+import { FromNow } from "../shared/from-now.tsx";
 import { RenameDialog } from "./rename-dialog.tsx";
 import { ShowDialog } from "./show-dialog.tsx";
 import localStyles from "./table-row.module.css";

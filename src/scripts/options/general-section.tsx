@@ -32,8 +32,8 @@ import {
   lines,
   uploadTextFile,
 } from "../shared/utilities.ts";
-import { RulesetEditor } from "./ruleset-editor.tsx";
-import { SetBooleanItem } from "./set-boolean-item.tsx";
+import { RulesetEditor } from "./shared/ruleset-editor.tsx";
+import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
 
 function ImportBlacklistForm({
   close,

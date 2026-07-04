@@ -15,7 +15,7 @@ import rowStyles from "../../components/row.module.css";
 import { translate } from "../../shared/locales.ts";
 import type { Subscription } from "../../shared/types.ts";
 import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
-import { RulesetEditor } from "../ruleset-editor.tsx";
+import { RulesetEditor } from "../shared/ruleset-editor.tsx";
 import dialogStyles from "./show-dialog.module.css";
 
 export function ShowDialog({
