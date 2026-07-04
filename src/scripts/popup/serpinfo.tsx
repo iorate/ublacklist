@@ -9,16 +9,16 @@ import {
   FOCUS_END_CLASS,
   FOCUS_START_CLASS,
 } from "../components/constants.ts";
+import { Icon } from "../components/icon.tsx";
+import { IconButton } from "../components/icon-button.tsx";
+import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import {
   DialogBody,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   EmbeddedDialog,
-} from "../components/dialog.tsx";
-import { Icon } from "../components/icon.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { ControlLabel, LabelWrapper } from "../components/label.tsx";
+} from "../components/legacy-dialog.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import styles from "../components/switch.module.css";
 import { browser } from "../shared/browser.ts";

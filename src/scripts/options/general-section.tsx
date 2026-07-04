@@ -3,13 +3,11 @@ import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import { useEffect, useId, useState } from "react";
 import { Button, LinkButton } from "../components/button.tsx";
 import styles from "../components/checkbox.module.css";
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
   DialogBody,
   DialogFooter,
   DialogHeader,
-  type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
 import { IconButton } from "../components/icon-button.tsx";
@@ -21,7 +19,6 @@ import {
   SubLabel,
 } from "../components/label.tsx";
 import { expandLinks } from "../components/link.tsx";
-import { Portal } from "../components/portal.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import {
   Section,
@@ -32,7 +29,6 @@ import {
 } from "../components/section.tsx";
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
-import { usePrevious } from "../components/utilities.ts";
 import { browser } from "../shared/browser.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
@@ -48,26 +44,17 @@ import { RulesetEditor } from "./ruleset-editor.tsx";
 import { Select, SelectOption } from "./select.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
 
-const ImportBlacklistDialog: React.FC<
-  {
-    setBlacklist: React.Dispatch<React.SetStateAction<string>>;
-    setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
-  } & DialogProps
-> = ({ close, open, setBlacklist, setBlacklistDirty }) => {
+const ImportBlacklistForm: React.FC<{
+  close: () => void;
+  setBlacklist: React.Dispatch<React.SetStateAction<string>>;
+  setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ close, setBlacklist, setBlacklistDirty }) => {
   const id = useId();
-  const [state, setState] = useState({
-    source: "file" as "file" | "pb",
-    pb: "",
-    append: false,
-  });
-  const prevOpen = usePrevious(open);
-  if (open && !prevOpen) {
-    state.source = "file";
-    state.pb = "";
-    state.append = false;
-  }
+  const [source, setSource] = useState<"file" | "pb">("file");
+  const [pb, setPB] = useState("");
+  const [append, setAppend] = useState(false);
   const replaceOrAppend = (newBlacklist: string) => {
-    if (state.append) {
+    if (append) {
       setBlacklist(
         (oldBlacklist) =>
           `${oldBlacklist}${
@@ -81,9 +68,9 @@ const ImportBlacklistDialog: React.FC<
   };
 
   return (
-    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
+    <>
       <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
+        <DialogTitle>
           {translate("options_importBlacklistDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -91,14 +78,9 @@ const ImportBlacklistDialog: React.FC<
         <Row>
           <RowItem>
             <Select
-              className={FOCUS_START_CLASS}
-              value={state.source}
+              value={source}
               onChange={(e) => {
-                const { value } = e.currentTarget;
-                setState((s) => ({
-                  ...s,
-                  source: value as "file" | "pb",
-                }));
+                setSource(e.currentTarget.value as "file" | "pb");
               }}
             >
               <SelectOption value="file">
@@ -110,7 +92,7 @@ const ImportBlacklistDialog: React.FC<
             </Select>
           </RowItem>
         </Row>
-        {state.source === "pb" && (
+        {source === "pb" && (
           <Row>
             <RowItem expanded>
               <LabelWrapper fullWidth>
@@ -125,11 +107,10 @@ const ImportBlacklistDialog: React.FC<
                 aria-label={translate("options_importBlacklistDialog_pbLabel")}
                 rows={5}
                 spellCheck="false"
-                value={state.pb}
+                value={pb}
                 wrap="off"
                 onChange={(e) => {
-                  const { value } = e.currentTarget;
-                  setState((s) => ({ ...s, pb: value }));
+                  setPB(e.currentTarget.value);
                 }}
               />
             </RowItem>
@@ -139,12 +120,10 @@ const ImportBlacklistDialog: React.FC<
           <RowItem>
             <Indent>
               <Checkbox.Root
-                checked={state.append}
+                checked={append}
                 className={styles.checkbox}
                 id={`${id}-append`}
-                onCheckedChange={(checked) => {
-                  setState((s) => ({ ...s, append: checked }));
-                }}
+                onCheckedChange={setAppend}
               >
                 <Checkbox.Indicator className={styles.indicator} />
               </Checkbox.Root>
@@ -162,19 +141,11 @@ const ImportBlacklistDialog: React.FC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button
-              className={
-                state.source === "pb" && !state.pb ? FOCUS_END_CLASS : ""
-              }
-              onClick={close}
-            >
-              {translate("cancelButton")}
-            </Button>
+            <Button onClick={close}>{translate("cancelButton")}</Button>
           </RowItem>
           <RowItem>
-            {state.source === "file" ? (
+            {source === "file" ? (
               <Button
-                className={FOCUS_END_CLASS}
                 primary
                 onClick={async () => {
                   const text = await uploadTextFile("text/plain");
@@ -189,12 +160,11 @@ const ImportBlacklistDialog: React.FC<
               </Button>
             ) : (
               <Button
-                className={state.pb ? FOCUS_END_CLASS : ""}
-                disabled={!state.pb}
+                disabled={!pb}
                 primary
                 onClick={() => {
                   let newBlacklist = "";
-                  for (const domain of lines(state.pb)) {
+                  for (const domain of lines(pb)) {
                     if (/^([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+$/.test(domain)) {
                       newBlacklist = `${newBlacklist}${
                         newBlacklist ? "\n" : ""
@@ -211,12 +181,26 @@ const ImportBlacklistDialog: React.FC<
           </RowItem>
         </Row>
       </DialogFooter>
-    </Dialog>
+    </>
   );
 };
 
+const ImportBlacklistDialog: React.FC<{
+  close: () => void;
+  open: boolean;
+  setBlacklist: React.Dispatch<React.SetStateAction<string>>;
+  setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ close, open, setBlacklist, setBlacklistDirty }) => (
+  <Dialog close={close} open={open}>
+    <ImportBlacklistForm
+      close={close}
+      setBlacklist={setBlacklist}
+      setBlacklistDirty={setBlacklistDirty}
+    />
+  </Dialog>
+);
+
 const SetBlacklist: React.FC = () => {
-  const id = useId();
   const [blacklist, setBlacklist] = useState(
     () => storageStore.get().blacklist,
   );
@@ -324,14 +308,12 @@ const SetBlacklist: React.FC = () => {
           </Row>
         </RowItem>
       </Row>
-      <Portal id={`${id}-portal`}>
-        <ImportBlacklistDialog
-          close={() => setImportBlacklistDialogOpen(false)}
-          open={importBlacklistDialogOpen}
-          setBlacklist={setBlacklist}
-          setBlacklistDirty={setBlacklistDirty}
-        />
-      </Portal>
+      <ImportBlacklistDialog
+        close={() => setImportBlacklistDialogOpen(false)}
+        open={importBlacklistDialogOpen}
+        setBlacklist={setBlacklist}
+        setBlacklistDirty={setBlacklistDirty}
+      />
     </SectionItem>
   );
 };
