@@ -1,8 +1,9 @@
+import { Switch } from "@base-ui/react/switch";
 import { useMemo } from "react";
 import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useCSS } from "../components/styles.tsx";
-import { Switch } from "../components/switch.tsx";
+import styles from "../components/switch.module.css";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import type { LocalStorageItems } from "../shared/types.ts";
@@ -43,20 +44,23 @@ export const SetBooleanItem: React.FC<{
         </LabelWrapper>
       </RowItem>
       <RowItem>
-        <Switch
+        <Switch.Root
           checked={item}
+          className={styles.switch}
           data-testid={itemKey}
           disabled={disabled}
           id={itemKey}
-          onChange={(e) => {
+          onCheckedChange={(checked) => {
             void saveToLocalStorage(
-              { [itemKey]: e.currentTarget.checked } as Partial<
+              { [itemKey]: checked } as Partial<
                 Record<BooleanItemKey, boolean>
               >,
               "options",
             );
           }}
-        />
+        >
+          <Switch.Thumb className={styles.thumb} />
+        </Switch.Root>
       </RowItem>
     </Row>
   );
