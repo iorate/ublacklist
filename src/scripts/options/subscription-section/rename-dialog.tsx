@@ -17,11 +17,15 @@ import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import type { Subscription, SubscriptionId } from "../../shared/types.ts";
 
-const RenameForm: React.FC<{
+function RenameForm({
+  close,
+  subscription,
+  subscriptionId,
+}: {
   close: () => void;
   subscription: Subscription;
   subscriptionId: SubscriptionId;
-}> = ({ close, subscription, subscriptionId }) => {
+}) {
   const id = useId();
   const [name, setName] = useState(subscription.name);
   return (
@@ -81,19 +85,26 @@ const RenameForm: React.FC<{
       </DialogFooter>
     </>
   );
-};
+}
 
-export const RenameDialog: React.FC<{
+export function RenameDialog({
+  close,
+  open,
+  subscription,
+  subscriptionId,
+}: {
   close: () => void;
   open: boolean;
   subscription: Subscription;
   subscriptionId: SubscriptionId;
-}> = ({ close, open, subscription, subscriptionId }) => (
-  <Dialog close={close} open={open}>
-    <RenameForm
-      close={close}
-      subscription={subscription}
-      subscriptionId={subscriptionId}
-    />
-  </Dialog>
-);
+}) {
+  return (
+    <Dialog close={close} open={open}>
+      <RenameForm
+        close={close}
+        subscription={subscription}
+        subscriptionId={subscriptionId}
+      />
+    </Dialog>
+  );
+}

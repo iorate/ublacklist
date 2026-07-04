@@ -24,10 +24,13 @@ export type OptionsQuery = {
   addSubscriptionType: "ruleset" | "domains" | null;
 };
 
-export const ManageSubscriptions: React.FC<{
+export function ManageSubscriptions({
+  query,
+  subscriptions,
+}: {
   query: OptionsQuery;
   subscriptions: Subscriptions;
-}> = ({ query, subscriptions }) => {
+}) {
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
   const queryRef = useRef(
     query.addSubscriptionName != null ||
@@ -159,12 +162,12 @@ export const ManageSubscriptions: React.FC<{
       />
     </div>
   );
-};
+}
 
-export const SubscriptionSection: React.FC<{
+export function SubscriptionSection(props: {
   id: string;
   query: OptionsQuery;
-}> = (props) => {
+}) {
   const id = useId();
   const subscriptions = storageStore.use.subscriptions();
   return (
@@ -201,4 +204,4 @@ export const SubscriptionSection: React.FC<{
       </div>
     </section>
   );
-};
+}

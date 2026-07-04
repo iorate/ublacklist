@@ -70,7 +70,7 @@ const messageNames: Record<
   },
 };
 
-const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
+function TurnOnSyncForm({ close }: { close: () => void }) {
   const id = useId();
   const [phase, setPhase] = useState<
     "none" | "auth" | "auth-alt" | "conn" | "conn-alt"
@@ -463,20 +463,27 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
       </DialogFooter>
     </>
   );
-};
+}
 
-const TurnOnSyncDialog: React.FC<{ close: () => void; open: boolean }> = ({
+function TurnOnSyncDialog({
   close,
   open,
-}) => (
-  <Dialog close={close} open={open}>
-    <TurnOnSyncForm close={close} />
-  </Dialog>
-);
+}: {
+  close: () => void;
+  open: boolean;
+}) {
+  return (
+    <Dialog close={close} open={open}>
+      <TurnOnSyncForm close={close} />
+    </Dialog>
+  );
+}
 
-const TurnOnSync: React.FC<{
+function TurnOnSync({
+  backendId,
+}: {
   backendId: SyncBackendId | false | null;
-}> = ({ backendId }) => {
+}) {
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
     <div className={sectionStyles.item}>
@@ -527,11 +534,9 @@ const TurnOnSync: React.FC<{
       />
     </div>
   );
-};
+}
 
-const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
-  props,
-) => {
+function SyncNow(props: { backendId: SyncBackendId | false | null }) {
   const syncResult = storageStore.use.syncResult();
   const [updated, setUpdated] = useState(false);
   const [syncing, setSyncing] = useState(false);
@@ -603,62 +608,64 @@ const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
       </div>
     </div>
   );
-};
+}
 
-const SyncCategories: React.FC = () => (
-  <div className={sectionStyles.item}>
-    <div className={rowStyles.row}>
-      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-        <div className={labelStyles.wrapper}>
-          <div className={labelStyles.label}>
-            {translate("options_syncCategories")}
+function SyncCategories() {
+  return (
+    <div className={sectionStyles.item}>
+      <div className={rowStyles.row}>
+        <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_syncCategories")}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div className={rowStyles.row}>
-      <div className={rowStyles.rowItem}>
-        <div className={indentStyles.indent} />
+      <div className={rowStyles.row}>
+        <div className={rowStyles.rowItem}>
+          <div className={indentStyles.indent} />
+        </div>
+        <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+          <ul className={listStyles.list}>
+            <li className={listStyles.item}>
+              <SetBooleanItem
+                itemKey="syncBlocklist"
+                label={translate("options_syncBlocklist")}
+              />
+            </li>
+            <li className={listStyles.item}>
+              <SetBooleanItem
+                itemKey="syncGeneral"
+                label={translate("options_syncGeneral")}
+              />
+            </li>
+            <li className={listStyles.item}>
+              <SetBooleanItem
+                itemKey="syncAppearance"
+                label={translate("options_syncAppearance")}
+              />
+            </li>
+            <li className={listStyles.item}>
+              <SetBooleanItem
+                itemKey="syncSubscriptions"
+                label={translate("options_syncSubscriptions")}
+              />
+            </li>
+            <li className={listStyles.item}>
+              <SetBooleanItem
+                itemKey="syncSerpInfo"
+                label={translate("options_syncSerpInfo")}
+              />
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-        <ul className={listStyles.list}>
-          <li className={listStyles.item}>
-            <SetBooleanItem
-              itemKey="syncBlocklist"
-              label={translate("options_syncBlocklist")}
-            />
-          </li>
-          <li className={listStyles.item}>
-            <SetBooleanItem
-              itemKey="syncGeneral"
-              label={translate("options_syncGeneral")}
-            />
-          </li>
-          <li className={listStyles.item}>
-            <SetBooleanItem
-              itemKey="syncAppearance"
-              label={translate("options_syncAppearance")}
-            />
-          </li>
-          <li className={listStyles.item}>
-            <SetBooleanItem
-              itemKey="syncSubscriptions"
-              label={translate("options_syncSubscriptions")}
-            />
-          </li>
-          <li className={listStyles.item}>
-            <SetBooleanItem
-              itemKey="syncSerpInfo"
-              label={translate("options_syncSerpInfo")}
-            />
-          </li>
-        </ul>
-      </div>
     </div>
-  </div>
-);
+  );
+}
 
-export const SyncSection: React.FC<{ id: string }> = (props) => {
+export function SyncSection(props: { id: string }) {
   const id = useId();
   const backendId = storageStore.use.syncCloudId();
   return (
@@ -687,4 +694,4 @@ export const SyncSection: React.FC<{ id: string }> = (props) => {
       </div>
     </section>
   );
-};
+}

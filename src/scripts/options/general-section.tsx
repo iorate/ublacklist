@@ -35,11 +35,15 @@ import {
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
 
-const ImportBlacklistForm: React.FC<{
+function ImportBlacklistForm({
+  close,
+  setBlacklist,
+  setBlacklistDirty,
+}: {
   close: () => void;
   setBlacklist: React.Dispatch<React.SetStateAction<string>>;
   setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ close, setBlacklist, setBlacklistDirty }) => {
+}) {
   const id = useId();
   const [source, setSource] = useState<"file" | "pb">("file");
   const [pb, setPB] = useState("");
@@ -184,24 +188,31 @@ const ImportBlacklistForm: React.FC<{
       </DialogFooter>
     </>
   );
-};
+}
 
-const ImportBlacklistDialog: React.FC<{
+function ImportBlacklistDialog({
+  close,
+  open,
+  setBlacklist,
+  setBlacklistDirty,
+}: {
   close: () => void;
   open: boolean;
   setBlacklist: React.Dispatch<React.SetStateAction<string>>;
   setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ close, open, setBlacklist, setBlacklistDirty }) => (
-  <Dialog close={close} open={open}>
-    <ImportBlacklistForm
-      close={close}
-      setBlacklist={setBlacklist}
-      setBlacklistDirty={setBlacklistDirty}
-    />
-  </Dialog>
-);
+}) {
+  return (
+    <Dialog close={close} open={open}>
+      <ImportBlacklistForm
+        close={close}
+        setBlacklist={setBlacklist}
+        setBlacklistDirty={setBlacklistDirty}
+      />
+    </Dialog>
+  );
+}
 
-const SetBlacklist: React.FC = () => {
+function SetBlacklist() {
   const [blacklist, setBlacklist] = useState(
     () => storageStore.get().blacklist,
   );
@@ -326,9 +337,9 @@ const SetBlacklist: React.FC = () => {
       />
     </div>
   );
-};
+}
 
-const RegisterSearchEngines: React.FC = () => {
+function RegisterSearchEngines() {
   return (
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
@@ -362,9 +373,9 @@ const RegisterSearchEngines: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export const GeneralSection: React.FC<{ id: string }> = (props) => {
+export function GeneralSection(props: { id: string }) {
   const id = useId();
   return (
     <section
@@ -415,4 +426,4 @@ export const GeneralSection: React.FC<{ id: string }> = (props) => {
       </div>
     </section>
   );
-};
+}

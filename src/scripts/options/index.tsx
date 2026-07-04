@@ -17,22 +17,24 @@ import {
 } from "./subscription-section.ts";
 import { SyncSection } from "./sync-section.tsx";
 
-const Options: React.FC<{ query: OptionsQuery }> = ({ query }) => (
-  <AutoThemeProvider>
-    <div className={containerStyles.wrapper}>
-      <div className={containerStyles.container}>
-        {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
-        <GeneralSection id="general" />
-        <AppearanceSection id="appearance" />
-        <SyncSection id="sync" />
-        <SubscriptionSection id="subscription" query={query} />
-        <BackupRestoreSection id="backup-restore" />
-        <AboutSection id="about" />
-        {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+function Options({ query }: { query: OptionsQuery }) {
+  return (
+    <AutoThemeProvider>
+      <div className={containerStyles.wrapper}>
+        <div className={containerStyles.container}>
+          {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+          <GeneralSection id="general" />
+          <AppearanceSection id="appearance" />
+          <SyncSection id="sync" />
+          <SubscriptionSection id="subscription" query={query} />
+          <BackupRestoreSection id="backup-restore" />
+          <AboutSection id="about" />
+          {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+        </div>
       </div>
-    </div>
-  </AutoThemeProvider>
-);
+    </AutoThemeProvider>
+  );
+}
 
 async function main(): Promise<void> {
   document.documentElement.lang = translate("lang");

@@ -31,9 +31,9 @@ async function openOptionsPage(): Promise<void> {
   }
 }
 
-const Loading: React.FC = () => {
+function Loading() {
   return <div className={styles.loading} />;
-};
+}
 
 async function queryUserAgent(tabId: number): Promise<string> {
   const [result] = await browser.scripting.executeScript({
@@ -47,7 +47,7 @@ async function queryUserAgent(tabId: number): Promise<string> {
   return result.result;
 }
 
-const Popup: React.FC = () => {
+function Popup() {
   const [state, setState] = useState<
     | { type: "loading" }
     | {
@@ -134,7 +134,7 @@ const Popup: React.FC = () => {
       )}
     </AutoThemeProvider>
   );
-};
+}
 
 function main(): void {
   document.documentElement.lang = translate("lang");

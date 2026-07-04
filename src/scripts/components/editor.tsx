@@ -73,14 +73,14 @@ export type EditorProps = {
   onChange?: (value: string) => void;
 };
 
-export const Editor: React.FC<EditorProps> = ({
+export function Editor({
   height = "200px",
   language: lang,
   readOnly = false,
   resizable = false,
   value = "",
   onChange,
-}) => {
+}: EditorProps) {
   const view = useRef<EditorView | null>(null);
   const resizeObserver = useRef<ResizeObserver | null>(null);
 
@@ -244,4 +244,4 @@ export const Editor: React.FC<EditorProps> = ({
   }, [value]);
 
   return <div ref={parentCallback} />;
-};
+}

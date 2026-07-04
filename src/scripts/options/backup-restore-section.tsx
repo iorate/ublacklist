@@ -17,7 +17,7 @@ import {
   uploadTextFile,
 } from "../shared/utilities.ts";
 
-export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
+export function BackupRestoreSection(props: { id: string }) {
   const id = useId();
   const [fileInvalid, setFileInvalid] = useState(false);
 
@@ -175,4 +175,4 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
       </div>
     </section>
   );
-};
+}

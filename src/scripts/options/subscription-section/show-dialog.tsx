@@ -18,11 +18,15 @@ import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
 import { RulesetEditor } from "../ruleset-editor.tsx";
 import dialogStyles from "./show-dialog.module.css";
 
-export const ShowDialog: React.FC<{
+export function ShowDialog({
+  close,
+  open,
+  subscription,
+}: {
   close: () => void;
   open: boolean;
   subscription: Subscription;
-}> = ({ close, open, subscription }) => {
+}) {
   return (
     <Dialog close={close} open={open}>
       <DialogHeader>
@@ -77,4 +81,4 @@ export const ShowDialog: React.FC<{
       </DialogFooter>
     </Dialog>
   );
-};
+}

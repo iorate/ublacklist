@@ -11,7 +11,7 @@ import { browser } from "../shared/browser.ts";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
 import styles from "./about-section.module.css";
 
-export const AboutSection: React.FC<{ id: string }> = (props) => {
+export function AboutSection(props: { id: string }) {
   const id = useId();
   const version = useMemo(() => browser.runtime.getManifest().version, []);
   const thirdPartyNoticesURL = useMemo(
@@ -69,4 +69,4 @@ export const AboutSection: React.FC<{ id: string }> = (props) => {
       </div>
     </section>
   );
-};
+}
