@@ -1,0 +1,36 @@
+.positioner {
+  z-index: 2;
+}
+
+.popup {
+  background: var(--ub-color-surface);
+  box-shadow:
+    0 1px 2px 0 var(--ub-color-shadow-strong),
+    0 3px 6px 2px var(--ub-color-shadow-soft);
+  min-width: 10em;
+  outline: none;
+  padding: 0.75em 0;
+}
+
+.item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 2.5em;
+  padding: 0 2em;
+  user-select: none;
+}
+
+.item[data-disabled] {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.item[data-highlighted] {
+  background: var(--ub-menu-item-background-focused);
+  outline: none;
+}
+
+.item:hover:not([data-disabled]):not([data-highlighted]) {
+  background: var(--ub-menu-item-background-hovered);
+}
