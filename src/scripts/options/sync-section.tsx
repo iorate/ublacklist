@@ -38,6 +38,7 @@ import { omit } from "es-toolkit";
 import { Input } from "../components/input.tsx";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../shared/messages.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import { supportedClouds } from "../shared/supported-clouds.ts";
 import type {
   MessageName0,
@@ -46,7 +47,7 @@ import type {
 } from "../shared/types.ts";
 import { AltURL, isErrorResult } from "../shared/utilities.ts";
 import { FromNow } from "./from-now.tsx";
-import { useOptionsContext } from "./options-context.tsx";
+import { getOS } from "./platform.ts";
 import { Select, SelectOption } from "./select.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
@@ -89,15 +90,8 @@ const initialWebDAVParams = {
   path: "",
 };
 
-const TurnOnSyncDialog: React.FC<
-  {
-    setBackendId: (id: SyncBackendId | false | null) => void;
-  } & DialogProps
-> = ({ close, open, setBackendId }) => {
+const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
   const id = useId();
-  const {
-    platformInfo: { os },
-  } = useOptionsContext();
   const [state, setState] = useState({
     phase: "none" as "none" | "auth" | "auth-alt" | "conn" | "conn-alt",
     backendId: "googleDrive" as SyncBackendId,
@@ -120,7 +114,7 @@ const TurnOnSyncDialog: React.FC<
   const forceAltFlow =
     state.backendId === "webdav" || state.backendId === "browserSync"
       ? false
-      : supportedClouds[state.backendId].shouldUseAltFlow(os);
+      : supportedClouds[state.backendId].shouldUseAltFlow(getOS());
   const okButtonEnabled =
     state.backendId === "webdav"
       ? state.phase === "none" && state.webDAVParams.urlValid
@@ -162,7 +156,8 @@ const TurnOnSyncDialog: React.FC<
               </SelectOption>
               {(process.env.BROWSER === "chrome" ||
                 process.env.BROWSER === "edge" ||
-                (process.env.BROWSER === "firefox" && os !== "android")) && (
+                (process.env.BROWSER === "firefox" &&
+                  getOS() !== "android")) && (
                 <SelectOption value="browserSync">
                   {translate(messageNames.browserSync.sync)}
                 </SelectOption>
@@ -421,7 +416,6 @@ const TurnOnSyncDialog: React.FC<
                     } finally {
                       setState((s) => ({ ...s, phase: "none" }));
                     }
-                    setBackendId("webdav");
                     close();
                     return;
                   }
@@ -441,7 +435,6 @@ const TurnOnSyncDialog: React.FC<
                     } catch {
                       return;
                     }
-                    setBackendId("browserSync");
                     close();
                     return;
                   }
@@ -496,7 +489,6 @@ const TurnOnSyncDialog: React.FC<
                   } finally {
                     setState((s) => ({ ...s, phase: "none" }));
                   }
-                  setBackendId(state.backendId);
                   close();
                 })();
               }}
@@ -512,8 +504,7 @@ const TurnOnSyncDialog: React.FC<
 
 const TurnOnSync: React.FC<{
   backendId: SyncBackendId | false | null;
-  setBackendId: (id: SyncBackendId | false | null) => void;
-}> = ({ backendId, setBackendId }) => {
+}> = ({ backendId }) => {
   const id = useId();
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
@@ -536,7 +527,6 @@ const TurnOnSync: React.FC<{
             <Button
               onClick={() => {
                 void sendMessage("disconnect-from-cloud");
-                setBackendId(false);
               }}
             >
               {translate("options_turnOffSync")}
@@ -557,7 +547,6 @@ const TurnOnSync: React.FC<{
         <TurnOnSyncDialog
           close={() => setTurnOnSyncDialogOpen(false)}
           open={turnOnSyncDialogOpen}
-          setBackendId={setBackendId}
         />
       </Portal>
     </SectionItem>
@@ -567,10 +556,7 @@ const TurnOnSync: React.FC<{
 const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
   props,
 ) => {
-  const {
-    initialItems: { syncResult: initialSyncResult },
-  } = useOptionsContext();
-  const [syncResult, setSyncResult] = useState(initialSyncResult);
+  const syncResult = storageStore.use.syncResult();
   const [updated, setUpdated] = useState(false);
   const [syncing, setSyncing] = useState(false);
   useEffect(
@@ -583,11 +569,10 @@ const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
           setUpdated(false);
           setSyncing(true);
         },
-        synced: (id, result, updated) => {
+        synced: (id, _result, updated) => {
           if (id !== props.backendId) {
             return;
           }
-          setSyncResult(result);
           setUpdated(updated);
           setSyncing(false);
         },
@@ -693,10 +678,7 @@ const SyncCategories: React.FC = () => (
 
 export const SyncSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
-  const {
-    initialItems: { syncCloudId: initialBackendId },
-  } = useOptionsContext();
-  const [backendId, setBackendId] = useState(initialBackendId);
+  const backendId = storageStore.use.syncCloudId();
   return (
     <Section aria-labelledby={`${id}-title`} id={props.id}>
       <SectionHeader>
@@ -705,7 +687,7 @@ export const SyncSection: React.FC<{ id: string }> = (props) => {
         </SectionTitle>
       </SectionHeader>
       <SectionBody>
-        <TurnOnSync backendId={backendId} setBackendId={setBackendId} />
+        <TurnOnSync backendId={backendId} />
         <SyncNow backendId={backendId} />
         <SyncCategories />
         <SectionItem>

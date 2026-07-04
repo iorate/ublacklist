@@ -1,5 +1,5 @@
 import * as _Select from "../components/select.tsx";
-import { useOptionsContext } from "./options-context.tsx";
+import { getOS } from "./platform.ts";
 
 export type { SelectOptionProps } from "../components/select.tsx";
 export { SelectOption } from "../components/select.tsx";
@@ -9,8 +9,5 @@ export type SelectProps = {
 } & _Select.SelectProps;
 
 export const Select: React.FC<SelectProps> = (props) => {
-  const {
-    platformInfo: { os },
-  } = useOptionsContext();
-  return <_Select.Select {...props} native={os !== "win"} />;
+  return <_Select.Select {...props} native={getOS() !== "win"} />;
 };

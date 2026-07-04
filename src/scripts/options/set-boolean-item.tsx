@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useCSS } from "../components/styles.tsx";
 import { Switch } from "../components/switch.tsx";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import type { LocalStorageItems } from "../shared/types.ts";
-import { useOptionsContext } from "./options-context.tsx";
 
 export type BooleanItemKey = keyof {
   [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
@@ -19,10 +19,7 @@ export const SetBooleanItem: React.FC<{
   label: string;
   subLabels?: readonly string[];
 }> = ({ disabled = false, itemKey, label, subLabels = [] }) => {
-  const {
-    initialItems: { [itemKey]: initialItem },
-  } = useOptionsContext();
-  const [item, setItem] = useState(initialItem);
+  const item = storageStore.use[itemKey]();
 
   const css = useCSS();
   const rowClass = useMemo(
@@ -52,12 +49,12 @@ export const SetBooleanItem: React.FC<{
           disabled={disabled}
           id={itemKey}
           onChange={(e) => {
-            const value = e.currentTarget.checked;
             void saveToLocalStorage(
-              { [itemKey]: value } as Partial<Record<BooleanItemKey, boolean>>,
+              { [itemKey]: e.currentTarget.checked } as Partial<
+                Record<BooleanItemKey, boolean>
+              >,
               "options",
             );
-            setItem(value);
           }}
         />
       </RowItem>
