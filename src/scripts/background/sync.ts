@@ -103,12 +103,7 @@ async function doSync(
     }
     await saveToRawStorage({ syncResult: result });
 
-    postMessage(
-      "synced",
-      localItems.syncCloudId,
-      result,
-      Object.keys(cloudItems).length !== 0,
-    );
+    postMessage("synced", localItems.syncCloudId, result);
   });
 }
 

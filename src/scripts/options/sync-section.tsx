@@ -538,7 +538,6 @@ function TurnOnSync({
 
 function SyncNow(props: { backendId: SyncBackendId | false | null }) {
   const syncResult = storageStore.use.syncResult();
-  const [updated, setUpdated] = useState(false);
   const [syncing, setSyncing] = useState(false);
   useEffect(
     () =>
@@ -547,14 +546,12 @@ function SyncNow(props: { backendId: SyncBackendId | false | null }) {
           if (id !== props.backendId) {
             return;
           }
-          setUpdated(false);
           setSyncing(true);
         },
-        synced: (id, _result, updated) => {
+        synced: (id) => {
           if (id !== props.backendId) {
             return;
           }
-          setUpdated(updated);
           setSyncing(false);
         },
       }),
@@ -578,19 +575,6 @@ function SyncNow(props: { backendId: SyncBackendId | false | null }) {
               ) : (
                 <FromNow time={dayjs(syncResult.timestamp)} />
               )}
-              {updated ? (
-                <>
-                  {" "}
-                  <Button
-                    className={buttonStyles.linkButton}
-                    onClick={() => {
-                      window.location.reload();
-                    }}
-                  >
-                    {translate("options_syncReloadButton")}
-                  </Button>
-                </>
-              ) : null}
             </div>
           </div>
         </div>

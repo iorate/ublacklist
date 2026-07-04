@@ -44,7 +44,7 @@ type MessageSignatures = {
 
   sync: () => void;
   syncing: (id: SyncBackendId) => void;
-  synced: (id: SyncBackendId, result: Result, updated: boolean) => void;
+  synced: (id: SyncBackendId, result: Result) => void;
 
   "update-subscription": (id: SubscriptionId) => void;
   "update-all-subscriptions": () => void;
