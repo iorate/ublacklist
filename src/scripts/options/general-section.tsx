@@ -3,8 +3,6 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import clsx from "clsx";
 import { useEffect, useId, useState } from "react";
-import buttonStyles from "../components/button.module.css";
-import styles from "../components/checkbox.module.css";
 import {
   Dialog,
   DialogBody,
@@ -12,16 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import iconButtonStyles from "../components/icon-button.module.css";
-import indentStyles from "../components/indent.module.css";
-import labelStyles from "../components/label.module.css";
 import { expandLinks } from "../components/link.tsx";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
 import { Select, SelectOption } from "../components/select.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
-import textStyles from "../components/text.module.css";
-import textareaStyles from "../components/textarea.module.css";
 import { browser } from "../shared/browser.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
@@ -32,8 +23,17 @@ import {
   lines,
   uploadTextFile,
 } from "../shared/utilities.ts";
-import { RulesetEditor } from "./ruleset-editor.tsx";
-import { SetBooleanItem } from "./set-boolean-item.tsx";
+import buttonStyles from "../styles/button.module.css";
+import styles from "../styles/checkbox.module.css";
+import iconButtonStyles from "../styles/icon-button.module.css";
+import indentStyles from "../styles/indent.module.css";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
+import textStyles from "../styles/text.module.css";
+import textareaStyles from "../styles/textarea.module.css";
+import { RulesetEditor } from "./shared/ruleset-editor.tsx";
+import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
 
 function ImportBlacklistForm({
   close,

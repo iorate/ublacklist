@@ -7,21 +7,20 @@ import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
-import containerStyles from "../components/container.module.css";
-import iconButtonStyles from "../components/icon-button.module.css";
-import inputStyles from "../components/input.module.css";
-import listStyles from "../components/list.module.css";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
 import { SvgIcon } from "../components/svg-icon.tsx";
-import textStyles from "../components/text.module.css";
-import "../components/theme.css";
-import "../components/baseline.css";
+import containerStyles from "../styles/container.module.css";
+import iconButtonStyles from "../styles/icon-button.module.css";
+import inputStyles from "../styles/input.module.css";
+import listStyles from "../styles/list.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
+import textStyles from "../styles/text.module.css";
+import "../styles/theme.css";
+import "../styles/baseline.css";
 import { Button } from "@base-ui/react/button";
 import type React from "react";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import buttonStyles from "../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -29,11 +28,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import labelStyles from "../components/label.module.css";
 import { Link } from "../components/link.tsx";
-import styles from "../components/switch.module.css";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
+import buttonStyles from "../styles/button.module.css";
+import labelStyles from "../styles/label.module.css";
+import styles from "../styles/switch.module.css";
 import "../shared/dayjs-locales.ts";
 import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
 import { permissionExemptOrigins } from "../shared/constants.ts";

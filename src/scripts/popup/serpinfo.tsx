@@ -5,18 +5,18 @@ import { MatchPattern } from "@ublacklist/match-pattern";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import icon from "../../icons/icon.svg";
-import buttonStyles from "../components/button.module.css";
 import dialogStyles from "../components/dialog.module.css";
 import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
-import iconButtonStyles from "../components/icon-button.module.css";
-import labelStyles from "../components/label.module.css";
-import rowStyles from "../components/row.module.css";
 import { SvgIcon } from "../components/svg-icon.tsx";
-import switchStyles from "../components/switch.module.css";
 import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
+import buttonStyles from "../styles/button.module.css";
+import iconButtonStyles from "../styles/icon-button.module.css";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import switchStyles from "../styles/switch.module.css";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");

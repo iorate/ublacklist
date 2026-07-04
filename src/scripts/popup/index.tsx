@@ -1,5 +1,5 @@
-import "../components/theme.css";
-import "../components/baseline.css";
+import "../styles/theme.css";
+import "../styles/baseline.css";
 import isMobile from "is-mobile";
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";

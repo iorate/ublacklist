@@ -1,4 +1,4 @@
-import type { Browser } from "../shared/browser.ts";
+import type { Browser } from "../../shared/browser.ts";
 
 let platformInfo: Browser.Runtime.PlatformInfo | null = null;
 

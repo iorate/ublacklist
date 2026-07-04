@@ -1,7 +1,5 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
-import badgeStyles from "../../components/badge.module.css";
-import buttonStyles from "../../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -11,11 +9,13 @@ import {
 } from "../../components/dialog.tsx";
 import { Editor } from "../../components/editor.tsx";
 import { Link } from "../../components/link.tsx";
-import rowStyles from "../../components/row.module.css";
 import { translate } from "../../shared/locales.ts";
 import type { Subscription } from "../../shared/types.ts";
 import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
-import { RulesetEditor } from "../ruleset-editor.tsx";
+import badgeStyles from "../../styles/badge.module.css";
+import buttonStyles from "../../styles/button.module.css";
+import rowStyles from "../../styles/row.module.css";
+import { RulesetEditor } from "../shared/ruleset-editor.tsx";
 import dialogStyles from "./show-dialog.module.css";
 
 export function ShowDialog({

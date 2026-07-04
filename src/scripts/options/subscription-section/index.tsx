@@ -1,11 +1,6 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
-import buttonStyles from "../../components/button.module.css";
-import labelStyles from "../../components/label.module.css";
-import rowStyles from "../../components/row.module.css";
-import sectionStyles from "../../components/section.module.css";
-import tableStyles from "../../components/table.module.css";
 import { EnableSubscriptionURL } from "../../shared/enable-subscription-url.tsx";
 import { translate } from "../../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../../shared/messages.ts";
@@ -13,10 +8,15 @@ import { requestPermission } from "../../shared/permissions.ts";
 import { storageStore } from "../../shared/storage-store.ts";
 import type { SubscriptionId, Subscriptions } from "../../shared/types.ts";
 import { numberEntries, numberKeys } from "../../shared/utilities.ts";
-import { SetIntervalItem } from "../set-interval-item.tsx";
+import buttonStyles from "../../styles/button.module.css";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
+import sectionStyles from "../../styles/section.module.css";
+import tableStyles from "../../styles/table.module.css";
+import { SetIntervalItem } from "../shared/set-interval-item.tsx";
 import { AddDialog } from "./add-dialog.tsx";
 import localStyles from "./index.module.css";
-import { ManageSubscription } from "./row.tsx";
+import { SubscriptionTableRow } from "./table-row.tsx";
 
 export type OptionsQuery = {
   addSubscriptionName: string | null;
@@ -24,7 +24,7 @@ export type OptionsQuery = {
   addSubscriptionType: "ruleset" | "domains" | null;
 };
 
-export function ManageSubscriptions({
+export function SubscriptionTable({
   query,
   subscriptions,
 }: {
@@ -108,7 +108,7 @@ export function ManageSubscriptions({
                 {numberEntries(subscriptions)
                   .sort(([id1], [id2]) => id1 - id2)
                   .map(([id, subscription]) => (
-                    <ManageSubscription
+                    <SubscriptionTableRow
                       id={id}
                       key={id}
                       subscription={subscription}
@@ -182,10 +182,7 @@ export function SubscriptionSection(props: {
         </h1>
       </div>
       <div className={sectionStyles.body}>
-        <ManageSubscriptions
-          query={props.query}
-          subscriptions={subscriptions}
-        />
+        <SubscriptionTable query={props.query} subscriptions={subscriptions} />
         <Suspense fallback={null}>
           <EnableSubscriptionURL type="ruleset" />
         </Suspense>
