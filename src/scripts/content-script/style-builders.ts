@@ -9,7 +9,7 @@ import {
   string,
   walk,
 } from "css-tree";
-import { defaultBlockColor } from "../constants.ts";
+import { defaultBlockColor } from "../shared/constants.ts";
 import { attributes as a } from "./constants.ts";
 import type { CSSProperties } from "./css-stringify.ts";
 

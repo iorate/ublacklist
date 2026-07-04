@@ -1,6 +1,5 @@
 import { useId, useState } from "react";
 import { z } from "zod";
-import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
@@ -11,11 +10,16 @@ import {
   SectionItem,
   SectionTitle,
 } from "../components/section.tsx";
-import { translate } from "../locales.ts";
-import { sendMessage } from "../messages.ts";
-import * as SerpInfoSettings from "../serpinfo/settings.ts";
-import type { LocalStorageItemsBackupRestore } from "../types.ts";
-import { downloadTextFile, parseJSON, uploadTextFile } from "../utilities.ts";
+import { browser } from "../shared/browser.ts";
+import { translate } from "../shared/locales.ts";
+import { sendMessage } from "../shared/messages.ts";
+import * as SerpInfoSettings from "../shared/serpinfo-settings.ts";
+import type { LocalStorageItemsBackupRestore } from "../shared/types.ts";
+import {
+  downloadTextFile,
+  parseJSON,
+  uploadTextFile,
+} from "../shared/utilities.ts";
 
 export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
   const id = useId();

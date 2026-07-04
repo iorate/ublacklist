@@ -2,15 +2,15 @@ import dayjs from "dayjs";
 import {
   defaultLocalStorageItems,
   loadFromLocalStorage,
-} from "../local-storage.ts";
-import { updateAllRemote as updateAllRemoteSerpInfo } from "../serpinfo/background.ts";
-import * as SerpInfoSettings from "../serpinfo/settings.ts";
+} from "../shared/local-storage.ts";
+import * as SerpInfoSettings from "../shared/serpinfo-settings.ts";
 import type {
   LocalStorageItemsBackupRestore,
   Subscriptions,
-} from "../types.ts";
-import { toPlainRuleset } from "../utilities.ts";
+} from "../shared/types.ts";
+import { toPlainRuleset } from "../shared/utilities.ts";
 import { resetAllInRawStorage } from "./raw-storage.ts";
+import { updateAllRemote as updateAllRemoteSerpInfo } from "./serpinfo.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";
 
 export async function backup(): Promise<LocalStorageItemsBackupRestore> {

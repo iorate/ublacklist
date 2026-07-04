@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 import { range } from "es-toolkit";
 import LZString from "lz-string";
 import { z } from "zod";
-import { browser } from "../browser.ts";
-import { translate } from "../locales.ts";
+import { browser } from "../shared/browser.ts";
+import { translate } from "../shared/locales.ts";
 
 // QUOTA_BYTES_PER_ITEM (8192)
 // - key length (10 bytes for "HHHHHHHH.H" format where H = hex digit)

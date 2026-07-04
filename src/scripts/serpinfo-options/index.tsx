@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { browser } from "../browser.ts";
 import { Baseline } from "../components/baseline.tsx";
 import { Button, LinkButton } from "../components/button.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
@@ -42,16 +41,20 @@ import { Switch } from "../components/switch.tsx";
 import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
-import "../dayjs-locales.ts";
-import { permissionExemptOrigins } from "../constants.ts";
-import { getWebsiteURL, translate } from "../locales.ts";
-import { postMessage, sendMessage } from "../messages.ts";
-import { svgToDataURL } from "../utilities.ts";
-import { GOOGLE_SERPINFO_URL } from "./builtins.ts";
+import { browser } from "../shared/browser.ts";
+import "../shared/dayjs-locales.ts";
+import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
+import { permissionExemptOrigins } from "../shared/constants.ts";
+import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
+import { getWebsiteURL, translate } from "../shared/locales.ts";
+import { postMessage, sendMessage } from "../shared/messages.ts";
+import type {
+  RemoteSerpInfo,
+  UserSerpInfo,
+} from "../shared/serpinfo-settings.ts";
+import { storageStore } from "../shared/storage-store.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 import { Editor } from "./editor.tsx";
-import { EnableSubscriptionURL } from "./enable-subscription-url.tsx";
-import type { RemoteSerpInfo, UserSerpInfo } from "./settings.ts";
-import { storageStore } from "./storage-store.ts";
 
 dayjs.extend(dayjsLocalizedFormat);
 

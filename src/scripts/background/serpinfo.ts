@@ -1,19 +1,13 @@
 import { escapeRegExp } from "es-toolkit/string";
-import {
-  loadFromRawStorage,
-  modifyInRawStorage,
-} from "../background/raw-storage.ts";
-import { syncDelayed } from "../background/sync.ts";
-import { browser } from "../browser.ts";
+import { browser } from "../shared/browser.ts";
 import {
   rulesetSubscriptionURL,
   serpinfoSubscriptionURL,
-} from "../constants.ts";
+} from "../shared/constants.ts";
 import {
   addMessageFromTabListeners,
   addMessageListeners,
-} from "../messages.ts";
-import { HTTPError } from "../utilities.ts";
+} from "../shared/messages.ts";
 import {
   addRemote,
   mergeBuiltins,
@@ -22,7 +16,10 @@ import {
   setRemoteDownloaded,
   setRemoteEnabled,
   setUser,
-} from "./settings.ts";
+} from "../shared/serpinfo-settings.ts";
+import { HTTPError } from "../shared/utilities.ts";
+import { loadFromRawStorage, modifyInRawStorage } from "./raw-storage.ts";
+import { syncDelayed } from "./sync.ts";
 
 const UPDATE_ALARM_NAME = "update-all-remote-serpinfo";
 const UPDATE_INTERVAL_IN_MINUTES = 60 * 24; // 1 day
@@ -100,7 +97,7 @@ function setupSubscriptionURL(): Promise<void> {
         action: {
           type: "redirect",
           redirect: {
-            regexSubstitution: `${browser.runtime.getURL("pages/serpinfo/options.html")}\\1`,
+            regexSubstitution: `${browser.runtime.getURL("pages/serpinfo-options.html")}\\1`,
           },
         },
         condition: {

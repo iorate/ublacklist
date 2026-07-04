@@ -1,15 +1,15 @@
 import { omit } from "es-toolkit";
-import { browser } from "../browser.ts";
-import { postMessage } from "../messages.ts";
-import { domainsToRuleset } from "../ruleset/domains.ts";
-import type { SubscriptionId } from "../types.ts";
+import { browser } from "../shared/browser.ts";
+import { postMessage } from "../shared/messages.ts";
+import type { SubscriptionId } from "../shared/types.ts";
 import {
   errorResult,
   HTTPError,
   numberKeys,
   successResult,
   toPlainRuleset,
-} from "../utilities.ts";
+} from "../shared/utilities.ts";
+import { domainsToRuleset } from "./domains.ts";
 import { loadFromRawStorage, modifyInRawStorage } from "./raw-storage.ts";
 
 export const UPDATE_ALL_ALARM_NAME = "update-all-subscriptions";

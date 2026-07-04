@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
-import { postMessage } from "../messages.ts";
+import { postMessage } from "../shared/messages.ts";
 import type {
   LocalStorageItemsSavable,
   SaveSource,
   Subscription,
   SubscriptionId,
-} from "../types.ts";
-import { numberKeys, toPlainRuleset } from "../utilities.ts";
+} from "../shared/types.ts";
+import { numberKeys, toPlainRuleset } from "../shared/utilities.ts";
 import {
   modifyInRawStorage,
   type RawStorageItems,

@@ -1,6 +1,5 @@
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import { useEffect, useId, useState } from "react";
-import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
@@ -33,15 +32,16 @@ import {
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
-import { saveToLocalStorage } from "../local-storage.ts";
-import { translate } from "../locales.ts";
-import { addMessageListeners } from "../messages.ts";
+import { browser } from "../shared/browser.ts";
+import { saveToLocalStorage } from "../shared/local-storage.ts";
+import { translate } from "../shared/locales.ts";
+import { addMessageListeners } from "../shared/messages.ts";
 import {
   downloadTextFile,
   lines,
   svgToDataURL,
   uploadTextFile,
-} from "../utilities.ts";
+} from "../shared/utilities.ts";
 import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { Select, SelectOption } from "./select.tsx";
@@ -351,7 +351,7 @@ const RegisterSearchEngines: React.FC = () => {
             iconURL={svgToDataURL(openInNewSVG)}
             onClick={() => {
               browser.tabs.create({
-                url: "/pages/serpinfo/options.html",
+                url: "/pages/serpinfo-options.html",
               });
             }}
           />

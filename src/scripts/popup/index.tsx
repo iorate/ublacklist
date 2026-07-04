@@ -4,20 +4,23 @@ import { createRoot } from "react-dom/client";
 import {
   BlockEmbeddedDialog,
   type BlockEmbeddedDialogProps,
-} from "./block-dialog.tsx";
-import { browser } from "./browser.ts";
-import { Baseline } from "./components/baseline.tsx";
-import { AutoThemeProvider } from "./components/theme.tsx";
-import { useClassName } from "./components/utilities.ts";
-import { loadFromLocalStorage, saveToLocalStorage } from "./local-storage.ts";
-import { translate } from "./locales.ts";
-import { sendMessage, sendMessageToTab } from "./messages.ts";
+} from "../block-dialog.ts";
+import { Baseline } from "../components/baseline.tsx";
+import { AutoThemeProvider } from "../components/theme.tsx";
+import { useClassName } from "../components/utilities.ts";
+import { browser } from "../shared/browser.ts";
+import {
+  loadFromLocalStorage,
+  saveToLocalStorage,
+} from "../shared/local-storage.ts";
+import { translate } from "../shared/locales.ts";
+import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
+import { createInteractiveRuleset } from "../shared/utilities.ts";
 import {
   canEnableSerpInfo,
   EnableSerpInfoEmbeddedDialog,
   SerpInfoEmbeddedDialog,
-} from "./serpinfo/popup.tsx";
-import { createInteractiveRuleset } from "./utilities.ts";
+} from "./serpinfo.tsx";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");

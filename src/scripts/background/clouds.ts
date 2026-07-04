@@ -1,16 +1,16 @@
 import dayjs from "dayjs";
 import { browserSync } from "../clouds/browser-sync.ts";
 import { webdav } from "../clouds/webdav.ts";
-import { translate } from "../locales.ts";
-import { supportedClouds } from "../supported-clouds.ts";
+import { translate } from "../shared/locales.ts";
+import { supportedClouds } from "../shared/supported-clouds.ts";
 import type {
   Cloud,
   CloudId,
   CloudToken,
   SyncForce,
   WebDAVParams,
-} from "../types.ts";
-import { HTTPError, Mutex } from "../utilities.ts";
+} from "../shared/types.ts";
+import { HTTPError, Mutex } from "../shared/utilities.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
 

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { z } from "zod";
-import type { Cloud } from "../types.ts";
-import { HTTPError, UnexpectedResponse } from "../utilities.ts";
+import type { Cloud } from "../shared/types.ts";
+import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
 import * as Helpers from "./helpers.ts";
 
 const CLIENT_ID = process.env.GOOGLE_DRIVE_API_KEY;

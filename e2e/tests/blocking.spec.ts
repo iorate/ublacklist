@@ -91,7 +91,7 @@ async function loadMockSerpInfo(
 ): Promise<void> {
   const serpInfoOptions = await context.newPage();
   await serpInfoOptions.goto(
-    `chrome-extension://${extensionId}/pages/serpinfo/options.html`,
+    `chrome-extension://${extensionId}/pages/serpinfo-options.html`,
   );
   await serpInfoOptions.evaluate(() =>
     chrome.runtime.sendMessage({

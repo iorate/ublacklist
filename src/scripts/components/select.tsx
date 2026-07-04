@@ -1,6 +1,6 @@
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import React, { useContext } from "react";
-import { svgToDataURL } from "../utilities.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 import { DISABLED_OPACITY } from "./constants.ts";
 import { applyClassName } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";

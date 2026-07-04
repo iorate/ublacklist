@@ -27,7 +27,7 @@ async function getStaticAssets(context: Context): Promise<string[]> {
     "icons/icon-48.png",
     "icons/icon-128.png",
     "pages/options.html",
-    "pages/serpinfo/options.html",
+    "pages/serpinfo-options.html",
     "pages/popup.html",
     ...(browser === "safari" ? ["scripts/import-content-script.js"] : []),
   ];
@@ -36,10 +36,10 @@ async function getStaticAssets(context: Context): Promise<string[]> {
 function getScripts(): string[] {
   return [
     "scripts/background.ts",
-    "scripts/options.tsx",
-    "scripts/serpinfo/content-script.ts",
-    "scripts/serpinfo/options.tsx",
-    "scripts/popup.tsx",
+    "scripts/options.ts",
+    "scripts/content-script.ts",
+    "scripts/serpinfo-options.ts",
+    "scripts/popup.ts",
   ];
 }
 
