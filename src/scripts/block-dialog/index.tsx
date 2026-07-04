@@ -27,7 +27,7 @@ import {
   DialogTitle,
   EmbeddedDialog,
 } from "../components/legacy-dialog.tsx";
-import { MenuItem } from "../components/menu.tsx";
+import { MenuItem } from "../components/legacy-menu.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { SplitButton } from "../components/split-button.tsx";
 import { StylesProvider } from "../components/styles.tsx";
