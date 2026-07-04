@@ -1,0 +1,35 @@
+.section:not(:first-child) {
+  margin-top: 2em;
+}
+
+.header {
+  margin-bottom: 1em;
+}
+
+@media screen and (max-width: 640px) {
+  .header {
+    padding: 0 1.25em;
+  }
+}
+
+.title {
+  font-size: 1.125em;
+  font-weight: normal;
+  margin: 0;
+}
+
+.body {
+  background: var(--ub-color-surface);
+  border-radius: 4px;
+  box-shadow:
+    0 1px 2px 0 var(--ub-color-shadow-strong),
+    0 1px 3px 1px var(--ub-color-shadow-soft);
+}
+
+.item {
+  padding: 0.75em 1.25em;
+}
+
+.item:not(:first-child) {
+  border-top: solid 1px var(--ub-color-separator);
+}

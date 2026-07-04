@@ -1,16 +1,27 @@
+import { Input } from "@base-ui/react/input";
 import { Switch } from "@base-ui/react/switch";
 import deleteSVG from "@mdi/svg/svg/delete.svg";
 import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
+import containerStyles from "../components/container.module.css";
+import { TemplateIcon } from "../components/icon.tsx";
+import iconButtonStyles from "../components/icon-button.module.css";
+import inputStyles from "../components/input.module.css";
+import listStyles from "../components/list.module.css";
+import rowStyles from "../components/row.module.css";
+import sectionStyles from "../components/section.module.css";
+import textStyles from "../components/text.module.css";
 import "../components/theme.css";
 import "../components/baseline.css";
+import { Button } from "@base-ui/react/button";
+import type React from "react";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Button, LinkButton } from "../components/button.tsx";
-import { Container } from "../components/container.tsx";
+import buttonStyles from "../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -18,8 +29,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { Input } from "../components/input.tsx";
 import {
   ControlLabel,
   Label,
@@ -27,19 +36,8 @@ import {
   SubLabel,
 } from "../components/label.tsx";
 import { Link } from "../components/link.tsx";
-import { List, ListItem } from "../components/list.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import {
-  Section,
-  SectionBody,
-  SectionHeader,
-  SectionItem,
-  SectionTitle,
-} from "../components/section.tsx";
 import styles from "../components/switch.module.css";
-import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
-import { useClassName } from "../components/utilities.ts";
 import { browser } from "../shared/browser.ts";
 import "../shared/dayjs-locales.ts";
 import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
@@ -55,6 +53,7 @@ import type {
 import { storageStore } from "../shared/storage-store.ts";
 import { svgToDataURL } from "../shared/utilities.ts";
 import { Editor } from "./editor.tsx";
+import pageStyles from "./index.module.css";
 
 dayjs.extend(dayjsLocalizedFormat);
 
@@ -78,28 +77,32 @@ function BasicSettingsSection(props: { id: string }) {
     }
   }, [settings]);
   return (
-    <Section id={props.id} aria-labelledby={`${id}-title`}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      id={props.id}
+      aria-labelledby={`${id}-title`}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_serpInfoBasicSettingsSection")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
         <EnableSubscriptionURL type="serpinfo" />
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <LabelWrapper>
                 <Label>{translate("options_accessPermissionLabel")}</Label>
                 <SubLabel>
                   {translate("options_accessPermissionDescription")}
                 </SubLabel>
               </LabelWrapper>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.primary)}
                 disabled={!hostPermissionsRequired}
-                primary
                 onClick={() => {
                   const hostPermissions = collectHostPermissions(
                     settings.user,
@@ -118,11 +121,11 @@ function BasicSettingsSection(props: { id: string }) {
               >
                 {translate("options_accessPermissionButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </SectionItem>
-      </SectionBody>
-    </Section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -191,25 +194,34 @@ function RemoteSerpInfoSection(props: { id: string }) {
     }
   }, [updateStatus]);
   return (
-    <Section id={props.id} aria-labelledby={`${id}-title`}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      id={props.id}
+      aria-labelledby={`${id}-title`}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_remoteSerpInfoSection")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
-              <List>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+              <ul className={listStyles.list}>
                 {settings.remote.map((r) => {
                   const { name, description, version, lastModified, homepage } =
                     r.parsed || { name: r.url };
                   const error = r.parseError || r.downloadError;
                   return (
-                    <ListItem key={r.url}>
-                      <Row>
-                        <RowItem expanded>
+                    <li className={listStyles.item} key={r.url}>
+                      <div className={rowStyles.row}>
+                        <div
+                          className={clsx(
+                            rowStyles.rowItem,
+                            rowStyles.expanded,
+                          )}
+                        >
                           <LabelWrapper>
                             <Label>{name}</Label>
                             {description && <SubLabel>{description}</SubLabel>}
@@ -231,49 +243,77 @@ function RemoteSerpInfoSection(props: { id: string }) {
                               <SubLabel>{translate("error", error)}</SubLabel>
                             )}
                           </LabelWrapper>
-                        </RowItem>
-                        <RowItem>
-                          <IconButton
+                        </div>
+                        <div className={rowStyles.rowItem}>
+                          <button
+                            className={iconButtonStyles.button}
+                            type="button"
                             aria-label={translate(
                               "options_remoteSerpInfoHomepage",
                             )}
                             disabled={homepage == null}
-                            iconURL={svgToDataURL(homeSVG)}
                             onClick={() => {
                               if (homepage == null) {
                                 return;
                               }
                               void browser.tabs.create({ url: homepage });
                             }}
-                          />
-                        </RowItem>
-                        <RowItem>
-                          <IconButton
+                          >
+                            <TemplateIcon
+                              color="var(--ub-color-text-secondary)"
+                              iconSize="24px"
+                              url={svgToDataURL(homeSVG)}
+                            />
+                          </button>
+                        </div>
+                        <div className={rowStyles.rowItem}>
+                          <button
+                            className={iconButtonStyles.button}
+                            type="button"
                             aria-label={translate(
                               "options_showRemoteSerpInfoButton",
                             )}
-                            iconURL={svgToDataURL(eyeSVG)}
                             onClick={() => {
                               setShowDialogRemote(r);
                             }}
-                          />
-                        </RowItem>
-                        <RowItem>
-                          <IconButton
+                          >
+                            <TemplateIcon
+                              color="var(--ub-color-text-secondary)"
+                              iconSize="24px"
+                              url={svgToDataURL(eyeSVG)}
+                            />
+                          </button>
+                        </div>
+                        <div className={rowStyles.rowItem}>
+                          <button
+                            className={iconButtonStyles.button}
+                            type="button"
                             aria-label={translate(
                               "options_removeRemoteSerpInfoButton",
                             )}
                             disabled={!r.custom}
-                            iconURL={svgToDataURL(deleteSVG)}
                             onClick={() => {
                               if (!r.custom) {
                                 return;
                               }
                               postMessage("remove-remote-serpinfo", r.url);
                             }}
-                          />
-                        </RowItem>
-                        <RowItem spacing="calc(0.625em + 6px)">
+                          >
+                            <TemplateIcon
+                              color="var(--ub-color-text-secondary)"
+                              iconSize="24px"
+                              url={svgToDataURL(deleteSVG)}
+                            />
+                          </button>
+                        </div>
+                        <div
+                          className={rowStyles.rowItem}
+                          style={
+                            {
+                              "--ub-row-item-spacing": "calc(0.625em + 6px)",
+                            } as React.CSSProperties
+                          }
+                        >
                           <Switch.Root
                             checked={r.enabled}
                             className={styles.switch}
@@ -299,17 +339,18 @@ function RemoteSerpInfoSection(props: { id: string }) {
                           >
                             <Switch.Thumb className={styles.thumb} />
                           </Switch.Root>
-                        </RowItem>
-                      </Row>
-                    </ListItem>
+                        </div>
+                      </div>
+                    </li>
                   );
                 })}
-              </List>
-            </RowItem>
-          </Row>
-          <Row>
-            <RowItem>
-              <LinkButton
+              </ul>
+            </div>
+          </div>
+          <div className={rowStyles.row}>
+            <div className={rowStyles.rowItem}>
+              <Button
+                className={buttonStyles.linkButton}
                 disabled={updateStatus === "updating"}
                 onClick={async () => {
                   setUpdateStatus("updating");
@@ -322,25 +363,28 @@ function RemoteSerpInfoSection(props: { id: string }) {
                 }}
               >
                 {translate("options_updateAllRemoteSerpInfoButton")}
-              </LinkButton>
-            </RowItem>
-            <RowItem expanded>
+              </Button>
+            </div>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               {updateStatus === "done" && (
-                <Text>{translate("options_remoteSerpInfoUpdateDone")}</Text>
+                <span className={textStyles.secondary}>
+                  {translate("options_remoteSerpInfoUpdateDone")}
+                </span>
               )}
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={() => {
                   setAddDialogOpen(true);
                 }}
               >
                 {translate("options_addRemoteSerpInfoButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </SectionItem>
-      </SectionBody>
+            </div>
+          </div>
+        </div>
+      </div>
       <AddRemoteSerpInfoDialog
         close={() => {
           setAddDialogOpen(false);
@@ -356,7 +400,7 @@ function RemoteSerpInfoSection(props: { id: string }) {
         open={showDialogRemote != null}
         remote={showDialogRemote}
       />
-    </Section>
+    </section>
   );
 }
 
@@ -391,14 +435,15 @@ function AddRemoteSerpInfoForm({
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-url`}>
                 {translate("options_addRemoteSerpInfoDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
             <Input
+              className={inputStyles.input}
               id={`${id}-url`}
               pattern="https?:.*"
               required={true}
@@ -413,18 +458,23 @@ function AddRemoteSerpInfoForm({
                 setURLValid(valid);
               }}
             />
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button onClick={close}>{translate("cancelButton")}</Button>
-          </RowItem>
-          <RowItem>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
             <Button
+              className={clsx(buttonStyles.button, buttonStyles.secondary)}
+              onClick={close}
+            >
+              {translate("cancelButton")}
+            </Button>
+          </div>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
               disabled={!urlValid}
-              primary
               onClick={async () => {
                 if (!(await requestPermission([url]))) {
                   return;
@@ -435,8 +485,8 @@ function AddRemoteSerpInfoForm({
             >
               {translate("options_addRemoteSerpInfoDialog_addButton")}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </>
   );
@@ -473,24 +523,27 @@ function ShowRemoteSerpInfoDialog({
         <DialogTitle>{remote?.parsed?.name ?? remote?.url}</DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <Editor
               height="max(200px, 100dvh - 170px)"
               readOnly
               value={remote?.content ?? ""}
             />
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button primary onClick={close}>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
+              onClick={close}
+            >
               {translate("okButton")}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </Dialog>
   );
@@ -504,26 +557,21 @@ function UserSerpInfoSection(props: { id: string }) {
   const [userSerpInfoError, setUserSerpInfoError] = useState<string | null>(
     null,
   );
-  const errorClassName = useClassName(
-    (theme) => ({
-      color: theme.text.secondary,
-      fontFamily:
-        'ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace',
-      whiteSpace: "pre-wrap",
-    }),
-    [],
-  );
   return (
-    <Section id={props.id} aria-labelledby={`${id}-title`}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      id={props.id}
+      aria-labelledby={`${id}-title`}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_userSerpInfoSection")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <Editor
                 height="300px"
                 resizable
@@ -533,18 +581,18 @@ function UserSerpInfoSection(props: { id: string }) {
                   setUserInputDirty(true);
                 }}
               />
-            </RowItem>
-          </Row>
-          <Row>
-            <RowItem expanded>
+            </div>
+          </div>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <Link href={getWebsiteURL("/docs/serpinfo")}>
                 {translate("options_userSerpInfoDocumentationLink")}
               </Link>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.primary)}
                 disabled={!userInputDirty}
-                primary
                 onClick={async () => {
                   const strictParseResult = parse(userInput, {
                     strict: true,
@@ -568,31 +616,33 @@ function UserSerpInfoSection(props: { id: string }) {
               >
                 {translate("options_saveUserSerpInfo")}
               </Button>
-            </RowItem>
-          </Row>
+            </div>
+          </div>
           {userSerpInfoError && (
-            <Row>
-              <RowItem expanded>
-                <pre className={errorClassName}>{userSerpInfoError}</pre>
-              </RowItem>
-            </Row>
+            <div className={rowStyles.row}>
+              <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+                <pre className={pageStyles.error}>{userSerpInfoError}</pre>
+              </div>
+            </div>
           )}
-        </SectionItem>
-      </SectionBody>
-    </Section>
+        </div>
+      </div>
+    </section>
   );
 }
 
 function OptionsImpl() {
   use(storageStore.attachPromise);
   return (
-    <Container>
-      {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
-      <BasicSettingsSection id="basic-settings" />
-      <RemoteSerpInfoSection id="remote-serpinfo" />
-      <UserSerpInfoSection id="user-serpinfo" />
-      {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
-    </Container>
+    <div className={containerStyles.wrapper}>
+      <div className={containerStyles.container}>
+        {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+        <BasicSettingsSection id="basic-settings" />
+        <RemoteSerpInfoSection id="remote-serpinfo" />
+        <UserSerpInfoSection id="user-serpinfo" />
+        {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+      </div>
+    </div>
   );
 }
 

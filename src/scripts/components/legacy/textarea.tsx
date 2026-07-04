@@ -1,7 +1,7 @@
 import React from "react";
-import { DISABLED_OPACITY } from "./constants.ts";
-import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import { DISABLED_OPACITY } from "../constants.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 
 export type TextAreaProps = React.JSX.IntrinsicElements["textarea"] & {
   breakAll?: boolean;

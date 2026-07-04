@@ -1,0 +1,9 @@
+.link {
+  color: var(--ub-color-link);
+  outline: none;
+  text-decoration: none;
+}
+
+.link:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+}

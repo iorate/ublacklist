@@ -1,22 +1,11 @@
+import { Button } from "@base-ui/react/button";
+import clsx from "clsx";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
-import { Button } from "../../components/button.tsx";
+import buttonStyles from "../../components/button.module.css";
 import { Label, LabelWrapper, SubLabel } from "../../components/label.tsx";
-import { Row, RowItem } from "../../components/row.tsx";
-import {
-  Section,
-  SectionBody,
-  SectionHeader,
-  SectionItem,
-  SectionTitle,
-} from "../../components/section.tsx";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderCell,
-  TableHeaderRow,
-} from "../../components/table.tsx";
-import { useClassName } from "../../components/utilities.ts";
+import rowStyles from "../../components/row.module.css";
+import sectionStyles from "../../components/section.module.css";
+import tableStyles from "../../components/table.module.css";
 import { EnableSubscriptionURL } from "../../shared/enable-subscription-url.tsx";
 import { translate } from "../../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../../shared/messages.ts";
@@ -26,6 +15,7 @@ import type { SubscriptionId, Subscriptions } from "../../shared/types.ts";
 import { numberEntries, numberKeys } from "../../shared/utilities.ts";
 import { SetIntervalItem } from "../set-interval-item.tsx";
 import { AddDialog } from "./add-dialog.tsx";
+import localStyles from "./index.module.css";
 import { ManageSubscription } from "./row.tsx";
 
 export type OptionsQuery = {
@@ -61,54 +51,55 @@ export const ManageSubscriptions: React.FC<{
     [],
   );
 
-  const emptyClass = useClassName(
-    () => ({
-      minHeight: "3em",
-      textAlign: "center",
-    }),
-    [],
-  );
-
   return (
-    <SectionItem>
-      <Row>
-        <RowItem expanded>
+    <div className={sectionStyles.item}>
+      <div className={rowStyles.row}>
+        <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <LabelWrapper>
             <Label>{translate("options_subscriptionFeature")}</Label>
             <SubLabel>
               {translate("options_subscriptionFeatureDescription")}
             </SubLabel>
           </LabelWrapper>
-        </RowItem>
-        <RowItem>
+        </div>
+        <div className={rowStyles.rowItem}>
           <Button
+            className={clsx(buttonStyles.button, buttonStyles.primary)}
             data-testid="add-subscription-button"
-            primary
             onClick={() => {
               setAddDialogOpen(true);
             }}
           >
             {translate("options_addSubscriptionButton")}
           </Button>
-        </RowItem>
-      </Row>
+        </div>
+      </div>
       {numberKeys(subscriptions).length ? (
-        <Row>
-          <RowItem expanded>
-            <Table>
-              <TableHeader>
-                <TableHeaderRow>
-                  <TableHeaderCell width="2.25em" />
-                  <TableHeaderCell>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <table className={tableStyles.table}>
+              <thead>
+                <tr>
+                  <th
+                    className={tableStyles.headerCell}
+                    style={{ width: "2.25em" }}
+                  />
+                  <th className={tableStyles.headerCell}>
                     {translate("options_subscriptionNameHeader")}
-                  </TableHeaderCell>
-                  <TableHeaderCell width="20%">
+                  </th>
+                  <th
+                    className={tableStyles.headerCell}
+                    style={{ width: "20%" }}
+                  >
                     {translate("options_subscriptionUpdateResultHeader")}
-                  </TableHeaderCell>
-                  <TableHeaderCell width="calc(0.75em + 36px)" />
-                </TableHeaderRow>
-              </TableHeader>
-              <TableBody>
+                  </th>
+                  <th
+                    className={tableStyles.headerCell}
+                    style={{ width: "calc(0.75em + 36px)" }}
+                  />
+                </tr>
+              </thead>
+              <tbody>
                 {numberEntries(subscriptions)
                   .sort(([id1], [id2]) => id1 - id2)
                   .map(([id, subscription]) => (
@@ -119,20 +110,21 @@ export const ManageSubscriptions: React.FC<{
                       updating={updating[id] ?? false}
                     />
                   ))}
-              </TableBody>
-            </Table>
-          </RowItem>
-        </Row>
+              </tbody>
+            </table>
+          </div>
+        </div>
       ) : (
-        <Row className={emptyClass}>
-          <RowItem expanded>
+        <div className={clsx(rowStyles.row, localStyles.empty)}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             {translate("options_noSubscriptionsAdded")}
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       )}
-      <Row right>
-        <RowItem>
+      <div className={clsx(rowStyles.row, rowStyles.right)}>
+        <div className={rowStyles.rowItem}>
           <Button
+            className={clsx(buttonStyles.button, buttonStyles.secondary)}
             disabled={
               !Object.values(subscriptions).filter(
                 (subscription) => subscription.enabled ?? true,
@@ -151,8 +143,8 @@ export const ManageSubscriptions: React.FC<{
           >
             {translate("options_updateAllSubscriptionsNowButton")}
           </Button>
-        </RowItem>
-      </Row>
+        </div>
+      </div>
       <AddDialog
         close={() => {
           setAddDialogOpen(false);
@@ -163,7 +155,7 @@ export const ManageSubscriptions: React.FC<{
         initialURL={queryRef.current?.addSubscriptionURL ?? ""}
         open={addDialogOpen}
       />
-    </SectionItem>
+    </div>
   );
 };
 
@@ -174,13 +166,17 @@ export const SubscriptionSection: React.FC<{
   const id = useId();
   const subscriptions = storageStore.use.subscriptions();
   return (
-    <Section aria-labelledby={`${id}-title`} id={props.id}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      aria-labelledby={`${id}-title`}
+      id={props.id}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_subscriptionTitle")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
         <ManageSubscriptions
           query={props.query}
           subscriptions={subscriptions}
@@ -188,7 +184,7 @@ export const SubscriptionSection: React.FC<{
         <Suspense fallback={null}>
           <EnableSubscriptionURL type="ruleset" />
         </Suspense>
-        <SectionItem>
+        <div className={sectionStyles.item}>
           <SetIntervalItem
             disabled={
               !Object.values(subscriptions).filter(
@@ -199,8 +195,8 @@ export const SubscriptionSection: React.FC<{
             label={translate("options_updateInterval")}
             valueOptions={[60, 120, 180, 360, 720, 1440]}
           />
-        </SectionItem>
-      </SectionBody>
-    </Section>
+        </div>
+      </div>
+    </section>
   );
 };

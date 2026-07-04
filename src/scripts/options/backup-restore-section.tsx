@@ -1,15 +1,11 @@
+import { Button } from "@base-ui/react/button";
+import clsx from "clsx";
 import { useId, useState } from "react";
 import { z } from "zod";
-import { Button } from "../components/button.tsx";
+import buttonStyles from "../components/button.module.css";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import {
-  Section,
-  SectionBody,
-  SectionHeader,
-  SectionItem,
-  SectionTitle,
-} from "../components/section.tsx";
+import rowStyles from "../components/row.module.css";
+import sectionStyles from "../components/section.module.css";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage } from "../shared/messages.ts";
@@ -26,22 +22,27 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
   const [fileInvalid, setFileInvalid] = useState(false);
 
   return (
-    <Section aria-labelledby={`${id}-title`} id={props.id}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      aria-labelledby={`${id}-title`}
+      id={props.id}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_backupRestoreTitle")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <LabelWrapper>
                 <Label>{translate("options_backupSettingsLabel")}</Label>
               </LabelWrapper>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={async () => {
                   const items = await sendMessage("backup-settings");
                   downloadTextFile(
@@ -60,12 +61,12 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
               >
                 {translate("options_backupSettingsButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </SectionItem>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
+            </div>
+          </div>
+        </div>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <LabelWrapper>
                 <Label>{translate("options_restoreSettingsLabel")}</Label>
                 {fileInvalid && (
@@ -77,9 +78,10 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
                   </SubLabel>
                 )}
               </LabelWrapper>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={async () => {
                   const text = await uploadTextFile("application/json");
                   if (text == null) {
@@ -134,18 +136,19 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
               >
                 {translate("options_restoreSettingsButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </SectionItem>
-        <SectionItem>
-          <Row>
-            <RowItem expanded>
+            </div>
+          </div>
+        </div>
+        <div className={sectionStyles.item}>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <LabelWrapper>
                 <Label>{translate("options_resetSettingsLabel")}</Label>
               </LabelWrapper>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={async () => {
                   const confirmed = window.confirm(
                     translate("options_resetSettingsConfirmation"),
@@ -160,10 +163,10 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
               >
                 {translate("options_resetSettingsButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </SectionItem>
-      </SectionBody>
-    </Section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };

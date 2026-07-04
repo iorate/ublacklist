@@ -1,41 +1,21 @@
-import React from "react";
+import type React from "react";
 import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import styles from "./link.module.css";
 
 export type LinkProps = React.JSX.IntrinsicElements["a"] & {
   disabled?: boolean;
 };
 
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  function Link({ disabled = false, ...props }, ref) {
-    const className = useClassName(
-      (theme) => ({
-        color: theme.link.text,
-        outline: "none",
-        textDecoration: "none",
-        "&:focus": {
-          boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-        },
-        "&:focus:not(:focus-visible)": {
-          boxShadow: "none",
-        },
-        "&:focus:not(:-moz-focusring)": {
-          boxShadow: "none",
-        },
-      }),
-      [],
-    );
-    return (
-      <a
-        {...applyClassName(props, className)}
-        {...(disabled ? {} : { href: props.href })}
-        ref={ref}
-        rel="noopener noreferrer"
-        target="_blank"
-      />
-    );
-  },
-);
+export function Link({ disabled = false, ...props }: LinkProps) {
+  return (
+    <a
+      {...applyClassName(props, styles.link ?? "")}
+      {...(disabled ? {} : { href: props.href })}
+      rel="noopener noreferrer"
+      target="_blank"
+    />
+  );
+}
 
 export function expandLinks(text: string, disabled = false): React.ReactNode {
   const children: React.ReactNode[] = [];

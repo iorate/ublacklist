@@ -1,5 +1,8 @@
+import { Button } from "@base-ui/react/button";
+import { Input } from "@base-ui/react/input";
+import clsx from "clsx";
 import { useId, useState } from "react";
-import { Button } from "../../components/button.tsx";
+import buttonStyles from "../../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -7,13 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/dialog.tsx";
-import { Input } from "../../components/input.tsx";
+import inputStyles from "../../components/input.module.css";
 import {
   ControlLabel,
   LabelWrapper,
   SubLabel,
 } from "../../components/label.tsx";
-import { Row, RowItem } from "../../components/row.tsx";
+import rowStyles from "../../components/row.module.css";
 import { Select, SelectOption } from "../../components/select.tsx";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
@@ -53,14 +56,15 @@ const AddForm: React.FC<{
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-url`}>
                 {translate("options_addSubscriptionDialog_urlLabel")}
               </ControlLabel>
             </LabelWrapper>
             <Input
+              className={inputStyles.input}
               data-testid="add-subscription-dialog-url-input"
               id={`${id}-url`}
               pattern="https?:.*"
@@ -76,10 +80,10 @@ const AddForm: React.FC<{
                 setURLValid(valid);
               }}
             />
-          </RowItem>
-        </Row>
-        <Row>
-          <RowItem expanded>
+          </div>
+        </div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-type`}>
                 {translate("options_addSubscriptionDialog_typeLabel")}
@@ -99,10 +103,10 @@ const AddForm: React.FC<{
                 {translate("options_addSubscriptionDialog_typeDomains")}
               </SelectOption>
             </Select>
-          </RowItem>
-        </Row>
-        <Row>
-          <RowItem expanded>
+          </div>
+        </div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-name`}>
                 {translate("options_addSubscriptionDialog_nameLabel")}
@@ -112,6 +116,7 @@ const AddForm: React.FC<{
               </SubLabel>
             </LabelWrapper>
             <Input
+              className={inputStyles.input}
               data-testid="add-subscription-dialog-name-input"
               id={`${id}-name`}
               value={name}
@@ -119,24 +124,25 @@ const AddForm: React.FC<{
                 setName(e.currentTarget.value);
               }}
             />
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
             <Button
+              className={clsx(buttonStyles.button, buttonStyles.secondary)}
               data-testid="add-subscription-dialog-cancel-button"
               onClick={close}
             >
               {translate("cancelButton")}
             </Button>
-          </RowItem>
-          <RowItem>
+          </div>
+          <div className={rowStyles.rowItem}>
             <Button
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
               data-testid="add-subscription-dialog-add-button"
               disabled={!urlValid}
-              primary
               onClick={async () => {
                 if (!(await requestPermission([url]))) {
                   return;
@@ -155,8 +161,8 @@ const AddForm: React.FC<{
             >
               {translate("options_addSubscriptionDialog_addButton")}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </>
   );

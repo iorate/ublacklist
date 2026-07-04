@@ -1,0 +1,20 @@
+.input {
+  background: transparent;
+  border: solid 1px var(--ub-color-border);
+  border-radius: 4px;
+  color: var(--ub-color-text-primary);
+  display: block;
+  font: inherit;
+  line-height: 1.5;
+  padding: 0.5em 0.625em;
+  width: 100%;
+}
+
+.input:disabled {
+  opacity: 0.38;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+  outline: none;
+}

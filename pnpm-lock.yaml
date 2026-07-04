@@ -50,6 +50,9 @@ importers:
       '@ublacklist/serpinfo':
         specifier: 1.1.0
         version: 1.1.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       colord:
         specifier: 2.9.3
         version: 2.9.3
@@ -776,6 +779,10 @@ packages:
 
   chrome-types@0.1.432:
     resolution: {integrity: sha512-OxdCEdtImIf8xlc8n2nnh699hTaI5p3a5TaFdSScToEf/HzLGUOzSVf2usZD0UOvPeDWcJv93Lwj/yvSlY+zmA==}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   colord@2.9.3:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
@@ -2060,6 +2067,8 @@ snapshots:
   charenc@0.0.2: {}
 
   chrome-types@0.1.432: {}
+
+  clsx@2.1.1: {}
 
   colord@2.9.3: {}
 

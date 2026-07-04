@@ -1,7 +1,7 @@
 import React from "react";
-import { MENU_ITEM_CLASS } from "./constants.ts";
-import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import { MENU_ITEM_CLASS } from "../constants.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 
 export type MenuItemProps = React.JSX.IntrinsicElements["button"];
 

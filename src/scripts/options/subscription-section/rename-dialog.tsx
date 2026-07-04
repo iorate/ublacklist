@@ -1,5 +1,8 @@
+import { Button } from "@base-ui/react/button";
+import { Input } from "@base-ui/react/input";
+import clsx from "clsx";
 import { useId, useState } from "react";
-import { Button } from "../../components/button.tsx";
+import buttonStyles from "../../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -7,13 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/dialog.tsx";
-import { Input } from "../../components/input.tsx";
+import inputStyles from "../../components/input.module.css";
 import {
   ControlLabel,
   LabelWrapper,
   SubLabel,
 } from "../../components/label.tsx";
-import { Row, RowItem } from "../../components/row.tsx";
+import rowStyles from "../../components/row.module.css";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import type { Subscription, SubscriptionId } from "../../shared/types.ts";
@@ -33,8 +36,8 @@ const RenameForm: React.FC<{
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper fullWidth>
               <ControlLabel for={`${id}-name`}>
                 {translate("options_addSubscriptionDialog_nameLabel")}
@@ -44,23 +47,29 @@ const RenameForm: React.FC<{
               </SubLabel>
             </LabelWrapper>
             <Input
+              className={inputStyles.input}
               id={`${id}-name`}
               value={name}
               onChange={(e) => {
                 setName(e.currentTarget.value);
               }}
             />
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button onClick={close}>{translate("cancelButton")}</Button>
-          </RowItem>
-          <RowItem>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
             <Button
-              primary
+              className={clsx(buttonStyles.button, buttonStyles.secondary)}
+              onClick={close}
+            >
+              {translate("cancelButton")}
+            </Button>
+          </div>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
               onClick={async () => {
                 await sendMessage("rename-subscription", subscriptionId, name);
                 close();
@@ -68,8 +77,8 @@ const RenameForm: React.FC<{
             >
               {translate("options_renameSubscriptionDialog_renameButton")}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </>
   );

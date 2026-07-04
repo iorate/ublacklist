@@ -1,0 +1,13 @@
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  padding: 0.75em 0;
+}
+
+.item:not(:first-child) {
+  border-top: solid 1px var(--ub-color-separator);
+}
