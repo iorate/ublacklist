@@ -2,7 +2,6 @@ import { Button } from "@base-ui/react/button";
 import { Input } from "@base-ui/react/input";
 import clsx from "clsx";
 import { useId, useState } from "react";
-import buttonStyles from "../../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -10,14 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../../components/dialog.tsx";
-import inputStyles from "../../components/input.module.css";
-import labelStyles from "../../components/label.module.css";
-import rowStyles from "../../components/row.module.css";
 import { Select, SelectOption } from "../../components/select.tsx";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import { requestPermission } from "../../shared/permissions.ts";
 import type { Subscription, SubscriptionType } from "../../shared/types.ts";
+import buttonStyles from "../../styles/button.module.css";
+import inputStyles from "../../styles/input.module.css";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
 
 function AddForm({
   close,

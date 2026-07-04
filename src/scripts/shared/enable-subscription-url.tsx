@@ -1,10 +1,10 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { use, useState } from "react";
-import buttonStyles from "../components/button.module.css";
-import labelStyles from "../components/label.module.css";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
+import buttonStyles from "../styles/button.module.css";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
 import { browser } from "./browser.ts";
 import {
   rulesetSubscriptionURL,

@@ -2,7 +2,7 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import dotsVertical from "@mdi/svg/svg/dots-vertical.svg";
 import clsx from "clsx";
 import type React from "react";
-import iconButtonStyles from "./icon-button.module.css";
+import iconButtonStyles from "../styles/icon-button.module.css";
 import styles from "./menu.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
 
