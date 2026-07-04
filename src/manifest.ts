@@ -1,4 +1,4 @@
-import { GOOGLE_MATCHES } from "./common/google-matches.ts";
+import { GOOGLE_MATCHES } from "./shared/google-matches.ts";
 
 export type ManifestContext = {
   browser: "chrome" | "edge" | "firefox" | "safari";
@@ -44,7 +44,7 @@ export function getManifest(context: ManifestContext) {
         js: [
           browser === "safari"
             ? "scripts/import-content-script.js"
-            : "scripts/serpinfo/content-script.js",
+            : "scripts/content-script.js",
         ],
         run_at: "document_start",
       },
@@ -99,12 +99,10 @@ export function getManifest(context: ManifestContext) {
         matches: ["*://*/*"],
         resources: [
           "pages/options.html",
-          "pages/serpinfo/options.html",
-          ...(browser === "safari"
-            ? ["scripts/serpinfo/content-script.js"]
-            : []),
+          "pages/serpinfo-options.html",
+          ...(browser === "safari" ? ["scripts/content-script.js"] : []),
           ...(debug && (browser === "chrome" || browser === "edge")
-            ? ["scripts/serpinfo/content-script.js.map"]
+            ? ["scripts/content-script.js.map"]
             : []),
         ],
       },

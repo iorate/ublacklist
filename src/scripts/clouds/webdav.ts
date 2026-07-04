@@ -6,8 +6,8 @@ import {
   getPatcher,
   type WebDAVClientError,
 } from "webdav";
-import type { WebDAV, WebDAVParams } from "../types.ts";
-import { UnexpectedResponse } from "../utilities.ts";
+import type { WebDAV, WebDAVParams } from "../shared/types.ts";
+import { UnexpectedResponse } from "../shared/utilities.ts";
 
 dayjs.extend(dayjsUTC);
 

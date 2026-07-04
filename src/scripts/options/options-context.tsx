@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { type Browser, browser } from "../browser.ts";
-import { loadAllFromLocalStorage } from "../local-storage.ts";
-import type { LocalStorageItems } from "../types.ts";
+import { type Browser, browser } from "../shared/browser.ts";
+import { loadAllFromLocalStorage } from "../shared/local-storage.ts";
+import type { LocalStorageItems } from "../shared/types.ts";
 
 export type OptionsQuery = {
   addSubscriptionName: string | null;

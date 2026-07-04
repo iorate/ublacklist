@@ -2,15 +2,19 @@ import cog from "@mdi/svg/svg/cog.svg";
 import type { Props, SearchResult } from "@ublacklist/ruleset";
 import * as punycode from "punycode/";
 import React, { useId, useMemo, useState } from "react";
-import icon from "../icons/icon.svg";
-import { ScopedBaseline } from "./components/baseline.tsx";
-import { Button } from "./components/button.tsx";
+import icon from "../../icons/icon.svg";
+import { ScopedBaseline } from "../components/baseline.tsx";
+import { Button } from "../components/button.tsx";
 import {
   FOCUS_DEFAULT_CLASS,
   FOCUS_END_CLASS,
   FOCUS_START_CLASS,
-} from "./components/constants.ts";
-import { Details, DetailsBody, DetailsSummary } from "./components/details.tsx";
+} from "../components/constants.ts";
+import {
+  Details,
+  DetailsBody,
+  DetailsSummary,
+} from "../components/details.tsx";
 import {
   Dialog,
   DialogBody,
@@ -18,31 +22,31 @@ import {
   DialogHeader,
   DialogTitle,
   EmbeddedDialog,
-} from "./components/dialog.tsx";
-import { Icon } from "./components/icon.tsx";
-import { IconButton } from "./components/icon-button.tsx";
-import { ControlLabel, Label, LabelWrapper } from "./components/label.tsx";
-import { MenuItem } from "./components/menu.tsx";
-import { Row, RowItem } from "./components/row.tsx";
-import { SplitButton } from "./components/split-button.tsx";
-import { StylesProvider } from "./components/styles.tsx";
-import { TextArea } from "./components/textarea.tsx";
+} from "../components/dialog.tsx";
+import { Icon } from "../components/icon.tsx";
+import { IconButton } from "../components/icon-button.tsx";
+import { ControlLabel, Label, LabelWrapper } from "../components/label.tsx";
+import { MenuItem } from "../components/menu.tsx";
+import { Row, RowItem } from "../components/row.tsx";
+import { SplitButton } from "../components/split-button.tsx";
+import { StylesProvider } from "../components/styles.tsx";
+import { TextArea } from "../components/textarea.tsx";
 import {
   darkTheme,
   lightTheme,
   ThemeProvider,
   useTheme,
-} from "./components/theme.tsx";
-import { useClassName } from "./components/utilities.ts";
+} from "../components/theme.tsx";
+import { useClassName } from "../components/utilities.ts";
 import type {
   InteractiveRuleset,
   Patch,
   PatchMode,
-} from "./interactive-ruleset.ts";
-import { translate } from "./locales.ts";
-import { getRegistrableDomain } from "./registrable-domain.ts";
-import type { DialogTheme, MessageName0 } from "./types.ts";
-import { svgToDataURL } from "./utilities.ts";
+} from "../shared/interactive-ruleset.ts";
+import { translate } from "../shared/locales.ts";
+import { getRegistrableDomain } from "../shared/registrable-domain.ts";
+import type { DialogTheme, MessageName0 } from "../shared/types.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -1,15 +1,15 @@
 import { createRoot } from "react-dom/client";
-import { Baseline } from "./components/baseline.tsx";
-import { Container } from "./components/container.tsx";
-import { AutoThemeProvider } from "./components/theme.tsx";
-import { translate } from "./locales.ts";
-import { AboutSection } from "./options/about-section.tsx";
-import { AppearanceSection } from "./options/appearance-section.tsx";
-import { BackupRestoreSection } from "./options/backup-restore-section.tsx";
-import { GeneralSection } from "./options/general-section.tsx";
-import { OptionsContextProvider } from "./options/options-context.tsx";
-import { SubscriptionSection } from "./options/subscription-section.tsx";
-import { SyncSection } from "./options/sync-section.tsx";
+import { Baseline } from "../components/baseline.tsx";
+import { Container } from "../components/container.tsx";
+import { AutoThemeProvider } from "../components/theme.tsx";
+import { translate } from "../shared/locales.ts";
+import { AboutSection } from "./about-section.tsx";
+import { AppearanceSection } from "./appearance-section.tsx";
+import { BackupRestoreSection } from "./backup-restore-section.tsx";
+import { GeneralSection } from "./general-section.tsx";
+import { OptionsContextProvider } from "./options-context.tsx";
+import { SubscriptionSection } from "./subscription-section.tsx";
+import { SyncSection } from "./sync-section.tsx";
 
 const Options: React.FC = () => (
   <AutoThemeProvider>

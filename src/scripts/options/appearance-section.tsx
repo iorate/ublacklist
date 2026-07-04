@@ -21,10 +21,13 @@ import {
   SectionTitle,
 } from "../components/section.tsx";
 import { useClassName } from "../components/utilities.ts";
-import { defaultBlockColor, defaultHighlightColor } from "../constants.ts";
-import { saveToLocalStorage } from "../local-storage.ts";
-import { translate } from "../locales.ts";
-import { svgToDataURL } from "../utilities.ts";
+import {
+  defaultBlockColor,
+  defaultHighlightColor,
+} from "../shared/constants.ts";
+import { saveToLocalStorage } from "../shared/local-storage.ts";
+import { translate } from "../shared/locales.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 import { useOptionsContext } from "./options-context.tsx";
 
 type ColorItemKey = "linkColor" | "blockColor";

@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 import { z } from "zod";
-import { browser } from "../browser.ts";
-import { postMessage } from "../messages.ts";
-import { updateAllRemote as updateAllRemoteSerpInfo } from "../serpinfo/background.ts";
-import * as SerpInfoSettings from "../serpinfo/settings.ts";
-import type { Result, Subscriptions, SyncForce } from "../types.ts";
+import { browser } from "../shared/browser.ts";
+import { postMessage } from "../shared/messages.ts";
+import * as SerpInfoSettings from "../shared/serpinfo-settings.ts";
+import type { Result, Subscriptions, SyncForce } from "../shared/types.ts";
 import {
   errorResult,
   Mutex,
@@ -13,7 +12,7 @@ import {
   parseJSON,
   successResult,
   toPlainRuleset,
-} from "../utilities.ts";
+} from "../shared/utilities.ts";
 import { syncFile } from "./clouds.ts";
 import {
   loadAllFromRawStorage,
@@ -21,6 +20,7 @@ import {
   type RawStorageItems,
   saveToRawStorage,
 } from "./raw-storage.ts";
+import { updateAllRemote as updateAllRemoteSerpInfo } from "./serpinfo.ts";
 import { updateAll as updateAllSubscriptions } from "./subscriptions.ts";
 
 const SYNC_DELAY = 5; // in seconds

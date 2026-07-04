@@ -1,6 +1,5 @@
 import { useId, useMemo } from "react";
 import icon from "../../icons/icon.svg";
-import { browser } from "../browser.ts";
 import { Icon } from "../components/icon.tsx";
 import { Indent } from "../components/indent.tsx";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
@@ -14,8 +13,9 @@ import {
   SectionTitle,
 } from "../components/section.tsx";
 import { useClassName } from "../components/utilities.ts";
-import { getWebsiteURL, translate } from "../locales.ts";
-import { svgToDataURL } from "../utilities.ts";
+import { browser } from "../shared/browser.ts";
+import { getWebsiteURL, translate } from "../shared/locales.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 
 export const AboutSection: React.FC<{ id: string }> = (props) => {
   const id = useId();

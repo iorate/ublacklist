@@ -1,7 +1,5 @@
-import { MatchPattern } from "@ublacklist/match-pattern";
 import dayjs from "dayjs";
 import { Suspense, useEffect, useId, useState } from "react";
-import { browser } from "../browser.ts";
 import { Badge } from "../components/badge.tsx";
 import { Button } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
@@ -44,43 +42,26 @@ import {
   TableRow,
 } from "../components/table.tsx";
 import { useClassName, usePrevious } from "../components/utilities.ts";
-import { permissionExemptOrigins } from "../constants.ts";
-import { translate } from "../locales.ts";
-import { addMessageListeners, sendMessage } from "../messages.ts";
-import { EnableSubscriptionURL } from "../serpinfo/enable-subscription-url.tsx";
+import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
+import { translate } from "../shared/locales.ts";
+import { addMessageListeners, sendMessage } from "../shared/messages.ts";
+import { requestPermission } from "../shared/permissions.ts";
 import type {
   Subscription,
   SubscriptionId,
   Subscriptions,
   SubscriptionType,
-} from "../types.ts";
+} from "../shared/types.ts";
 import {
-  AltURL,
   getSubscriptionDisplayName,
   isErrorResult,
   numberEntries,
   numberKeys,
-} from "../utilities.ts";
+} from "../shared/utilities.ts";
 import { FromNow } from "./from-now.tsx";
 import { useOptionsContext } from "./options-context.tsx";
 import { RulesetEditor } from "./ruleset-editor.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
-
-async function requestPermission(urls: readonly string[]): Promise<boolean> {
-  const origins: string[] = [];
-  const exemptPattern = new MatchPattern(
-    permissionExemptOrigins.map((origin) => `${origin}/*`),
-  );
-  for (const url of urls) {
-    if (exemptPattern.test(url)) {
-      continue;
-    }
-    const u = new AltURL(url);
-    origins.push(`${u.scheme}://${u.host}/*`);
-  }
-  // Don't call `permissions.request` when unnecessary. re #110
-  return origins.length ? browser.permissions.request({ origins }) : true;
-}
 
 const AddSubscriptionDialog: React.FC<
   {

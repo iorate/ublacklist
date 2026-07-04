@@ -2,7 +2,6 @@ import cog from "@mdi/svg/svg/cog.svg";
 import { MatchPattern } from "@ublacklist/match-pattern";
 import { useId, useState } from "react";
 import icon from "../../icons/icon.svg";
-import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import {
   FOCUS_DEFAULT_CLASS,
@@ -21,10 +20,11 @@ import { IconButton } from "../components/icon-button.tsx";
 import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { Switch } from "../components/switch.tsx";
-import { loadFromLocalStorage } from "../local-storage.ts";
-import { translate } from "../locales.ts";
-import { sendMessage, sendMessageToTab } from "../messages.ts";
-import { svgToDataURL } from "../utilities.ts";
+import { browser } from "../shared/browser.ts";
+import { loadFromLocalStorage } from "../shared/local-storage.ts";
+import { translate } from "../shared/locales.ts";
+import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -181,7 +181,7 @@ export function EnableSerpInfoEmbeddedDialog() {
               primary
               onClick={async () => {
                 await browser.tabs.create({
-                  url: "/pages/serpinfo/options.html",
+                  url: "/pages/serpinfo-options.html",
                 });
                 window.close();
               }}

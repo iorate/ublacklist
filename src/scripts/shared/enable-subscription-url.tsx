@@ -1,15 +1,15 @@
 import { use, useState } from "react";
-import { browser } from "../browser.ts";
 import { Button } from "../components/button.tsx";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { SectionItem } from "../components/section.tsx";
+import { browser } from "./browser.ts";
 import {
   rulesetSubscriptionURL,
   serpinfoSubscriptionURL,
   subscriptionURLOrigin,
-} from "../constants.ts";
-import { translate } from "../locales.ts";
+} from "./constants.ts";
+import { translate } from "./locales.ts";
 
 const hasPermissionPromise = browser.permissions.contains({
   origins: [`${subscriptionURLOrigin}/*`],

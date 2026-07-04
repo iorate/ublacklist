@@ -1,6 +1,6 @@
 import dotsVertical from "@mdi/svg/svg/dots-vertical.svg";
 import React, { useLayoutEffect, useRef, useState } from "react";
-import { svgToDataURL } from "../utilities.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from "./constants.ts";
 import { applyClassName, useInnerRef } from "./helpers.tsx";
 import { IconButton } from "./icon-button.tsx";
