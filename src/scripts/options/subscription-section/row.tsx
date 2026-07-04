@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import badgeStyles from "../../components/badge.module.css";
 import styles from "../../components/checkbox.module.css";
-import { ControlLabel, LabelWrapper } from "../../components/label.tsx";
+import labelStyles from "../../components/label.module.css";
 import { Menu, MenuItem } from "../../components/menu.tsx";
 import tableStyles from "../../components/table.module.css";
 import { translate } from "../../shared/locales.ts";
@@ -44,16 +44,16 @@ export const ManageSubscription: React.FC<{
         </Checkbox.Root>
       </td>
       <td className={tableStyles.cell}>
-        <LabelWrapper>
-          <ControlLabel for={checkboxId}>
+        <div className={labelStyles.wrapper}>
+          <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
             {getSubscriptionDisplayName(subscription)}
             {subscription.type && subscription.type !== "ruleset" ? (
               <span className={clsx(badgeStyles.badge, rowStyles.badge)}>
                 {subscription.type}
               </span>
             ) : null}
-          </ControlLabel>
-        </LabelWrapper>
+          </label>
+        </div>
       </td>
       <td className={tableStyles.cell}>
         {updating ? (

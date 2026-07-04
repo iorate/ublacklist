@@ -11,11 +11,7 @@ import {
   DialogTitle,
 } from "../../components/dialog.tsx";
 import inputStyles from "../../components/input.module.css";
-import {
-  ControlLabel,
-  LabelWrapper,
-  SubLabel,
-} from "../../components/label.tsx";
+import labelStyles from "../../components/label.module.css";
 import rowStyles from "../../components/row.module.css";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
@@ -38,14 +34,17 @@ const RenameForm: React.FC<{
       <DialogBody>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-name`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-name`}
+              >
                 {translate("options_addSubscriptionDialog_nameLabel")}
-              </ControlLabel>
-              <SubLabel>
+              </label>
+              <div className={labelStyles.subLabel}>
                 {translate("options_addSubscriptionDialog_nameDescription")}
-              </SubLabel>
-            </LabelWrapper>
+              </div>
+            </div>
             <Input
               className={inputStyles.input}
               id={`${id}-name`}

@@ -8,12 +8,7 @@ import { ColorPicker } from "../components/color-picker.tsx";
 import { TemplateIcon } from "../components/icon.tsx";
 import iconButtonStyles from "../components/icon-button.module.css";
 import indentStyles from "../components/indent.module.css";
-import {
-  ControlLabel,
-  Label,
-  LabelWrapper,
-  SubLabel,
-} from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import listStyles from "../components/list.module.css";
 import styles from "../components/radio.module.css";
 import rowStyles from "../components/row.module.css";
@@ -47,9 +42,9 @@ const SetColorItem: React.FC<{
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{label}</Label>
-          </LabelWrapper>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>{label}</div>
+          </div>
         </div>
       </div>
       <div className={rowStyles.row}>
@@ -80,11 +75,14 @@ const SetColorItem: React.FC<{
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper>
-                  <ControlLabel for={`${itemKey}UseDefault`}>
+                <div className={labelStyles.wrapper}>
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${itemKey}UseDefault`}
+                  >
                     {translate("options_colorUseDefault")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
             </div>
             <div className={rowStyles.row}>
@@ -100,11 +98,14 @@ const SetColorItem: React.FC<{
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper>
-                  <ControlLabel for={`${itemKey}Specify`}>
+                <div className={labelStyles.wrapper}>
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${itemKey}Specify`}
+                  >
                     {translate("options_colorSpecify")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
               <div className={rowStyles.rowItem}>
                 <ColorPicker
@@ -142,13 +143,17 @@ const SetHighlightColors: React.FC = () => {
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{translate("options_highlightColors")}</Label>
-            <SubLabel>{translate("options_highlightDescription")}</SubLabel>
-            <SubLabel>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_highlightColors")}
+            </div>
+            <div className={labelStyles.subLabel}>
+              {translate("options_highlightDescription")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_blacklistExample", "@1*://*.example.com/*")}
-            </SubLabel>
-          </LabelWrapper>
+            </div>
+          </div>
         </div>
         <div className={rowStyles.rowItem}>
           <button
@@ -182,14 +187,17 @@ const SetHighlightColors: React.FC = () => {
               <li className={listStyles.item} key={key}>
                 <div className={rowStyles.row}>
                   <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                    <LabelWrapper>
-                      <Label id={`highlightColor${index}`}>
+                    <div className={labelStyles.wrapper}>
+                      <div
+                        className={labelStyles.label}
+                        id={`highlightColor${index}`}
+                      >
                         {translate(
                           "options_highlightColorNth",
                           String(index + 1),
                         )}
-                      </Label>
-                    </LabelWrapper>
+                      </div>
+                    </div>
                   </div>
                   <div className={rowStyles.rowItem}>
                     <ColorPicker
@@ -260,9 +268,11 @@ const SetDialogTheme: React.FC = () => {
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{translate("options_dialogTheme")}</Label>
-          </LabelWrapper>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_dialogTheme")}
+            </div>
+          </div>
         </div>
       </div>
       <div className={rowStyles.row}>
@@ -286,11 +296,14 @@ const SetDialogTheme: React.FC = () => {
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper>
-                  <ControlLabel for={`${id}-default`}>
+                <div className={labelStyles.wrapper}>
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-default`}
+                  >
                     {translate("options_dialogThemeDefault")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
             </div>
             <div className={rowStyles.row}>
@@ -306,11 +319,14 @@ const SetDialogTheme: React.FC = () => {
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper>
-                  <ControlLabel for={`${id}-light`}>
+                <div className={labelStyles.wrapper}>
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-light`}
+                  >
                     {translate("options_dialogThemeLight")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
             </div>
             <div className={rowStyles.row}>
@@ -326,11 +342,14 @@ const SetDialogTheme: React.FC = () => {
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper>
-                  <ControlLabel for={`${id}-dark`}>
+                <div className={labelStyles.wrapper}>
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-dark`}
+                  >
                     {translate("options_dialogThemeDark")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
             </div>
           </RadioGroup>

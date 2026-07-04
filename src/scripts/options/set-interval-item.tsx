@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import { ControlLabel, LabelWrapper } from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import rowStyles from "../components/row.module.css";
 import "../shared/dayjs-locales.ts";
 import { Select, SelectOption } from "../components/select.tsx";
@@ -24,9 +24,11 @@ export const SetIntervalItem: React.FC<{
   return (
     <div className={clsx(rowStyles.row, localStyles.row)}>
       <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-        <LabelWrapper>
-          <ControlLabel for={itemKey}>{label}</ControlLabel>
-        </LabelWrapper>
+        <div className={labelStyles.wrapper}>
+          <label className={labelStyles.controlLabel} htmlFor={itemKey}>
+            {label}
+          </label>
+        </div>
       </div>
       <div className={rowStyles.rowItem}>
         <Select

@@ -29,12 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import {
-  ControlLabel,
-  Label,
-  LabelWrapper,
-  SubLabel,
-} from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import { Link } from "../components/link.tsx";
 import styles from "../components/switch.module.css";
 import { AutoThemeProvider } from "../components/theme.tsx";
@@ -92,12 +87,14 @@ function BasicSettingsSection(props: { id: string }) {
         <div className={sectionStyles.item}>
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper>
-                <Label>{translate("options_accessPermissionLabel")}</Label>
-                <SubLabel>
+              <div className={labelStyles.wrapper}>
+                <div className={labelStyles.label}>
+                  {translate("options_accessPermissionLabel")}
+                </div>
+                <div className={labelStyles.subLabel}>
                   {translate("options_accessPermissionDescription")}
-                </SubLabel>
-              </LabelWrapper>
+                </div>
+              </div>
             </div>
             <div className={rowStyles.rowItem}>
               <Button
@@ -222,27 +219,33 @@ function RemoteSerpInfoSection(props: { id: string }) {
                             rowStyles.expanded,
                           )}
                         >
-                          <LabelWrapper>
-                            <Label>{name}</Label>
-                            {description && <SubLabel>{description}</SubLabel>}
+                          <div className={labelStyles.wrapper}>
+                            <div className={labelStyles.label}>{name}</div>
+                            {description && (
+                              <div className={labelStyles.subLabel}>
+                                {description}
+                              </div>
+                            )}
                             {version && (
-                              <SubLabel>
+                              <div className={labelStyles.subLabel}>
                                 {`${translate("options_remoteSerpInfoVersion")}: ${version}`}
-                              </SubLabel>
+                              </div>
                             )}
                             {lastModified && (
-                              <SubLabel>
+                              <div className={labelStyles.subLabel}>
                                 {`${translate("options_remoteSerpInfoLastModified")}: ${dayjs(
                                   lastModified,
                                 )
                                   .locale(translate("lang"))
                                   .format("LL")}`}
-                              </SubLabel>
+                              </div>
                             )}
                             {error && (
-                              <SubLabel>{translate("error", error)}</SubLabel>
+                              <div className={labelStyles.subLabel}>
+                                {translate("error", error)}
+                              </div>
                             )}
-                          </LabelWrapper>
+                          </div>
                         </div>
                         <div className={rowStyles.rowItem}>
                           <button
@@ -437,11 +440,11 @@ function AddRemoteSerpInfoForm({
       <DialogBody>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-url`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label className={labelStyles.controlLabel} htmlFor={`${id}-url`}>
                 {translate("options_addRemoteSerpInfoDialog_urlLabel")}
-              </ControlLabel>
-            </LabelWrapper>
+              </label>
+            </div>
             <Input
               className={inputStyles.input}
               id={`${id}-url`}

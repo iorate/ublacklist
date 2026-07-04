@@ -16,12 +16,7 @@ import {
 } from "../components/dialog.tsx";
 import indentStyles from "../components/indent.module.css";
 import inputStyles from "../components/input.module.css";
-import {
-  ControlLabel,
-  Label,
-  LabelWrapper,
-  SubLabel,
-} from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import listStyles from "../components/list.module.css";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
@@ -146,14 +141,19 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
           <>
             <div className={rowStyles.row}>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper fullWidth>
-                  <ControlLabel for={`${id}-webdav-url`}>
+                <div
+                  className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}
+                >
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-webdav-url`}
+                  >
                     {translate("clouds_webdavUrlLabel")}
-                  </ControlLabel>
-                  <SubLabel>
+                  </label>
+                  <div className={labelStyles.subLabel}>
                     {translate("clouds_webdavUrlDescription")}
-                  </SubLabel>
-                </LabelWrapper>
+                  </div>
+                </div>
                 <Input
                   className={inputStyles.input}
                   disabled={phase !== "none"}
@@ -175,11 +175,16 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
             </div>
             <div className={rowStyles.row}>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper fullWidth>
-                  <ControlLabel for={`${id}-webdav-username`}>
+                <div
+                  className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}
+                >
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-webdav-username`}
+                  >
                     {translate("clouds_webdavUsernameLabel")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
                 <Input
                   className={inputStyles.input}
                   disabled={phase !== "none"}
@@ -193,11 +198,16 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
             </div>
             <div className={rowStyles.row}>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper fullWidth>
-                  <ControlLabel for={`${id}-webdav-password`}>
+                <div
+                  className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}
+                >
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-webdav-password`}
+                  >
                     {translate("clouds_webdavPasswordLabel")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
                 <Input
                   className={inputStyles.input}
                   disabled={phase !== "none"}
@@ -228,11 +238,19 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                 </div>
               </div>
               <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                <LabelWrapper disabled={phase !== "none" || forceAltFlow}>
-                  <ControlLabel for={`${id}-use-alt-flow`}>
+                <div
+                  className={clsx(
+                    labelStyles.wrapper,
+                    (phase !== "none" || forceAltFlow) && labelStyles.disabled,
+                  )}
+                >
+                  <label
+                    className={labelStyles.controlLabel}
+                    htmlFor={`${id}-use-alt-flow`}
+                  >
                     {translate("options_turnOnSyncDialog_useAltFlow")}
-                  </ControlLabel>
-                </LabelWrapper>
+                  </label>
+                </div>
               </div>
             </div>
             {(forceAltFlow || useAltFlow) && (
@@ -250,13 +268,18 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
             {(phase === "auth-alt" || phase === "conn-alt") && (
               <div className={rowStyles.row}>
                 <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-                  <LabelWrapper fullWidth>
-                    <ControlLabel for={`${id}-auth-code`}>
+                  <div
+                    className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}
+                  >
+                    <label
+                      className={labelStyles.controlLabel}
+                      htmlFor={`${id}-auth-code`}
+                    >
                       {translate(
                         "options_turnOnSyncDialog_altFlowAuthCodeLabel",
                       )}
-                    </ControlLabel>
-                  </LabelWrapper>
+                    </label>
+                  </div>
                   <textarea
                     className={clsx(
                       textareaStyles.textArea,
@@ -278,11 +301,14 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
         )}
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-initial-direction`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-initial-direction`}
+              >
                 {translate("options_turnOnSyncDialog_initialSyncLabel")}
-              </ControlLabel>
-            </LabelWrapper>
+              </label>
+            </div>
             <Select
               disabled={phase !== "none"}
               id={`${id}-initial-direction`}
@@ -457,14 +483,20 @@ const TurnOnSync: React.FC<{
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           {backendId ? (
-            <LabelWrapper>
-              <Label>{translate(messageNames[backendId].syncTurnedOn)}</Label>
-            </LabelWrapper>
+            <div className={labelStyles.wrapper}>
+              <div className={labelStyles.label}>
+                {translate(messageNames[backendId].syncTurnedOn)}
+              </div>
+            </div>
           ) : (
-            <LabelWrapper>
-              <Label>{translate("options_syncFeature")}</Label>
-              <SubLabel>{translate("options_syncFeatureDescription")}</SubLabel>
-            </LabelWrapper>
+            <div className={labelStyles.wrapper}>
+              <div className={labelStyles.label}>
+                {translate("options_syncFeature")}
+              </div>
+              <div className={labelStyles.subLabel}>
+                {translate("options_syncFeatureDescription")}
+              </div>
+            </div>
           )}
         </div>
         <div className={rowStyles.rowItem}>
@@ -527,9 +559,11 @@ const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{translate("options_syncResult")}</Label>
-            <SubLabel>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_syncResult")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {syncing ? (
                 translate("options_syncRunning")
               ) : !props.backendId || !syncResult ? (
@@ -552,8 +586,8 @@ const SyncNow: React.FC<{ backendId: SyncBackendId | false | null }> = (
                   </Button>
                 </>
               ) : null}
-            </SubLabel>
-          </LabelWrapper>
+            </div>
+          </div>
         </div>
         <div className={rowStyles.rowItem}>
           <Button
@@ -575,9 +609,11 @@ const SyncCategories: React.FC = () => (
   <div className={sectionStyles.item}>
     <div className={rowStyles.row}>
       <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-        <LabelWrapper>
-          <Label>{translate("options_syncCategories")}</Label>
-        </LabelWrapper>
+        <div className={labelStyles.wrapper}>
+          <div className={labelStyles.label}>
+            {translate("options_syncCategories")}
+          </div>
+        </div>
       </div>
     </div>
     <div className={rowStyles.row}>
