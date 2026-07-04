@@ -216,7 +216,7 @@ const SetHighlightColors: React.FC = () => {
                   <RowItem>
                     {index === colorsAndKeys.length - 1 ? (
                       <IconButton
-                        aria-label={translate("options_highlightColorAdd")}
+                        aria-label={translate("options_highlightColorRemove")}
                         iconURL={svgToDataURL(removeIcon)}
                         onClick={() => {
                           colorsAndKeys.pop();
