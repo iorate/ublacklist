@@ -1,8 +1,9 @@
+import { Checkbox } from "@base-ui/react/checkbox";
 import dayjs from "dayjs";
 import dayjsDuration from "dayjs/plugin/duration";
 import { useEffect, useId, useState } from "react";
 import { Button, LinkButton } from "../components/button.tsx";
-import { CheckBox } from "../components/checkbox.tsx";
+import styles from "../components/checkbox.module.css";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
@@ -257,18 +258,20 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
             <Row>
               <RowItem>
                 <Indent>
-                  <CheckBox
+                  <Checkbox.Root
                     checked={forceAltFlow || state.useAltFlow}
+                    className={styles.checkbox}
                     disabled={state.phase !== "none" || forceAltFlow}
                     id={`${id}-use-alt-flow`}
-                    onChange={(e) => {
-                      const { checked } = e.currentTarget;
+                    onCheckedChange={(checked) => {
                       setState((s) => ({
                         ...s,
                         useAltFlow: checked,
                       }));
                     }}
-                  />
+                  >
+                    <Checkbox.Indicator className={styles.indicator} />
+                  </Checkbox.Root>
                 </Indent>
               </RowItem>
               <RowItem expanded>

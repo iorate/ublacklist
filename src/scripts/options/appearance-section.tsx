@@ -1,3 +1,5 @@
+import { Radio } from "@base-ui/react/radio";
+import { RadioGroup } from "@base-ui/react/radio-group";
 import removeIcon from "@mdi/svg/svg/delete.svg";
 import addIcon from "@mdi/svg/svg/plus.svg";
 import { useId, useRef, useState } from "react";
@@ -11,7 +13,7 @@ import {
   SubLabel,
 } from "../components/label.tsx";
 import { List, ListItem } from "../components/list.tsx";
-import { RadioButton } from "../components/radio-button.tsx";
+import styles from "../components/radio.module.css";
 import { Row, RowItem } from "../components/row.tsx";
 import {
   Section,
@@ -54,78 +56,75 @@ const SetColorItem: React.FC<{
           </LabelWrapper>
         </RowItem>
       </Row>
-      <Row>
-        <RowItem>
-          <Indent>
-            <RadioButton
-              checked={!specifyColor}
-              id={`${itemKey}UseDefault`}
-              name={itemKey}
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  setSpecifyColor(false);
-                  void saveToLocalStorage(
-                    { [itemKey]: "default" } as Partial<
-                      Record<ColorItemKey, string>
-                    >,
-                    "options",
-                  );
-                }
+      <RadioGroup
+        className={styles.group}
+        value={specifyColor ? "specify" : "default"}
+        onValueChange={(value) => {
+          const specify = value === "specify";
+          setSpecifyColor(specify);
+          void saveToLocalStorage(
+            { [itemKey]: specify ? color : "default" } as Partial<
+              Record<ColorItemKey, string>
+            >,
+            "options",
+          );
+        }}
+      >
+        <Row>
+          <RowItem>
+            <Indent>
+              <Radio.Root
+                className={styles.radio}
+                id={`${itemKey}UseDefault`}
+                value="default"
+              >
+                <Radio.Indicator className={styles.indicator} />
+              </Radio.Root>
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper>
+              <ControlLabel for={`${itemKey}UseDefault`}>
+                {translate("options_colorUseDefault")}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem>
+            <Indent>
+              <Radio.Root
+                className={styles.radio}
+                id={`${itemKey}Specify`}
+                value="specify"
+              >
+                <Radio.Indicator className={styles.indicator} />
+              </Radio.Root>
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper>
+              <ControlLabel for={`${itemKey}Specify`}>
+                {translate("options_colorSpecify")}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+          <RowItem>
+            <ColorPicker
+              aria-label={label}
+              value={color}
+              onChange={(value) => {
+                setSpecifyColor(true);
+                setColor(value);
+                void saveToLocalStorage(
+                  { [itemKey]: value } as Partial<Record<ColorItemKey, string>>,
+                  "options",
+                );
               }}
             />
-          </Indent>
-        </RowItem>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={`${itemKey}UseDefault`}>
-              {translate("options_colorUseDefault")}
-            </ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-      </Row>
-      <Row>
-        <RowItem>
-          <Indent>
-            <RadioButton
-              checked={specifyColor}
-              id={`${itemKey}Specify`}
-              name={itemKey}
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  setSpecifyColor(true);
-                  void saveToLocalStorage(
-                    { [itemKey]: color } as Partial<
-                      Record<ColorItemKey, string>
-                    >,
-                    "options",
-                  );
-                }
-              }}
-            />
-          </Indent>
-        </RowItem>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={`${itemKey}Specify`}>
-              {translate("options_colorSpecify")}
-            </ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-        <RowItem>
-          <ColorPicker
-            aria-label={label}
-            value={color}
-            onChange={(value) => {
-              setSpecifyColor(true);
-              setColor(value);
-              void saveToLocalStorage(
-                { [itemKey]: value } as Partial<Record<ColorItemKey, string>>,
-                "options",
-              );
-            }}
-          />
-        </RowItem>
-      </Row>
+          </RowItem>
+        </Row>
+      </RadioGroup>
     </SectionItem>
   );
 };
@@ -259,78 +258,74 @@ const SetDialogTheme: React.FC = () => {
           </LabelWrapper>
         </RowItem>
       </Row>
-      <Row>
-        <RowItem>
-          <Indent>
-            <RadioButton
-              checked={dialogTheme === "default"}
-              id={`${id}-default`}
-              name="dialogTheme"
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  void saveToLocalStorage(
-                    { dialogTheme: "default" },
-                    "options",
-                  );
-                }
-              }}
-            />
-          </Indent>
-        </RowItem>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={`${id}-default`}>
-              {translate("options_dialogThemeDefault")}
-            </ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-      </Row>
-      <Row>
-        <RowItem>
-          <Indent>
-            <RadioButton
-              checked={dialogTheme === "light"}
-              id={`${id}-light`}
-              name="dialogTheme"
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  void saveToLocalStorage({ dialogTheme: "light" }, "options");
-                }
-              }}
-            />
-          </Indent>
-        </RowItem>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={`${id}-light`}>
-              {translate("options_dialogThemeLight")}
-            </ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-      </Row>
-      <Row>
-        <RowItem>
-          <Indent>
-            <RadioButton
-              checked={dialogTheme === "dark"}
-              id={`${id}-dark`}
-              name="dialogTheme"
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  void saveToLocalStorage({ dialogTheme: "dark" }, "options");
-                }
-              }}
-            />
-          </Indent>
-        </RowItem>
-        <RowItem expanded>
-          <LabelWrapper>
-            <ControlLabel for={`${id}-dark`}>
-              {translate("options_dialogThemeDark")}
-            </ControlLabel>
-          </LabelWrapper>
-        </RowItem>
-      </Row>
+      <RadioGroup
+        className={styles.group}
+        value={dialogTheme}
+        onValueChange={(value: "default" | "light" | "dark") => {
+          void saveToLocalStorage({ dialogTheme: value }, "options");
+        }}
+      >
+        <Row>
+          <RowItem>
+            <Indent>
+              <Radio.Root
+                className={styles.radio}
+                id={`${id}-default`}
+                value="default"
+              >
+                <Radio.Indicator className={styles.indicator} />
+              </Radio.Root>
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper>
+              <ControlLabel for={`${id}-default`}>
+                {translate("options_dialogThemeDefault")}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem>
+            <Indent>
+              <Radio.Root
+                className={styles.radio}
+                id={`${id}-light`}
+                value="light"
+              >
+                <Radio.Indicator className={styles.indicator} />
+              </Radio.Root>
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper>
+              <ControlLabel for={`${id}-light`}>
+                {translate("options_dialogThemeLight")}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+        </Row>
+        <Row>
+          <RowItem>
+            <Indent>
+              <Radio.Root
+                className={styles.radio}
+                id={`${id}-dark`}
+                value="dark"
+              >
+                <Radio.Indicator className={styles.indicator} />
+              </Radio.Root>
+            </Indent>
+          </RowItem>
+          <RowItem expanded>
+            <LabelWrapper>
+              <ControlLabel for={`${id}-dark`}>
+                {translate("options_dialogThemeDark")}
+              </ControlLabel>
+            </LabelWrapper>
+          </RowItem>
+        </Row>
+      </RadioGroup>
     </SectionItem>
   );
 };

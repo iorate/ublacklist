@@ -1,3 +1,4 @@
+import { Switch } from "@base-ui/react/switch";
 import deleteSVG from "@mdi/svg/svg/delete.svg";
 import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
@@ -38,7 +39,7 @@ import {
   SectionItem,
   SectionTitle,
 } from "../components/section.tsx";
-import { Switch } from "../components/switch.tsx";
+import styles from "../components/switch.module.css";
 import { Text } from "../components/text.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { useClassName } from "../components/utilities.ts";
@@ -276,11 +277,11 @@ function RemoteSerpInfoSection(props: { id: string }) {
                           />
                         </RowItem>
                         <RowItem spacing="calc(0.625em + 6px)">
-                          <Switch
+                          <Switch.Root
                             checked={r.enabled}
+                            className={styles.switch}
                             id={r.url}
-                            onChange={async (e) => {
-                              const value = e.currentTarget.checked;
+                            onCheckedChange={async (value) => {
                               if (value && r.parsed) {
                                 const origins = collectMatches(r.parsed);
                                 if (
@@ -298,7 +299,9 @@ function RemoteSerpInfoSection(props: { id: string }) {
                                 value,
                               );
                             }}
-                          />
+                          >
+                            <Switch.Thumb className={styles.thumb} />
+                          </Switch.Root>
                         </RowItem>
                       </Row>
                     </ListItem>
