@@ -43,6 +43,10 @@ function getScripts(): string[] {
   ];
 }
 
+function getModules(): string[] {
+  return ["scripts/block-dialog.ts"];
+}
+
 function getDefine(context: Context): Record<string, string> {
   const { browser, debug, e2e } = context;
   const vars = {
@@ -84,14 +88,17 @@ async function buildManifestJSON(context: Context) {
   );
 }
 
-// Returns the input paths.
-async function buildScripts(context: Context): Promise<string[]> {
+async function runEsbuild(
+  context: Context,
+  entryPoints: readonly string[],
+  format: "iife" | "esm",
+): Promise<string[]> {
   const { debug, srcDir, destDir } = context;
   const { metafile } = await esbuild.build({
     bundle: true,
     define: getDefine(context),
-    entryPoints: getScripts().map((file) => path.join(srcDir, file)),
-    format: "iife",
+    entryPoints: entryPoints.map((file) => path.join(srcDir, file)),
+    format,
     jsx: "automatic",
     jsxDev: debug,
     loader: { ".svg": "text", ".yml": "text" },
@@ -102,6 +109,15 @@ async function buildScripts(context: Context): Promise<string[]> {
     sourcemap: debug,
   });
   return Object.keys(metafile.inputs);
+}
+
+// Returns the input paths.
+async function buildScripts(context: Context): Promise<string[]> {
+  const [scriptInputs, moduleInputs] = await Promise.all([
+    runEsbuild(context, getScripts(), "iife"),
+    runEsbuild(context, getModules(), "esm"),
+  ]);
+  return [...scriptInputs, ...moduleInputs];
 }
 
 // From the esbuild input paths, collects the root directory of each bundled

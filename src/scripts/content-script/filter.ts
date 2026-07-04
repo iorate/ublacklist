@@ -18,7 +18,7 @@ import {
   runRootCommand,
 } from "./commands.ts";
 import { attributes as a } from "./constants.ts";
-import { closeDialog, openDialog } from "./dialog.tsx";
+import { closeDialog, openDialog, preloadDialog } from "./dialog.ts";
 
 export const blockedResultCountStore = createStore(() => 0);
 
@@ -256,6 +256,7 @@ class Filter {
               openDialog(result.url, result.props, this.#ruleset, event);
             }
           },
+          preloadDialog,
         },
         result.description,
       );
