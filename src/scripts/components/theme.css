@@ -1,4 +1,4 @@
-.ub-root {
+.root {
   color-scheme: light;
 
   --ub-color-background: rgb(248, 249, 250);
@@ -29,7 +29,7 @@
   --ub-switch-knob-border: rgb(218, 220, 224);
 }
 
-.ub-root[data-theme="dark"] {
+.root[data-theme="dark"] {
   color-scheme: dark;
 
   --ub-color-background: rgb(32, 33, 36);
