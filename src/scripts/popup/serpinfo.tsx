@@ -1,3 +1,4 @@
+import { Switch } from "@base-ui/react/switch";
 import cog from "@mdi/svg/svg/cog.svg";
 import { MatchPattern } from "@ublacklist/match-pattern";
 import { useId, useState } from "react";
@@ -19,7 +20,7 @@ import { Icon } from "../components/icon.tsx";
 import { IconButton } from "../components/icon-button.tsx";
 import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
-import { Switch } from "../components/switch.tsx";
+import styles from "../components/switch.module.css";
 import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
@@ -67,12 +68,12 @@ export function SerpInfoEmbeddedDialog({
             </LabelWrapper>
           </RowItem>
           <RowItem>
-            <Switch
+            <Switch.Root
               checked={!hideBlockedResults}
-              className={FOCUS_START_CLASS}
+              className={`${styles.switch} ${FOCUS_START_CLASS}`}
               id={`${id}-switch`}
-              onChange={(e) => {
-                const hideBlockedResults = !e.currentTarget.checked;
+              onCheckedChange={(checked) => {
+                const hideBlockedResults = !checked;
                 setHideBlockedResults(hideBlockedResults);
                 sendMessageToTab(
                   tabId,
@@ -82,7 +83,9 @@ export function SerpInfoEmbeddedDialog({
                   console.error(error);
                 });
               }}
-            />
+            >
+              <Switch.Thumb className={styles.thumb} />
+            </Switch.Root>
           </RowItem>
         </Row>
       </DialogBody>

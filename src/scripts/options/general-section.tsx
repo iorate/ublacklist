@@ -1,7 +1,8 @@
+import { Checkbox } from "@base-ui/react/checkbox";
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import { useEffect, useId, useState } from "react";
 import { Button, LinkButton } from "../components/button.tsx";
-import { CheckBox } from "../components/checkbox.tsx";
+import styles from "../components/checkbox.module.css";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
@@ -137,14 +138,16 @@ const ImportBlacklistDialog: React.FC<
         <Row>
           <RowItem>
             <Indent>
-              <CheckBox
+              <Checkbox.Root
                 checked={state.append}
+                className={styles.checkbox}
                 id={`${id}-append`}
-                onChange={(e) => {
-                  const { checked } = e.currentTarget;
+                onCheckedChange={(checked) => {
                   setState((s) => ({ ...s, append: checked }));
                 }}
-              />
+              >
+                <Checkbox.Indicator className={styles.indicator} />
+              </Checkbox.Root>
             </Indent>
           </RowItem>
           <RowItem expanded>

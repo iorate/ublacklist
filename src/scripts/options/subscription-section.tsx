@@ -1,8 +1,9 @@
+import { Checkbox } from "@base-ui/react/checkbox";
 import dayjs from "dayjs";
 import { Suspense, useEffect, useId, useState } from "react";
 import { Badge } from "../components/badge.tsx";
 import { Button } from "../components/button.tsx";
-import { CheckBox } from "../components/checkbox.tsx";
+import styles from "../components/checkbox.module.css";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
@@ -415,18 +416,17 @@ const ManageSubscription: React.FC<{
   return (
     <TableRow data-testid="subscription-row">
       <TableCell>
-        <CheckBox
+        <Checkbox.Root
           aria-label={translate("options_subscriptionCheckBoxLabel")}
           checked={subscription.enabled ?? true}
+          className={styles.checkbox}
           id={checkboxId}
-          onChange={(e) => {
-            void sendMessage(
-              "enable-subscription",
-              id,
-              e.currentTarget.checked,
-            );
+          onCheckedChange={(checked) => {
+            void sendMessage("enable-subscription", id, checked);
           }}
-        />
+        >
+          <Checkbox.Indicator className={styles.indicator} />
+        </Checkbox.Root>
       </TableCell>
       <TableCell>
         <LabelWrapper>

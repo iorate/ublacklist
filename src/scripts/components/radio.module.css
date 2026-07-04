@@ -1,0 +1,53 @@
+.group:not(:first-child) {
+  margin-top: 1em;
+}
+
+.radio {
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  height: 16px;
+  position: relative;
+  width: 16px;
+}
+
+.radio::before {
+  border: solid 2px var(--ub-color-text-secondary);
+  border-radius: 50%;
+  content: "";
+  height: 16px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 16px;
+}
+
+.radio[data-checked]::before {
+  border-color: var(--ub-color-accent);
+}
+
+.radio[data-disabled] {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.radio:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+  outline: none;
+}
+
+.indicator {
+  inset: 0;
+  position: absolute;
+}
+
+.indicator[data-checked]::before {
+  background: var(--ub-color-accent);
+  border-radius: 50%;
+  content: "";
+  height: 8px;
+  left: 4px;
+  position: absolute;
+  top: 4px;
+  width: 8px;
+}
