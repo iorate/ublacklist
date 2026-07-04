@@ -27,6 +27,7 @@ import {
   SectionItem,
   SectionTitle,
 } from "../components/section.tsx";
+import { Select, SelectOption } from "../components/select.tsx";
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { browser } from "../shared/browser.ts";
@@ -41,7 +42,6 @@ import {
   uploadTextFile,
 } from "../shared/utilities.ts";
 import { RulesetEditor } from "./ruleset-editor.tsx";
-import { Select, SelectOption } from "./select.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
 
 const ImportBlacklistForm: React.FC<{
@@ -79,8 +79,8 @@ const ImportBlacklistForm: React.FC<{
           <RowItem>
             <Select
               value={source}
-              onChange={(e) => {
-                setSource(e.currentTarget.value as "file" | "pb");
+              onValueChange={(value) => {
+                setSource(value as "file" | "pb");
               }}
             >
               <SelectOption value="file">

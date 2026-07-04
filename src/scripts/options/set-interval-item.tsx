@@ -3,10 +3,10 @@ import { ControlLabel, LabelWrapper } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useClassName } from "../components/utilities.ts";
 import "../shared/dayjs-locales.ts";
+import { Select, SelectOption } from "../components/select.tsx";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
-import { Select, SelectOption } from "./select.tsx";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
 
@@ -41,10 +41,10 @@ export const SetIntervalItem: React.FC<{
           data-testid={itemKey}
           disabled={disabled}
           id={itemKey}
-          value={item}
-          onChange={(e) => {
+          value={String(item)}
+          onValueChange={(value) => {
             void saveToLocalStorage(
-              { [itemKey]: Number(e.currentTarget.value) } as Partial<
+              { [itemKey]: Number(value) } as Partial<
                 Record<IntervalItemKey, number>
               >,
               "options",
@@ -52,7 +52,11 @@ export const SetIntervalItem: React.FC<{
           }}
         >
           {valueOptions.map((value) => (
-            <SelectOption key={value} value={value}>
+            <SelectOption
+              data-testid={`${itemKey}-${value}`}
+              key={value}
+              value={String(value)}
+            >
               {dayjs
                 .duration({ minutes: value })
                 .locale(translate("lang"))

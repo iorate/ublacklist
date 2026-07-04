@@ -180,7 +180,8 @@ test("select changes and persists", async ({ context, extensionId }) => {
   await addSubscription(page);
   const select = page.getByTestId("updateInterval");
   await expect(select).toBeEnabled();
-  await select.selectOption("120");
+  await select.click();
+  await page.getByTestId("updateInterval-120").click();
   await expect
     .poll(
       async () =>
