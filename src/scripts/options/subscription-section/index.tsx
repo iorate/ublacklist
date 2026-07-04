@@ -16,7 +16,7 @@ import { numberEntries, numberKeys } from "../../shared/utilities.ts";
 import { SetIntervalItem } from "../set-interval-item.tsx";
 import { AddDialog } from "./add-dialog.tsx";
 import localStyles from "./index.module.css";
-import { ManageSubscription } from "./row.tsx";
+import { SubscriptionTableRow } from "./table-row.tsx";
 
 export type OptionsQuery = {
   addSubscriptionName: string | null;
@@ -24,7 +24,7 @@ export type OptionsQuery = {
   addSubscriptionType: "ruleset" | "domains" | null;
 };
 
-export function ManageSubscriptions({
+export function SubscriptionTable({
   query,
   subscriptions,
 }: {
@@ -108,7 +108,7 @@ export function ManageSubscriptions({
                 {numberEntries(subscriptions)
                   .sort(([id1], [id2]) => id1 - id2)
                   .map(([id, subscription]) => (
-                    <ManageSubscription
+                    <SubscriptionTableRow
                       id={id}
                       key={id}
                       subscription={subscription}
@@ -182,10 +182,7 @@ export function SubscriptionSection(props: {
         </h1>
       </div>
       <div className={sectionStyles.body}>
-        <ManageSubscriptions
-          query={props.query}
-          subscriptions={subscriptions}
-        />
+        <SubscriptionTable query={props.query} subscriptions={subscriptions} />
         <Suspense fallback={null}>
           <EnableSubscriptionURL type="ruleset" />
         </Suspense>

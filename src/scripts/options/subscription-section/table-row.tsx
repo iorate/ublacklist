@@ -17,10 +17,10 @@ import {
 } from "../../shared/utilities.ts";
 import { FromNow } from "../from-now.tsx";
 import { RenameDialog } from "./rename-dialog.tsx";
-import rowStyles from "./row.module.css";
 import { ShowDialog } from "./show-dialog.tsx";
+import localStyles from "./table-row.module.css";
 
-export function ManageSubscription({
+export function SubscriptionTableRow({
   id,
   subscription,
   updating,
@@ -52,7 +52,7 @@ export function ManageSubscription({
           <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
             {getSubscriptionDisplayName(subscription)}
             {subscription.type && subscription.type !== "ruleset" ? (
-              <span className={clsx(badgeStyles.badge, rowStyles.badge)}>
+              <span className={clsx(badgeStyles.badge, localStyles.badge)}>
                 {subscription.type}
               </span>
             ) : null}
