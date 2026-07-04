@@ -1,10 +1,9 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import menuDown from "@mdi/svg/svg/menu-down.svg";
+import clsx from "clsx";
 import React from "react";
-import { svgToDataURL } from "../shared/utilities.ts";
-import { applyClassName } from "./helpers.tsx";
-import { TemplateIcon } from "./icon.tsx";
 import styles from "./select.module.css";
+import { SvgIcon } from "./svg-icon.tsx";
 
 export type SelectProps = Omit<
   React.JSX.IntrinsicElements["button"],
@@ -18,6 +17,7 @@ export type SelectProps = Omit<
 
 export function Select({
   children,
+  className,
   disabled = false,
   onValueChange,
   value,
@@ -39,14 +39,13 @@ export function Select({
         }
       }}
     >
-      <BaseSelect.Trigger {...applyClassName(props, styles.trigger ?? "")}>
+      <BaseSelect.Trigger
+        {...props}
+        className={clsx(styles.trigger, className)}
+      >
         <BaseSelect.Value className={styles.value ?? ""} />
         <BaseSelect.Icon className={styles.icon ?? ""}>
-          <TemplateIcon
-            color="var(--ub-color-text-secondary)"
-            iconSize="24px"
-            url={svgToDataURL(menuDown)}
-          />
+          <SvgIcon color="var(--ub-color-text-secondary)" svg={menuDown} />
         </BaseSelect.Icon>
       </BaseSelect.Trigger>
       <BaseSelect.Portal>
@@ -71,9 +70,13 @@ export type SelectOptionProps = Omit<
   value?: string;
 };
 
-export function SelectOption({ children, ...props }: SelectOptionProps) {
+export function SelectOption({
+  children,
+  className,
+  ...props
+}: SelectOptionProps) {
   return (
-    <BaseSelect.Item {...applyClassName(props, styles.item ?? "")}>
+    <BaseSelect.Item {...props} className={clsx(styles.item, className)}>
       <BaseSelect.ItemText>{children}</BaseSelect.ItemText>
     </BaseSelect.Item>
   );

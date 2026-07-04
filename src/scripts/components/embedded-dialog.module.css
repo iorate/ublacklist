@@ -1,0 +1,16 @@
+.dialog {
+  background: var(--ub-color-surface);
+  outline: none;
+  padding: 1.5em;
+}
+
+.standard {
+  max-width: 100%;
+  width: 360px;
+}
+
+@media (min-device-width: 360px) {
+  .safari {
+    min-width: 360px;
+  }
+}

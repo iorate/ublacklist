@@ -1,0 +1,51 @@
+.host {
+  word-break: break-all;
+}
+
+.propertiesTable {
+  display: grid;
+  gap: 0.15em 0.75em;
+  grid-template-columns: 6em 1fr;
+}
+
+.propertiesCell {
+  font-family: monospace;
+  line-break: anywhere;
+  max-height: 4.5em;
+  overflow-y: auto;
+  white-space: break-spaces;
+  word-break: break-all;
+}
+
+.rulesToAdd {
+  font-family: monospace;
+  height: calc(1.5em * 2 + 1em + 2px);
+  resize: vertical;
+}
+
+.rules {
+  font-family: monospace;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.noRules {
+  color: var(--ub-color-text-secondary);
+}
+
+.summary {
+  cursor: pointer;
+  outline: none;
+}
+
+.summary:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+}
+
+.detailsBody {
+  margin-top: 1em;
+}
+
+.detailsBody > div:not(:first-child) {
+  margin-top: 1.5em;
+}

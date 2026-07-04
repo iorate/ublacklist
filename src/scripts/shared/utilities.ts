@@ -221,10 +221,6 @@ export function uploadTextFile(mimeType: string): Promise<string | null> {
   });
 }
 
-export function svgToDataURL(svg: string): string {
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
-
 export function parseJSON(text: string): string | undefined {
   try {
     return JSON.parse(text);
