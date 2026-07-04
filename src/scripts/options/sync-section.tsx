@@ -32,6 +32,7 @@ import { TextArea } from "../components/textarea.tsx";
 import { browser } from "../shared/browser.ts";
 import "../shared/dayjs-locales.ts";
 import { Input } from "../components/input.tsx";
+import { Select, SelectOption } from "../components/select.tsx";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../shared/messages.ts";
 import { storageStore } from "../shared/storage-store.ts";
@@ -44,7 +45,6 @@ import type {
 import { AltURL, isErrorResult } from "../shared/utilities.ts";
 import { FromNow } from "./from-now.tsx";
 import { getOS } from "./platform.ts";
-import { Select, SelectOption } from "./select.tsx";
 import { SetBooleanItem } from "./set-boolean-item.tsx";
 import { SetIntervalItem } from "./set-interval-item.tsx";
 
@@ -114,8 +114,8 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
             <Select
               disabled={phase !== "none"}
               value={backendId}
-              onChange={(e) => {
-                setBackendId(e.currentTarget.value as SyncBackendId);
+              onValueChange={(value) => {
+                setBackendId(value as SyncBackendId);
               }}
             >
               <SelectOption value="googleDrive">
@@ -281,8 +281,8 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
               disabled={phase !== "none"}
               id={`${id}-initial-direction`}
               value={initialForce}
-              onChange={(e) => {
-                setInitialForce(e.currentTarget.value as SyncForce);
+              onValueChange={(value) => {
+                setInitialForce(value as SyncForce);
               }}
             >
               <SelectOption value="none">
