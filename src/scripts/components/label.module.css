@@ -18,7 +18,9 @@
 .controlLabel {
   color: var(--ub-color-text-primary);
   cursor: pointer;
+  display: block;
   overflow-wrap: anywhere;
+  width: fit-content;
 }
 
 .subLabel {

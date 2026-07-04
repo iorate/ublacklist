@@ -2,7 +2,7 @@ import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
 import buttonStyles from "../../components/button.module.css";
-import { Label, LabelWrapper, SubLabel } from "../../components/label.tsx";
+import labelStyles from "../../components/label.module.css";
 import rowStyles from "../../components/row.module.css";
 import sectionStyles from "../../components/section.module.css";
 import tableStyles from "../../components/table.module.css";
@@ -55,12 +55,14 @@ export const ManageSubscriptions: React.FC<{
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{translate("options_subscriptionFeature")}</Label>
-            <SubLabel>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_subscriptionFeature")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_subscriptionFeatureDescription")}
-            </SubLabel>
-          </LabelWrapper>
+            </div>
+          </div>
         </div>
         <div className={rowStyles.rowItem}>
           <Button

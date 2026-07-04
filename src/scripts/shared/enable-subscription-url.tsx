@@ -2,7 +2,7 @@ import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { use, useState } from "react";
 import buttonStyles from "../components/button.module.css";
-import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
 import { browser } from "./browser.ts";
@@ -47,18 +47,20 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
       {enabled ? (
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper>
-              <Label>{labels.isEnabled}</Label>
-            </LabelWrapper>
+            <div className={labelStyles.wrapper}>
+              <div className={labelStyles.label}>{labels.isEnabled}</div>
+            </div>
           </div>
         </div>
       ) : (
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper>
-              <Label>{labels.enable}</Label>
-              <SubLabel>{labels.enableDescription}</SubLabel>
-            </LabelWrapper>
+            <div className={labelStyles.wrapper}>
+              <div className={labelStyles.label}>{labels.enable}</div>
+              <div className={labelStyles.subLabel}>
+                {labels.enableDescription}
+              </div>
+            </div>
           </div>
           <div className={rowStyles.rowItem}>
             <Button

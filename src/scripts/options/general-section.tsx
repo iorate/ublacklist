@@ -15,12 +15,7 @@ import {
 import { TemplateIcon } from "../components/icon.tsx";
 import iconButtonStyles from "../components/icon-button.module.css";
 import indentStyles from "../components/indent.module.css";
-import {
-  ControlLabel,
-  Label,
-  LabelWrapper,
-  SubLabel,
-} from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import { expandLinks } from "../components/link.tsx";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
@@ -92,14 +87,14 @@ const ImportBlacklistForm: React.FC<{
         {source === "pb" && (
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper fullWidth>
-                <SubLabel>
+              <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+                <div className={labelStyles.subLabel}>
                   {translate("options_importBlacklistDialog_helper")}
-                </SubLabel>
-                <SubLabel>
+                </div>
+                <div className={labelStyles.subLabel}>
                   {translate("options_blacklistExample", "example.com")}
-                </SubLabel>
-              </LabelWrapper>
+                </div>
+              </div>
               <textarea
                 aria-label={translate("options_importBlacklistDialog_pbLabel")}
                 className={textareaStyles.textArea}
@@ -129,11 +124,14 @@ const ImportBlacklistForm: React.FC<{
             </div>
           </div>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper>
-              <ControlLabel for={`${id}-append`}>
+            <div className={labelStyles.wrapper}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-append`}
+              >
                 {translate("options_importBlacklistDialog_append")}
-              </ControlLabel>
-            </LabelWrapper>
+              </label>
+            </div>
           </div>
         </div>
       </DialogBody>
@@ -227,22 +225,26 @@ const SetBlacklist: React.FC = () => {
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper fullWidth>
-            <Label>{translate("options_blacklistLabel")}</Label>
-            <SubLabel>
+          <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+            <div className={labelStyles.label}>
+              {translate("options_blacklistLabel")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {expandLinks(translate("options_blacklistHelper"))}
-            </SubLabel>
-            <SubLabel>{translate("options_blockByTitle")}</SubLabel>
-            <SubLabel>
+            </div>
+            <div className={labelStyles.subLabel}>
+              {translate("options_blockByTitle")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_blacklistExample", "*://*.example.com/*")}
-            </SubLabel>
-            <SubLabel>
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_blacklistExample", "/example\\.(net|org)/")}
-            </SubLabel>
-            <SubLabel>
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_blacklistExample", "title/Example Domain/")}
-            </SubLabel>
-          </LabelWrapper>
+            </div>
+          </div>
           <RulesetEditor
             height="300px"
             resizable
@@ -332,12 +334,14 @@ const RegisterSearchEngines: React.FC = () => {
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-          <LabelWrapper>
-            <Label>{translate("options_otherSearchEngines")}</Label>
-            <SubLabel>
+          <div className={labelStyles.wrapper}>
+            <div className={labelStyles.label}>
+              {translate("options_otherSearchEngines")}
+            </div>
+            <div className={labelStyles.subLabel}>
               {translate("options_otherSearchEnginesDescription")}
-            </SubLabel>
-          </LabelWrapper>
+            </div>
+          </div>
         </div>
         <div className={rowStyles.rowItem}>
           <button
