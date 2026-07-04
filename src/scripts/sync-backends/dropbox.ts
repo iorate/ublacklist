@@ -1,18 +1,11 @@
 import dayjs from "dayjs";
-import dayjsUTC from "dayjs/plugin/utc";
 import { z } from "zod";
 import type { Cloud } from "../shared/types.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
 import * as Helpers from "./helpers.ts";
 
-dayjs.extend(dayjsUTC);
-
 const APP_KEY = process.env.DROPBOX_API_KEY;
 const APP_SECRET = process.env.DROPBOX_API_SECRET;
-
-function toISOStringSecond(time: dayjs.Dayjs): string {
-  return time.utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
-}
 
 export const dropbox: Cloud = {
   hostPermissions: [],
@@ -59,7 +52,7 @@ export const dropbox: Cloud = {
         path: `/${filename}`,
         mode: "add",
         autorename: false,
-        client_modified: toISOStringSecond(modifiedTime),
+        client_modified: Helpers.toISOStringSecond(modifiedTime),
         mute: true,
         strict_conflict: false,
       }),
@@ -172,7 +165,7 @@ export const dropbox: Cloud = {
         path: id,
         mode: "overwrite",
         autorename: false,
-        client_modified: toISOStringSecond(modifiedTime),
+        client_modified: Helpers.toISOStringSecond(modifiedTime),
         mute: true,
         strict_conflict: false,
       }),

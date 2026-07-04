@@ -1,22 +1,25 @@
 import dayjs from "dayjs";
-import { browserSync } from "../clouds/browser-sync.ts";
-import { webdav } from "../clouds/webdav.ts";
 import { translate } from "../shared/locales.ts";
 import { supportedClouds } from "../shared/supported-clouds.ts";
 import type {
-  Cloud,
   CloudId,
   CloudToken,
   SyncForce,
   WebDAVParams,
 } from "../shared/types.ts";
-import { HTTPError, Mutex } from "../shared/utilities.ts";
+import { Mutex } from "../shared/utilities.ts";
+import { createClient as createBrowserSyncClient } from "../sync-backends/browser-sync.ts";
+import { createClient as createCloudClient } from "../sync-backends/cloud.ts";
+import {
+  createClient as createWebDAVClient,
+  ensureWebDAVFolder,
+} from "../sync-backends/webdav.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
 
 const mutex = new Mutex();
 
-export async function connect(
+export async function connectToCloud(
   id: CloudId,
   authorizationCode: string,
   useAltFlow: boolean,
@@ -60,7 +63,7 @@ export async function connectToWebDAV(
           throw new Error("Already connected to another backend");
         }
       }
-      await webdav.ensureWebDAVFolder(params);
+      await ensureWebDAVFolder(params);
       await saveToRawStorage({
         syncCloudId: "webdav",
         syncCloudToken: params,
@@ -106,107 +109,6 @@ export function disconnect(): Promise<void> {
   });
 }
 
-type Client = {
-  createFile(
-    filename: string,
-    content: string,
-    modifiedTime: dayjs.Dayjs,
-  ): Promise<void>;
-  findFile(
-    filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
-  readFile(id: string): Promise<{ content: string }>;
-  updateFile(
-    id: string,
-    content: string,
-    modifiedTime: dayjs.Dayjs,
-  ): Promise<void>;
-  modifiedTimePrecision: "second" | "millisecond";
-};
-
-function createCloudClient(cloud: Cloud, initialToken: CloudToken): Client {
-  let token = { ...initialToken };
-  const refresh = async (): Promise<void> => {
-    try {
-      const newToken = await cloud.refreshAccessToken(token.refreshToken);
-      token = {
-        accessToken: newToken.accessToken,
-        expiresAt: dayjs().add(newToken.expiresIn, "second").toISOString(),
-        refreshToken: token.refreshToken,
-      };
-      await saveToRawStorage({ syncCloudToken: token });
-    } catch (e: unknown) {
-      if (e instanceof HTTPError && e.status === 400) {
-        await saveToRawStorage({ syncCloudToken: false });
-        throw new Error(translate("unauthorizedError"));
-      }
-      throw e;
-    }
-  };
-  const handleRefresh = async <T>(f: () => Promise<T>): Promise<T> => {
-    if (dayjs().isAfter(dayjs(token.expiresAt))) {
-      await refresh();
-    }
-    try {
-      return await f();
-    } catch (e: unknown) {
-      if (e instanceof HTTPError && e.status === 401) {
-        await refresh();
-        return await f();
-      }
-      throw e;
-    }
-  };
-  return {
-    createFile: (
-      filename: string,
-      content: string,
-      modifiedTime: dayjs.Dayjs,
-    ) =>
-      handleRefresh(() =>
-        cloud.createFile(token.accessToken, filename, content, modifiedTime),
-      ),
-    findFile: (filename: string) =>
-      handleRefresh(() => cloud.findFile(token.accessToken, filename)),
-    readFile: (id: string) =>
-      handleRefresh(() => cloud.readFile(token.accessToken, id)),
-    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
-      handleRefresh(() =>
-        cloud.updateFile(token.accessToken, id, content, modifiedTime),
-      ),
-    modifiedTimePrecision: cloud.modifiedTimePrecision,
-  };
-}
-
-function createWebDAVClient(params: WebDAVParams): Client {
-  return {
-    createFile: async (
-      filename: string,
-      content: string,
-      modifiedTime: dayjs.Dayjs,
-    ) => {
-      // Ensure folder exists in case it was deleted externally
-      await webdav.ensureWebDAVFolder(params);
-      await webdav.writeFile(params, filename, content, modifiedTime);
-    },
-    findFile: (filename: string) => webdav.findFile(params, filename),
-    readFile: (id: string) => webdav.readFile(params, id),
-    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
-      webdav.writeFile(params, id, content, modifiedTime),
-    modifiedTimePrecision: "second",
-  };
-}
-
-function createBrowserSyncClient(): Client {
-  return {
-    createFile: browserSync.createFile,
-    findFile: browserSync.findFile,
-    readFile: browserSync.readFile,
-    updateFile: browserSync.writeFile,
-    modifiedTimePrecision: "millisecond",
-  };
-}
-
 export function syncFile(
   filename: string,
   content: string,
@@ -234,6 +136,12 @@ export function syncFile(
           : createCloudClient(
               supportedClouds[syncCloudId],
               syncCloudToken as CloudToken,
+              {
+                persistToken: (token) =>
+                  saveToRawStorage({ syncCloudToken: token }),
+                onUnauthorized: () =>
+                  saveToRawStorage({ syncCloudToken: false }),
+              },
             );
     const cloudFile = await client.findFile(filename);
     if (force === "upload") {

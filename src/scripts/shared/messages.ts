@@ -30,7 +30,7 @@ type MessageSignatures = {
   "connect-to-browser-sync": (
     initialForce: SyncForce,
   ) => { message: string } | null;
-  "disconnect-from-cloud": () => void;
+  "disconnect-from-sync-backend": () => void;
 
   "save-to-local-storage": (
     items: Readonly<Partial<LocalStorageItemsSavable>>,
