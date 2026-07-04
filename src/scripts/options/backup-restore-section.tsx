@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useId, useState } from "react";
 import { z } from "zod";
 import buttonStyles from "../components/button.module.css";
-import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
 import { browser } from "../shared/browser.ts";
@@ -36,9 +36,11 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
         <div className={sectionStyles.item}>
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper>
-                <Label>{translate("options_backupSettingsLabel")}</Label>
-              </LabelWrapper>
+              <div className={labelStyles.wrapper}>
+                <div className={labelStyles.label}>
+                  {translate("options_backupSettingsLabel")}
+                </div>
+              </div>
             </div>
             <div className={rowStyles.rowItem}>
               <Button
@@ -67,17 +69,19 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
         <div className={sectionStyles.item}>
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper>
-                <Label>{translate("options_restoreSettingsLabel")}</Label>
+              <div className={labelStyles.wrapper}>
+                <div className={labelStyles.label}>
+                  {translate("options_restoreSettingsLabel")}
+                </div>
                 {fileInvalid && (
-                  <SubLabel>
+                  <div className={labelStyles.subLabel}>
                     {translate(
                       "error",
                       translate("options_restoreSettingsInvalidFile"),
                     )}
-                  </SubLabel>
+                  </div>
                 )}
-              </LabelWrapper>
+              </div>
             </div>
             <div className={rowStyles.rowItem}>
               <Button
@@ -142,9 +146,11 @@ export const BackupRestoreSection: React.FC<{ id: string }> = (props) => {
         <div className={sectionStyles.item}>
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper>
-                <Label>{translate("options_resetSettingsLabel")}</Label>
-              </LabelWrapper>
+              <div className={labelStyles.wrapper}>
+                <div className={labelStyles.label}>
+                  {translate("options_resetSettingsLabel")}
+                </div>
+              </div>
             </div>
             <div className={rowStyles.rowItem}>
               <Button

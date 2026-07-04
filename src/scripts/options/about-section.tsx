@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useId, useMemo } from "react";
 import icon from "../../icons/icon.svg";
 import { Icon } from "../components/icon.tsx";
-import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import { Link } from "../components/link.tsx";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
@@ -38,14 +38,14 @@ export const AboutSection: React.FC<{ id: string }> = (props) => {
               </div>
             </div>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              <LabelWrapper>
-                <Label className={styles.name}>
+              <div className={labelStyles.wrapper}>
+                <div className={clsx(labelStyles.label, styles.name)}>
                   {translate("extensionName")}
-                </Label>
-                <SubLabel>{`${translate(
+                </div>
+                <div className={labelStyles.subLabel}>{`${translate(
                   "options_aboutVersion",
-                )}: ${version}`}</SubLabel>
-                <SubLabel>
+                )}: ${version}`}</div>
+                <div className={labelStyles.subLabel}>
                   <Link href={getWebsiteURL("/docs")}>
                     {translate("options_aboutDocumentation")}
                   </Link>
@@ -61,8 +61,8 @@ export const AboutSection: React.FC<{ id: string }> = (props) => {
                   <Link href={thirdPartyNoticesURL}>
                     {translate("options_aboutThirdPartyNotices")}
                   </Link>
-                </SubLabel>
-              </LabelWrapper>
+                </div>
+              </div>
             </div>
           </div>
         </div>

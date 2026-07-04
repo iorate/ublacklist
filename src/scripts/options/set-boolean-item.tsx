@@ -1,6 +1,6 @@
 import { Switch } from "@base-ui/react/switch";
 import clsx from "clsx";
-import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
+import labelStyles from "../components/label.module.css";
 import rowStyles from "../components/row.module.css";
 import styles from "../components/switch.module.css";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
@@ -25,12 +25,16 @@ export const SetBooleanItem: React.FC<{
   return (
     <div className={clsx(rowStyles.row, localStyles.row)}>
       <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-        <LabelWrapper>
-          <ControlLabel for={itemKey}>{label}</ControlLabel>
+        <div className={labelStyles.wrapper}>
+          <label className={labelStyles.controlLabel} htmlFor={itemKey}>
+            {label}
+          </label>
           {subLabels.map((subLabel) => (
-            <SubLabel key={subLabel}>{subLabel}</SubLabel>
+            <div className={labelStyles.subLabel} key={subLabel}>
+              {subLabel}
+            </div>
           ))}
-        </LabelWrapper>
+        </div>
       </div>
       <div className={rowStyles.rowItem}>
         <Switch.Root

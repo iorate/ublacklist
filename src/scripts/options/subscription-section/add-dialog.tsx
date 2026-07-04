@@ -11,11 +11,7 @@ import {
   DialogTitle,
 } from "../../components/dialog.tsx";
 import inputStyles from "../../components/input.module.css";
-import {
-  ControlLabel,
-  LabelWrapper,
-  SubLabel,
-} from "../../components/label.tsx";
+import labelStyles from "../../components/label.module.css";
 import rowStyles from "../../components/row.module.css";
 import { Select, SelectOption } from "../../components/select.tsx";
 import { translate } from "../../shared/locales.ts";
@@ -58,11 +54,11 @@ const AddForm: React.FC<{
       <DialogBody>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-url`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label className={labelStyles.controlLabel} htmlFor={`${id}-url`}>
                 {translate("options_addSubscriptionDialog_urlLabel")}
-              </ControlLabel>
-            </LabelWrapper>
+              </label>
+            </div>
             <Input
               className={inputStyles.input}
               data-testid="add-subscription-dialog-url-input"
@@ -84,11 +80,14 @@ const AddForm: React.FC<{
         </div>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-type`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-type`}
+              >
                 {translate("options_addSubscriptionDialog_typeLabel")}
-              </ControlLabel>
-            </LabelWrapper>
+              </label>
+            </div>
             <Select
               id={`${id}-type`}
               value={type}
@@ -107,14 +106,17 @@ const AddForm: React.FC<{
         </div>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <LabelWrapper fullWidth>
-              <ControlLabel for={`${id}-name`}>
+            <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-name`}
+              >
                 {translate("options_addSubscriptionDialog_nameLabel")}
-              </ControlLabel>
-              <SubLabel>
+              </label>
+              <div className={labelStyles.subLabel}>
                 {translate("options_addSubscriptionDialog_nameDescription")}
-              </SubLabel>
-            </LabelWrapper>
+              </div>
+            </div>
             <Input
               className={inputStyles.input}
               data-testid="add-subscription-dialog-name-input"
