@@ -307,6 +307,7 @@ const SetBlacklist: React.FC = () => {
             </RowItem>
             <RowItem>
               <Button
+                data-testid="save-blacklist-button"
                 disabled={!blacklistDirty}
                 primary
                 onClick={() => {
