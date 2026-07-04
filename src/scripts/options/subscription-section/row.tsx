@@ -74,13 +74,7 @@ export const ManageSubscription: React.FC<{
           aria-label={translate("options_subscriptionMenuButtonLabel")}
           data-testid="subscription-menu-button"
         >
-          <MenuItem
-            onClick={() => {
-              requestAnimationFrame(() => {
-                setShowDialogOpen(true);
-              });
-            }}
-          >
+          <MenuItem onClick={() => setShowDialogOpen(true)}>
             {translate("options_showSubscriptionMenu")}
           </MenuItem>
           <MenuItem
@@ -94,13 +88,7 @@ export const ManageSubscription: React.FC<{
           >
             {translate("options_updateSubscriptionNowMenu")}
           </MenuItem>
-          <MenuItem
-            onClick={() => {
-              requestAnimationFrame(() => {
-                setRenameDialogOpen(true);
-              });
-            }}
-          >
+          <MenuItem onClick={() => setRenameDialogOpen(true)}>
             {translate("options_renameSubscriptionMenu")}
           </MenuItem>
           <MenuItem
