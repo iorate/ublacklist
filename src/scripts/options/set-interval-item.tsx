@@ -44,6 +44,7 @@ export const SetIntervalItem: React.FC<{
       </RowItem>
       <RowItem>
         <Select
+          data-testid={itemKey}
           disabled={disabled}
           id={itemKey}
           value={item}
