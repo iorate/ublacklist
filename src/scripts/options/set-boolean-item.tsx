@@ -48,6 +48,7 @@ export const SetBooleanItem: React.FC<{
       <RowItem>
         <Switch
           checked={item}
+          data-testid={itemKey}
           disabled={disabled}
           id={itemKey}
           onChange={(e) => {

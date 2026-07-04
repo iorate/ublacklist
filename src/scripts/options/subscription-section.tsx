@@ -108,7 +108,12 @@ const AddSubscriptionDialog: React.FC<
   const ok = state.urlValid;
 
   return (
-    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
+    <Dialog
+      aria-labelledby={`${id}-title`}
+      close={close}
+      data-testid="add-subscription-dialog"
+      open={open}
+    >
       <DialogHeader>
         <DialogTitle id={`${id}-title`}>
           {translate("options_addSubscriptionDialog_title")}
@@ -124,6 +129,7 @@ const AddSubscriptionDialog: React.FC<
             </LabelWrapper>
             <Input
               className={FOCUS_START_CLASS}
+              data-testid="add-subscription-dialog-url-input"
               id={`${id}-url`}
               pattern="https?:.*"
               required={true}
@@ -174,6 +180,7 @@ const AddSubscriptionDialog: React.FC<
               </SubLabel>
             </LabelWrapper>
             <Input
+              data-testid="add-subscription-dialog-name-input"
               id={`${id}-name`}
               value={state.name}
               onChange={(e) => {
@@ -189,13 +196,18 @@ const AddSubscriptionDialog: React.FC<
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button className={!ok ? FOCUS_END_CLASS : ""} onClick={close}>
+            <Button
+              className={!ok ? FOCUS_END_CLASS : ""}
+              data-testid="add-subscription-dialog-cancel-button"
+              onClick={close}
+            >
               {translate("cancelButton")}
             </Button>
           </RowItem>
           <RowItem>
             <Button
               className={ok ? FOCUS_END_CLASS : ""}
+              data-testid="add-subscription-dialog-add-button"
               disabled={!ok}
               primary
               onClick={async () => {
@@ -420,7 +432,7 @@ const ManageSubscription: React.FC<{
     [],
   );
   return (
-    <TableRow>
+    <TableRow data-testid="subscription-row">
       <TableCell>
         <CheckBox
           aria-label={translate("options_subscriptionCheckBoxLabel")}
@@ -461,7 +473,10 @@ const ManageSubscription: React.FC<{
         )}
       </TableCell>
       <TableCell>
-        <Menu aria-label={translate("options_subscriptionMenuButtonLabel")}>
+        <Menu
+          aria-label={translate("options_subscriptionMenuButtonLabel")}
+          data-testid="subscription-menu-button"
+        >
           <MenuItem
             onClick={() => {
               requestAnimationFrame(() => {
@@ -495,6 +510,7 @@ const ManageSubscription: React.FC<{
             {translate("options_renameSubscriptionMenu")}
           </MenuItem>
           <MenuItem
+            data-testid="subscription-menu-remove"
             onClick={async () => {
               await sendMessage("remove-subscription", id);
               setSubscriptions((subscriptions) => {
@@ -580,6 +596,7 @@ export const ManageSubscriptions: React.FC<{
         </RowItem>
         <RowItem>
           <Button
+            data-testid="add-subscription-button"
             primary
             onClick={() => {
               setAddSubscriptionDialogOpen(true);
