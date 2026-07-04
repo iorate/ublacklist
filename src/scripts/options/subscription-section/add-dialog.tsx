@@ -27,26 +27,24 @@ const AddForm: React.FC<{
   initialType: SubscriptionType;
 }> = ({ close, initialName, initialURL, initialType }) => {
   const id = useId();
-  const [state, setState] = useState(() => ({
-    url: initialURL,
-    urlValid: (() => {
-      // pattern="https?:.*"
-      // required
-      if (!initialURL || !/^https?:/.test(initialURL)) {
-        return false;
-      }
-      // type="url"
-      try {
-        new URL(initialURL);
-      } catch {
-        return false;
-      }
-      return true;
-    })(),
-    name: initialName,
-    type: initialType,
-  }));
-  const ok = state.urlValid;
+  const [url, setURL] = useState(initialURL);
+  const [urlValid, setURLValid] = useState(() => {
+    // pattern="https?:.*"
+    // required
+    if (!initialURL || !/^https?:/.test(initialURL)) {
+      return false;
+    }
+    // type="url"
+    try {
+      new URL(initialURL);
+    } catch {
+      return false;
+    }
+    return true;
+  });
+  const [name, setName] = useState(initialName);
+  const [type, setType] = useState(initialType);
+  const ok = urlValid;
 
   return (
     <>
@@ -69,13 +67,14 @@ const AddForm: React.FC<{
               pattern="https?:.*"
               required={true}
               type="url"
-              value={state.url}
+              value={url}
               onChange={(e) => {
                 const {
-                  value: url,
-                  validity: { valid: urlValid },
+                  value,
+                  validity: { valid },
                 } = e.currentTarget;
-                setState((s) => ({ ...s, url, urlValid }));
+                setURL(value);
+                setURLValid(valid);
               }}
             />
           </RowItem>
@@ -89,10 +88,9 @@ const AddForm: React.FC<{
             </LabelWrapper>
             <Select
               id={`${id}-type`}
-              value={state.type}
+              value={type}
               onChange={(e) => {
-                const type = e.currentTarget.value as SubscriptionType;
-                setState((s) => ({ ...s, type }));
+                setType(e.currentTarget.value as SubscriptionType);
               }}
             >
               <SelectOption value="ruleset">
@@ -117,10 +115,9 @@ const AddForm: React.FC<{
             <Input
               data-testid="add-subscription-dialog-name-input"
               id={`${id}-name`}
-              value={state.name}
+              value={name}
               onChange={(e) => {
-                const name = e.currentTarget.value;
-                setState((s) => ({ ...s, name }));
+                setName(e.currentTarget.value);
               }}
             />
           </RowItem>
@@ -142,13 +139,13 @@ const AddForm: React.FC<{
               disabled={!ok}
               primary
               onClick={async () => {
-                if (!(await requestPermission([state.url]))) {
+                if (!(await requestPermission([url]))) {
                   return;
                 }
                 const subscription: Subscription = {
-                  name: state.name,
-                  url: state.url,
-                  type: state.type,
+                  name,
+                  url,
+                  type,
                   blacklist: "",
                   updateResult: null,
                   enabled: true,

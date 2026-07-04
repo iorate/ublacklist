@@ -31,7 +31,6 @@ import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { browser } from "../shared/browser.ts";
 import "../shared/dayjs-locales.ts";
-import { omit } from "es-toolkit";
 import { Input } from "../components/input.tsx";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../shared/messages.ts";
@@ -79,36 +78,30 @@ const messageNames: Record<
   },
 };
 
-const initialWebDAVParams = {
-  url: "",
-  urlValid: false,
-  username: "",
-  password: "",
-  path: "",
-};
-
 const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
   const id = useId();
-  const [state, setState] = useState({
-    phase: "none" as "none" | "auth" | "auth-alt" | "conn" | "conn-alt",
-    backendId: "googleDrive" as SyncBackendId,
-    useAltFlow: false,
-    authCode: "",
-    webDAVParams: initialWebDAVParams,
-    errorMessage: "",
-    initialForce: "none" as SyncForce,
-  });
+  const [phase, setPhase] = useState<
+    "none" | "auth" | "auth-alt" | "conn" | "conn-alt"
+  >("none");
+  const [backendId, setBackendId] = useState<SyncBackendId>("googleDrive");
+  const [useAltFlow, setUseAltFlow] = useState(false);
+  const [authCode, setAuthCode] = useState("");
+  const [webDAVURL, setWebDAVURL] = useState("");
+  const [webDAVURLValid, setWebDAVURLValid] = useState(false);
+  const [webDAVUsername, setWebDAVUsername] = useState("");
+  const [webDAVPassword, setWebDAVPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [initialForce, setInitialForce] = useState<SyncForce>("none");
   const forceAltFlow =
-    state.backendId === "webdav" || state.backendId === "browserSync"
+    backendId === "webdav" || backendId === "browserSync"
       ? false
-      : supportedClouds[state.backendId].shouldUseAltFlow(getOS());
+      : supportedClouds[backendId].shouldUseAltFlow(getOS());
   const okButtonEnabled =
-    state.backendId === "webdav"
-      ? state.phase === "none" && state.webDAVParams.urlValid
-      : state.backendId === "browserSync"
+    backendId === "webdav"
+      ? phase === "none" && webDAVURLValid
+      : backendId === "browserSync"
         ? true
-        : state.phase === "none" ||
-          (state.phase === "auth-alt" && state.authCode !== "");
+        : phase === "none" || (phase === "auth-alt" && authCode !== "");
 
   return (
     <>
@@ -119,14 +112,10 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
         <Row>
           <RowItem>
             <Select
-              disabled={state.phase !== "none"}
-              value={state.backendId}
+              disabled={phase !== "none"}
+              value={backendId}
               onChange={(e) => {
-                const { value } = e.currentTarget;
-                setState((s) => ({
-                  ...s,
-                  backendId: value as SyncBackendId,
-                }));
+                setBackendId(e.currentTarget.value as SyncBackendId);
               }}
             >
               <SelectOption value="googleDrive">
@@ -151,12 +140,10 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
         </Row>
         <Row>
           <RowItem expanded>
-            <Text>
-              {translate(messageNames[state.backendId].syncDescription)}
-            </Text>
+            <Text>{translate(messageNames[backendId].syncDescription)}</Text>
           </RowItem>
         </Row>
-        {state.backendId === "webdav" ? (
+        {backendId === "webdav" ? (
           <>
             <Row>
               <RowItem expanded>
@@ -169,25 +156,19 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                   </SubLabel>
                 </LabelWrapper>
                 <Input
-                  disabled={state.phase !== "none"}
+                  disabled={phase !== "none"}
                   id={`${id}-webdav-url`}
                   pattern="https?:.*"
                   placeholder="https://example.com/webdav/"
                   type="url"
-                  value={state.webDAVParams.url}
+                  value={webDAVURL}
                   onChange={(e) => {
                     const {
                       value,
                       validity: { valid },
                     } = e.currentTarget;
-                    setState((s) => ({
-                      ...s,
-                      webDAVParams: {
-                        ...s.webDAVParams,
-                        url: value,
-                        urlValid: valid,
-                      },
-                    }));
+                    setWebDAVURL(value);
+                    setWebDAVURLValid(valid);
                   }}
                 />
               </RowItem>
@@ -200,15 +181,11 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                   </ControlLabel>
                 </LabelWrapper>
                 <Input
-                  disabled={state.phase !== "none"}
+                  disabled={phase !== "none"}
                   id={`${id}-webdav-username`}
-                  value={state.webDAVParams.username}
+                  value={webDAVUsername}
                   onChange={(e) => {
-                    const { value } = e.currentTarget;
-                    setState((s) => ({
-                      ...s,
-                      webDAVParams: { ...s.webDAVParams, username: value },
-                    }));
+                    setWebDAVUsername(e.currentTarget.value);
                   }}
                 />
               </RowItem>
@@ -221,51 +198,42 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                   </ControlLabel>
                 </LabelWrapper>
                 <Input
-                  disabled={state.phase !== "none"}
+                  disabled={phase !== "none"}
                   id={`${id}-webdav-password`}
                   type="password"
-                  value={state.webDAVParams.password}
+                  value={webDAVPassword}
                   onChange={(e) => {
-                    const { value } = e.currentTarget;
-                    setState((s) => ({
-                      ...s,
-                      webDAVParams: { ...s.webDAVParams, password: value },
-                    }));
+                    setWebDAVPassword(e.currentTarget.value);
                   }}
                 />
               </RowItem>
             </Row>
           </>
-        ) : state.backendId === "browserSync" ? null : (
+        ) : backendId === "browserSync" ? null : (
           <>
             <Row>
               <RowItem>
                 <Indent>
                   <Checkbox.Root
-                    checked={forceAltFlow || state.useAltFlow}
+                    checked={forceAltFlow || useAltFlow}
                     className={styles.checkbox}
-                    disabled={state.phase !== "none" || forceAltFlow}
+                    disabled={phase !== "none" || forceAltFlow}
                     id={`${id}-use-alt-flow`}
-                    onCheckedChange={(checked) => {
-                      setState((s) => ({
-                        ...s,
-                        useAltFlow: checked,
-                      }));
-                    }}
+                    onCheckedChange={setUseAltFlow}
                   >
                     <Checkbox.Indicator className={styles.indicator} />
                   </Checkbox.Root>
                 </Indent>
               </RowItem>
               <RowItem expanded>
-                <LabelWrapper disabled={state.phase !== "none" || forceAltFlow}>
+                <LabelWrapper disabled={phase !== "none" || forceAltFlow}>
                   <ControlLabel for={`${id}-use-alt-flow`}>
                     {translate("options_turnOnSyncDialog_useAltFlow")}
                   </ControlLabel>
                 </LabelWrapper>
               </RowItem>
             </Row>
-            {(forceAltFlow || state.useAltFlow) && (
+            {(forceAltFlow || useAltFlow) && (
               <Row>
                 <RowItem expanded>
                   <Text>
@@ -277,7 +245,7 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                 </RowItem>
               </Row>
             )}
-            {(state.phase === "auth-alt" || state.phase === "conn-alt") && (
+            {(phase === "auth-alt" || phase === "conn-alt") && (
               <Row>
                 <RowItem expanded>
                   <LabelWrapper fullWidth>
@@ -289,13 +257,12 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                   </LabelWrapper>
                   <TextArea
                     breakAll
-                    disabled={state.phase !== "auth-alt"}
+                    disabled={phase !== "auth-alt"}
                     id={`${id}-auth-code`}
                     rows={2}
-                    value={state.authCode}
+                    value={authCode}
                     onChange={(e) => {
-                      const { value } = e.currentTarget;
-                      setState((s) => ({ ...s, authCode: value }));
+                      setAuthCode(e.currentTarget.value);
                     }}
                   />
                 </RowItem>
@@ -311,15 +278,11 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
               </ControlLabel>
             </LabelWrapper>
             <Select
-              disabled={state.phase !== "none"}
+              disabled={phase !== "none"}
               id={`${id}-initial-direction`}
-              value={state.initialForce}
+              value={initialForce}
               onChange={(e) => {
-                const { value } = e.currentTarget;
-                setState((s) => ({
-                  ...s,
-                  initialForce: value as SyncForce,
-                }));
+                setInitialForce(e.currentTarget.value as SyncForce);
               }}
             >
               <SelectOption value="none">
@@ -338,9 +301,7 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
       <DialogFooter>
         <Row>
           <RowItem expanded>
-            {state.errorMessage && (
-              <Text>{translate("error", state.errorMessage)}</Text>
-            )}
+            {errorMessage && <Text>{translate("error", errorMessage)}</Text>}
           </RowItem>
           <RowItem>
             <Button onClick={close}>{translate("cancelButton")}</Button>
@@ -351,12 +312,10 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
               primary
               onClick={() => {
                 void (async () => {
-                  if (state.backendId === "webdav") {
-                    // state.phase === "none"
+                  if (backendId === "webdav") {
+                    // phase === "none"
                     try {
-                      const origins = [
-                        new AltURL(state.webDAVParams.url).toString(),
-                      ];
+                      const origins = [new AltURL(webDAVURL).toString()];
                       const granted = await browser.permissions.request({
                         origins,
                       });
@@ -366,39 +325,38 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                     } catch {
                       return;
                     }
-                    setState((s) => ({ ...s, phase: "conn" }));
+                    setPhase("conn");
                     try {
                       const error = await sendMessage(
                         "connect-to-webdav",
-                        omit(state.webDAVParams, ["urlValid"]),
-                        state.initialForce,
+                        {
+                          url: webDAVURL,
+                          username: webDAVUsername,
+                          password: webDAVPassword,
+                          path: "",
+                        },
+                        initialForce,
                       );
                       if (error) {
-                        setState((s) => ({
-                          ...s,
-                          errorMessage: error.message,
-                        }));
+                        setErrorMessage(error.message);
                         return;
                       }
                     } catch {
                       return;
                     } finally {
-                      setState((s) => ({ ...s, phase: "none" }));
+                      setPhase("none");
                     }
                     close();
                     return;
                   }
-                  if (state.backendId === "browserSync") {
+                  if (backendId === "browserSync") {
                     try {
                       const error = await sendMessage(
                         "connect-to-browser-sync",
-                        state.initialForce,
+                        initialForce,
                       );
                       if (error) {
-                        setState((s) => ({
-                          ...s,
-                          errorMessage: error.message,
-                        }));
+                        setErrorMessage(error.message);
                         return;
                       }
                     } catch {
@@ -407,22 +365,19 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                     close();
                     return;
                   }
-                  const selectedCloud = supportedClouds[state.backendId];
-                  let useAltFlow: boolean;
-                  let authCode: string;
-                  if (state.phase === "auth-alt") {
-                    useAltFlow = true;
-                    authCode = state.authCode;
+                  const selectedCloud = supportedClouds[backendId];
+                  let altFlow: boolean;
+                  let authorizationCode: string;
+                  if (phase === "auth-alt") {
+                    altFlow = true;
+                    authorizationCode = authCode;
                   } else {
-                    useAltFlow = forceAltFlow || state.useAltFlow;
-                    setState((s) => ({
-                      ...s,
-                      phase: useAltFlow ? "auth-alt" : "auth",
-                    }));
+                    altFlow = forceAltFlow || useAltFlow;
+                    setPhase(altFlow ? "auth-alt" : "auth");
                     try {
                       const origins = [
                         ...selectedCloud.hostPermissions,
-                        ...(useAltFlow ? [altFlowRedirectURL] : []),
+                        ...(altFlow ? [altFlowRedirectURL] : []),
                       ];
                       const granted = await browser.permissions.request({
                         origins,
@@ -430,33 +385,31 @@ const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
                       if (!granted) {
                         return;
                       }
-                      authCode = (await selectedCloud.authorize(useAltFlow))
-                        .authorizationCode;
+                      authorizationCode = (
+                        await selectedCloud.authorize(altFlow)
+                      ).authorizationCode;
                     } catch {
-                      setState((s) => ({ ...s, phase: "none" }));
+                      setPhase("none");
                       return;
                     }
                   }
-                  setState((s) => ({
-                    ...s,
-                    phase: useAltFlow ? "conn-alt" : "conn",
-                  }));
+                  setPhase(altFlow ? "conn-alt" : "conn");
                   try {
                     const error = await sendMessage(
                       "connect-to-cloud",
-                      state.backendId,
-                      authCode,
-                      useAltFlow,
-                      state.initialForce,
+                      backendId,
+                      authorizationCode,
+                      altFlow,
+                      initialForce,
                     );
                     if (error) {
-                      setState((s) => ({ ...s, errorMessage: error.message }));
+                      setErrorMessage(error.message);
                       return;
                     }
                   } catch {
                     return;
                   } finally {
-                    setState((s) => ({ ...s, phase: "none" }));
+                    setPhase("none");
                   }
                   close();
                 })();

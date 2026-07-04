@@ -50,13 +50,11 @@ const ImportBlacklistForm: React.FC<{
   setBlacklistDirty: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ close, setBlacklist, setBlacklistDirty }) => {
   const id = useId();
-  const [state, setState] = useState({
-    source: "file" as "file" | "pb",
-    pb: "",
-    append: false,
-  });
+  const [source, setSource] = useState<"file" | "pb">("file");
+  const [pb, setPB] = useState("");
+  const [append, setAppend] = useState(false);
   const replaceOrAppend = (newBlacklist: string) => {
-    if (state.append) {
+    if (append) {
       setBlacklist(
         (oldBlacklist) =>
           `${oldBlacklist}${
@@ -80,13 +78,9 @@ const ImportBlacklistForm: React.FC<{
         <Row>
           <RowItem>
             <Select
-              value={state.source}
+              value={source}
               onChange={(e) => {
-                const { value } = e.currentTarget;
-                setState((s) => ({
-                  ...s,
-                  source: value as "file" | "pb",
-                }));
+                setSource(e.currentTarget.value as "file" | "pb");
               }}
             >
               <SelectOption value="file">
@@ -98,7 +92,7 @@ const ImportBlacklistForm: React.FC<{
             </Select>
           </RowItem>
         </Row>
-        {state.source === "pb" && (
+        {source === "pb" && (
           <Row>
             <RowItem expanded>
               <LabelWrapper fullWidth>
@@ -113,11 +107,10 @@ const ImportBlacklistForm: React.FC<{
                 aria-label={translate("options_importBlacklistDialog_pbLabel")}
                 rows={5}
                 spellCheck="false"
-                value={state.pb}
+                value={pb}
                 wrap="off"
                 onChange={(e) => {
-                  const { value } = e.currentTarget;
-                  setState((s) => ({ ...s, pb: value }));
+                  setPB(e.currentTarget.value);
                 }}
               />
             </RowItem>
@@ -127,12 +120,10 @@ const ImportBlacklistForm: React.FC<{
           <RowItem>
             <Indent>
               <Checkbox.Root
-                checked={state.append}
+                checked={append}
                 className={styles.checkbox}
                 id={`${id}-append`}
-                onCheckedChange={(checked) => {
-                  setState((s) => ({ ...s, append: checked }));
-                }}
+                onCheckedChange={setAppend}
               >
                 <Checkbox.Indicator className={styles.indicator} />
               </Checkbox.Root>
@@ -153,7 +144,7 @@ const ImportBlacklistForm: React.FC<{
             <Button onClick={close}>{translate("cancelButton")}</Button>
           </RowItem>
           <RowItem>
-            {state.source === "file" ? (
+            {source === "file" ? (
               <Button
                 primary
                 onClick={async () => {
@@ -169,11 +160,11 @@ const ImportBlacklistForm: React.FC<{
               </Button>
             ) : (
               <Button
-                disabled={!state.pb}
+                disabled={!pb}
                 primary
                 onClick={() => {
                   let newBlacklist = "";
-                  for (const domain of lines(state.pb)) {
+                  for (const domain of lines(pb)) {
                     if (/^([A-Za-z0-9-]+\.)*[A-Za-z0-9-]+$/.test(domain)) {
                       newBlacklist = `${newBlacklist}${
                         newBlacklist ? "\n" : ""

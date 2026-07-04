@@ -368,24 +368,22 @@ function AddRemoteSerpInfoForm({
   initialURL: string;
 }) {
   const id = useId();
-  const [state, setState] = useState(() => ({
-    url: initialURL,
-    urlValid: (() => {
-      // pattern="https?:.*"
-      // required
-      if (!initialURL || !/^https?:/.test(initialURL)) {
-        return false;
-      }
-      // type="url"
-      try {
-        new URL(initialURL);
-      } catch {
-        return false;
-      }
-      return true;
-    })(),
-  }));
-  const addable = state.urlValid;
+  const [url, setURL] = useState(initialURL);
+  const [urlValid, setURLValid] = useState(() => {
+    // pattern="https?:.*"
+    // required
+    if (!initialURL || !/^https?:/.test(initialURL)) {
+      return false;
+    }
+    // type="url"
+    try {
+      new URL(initialURL);
+    } catch {
+      return false;
+    }
+    return true;
+  });
+  const addable = urlValid;
   return (
     <>
       <DialogHeader>
@@ -406,13 +404,14 @@ function AddRemoteSerpInfoForm({
               pattern="https?:.*"
               required={true}
               type="url"
-              value={state.url}
+              value={url}
               onChange={(e) => {
                 const {
-                  value: url,
-                  validity: { valid: urlValid },
+                  value,
+                  validity: { valid },
                 } = e.currentTarget;
-                setState({ url, urlValid });
+                setURL(value);
+                setURLValid(valid);
               }}
             />
           </RowItem>
@@ -428,10 +427,10 @@ function AddRemoteSerpInfoForm({
               disabled={!addable}
               primary
               onClick={async () => {
-                if (!(await requestPermission([state.url]))) {
+                if (!(await requestPermission([url]))) {
                   return;
                 }
-                postMessage("add-remote-serpinfo", state.url);
+                postMessage("add-remote-serpinfo", url);
                 close();
               }}
             >
