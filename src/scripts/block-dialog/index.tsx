@@ -16,6 +16,9 @@ import {
   DetailsBody,
   DetailsSummary,
 } from "../components/details.tsx";
+import { Icon } from "../components/icon.tsx";
+import { IconButton } from "../components/icon-button.tsx";
+import { ControlLabel, Label, LabelWrapper } from "../components/label.tsx";
 import {
   Dialog,
   DialogBody,
@@ -23,10 +26,7 @@ import {
   DialogHeader,
   DialogTitle,
   EmbeddedDialog,
-} from "../components/dialog.tsx";
-import { Icon } from "../components/icon.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { ControlLabel, Label, LabelWrapper } from "../components/label.tsx";
+} from "../components/legacy-dialog.tsx";
 import { MenuItem } from "../components/menu.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { SplitButton } from "../components/split-button.tsx";
