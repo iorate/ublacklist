@@ -2,10 +2,6 @@ import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { useId, useState } from "react";
 import { z } from "zod";
-import buttonStyles from "../components/button.module.css";
-import labelStyles from "../components/label.module.css";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage } from "../shared/messages.ts";
@@ -16,6 +12,10 @@ import {
   parseJSON,
   uploadTextFile,
 } from "../shared/utilities.ts";
+import buttonStyles from "../styles/button.module.css";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
 
 export function BackupRestoreSection(props: { id: string }) {
   const id = useId();

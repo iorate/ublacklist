@@ -1,6 +1,6 @@
-import containerStyles from "../components/container.module.css";
-import "../components/theme.css";
-import "../components/baseline.css";
+import containerStyles from "../styles/container.module.css";
+import "../styles/theme.css";
+import "../styles/baseline.css";
 import { createRoot } from "react-dom/client";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";

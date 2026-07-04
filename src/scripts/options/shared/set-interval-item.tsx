@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import labelStyles from "../../components/label.module.css";
-import rowStyles from "../../components/row.module.css";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
 import "../../shared/dayjs-locales.ts";
 import { Select, SelectOption } from "../../components/select.tsx";
 import { saveToLocalStorage } from "../../shared/local-storage.ts";

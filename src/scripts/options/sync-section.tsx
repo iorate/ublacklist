@@ -5,8 +5,6 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsDuration from "dayjs/plugin/duration";
 import { useEffect, useId, useState } from "react";
-import buttonStyles from "../components/button.module.css";
-import styles from "../components/checkbox.module.css";
 import {
   Dialog,
   DialogBody,
@@ -14,15 +12,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import indentStyles from "../components/indent.module.css";
-import inputStyles from "../components/input.module.css";
-import labelStyles from "../components/label.module.css";
-import listStyles from "../components/list.module.css";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
-import textStyles from "../components/text.module.css";
-import textareaStyles from "../components/textarea.module.css";
 import { browser } from "../shared/browser.ts";
+import buttonStyles from "../styles/button.module.css";
+import styles from "../styles/checkbox.module.css";
+import indentStyles from "../styles/indent.module.css";
+import inputStyles from "../styles/input.module.css";
+import labelStyles from "../styles/label.module.css";
+import listStyles from "../styles/list.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
+import textStyles from "../styles/text.module.css";
+import textareaStyles from "../styles/textarea.module.css";
 import "../shared/dayjs-locales.ts";
 import { Select, SelectOption } from "../components/select.tsx";
 import { getWebsiteURL, translate } from "../shared/locales.ts";

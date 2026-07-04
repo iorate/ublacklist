@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { useId, useMemo } from "react";
 import icon from "../../icons/icon.svg";
-import labelStyles from "../components/label.module.css";
 import { Link } from "../components/link.tsx";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
 import svgIconStyles from "../components/svg-icon.module.css";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import { browser } from "../shared/browser.ts";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
 import styles from "./about-section.module.css";
 
 export function AboutSection(props: { id: string }) {

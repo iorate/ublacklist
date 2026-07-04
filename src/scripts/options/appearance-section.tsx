@@ -5,13 +5,6 @@ import addIcon from "@mdi/svg/svg/plus.svg";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import { ColorPicker } from "../components/color-picker.tsx";
-import iconButtonStyles from "../components/icon-button.module.css";
-import indentStyles from "../components/indent.module.css";
-import labelStyles from "../components/label.module.css";
-import listStyles from "../components/list.module.css";
-import styles from "../components/radio.module.css";
-import rowStyles from "../components/row.module.css";
-import sectionStyles from "../components/section.module.css";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import {
   defaultBlockColor,
@@ -20,6 +13,13 @@ import {
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
+import iconButtonStyles from "../styles/icon-button.module.css";
+import indentStyles from "../styles/indent.module.css";
+import labelStyles from "../styles/label.module.css";
+import listStyles from "../styles/list.module.css";
+import styles from "../styles/radio.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
 import localStyles from "./appearance-section.module.css";
 
 type ColorItemKey = "linkColor" | "blockColor";

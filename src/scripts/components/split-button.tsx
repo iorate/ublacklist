@@ -2,7 +2,7 @@ import { Menu as BaseMenu } from "@base-ui/react/menu";
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import clsx from "clsx";
 import type React from "react";
-import buttonStyles from "./button.module.css";
+import buttonStyles from "../styles/button.module.css";
 import menuStyles from "./menu.module.css";
 import styles from "./split-button.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
