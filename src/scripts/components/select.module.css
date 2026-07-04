@@ -1,0 +1,72 @@
+.trigger {
+  background: transparent;
+  border: solid 1px var(--ub-color-border);
+  border-radius: 4px;
+  color: var(--ub-color-text-primary);
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  line-height: 1.5;
+  padding: 0.5em calc(0.625em + 24px) 0.5em 0.625em;
+  position: relative;
+  text-align: start;
+  width: 15em;
+}
+
+.trigger[data-disabled] {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+  outline: none;
+}
+
+.value {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon {
+  pointer-events: none;
+  position: absolute;
+  right: 1px;
+  top: calc((100% - 24px) / 2);
+}
+
+.positioner {
+  z-index: 100000;
+}
+
+.popup {
+  background: var(--ub-color-surface);
+  box-shadow:
+    0 1px 2px 0 var(--ub-color-shadow-strong),
+    0 3px 6px 2px var(--ub-color-shadow-soft);
+  max-height: var(--available-height);
+  min-width: var(--anchor-width);
+  outline: none;
+  overflow-y: auto;
+  padding: 0.25em 0;
+}
+
+.item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 0.5em 0.625em;
+  user-select: none;
+}
+
+.item[data-disabled] {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.item[data-highlighted] {
+  background: var(--ub-menu-item-background-focused);
+  outline: none;
+}

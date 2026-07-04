@@ -88,8 +88,8 @@ const AddForm: React.FC<{
             <Select
               id={`${id}-type`}
               value={type}
-              onChange={(e) => {
-                setType(e.currentTarget.value as SubscriptionType);
+              onValueChange={(value) => {
+                setType(value as SubscriptionType);
               }}
             >
               <SelectOption value="ruleset">
