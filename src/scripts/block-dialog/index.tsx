@@ -2,6 +2,7 @@ import cog from "@mdi/svg/svg/cog.svg";
 import type { Props, SearchResult } from "@ublacklist/ruleset";
 import * as punycode from "punycode/";
 import React, { useId, useMemo, useState } from "react";
+import { createRoot, type Root } from "react-dom/client";
 import icon from "../../icons/icon.svg";
 import { ScopedBaseline } from "../components/baseline.tsx";
 import { Button } from "../components/button.tsx";
@@ -309,7 +310,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
     () =>
       urlIsProcessable
         ? ruleset.createPatch(null, searchResult, {
-            useRegistrableDomain: blockWholeSite,
+            ...(blockWholeSite ? { getRegistrableDomain } : {}),
             collectMatchingRules: enableMatchingRules,
           })
         : null,
@@ -345,7 +346,7 @@ const BlockDialogContent: React.FC<BlockDialogContentProps> = ({
       return autoPatch;
     }
     return ruleset.createPatch(manualMode, searchResult, {
-      useRegistrableDomain: blockWholeSite,
+      ...(blockWholeSite ? { getRegistrableDomain } : {}),
       collectMatchingRules: enableMatchingRules,
     });
   }, [
@@ -558,3 +559,65 @@ export const BlockEmbeddedDialog: React.FC<BlockEmbeddedDialogProps> = (
     </EmbeddedDialog>
   );
 };
+
+export type BlockDialogRequest = {
+  url: string;
+  props: Record<string, string>;
+  ruleset: InteractiveRuleset;
+  skipDialog: boolean;
+  theme: DialogTheme;
+  blockWholeSite: boolean;
+  enableMatchingRules: boolean;
+  onBlocked(newSource: string): void;
+  openOptionsPage(): void;
+};
+
+type DialogRoot = { root: Root; shadowRoot: ShadowRoot };
+
+let dialogRoot: DialogRoot | null = null;
+
+function getDialogRoot(): DialogRoot {
+  if (!dialogRoot) {
+    const shadowRoot = document.body
+      .appendChild(document.createElement("div"))
+      .attachShadow({ mode: "open" });
+    const root = createRoot(shadowRoot);
+    dialogRoot = { root, shadowRoot };
+  }
+  return dialogRoot;
+}
+
+export function closeDialog(): void {
+  if (!dialogRoot) {
+    return;
+  }
+  dialogRoot.root.render(null);
+}
+
+export function openDialog(request: BlockDialogRequest): void {
+  const searchResult = { url: request.url, props: request.props };
+  if (request.skipDialog) {
+    const patch = request.ruleset.createPatch(
+      null,
+      searchResult,
+      request.blockWholeSite ? { getRegistrableDomain } : {},
+    );
+    request.onBlocked(request.ruleset.applyPatch(patch));
+    return;
+  }
+  const dialogRoot = getDialogRoot();
+  dialogRoot.root.render(
+    <BlockDialog
+      blockWholeSite={request.blockWholeSite}
+      close={closeDialog}
+      enableMatchingRules={request.enableMatchingRules}
+      open={true}
+      openOptionsPage={async () => request.openOptionsPage()}
+      ruleset={request.ruleset}
+      searchResult={searchResult}
+      target={dialogRoot.shadowRoot}
+      theme={request.theme}
+      onBlocked={request.onBlocked}
+    />,
+  );
+}

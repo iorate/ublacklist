@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { Ruleset } from "@ublacklist/ruleset";
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
+import { getRegistrableDomain } from "./registrable-domain.ts";
 
 function createInteractiveRuleset(
   user: string,
@@ -488,7 +489,7 @@ t/Example/
     }
   });
 
-  await t.test("PSL (useRegistrableDomain)", () => {
+  await t.test("PSL (getRegistrableDomain)", () => {
     // chuo.tokyo.jp is a public suffix, so the registrable domain is
     // city.chuo.tokyo.jp; the suggestion wildcards `*.` on top of it
     // rather than walking up to tokyo.jp.
@@ -497,19 +498,19 @@ t/Example/
       const patch = ruleset.createPatch(
         null,
         { url: "https://www.library.city.chuo.tokyo.jp" },
-        { useRegistrableDomain: true },
+        { getRegistrableDomain },
       );
       assert.equal(patch.rulesToAdd, "*://*.city.chuo.tokyo.jp/*");
       assert.equal(ruleset.applyPatch(patch), "*://*.city.chuo.tokyo.jp/*");
     }
-    // With a subscription block, useRegistrableDomain widens the
+    // With a subscription block, getRegistrableDomain widens the
     // unblock pattern to cover the whole registrable domain.
     {
       const ruleset = createInteractiveRuleset("", ["*://*.example.com/*"]);
       const patch = ruleset.createPatch(
         null,
         { url: "https://www.example.com/" },
-        { useRegistrableDomain: true },
+        { getRegistrableDomain },
       );
       assert.equal(patch.mode, "unblock");
       assert.equal(patch.rulesToAdd, "@*://*.example.com/*");
