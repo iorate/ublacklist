@@ -15,8 +15,7 @@ import {
 } from "@codemirror/view";
 import { type Highlighter, tags as t } from "@lezer/highlight";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "./constants.ts";
-import { useTheme } from "./theme.tsx";
+import { useColorScheme } from "./theme.tsx";
 
 type ColorScheme = {
   background: string;
@@ -66,8 +65,6 @@ const lightColorScheme: ColorScheme = {
 };
 
 export type EditorProps = {
-  focusStart?: boolean;
-  focusEnd?: boolean;
   height?: string;
   language?: LanguageSupport;
   readOnly?: boolean;
@@ -77,8 +74,6 @@ export type EditorProps = {
 };
 
 export const Editor: React.FC<EditorProps> = ({
-  focusStart = false,
-  focusEnd = false,
   height = "200px",
   language: lang,
   readOnly = false,
@@ -129,35 +124,26 @@ export const Editor: React.FC<EditorProps> = ({
     }
   }, []);
 
+  const colorScheme = useColorScheme();
   useLayoutEffect(() => {
-    view.current?.contentDOM.classList.toggle(FOCUS_START_CLASS, focusStart);
-  }, [focusStart]);
-
-  useLayoutEffect(() => {
-    view.current?.contentDOM.classList.toggle(FOCUS_END_CLASS, focusEnd);
-  }, [focusEnd]);
-
-  const theme = useTheme();
-  useLayoutEffect(() => {
-    const colorScheme =
-      theme.name === "dark" ? darkColorScheme : lightColorScheme;
+    const scheme = colorScheme === "dark" ? darkColorScheme : lightColorScheme;
     view.current?.dispatch({
       effects: highlightStyleCompartment.current.reconfigure(
         syntaxHighlighting(
           HighlightStyle.define([
-            { tag: t.comment, color: colorScheme.comment },
-            { tag: t.name, color: colorScheme.name },
-            { tag: t.literal, color: colorScheme.literal },
-            { tag: t.string, color: colorScheme.string },
-            { tag: t.regexp, color: colorScheme.string },
-            { tag: t.keyword, color: colorScheme.keyword },
-            { tag: t.operator, color: colorScheme.operator },
-            { tag: t.meta, color: colorScheme.meta },
+            { tag: t.comment, color: scheme.comment },
+            { tag: t.name, color: scheme.name },
+            { tag: t.literal, color: scheme.literal },
+            { tag: t.string, color: scheme.string },
+            { tag: t.regexp, color: scheme.string },
+            { tag: t.keyword, color: scheme.keyword },
+            { tag: t.operator, color: scheme.operator },
+            { tag: t.meta, color: scheme.meta },
           ]) as Highlighter,
         ),
       ),
     });
-  }, [theme]);
+  }, [colorScheme]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({
@@ -174,22 +160,21 @@ export const Editor: React.FC<EditorProps> = ({
   }, [readOnly]);
 
   useLayoutEffect(() => {
-    const colorScheme =
-      theme.name === "dark" ? darkColorScheme : lightColorScheme;
+    const scheme = colorScheme === "dark" ? darkColorScheme : lightColorScheme;
     view.current?.dispatch({
       effects: themeCompartment.current.reconfigure(
         EditorView.theme(
           {
             "&": {
-              backgroundColor: colorScheme.background,
-              border: `1px solid ${theme.editor.border}`,
-              color: colorScheme.foreground,
+              backgroundColor: scheme.background,
+              border: "1px solid var(--ub-color-border)",
+              color: scheme.foreground,
               height,
               overflow: "hidden",
               resize: resizable ? "vertical" : "none",
             },
             "&.cm-editor.cm-focused": {
-              boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
+              boxShadow: "0 0 0 2px var(--ub-color-focus-ring)",
               outline: "none",
             },
             ".cm-scroller": {
@@ -200,26 +185,26 @@ export const Editor: React.FC<EditorProps> = ({
             ".cm-gutters": {
               backgroundColor: "transparent",
               border: "none",
-              color: colorScheme.lineNumberForeground,
+              color: scheme.lineNumberForeground,
             },
             ".cm-activeLineGutter": {
               backgroundColor: "transparent",
             },
             "&.cm-focused .cm-activeLineGutter": {
-              color: colorScheme.activeLineNumberForeground,
+              color: scheme.activeLineNumberForeground,
             },
             ".cm-lineNumbers .cm-gutterElement": {
               padding: "0 8px",
             },
             ".cm-content ::selection": {
-              backgroundColor: colorScheme.selectionBackground,
+              backgroundColor: scheme.selectionBackground,
             },
           },
-          { dark: theme.name === "dark" },
+          { dark: colorScheme === "dark" },
         ),
       ),
     });
-  }, [height, resizable, theme]);
+  }, [height, resizable, colorScheme]);
 
   useLayoutEffect(() => {
     view.current?.dispatch({

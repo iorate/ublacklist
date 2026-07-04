@@ -1,31 +1,22 @@
+import { Button } from "@base-ui/react/button";
 import { Switch } from "@base-ui/react/switch";
 import cog from "@mdi/svg/svg/cog.svg";
 import { MatchPattern } from "@ublacklist/match-pattern";
-import { useId, useState } from "react";
+import clsx from "clsx";
+import { useId, useRef, useState } from "react";
 import icon from "../../icons/icon.svg";
-import {
-  FOCUS_DEFAULT_CLASS,
-  FOCUS_END_CLASS,
-  FOCUS_START_CLASS,
-} from "../components/constants.ts";
-import { Button } from "../components/legacy/button.tsx";
-import {
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  EmbeddedDialog,
-} from "../components/legacy/dialog.tsx";
-import { Icon } from "../components/legacy/icon.tsx";
-import { IconButton } from "../components/legacy/icon-button.tsx";
-import { ControlLabel, LabelWrapper } from "../components/legacy/label.tsx";
-import { Row, RowItem } from "../components/legacy/row.tsx";
-import styles from "../components/switch.module.css";
+import buttonStyles from "../components/button.module.css";
+import dialogStyles from "../components/dialog.module.css";
+import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
+import iconButtonStyles from "../components/icon-button.module.css";
+import labelStyles from "../components/label.module.css";
+import rowStyles from "../components/row.module.css";
+import { SvgIcon } from "../components/svg-icon.tsx";
+import switchStyles from "../components/switch.module.css";
 import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
-import { svgToDataURL } from "../shared/utilities.ts";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -43,34 +34,44 @@ export function SerpInfoEmbeddedDialog({
   initialHideBlockedResults: boolean;
 }): React.ReactNode {
   const id = useId();
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
   const [hideBlockedResults, setHideBlockedResults] = useState(
     initialHideBlockedResults,
   );
   return (
-    <EmbeddedDialog close={() => window.close()} width="360px">
-      <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
-          <Row>
-            <RowItem>
-              <Icon iconSize="24px" url={svgToDataURL(icon)} />
-            </RowItem>
-            <RowItem expanded>{translate("popup_active")}</RowItem>
-          </Row>
-        </DialogTitle>
-      </DialogHeader>
-      <DialogBody>
-        <Row>
-          <RowItem expanded>
-            <LabelWrapper>
-              <ControlLabel for={`${id}-switch`}>
+    <EmbeddedDialog
+      aria-labelledby={`${id}-title`}
+      close={() => window.close()}
+      initialFocus={initialFocusRef}
+    >
+      <div className={dialogStyles.header}>
+        <h2 className={dialogStyles.title} id={`${id}-title`}>
+          <div className={rowStyles.row}>
+            <div className={rowStyles.rowItem}>
+              <SvgIcon svg={icon} />
+            </div>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+              {translate("popup_active")}
+            </div>
+          </div>
+        </h2>
+      </div>
+      <div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <div className={labelStyles.wrapper}>
+              <label
+                className={labelStyles.controlLabel}
+                htmlFor={`${id}-switch`}
+              >
                 {translate("popup_serpInfoMode_showBlockedResults")}
-              </ControlLabel>
-            </LabelWrapper>
-          </RowItem>
-          <RowItem>
+              </label>
+            </div>
+          </div>
+          <div className={rowStyles.rowItem}>
             <Switch.Root
               checked={!hideBlockedResults}
-              className={`${styles.switch} ${FOCUS_START_CLASS}`}
+              className={switchStyles.switch}
               id={`${id}-switch`}
               onCheckedChange={(checked) => {
                 const hideBlockedResults = !checked;
@@ -84,38 +85,43 @@ export function SerpInfoEmbeddedDialog({
                 });
               }}
             >
-              <Switch.Thumb className={styles.thumb} />
+              <Switch.Thumb className={switchStyles.thumb} />
             </Switch.Root>
-          </RowItem>
-        </Row>
-      </DialogBody>
-      <DialogFooter>
-        <Row multiline right>
-          <RowItem expanded>
-            <IconButton
+          </div>
+        </div>
+      </div>
+      <div className={dialogStyles.footer}>
+        <div
+          className={clsx(rowStyles.row, rowStyles.multiline, rowStyles.right)}
+        >
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <button
               aria-label={translate("popup_openOptionsLink")}
-              iconURL={svgToDataURL(cog)}
+              className={iconButtonStyles.button}
               title={translate("popup_openOptionsLink")}
+              type="button"
               onClick={() => {
                 void openOptionsPage();
               }}
-            />
-          </RowItem>
-          <RowItem>
-            <Row>
-              <RowItem>
+            >
+              <SvgIcon color="var(--ub-color-text-secondary)" svg={cog} />
+            </button>
+          </div>
+          <div className={rowStyles.rowItem}>
+            <div className={rowStyles.row}>
+              <div className={rowStyles.rowItem}>
                 <Button
-                  className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
-                  primary
+                  className={clsx(buttonStyles.button, buttonStyles.primary)}
+                  ref={initialFocusRef}
                   onClick={() => window.close()}
                 >
                   {translate("okButton")}
                 </Button>
-              </RowItem>
-            </Row>
-          </RowItem>
-        </Row>
-      </DialogFooter>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </EmbeddedDialog>
   );
 }
@@ -146,42 +152,54 @@ export async function canEnableSerpInfo(
 
 export function EnableSerpInfoEmbeddedDialog() {
   const id = useId();
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
-    <EmbeddedDialog close={() => window.close()} width="360px">
-      <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
-          <Row>
-            <RowItem>
-              <Icon iconSize="24px" url={svgToDataURL(icon)} />
-            </RowItem>
-            <RowItem expanded>
+    <EmbeddedDialog
+      aria-labelledby={`${id}-title`}
+      close={() => window.close()}
+      initialFocus={initialFocusRef}
+    >
+      <div className={dialogStyles.header}>
+        <h2 className={dialogStyles.title} id={`${id}-title`}>
+          <div className={rowStyles.row}>
+            <div className={rowStyles.rowItem}>
+              <SvgIcon svg={icon} />
+            </div>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               {translate("popup_serpInfoMode_available")}
-            </RowItem>
-          </Row>
-        </DialogTitle>
-      </DialogHeader>
-      <DialogFooter>
-        <Row multiline right>
-          <RowItem expanded>
-            <IconButton
+            </div>
+          </div>
+        </h2>
+      </div>
+      <div className={dialogStyles.footer}>
+        <div
+          className={clsx(rowStyles.row, rowStyles.multiline, rowStyles.right)}
+        >
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <button
               aria-label={translate("popup_openOptionsLink")}
-              className={FOCUS_START_CLASS}
-              iconURL={svgToDataURL(cog)}
+              className={iconButtonStyles.button}
               title={translate("popup_openOptionsLink")}
+              type="button"
               onClick={() => {
                 void openOptionsPage();
               }}
-            />
-          </RowItem>
-          <RowItem>
-            <Button onClick={() => window.close()}>
+            >
+              <SvgIcon color="var(--ub-color-text-secondary)" svg={cog} />
+            </button>
+          </div>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.secondary)}
+              onClick={() => window.close()}
+            >
               {translate("cancelButton")}
             </Button>
-          </RowItem>
-          <RowItem>
+          </div>
+          <div className={rowStyles.rowItem}>
             <Button
-              className={`${FOCUS_END_CLASS} ${FOCUS_DEFAULT_CLASS}`}
-              primary
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
+              ref={initialFocusRef}
               onClick={async () => {
                 await browser.tabs.create({
                   url: "/pages/serpinfo-options.html",
@@ -191,9 +209,9 @@ export function EnableSerpInfoEmbeddedDialog() {
             >
               {translate("popup_serpInfoMode_setupButton")}
             </Button>
-          </RowItem>
-        </Row>
-      </DialogFooter>
+          </div>
+        </div>
+      </div>
     </EmbeddedDialog>
   );
 }

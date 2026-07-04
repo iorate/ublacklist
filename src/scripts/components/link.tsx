@@ -1,15 +1,16 @@
+import clsx from "clsx";
 import type React from "react";
-import { applyClassName } from "./helpers.tsx";
 import styles from "./link.module.css";
 
 export type LinkProps = React.JSX.IntrinsicElements["a"] & {
   disabled?: boolean;
 };
 
-export function Link({ disabled = false, ...props }: LinkProps) {
+export function Link({ className, disabled = false, ...props }: LinkProps) {
   return (
     <a
-      {...applyClassName(props, styles.link ?? "")}
+      {...props}
+      className={clsx(styles.link, className)}
       {...(disabled ? {} : { href: props.href })}
       rel="noopener noreferrer"
       target="_blank"

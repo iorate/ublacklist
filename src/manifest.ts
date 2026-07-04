@@ -101,6 +101,7 @@ export function getManifest(context: ManifestContext) {
           "pages/options.html",
           "pages/serpinfo-options.html",
           "scripts/block-dialog.js",
+          "scripts/block-dialog.css",
           ...(browser === "safari" ? ["scripts/content-script.js"] : []),
           ...(debug && (browser === "chrome" || browser === "edge")
             ? ["scripts/content-script.js.map", "scripts/block-dialog.js.map"]

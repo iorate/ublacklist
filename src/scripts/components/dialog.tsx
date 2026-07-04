@@ -1,17 +1,29 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import clsx from "clsx";
 import React from "react";
 import styles from "./dialog.module.css";
-import { applyClassName } from "./helpers.tsx";
 
 export type DialogProps = React.JSX.IntrinsicElements["div"] & {
   close: () => void;
+  container?: HTMLElement | ShadowRoot;
+  initialFocus?: React.RefObject<HTMLElement | null>;
   open: boolean;
   width?: string;
 };
 
 export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
   function Dialog(
-    { children, close, open, style, width = "480px", ...props },
+    {
+      children,
+      className,
+      close,
+      container,
+      initialFocus,
+      open,
+      style,
+      width = "480px",
+      ...props
+    },
     ref,
   ) {
     return (
@@ -23,11 +35,13 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
           }
         }}
       >
-        <BaseDialog.Portal>
+        <BaseDialog.Portal container={container}>
           <BaseDialog.Backdrop className={styles.backdrop} />
           <BaseDialog.Viewport className={styles.viewport}>
             <BaseDialog.Popup
-              {...applyClassName(props, styles.popup ?? "")}
+              {...props}
+              className={clsx(styles.popup, className)}
+              initialFocus={initialFocus}
               ref={ref}
               style={{ width, ...style }}
             >
@@ -43,8 +57,10 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
 export type DialogHeaderProps = React.JSX.IntrinsicElements["div"];
 
 export const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
-  function DialogHeader(props, ref) {
-    return <div {...applyClassName(props, styles.header ?? "")} ref={ref} />;
+  function DialogHeader({ className, ...props }, ref) {
+    return (
+      <div {...props} className={clsx(styles.header, className)} ref={ref} />
+    );
   },
 );
 
@@ -53,10 +69,11 @@ export type DialogTitleProps = React.JSX.IntrinsicElements["h2"];
 export const DialogTitle = React.forwardRef<
   HTMLHeadingElement,
   DialogTitleProps
->(function DialogTitle(props, ref) {
+>(function DialogTitle({ className, ...props }, ref) {
   return (
     <BaseDialog.Title
-      {...applyClassName(props, styles.title ?? "")}
+      {...props}
+      className={clsx(styles.title, className)}
       ref={ref}
     />
   );
@@ -73,7 +90,9 @@ export const DialogBody = React.forwardRef<HTMLDivElement, DialogBodyProps>(
 export type DialogFooterProps = React.JSX.IntrinsicElements["div"];
 
 export const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
-  function DialogFooter(props, ref) {
-    return <div {...applyClassName(props, styles.footer ?? "")} ref={ref} />;
+  function DialogFooter({ className, ...props }, ref) {
+    return (
+      <div {...props} className={clsx(styles.footer, className)} ref={ref} />
+    );
   },
 );

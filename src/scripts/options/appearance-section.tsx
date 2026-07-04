@@ -5,7 +5,6 @@ import addIcon from "@mdi/svg/svg/plus.svg";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import { ColorPicker } from "../components/color-picker.tsx";
-import { TemplateIcon } from "../components/icon.tsx";
 import iconButtonStyles from "../components/icon-button.module.css";
 import indentStyles from "../components/indent.module.css";
 import labelStyles from "../components/label.module.css";
@@ -13,6 +12,7 @@ import listStyles from "../components/list.module.css";
 import styles from "../components/radio.module.css";
 import rowStyles from "../components/row.module.css";
 import sectionStyles from "../components/section.module.css";
+import { SvgIcon } from "../components/svg-icon.tsx";
 import {
   defaultBlockColor,
   defaultHighlightColor,
@@ -20,7 +20,6 @@ import {
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
-import { svgToDataURL } from "../shared/utilities.ts";
 import localStyles from "./appearance-section.module.css";
 
 type ColorItemKey = "linkColor" | "blockColor";
@@ -169,11 +168,7 @@ const SetHighlightColors: React.FC = () => {
               );
             }}
           >
-            <TemplateIcon
-              color="var(--ub-color-text-secondary)"
-              iconSize="24px"
-              url={svgToDataURL(addIcon)}
-            />
+            <SvgIcon color="var(--ub-color-text-secondary)" svg={addIcon} />
           </button>
         </div>
       </div>
@@ -240,10 +235,9 @@ const SetHighlightColors: React.FC = () => {
                           );
                         }}
                       >
-                        <TemplateIcon
+                        <SvgIcon
                           color="var(--ub-color-text-secondary)"
-                          iconSize="24px"
-                          url={svgToDataURL(removeIcon)}
+                          svg={removeIcon}
                         />
                       </button>
                     ) : (
