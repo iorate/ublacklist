@@ -1,0 +1,12 @@
+.wrapper {
+  inset: 0;
+  overflow: auto;
+  position: fixed;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 2em 0;
+  width: 640px;
+}

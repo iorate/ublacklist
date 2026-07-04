@@ -1,0 +1,20 @@
+.button {
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  height: 36px;
+  padding: 6px;
+  width: 36px;
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.button:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+  outline: none;
+}

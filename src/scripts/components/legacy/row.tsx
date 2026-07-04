@@ -1,6 +1,6 @@
 import React from "react";
-import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 
 export type RowProps = React.JSX.IntrinsicElements["div"] & {
   multiline?: boolean;

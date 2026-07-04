@@ -5,9 +5,9 @@ import {
   FOCUS_DEFAULT_CLASS,
   FOCUS_END_CLASS,
   FOCUS_START_CLASS,
-} from "./constants.ts";
-import { applyClassName, useInnerRef } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+} from "../constants.ts";
+import { applyClassName, useInnerRef } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 
 function getFocusedElement(dialog: HTMLElement): Element | null {
   return (dialog.getRootNode() as Document | ShadowRoot).activeElement;

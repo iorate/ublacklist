@@ -1,0 +1,33 @@
+.wrapper {
+  margin-bottom: 0;
+}
+
+.wrapper.fullWidth {
+  margin-bottom: 0.5em;
+}
+
+.wrapper.disabled {
+  opacity: 0.38;
+}
+
+.label {
+  color: var(--ub-color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.controlLabel {
+  color: var(--ub-color-text-primary);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.subLabel {
+  color: var(--ub-color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.disabled .label,
+.disabled .subLabel,
+.disabled .controlLabel {
+  cursor: default;
+}

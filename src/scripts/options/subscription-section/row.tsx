@@ -1,12 +1,12 @@
 import { Checkbox } from "@base-ui/react/checkbox";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { Badge } from "../../components/badge.tsx";
+import badgeStyles from "../../components/badge.module.css";
 import styles from "../../components/checkbox.module.css";
 import { ControlLabel, LabelWrapper } from "../../components/label.tsx";
 import { Menu, MenuItem } from "../../components/menu.tsx";
-import { TableCell, TableRow } from "../../components/table.tsx";
-import { useClassName } from "../../components/utilities.ts";
+import tableStyles from "../../components/table.module.css";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import { requestPermission } from "../../shared/permissions.ts";
@@ -17,6 +17,7 @@ import {
 } from "../../shared/utilities.ts";
 import { FromNow } from "../from-now.tsx";
 import { RenameDialog } from "./rename-dialog.tsx";
+import rowStyles from "./row.module.css";
 import { ShowDialog } from "./show-dialog.tsx";
 
 export const ManageSubscription: React.FC<{
@@ -27,15 +28,9 @@ export const ManageSubscription: React.FC<{
   const [showDialogOpen, setShowDialogOpen] = useState(false);
   const [renameDialogOpen, setRenameDialogOpen] = useState(false);
   const checkboxId = `enableSubscription${id}`;
-  const badgeClassName = useClassName(
-    () => ({
-      marginLeft: "0.5em",
-    }),
-    [],
-  );
   return (
-    <TableRow data-testid="subscription-row">
-      <TableCell>
+    <tr data-testid="subscription-row">
+      <td className={tableStyles.cell}>
         <Checkbox.Root
           aria-label={translate("options_subscriptionCheckBoxLabel")}
           checked={subscription.enabled ?? true}
@@ -47,18 +42,20 @@ export const ManageSubscription: React.FC<{
         >
           <Checkbox.Indicator className={styles.indicator} />
         </Checkbox.Root>
-      </TableCell>
-      <TableCell>
+      </td>
+      <td className={tableStyles.cell}>
         <LabelWrapper>
           <ControlLabel for={checkboxId}>
             {getSubscriptionDisplayName(subscription)}
             {subscription.type && subscription.type !== "ruleset" ? (
-              <Badge className={badgeClassName}>{subscription.type}</Badge>
+              <span className={clsx(badgeStyles.badge, rowStyles.badge)}>
+                {subscription.type}
+              </span>
             ) : null}
           </ControlLabel>
         </LabelWrapper>
-      </TableCell>
-      <TableCell>
+      </td>
+      <td className={tableStyles.cell}>
         {updating ? (
           translate("options_subscriptionUpdateRunning")
         ) : !subscription.updateResult ? (
@@ -68,8 +65,8 @@ export const ManageSubscription: React.FC<{
         ) : (
           <FromNow time={dayjs(subscription.updateResult.timestamp)} />
         )}
-      </TableCell>
-      <TableCell>
+      </td>
+      <td className={tableStyles.cell}>
         <Menu
           aria-label={translate("options_subscriptionMenuButtonLabel")}
           data-testid="subscription-menu-button"
@@ -111,7 +108,7 @@ export const ManageSubscription: React.FC<{
           subscription={subscription}
           subscriptionId={id}
         />
-      </TableCell>
-    </TableRow>
+      </td>
+    </tr>
   );
 };

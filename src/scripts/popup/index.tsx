@@ -8,7 +8,6 @@ import {
   type BlockEmbeddedDialogProps,
 } from "../block-dialog.ts";
 import { AutoThemeProvider } from "../components/theme.tsx";
-import { useClassName } from "../components/utilities.ts";
 import { browser } from "../shared/browser.ts";
 import {
   loadFromLocalStorage,
@@ -17,6 +16,7 @@ import {
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
 import { createInteractiveRuleset } from "../shared/utilities.ts";
+import styles from "./index.module.css";
 import {
   canEnableSerpInfo,
   EnableSerpInfoEmbeddedDialog,
@@ -32,14 +32,7 @@ async function openOptionsPage(): Promise<void> {
 }
 
 const Loading: React.FC = () => {
-  const className = useClassName(
-    () => ({
-      height: "calc(12.5em + 24px)", // The height of `BlockEmbeddedDialog`
-      width: "360px",
-    }),
-    [],
-  );
-  return <div className={className} />;
+  return <div className={styles.loading} />;
 };
 
 async function queryUserAgent(tabId: number): Promise<string> {

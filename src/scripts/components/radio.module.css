@@ -1,7 +1,3 @@
-.group:not(:first-child) {
-  margin-top: 1em;
-}
-
 .radio {
   border-radius: 50%;
   cursor: pointer;

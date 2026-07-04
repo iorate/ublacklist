@@ -3,7 +3,8 @@ import dotsVertical from "@mdi/svg/svg/dots-vertical.svg";
 import type React from "react";
 import { svgToDataURL } from "../shared/utilities.ts";
 import { applyClassName } from "./helpers.tsx";
-import { IconButton } from "./icon-button.tsx";
+import { TemplateIcon } from "./icon.tsx";
+import iconButtonStyles from "./icon-button.module.css";
 import styles from "./menu.module.css";
 
 export type MenuProps = React.JSX.IntrinsicElements["button"] & {
@@ -17,7 +18,15 @@ export function Menu({ children, disabled = false, ...props }: MenuProps) {
       <BaseMenu.Trigger
         {...props}
         disabled={disabled}
-        render={<IconButton iconURL={svgToDataURL(dotsVertical)} />}
+        render={
+          <button className={iconButtonStyles.button} type="button">
+            <TemplateIcon
+              color="var(--ub-color-text-secondary)"
+              iconSize="24px"
+              url={svgToDataURL(dotsVertical)}
+            />
+          </button>
+        }
       />
       <BaseMenu.Portal>
         <BaseMenu.Positioner align="end" className={styles.positioner}>

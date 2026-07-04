@@ -1,4 +1,4 @@
-import { useClassName } from "./utilities.ts";
+import { useClassName } from "../utilities.ts";
 
 const fontFamily =
   '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';

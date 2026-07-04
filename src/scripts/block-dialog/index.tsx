@@ -4,21 +4,18 @@ import * as punycode from "punycode/";
 import React, { useId, useMemo, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import icon from "../../icons/icon.svg";
-import { ScopedBaseline } from "../components/baseline.tsx";
-import { Button } from "../components/button.tsx";
 import {
   FOCUS_DEFAULT_CLASS,
   FOCUS_END_CLASS,
   FOCUS_START_CLASS,
 } from "../components/constants.ts";
+import { ScopedBaseline } from "../components/legacy/baseline.tsx";
+import { Button } from "../components/legacy/button.tsx";
 import {
   Details,
   DetailsBody,
   DetailsSummary,
-} from "../components/details.tsx";
-import { Icon } from "../components/icon.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { ControlLabel, Label, LabelWrapper } from "../components/label.tsx";
+} from "../components/legacy/details.tsx";
 import {
   Dialog,
   DialogBody,
@@ -26,12 +23,19 @@ import {
   DialogHeader,
   DialogTitle,
   EmbeddedDialog,
-} from "../components/legacy-dialog.tsx";
-import { MenuItem } from "../components/legacy-menu.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import { SplitButton } from "../components/split-button.tsx";
+} from "../components/legacy/dialog.tsx";
+import { Icon } from "../components/legacy/icon.tsx";
+import { IconButton } from "../components/legacy/icon-button.tsx";
+import {
+  ControlLabel,
+  Label,
+  LabelWrapper,
+} from "../components/legacy/label.tsx";
+import { MenuItem } from "../components/legacy/menu.tsx";
+import { Row, RowItem } from "../components/legacy/row.tsx";
+import { SplitButton } from "../components/legacy/split-button.tsx";
+import { TextArea } from "../components/legacy/textarea.tsx";
 import { StylesProvider } from "../components/styles.tsx";
-import { TextArea } from "../components/textarea.tsx";
 import {
   darkTheme,
   lightTheme,

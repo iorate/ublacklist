@@ -1,0 +1,29 @@
+.table {
+  border-spacing: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.headerCell {
+  color: var(--ub-color-text-secondary);
+  font-weight: normal;
+  overflow-wrap: break-word;
+  padding: 0.75em 0;
+  text-align: start;
+  vertical-align: middle;
+}
+
+.headerCell:not(:first-child) {
+  padding-left: 0.75em;
+}
+
+.cell {
+  border-top: solid 1px var(--ub-color-separator);
+  overflow-wrap: break-word;
+  padding: 0.75em 0;
+  vertical-align: middle;
+}
+
+.cell:not(:first-child) {
+  padding-left: 0.75em;
+}

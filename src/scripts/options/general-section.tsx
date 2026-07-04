@@ -1,7 +1,9 @@
+import { Button } from "@base-ui/react/button";
 import { Checkbox } from "@base-ui/react/checkbox";
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
+import clsx from "clsx";
 import { useEffect, useId, useState } from "react";
-import { Button, LinkButton } from "../components/button.tsx";
+import buttonStyles from "../components/button.module.css";
 import styles from "../components/checkbox.module.css";
 import {
   Dialog,
@@ -10,8 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/dialog.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { Indent } from "../components/indent.tsx";
+import { TemplateIcon } from "../components/icon.tsx";
+import iconButtonStyles from "../components/icon-button.module.css";
+import indentStyles from "../components/indent.module.css";
 import {
   ControlLabel,
   Label,
@@ -19,17 +22,11 @@ import {
   SubLabel,
 } from "../components/label.tsx";
 import { expandLinks } from "../components/link.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import {
-  Section,
-  SectionBody,
-  SectionHeader,
-  SectionItem,
-  SectionTitle,
-} from "../components/section.tsx";
+import rowStyles from "../components/row.module.css";
+import sectionStyles from "../components/section.module.css";
 import { Select, SelectOption } from "../components/select.tsx";
-import { Text } from "../components/text.tsx";
-import { TextArea } from "../components/textarea.tsx";
+import textStyles from "../components/text.module.css";
+import textareaStyles from "../components/textarea.module.css";
 import { browser } from "../shared/browser.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
@@ -75,8 +72,8 @@ const ImportBlacklistForm: React.FC<{
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem>
+        <div className={rowStyles.row}>
+          <div className={rowStyles.rowItem}>
             <Select
               value={source}
               onValueChange={(value) => {
@@ -90,11 +87,11 @@ const ImportBlacklistForm: React.FC<{
                 {translate("options_importBlacklistDialog_fromPB")}
               </SelectOption>
             </Select>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
         {source === "pb" && (
-          <Row>
-            <RowItem expanded>
+          <div className={rowStyles.row}>
+            <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <LabelWrapper fullWidth>
                 <SubLabel>
                   {translate("options_importBlacklistDialog_helper")}
@@ -103,9 +100,11 @@ const ImportBlacklistForm: React.FC<{
                   {translate("options_blacklistExample", "example.com")}
                 </SubLabel>
               </LabelWrapper>
-              <TextArea
+              <textarea
                 aria-label={translate("options_importBlacklistDialog_pbLabel")}
+                className={textareaStyles.textArea}
                 rows={5}
+                style={{ height: "calc(1.5em * 5 + 1em + 2px)" }}
                 spellCheck="false"
                 value={pb}
                 wrap="off"
@@ -113,12 +112,12 @@ const ImportBlacklistForm: React.FC<{
                   setPB(e.currentTarget.value);
                 }}
               />
-            </RowItem>
-          </Row>
+            </div>
+          </div>
         )}
-        <Row>
-          <RowItem>
-            <Indent>
+        <div className={rowStyles.row}>
+          <div className={rowStyles.rowItem}>
+            <div className={indentStyles.indent}>
               <Checkbox.Root
                 checked={append}
                 className={styles.checkbox}
@@ -127,26 +126,31 @@ const ImportBlacklistForm: React.FC<{
               >
                 <Checkbox.Indicator className={styles.indicator} />
               </Checkbox.Root>
-            </Indent>
-          </RowItem>
-          <RowItem expanded>
+            </div>
+          </div>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper>
               <ControlLabel for={`${id}-append`}>
                 {translate("options_importBlacklistDialog_append")}
               </ControlLabel>
             </LabelWrapper>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button onClick={close}>{translate("cancelButton")}</Button>
-          </RowItem>
-          <RowItem>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.secondary)}
+              onClick={close}
+            >
+              {translate("cancelButton")}
+            </Button>
+          </div>
+          <div className={rowStyles.rowItem}>
             {source === "file" ? (
               <Button
-                primary
+                className={clsx(buttonStyles.button, buttonStyles.primary)}
                 onClick={async () => {
                   const text = await uploadTextFile("text/plain");
                   if (text == null) {
@@ -160,8 +164,8 @@ const ImportBlacklistForm: React.FC<{
               </Button>
             ) : (
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.primary)}
                 disabled={!pb}
-                primary
                 onClick={() => {
                   let newBlacklist = "";
                   for (const domain of lines(pb)) {
@@ -178,8 +182,8 @@ const ImportBlacklistForm: React.FC<{
                 {translate("options_importBlacklistDialog_importButton")}
               </Button>
             )}
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </>
   );
@@ -220,9 +224,9 @@ const SetBlacklist: React.FC = () => {
     [],
   );
   return (
-    <SectionItem>
-      <Row>
-        <RowItem expanded>
+    <div className={sectionStyles.item}>
+      <div className={rowStyles.row}>
+        <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <LabelWrapper fullWidth>
             <Label>{translate("options_blacklistLabel")}</Label>
             <SubLabel>
@@ -248,14 +252,17 @@ const SetBlacklist: React.FC = () => {
               setBlacklistDirty(true);
             }}
           />
-        </RowItem>
-      </Row>
-      <Row multiline right>
+        </div>
+      </div>
+      <div
+        className={clsx(rowStyles.row, rowStyles.multiline, rowStyles.right)}
+      >
         {latestBlacklist != null && (
-          <RowItem expanded>
-            <Text>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <span className={textStyles.secondary}>
               {translate("options_blacklistUpdated")}{" "}
-              <LinkButton
+              <Button
+                className={buttonStyles.linkButton}
                 onClick={() => {
                   setBlacklist(latestBlacklist);
                   setBlacklistDirty(false);
@@ -263,23 +270,25 @@ const SetBlacklist: React.FC = () => {
                 }}
               >
                 {translate("options_reloadBlacklistButton")}
-              </LinkButton>
-            </Text>
-          </RowItem>
+              </Button>
+            </span>
+          </div>
         )}
-        <RowItem>
-          <Row>
-            <RowItem>
+        <div className={rowStyles.rowItem}>
+          <div className={rowStyles.row}>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={() => {
                   setImportBlacklistDialogOpen(true);
                 }}
               >
                 {translate("options_importBlacklistButton")}
               </Button>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.secondary)}
                 onClick={() => {
                   downloadTextFile(
                     "uBlacklist.txt",
@@ -290,12 +299,12 @@ const SetBlacklist: React.FC = () => {
               >
                 {translate("options_exportBlacklistButton")}
               </Button>
-            </RowItem>
-            <RowItem>
+            </div>
+            <div className={rowStyles.rowItem}>
               <Button
+                className={clsx(buttonStyles.button, buttonStyles.primary)}
                 data-testid="save-blacklist-button"
                 disabled={!blacklistDirty}
-                primary
                 onClick={() => {
                   void saveToLocalStorage({ blacklist }, "options");
                   setBlacklistDirty(false);
@@ -304,93 +313,104 @@ const SetBlacklist: React.FC = () => {
               >
                 {translate("options_saveBlacklistButton")}
               </Button>
-            </RowItem>
-          </Row>
-        </RowItem>
-      </Row>
+            </div>
+          </div>
+        </div>
+      </div>
       <ImportBlacklistDialog
         close={() => setImportBlacklistDialogOpen(false)}
         open={importBlacklistDialogOpen}
         setBlacklist={setBlacklist}
         setBlacklistDirty={setBlacklistDirty}
       />
-    </SectionItem>
+    </div>
   );
 };
 
 const RegisterSearchEngines: React.FC = () => {
   return (
-    <SectionItem>
-      <Row>
-        <RowItem expanded>
+    <div className={sectionStyles.item}>
+      <div className={rowStyles.row}>
+        <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <LabelWrapper>
             <Label>{translate("options_otherSearchEngines")}</Label>
             <SubLabel>
               {translate("options_otherSearchEnginesDescription")}
             </SubLabel>
           </LabelWrapper>
-        </RowItem>
-        <RowItem>
-          <IconButton
+        </div>
+        <div className={rowStyles.rowItem}>
+          <button
+            className={iconButtonStyles.button}
+            type="button"
             aria-label={translate("options_openSerpInfoOptionsButton")}
-            iconURL={svgToDataURL(openInNewSVG)}
             onClick={() => {
               browser.tabs.create({
                 url: "/pages/serpinfo-options.html",
               });
             }}
-          />
-        </RowItem>
-      </Row>
-    </SectionItem>
+          >
+            <TemplateIcon
+              color="var(--ub-color-text-secondary)"
+              iconSize="24px"
+              url={svgToDataURL(openInNewSVG)}
+            />
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export const GeneralSection: React.FC<{ id: string }> = (props) => {
   const id = useId();
   return (
-    <Section aria-labelledby={`${id}-title`} id={props.id}>
-      <SectionHeader>
-        <SectionTitle id={`${id}-title`}>
+    <section
+      className={sectionStyles.section}
+      aria-labelledby={`${id}-title`}
+      id={props.id}
+    >
+      <div className={sectionStyles.header}>
+        <h1 className={sectionStyles.title} id={`${id}-title`}>
           {translate("options_generalTitle")}
-        </SectionTitle>
-      </SectionHeader>
-      <SectionBody>
+        </h1>
+      </div>
+      <div className={sectionStyles.body}>
         <SetBlacklist />
         <RegisterSearchEngines />
-        <SectionItem>
+        <div className={sectionStyles.item}>
           <SetBooleanItem
             itemKey="blockWholeSite"
             label={translate("options_blockWholeSiteLabel")}
             subLabels={[translate("options_blockWholeSiteDescription")]}
           />
-        </SectionItem>
-        <SectionItem>
+        </div>
+        <div className={sectionStyles.item}>
           <SetBooleanItem
             itemKey="enableMatchingRules"
             label={translate("options_enableMatchingRules")}
           />
-        </SectionItem>
-        <SectionItem>
+        </div>
+        <div className={sectionStyles.item}>
           <SetBooleanItem
             itemKey="skipBlockDialog"
             label={translate("options_skipBlockDialogLabel")}
             subLabels={[translate("options_skipBlockDialogDescription")]}
           />
-        </SectionItem>
-        <SectionItem>
+        </div>
+        <div className={sectionStyles.item}>
           <SetBooleanItem
             itemKey="hideBlockLinks"
             label={translate("options_hideBlockButtonsLabel")}
           />
-        </SectionItem>
-        <SectionItem>
+        </div>
+        <div className={sectionStyles.item}>
           <SetBooleanItem
             itemKey="hideControl"
             label={translate("options_hideControlLabel")}
           />
-        </SectionItem>
-      </SectionBody>
-    </Section>
+        </div>
+      </div>
+    </section>
   );
 };

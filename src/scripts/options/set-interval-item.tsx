@@ -1,12 +1,13 @@
+import clsx from "clsx";
 import dayjs from "dayjs";
 import { ControlLabel, LabelWrapper } from "../components/label.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import { useClassName } from "../components/utilities.ts";
+import rowStyles from "../components/row.module.css";
 import "../shared/dayjs-locales.ts";
 import { Select, SelectOption } from "../components/select.tsx";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
+import localStyles from "./set-interval-item.module.css";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
 
@@ -20,23 +21,14 @@ export const SetIntervalItem: React.FC<{
 
   valueOptions = [...new Set([...valueOptions, item])].sort((a, b) => a - b);
 
-  const rowClass = useClassName(
-    () => ({
-      "&&": {
-        minHeight: "2.5em",
-      },
-    }),
-    [],
-  );
-
   return (
-    <Row className={rowClass}>
-      <RowItem expanded>
+    <div className={clsx(rowStyles.row, localStyles.row)}>
+      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
         </LabelWrapper>
-      </RowItem>
-      <RowItem>
+      </div>
+      <div className={rowStyles.rowItem}>
         <Select
           data-testid={itemKey}
           disabled={disabled}
@@ -64,7 +56,7 @@ export const SetIntervalItem: React.FC<{
             </SelectOption>
           ))}
         </Select>
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
 };
