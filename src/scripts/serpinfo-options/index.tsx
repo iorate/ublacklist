@@ -10,14 +10,12 @@ import "../components/baseline.css";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Button, LinkButton } from "../components/button.tsx";
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import { Container } from "../components/container.tsx";
 import {
   Dialog,
   DialogBody,
   DialogFooter,
   DialogHeader,
-  type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
 import { IconButton } from "../components/icon-button.tsx";
@@ -30,7 +28,6 @@ import {
 } from "../components/label.tsx";
 import { Link } from "../components/link.tsx";
 import { List, ListItem } from "../components/list.tsx";
-import { Portal } from "../components/portal.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import {
   Section,
@@ -50,6 +47,7 @@ import { permissionExemptOrigins } from "../shared/constants.ts";
 import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
 import { postMessage, sendMessage } from "../shared/messages.ts";
+import { requestPermission } from "../shared/permissions.ts";
 import type {
   RemoteSerpInfo,
   UserSerpInfo,
@@ -167,12 +165,10 @@ function collectMatches(serpInfo: SerpInfo): string[] {
 function RemoteSerpInfoSection(props: { id: string }) {
   const id = useId();
   const settings = storageStore.use.serpInfoSettings();
-  const [addDialogProps, setAddDialogProps] = useState<{
-    initialURL: string;
-  } | null>(null);
-  const [showDialogProps, setShowDialogProps] = useState<{
-    remote: RemoteSerpInfo;
-  } | null>(null);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const addDialogInitialURLRef = useRef("");
+  const [showDialogRemote, setShowDialogRemote] =
+    useState<RemoteSerpInfo | null>(null);
   const [updateStatus, setUpdateStatus] = useState<
     "idle" | "updating" | "done"
   >("idle");
@@ -180,7 +176,8 @@ function RemoteSerpInfoSection(props: { id: string }) {
     const here = new URL(location.href);
     const url = here.searchParams.get("url");
     if (url != null) {
-      setAddDialogProps({ initialURL: url });
+      addDialogInitialURLRef.current = url;
+      setAddDialogOpen(true);
     }
     history.replaceState(null, "", here.pathname);
     return () => history.replaceState(null, "", here);
@@ -257,7 +254,7 @@ function RemoteSerpInfoSection(props: { id: string }) {
                             )}
                             iconURL={svgToDataURL(eyeSVG)}
                             onClick={() => {
-                              setShowDialogProps({ remote: r });
+                              setShowDialogRemote(r);
                             }}
                           />
                         </RowItem>
@@ -335,7 +332,7 @@ function RemoteSerpInfoSection(props: { id: string }) {
             <RowItem>
               <Button
                 onClick={() => {
-                  setAddDialogProps({ initialURL: "" });
+                  setAddDialogOpen(true);
                 }}
               >
                 {translate("options_addRemoteSerpInfoButton")}
@@ -344,48 +341,55 @@ function RemoteSerpInfoSection(props: { id: string }) {
           </Row>
         </SectionItem>
       </SectionBody>
-      <Portal id={`${id}-add-portal`}>
-        {addDialogProps && (
-          <AddRemoteSerpInfoDialog
-            open={true}
-            close={() => {
-              setAddDialogProps(null);
-            }}
-            initialURL={addDialogProps.initialURL}
-          />
-        )}
-      </Portal>
-      <Portal id={`${id}-show-portal`}>
-        {showDialogProps && (
-          <ShowRemoteSerpInfoDialog
-            open={true}
-            close={() => {
-              setShowDialogProps(null);
-            }}
-            remote={showDialogProps.remote}
-          />
-        )}
-      </Portal>
+      <AddRemoteSerpInfoDialog
+        close={() => {
+          setAddDialogOpen(false);
+          addDialogInitialURLRef.current = "";
+        }}
+        initialURL={addDialogInitialURLRef.current}
+        open={addDialogOpen}
+      />
+      <ShowRemoteSerpInfoDialog
+        close={() => {
+          setShowDialogRemote(null);
+        }}
+        open={showDialogRemote != null}
+        remote={showDialogRemote}
+      />
     </Section>
   );
 }
 
-function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
-  const { initialURL, ...dialogProps } = props;
+function AddRemoteSerpInfoForm({
+  close,
+  initialURL,
+}: {
+  close: () => void;
+  initialURL: string;
+}) {
   const id = useId();
-  const [url, setURL] = useState(initialURL);
-  const [urlValid, setURLValid] = useState(false);
-  const urlInputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (urlInputRef.current) {
-      setURLValid(urlInputRef.current.validity.valid);
-    }
-  }, []);
-  const addable = urlValid;
+  const [state, setState] = useState(() => ({
+    url: initialURL,
+    urlValid: (() => {
+      // pattern="https?:.*"
+      // required
+      if (!initialURL || !/^https?:/.test(initialURL)) {
+        return false;
+      }
+      // type="url"
+      try {
+        new URL(initialURL);
+      } catch {
+        return false;
+      }
+      return true;
+    })(),
+  }));
+  const addable = state.urlValid;
   return (
-    <Dialog aria-labelledby={`${id}-title`} {...dialogProps}>
+    <>
       <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
+        <DialogTitle>
           {translate("options_addRemoteSerpInfoDialog_title")}
         </DialogTitle>
       </DialogHeader>
@@ -398,20 +402,17 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
               </ControlLabel>
             </LabelWrapper>
             <Input
-              className={FOCUS_START_CLASS}
               id={`${id}-url`}
               pattern="https?:.*"
-              ref={urlInputRef}
               required={true}
               type="url"
-              value={url}
+              value={state.url}
               onChange={(e) => {
                 const {
                   value: url,
                   validity: { valid: urlValid },
                 } = e.currentTarget;
-                setURL(url);
-                setURLValid(urlValid);
+                setState({ url, urlValid });
               }}
             />
           </RowItem>
@@ -420,32 +421,18 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button
-              className={!addable ? FOCUS_END_CLASS : ""}
-              onClick={props.close}
-            >
-              {translate("cancelButton")}
-            </Button>
+            <Button onClick={close}>{translate("cancelButton")}</Button>
           </RowItem>
           <RowItem>
             <Button
-              className={addable ? FOCUS_END_CLASS : ""}
               disabled={!addable}
               primary
               onClick={async () => {
-                const origin = new URL(url).origin;
-                if (
-                  !(permissionExemptOrigins as readonly string[]).includes(
-                    origin,
-                  ) &&
-                  !(await browser.permissions.request({
-                    origins: [`${origin}/*`],
-                  }))
-                ) {
+                if (!(await requestPermission([state.url]))) {
                   return;
                 }
-                postMessage("add-remote-serpinfo", url);
-                props.close();
+                postMessage("add-remote-serpinfo", state.url);
+                close();
               }}
             >
               {translate("options_addRemoteSerpInfoDialog_addButton")}
@@ -453,21 +440,39 @@ function AddRemoteSerpInfoDialog(props: DialogProps & { initialURL: string }) {
           </RowItem>
         </Row>
       </DialogFooter>
+    </>
+  );
+}
+
+function AddRemoteSerpInfoDialog({
+  close,
+  initialURL,
+  open,
+}: {
+  close: () => void;
+  initialURL: string;
+  open: boolean;
+}) {
+  return (
+    <Dialog close={close} open={open}>
+      <AddRemoteSerpInfoForm close={close} initialURL={initialURL} />
     </Dialog>
   );
 }
 
-function ShowRemoteSerpInfoDialog(
-  props: DialogProps & { remote: RemoteSerpInfo },
-) {
-  const { remote, ...dialogProps } = props;
-  const id = useId();
+function ShowRemoteSerpInfoDialog({
+  close,
+  open,
+  remote,
+}: {
+  close: () => void;
+  open: boolean;
+  remote: RemoteSerpInfo | null;
+}) {
   return (
-    <Dialog aria-labelledby={`${id}-title`} width="600px" {...dialogProps}>
+    <Dialog close={close} open={open} width="600px">
       <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
-          {remote.parsed?.name ?? remote.url}
-        </DialogTitle>
+        <DialogTitle>{remote?.parsed?.name ?? remote?.url}</DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
@@ -475,7 +480,7 @@ function ShowRemoteSerpInfoDialog(
             <Editor
               height="max(200px, 100dvh - 170px)"
               readOnly
-              value={remote.content ?? ""}
+              value={remote?.content ?? ""}
             />
           </RowItem>
         </Row>
@@ -483,7 +488,7 @@ function ShowRemoteSerpInfoDialog(
       <DialogFooter>
         <Row right>
           <RowItem>
-            <Button className={FOCUS_END_CLASS} primary onClick={props.close}>
+            <Button primary onClick={close}>
               {translate("okButton")}
             </Button>
           </RowItem>

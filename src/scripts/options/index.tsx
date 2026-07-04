@@ -14,7 +14,7 @@ import { initializePlatform } from "./platform.ts";
 import {
   type OptionsQuery,
   SubscriptionSection,
-} from "./subscription-section.tsx";
+} from "./subscription-section.ts";
 import { SyncSection } from "./sync-section.tsx";
 
 const Options: React.FC<{ query: OptionsQuery }> = ({ query }) => (

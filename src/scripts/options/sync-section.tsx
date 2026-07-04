@@ -4,13 +4,11 @@ import dayjsDuration from "dayjs/plugin/duration";
 import { useEffect, useId, useState } from "react";
 import { Button, LinkButton } from "../components/button.tsx";
 import styles from "../components/checkbox.module.css";
-import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
 import {
   Dialog,
   DialogBody,
   DialogFooter,
   DialogHeader,
-  type DialogProps,
   DialogTitle,
 } from "../components/dialog.tsx";
 import { Indent } from "../components/indent.tsx";
@@ -21,7 +19,6 @@ import {
   SubLabel,
 } from "../components/label.tsx";
 import { List, ListItem } from "../components/list.tsx";
-import { Portal } from "../components/portal.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import {
   Section,
@@ -32,7 +29,6 @@ import {
 } from "../components/section.tsx";
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
-import { usePrevious } from "../components/utilities.ts";
 import { browser } from "../shared/browser.ts";
 import "../shared/dayjs-locales.ts";
 import { omit } from "es-toolkit";
@@ -91,7 +87,7 @@ const initialWebDAVParams = {
   path: "",
 };
 
-const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
+const TurnOnSyncForm: React.FC<{ close: () => void }> = ({ close }) => {
   const id = useId();
   const [state, setState] = useState({
     phase: "none" as "none" | "auth" | "auth-alt" | "conn" | "conn-alt",
@@ -102,16 +98,6 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
     errorMessage: "",
     initialForce: "none" as SyncForce,
   });
-  const prevOpen = usePrevious(open);
-  if (open && !prevOpen) {
-    state.phase = "none";
-    state.backendId = "googleDrive";
-    state.useAltFlow = false;
-    state.authCode = "";
-    state.webDAVParams = initialWebDAVParams;
-    state.errorMessage = "";
-    state.initialForce = "none";
-  }
   const forceAltFlow =
     state.backendId === "webdav" || state.backendId === "browserSync"
       ? false
@@ -125,17 +111,14 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
           (state.phase === "auth-alt" && state.authCode !== "");
 
   return (
-    <Dialog aria-labelledby={`${id}-title`} close={close} open={open}>
+    <>
       <DialogHeader>
-        <DialogTitle id={`${id}-title`}>
-          {translate("options_turnOnSyncDialog_title")}
-        </DialogTitle>
+        <DialogTitle>{translate("options_turnOnSyncDialog_title")}</DialogTitle>
       </DialogHeader>
       <DialogBody>
         <Row>
           <RowItem>
             <Select
-              className={state.phase === "none" ? FOCUS_START_CLASS : ""}
               disabled={state.phase !== "none"}
               value={state.backendId}
               onChange={(e) => {
@@ -306,9 +289,6 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
                   </LabelWrapper>
                   <TextArea
                     breakAll
-                    className={
-                      state.phase === "auth-alt" ? FOCUS_START_CLASS : ""
-                    }
                     disabled={state.phase !== "auth-alt"}
                     id={`${id}-auth-code`}
                     rows={2}
@@ -363,24 +343,10 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
             )}
           </RowItem>
           <RowItem>
-            <Button
-              className={
-                state.phase === "auth" ||
-                state.phase === "conn" ||
-                state.phase === "conn-alt"
-                  ? `${FOCUS_START_CLASS} ${FOCUS_END_CLASS}`
-                  : okButtonEnabled
-                    ? ""
-                    : FOCUS_END_CLASS
-              }
-              onClick={close}
-            >
-              {translate("cancelButton")}
-            </Button>
+            <Button onClick={close}>{translate("cancelButton")}</Button>
           </RowItem>
           <RowItem>
             <Button
-              className={okButtonEnabled ? FOCUS_END_CLASS : ""}
               disabled={!okButtonEnabled}
               primary
               onClick={() => {
@@ -501,14 +467,22 @@ const TurnOnSyncDialog: React.FC<DialogProps> = ({ close, open }) => {
           </RowItem>
         </Row>
       </DialogFooter>
-    </Dialog>
+    </>
   );
 };
+
+const TurnOnSyncDialog: React.FC<{ close: () => void; open: boolean }> = ({
+  close,
+  open,
+}) => (
+  <Dialog close={close} open={open}>
+    <TurnOnSyncForm close={close} />
+  </Dialog>
+);
 
 const TurnOnSync: React.FC<{
   backendId: SyncBackendId | false | null;
 }> = ({ backendId }) => {
-  const id = useId();
   const [turnOnSyncDialogOpen, setTurnOnSyncDialogOpen] = useState(false);
   return (
     <SectionItem>
@@ -546,12 +520,10 @@ const TurnOnSync: React.FC<{
           )}
         </RowItem>
       </Row>
-      <Portal id={`${id}-portal`}>
-        <TurnOnSyncDialog
-          close={() => setTurnOnSyncDialogOpen(false)}
-          open={turnOnSyncDialogOpen}
-        />
-      </Portal>
+      <TurnOnSyncDialog
+        close={() => setTurnOnSyncDialogOpen(false)}
+        open={turnOnSyncDialogOpen}
+      />
     </SectionItem>
   );
 };
