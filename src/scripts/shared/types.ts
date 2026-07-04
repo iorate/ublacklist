@@ -23,7 +23,7 @@ export type SuccessResult = {
 export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
-// #region Clouds
+// #region SyncBackends
 export type CloudId = "googleDrive" | "dropbox";
 export type SyncBackendId = CloudId | "webdav" | "browserSync";
 
@@ -66,19 +66,22 @@ export type CloudToken = {
   refreshToken: string;
 };
 
-export type WebDAV = {
-  ensureWebDAVFolder(params: WebDAVParams): Promise<void>;
+export type SyncBackendClient = {
+  createFile(
+    filename: string,
+    content: string,
+    modifiedTime: dayjs.Dayjs,
+  ): Promise<void>;
   findFile(
-    params: WebDAVParams,
     filename: string,
   ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
-  readFile(params: WebDAVParams, id: string): Promise<{ content: string }>;
-  writeFile(
-    params: WebDAVParams,
+  readFile(id: string): Promise<{ content: string }>;
+  updateFile(
     id: string,
     content: string,
     modifiedTime: dayjs.Dayjs,
   ): Promise<void>;
+  modifiedTimePrecision: "second" | "millisecond";
 };
 
 export type WebDAVParams = {
@@ -87,7 +90,7 @@ export type WebDAVParams = {
   password: string;
   path: string;
 };
-// #endregion Clouds
+// #endregion SyncBackends
 
 // #region LocalStorage
 export type PlainRuleset = {

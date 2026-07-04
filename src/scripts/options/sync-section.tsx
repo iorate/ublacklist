@@ -511,7 +511,7 @@ function TurnOnSync({
             <Button
               className={clsx(buttonStyles.button, buttonStyles.secondary)}
               onClick={() => {
-                void sendMessage("disconnect-from-cloud");
+                void sendMessage("disconnect-from-sync-backend");
               }}
             >
               {translate("options_turnOffSync")}

@@ -5,6 +5,7 @@ import LZString from "lz-string";
 import { z } from "zod";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
+import type { SyncBackendClient } from "../shared/types.ts";
 
 // QUOTA_BYTES_PER_ITEM (8192)
 // - key length (10 bytes for "HHHHHHHH.H" format where H = hex digit)
@@ -71,71 +72,79 @@ async function writeFileInternal(
   }
 }
 
-export const browserSync = {
-  async createFile(
-    filename: string,
-    content: string,
-    modifiedTime: dayjs.Dayjs,
-  ): Promise<void> {
-    const id = computeId(filename);
-    const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
-    if (existingMetadataRaw != null) {
-      throw new Error(`File already exists: ${filename}`);
-    }
-    await writeFileInternal(id, content, filename, modifiedTime);
-  },
+async function createFile(
+  filename: string,
+  content: string,
+  modifiedTime: dayjs.Dayjs,
+): Promise<void> {
+  const id = computeId(filename);
+  const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
+  if (existingMetadataRaw != null) {
+    throw new Error(`File already exists: ${filename}`);
+  }
+  await writeFileInternal(id, content, filename, modifiedTime);
+}
 
-  async findFile(
-    filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
-    const id = computeId(filename);
-    const { [id]: metadataRaw } = await browser.storage.sync.get(id);
-    if (metadataRaw == null) {
-      return null;
-    }
-    const metadata = metadataSchema.parse(metadataRaw);
-    if (metadata.filename !== filename) {
-      throw new Error(`Hash collision for filename: ${filename}`);
-    }
-    return { id, modifiedTime: dayjs(metadata.lastModified) };
-  },
+async function findFile(
+  filename: string,
+): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  const id = computeId(filename);
+  const { [id]: metadataRaw } = await browser.storage.sync.get(id);
+  if (metadataRaw == null) {
+    return null;
+  }
+  const metadata = metadataSchema.parse(metadataRaw);
+  if (metadata.filename !== filename) {
+    throw new Error(`Hash collision for filename: ${filename}`);
+  }
+  return { id, modifiedTime: dayjs(metadata.lastModified) };
+}
 
-  async readFile(id: string): Promise<{ content: string }> {
-    const { [id]: metadataRaw } = await browser.storage.sync.get(id);
-    if (metadataRaw == null) {
-      throw new Error(`Metadata not found: ${id}`);
-    }
-    const metadata = metadataSchema.parse(metadataRaw);
-    const chunkKeys = makeChunkKeys(id, metadata.chunkCount);
-    const chunks = await browser.storage.sync.get(chunkKeys);
-    const compressed = chunkKeys
-      .map((key) => {
-        const chunk = chunks[key];
-        if (typeof chunk !== "string") {
-          throw new Error(`Chunk not found or invalid: ${key}`);
-        }
-        return chunk;
-      })
-      .join("");
-    return { content: LZString.decompressFromBase64(compressed) };
-  },
+async function readFile(id: string): Promise<{ content: string }> {
+  const { [id]: metadataRaw } = await browser.storage.sync.get(id);
+  if (metadataRaw == null) {
+    throw new Error(`Metadata not found: ${id}`);
+  }
+  const metadata = metadataSchema.parse(metadataRaw);
+  const chunkKeys = makeChunkKeys(id, metadata.chunkCount);
+  const chunks = await browser.storage.sync.get(chunkKeys);
+  const compressed = chunkKeys
+    .map((key) => {
+      const chunk = chunks[key];
+      if (typeof chunk !== "string") {
+        throw new Error(`Chunk not found or invalid: ${key}`);
+      }
+      return chunk;
+    })
+    .join("");
+  return { content: LZString.decompressFromBase64(compressed) };
+}
 
-  async writeFile(
-    id: string,
-    content: string,
-    modifiedTime: dayjs.Dayjs,
-  ): Promise<void> {
-    const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
-    if (existingMetadataRaw == null) {
-      throw new Error(`Metadata not found: ${id}`);
-    }
-    const existingMetadata = metadataSchema.parse(existingMetadataRaw);
-    await writeFileInternal(
-      id,
-      content,
-      existingMetadata.filename,
-      modifiedTime,
-      existingMetadata.chunkCount,
-    );
-  },
-};
+async function writeFile(
+  id: string,
+  content: string,
+  modifiedTime: dayjs.Dayjs,
+): Promise<void> {
+  const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
+  if (existingMetadataRaw == null) {
+    throw new Error(`Metadata not found: ${id}`);
+  }
+  const existingMetadata = metadataSchema.parse(existingMetadataRaw);
+  await writeFileInternal(
+    id,
+    content,
+    existingMetadata.filename,
+    modifiedTime,
+    existingMetadata.chunkCount,
+  );
+}
+
+export function createClient(): SyncBackendClient {
+  return {
+    createFile,
+    findFile,
+    readFile,
+    updateFile: writeFile,
+    modifiedTimePrecision: "millisecond",
+  };
+}

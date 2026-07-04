@@ -2,13 +2,13 @@ import { browser } from "../shared/browser.ts";
 import { postMessage } from "../shared/messages.ts";
 import type { Result, SyncForce } from "../shared/types.ts";
 import { errorResult, Mutex, successResult } from "../shared/utilities.ts";
-import { syncFile } from "./clouds.ts";
 import {
   loadAllFromRawStorage,
   modifyAllInRawStorage,
   type RawStorageItems,
   saveToRawStorage,
 } from "./raw-storage.ts";
+import { syncFile } from "./sync-backends.ts";
 import { type SyncDirtyFlags, syncSections } from "./sync-sections.ts";
 
 export type { SyncDirtyFlags };
