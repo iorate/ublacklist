@@ -1,9 +1,10 @@
 import React from "react";
-import { DISABLED_OPACITY } from "./constants.ts";
-import { applyClassName, FocusCircle } from "./helpers.tsx";
+import { DISABLED_OPACITY } from "../constants.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useTheme } from "../theme.tsx";
+import { useClassName } from "../utilities.ts";
+import { FocusCircle } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";
-import { useTheme } from "./theme.tsx";
-import { useClassName } from "./utilities.ts";
 
 export type IconButtonProps = React.JSX.IntrinsicElements["button"] & {
   iconURL: string;

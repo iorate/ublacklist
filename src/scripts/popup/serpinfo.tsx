@@ -3,23 +3,23 @@ import cog from "@mdi/svg/svg/cog.svg";
 import { MatchPattern } from "@ublacklist/match-pattern";
 import { useId, useState } from "react";
 import icon from "../../icons/icon.svg";
-import { Button } from "../components/button.tsx";
 import {
   FOCUS_DEFAULT_CLASS,
   FOCUS_END_CLASS,
   FOCUS_START_CLASS,
 } from "../components/constants.ts";
-import { Icon } from "../components/icon.tsx";
-import { IconButton } from "../components/icon-button.tsx";
-import { ControlLabel, LabelWrapper } from "../components/label.tsx";
+import { Button } from "../components/legacy/button.tsx";
 import {
   DialogBody,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   EmbeddedDialog,
-} from "../components/legacy-dialog.tsx";
-import { Row, RowItem } from "../components/row.tsx";
+} from "../components/legacy/dialog.tsx";
+import { Icon } from "../components/legacy/icon.tsx";
+import { IconButton } from "../components/legacy/icon-button.tsx";
+import { ControlLabel, LabelWrapper } from "../components/legacy/label.tsx";
+import { Row, RowItem } from "../components/legacy/row.tsx";
 import styles from "../components/switch.module.css";
 import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";

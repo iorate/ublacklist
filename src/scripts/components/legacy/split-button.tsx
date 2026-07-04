@@ -1,11 +1,11 @@
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import type * as React from "react";
 import { useLayoutEffect, useRef, useState } from "react";
-import { svgToDataURL } from "../shared/utilities.ts";
-import { MENU_ITEM_CLASS, MENU_Z_INDEX } from "./constants.ts";
-import { applyClassName } from "./helpers.tsx";
+import { svgToDataURL } from "../../shared/utilities.ts";
+import { MENU_ITEM_CLASS, MENU_Z_INDEX } from "../constants.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 import { TemplateIcon } from "./icon.tsx";
-import { useClassName } from "./utilities.ts";
 
 // Get the deepest active element across shadow root boundaries.
 // `document.activeElement` stops at shadow host; this walks into shadow roots

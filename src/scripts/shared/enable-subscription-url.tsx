@@ -1,8 +1,10 @@
+import { Button } from "@base-ui/react/button";
+import clsx from "clsx";
 import { use, useState } from "react";
-import { Button } from "../components/button.tsx";
+import buttonStyles from "../components/button.module.css";
 import { Label, LabelWrapper, SubLabel } from "../components/label.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import { SectionItem } from "../components/section.tsx";
+import rowStyles from "../components/row.module.css";
+import sectionStyles from "../components/section.module.css";
 import { browser } from "./browser.ts";
 import {
   rulesetSubscriptionURL,
@@ -41,26 +43,26 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
           isEnabled: translate("options_serpInfoSubscriptionURLIsEnabled"),
         };
   return (
-    <SectionItem>
+    <div className={sectionStyles.item}>
       {enabled ? (
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper>
               <Label>{labels.isEnabled}</Label>
             </LabelWrapper>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       ) : (
-        <Row>
-          <RowItem expanded>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <LabelWrapper>
               <Label>{labels.enable}</Label>
               <SubLabel>{labels.enableDescription}</SubLabel>
             </LabelWrapper>
-          </RowItem>
-          <RowItem>
+          </div>
+          <div className={rowStyles.rowItem}>
             <Button
-              primary
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
               onClick={() => {
                 void browser.permissions
                   .request({
@@ -75,9 +77,9 @@ export function EnableSubscriptionURL(props: { type: "ruleset" | "serpinfo" }) {
             >
               {labels.enableButton}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       )}
-    </SectionItem>
+    </div>
   );
 }

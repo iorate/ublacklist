@@ -1,6 +1,6 @@
 import React from "react";
-import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import { applyClassName } from "../helpers.tsx";
+import { useClassName } from "../utilities.ts";
 
 export type ButtonProps = React.JSX.IntrinsicElements["button"] & {
   primary?: boolean;
@@ -54,37 +54,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-
-export type LinkButtonProps = React.JSX.IntrinsicElements["button"];
-
-export const LinkButton = React.forwardRef(function LinkButton(
-  props: LinkButtonProps,
-  ref: React.Ref<HTMLButtonElement>,
-) {
-  const className = useClassName(
-    (theme) => ({
-      background: "transparent",
-      border: "none",
-      color: theme.link.text,
-      cursor: "pointer",
-      display: "inline",
-      font: "inherit",
-      outline: "none",
-      padding: 0,
-      "&:disabled": {
-        cursor: "default",
-      },
-      "&:focus": {
-        boxShadow: `0 0 0 2px ${theme.focus.shadow}`,
-      },
-      "&:focus:not(:focus-visible)": {
-        boxShadow: "none",
-      },
-      "&:focus:not(:-moz-focusring)": {
-        boxShadow: "none",
-      },
-    }),
-    [],
-  );
-  return <button {...applyClassName(props, className)} ref={ref} />;
-});

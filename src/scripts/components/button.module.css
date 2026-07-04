@@ -1,0 +1,74 @@
+.button {
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  height: 2.5em;
+  outline: none;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.button:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+}
+
+.button.primary {
+  background: var(--ub-color-accent);
+  border: none;
+  color: var(--ub-color-on-accent);
+  padding: 0.5em 1em;
+}
+
+.button.primary:active {
+  background: var(--ub-button-primary-background-active);
+}
+
+.button.primary:disabled {
+  background: var(--ub-button-primary-background-disabled);
+  color: var(--ub-color-text-disabled);
+}
+
+.button.primary:hover:not(:active):not(:disabled) {
+  background: var(--ub-button-primary-background-hovered);
+}
+
+.button.secondary {
+  background: transparent;
+  border: solid 1px var(--ub-color-border);
+  color: var(--ub-color-accent);
+  padding: calc(0.5em - 1px) 1em;
+}
+
+.button.secondary:active {
+  background: var(--ub-button-secondary-background-active);
+}
+
+.button.secondary:disabled {
+  background: transparent;
+  color: var(--ub-color-text-disabled);
+}
+
+.button.secondary:hover:not(:active):not(:disabled) {
+  background: var(--ub-button-secondary-background-hovered);
+}
+
+.linkButton {
+  background: transparent;
+  border: none;
+  color: var(--ub-color-link);
+  cursor: pointer;
+  display: inline;
+  font: inherit;
+  outline: none;
+  padding: 0;
+}
+
+.linkButton:disabled {
+  cursor: default;
+}
+
+.linkButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--ub-color-focus-ring);
+}

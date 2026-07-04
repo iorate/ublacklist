@@ -1,0 +1,7 @@
+.error {
+  color: var(--ub-color-text-secondary);
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  white-space: pre-wrap;
+}

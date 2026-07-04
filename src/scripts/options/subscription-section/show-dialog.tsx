@@ -1,5 +1,7 @@
-import { Badge } from "../../components/badge.tsx";
-import { Button } from "../../components/button.tsx";
+import { Button } from "@base-ui/react/button";
+import clsx from "clsx";
+import badgeStyles from "../../components/badge.module.css";
+import buttonStyles from "../../components/button.module.css";
 import {
   Dialog,
   DialogBody,
@@ -9,50 +11,40 @@ import {
 } from "../../components/dialog.tsx";
 import { Editor } from "../../components/editor.tsx";
 import { Link } from "../../components/link.tsx";
-import { Row, RowItem } from "../../components/row.tsx";
-import { useClassName } from "../../components/utilities.ts";
+import rowStyles from "../../components/row.module.css";
 import { translate } from "../../shared/locales.ts";
 import type { Subscription } from "../../shared/types.ts";
 import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
 import { RulesetEditor } from "../ruleset-editor.tsx";
+import dialogStyles from "./show-dialog.module.css";
 
 export const ShowDialog: React.FC<{
   close: () => void;
   open: boolean;
   subscription: Subscription;
 }> = ({ close, open, subscription }) => {
-  const urlClassName = useClassName(
-    () => ({
-      wordBreak: "break-all",
-    }),
-    [],
-  );
-  const badgeClassName = useClassName(
-    () => ({
-      marginLeft: "0.5em",
-    }),
-    [],
-  );
   return (
     <Dialog close={close} open={open}>
       <DialogHeader>
         <DialogTitle>
           {getSubscriptionDisplayName(subscription)}
           {subscription.type && subscription.type !== "ruleset" ? (
-            <Badge className={badgeClassName}>{subscription.type}</Badge>
+            <span className={clsx(badgeStyles.badge, dialogStyles.badge)}>
+              {subscription.type}
+            </span>
           ) : null}
         </DialogTitle>
       </DialogHeader>
       <DialogBody>
-        <Row>
-          <RowItem expanded>
-            <span className={urlClassName}>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <span className={dialogStyles.url}>
               <Link href={subscription.url}>{subscription.url}</Link>
             </span>
-          </RowItem>
-        </Row>
-        <Row>
-          <RowItem expanded>
+          </div>
+        </div>
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             {subscription.type === "domains" ? (
               <Editor
                 height="200px"
@@ -68,17 +60,20 @@ export const ShowDialog: React.FC<{
                 value={subscription.blacklist}
               />
             )}
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogBody>
       <DialogFooter>
-        <Row right>
-          <RowItem>
-            <Button primary onClick={close}>
+        <div className={clsx(rowStyles.row, rowStyles.right)}>
+          <div className={rowStyles.rowItem}>
+            <Button
+              className={clsx(buttonStyles.button, buttonStyles.primary)}
+              onClick={close}
+            >
               {translate("okButton")}
             </Button>
-          </RowItem>
-        </Row>
+          </div>
+        </div>
       </DialogFooter>
     </Dialog>
   );

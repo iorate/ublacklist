@@ -1,0 +1,33 @@
+.row {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.row:not(:first-child) {
+  margin-top: 1em;
+}
+
+.row.multiline {
+  flex-wrap: wrap;
+}
+
+.row.right {
+  justify-content: flex-end;
+}
+
+.rowItem {
+  flex-grow: 0;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.rowItem:not(:first-child) {
+  margin-left: var(--ub-row-item-spacing, 0.625em);
+}
+
+.rowItem.expanded {
+  flex-grow: 1;
+  flex-shrink: 1;
+}

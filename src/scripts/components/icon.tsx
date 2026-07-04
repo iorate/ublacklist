@@ -1,27 +1,25 @@
-import React from "react";
+import type React from "react";
 import { applyClassName } from "./helpers.tsx";
-import { useClassName } from "./utilities.ts";
+import styles from "./icon.module.css";
 
 export type IconProps = React.JSX.IntrinsicElements["span"] & {
   iconSize?: string;
   url: string;
 };
 
-export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(function Icon(
-  { iconSize = "24px", url, ...props },
-  ref,
-) {
-  const className = useClassName(
-    () => ({
-      background: `url("${url}") center / ${iconSize} no-repeat`,
-      display: "block",
-      height: iconSize,
-      width: iconSize,
-    }),
-    [iconSize, url],
+export function Icon({ iconSize = "24px", url, style, ...props }: IconProps) {
+  return (
+    <span
+      {...applyClassName(props, styles.icon ?? "")}
+      style={{
+        background: `url("${url}") center / ${iconSize} no-repeat`,
+        height: iconSize,
+        width: iconSize,
+        ...style,
+      }}
+    />
   );
-  return <span {...applyClassName(props, className)} ref={ref} />;
-});
+}
 
 export type TemplateIconProps = React.JSX.IntrinsicElements["span"] & {
   color?: string;
@@ -29,23 +27,24 @@ export type TemplateIconProps = React.JSX.IntrinsicElements["span"] & {
   url: string;
 };
 
-export const TemplateIcon = React.forwardRef<
-  HTMLSpanElement,
-  TemplateIconProps
->(function TemplateIcon(
-  { color = "black", iconSize = "24px", url, ...props },
-  ref,
-) {
-  const className = useClassName(
-    () => ({
-      backgroundColor: color,
-      display: "block",
-      height: iconSize,
-      mask: `url("${url}") center / ${iconSize} no-repeat`,
-      WebkitMask: `url("${url}") center / ${iconSize} no-repeat`,
-      width: iconSize,
-    }),
-    [color, iconSize, url],
+export function TemplateIcon({
+  color = "black",
+  iconSize = "24px",
+  url,
+  style,
+  ...props
+}: TemplateIconProps) {
+  return (
+    <span
+      {...applyClassName(props, styles.icon ?? "")}
+      style={{
+        backgroundColor: color,
+        height: iconSize,
+        mask: `url("${url}") center / ${iconSize} no-repeat`,
+        WebkitMask: `url("${url}") center / ${iconSize} no-repeat`,
+        width: iconSize,
+        ...style,
+      }}
+    />
   );
-  return <span {...applyClassName(props, className)} ref={ref} />;
-});
+}

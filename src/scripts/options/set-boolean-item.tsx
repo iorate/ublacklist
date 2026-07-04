@@ -1,12 +1,12 @@
 import { Switch } from "@base-ui/react/switch";
-import { useMemo } from "react";
+import clsx from "clsx";
 import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
-import { Row, RowItem } from "../components/row.tsx";
-import { useCSS } from "../components/styles.tsx";
+import rowStyles from "../components/row.module.css";
 import styles from "../components/switch.module.css";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import type { LocalStorageItems } from "../shared/types.ts";
+import localStyles from "./set-boolean-item.module.css";
 
 export type BooleanItemKey = keyof {
   [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
@@ -22,28 +22,17 @@ export const SetBooleanItem: React.FC<{
 }> = ({ disabled = false, itemKey, label, subLabels = [] }) => {
   const item = storageStore.use[itemKey]();
 
-  const css = useCSS();
-  const rowClass = useMemo(
-    () =>
-      css({
-        "&&": {
-          minHeight: "2.5em",
-        },
-      }),
-    [css],
-  );
-
   return (
-    <Row className={rowClass}>
-      <RowItem expanded>
+    <div className={clsx(rowStyles.row, localStyles.row)}>
+      <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
         <LabelWrapper>
           <ControlLabel for={itemKey}>{label}</ControlLabel>
           {subLabels.map((subLabel) => (
             <SubLabel key={subLabel}>{subLabel}</SubLabel>
           ))}
         </LabelWrapper>
-      </RowItem>
-      <RowItem>
+      </div>
+      <div className={rowStyles.rowItem}>
         <Switch.Root
           checked={item}
           className={styles.switch}
@@ -61,7 +50,7 @@ export const SetBooleanItem: React.FC<{
         >
           <Switch.Thumb className={styles.thumb} />
         </Switch.Root>
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
 };

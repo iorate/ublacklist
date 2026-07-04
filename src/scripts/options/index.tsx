@@ -1,7 +1,7 @@
+import containerStyles from "../components/container.module.css";
 import "../components/theme.css";
 import "../components/baseline.css";
 import { createRoot } from "react-dom/client";
-import { Container } from "../components/container.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
@@ -19,16 +19,18 @@ import { SyncSection } from "./sync-section.tsx";
 
 const Options: React.FC<{ query: OptionsQuery }> = ({ query }) => (
   <AutoThemeProvider>
-    <Container>
-      {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
-      <GeneralSection id="general" />
-      <AppearanceSection id="appearance" />
-      <SyncSection id="sync" />
-      <SubscriptionSection id="subscription" query={query} />
-      <BackupRestoreSection id="backup-restore" />
-      <AboutSection id="about" />
-      {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
-    </Container>
+    <div className={containerStyles.wrapper}>
+      <div className={containerStyles.container}>
+        {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+        <GeneralSection id="general" />
+        <AppearanceSection id="appearance" />
+        <SyncSection id="sync" />
+        <SubscriptionSection id="subscription" query={query} />
+        <BackupRestoreSection id="backup-restore" />
+        <AboutSection id="about" />
+        {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
+      </div>
+    </div>
   </AutoThemeProvider>
 );
 
