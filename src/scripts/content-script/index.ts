@@ -4,15 +4,15 @@ import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
 import iconSVG from "../../icons/icon.svg";
-import { translate } from "../locales.ts";
-import { addMessageListeners } from "../messages.ts";
+import { translate } from "../shared/locales.ts";
+import { addMessageListeners } from "../shared/messages.ts";
+import type { SerpIndex } from "../shared/serpinfo-settings.ts";
+import { storageStore } from "../shared/storage-store.ts";
 import { attributes as a, classes as c } from "./constants.ts";
 import { cssStringify } from "./css-stringify.ts";
 import { blockedResultCountStore, setupFilter } from "./filter.ts";
 import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
 import { createIsDarkModeStore } from "./is-dark-mode.ts";
-import type { SerpIndex } from "./settings.ts";
-import { storageStore } from "./storage-store.ts";
 import {
   buildBlockStyle,
   buildHideStyle,

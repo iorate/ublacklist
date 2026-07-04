@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import dayjsDuration from "dayjs/plugin/duration";
 import { useEffect, useId, useState } from "react";
-import { browser } from "../browser.ts";
 import { Button, LinkButton } from "../components/button.tsx";
 import { CheckBox } from "../components/checkbox.tsx";
 import { FOCUS_END_CLASS, FOCUS_START_CLASS } from "../components/constants.ts";
@@ -33,14 +32,19 @@ import {
 import { Text } from "../components/text.tsx";
 import { TextArea } from "../components/textarea.tsx";
 import { usePrevious } from "../components/utilities.ts";
-import "../dayjs-locales.ts";
+import { browser } from "../shared/browser.ts";
+import "../shared/dayjs-locales.ts";
 import { omit } from "es-toolkit";
 import { Input } from "../components/input.tsx";
-import { getWebsiteURL, translate } from "../locales.ts";
-import { addMessageListeners, sendMessage } from "../messages.ts";
-import { supportedClouds } from "../supported-clouds.ts";
-import type { MessageName0, SyncBackendId, SyncForce } from "../types.ts";
-import { AltURL, isErrorResult } from "../utilities.ts";
+import { getWebsiteURL, translate } from "../shared/locales.ts";
+import { addMessageListeners, sendMessage } from "../shared/messages.ts";
+import { supportedClouds } from "../shared/supported-clouds.ts";
+import type {
+  MessageName0,
+  SyncBackendId,
+  SyncForce,
+} from "../shared/types.ts";
+import { AltURL, isErrorResult } from "../shared/utilities.ts";
 import { FromNow } from "./from-now.tsx";
 import { useOptionsContext } from "./options-context.tsx";
 import { Select, SelectOption } from "./select.tsx";

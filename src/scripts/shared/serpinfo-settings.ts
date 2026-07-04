@@ -4,7 +4,7 @@ import {
 } from "@ublacklist/match-pattern";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import { z } from "zod";
-import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtins.ts";
+import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtin-serpinfo.ts";
 
 export type UserSerpInfo = {
   content: string;

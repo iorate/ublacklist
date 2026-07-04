@@ -1,5 +1,5 @@
-import { GOOGLE_MATCHES } from "../../common/google-matches.ts";
-import { browser } from "../browser.ts";
+import { GOOGLE_MATCHES } from "../../shared/google-matches.ts";
+import { browser } from "../shared/browser.ts";
 
 export async function registerContentScripts(): Promise<void> {
   if (process.env.BROWSER !== "safari") {
@@ -9,7 +9,7 @@ export async function registerContentScripts(): Promise<void> {
         id: "serpinfo",
         matches: ["*://*/*"],
         excludeMatches: GOOGLE_MATCHES,
-        js: ["scripts/serpinfo/content-script.js"],
+        js: ["scripts/content-script.js"],
         runAt: "document_start",
       },
     ]);

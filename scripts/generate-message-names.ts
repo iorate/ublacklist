@@ -28,7 +28,7 @@ async function main() {
   ]
     .flat(3)
     .join("\n");
-  await fs.writeFile("src/common/message-names.generated.ts", names);
+  await fs.writeFile("src/scripts/shared/message-names.generated.ts", names);
 }
 
 await main();

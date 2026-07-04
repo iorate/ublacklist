@@ -1,7 +1,7 @@
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import type * as React from "react";
 import { useLayoutEffect, useRef, useState } from "react";
-import { svgToDataURL } from "../utilities.ts";
+import { svgToDataURL } from "../shared/utilities.ts";
 import { MENU_ITEM_CLASS, MENU_Z_INDEX } from "./constants.ts";
 import { applyClassName } from "./helpers.tsx";
 import { TemplateIcon } from "./icon.tsx";

@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
-import { browser } from "../browser.ts";
-import { defaultLocalStorageItems } from "../local-storage.ts";
+import { browser } from "../shared/browser.ts";
+import { defaultLocalStorageItems } from "../shared/local-storage.ts";
 import type {
   CloudToken,
   LocalStorageItems,
   SubscriptionId,
   WebDAVParams,
-} from "../types.ts";
-import { Mutex } from "../utilities.ts";
+} from "../shared/types.ts";
+import { Mutex } from "../shared/utilities.ts";
 
 export type RawStorageItems = LocalStorageItems & {
   timestamp: string;

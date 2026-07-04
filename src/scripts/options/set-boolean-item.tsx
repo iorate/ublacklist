@@ -3,8 +3,8 @@ import { ControlLabel, LabelWrapper, SubLabel } from "../components/label.tsx";
 import { Row, RowItem } from "../components/row.tsx";
 import { useCSS } from "../components/styles.tsx";
 import { Switch } from "../components/switch.tsx";
-import { saveToLocalStorage } from "../local-storage.ts";
-import type { LocalStorageItems } from "../types.ts";
+import { saveToLocalStorage } from "../shared/local-storage.ts";
+import type { LocalStorageItems } from "../shared/types.ts";
 import { useOptionsContext } from "./options-context.tsx";
 
 export type BooleanItemKey = keyof {

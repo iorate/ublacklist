@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { type Browser, browser } from "../browser.ts";
-import { getWebsiteURL } from "../locales.ts";
-import { HTTPError, UnexpectedResponse } from "../utilities.ts";
+import { type Browser, browser } from "../shared/browser.ts";
+import { getWebsiteURL } from "../shared/locales.ts";
+import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
 
 export type AuthorizeParams = {
   client_id: string;

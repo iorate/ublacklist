@@ -6,10 +6,11 @@ import type {
 import { isEqual } from "es-toolkit";
 import { createStore } from "zustand/vanilla";
 import { shallow } from "zustand/vanilla/shallow";
-import type { InteractiveRuleset } from "../interactive-ruleset.ts";
-import { translate } from "../locales.ts";
-import { postMessage } from "../messages.ts";
-import { createInteractiveRuleset } from "../utilities.ts";
+import type { InteractiveRuleset } from "../shared/interactive-ruleset.ts";
+import { translate } from "../shared/locales.ts";
+import { postMessage } from "../shared/messages.ts";
+import { storageStore } from "../shared/storage-store.ts";
+import { createInteractiveRuleset } from "../shared/utilities.ts";
 import {
   type ButtonProps,
   runButtonCommand,
@@ -18,7 +19,6 @@ import {
 } from "./commands.ts";
 import { attributes as a } from "./constants.ts";
 import { closeDialog, openDialog } from "./dialog.tsx";
-import { storageStore } from "./storage-store.ts";
 
 export const blockedResultCountStore = createStore(() => 0);
 

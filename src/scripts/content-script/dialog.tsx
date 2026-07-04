@@ -1,11 +1,11 @@
 import { createRoot, type Root } from "react-dom/client";
-import { BlockDialog } from "../block-dialog.tsx";
-import type { InteractiveRuleset } from "../interactive-ruleset.ts";
-import { saveToLocalStorage } from "../local-storage.ts";
-import { sendMessage } from "../messages.ts";
-import type { DialogTheme } from "../types.ts";
+import { BlockDialog } from "../block-dialog.ts";
+import type { InteractiveRuleset } from "../shared/interactive-ruleset.ts";
+import { saveToLocalStorage } from "../shared/local-storage.ts";
+import { sendMessage } from "../shared/messages.ts";
+import { storageStore } from "../shared/storage-store.ts";
+import type { DialogTheme } from "../shared/types.ts";
 import { isDarkMode } from "./is-dark-mode.ts";
-import { storageStore } from "./storage-store.ts";
 
 type DialogRoot = { root: Root; shadowRoot: ShadowRoot };
 

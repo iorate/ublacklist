@@ -2,13 +2,13 @@ import type dayjs from "dayjs";
 import type {
   SerpInfoSettings,
   Serializable as SerpInfoSettingsSerializable,
-} from "./serpinfo/settings.ts";
+} from "./serpinfo-settings.ts";
 
 export type {
   MessageName,
   MessageName0,
   MessageName1,
-} from "../common/message-names.generated.ts";
+} from "./message-names.generated.ts";
 // #region Result
 export type ErrorResult = {
   type: "error";
