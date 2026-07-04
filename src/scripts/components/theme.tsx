@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 export type Theme = {
   name: string;
@@ -251,6 +257,99 @@ export const lightTheme: Readonly<Theme> = {
   },
 };
 
+const varThemeColors: Readonly<Omit<Theme, "name">> = {
+  background: "var(--ub-color-background)",
+  button: {
+    primary: {
+      background: "var(--ub-color-accent)",
+      backgroundActive: "var(--ub-button-primary-background-active)",
+      backgroundDisabled: "var(--ub-button-primary-background-disabled)",
+      backgroundHovered: "var(--ub-button-primary-background-hovered)",
+      text: "var(--ub-color-on-accent)",
+      textDisabled: "var(--ub-color-text-disabled)",
+    },
+    secondary: {
+      background: "transparent",
+      backgroundActive: "var(--ub-button-secondary-background-active)",
+      backgroundDisabled: "transparent",
+      backgroundHovered: "var(--ub-button-secondary-background-hovered)",
+      border: "var(--ub-color-border)",
+      text: "var(--ub-color-accent)",
+      textDisabled: "var(--ub-color-text-disabled)",
+    },
+  },
+  checkBox: {
+    border: "var(--ub-color-text-secondary)",
+    box: "var(--ub-color-accent)",
+    checkMark: "var(--ub-color-on-accent)",
+  },
+  colorPicker: {
+    border: "var(--ub-color-border)",
+    popoverBackground: "var(--ub-color-surface)",
+  },
+  dialog: {
+    background: "var(--ub-color-surface)",
+  },
+  editor: {
+    border: "var(--ub-color-border)",
+  },
+  focus: {
+    shadow: "var(--ub-color-focus-ring)",
+    circle: "var(--ub-color-focus-circle)",
+  },
+  iconButton: "var(--ub-color-text-secondary)",
+  input: {
+    border: "var(--ub-color-border)",
+  },
+  link: {
+    text: "var(--ub-color-link)",
+  },
+  menu: {
+    itemBackgroundFocused: "var(--ub-menu-item-background-focused)",
+    itemBackgroundHovered: "var(--ub-menu-item-background-hovered)",
+    itemListBackground: "var(--ub-color-surface)",
+  },
+  radioButton: {
+    unchecked: "var(--ub-color-text-secondary)",
+    checked: "var(--ub-color-accent)",
+  },
+  section: {
+    background: "var(--ub-color-surface)",
+    shadow1: "var(--ub-color-shadow-strong)",
+    shadow2: "var(--ub-color-shadow-soft)",
+  },
+  select: {
+    arrow: "var(--ub-color-text-secondary)",
+    border: "var(--ub-color-border)",
+    optionBackground: "var(--ub-color-surface)",
+  },
+  separator: "var(--ub-color-separator)",
+  switch: {
+    bar: "var(--ub-switch-bar)",
+    barChecked: "var(--ub-switch-bar-checked)",
+    knob: "var(--ub-switch-knob)",
+    knobBorder: "var(--ub-switch-knob-border)",
+    knobChecked: "var(--ub-color-accent)",
+  },
+  text: {
+    primary: "var(--ub-color-text-primary)",
+    secondary: "var(--ub-color-text-secondary)",
+  },
+  textArea: {
+    border: "var(--ub-color-border)",
+  },
+};
+
+export const varLightTheme: Readonly<Theme> = {
+  ...varThemeColors,
+  name: "light",
+};
+
+export const varDarkTheme: Readonly<Theme> = {
+  ...varThemeColors,
+  name: "dark",
+};
+
 export type ThemeProviderProps = { children?: React.ReactNode; theme: Theme };
 
 const ThemeContext = React.createContext<ThemeProviderProps>({
@@ -281,8 +380,12 @@ export const AutoThemeProvider: React.FC<{ children?: React.ReactNode }> = ({
       setDark(e.matches);
     });
   }, []);
+  useLayoutEffect(() => {
+    document.documentElement.classList.add("ub-root");
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+  }, [dark]);
   return (
-    <ThemeProvider theme={dark ? darkTheme : lightTheme}>
+    <ThemeProvider theme={dark ? varDarkTheme : varLightTheme}>
       {children}
     </ThemeProvider>
   );
