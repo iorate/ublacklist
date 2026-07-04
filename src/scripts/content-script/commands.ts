@@ -221,7 +221,25 @@ export type ButtonProps = {
   unblockLabel: string;
   unhighlightLabel: string;
   onClick: (event: MouseEvent) => void;
+  preloadDialog: () => void;
 };
+
+function addButtonListeners(
+  shadowRoot: ShadowRoot,
+  buttonProps: ButtonProps,
+): void {
+  const button = shadowRoot.querySelector("button");
+  if (button == null) {
+    return;
+  }
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    buttonProps.onClick(event);
+  });
+  for (const type of ["pointerenter", "focus", "mousedown"] as const) {
+    button.addEventListener(type, () => buttonProps.preloadDialog());
+  }
+}
 
 type ButtonCommandImpl = {
   [K in Exclude<ButtonCommand, string>[0]]: (
@@ -310,10 +328,7 @@ const buttonCommandImpl: ButtonCommandImpl = {
         svg.ariaLabel = label;
       },
     );
-    shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
-      event.stopPropagation();
-      context.buttonProps.onClick(event);
-    });
+    addButtonListeners(shadowRoot, context.buttonProps);
 
     parent.appendChild(button);
 
@@ -391,10 +406,7 @@ const buttonCommandImpl: ButtonCommandImpl = {
       // biome-ignore lint/style/noNonNullAssertion: the span always exists
       shadowRoot.querySelector(`[part="${part}"]`)!.textContent = label;
     }
-    shadowRoot.querySelector("button")?.addEventListener("click", (event) => {
-      event.stopPropagation();
-      context.buttonProps.onClick(event);
-    });
+    addButtonListeners(shadowRoot, context.buttonProps);
 
     parent.insertAdjacentElement(options.position ?? "beforeend", button);
 

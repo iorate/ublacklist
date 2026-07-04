@@ -22,6 +22,10 @@ function loadModule(): Promise<BlockDialogModule> {
   return modulePromise;
 }
 
+export function preloadDialog(): void {
+  void loadModule();
+}
+
 export function openDialog(
   url: string,
   props: Record<string, string>,
