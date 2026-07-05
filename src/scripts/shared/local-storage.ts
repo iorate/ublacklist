@@ -52,12 +52,6 @@ export function loadFromLocalStorage<Keys extends (keyof LocalStorageItems)[]>(
   >;
 }
 
-export function loadAllFromLocalStorage(): Promise<LocalStorageItems> {
-  return browser.storage.local.get(
-    defaultLocalStorageItems,
-  ) as Promise<LocalStorageItems>;
-}
-
 export function saveToLocalStorage<
   Items extends Partial<LocalStorageItemsSavable>,
 >(

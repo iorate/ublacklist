@@ -81,7 +81,6 @@ const localItems: RawStorageItems = {
   timestamp: timeZero,
   generalLastModified: timeZero,
   appearanceLastModified: timeZero,
-  sync: false,
   syncCloudToken: false,
   nextSubscriptionId: 3,
   subscriptionsLastModified: timeZero,

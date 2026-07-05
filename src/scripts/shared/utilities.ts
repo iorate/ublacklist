@@ -29,13 +29,6 @@ export class AltURL {
   }
 }
 
-export function makeAltURL(url: string): AltURL | null {
-  try {
-    return new AltURL(url);
-  } catch {
-    return null;
-  }
-}
 // #endregion AltURL
 
 // #region Error
@@ -98,10 +91,6 @@ export function isErrorResult(result: Result): result is ErrorResult {
   return result.type === "error";
 }
 
-export function isSuccessResult(result: Result): result is SuccessResult {
-  return result.type === "success";
-}
-
 export function errorResult(message: string): ErrorResult {
   return {
     type: "error",
@@ -118,18 +107,6 @@ export function successResult(): SuccessResult {
 // #endregion Result
 
 // #region object
-export function stringKeys<Key extends string, Value>(
-  record: Readonly<Record<Key, Value>>,
-): Key[] {
-  return Object.keys(record) as Key[];
-}
-
-export function stringEntries<Key extends string, Value>(
-  record: Readonly<Record<Key, Value>>,
-): [Key, Value][] {
-  return Object.entries(record) as [Key, Value][];
-}
-
 export function numberKeys<Key extends number, Value>(
   record: Readonly<Record<Key, Value>>,
 ): Key[] {
@@ -221,7 +198,7 @@ export function uploadTextFile(mimeType: string): Promise<string | null> {
   });
 }
 
-export function parseJSON(text: string): string | undefined {
+export function parseJSON(text: string): unknown {
   try {
     return JSON.parse(text);
   } catch {
