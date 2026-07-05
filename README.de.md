@@ -5,9 +5,9 @@
 Verhindert, dass bestimmte Seiten in den Google-Suchergebnissen angezeigt werden
 
 - **Chrome**: [Chrome Web Store](https://chrome.google.com/webstore/detail/ublacklist/pncfbmialoiaghdehhbnbhkkgmjanfhe)
-- **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/ublacklist/)
-- **Edge**: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/feedneoaheedjlhokipclogaoejelcbb)
-- **Safari**: [App Store](https://apps.apple.com/us/app/ublacklist-for-safari/id1547912640) (macOS and iOS, thanks to [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
+- **Firefox**: [Firefox-Add-ons](https://addons.mozilla.org/de/firefox/addon/ublacklist/)
+- **Edge**: [Edge-Add-ons](https://microsoftedge.microsoft.com/addons/detail/ublacklist/feedneoaheedjlhokipclogaoejelcbb)
+- **Safari**: [App Store](https://apps.apple.com/de/app/ublacklist-for-safari/id1547912640) (macOS und iOS, Danke an [Group-Leafy](https://github.com/HoneyLuka/uBlacklist/tree/safari-port/safari-project))
 
 ## Beschreibung
 
@@ -26,7 +26,7 @@ uBlacklist unterstützt folgende Browserversionen:
 
 - **Chrome**: Nur die neueste stabile Version
 - **Firefox**: Nur die neueste stabile Version und die neueste ESR
-- **Edge**: Latest stable version only
+- **Edge**: Nur die aktuellste stabile Version
 - **Safari**: Nur die neueste stabile Version (macOS und iOS)
 
 Die Unterstützung für Browser, die nicht in der obigen Liste aufgeführt sind, hängt von Beiträgen der Community ab. Bitte eröffnen Sie eine [Diskussion](https://github.com/iorate/ublacklist/discussions) mit einem konkreten Umsetzungsvorschlag – Meldungen ohne einen solchen Vorschlag werden wahrscheinlich nicht bearbeitet.
