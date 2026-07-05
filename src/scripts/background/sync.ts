@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { browser } from "../shared/browser.ts";
+import { clampSyncInterval } from "../shared/intervals.ts";
 import { postMessage } from "../shared/messages.ts";
 import type { Result, SyncForce } from "../shared/types.ts";
 import { errorResult, Mutex, successResult } from "../shared/utilities.ts";
@@ -39,7 +40,7 @@ async function doSync(
     if (repeat) {
       // `chrome.alarms.create` returns `Promise` in Chrome >=111.
       void browser.alarms.create(SYNC_ALARM_NAME, {
-        periodInMinutes: localItems.syncInterval,
+        periodInMinutes: clampSyncInterval(localItems.syncInterval),
       });
     }
 

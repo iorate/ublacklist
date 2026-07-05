@@ -174,25 +174,29 @@ test("subscription is removed from the menu", async ({
   await expect(page.getByTestId("subscription-row")).toHaveCount(0);
 });
 
-test("select changes and persists", async ({ context, extensionId }) => {
+test("number field changes and persists", async ({ context, extensionId }) => {
   await setupRoutes(context);
   const { page } = await openPage(context, extensionId, "pages/options.html");
-  await addSubscription(page);
-  const select = page.getByTestId("updateInterval");
-  await expect(select).toBeEnabled();
-  await select.click();
-  await page.getByTestId("updateInterval-120").click();
-  await expect
-    .poll(
-      async () =>
-        (await readLocalStorage(page, ["updateInterval"])).updateInterval,
-    )
-    .toBe(120);
+  await page.evaluate(() => chrome.storage.local.set({ updateInterval: 120 }));
   await page.reload();
+  const input = page.getByTestId("updateInterval");
+  await expect(input).toHaveValue("1");
+  await input.click();
+  await input.press("ControlOrMeta+a");
+  await input.press("2");
+  await input.press("Tab");
   await expect
     .poll(
       async () =>
         (await readLocalStorage(page, ["updateInterval"])).updateInterval,
     )
-    .toBe(120);
+    .toBe(2880);
+  await page.reload();
+  await expect(page.getByTestId("updateInterval")).toHaveValue("2");
+  await expect
+    .poll(
+      async () =>
+        (await readLocalStorage(page, ["updateInterval"])).updateInterval,
+    )
+    .toBe(2880);
 });

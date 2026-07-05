@@ -188,14 +188,10 @@ export function SubscriptionSection(props: {
         </Suspense>
         <div className={sectionStyles.item}>
           <SetIntervalItem
-            disabled={
-              !Object.values(subscriptions).filter(
-                (subscription) => subscription.enabled ?? true,
-              ).length
-            }
             itemKey="updateInterval"
-            label={translate("options_updateInterval")}
-            valueOptions={[60, 120, 180, 360, 720, 1440]}
+            label={translate("options_updateIntervalInDays")}
+            min={1}
+            unit="day"
           />
         </div>
       </div>

@@ -1,30 +1,51 @@
 import clsx from "clsx";
-import dayjs from "dayjs";
-import labelStyles from "../../styles/label.module.css";
-import rowStyles from "../../styles/row.module.css";
-import "../../shared/dayjs-locales.ts";
-import { Select, SelectOption } from "../../components/select.tsx";
+import { useEffect, useState } from "react";
+import { NumberField } from "../../components/number-field.tsx";
+import {
+  clampSyncInterval,
+  clampUpdateInterval,
+} from "../../shared/intervals.ts";
 import { saveToLocalStorage } from "../../shared/local-storage.ts";
 import { translate } from "../../shared/locales.ts";
 import { storageStore } from "../../shared/storage-store.ts";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
 import localStyles from "./set-interval-item.module.css";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
 
+export type IntervalUnit = "minute" | "day";
+
+const clampIntervals: Record<IntervalItemKey, (minutes: number) => number> = {
+  syncInterval: clampSyncInterval,
+  updateInterval: clampUpdateInterval,
+};
+
+const minutesPerUnit: Record<IntervalUnit, number> = {
+  minute: 1,
+  day: 1440,
+};
+
 export function SetIntervalItem({
-  disabled = false,
   itemKey,
   label,
-  valueOptions,
+  min,
+  unit,
 }: {
-  disabled?: boolean;
   itemKey: IntervalItemKey;
   label: string;
-  valueOptions: readonly number[];
+  min: number;
+  unit: IntervalUnit;
 }) {
-  const item = storageStore.use[itemKey]();
+  const storedMinutes = storageStore.use[itemKey]();
+  const storedValue = Math.ceil(
+    clampIntervals[itemKey](storedMinutes) / minutesPerUnit[unit],
+  );
+  const [value, setValue] = useState<number | null>(storedValue);
 
-  valueOptions = [...new Set([...valueOptions, item])].sort((a, b) => a - b);
+  useEffect(() => {
+    setValue(storedValue);
+  }, [storedValue]);
 
   return (
     <div className={clsx(rowStyles.row, localStyles.row)}>
@@ -36,33 +57,29 @@ export function SetIntervalItem({
         </div>
       </div>
       <div className={rowStyles.rowItem}>
-        <Select
+        <NumberField
           data-testid={itemKey}
-          disabled={disabled}
+          decreaseLabel={translate("options_decreaseIntervalButton")}
           id={itemKey}
-          value={String(item)}
-          onValueChange={(value) => {
+          increaseLabel={translate("options_increaseIntervalButton")}
+          min={min}
+          value={value}
+          onValueChange={setValue}
+          onValueCommitted={(committedValue) => {
+            if (committedValue == null) {
+              setValue(storedValue);
+              return;
+            }
             void saveToLocalStorage(
-              { [itemKey]: Number(value) } as Partial<
-                Record<IntervalItemKey, number>
-              >,
+              {
+                [itemKey]:
+                  Math.max(min, Math.round(committedValue)) *
+                  minutesPerUnit[unit],
+              } as Partial<Record<IntervalItemKey, number>>,
               "options",
             );
           }}
-        >
-          {valueOptions.map((value) => (
-            <SelectOption
-              data-testid={`${itemKey}-${value}`}
-              key={value}
-              value={String(value)}
-            >
-              {dayjs
-                .duration({ minutes: value })
-                .locale(translate("lang"))
-                .humanize(false)}
-            </SelectOption>
-          ))}
-        </Select>
+        />
       </div>
     </div>
   );
