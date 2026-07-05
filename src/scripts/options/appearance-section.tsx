@@ -3,6 +3,7 @@ import { RadioGroup } from "@base-ui/react/radio-group";
 import removeIcon from "@mdi/svg/svg/delete.svg";
 import addIcon from "@mdi/svg/svg/plus.svg";
 import clsx from "clsx";
+import { isEqual } from "es-toolkit";
 import { useId, useRef, useState } from "react";
 import { ColorPicker } from "../components/color-picker.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
@@ -22,47 +23,44 @@ import rowStyles from "../styles/row.module.css";
 import sectionStyles from "../styles/section.module.css";
 import localStyles from "./appearance-section.module.css";
 
-type ColorItemKey = "linkColor" | "blockColor";
+function SetBlockColor() {
+  const id = useId();
+  const stored = storageStore.use.blockColor();
+  const [draft, setDraft] = useState(stored);
+  const pending = useRef(false);
+  if (pending.current) {
+    if (stored === draft) {
+      pending.current = false;
+    }
+  } else if (stored !== draft) {
+    setDraft(stored);
+  }
 
-function SetColorItem({
-  initialColor,
-  itemKey,
-  label,
-}: {
-  initialColor: string;
-  itemKey: ColorItemKey;
-  label: string;
-}) {
-  const [specifyColor, setSpecifyColor] = useState(
-    () => storageStore.get()[itemKey] !== "default",
-  );
-  const [color, setColor] = useState(() => {
-    const initialItem = storageStore.get()[itemKey];
-    return initialItem === "default" ? initialColor : initialItem;
-  });
+  const save = (value: string) => {
+    pending.current = true;
+    setDraft(value);
+    void saveToLocalStorage({ blockColor: value }, "options");
+  };
+
+  const color = draft === "default" ? defaultBlockColor : draft;
 
   return (
     <div className={sectionStyles.item}>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <div className={labelStyles.wrapper}>
-            <div className={labelStyles.label}>{label}</div>
+            <div className={labelStyles.label}>
+              {translate("options_blockColor")}
+            </div>
           </div>
         </div>
       </div>
       <div className={rowStyles.row}>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <RadioGroup
-            value={specifyColor ? "specify" : "default"}
+            value={draft === "default" ? "default" : "specify"}
             onValueChange={(value) => {
-              const specify = value === "specify";
-              setSpecifyColor(specify);
-              void saveToLocalStorage(
-                { [itemKey]: specify ? color : "default" } as Partial<
-                  Record<ColorItemKey, string>
-                >,
-                "options",
-              );
+              save(value === "specify" ? color : "default");
             }}
           >
             <div className={rowStyles.row}>
@@ -70,7 +68,7 @@ function SetColorItem({
                 <div className={indentStyles.indent}>
                   <Radio.Root
                     className={styles.radio}
-                    id={`${itemKey}UseDefault`}
+                    id={`${id}-default`}
                     value="default"
                   >
                     <Radio.Indicator className={styles.indicator} />
@@ -81,7 +79,7 @@ function SetColorItem({
                 <div className={labelStyles.wrapper}>
                   <label
                     className={labelStyles.controlLabel}
-                    htmlFor={`${itemKey}UseDefault`}
+                    htmlFor={`${id}-default`}
                   >
                     {translate("options_colorUseDefault")}
                   </label>
@@ -93,7 +91,7 @@ function SetColorItem({
                 <div className={indentStyles.indent}>
                   <Radio.Root
                     className={styles.radio}
-                    id={`${itemKey}Specify`}
+                    id={`${id}-specify`}
                     value="specify"
                   >
                     <Radio.Indicator className={styles.indicator} />
@@ -104,7 +102,7 @@ function SetColorItem({
                 <div className={labelStyles.wrapper}>
                   <label
                     className={labelStyles.controlLabel}
-                    htmlFor={`${itemKey}Specify`}
+                    htmlFor={`${id}-specify`}
                   >
                     {translate("options_colorSpecify")}
                   </label>
@@ -112,18 +110,9 @@ function SetColorItem({
               </div>
               <div className={rowStyles.rowItem}>
                 <ColorPicker
-                  aria-label={label}
+                  aria-label={translate("options_blockColor")}
                   value={color}
-                  onChange={(value) => {
-                    setSpecifyColor(true);
-                    setColor(value);
-                    void saveToLocalStorage(
-                      { [itemKey]: value } as Partial<
-                        Record<ColorItemKey, string>
-                      >,
-                      "options",
-                    );
-                  }}
+                  onChange={save}
                 />
               </div>
             </div>
@@ -135,12 +124,30 @@ function SetColorItem({
 }
 
 function SetHighlightColors() {
-  const [colorsAndKeys, setColorsAndKeys] = useState(() =>
-    storageStore
-      .get()
-      .highlightColors.map((color, index) => [color, index] as const),
+  const id = useId();
+  const storedColors = storageStore.use.highlightColors();
+  const [draft, setDraft] = useState(() =>
+    storedColors.map((color, index) => ({ color, key: index })),
   );
-  const nextKey = useRef(colorsAndKeys.length);
+  const nextKey = useRef(storedColors.length);
+  const pending = useRef(false);
+  const draftColors = draft.map((item) => item.color);
+  if (pending.current) {
+    if (isEqual(storedColors, draftColors)) {
+      pending.current = false;
+    }
+  } else if (!isEqual(storedColors, draftColors)) {
+    setDraft(storedColors.map((color) => ({ color, key: nextKey.current++ })));
+  }
+
+  const save = (next: { color: string; key: number }[]) => {
+    pending.current = true;
+    setDraft(next);
+    void saveToLocalStorage(
+      { highlightColors: next.map((item) => item.color) },
+      "options",
+    );
+  };
 
   return (
     <div className={sectionStyles.item}>
@@ -164,12 +171,10 @@ function SetHighlightColors() {
             type="button"
             aria-label={translate("options_highlightColorAdd")}
             onClick={() => {
-              colorsAndKeys.push([defaultHighlightColor, nextKey.current++]);
-              setColorsAndKeys([...colorsAndKeys]);
-              void saveToLocalStorage(
-                { highlightColors: colorsAndKeys.map(([color]) => color) },
-                "options",
-              );
+              save([
+                ...draft,
+                { color: defaultHighlightColor, key: nextKey.current++ },
+              ]);
             }}
           >
             <SvgIcon color="var(--ub-color-text-secondary)" svg={addIcon} />
@@ -182,15 +187,12 @@ function SetHighlightColors() {
         </div>
         <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
           <ul className={listStyles.list}>
-            {colorsAndKeys.map(([color, key], index) => (
+            {draft.map(({ color, key }, index) => (
               <li className={listStyles.item} key={key}>
                 <div className={rowStyles.row}>
                   <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
                     <div className={labelStyles.wrapper}>
-                      <div
-                        className={labelStyles.label}
-                        id={`highlightColor${index}`}
-                      >
+                      <div className={labelStyles.label} id={`${id}-${index}`}>
                         {translate(
                           "options_highlightColorNth",
                           String(index + 1),
@@ -200,43 +202,25 @@ function SetHighlightColors() {
                   </div>
                   <div className={rowStyles.rowItem}>
                     <ColorPicker
-                      aria-labelledby={`highlightColor${index}`}
+                      aria-labelledby={`${id}-${index}`}
                       value={color}
                       onChange={(value) => {
-                        colorsAndKeys[index] = [
-                          value,
-                          // biome-ignore lint/style/noNonNullAssertion: `colorsAndKeys` always has a value at `index`.
-                          colorsAndKeys[index]![1],
-                        ];
-                        setColorsAndKeys([...colorsAndKeys]);
-                        void saveToLocalStorage(
-                          {
-                            highlightColors: colorsAndKeys.map(
-                              ([color]) => color,
-                            ),
-                          },
-                          "options",
+                        save(
+                          draft.map((item, i) =>
+                            i === index ? { ...item, color: value } : item,
+                          ),
                         );
                       }}
                     />
                   </div>
                   <div className={rowStyles.rowItem}>
-                    {index === colorsAndKeys.length - 1 ? (
+                    {index === draft.length - 1 ? (
                       <button
                         className={iconButtonStyles.button}
                         type="button"
                         aria-label={translate("options_highlightColorRemove")}
                         onClick={() => {
-                          colorsAndKeys.pop();
-                          setColorsAndKeys([...colorsAndKeys]);
-                          void saveToLocalStorage(
-                            {
-                              highlightColors: colorsAndKeys.map(
-                                ([color]) => color,
-                              ),
-                            },
-                            "options",
-                          );
+                          save(draft.slice(0, -1));
                         }}
                       >
                         <SvgIcon
@@ -371,11 +355,7 @@ export function AppearanceSection(props: { id: string }) {
         </h1>
       </div>
       <div className={sectionStyles.body}>
-        <SetColorItem
-          initialColor={defaultBlockColor}
-          itemKey="blockColor"
-          label={translate("options_blockColor")}
-        />
+        <SetBlockColor />
         <SetHighlightColors />
         <SetDialogTheme />
       </div>
