@@ -37,8 +37,8 @@ function main() {
 
   const onStartup = () => {
     void LocalStorage.compileRules();
-    void Sync.sync();
-    void Subscriptions.updateAll();
+    void Sync.setupSyncAlarm();
+    void Subscriptions.setupUpdateAllAlarm();
     void SearchEngines.registerContentScripts();
     void SerpInfo.onStartup();
   };

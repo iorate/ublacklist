@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 import { browser } from "../shared/browser.ts";
 import { postMessage } from "../shared/messages.ts";
@@ -70,6 +71,14 @@ export function update(id: SubscriptionId): Promise<void> {
 
     postMessage("subscription-updated", id, subscription);
   });
+}
+
+export async function setupUpdateAllAlarm(): Promise<void> {
+  const alarm = await browser.alarms.get(UPDATE_ALL_ALARM_NAME);
+  if (alarm && dayjs().isBefore(alarm.scheduledTime)) {
+    return;
+  }
+  void updateAll();
 }
 
 export async function updateAll(): Promise<void> {
