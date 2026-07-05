@@ -92,7 +92,7 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
     backendId === "webdav"
       ? phase === "none" && webDAVURLValid
       : backendId === "browserSync"
-        ? true
+        ? phase === "none"
         : phase === "none" || (phase === "auth-alt" && authCode !== "");
 
   return (
@@ -391,6 +391,7 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
                     return;
                   }
                   if (backendId === "browserSync") {
+                    setPhase("conn");
                     try {
                       const error = await sendMessage(
                         "connect-to-browser-sync",
@@ -402,6 +403,8 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
                       }
                     } catch {
                       return;
+                    } finally {
+                      setPhase("none");
                     }
                     close();
                     return;
