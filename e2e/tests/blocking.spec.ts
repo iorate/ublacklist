@@ -66,6 +66,23 @@ test("blocking happy path", async ({ context, extensionId }) => {
   await expect(options.locator("#general .cm-content")).toContainText(
     "*://example.com/*",
   );
+
+  // Reveal the blocked results and unblock example.com via the dialog.
+  await serp.locator(".ub-control button").click();
+  await exampleComResults.first().locator(".ub-button button").click();
+  await serp.getByTestId("block-dialog-action-button").click();
+
+  // The results are no longer blocked.
+  await expect(serp.locator(".result[data-ub-block]")).toHaveCount(0);
+  for (const result of await exampleComResults.all()) {
+    await expect(result).toBeVisible();
+  }
+
+  // The rule is removed from the options page.
+  await options.reload();
+  await expect(options.locator("#general .cm-content")).not.toContainText(
+    "example.com",
+  );
 });
 
 async function setupRoutes(context: BrowserContext): Promise<void> {
