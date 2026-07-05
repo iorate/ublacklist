@@ -1,11 +1,12 @@
 import { Draggable } from "@neodrag/vanilla";
-import { MatchPattern, MatchPatternMap } from "@ublacklist/match-pattern";
+import { MatchPatternMap } from "@ublacklist/match-pattern";
 import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
 import iconSVG from "../../icons/icon.svg";
 import { translate } from "../shared/locales.ts";
 import { addMessageListeners } from "../shared/messages.ts";
+import { serpMatchesUrl } from "../shared/serpinfo-match.ts";
 import type { SerpIndex } from "../shared/serpinfo-settings.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import { attributes as a, classes as c } from "./constants.ts";
@@ -32,25 +33,7 @@ function getSerpDescriptions(): SerpDescription[] {
         index[0] === "user"
           ? settings.user.parsed?.pages[index[1]]
           : settings.remote[index[1]]?.parsed?.pages[index[2]];
-      if (!serp) {
-        return [];
-      }
-      if (
-        serp.excludeMatches &&
-        new MatchPattern(serp.excludeMatches).test(url)
-      ) {
-        return [];
-      }
-      if (serp.includeRegex && !new RegExp(serp.includeRegex).test(url)) {
-        return [];
-      }
-      if (serp.excludeRegex && new RegExp(serp.excludeRegex).test(url)) {
-        return [];
-      }
-      if (
-        (serp.userAgent === "desktop" && mobile) ||
-        (serp.userAgent === "mobile" && !mobile)
-      ) {
+      if (!serp || !serpMatchesUrl(serp, url, mobile)) {
         return [];
       }
       return serp;
