@@ -543,7 +543,20 @@ async function getDialogRoot(): Promise<DialogRoot> {
     const shadowRoot = document.body
       .appendChild(document.createElement("div"))
       .attachShadow({ mode: "open" });
-    shadowRoot.adoptedStyleSheets = [styleSheet];
+    if (process.env.BROWSER === "firefox") {
+      // Firefox <153 rejects modifying the Xray-wrapped adoptedStyleSheets;
+      // reach the page-side array through wrappedJSObject instead.
+      // https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/153#changes_for_add-on_developers
+      const adoptedStyleSheets =
+        shadowRoot.adoptedStyleSheets as CSSStyleSheet[] & {
+          wrappedJSObject?: CSSStyleSheet[];
+        };
+      (adoptedStyleSheets.wrappedJSObject ?? adoptedStyleSheets).push(
+        styleSheet,
+      );
+    } else {
+      shadowRoot.adoptedStyleSheets.push(styleSheet);
+    }
     const container = shadowRoot.appendChild(document.createElement("div"));
     container.className = "root";
     for (const type of ["keydown", "keypress", "keyup"] as const) {
