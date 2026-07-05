@@ -17,7 +17,7 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
   hideBlockLinks: false,
   hideControl: false,
   enableMatchingRules: false,
-  blockWholeSite: false,
+  blockWholeSite: true,
 
   linkColor: "default",
   blockColor: "default",
@@ -26,15 +26,15 @@ export const defaultLocalStorageItems: Readonly<LocalStorageItems> = {
 
   syncCloudId: false,
   syncBlocklist: true,
-  syncGeneral: false,
-  syncAppearance: false,
-  syncSubscriptions: false,
-  syncSerpInfo: false,
+  syncGeneral: true,
+  syncAppearance: true,
+  syncSubscriptions: true,
+  syncSerpInfo: true,
   syncResult: false,
   syncInterval: 15,
 
   subscriptions: {},
-  updateInterval: 120,
+  updateInterval: 1440,
 
   serpInfoSettings: getDefault(),
 };

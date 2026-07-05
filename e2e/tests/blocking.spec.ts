@@ -64,7 +64,7 @@ test("blocking happy path", async ({ context, extensionId }) => {
   const options = await context.newPage();
   await options.goto(`chrome-extension://${extensionId}/pages/options.html`);
   await expect(options.locator("#general .cm-content")).toContainText(
-    "*://example.com/*",
+    "*://*.example.com/*",
   );
 
   // Reveal the blocked results and unblock example.com via the dialog.
