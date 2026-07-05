@@ -675,10 +675,10 @@ export function SyncSection(props: { id: string }) {
         <SyncCategories />
         <div className={sectionStyles.item}>
           <SetIntervalItem
-            disabled={!backendId}
             itemKey="syncInterval"
-            label={translate("options_syncInterval")}
-            valueOptions={[5, 10, 15, 30, 60, 120]}
+            label={translate("options_syncIntervalInMinutes")}
+            min={5}
+            unit="minute"
           />
         </div>
       </div>

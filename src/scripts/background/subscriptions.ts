@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 import { browser } from "../shared/browser.ts";
+import { clampUpdateInterval } from "../shared/intervals.ts";
 import { postMessage } from "../shared/messages.ts";
 import type { SubscriptionId } from "../shared/types.ts";
 import {
@@ -93,7 +94,7 @@ export async function updateAll(): Promise<void> {
   }
   // `chrome.alarms.create` returns `Promise` in Chrome >=111.
   void browser.alarms.create(UPDATE_ALL_ALARM_NAME, {
-    periodInMinutes: updateInterval,
+    periodInMinutes: clampUpdateInterval(updateInterval),
   });
 
   await Promise.all(numberKeys(subscriptions).map(update));
