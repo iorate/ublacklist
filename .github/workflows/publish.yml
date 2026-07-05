@@ -201,15 +201,20 @@ jobs:
 
     timeout-minutes: 30
 
-    permissions:
-      contents: write
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
           path: dist
+
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
 
       - name: Create GitHub Release
         run: |
@@ -222,4 +227,4 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
           GH_REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}

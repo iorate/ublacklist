@@ -50,6 +50,7 @@ jobs:
         with:
           publish: pnpm changeset publish
           createGithubReleases: false
+          commitMode: github-api
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
