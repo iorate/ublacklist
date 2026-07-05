@@ -5,6 +5,7 @@
   color: var(--ub-color-text-primary);
   display: block;
   font: inherit;
+  font-size: 16px;
   line-height: 1.5;
   padding: 0.5em 0.625em;
   resize: none;

@@ -169,6 +169,7 @@ export function Editor({
               backgroundColor: scheme.background,
               border: "1px solid var(--ub-color-border)",
               color: scheme.foreground,
+              fontSize: "16px",
               height,
               overflow: "hidden",
               resize: resizable ? "vertical" : "none",
