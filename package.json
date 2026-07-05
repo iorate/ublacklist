@@ -33,8 +33,8 @@
     "@neodrag/vanilla": "2.3.1",
     "@sindresorhus/fnv1a": "3.1.0",
     "@ublacklist/match-pattern": "1.2.0",
-    "@ublacklist/ruleset": "1.0.2",
-    "@ublacklist/serpinfo": "1.1.0",
+    "@ublacklist/ruleset": "1.0.3",
+    "@ublacklist/serpinfo": "1.1.1",
     "clsx": "^2.1.1",
     "colord": "2.9.3",
     "css-tree": "3.2.1",
@@ -52,7 +52,7 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.1",
+    "@biomejs/biome": "2.5.2",
     "@changesets/changelog-github": "0.7.0",
     "@changesets/cli": "2.31.0",
     "@playwright/test": "1.61.1",
