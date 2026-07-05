@@ -13,7 +13,6 @@ export type RawStorageItems = LocalStorageItems & {
   timestamp: string;
   generalLastModified: string;
   appearanceLastModified: string;
-  sync: boolean; // unused
   syncCloudToken:
     | CloudToken
     | WebDAVParams
@@ -34,7 +33,6 @@ const defaultRawStorageItems: Readonly<RawStorageItems> = {
   ...defaultLocalStorageItems,
   timestamp: timeZero,
   generalLastModified: timeZero,
-  sync: false,
   syncCloudToken: false,
   appearanceLastModified: timeZero,
   nextSubscriptionId: 0,
