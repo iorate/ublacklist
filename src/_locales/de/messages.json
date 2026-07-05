@@ -431,9 +431,17 @@
     "message": "SERPINFO",
     "description": "Label for the switch to sync SERPINFO."
   },
-  "options_syncInterval": {
-    "message": "Synchronisationsintervall",
-    "description": "Label for the select to choose a sync interval."
+  "options_syncIntervalInMinutes": {
+    "message": "Sync interval (minutes)",
+    "description": "Label for the number field to set a sync interval in minutes."
+  },
+  "options_increaseIntervalButton": {
+    "message": "Increase",
+    "description": "Accessible name for the button to increase an interval."
+  },
+  "options_decreaseIntervalButton": {
+    "message": "Decrease",
+    "description": "Accessible name for the button to decrease an interval."
   },
   "options_subscriptionTitle": {
     "message": "Abonnement",
@@ -559,9 +567,9 @@
     "message": "Regeln",
     "description": "Label for the textarea in the show subscription dialog."
   },
-  "options_updateInterval": {
-    "message": "Aktualisierungsintervall",
-    "description": "Label for the select to choose an update interval."
+  "options_updateIntervalInDays": {
+    "message": "Update interval (days)",
+    "description": "Label for the number field to set an update interval in days."
   },
   "options_backupRestoreTitle": {
     "message": "Sichern und Wiederherstellen",
