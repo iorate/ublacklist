@@ -1,0 +1,16 @@
+:host {
+  font-size: 12px;
+}
+
+button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+button:hover {
+  text-decoration: underline;
+}

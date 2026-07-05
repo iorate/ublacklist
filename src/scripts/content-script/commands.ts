@@ -7,9 +7,12 @@ import type {
 import { zip } from "es-toolkit";
 import punycode from "punycode/";
 import iconSVG from "../../icons/icon.svg";
+import { adoptStyleSheet } from "../shared/adopt-style-sheet.ts";
 import { attributes as a, classes as c } from "./constants.ts";
 import { cssStringify } from "./css-stringify.ts";
 import { setStaticGlobalStyle } from "./global-styles.ts";
+import iconButtonStyles from "./icon-button.css" with { type: "text" };
+import textButtonStyles from "./text-button.css" with { type: "text" };
 
 /* Element Commands */
 
@@ -241,6 +244,9 @@ function addButtonListeners(
   }
 }
 
+let iconButtonStyleSheet: CSSStyleSheet | null = null;
+let textButtonStyleSheet: CSSStyleSheet | null = null;
+
 type ButtonCommandImpl = {
   [K in Exclude<ButtonCommand, string>[0]]: (
     context: ButtonCommandContext,
@@ -286,30 +292,12 @@ const buttonCommandImpl: ButtonCommandImpl = {
     }
 
     const shadowRoot = button.attachShadow({ mode: "open" });
+    if (!iconButtonStyleSheet) {
+      iconButtonStyleSheet = new CSSStyleSheet();
+      iconButtonStyleSheet.replaceSync(iconButtonStyles);
+    }
+    adoptStyleSheet(shadowRoot, iconButtonStyleSheet);
     shadowRoot.innerHTML = `
-      <style>${cssStringify(
-        {
-          ":host": {
-            "--ub-icon-size": "24px",
-          },
-          button: {
-            alignItems: "center",
-            background: "transparent",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            height: "max(var(--ub-icon-size), 40px)",
-            justifyContent: "center",
-            padding: 0,
-            width: "max(var(--ub-icon-size), 40px)",
-          },
-          svg: {
-            height: "var(--ub-icon-size)",
-            width: "var(--ub-icon-size)",
-          },
-        },
-        2,
-      )}</style>
       <button type="button">
         ${iconSVG}
         ${iconSVG}
@@ -371,26 +359,12 @@ const buttonCommandImpl: ButtonCommandImpl = {
     }
 
     const shadowRoot = button.attachShadow({ mode: "open" });
+    if (!textButtonStyleSheet) {
+      textButtonStyleSheet = new CSSStyleSheet();
+      textButtonStyleSheet.replaceSync(textButtonStyles);
+    }
+    adoptStyleSheet(shadowRoot, textButtonStyleSheet);
     shadowRoot.innerHTML = `
-      <style>${cssStringify(
-        {
-          ":host": {
-            fontSize: "12px",
-          },
-          button: {
-            background: "transparent",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            font: "inherit",
-            padding: 0,
-          },
-          "button:hover": {
-            textDecoration: "underline",
-          },
-        },
-        2,
-      )}</style>
       <button type="button">
         <span part="block"></span>
         <span part="unblock"></span>

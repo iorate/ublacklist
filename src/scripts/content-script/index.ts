@@ -4,13 +4,14 @@ import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
 import iconSVG from "../../icons/icon.svg";
+import { adoptStyleSheet } from "../shared/adopt-style-sheet.ts";
 import { translate } from "../shared/locales.ts";
 import { addMessageListeners } from "../shared/messages.ts";
 import { serpMatchesUrl } from "../shared/serpinfo-match.ts";
 import type { SerpIndex } from "../shared/serpinfo-settings.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import { attributes as a, classes as c } from "./constants.ts";
-import { cssStringify } from "./css-stringify.ts";
+import controlStyles from "./control.css" with { type: "text" };
 import { blockedResultCountStore, setupFilter } from "./filter.ts";
 import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
 import { createIsDarkModeStore } from "./is-dark-mode.ts";
@@ -156,40 +157,10 @@ function setupControl() {
   isDarkModeStore.subscribe(updateColors);
 
   const shadowRoot = control.attachShadow({ mode: "open" });
+  const styleSheet = new CSSStyleSheet();
+  styleSheet.replaceSync(controlStyles);
+  adoptStyleSheet(shadowRoot, styleSheet);
   shadowRoot.innerHTML = `
-    <style>${cssStringify(
-      {
-        button: {
-          alignItems: "center",
-          backgroundColor: "var(--ub-control-background-color)",
-          border: "none",
-          borderRadius: "4px",
-          boxShadow: "0 0 2px rgb(0 0 0 / 0.12), 0 2px 2px rgb(0 0 0 / 0.24)",
-          color: "var(--ub-control-color)",
-          cursor: "pointer",
-          display: "flex",
-          fontFamily:
-            '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
-          fontSize: "14px",
-          gap: "8px",
-          justifyContent: "center",
-          height: "28px",
-          padding: "0 8px",
-          visibility: "visible",
-        },
-        svg: {
-          width: "20px",
-          height: "20px",
-        },
-        ".hidden": {
-          visibility: "hidden",
-        },
-        ".translucent": {
-          opacity: "0.38",
-        },
-      },
-      2,
-    )}</style>
     <button type="button">
       ${iconSVG}
       <span></span>

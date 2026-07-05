@@ -11,17 +11,17 @@ declare namespace NodeJS {
   }
 }
 
-// Commented out because webdav package pulls in @types/node, causing duplicate declaration.
-// declare var process: { env: NodeJS.ProcessEnv };
-
+// "*.module.css" must be declared before "*.css" because TypeScript prefers
+// the earlier declaration when wildcard patterns tie (implementation detail).
 declare module "*.module.css" {
   const classes: Record<string, string>;
   export default classes;
 }
 
-declare module "*/theme.css" {}
-
-declare module "*/baseline.css" {}
+declare module "*.css" {
+  const content: string;
+  export default content;
+}
 
 declare module "*.svg" {
   const content: string;
