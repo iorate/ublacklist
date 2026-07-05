@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { browser } from "../shared/browser.ts";
 import { postMessage } from "../shared/messages.ts";
 import type { Result, SyncForce } from "../shared/types.ts";
@@ -109,6 +110,14 @@ async function doSync(
 
     postMessage("synced", localItems.syncCloudId, result);
   });
+}
+
+export async function setupSyncAlarm(): Promise<void> {
+  const alarm = await browser.alarms.get(SYNC_ALARM_NAME);
+  if (alarm && dayjs().isBefore(alarm.scheduledTime)) {
+    return;
+  }
+  void sync();
 }
 
 export function sync(force: SyncForce = "none"): Promise<void> {
