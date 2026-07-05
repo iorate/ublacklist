@@ -1,7 +1,6 @@
 import { MatchPattern } from "@ublacklist/match-pattern";
 import { browser } from "./browser.ts";
 import { permissionExemptOrigins } from "./constants.ts";
-import { AltURL } from "./utilities.ts";
 
 export async function requestPermission(
   urls: readonly string[],
@@ -14,8 +13,8 @@ export async function requestPermission(
     if (exemptPattern.test(url)) {
       continue;
     }
-    const u = new AltURL(url);
-    origins.push(`${u.scheme}://${u.host}/*`);
+    const u = new URL(url);
+    origins.push(`${u.protocol}//${u.hostname}/*`);
   }
   // Don't call `permissions.request` when unnecessary. re #110
   return origins.length ? browser.permissions.request({ origins }) : true;
