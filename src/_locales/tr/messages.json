@@ -403,10 +403,6 @@
     "message": "Syncing…",
     "description": "Message indicating sync is running."
   },
-  "options_syncReloadButton": {
-    "message": "Reload",
-    "description": "Text for the button to reload sync."
-  },
   "options_syncNowButton": {
     "message": "Sync now",
     "description": "Text for the button to sync now."

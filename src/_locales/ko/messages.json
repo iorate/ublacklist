@@ -403,10 +403,6 @@
     "message": "동기화 중...",
     "description": "Message indicating sync is running."
   },
-  "options_syncReloadButton": {
-    "message": "새로고침",
-    "description": "Text for the button to reload sync."
-  },
   "options_syncNowButton": {
     "message": "지금 동기화",
     "description": "Text for the button to sync now."
