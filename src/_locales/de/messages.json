@@ -768,7 +768,7 @@
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created within the folder at the URL.",
+    "message": "In dem Ordner unter der angegebenen URL wird eine Datei erstellt.",
     "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
@@ -776,11 +776,11 @@
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL",
+    "message": "WebDAV-URL",
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUrlDescription": {
-    "message": "The folder specified by the URL must already exist.",
+    "message": "Der durch die URL angegebene Ordner muss bereits vorhanden sein.",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
