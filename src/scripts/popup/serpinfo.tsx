@@ -1,7 +1,6 @@
 import { Button } from "@base-ui/react/button";
 import { Switch } from "@base-ui/react/switch";
 import cog from "@mdi/svg/svg/cog.svg";
-import { MatchPattern } from "@ublacklist/match-pattern";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import icon from "../../icons/icon.svg";
@@ -12,6 +11,7 @@ import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
+import { serpMatchesUrl } from "../shared/serpinfo-match.ts";
 import buttonStyles from "../styles/button.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
 import labelStyles from "../styles/label.module.css";
@@ -126,10 +126,6 @@ export function SerpInfoEmbeddedDialog({
   );
 }
 
-function matches(url: string, patterns: readonly string[]): boolean {
-  return new MatchPattern(patterns).test(url);
-}
-
 export async function canEnableSerpInfo(
   url: string,
   mobile: boolean,
@@ -139,15 +135,7 @@ export async function canEnableSerpInfo(
     ...(serpInfoSettings.user.parsed?.pages ?? []),
     ...serpInfoSettings.remote.flatMap((remote) => remote.parsed?.pages ?? []),
   ];
-  return pages.some(
-    (serp) =>
-      matches(url, serp.matches) &&
-      !(serp.excludeMatches && matches(url, serp.excludeMatches)) &&
-      !(serp.includeRegex && !new RegExp(serp.includeRegex).test(url)) &&
-      !(serp.excludeRegex && new RegExp(serp.excludeRegex).test(url)) &&
-      !(serp.userAgent === "desktop" && mobile) &&
-      !(serp.userAgent === "mobile" && !mobile),
-  );
+  return pages.some((serp) => serpMatchesUrl(serp, url, mobile));
 }
 
 export function EnableSerpInfoEmbeddedDialog() {
