@@ -403,10 +403,6 @@
     "message": "正在同步中...",
     "description": "Message indicating sync is running."
   },
-  "options_syncReloadButton": {
-    "message": "重新加载",
-    "description": "Text for the button to reload sync."
-  },
   "options_syncNowButton": {
     "message": "立即同步",
     "description": "Text for the button to sync now."

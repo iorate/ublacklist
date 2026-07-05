@@ -403,10 +403,6 @@
     "message": "同期中...",
     "description": "Message indicating sync is running."
   },
-  "options_syncReloadButton": {
-    "message": "再読み込み",
-    "description": "Text for the button to reload sync."
-  },
   "options_syncNowButton": {
     "message": "今すぐ同期",
     "description": "Text for the button to sync now."
