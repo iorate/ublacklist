@@ -11,26 +11,6 @@ import type {
   SuccessResult,
 } from "./types.ts";
 
-// #region AltURL
-export class AltURL {
-  readonly scheme: string;
-  readonly host: string;
-  readonly path: string;
-
-  constructor(url: string) {
-    const u = new URL(url);
-    this.scheme = u.protocol.slice(0, -1);
-    this.host = u.hostname;
-    this.path = `${u.pathname}${u.search}`;
-  }
-
-  toString(): string {
-    return `${this.scheme}://${this.host}${this.path}`;
-  }
-}
-
-// #endregion AltURL
-
 // #region Error
 export class HTTPError extends Error {
   readonly status: number;
