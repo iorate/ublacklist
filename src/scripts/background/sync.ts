@@ -81,6 +81,7 @@ async function doSync(
     let result: Result;
     try {
       await Promise.all(promises);
+      let saved = false;
       await modifyAllInRawStorage((latestLocalItems) => {
         if (latestLocalItems.syncCloudId !== localItems.syncCloudId) {
           return {};
@@ -92,10 +93,13 @@ async function doSync(
             latestLocalItems,
           );
         }
+        saved = true;
         return cloudItems;
       });
-      for (const section of syncSections) {
-        section.afterSync?.(cloudItems);
+      if (saved) {
+        for (const section of syncSections) {
+          section.afterSync?.(cloudItems);
+        }
       }
       result = successResult();
     } catch (e: unknown) {
