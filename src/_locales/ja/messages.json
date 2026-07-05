@@ -431,9 +431,17 @@
     "message": "SERPINFO",
     "description": "Label for the switch to sync SERPINFO."
   },
-  "options_syncInterval": {
-    "message": "同期の間隔",
-    "description": "Label for the select to choose a sync interval."
+  "options_syncIntervalInMinutes": {
+    "message": "同期の間隔 (分)",
+    "description": "Label for the number field to set a sync interval in minutes."
+  },
+  "options_increaseIntervalButton": {
+    "message": "増やす",
+    "description": "Accessible name for the button to increase an interval."
+  },
+  "options_decreaseIntervalButton": {
+    "message": "減らす",
+    "description": "Accessible name for the button to decrease an interval."
   },
   "options_subscriptionTitle": {
     "message": "購読",
@@ -559,9 +567,9 @@
     "message": "ルールのリスト",
     "description": "Label for the textarea in the show subscription dialog."
   },
-  "options_updateInterval": {
-    "message": "更新の間隔",
-    "description": "Label for the select to choose an update interval."
+  "options_updateIntervalInDays": {
+    "message": "更新の間隔 (日)",
+    "description": "Label for the number field to set an update interval in days."
   },
   "options_backupRestoreTitle": {
     "message": "バックアップと復元",
