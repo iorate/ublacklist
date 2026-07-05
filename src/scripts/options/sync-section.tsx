@@ -34,7 +34,7 @@ import type {
   SyncBackendId,
   SyncForce,
 } from "../shared/types.ts";
-import { AltURL, isErrorResult } from "../shared/utilities.ts";
+import { isErrorResult } from "../shared/utilities.ts";
 import { FromNow } from "./shared/from-now.tsx";
 import { getOS } from "./shared/platform.ts";
 import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
@@ -259,7 +259,7 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
                   <span className={textStyles.secondary}>
                     {translate(
                       "options_turnOnSyncDialog_altFlowDescription",
-                      new AltURL(altFlowRedirectURL).host,
+                      new URL(altFlowRedirectURL).hostname,
                     )}
                   </span>
                 </div>
@@ -356,7 +356,10 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
                   if (backendId === "webdav") {
                     // phase === "none"
                     try {
-                      const origins = [new AltURL(webDAVURL).toString()];
+                      const u = new URL(webDAVURL);
+                      const origins = [
+                        `${u.protocol}//${u.hostname}${u.pathname}${u.search}`,
+                      ];
                       const granted = await browser.permissions.request({
                         origins,
                       });
