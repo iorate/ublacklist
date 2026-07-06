@@ -256,7 +256,7 @@ function SetBlacklist() {
             </div>
           </div>
           <RulesetEditor
-            height="300px"
+            height="calc(21em + 10px)"
             resizable
             value={blacklist}
             onChange={(value) => {

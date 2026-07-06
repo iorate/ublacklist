@@ -1,6 +1,8 @@
 .root {
   color-scheme: light;
 
+  --ub-font-size-base: 14px;
+
   --ub-color-background: rgb(248, 249, 250);
   --ub-color-surface: white;
   --ub-color-text-primary: rgb(32, 33, 36);

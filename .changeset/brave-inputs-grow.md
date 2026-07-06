@@ -2,4 +2,4 @@
 "ublacklist": minor
 ---
 
-Increased the font size of text fields in the options page to 16px, which also fixes the page zooming in when focusing a text field in Safari on iOS.
+Increased the base font size from 13px to 14px. On touch devices, text fields use a 16px font size without changing their height, which also prevents Safari on iOS from zooming in when focusing them.
