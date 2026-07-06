@@ -11,11 +11,20 @@
   color: var(--ub-color-text-primary);
   display: block;
   font: inherit;
-  font-size: 16px;
   line-height: 1.5;
   padding: 0.5em 0.625em;
   text-align: center;
   width: 4em;
+}
+
+@media (any-pointer: coarse) {
+  .input {
+    font-size: 16px;
+    line-height: calc(1.5 * var(--ub-font-size-base));
+    padding: calc(0.5 * var(--ub-font-size-base))
+      calc(0.625 * var(--ub-font-size-base));
+    width: calc(4 * var(--ub-font-size-base));
+  }
 }
 
 .input:disabled {

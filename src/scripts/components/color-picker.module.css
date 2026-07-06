@@ -38,13 +38,21 @@
   color: var(--ub-color-text-primary);
   display: block;
   font: inherit;
-  font-size: 16px;
-  height: 2.5em;
   line-height: 1.5;
   margin: 0.75em auto 0;
   padding: 0.5em 0.625em;
   text-align: center;
   width: 8em;
+}
+
+@media (any-pointer: coarse) {
+  .input {
+    font-size: 16px;
+    line-height: calc(1.5 * var(--ub-font-size-base));
+    padding: calc(0.5 * var(--ub-font-size-base))
+      calc(0.625 * var(--ub-font-size-base));
+    width: calc(8 * var(--ub-font-size-base));
+  }
 }
 
 .input:focus {

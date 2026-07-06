@@ -74,7 +74,7 @@ export type EditorProps = {
 };
 
 export function Editor({
-  height = "200px",
+  height = "calc(14em + 10px)",
   language: lang,
   readOnly = false,
   resizable = false,
@@ -169,7 +169,6 @@ export function Editor({
               backgroundColor: scheme.background,
               border: "1px solid var(--ub-color-border)",
               color: scheme.foreground,
-              fontSize: "16px",
               height,
               overflow: "hidden",
               resize: resizable ? "vertical" : "none",
@@ -182,6 +181,11 @@ export function Editor({
               fontFamily:
                 'ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace',
               overflow: "auto",
+            },
+            "@media (any-pointer: coarse)": {
+              ".cm-scroller": {
+                fontSize: "16px",
+              },
             },
             ".cm-gutters": {
               backgroundColor: "transparent",

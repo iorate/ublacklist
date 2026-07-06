@@ -525,7 +525,7 @@ function ShowRemoteSerpInfoDialog({
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <Editor
-              height="max(200px, 100dvh - 170px)"
+              height="max(14em + 10px, 100dvh - 14em)"
               readOnly
               value={remote?.content ?? ""}
             />
@@ -572,7 +572,7 @@ function UserSerpInfoSection(props: { id: string }) {
           <div className={rowStyles.row}>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
               <Editor
-                height="300px"
+                height="calc(21em + 10px)"
                 resizable
                 value={userInput}
                 onChange={(value) => {

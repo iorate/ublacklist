@@ -51,14 +51,14 @@ export function ShowDialog({
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             {subscription.type === "domains" ? (
               <Editor
-                height="200px"
+                height="calc(14em + 10px)"
                 readOnly
                 resizable
                 value={subscription.blacklist}
               />
             ) : (
               <RulesetEditor
-                height="200px"
+                height="calc(14em + 10px)"
                 readOnly
                 resizable
                 value={subscription.blacklist}
