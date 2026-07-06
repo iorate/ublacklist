@@ -44,6 +44,11 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
+      - name: Set git identity for tagging
+        run: |
+          git config user.name 'iorate-bot[bot]'
+          git config user.email '266279786+iorate-bot[bot]@users.noreply.github.com'
+
       - name: Create version pull request or tag
         id: changesets
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
