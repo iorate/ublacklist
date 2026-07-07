@@ -10,6 +10,7 @@ import { translate } from "../../shared/locales.ts";
 import { storageStore } from "../../shared/storage-store.ts";
 import labelStyles from "../../styles/label.module.css";
 import rowStyles from "../../styles/row.module.css";
+import { saveSource } from "./save-source.ts";
 import localStyles from "./set-interval-item.module.css";
 
 export type IntervalItemKey = "syncInterval" | "updateInterval";
@@ -76,7 +77,7 @@ export function SetIntervalItem({
                   Math.max(min, Math.round(committedValue)) *
                   minutesPerUnit[unit],
               } as Partial<Record<IntervalItemKey, number>>,
-              "options",
+              saveSource,
             );
           }}
         />

@@ -152,7 +152,11 @@ export type LocalStorageItemsSavable = Omit<
   | "serpInfoSettings"
 >;
 
-export type SaveSource = "content-script" | "popup" | "options" | "background";
+export type SaveSource =
+  | "content-script"
+  | "popup"
+  | `options-${number}`
+  | "background";
 
 export type LocalStorageItemsBackupRestore = Pick<
   LocalStorageItems,
