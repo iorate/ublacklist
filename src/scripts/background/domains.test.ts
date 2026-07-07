@@ -1,60 +1,54 @@
-import assert from "node:assert";
+import assert from "node:assert/strict";
 import { test } from "node:test";
 import { Ruleset } from "@ublacklist/ruleset";
 import { domainsToRuleset, parseDomainLine } from "./domains.ts";
 
 test("parseDomainLine", async (t) => {
   await t.test("accepts valid domains", () => {
-    assert.strictEqual(parseDomainLine("example.com"), "example.com");
-    assert.strictEqual(parseDomainLine("sub.example.com"), "sub.example.com");
-    assert.strictEqual(
-      parseDomainLine("a.b.c.example.com"),
-      "a.b.c.example.com",
-    );
-    assert.strictEqual(
-      parseDomainLine("xn--fsq.xn--zckzah"),
-      "xn--fsq.xn--zckzah",
-    );
-    assert.strictEqual(
+    assert.equal(parseDomainLine("example.com"), "example.com");
+    assert.equal(parseDomainLine("sub.example.com"), "sub.example.com");
+    assert.equal(parseDomainLine("a.b.c.example.com"), "a.b.c.example.com");
+    assert.equal(parseDomainLine("xn--fsq.xn--zckzah"), "xn--fsq.xn--zckzah");
+    assert.equal(
       parseDomainLine("label-with-hyphens.example.com"),
       "label-with-hyphens.example.com",
     );
   });
 
   await t.test("trims surrounding whitespace", () => {
-    assert.strictEqual(parseDomainLine("  example.com  "), "example.com");
-    assert.strictEqual(parseDomainLine("\texample.com\t"), "example.com");
+    assert.equal(parseDomainLine("  example.com  "), "example.com");
+    assert.equal(parseDomainLine("\texample.com\t"), "example.com");
   });
 
   await t.test("ignores empty and comment lines", () => {
-    assert.strictEqual(parseDomainLine(""), null);
-    assert.strictEqual(parseDomainLine("   "), null);
-    assert.strictEqual(parseDomainLine("# comment"), null);
-    assert.strictEqual(parseDomainLine("  # indented comment"), null);
-    assert.strictEqual(parseDomainLine("#"), null);
+    assert.equal(parseDomainLine(""), null);
+    assert.equal(parseDomainLine("   "), null);
+    assert.equal(parseDomainLine("# comment"), null);
+    assert.equal(parseDomainLine("  # indented comment"), null);
+    assert.equal(parseDomainLine("#"), null);
   });
 
   await t.test("rejects invalid domains", () => {
-    assert.strictEqual(parseDomainLine("no-dot"), null);
-    assert.strictEqual(parseDomainLine(".leading.dot"), null);
-    assert.strictEqual(parseDomainLine("trailing.dot."), null);
-    assert.strictEqual(parseDomainLine("-leading.hyphen.com"), null);
-    assert.strictEqual(parseDomainLine("trailing.hyphen-.com"), null);
-    assert.strictEqual(parseDomainLine("double..dot.com"), null);
-    assert.strictEqual(parseDomainLine("under_score.com"), null);
-    assert.strictEqual(parseDomainLine("space here.com"), null);
-    assert.strictEqual(parseDomainLine("0.0.0.0 example.com"), null);
-    assert.strictEqual(parseDomainLine("example.com extra"), null);
+    assert.equal(parseDomainLine("no-dot"), null);
+    assert.equal(parseDomainLine(".leading.dot"), null);
+    assert.equal(parseDomainLine("trailing.dot."), null);
+    assert.equal(parseDomainLine("-leading.hyphen.com"), null);
+    assert.equal(parseDomainLine("trailing.hyphen-.com"), null);
+    assert.equal(parseDomainLine("double..dot.com"), null);
+    assert.equal(parseDomainLine("under_score.com"), null);
+    assert.equal(parseDomainLine("space here.com"), null);
+    assert.equal(parseDomainLine("0.0.0.0 example.com"), null);
+    assert.equal(parseDomainLine("example.com extra"), null);
     // Unicode is not accepted; callers must supply Punycode
-    assert.strictEqual(parseDomainLine("例.テスト"), null);
+    assert.equal(parseDomainLine("例.テスト"), null);
   });
 
   await t.test("rejects overly long labels and domains", () => {
     const longLabel = "a".repeat(64);
-    assert.strictEqual(parseDomainLine(`${longLabel}.com`), null);
+    assert.equal(parseDomainLine(`${longLabel}.com`), null);
     const longDomain = `${"a".repeat(60)}.${"b".repeat(60)}.${"c".repeat(60)}.${"d".repeat(60)}.${"e".repeat(60)}.com`;
     assert.ok(longDomain.length > 253);
-    assert.strictEqual(parseDomainLine(longDomain), null);
+    assert.equal(parseDomainLine(longDomain), null);
   });
 });
 
@@ -66,7 +60,7 @@ test("domainsToRuleset", async (t) => {
         "\n",
       );
       const output = domainsToRuleset(input);
-      assert.strictEqual(
+      assert.equal(
         output,
         ["*://*.example.com/*", "", "", "*://*.sub.example.net/*"].join("\n"),
       );
@@ -78,13 +72,13 @@ test("domainsToRuleset", async (t) => {
       "\n",
     );
     const output = domainsToRuleset(input);
-    assert.strictEqual(output, ["*://*.example.com/*", "", ""].join("\n"));
+    assert.equal(output, ["*://*.example.com/*", "", ""].join("\n"));
   });
 
   await t.test("preserves trailing newline behavior of split/join", () => {
     const input = "example.com\n";
     const output = domainsToRuleset(input);
-    assert.strictEqual(output, "*://*.example.com/*\n");
+    assert.equal(output, "*://*.example.com/*\n");
   });
 
   await t.test("produces a ruleset that matches the expected URLs", () => {

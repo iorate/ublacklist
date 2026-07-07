@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { registerHooks } from "node:module";
 import { test } from "node:test";
@@ -65,14 +65,14 @@ function parsedOf(content: string) {
 test("mergeBuiltins", async (t) => {
   await t.test("creates missing entries from the builtin content", () => {
     const settings = getDefault();
-    assert.strictEqual(settings.remote.length, BUILTINS.length);
+    assert.equal(settings.remote.length, BUILTINS.length);
     for (const b of BUILTINS) {
       const entry = settings.remote.find((r) => r.url === b.url);
       assert.ok(entry);
-      assert.strictEqual(entry.custom, false);
-      assert.strictEqual(entry.enabled, b.url === GOOGLE_SERPINFO_URL);
-      assert.strictEqual(entry.content, b.content);
-      assert.notStrictEqual(entry.parsed, null);
+      assert.equal(entry.custom, false);
+      assert.equal(entry.enabled, b.url === GOOGLE_SERPINFO_URL);
+      assert.equal(entry.content, b.content);
+      assert.notEqual(entry.parsed, null);
     }
   });
 
@@ -85,7 +85,7 @@ test("mergeBuiltins", async (t) => {
         parsed: parsedOf(olderContent),
       })),
     );
-    assert.strictEqual(merged.content, olderContent);
+    assert.equal(merged.content, olderContent);
   });
 
   await t.test(
@@ -100,9 +100,9 @@ test("mergeBuiltins", async (t) => {
           downloadError: "Failed to fetch",
         })),
       );
-      assert.strictEqual(merged.content, builtin.content);
-      assert.strictEqual(merged.parsed?.lastModified, builtinLastModified);
-      assert.strictEqual(merged.downloadError, null);
+      assert.equal(merged.content, builtin.content);
+      assert.equal(merged.parsed?.lastModified, builtinLastModified);
+      assert.equal(merged.downloadError, null);
     },
   );
 
@@ -115,7 +115,7 @@ test("mergeBuiltins", async (t) => {
         parsed: parsedOf(newerContent),
       })),
     );
-    assert.strictEqual(merged.content, newerContent);
+    assert.equal(merged.content, newerContent);
   });
 
   await t.test("updates disabled entries without content", () => {
@@ -127,7 +127,7 @@ test("mergeBuiltins", async (t) => {
         parsed: null,
       })),
     );
-    assert.strictEqual(merged.content, builtin.content);
+    assert.equal(merged.content, builtin.content);
   });
 
   await t.test("updates disabled entries with unparsable content", () => {
@@ -140,7 +140,7 @@ test("mergeBuiltins", async (t) => {
         parseError: "Parse error",
       })),
     );
-    assert.strictEqual(merged.content, builtin.content);
-    assert.strictEqual(merged.parseError, null);
+    assert.equal(merged.content, builtin.content);
+    assert.equal(merged.parseError, null);
   });
 });

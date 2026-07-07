@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { registerHooks } from "node:module";
 import { test } from "node:test";
@@ -94,8 +94,8 @@ test("syncSectionConfigs", async (t) => {
         ...localItems,
         ...config.deserialize(content, cloudModifiedTime, localItems),
       };
-      assert.strictEqual(config.serialize(updated), content, config.filename);
-      assert.strictEqual(
+      assert.equal(config.serialize(updated), content, config.filename);
+      assert.equal(
         config.getModifiedTime(updated),
         cloudModifiedTime,
         config.filename,
@@ -104,23 +104,23 @@ test("syncSectionConfigs", async (t) => {
   });
 
   await t.test("serializes to the current file formats", () => {
-    assert.strictEqual(
+    assert.equal(
       syncSectionConfigs.blocklist.serialize(localItems),
       "*://example.com/*",
     );
-    assert.strictEqual(
+    assert.equal(
       syncSectionConfigs.general.serialize(localItems),
       '{"skipBlockDialog":true,"hideBlockLinks":false,"hideControl":true,"enableMatchingRules":false,"blockWholeSite":true}',
     );
-    assert.strictEqual(
+    assert.equal(
       syncSectionConfigs.appearance.serialize(localItems),
       '{"linkColor":"#1a0dab","blockColor":"default","highlightColors":["#ddeeff"],"dialogTheme":"dark"}',
     );
-    assert.strictEqual(
+    assert.equal(
       syncSectionConfigs.subscriptions.serialize(localItems),
       '[{"name":"Example","url":"https://example.com/uBlacklist.txt","type":"ruleset","enabled":true},{"name":"Domains","url":"https://example.com/domains.txt","type":"domains","enabled":false},{"name":"Legacy","url":"https://example.com/legacy.txt","type":"ruleset","enabled":true}]',
     );
-    assert.strictEqual(
+    assert.equal(
       syncSectionConfigs.serpInfo.serialize({
         ...localItems,
         serpInfoSettings: {
@@ -137,7 +137,7 @@ test("syncSectionConfigs", async (t) => {
   await t.test(
     "keeps optional general fields absent from the cloud file",
     () => {
-      assert.deepStrictEqual(
+      assert.deepEqual(
         syncSectionConfigs.general.deserialize(
           '{"skipBlockDialog":false,"hideBlockLinks":true,"hideControl":false}',
           cloudModifiedTime,
@@ -150,7 +150,7 @@ test("syncSectionConfigs", async (t) => {
           generalLastModified: cloudModifiedTime,
         },
       );
-      assert.deepStrictEqual(
+      assert.deepEqual(
         syncSectionConfigs.general.deserialize(
           '{"skipBlockDialog":false,"hideBlockLinks":true,"hideControl":false,"enableMatchingRules":true,"blockWholeSite":false}',
           cloudModifiedTime,
