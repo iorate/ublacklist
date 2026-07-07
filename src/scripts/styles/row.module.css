@@ -11,6 +11,7 @@
 
 .row.multiline {
   flex-wrap: wrap;
+  row-gap: 1em;
 }
 
 .row.right {
