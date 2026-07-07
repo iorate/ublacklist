@@ -3,6 +3,7 @@ import {
   type MatchPatternMapJSON,
 } from "@ublacklist/match-pattern";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
+import dayjs from "dayjs";
 import { z } from "zod";
 import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtin-serpinfo.ts";
 
@@ -161,25 +162,64 @@ pages: []
   });
 }
 
+function shouldUpdateFromBuiltin(
+  stored: Readonly<RemoteSerpInfo>,
+  builtinContent: string,
+): boolean {
+  // Periodic downloads update only enabled entries, so update disabled ones
+  // from the builtins; otherwise SERP detection in the popup would rely on
+  // stale match patterns
+  if (stored.enabled) {
+    return false;
+  }
+  if (stored.content == null || stored.parsed?.lastModified == null) {
+    return true;
+  }
+  const builtinParseResult = parse(builtinContent);
+  if (
+    !builtinParseResult.success ||
+    builtinParseResult.data.lastModified == null
+  ) {
+    return false;
+  }
+  return dayjs(stored.parsed.lastModified).isBefore(
+    builtinParseResult.data.lastModified,
+  );
+}
+
 export function mergeBuiltins(
   settings: Readonly<SerpInfoSettings>,
 ): SerpInfoSettings {
-  const builtin = BUILTINS.map((b) => {
-    const r = settings.remote.find((r) => !r.custom && r.url === b.url);
-    return (
-      r || {
-        url: b.url,
+  const builtins = BUILTINS.map((builtin) => {
+    const stored = settings.remote.find(
+      (r) => !r.custom && r.url === builtin.url,
+    );
+    if (stored == null) {
+      return {
+        url: builtin.url,
         custom: false,
-        enabled: b.url === GOOGLE_SERPINFO_URL,
-        content: b.content,
+        enabled: builtin.url === GOOGLE_SERPINFO_URL,
+        content: builtin.content,
         parsed: null,
         downloadError: null,
         parseError: null,
-      }
-    );
+      };
+    }
+    if (shouldUpdateFromBuiltin(stored, builtin.content)) {
+      return {
+        url: builtin.url,
+        custom: false,
+        enabled: stored.enabled,
+        content: builtin.content,
+        parsed: null,
+        downloadError: null,
+        parseError: null,
+      };
+    }
+    return stored;
   });
   const custom = settings.remote.filter((r) => r.custom);
-  const remote = [...builtin, ...custom];
+  const remote = [...builtins, ...custom];
   return sync({ ...settings, remote });
 }
 
