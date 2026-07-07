@@ -172,14 +172,16 @@ function RemoteSerpInfoSection(props: { id: string }) {
     "idle" | "updating" | "done"
   >("idle");
   useEffect(() => {
-    const here = new URL(location.href);
+    const originalHref = location.href;
+    const here = new URL(originalHref);
     const url = here.searchParams.get("url");
     if (url != null) {
       addDialogInitialURLRef.current = url;
       setAddDialogOpen(true);
     }
-    history.replaceState(null, "", here.pathname);
-    return () => history.replaceState(null, "", here);
+    here.search = "";
+    history.replaceState(null, "", here);
+    return () => history.replaceState(null, "", originalHref);
   }, []);
   useEffect(() => {
     if (updateStatus === "done") {

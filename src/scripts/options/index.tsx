@@ -45,7 +45,8 @@ async function main(): Promise<void> {
   ]);
   initializePlatform(platformInfo);
 
-  const searchParams = new URL(window.location.href).searchParams;
+  const here = new URL(window.location.href);
+  const searchParams = here.searchParams;
   const typeParam = searchParams.get("type");
   const query: OptionsQuery = {
     addSubscriptionName:
@@ -55,6 +56,8 @@ async function main(): Promise<void> {
     addSubscriptionType:
       typeParam === "ruleset" || typeParam === "domains" ? typeParam : null,
   };
+  here.search = "";
+  history.replaceState(null, "", here);
 
   const root = createRoot(
     document.body.appendChild(document.createElement("div")),
