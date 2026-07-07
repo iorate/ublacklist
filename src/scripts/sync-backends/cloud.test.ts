@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "node:assert/strict";
 import { test } from "node:test";
 import type { Cloud, CloudToken } from "../shared/types.ts";
 import type { CloudClientHooks } from "./cloud.ts";
@@ -66,11 +66,11 @@ test("createClient (cloud)", async (t) => {
     });
     const { hooks, persisted } = makeHooks();
     const client = createClient(cloud, makeToken(false), hooks);
-    assert.deepStrictEqual(await client.readFile("file1"), {
+    assert.deepEqual(await client.readFile("file1"), {
       content: "content of file1",
     });
-    assert.deepStrictEqual(accessTokens, ["access-1"]);
-    assert.strictEqual(persisted.length, 0);
+    assert.deepEqual(accessTokens, ["access-1"]);
+    assert.equal(persisted.length, 0);
   });
 
   await t.test("refreshes an expired token before the operation", async () => {
@@ -89,12 +89,12 @@ test("createClient (cloud)", async (t) => {
     const { hooks, persisted } = makeHooks();
     const client = createClient(cloud, makeToken(true), hooks);
     await client.readFile("file1");
-    assert.deepStrictEqual(refreshTokens, ["refresh-1"]);
-    assert.deepStrictEqual(accessTokens, ["access-2"]);
+    assert.deepEqual(refreshTokens, ["refresh-1"]);
+    assert.deepEqual(accessTokens, ["access-2"]);
     const [persistedToken] = persisted;
     assert.ok(persistedToken);
-    assert.strictEqual(persistedToken.accessToken, "access-2");
-    assert.strictEqual(persistedToken.refreshToken, "refresh-1");
+    assert.equal(persistedToken.accessToken, "access-2");
+    assert.equal(persistedToken.refreshToken, "refresh-1");
     assert.ok(new Date(persistedToken.expiresAt).getTime() > Date.now());
   });
 
@@ -115,11 +115,11 @@ test("createClient (cloud)", async (t) => {
       });
       const { hooks, persisted } = makeHooks();
       const client = createClient(cloud, makeToken(false), hooks);
-      assert.deepStrictEqual(await client.readFile("file1"), {
+      assert.deepEqual(await client.readFile("file1"), {
         content: "content",
       });
-      assert.strictEqual(readCount, 2);
-      assert.strictEqual(persisted.length, 1);
+      assert.equal(readCount, 2);
+      assert.equal(persisted.length, 1);
     },
   );
 
@@ -136,7 +136,7 @@ test("createClient (cloud)", async (t) => {
     const { hooks } = makeHooks();
     const client = createClient(cloud, makeToken(false), hooks);
     await assert.rejects(client.readFile("file1"), HTTPError);
-    assert.strictEqual(readCount, 2);
+    assert.equal(readCount, 2);
   });
 
   await t.test("disconnects when the refresh returns 400", async () => {
@@ -150,7 +150,7 @@ test("createClient (cloud)", async (t) => {
       client.readFile("file1"),
       new Error("unauthorizedError"),
     );
-    assert.strictEqual(unauthorized(), 1);
-    assert.strictEqual(persisted.length, 0);
+    assert.equal(unauthorized(), 1);
+    assert.equal(persisted.length, 0);
   });
 });
