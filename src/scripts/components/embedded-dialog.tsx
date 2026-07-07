@@ -16,6 +16,14 @@ export function EmbeddedDialog({
 }: EmbeddedDialogProps) {
   useEffect(() => {
     initialFocus?.current?.focus();
+    if (
+      process.env.BROWSER === "safari" &&
+      document.visibilityState === "hidden"
+    ) {
+      const refocus = () => initialFocus?.current?.focus();
+      document.addEventListener("visibilitychange", refocus, { once: true });
+      return () => document.removeEventListener("visibilitychange", refocus);
+    }
   }, [initialFocus]);
   return (
     <div
