@@ -22,6 +22,7 @@ import styles from "../styles/radio.module.css";
 import rowStyles from "../styles/row.module.css";
 import sectionStyles from "../styles/section.module.css";
 import localStyles from "./appearance-section.module.css";
+import { saveSource } from "./shared/save-source.ts";
 
 function SetBlockColor() {
   const id = useId();
@@ -39,7 +40,7 @@ function SetBlockColor() {
   const save = (value: string) => {
     pending.current = true;
     setDraft(value);
-    void saveToLocalStorage({ blockColor: value }, "options");
+    void saveToLocalStorage({ blockColor: value }, saveSource);
   };
 
   const color = draft === "default" ? defaultBlockColor : draft;
@@ -145,7 +146,7 @@ function SetHighlightColors() {
     setDraft(next);
     void saveToLocalStorage(
       { highlightColors: next.map((item) => item.color) },
-      "options",
+      saveSource,
     );
   };
 
@@ -262,7 +263,7 @@ function SetDialogTheme() {
           <RadioGroup
             value={dialogTheme}
             onValueChange={(value: "default" | "light" | "dark") => {
-              void saveToLocalStorage({ dialogTheme: value }, "options");
+              void saveToLocalStorage({ dialogTheme: value }, saveSource);
             }}
           >
             <div className={rowStyles.row}>

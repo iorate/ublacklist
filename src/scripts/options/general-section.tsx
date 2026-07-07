@@ -33,6 +33,7 @@ import sectionStyles from "../styles/section.module.css";
 import textStyles from "../styles/text.module.css";
 import textareaStyles from "../styles/textarea.module.css";
 import { RulesetEditor } from "./shared/ruleset-editor.tsx";
+import { saveSource } from "./shared/save-source.ts";
 import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
 
 function ImportBlacklistForm({
@@ -224,7 +225,7 @@ function SetBlacklist() {
     () =>
       addMessageListeners({
         "blocklist-saved": (latestBlacklist, source) => {
-          if (source !== "options") {
+          if (source !== saveSource) {
             setLatestBlacklist(latestBlacklist);
           }
         },
@@ -318,7 +319,7 @@ function SetBlacklist() {
                 data-testid="save-blacklist-button"
                 disabled={!blacklistDirty}
                 onClick={() => {
-                  void saveToLocalStorage({ blacklist }, "options");
+                  void saveToLocalStorage({ blacklist }, saveSource);
                   setBlacklistDirty(false);
                   setLatestBlacklist(null);
                 }}
