@@ -33,8 +33,10 @@ test("expandExtraSelector", async (t) => {
     );
   });
 
-  await t.test("returns an empty array for an invalid selector", () => {
+  await t.test("returns an empty array for an invalid selector", (t) => {
+    const consoleError = t.mock.method(console, "error", () => {});
     assert.deepEqual(expandExtraSelector("&[", "[data-ub-block]"), []);
+    assert.equal(consoleError.mock.callCount(), 1);
   });
 });
 
