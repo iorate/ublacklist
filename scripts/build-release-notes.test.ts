@@ -88,7 +88,7 @@ test("truncateReleaseNotes", async (t) => {
   });
 
   await t.test(
-    "truncates at a paragraph boundary and appends a link to the full notes",
+    "truncates at a paragraph boundary and appends a link to the full release notes",
     () => {
       const notes = `### A\n\n${one}\n\n${two}\n\n${three}`;
       assert.equal(

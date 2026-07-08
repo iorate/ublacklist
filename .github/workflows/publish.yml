@@ -71,13 +71,14 @@ jobs:
           GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
           GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
 
-      - name: Copy store notes
+      - name: Build notes
         run: |
-          cp release/edge/notes-for-certification.txt dist/release/edge/
+          # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
+          envsubst '$RELEASE_URL' < release/edge/notes-for-certification.template.txt > dist/release/edge/notes-for-certification.txt
           cp release/firefox/approval-notes.txt dist/release/firefox/
-
-      - name: Build release notes
-        run: pnpm node scripts/build-release-notes.ts "https://github.com/$GITHUB_REPOSITORY/releases/tag/$GITHUB_REF_NAME"
+          pnpm node scripts/build-release-notes.ts "$RELEASE_URL"
+        env:
+          RELEASE_URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -218,13 +219,12 @@ jobs:
 
       - name: Create GitHub Release
         run: |
-          gh release create "$TAG" \
-            --title "$TAG" \
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
             --notes-file dist/release/github/release-notes.md \
-            "dist/release/github/chrome.zip#ublacklist-$TAG-chrome.zip" \
-            "dist/release/github/edge.zip#ublacklist-$TAG-edge.zip" \
-            "dist/release/github/firefox.zip#ublacklist-$TAG-firefox.zip"
+            "dist/release/github/chrome.zip#ublacklist-$GITHUB_REF_NAME-chrome.zip" \
+            "dist/release/github/edge.zip#ublacklist-$GITHUB_REF_NAME-edge.zip" \
+            "dist/release/github/firefox.zip#ublacklist-$GITHUB_REF_NAME-firefox.zip"
         env:
-          TAG: ${{ github.ref_name }}
           GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}

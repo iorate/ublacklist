@@ -25,12 +25,12 @@ export function extractReleaseNotes(changelog: string): string {
 export function truncateReleaseNotes(
   notes: string,
   limit: number,
-  fullNotesUrl: string,
+  releaseUrl: string,
 ): string {
   if (notes.length <= limit) {
     return notes;
   }
-  const suffix = `[See the full release notes](${fullNotesUrl})`;
+  const suffix = `[See the full release notes](${releaseUrl})`;
   const paragraphs = notes.split(/\n{2,}/);
   const kept: string[] = [];
   let length = suffix.length;
@@ -45,10 +45,10 @@ export function truncateReleaseNotes(
 }
 
 async function main() {
-  const fullNotesUrl = process.argv[2];
-  if (!fullNotesUrl) {
+  const releaseUrl = process.argv[2];
+  if (!releaseUrl) {
     throw new Error(
-      "Usage: pnpm node scripts/build-release-notes.ts <full-notes-url>",
+      "Usage: pnpm node scripts/build-release-notes.ts <release-url>",
     );
   }
   const changelog = await fs.readFile("CHANGELOG.md", "utf8");
@@ -58,7 +58,7 @@ async function main() {
   await fs.mkdir("dist/release/firefox", { recursive: true });
   await fs.writeFile(
     "dist/release/firefox/release-notes.md",
-    `${truncateReleaseNotes(notes, AMO_RELEASE_NOTES_MAX_LENGTH, fullNotesUrl)}\n`,
+    `${truncateReleaseNotes(notes, AMO_RELEASE_NOTES_MAX_LENGTH, releaseUrl)}\n`,
   );
 }
 
