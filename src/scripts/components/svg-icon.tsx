@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import type React from "react";
+import { useLayoutEffect, useRef } from "react";
 import styles from "./svg-icon.module.css";
 
 export type SvgIconProps = React.JSX.IntrinsicElements["span"] & {
@@ -14,16 +15,18 @@ export function SvgIcon({
   svg,
   ...props
 }: SvgIconProps) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useLayoutEffect(() => {
+    if (ref.current) {
+      ref.current.innerHTML = svg;
+    }
+  }, [svg]);
   return (
     <span
       aria-hidden={true}
       {...props}
       className={clsx(styles.icon, className)}
-      ref={(element) => {
-        if (element) {
-          element.innerHTML = svg;
-        }
-      }}
+      ref={ref}
       style={color != null ? { color, ...style } : style}
     />
   );
