@@ -33,10 +33,12 @@ jobs:
           run_install: true
           cache: true
 
+      - name: Prepare release directories
+        run: mkdir -p dist/release/{chrome,edge,firefox,github}
+
       - name: Build and archive (Chrome)
         run: |
           pnpm build
-          mkdir -p dist/release/chrome dist/release/github
           (cd dist/chrome && zip -qr ../release/chrome/package.zip .)
           cp dist/release/chrome/package.zip dist/release/github/chrome.zip
         env:
@@ -48,7 +50,6 @@ jobs:
       - name: Build and archive (Edge)
         # Edge Add-ons rejects a manifest with the `key` field.
         run: |
-          mkdir -p dist/release/edge dist/release/github
           pnpm build --browser edge --no-key
           (cd dist/edge-no-key && zip -qr ../release/edge/package.zip .)
           pnpm build --browser edge
@@ -62,7 +63,6 @@ jobs:
       - name: Build and archive (Firefox)
         run: |
           pnpm build --browser firefox
-          mkdir -p dist/release/firefox dist/release/github
           (cd dist/firefox && zip -qr ../release/firefox/package.zip .)
           cp dist/release/firefox/package.zip dist/release/github/firefox.zip
         env:
