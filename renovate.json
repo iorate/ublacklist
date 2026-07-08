@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>ublacklist/.github:renovate-config", "config:js-app"],
+  "extends": [
+    "github>ublacklist/.github:renovate-config",
+    ":pinAllExceptPeerDependencies"
+  ],
   "packageRules": [
     {
       "description": "Pin to 2.1.15; 2.1.16 and later break functional pseudo-classes with & (cristianbote/goober#605)",
