@@ -57,8 +57,9 @@ Eine zusätzliche Unterstützung für integrierte Suchmaschinen ist nicht geplan
 ## Zugehörige Repositorys
 
 - [ublacklist/builtin](https://github.com/ublacklist/builtin) – Integrierte SERPINFO-Dateien. Die Erweiterung lädt regelmäßig die neuesten SERPINFO-Daten von dieser Seite herunter.
-- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) – Website und Dokumentation (https://ublacklist.github.io)
+- [ublacklist/packages](https://github.com/ublacklist/packages) — npm packages (`@ublacklist/match-pattern`, `@ublacklist/ruleset`, `@ublacklist/serpinfo`) and the ruleset/SERPINFO format specifications
 - [ublacklist/store-assets](https://github.com/ublacklist/store-assets) – Beschreibungen und Screenshots für Store-Einträge
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) – Website und Dokumentation (https://ublacklist.github.io)
 
 ## Für Anbieter von Abonnements
 
