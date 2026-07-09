@@ -57,8 +57,9 @@ No additional builtin search engine support is planned. You can use [SERPINFO](h
 ## Related repositories
 
 - [ublacklist/builtin](https://github.com/ublacklist/builtin) — Builtin SERPINFO files. The extension periodically downloads the latest SERPINFO from here.
-- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — Website and documentation (https://ublacklist.github.io)
+- [ublacklist/packages](https://github.com/ublacklist/packages) — npm packages (`@ublacklist/match-pattern`, `@ublacklist/ruleset`, `@ublacklist/serpinfo`) and the ruleset/SERPINFO format specifications
 - [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — Store listing descriptions and screenshots
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — Website and documentation (https://ublacklist.github.io)
 
 ## For subscription providers
 

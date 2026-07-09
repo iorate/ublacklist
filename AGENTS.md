@@ -31,8 +31,8 @@ After editing, run `pnpm check` to verify (this runs biome, prettier, and tsgo t
 
 ## Subsystem References
 
-- Ruleset syntax: `docs/ruleset-spec.md`
-- SERPINFO format: `docs/serpinfo-spec.md`
+- Ruleset syntax: [ruleset specification](https://github.com/ublacklist/packages/blob/main/packages/ruleset/docs/spec.md) in ublacklist/packages
+- SERPINFO format: [SERPINFO specification](https://github.com/ublacklist/packages/blob/main/packages/serpinfo/docs/spec.md) in ublacklist/packages
 
 ## Adding or Changing Messages
 
@@ -45,7 +45,8 @@ uBlacklist is split across multiple repositories:
 
 - [iorate/ublacklist](https://github.com/iorate/ublacklist) — this repository, the extension itself.
 - [ublacklist/builtin](https://github.com/ublacklist/builtin) — built-in SERPINFO files (the extension downloads these periodically).
-- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — website and documentation.
+- [ublacklist/packages](https://github.com/ublacklist/packages) — npm packages (`@ublacklist/match-pattern`, `@ublacklist/ruleset`, `@ublacklist/serpinfo`) and the ruleset/SERPINFO format specifications.
 - [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — store listing descriptions and screenshots.
+- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — website and documentation.
 
 Changes to a specific subsystem belong in its repository.
