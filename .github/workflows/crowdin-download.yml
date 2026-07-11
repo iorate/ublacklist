@@ -99,7 +99,7 @@ jobs:
           "ublacklist": patch
           ---
 
-          Update $language translation
+          Update $language translation.
           EOF
           done
 
