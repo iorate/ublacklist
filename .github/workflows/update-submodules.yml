@@ -27,8 +27,14 @@ jobs:
           persist-credentials: false
           submodules: recursive
 
-      - name: git submodule update
-        run: git submodule update --remote
+      - name: Update submodules
+        # actions/checkout clones submodules with --depth=1 (single-branch),
+        # so widen the refspec to make `update --remote` find origin/dist
+        # https://github.com/actions/checkout/issues/994
+        run: |
+          git submodule foreach \
+            'git config remote.origin.fetch "+refs/heads/*:ref/remotes/origin/*"'
+          git submodule update --remote
 
       - name: Generate token
         id: generate-token
