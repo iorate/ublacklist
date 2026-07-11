@@ -2,4 +2,4 @@
 "ublacklist": patch
 ---
 
-Update Russian translation.
+Updated the Russian translation.
