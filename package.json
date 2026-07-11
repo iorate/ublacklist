@@ -52,14 +52,14 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@changesets/changelog-github": "0.7.0",
     "@changesets/cli": "2.31.0",
     "@playwright/test": "1.61.1",
     "@types/css-tree": "2.3.11",
     "@types/fs-extra": "11.0.4",
     "@types/license-checker": "25.0.6",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "@types/punycode": "2.1.4",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
@@ -69,9 +69,9 @@
     "dotenv": "17.4.2",
     "esbuild": "0.28.1",
     "fs-extra": "11.3.6",
-    "lefthook": "2.1.9",
+    "lefthook": "2.1.10",
     "prettier": "3.9.4",
-    "typescript": "7.0.1-rc"
+    "typescript": "7.0.2"
   },
   "packageManager": "pnpm@11.10.0",
   "devEngines": {
