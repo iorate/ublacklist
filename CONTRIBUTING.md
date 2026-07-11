@@ -1,11 +1,6 @@
 # Contributing to uBlacklist
 
-This document provides guidelines for contributing to the uBlacklist project, which spans the following repositories:
-
-- [iorate/ublacklist](https://github.com/iorate/ublacklist) — the extension itself
-- [ublacklist/builtin](https://github.com/ublacklist/builtin) — built-in SERPINFO files
-- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — website and documentation
-- [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — store listings and screenshots
+This document provides guidelines for contributing to the uBlacklist project, which spans multiple repositories (see [Related repositories](README.md#related-repositories) in the README).
 
 All contributions to any of these repositories follow the flow described below.
 

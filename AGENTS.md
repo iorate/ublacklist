@@ -41,12 +41,4 @@ After editing, run `pnpm check` to verify (this runs biome, prettier, and tsgo t
 
 ## Related Repositories
 
-uBlacklist is split across multiple repositories:
-
-- [iorate/ublacklist](https://github.com/iorate/ublacklist) — this repository, the extension itself.
-- [ublacklist/builtin](https://github.com/ublacklist/builtin) — built-in SERPINFO files (the extension downloads these periodically).
-- [ublacklist/packages](https://github.com/ublacklist/packages) — npm packages (`@ublacklist/match-pattern`, `@ublacklist/ruleset`, `@ublacklist/serpinfo`) and the ruleset/SERPINFO format specifications.
-- [ublacklist/store-assets](https://github.com/ublacklist/store-assets) — store listing descriptions and screenshots.
-- [ublacklist/ublacklist.github.io](https://github.com/ublacklist/ublacklist.github.io) — website and documentation.
-
-Changes to a specific subsystem belong in its repository.
+uBlacklist is split across multiple repositories; this repository (iorate/ublacklist) contains the extension itself, and the others are listed in the [Related repositories](README.md#related-repositories) section of the README. Changes to a specific subsystem belong in its repository.
