@@ -2,4 +2,4 @@
 "ublacklist": patch
 ---
 
-Update Chinese (Taiwan) translation.
+Updated the Chinese (Taiwan) translation.
