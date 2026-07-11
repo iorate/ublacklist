@@ -160,7 +160,7 @@
     "description": "Message indicating uBlacklist can be used on the current page."
   },
   "popup_serpInfoMode_setupButton": {
-    "message": "Set up",
+    "message": "设置",
     "description": "Text for the button to open SERPINFO options."
   },
   "options_generalTitle": {
@@ -804,7 +804,7 @@
     "description": "Message indicating browser storage sync is turned on."
   },
   "clouds_browserSyncQuotaExceeded": {
-    "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
+    "message": "数据大小超过浏览器存储限制。请尝试减少规则数量或切换到另一种同步方法。",
     "description": "Error message shown when sync fails due to quota exceeded."
   }
 }
