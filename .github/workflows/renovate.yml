@@ -39,7 +39,7 @@ jobs:
           permission-metadata: read
 
       - name: Run Renovate
-        uses: renovatebot/github-action@dd5302ec17783b2fc721b19ae7209b57b1587765 # v46.1.17
+        uses: renovatebot/github-action@b50d2ba2bd928235abdcc14d06dfafc217f1c565 # v46.1.18
         with:
           token: ${{ steps.generate-token.outputs.token }}
         env:
