@@ -56,7 +56,7 @@
     "description": "Link text to unblock a site."
   },
   "content_unhighlightSiteLink": {
-    "message": "Unhighlight this site",
+    "message": "取消強調此網站",
     "description": "Link text to unhighlight a site."
   },
   "popup_blockSiteTitle": {
@@ -68,11 +68,11 @@
     "description": "Title of the popup to unblock a site."
   },
   "popup_highlightSiteTitle": {
-    "message": "Highlight this site",
+    "message": "強調此網站",
     "description": "Title of the popup to highlight a site."
   },
   "popup_unhighlightSiteTitle": {
-    "message": "Unhighlight this site",
+    "message": "取消強調此網站",
     "description": "Title of the popup to unhighlight a site."
   },
   "popup_details": {
@@ -80,7 +80,7 @@
     "description": "Title of the details disclosure widget."
   },
   "popup_propertiesLabel": {
-    "message": "Properties",
+    "message": "屬性",
     "description": "Label for the table showing the entry's URL, title, and other properties."
   },
   "popup_addedRulesLabel": {
@@ -92,7 +92,7 @@
     "description": "Label for the textarea showing rules to be removed."
   },
   "popup_noRules": {
-    "message": "(none)",
+    "message": "（無）",
     "description": "Placeholder shown in a rules list when no rules apply."
   },
   "popup_blockSiteButton": {
@@ -104,15 +104,15 @@
     "description": "Text for the button to unblock a site."
   },
   "popup_highlightSiteButton": {
-    "message": "Highlight",
+    "message": "強調",
     "description": "Text for the button to highlight a site."
   },
   "popup_unhighlightSiteButton": {
-    "message": "Unhighlight",
+    "message": "取消強調",
     "description": "Text for the button to unhighlight a site."
   },
   "popup_changeActionLabel": {
-    "message": "Change action",
+    "message": "變更動作",
     "description": "Accessibility label for the dropdown arrow that lets the user change the main action (block / unblock / highlight)."
   },
   "popup_openOptionsLink": {
@@ -148,19 +148,19 @@
     "description": "Label for the textarea showing rules highlighting the entry."
   },
   "popup_myRulesetHeader": {
-    "message": "My ruleset",
+    "message": "我的規則集",
     "description": "Header shown above rules from the user's own ruleset in the matching rules view."
   },
   "popup_serpInfoMode_showBlockedResults": {
-    "message": "Show blocked search results",
+    "message": "顯示封鎖的搜尋結果",
     "description": "Label for the switch to show blocked results."
   },
   "popup_serpInfoMode_available": {
-    "message": "You can use uBlacklist on this page",
+    "message": "您可以在此頁面使用 uBlacklist",
     "description": "Message indicating uBlacklist can be used on the current page."
   },
   "popup_serpInfoMode_setupButton": {
-    "message": "Set up",
+    "message": "設定",
     "description": "Text for the button to open SERPINFO options."
   },
   "options_generalTitle": {
@@ -264,7 +264,7 @@
     "description": "Label for the switch to hide block buttons."
   },
   "options_hideControlLabel": {
-    "message": "Hide the show/hide button for blocked results",
+    "message": "對被封鎖的結果隱藏「顯示/隱藏」按鈕",
     "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {
@@ -276,7 +276,7 @@
     "description": "Description of the block whole site feature."
   },
   "options_enableMatchingRules": {
-    "message": "Show matching rules in the \"Block this site\" dialog",
+    "message": "在「封鎖此網站」對話框中顯示符合的規則",
     "description": "Label for the switch to enable matching rules."
   },
   "options_appearanceTitle": {
@@ -372,19 +372,19 @@
     "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOnSyncDialog_initialSyncLabel": {
-    "message": "Initial sync",
+    "message": "初次同步",
     "description": "Label for the initial-sync-behavior selector in the turn-on-sync dialog."
   },
   "options_turnOnSyncDialog_initialSyncLastWriteWins": {
-    "message": "Keep newest version",
+    "message": "保留最新版本",
     "description": "Option that keeps whichever side (local or cloud) was modified most recently for each category."
   },
   "options_turnOnSyncDialog_initialSyncUseLocal": {
-    "message": "Use local version",
+    "message": "使用本地版本",
     "description": "Option that uses the local version of settings, overwriting the remote version, on the first sync."
   },
   "options_turnOnSyncDialog_initialSyncUseRemote": {
-    "message": "Use remote version",
+    "message": "使用遠端版本",
     "description": "Option that uses the remote version of settings, overwriting local settings, on the first sync."
   },
   "options_turnOffSync": {
@@ -432,15 +432,15 @@
     "description": "Label for the switch to sync SERPINFO."
   },
   "options_syncIntervalInMinutes": {
-    "message": "Sync interval (minutes)",
+    "message": "同步間隔（分鐘）",
     "description": "Label for the number field to set a sync interval in minutes."
   },
   "options_increaseIntervalButton": {
-    "message": "Increase",
+    "message": "增加",
     "description": "Accessible name for the button to increase an interval."
   },
   "options_decreaseIntervalButton": {
-    "message": "Decrease",
+    "message": "減少",
     "description": "Accessible name for the button to decrease an interval."
   },
   "options_subscriptionTitle": {
@@ -512,7 +512,7 @@
     "description": "Text for the menu item to update a subscription now."
   },
   "options_renameSubscriptionMenu": {
-    "message": "Rename",
+    "message": "重新命名",
     "description": "Text for the menu item to rename a subscription."
   },
   "options_removeSubscriptionMenu": {
@@ -520,11 +520,11 @@
     "description": "Text for the menu item to remove a subscription."
   },
   "options_renameSubscriptionDialog_title": {
-    "message": "Rename subscription",
+    "message": "重新命名訂閱項目",
     "description": "Title of the rename subscription dialog."
   },
   "options_renameSubscriptionDialog_renameButton": {
-    "message": "Rename",
+    "message": "重新命名",
     "description": "Text for the rename button in the rename subscription dialog."
   },
   "options_updateAllSubscriptionsNowButton": {
@@ -540,15 +540,15 @@
     "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_typeLabel": {
-    "message": "Type",
+    "message": "類型",
     "description": "Label for the type select in the add subscription dialog."
   },
   "options_addSubscriptionDialog_typeRuleset": {
-    "message": "Ruleset",
+    "message": "規則集",
     "description": "Label for the ruleset option in the type select."
   },
   "options_addSubscriptionDialog_typeDomains": {
-    "message": "Domains",
+    "message": "網域",
     "description": "Label for the domains option in the type select."
   },
   "options_addSubscriptionDialog_nameLabel": {
@@ -556,7 +556,7 @@
     "description": "Label for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_nameDescription": {
-    "message": "If empty, the name of the downloaded ruleset or the URL will be used.",
+    "message": "若留白，將使用下載的規則集名稱或網址。",
     "description": "Helper text for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
@@ -568,7 +568,7 @@
     "description": "Label for the textarea in the show subscription dialog."
   },
   "options_updateIntervalInDays": {
-    "message": "Update interval (days)",
+    "message": "更新間隔（天）",
     "description": "Label for the number field to set an update interval in days."
   },
   "options_backupRestoreTitle": {
@@ -708,7 +708,7 @@
     "description": "Text for the button to update all remote SERPINFO."
   },
   "options_remoteSerpInfoUpdateDone": {
-    "message": "Completed",
+    "message": "已完成",
     "description": "Message shown when remote SERPINFO update is done."
   },
   "options_addRemoteSerpInfoButton": {
@@ -720,7 +720,7 @@
     "description": "Title of the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_urlLabel": {
-    "message": "URL",
+    "message": "網址",
     "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
@@ -764,47 +764,47 @@
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_webdavSync": {
-    "message": "Sync with WebDAV",
+    "message": "與 WebDAV 同步",
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created within the folder at the URL.",
+    "message": "將在網址指定的資料夾中建立檔案。",
     "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
-    "message": "Synced with WebDAV",
+    "message": "已與 WebDAV 同步",
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
-    "message": "WebDAV URL",
+    "message": "WebDAV 網址",
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUrlDescription": {
-    "message": "The folder specified by the URL must already exist.",
+    "message": "網址指定的資料夾必須已經存在。",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
-    "message": "Username",
+    "message": "使用者名稱",
     "description": "Label for the input for the WebDAV username."
   },
   "clouds_webdavPasswordLabel": {
-    "message": "Password",
+    "message": "密碼",
     "description": "Label for the input for the WebDAV password."
   },
   "clouds_browserSync": {
-    "message": "Sync with browser",
+    "message": "與瀏覽器同步",
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Has storage size limitations.",
+    "message": "使用瀏覽器內建的同步功能。同步頻率需視瀏覽器行為而定，有儲存空間大小限制。",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
-    "message": "Synced with browser",
+    "message": "已與瀏覽器同步",
     "description": "Message indicating browser storage sync is turned on."
   },
   "clouds_browserSyncQuotaExceeded": {
-    "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
+    "message": "資料大小超過瀏覽器儲存限制。請嘗試減少規則數量或切換至另一種同步方法。",
     "description": "Error message shown when sync fails due to quota exceeded."
   }
 }

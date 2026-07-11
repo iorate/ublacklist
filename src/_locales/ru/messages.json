@@ -56,7 +56,7 @@
     "description": "Link text to unblock a site."
   },
   "content_unhighlightSiteLink": {
-    "message": "Unhighlight this site",
+    "message": "Снять выделение с этого сайта",
     "description": "Link text to unhighlight a site."
   },
   "popup_blockSiteTitle": {
