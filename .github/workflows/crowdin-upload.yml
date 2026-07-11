@@ -1,4 +1,20 @@
-name: Crowdin
+# Uploads translation sources to Crowdin whenever they change on master, then
+# immediately downloads the translation files Crowdin exports for them and
+# merges them back into master.
+#
+# In that export, untranslated new keys are filled with the English source
+# text. Merging these fallbacks right away — deliberately without changesets —
+# keeps them from showing up as fake translation updates in later runs of the
+# Crowdin Download workflow, which generates a changeset for every changed
+# language.
+#
+# Caveat: translations that are already approved on Crowdin but not yet
+# downloaded get merged here too, also without changesets, and later Crowdin
+# Download runs no longer see them — they ship without a changelog entry.
+# When such translations are pending, dispatch Crowdin Download before pushing
+# changes to the paths below, or add changesets by hand afterwards.
+
+name: Crowdin Upload
 
 on:
   push:
@@ -19,7 +35,7 @@ concurrency:
   group: ${{ github.workflow }}
 
 jobs:
-  crowdin:
+  upload:
     runs-on: ubuntu-latest
 
     timeout-minutes: 30
@@ -40,13 +56,20 @@ jobs:
           permission-pull-requests: write
 
       - name: Run crowdin
+        id: crowdin
         uses: crowdin/github-action@52aa776766211d83d975df51f3b9c53c2f8ba35f # v2.16.3
         with:
           download_translations: true
           export_only_approved: true
           download_translations_args: --ignore-match
-          pull_request_base_branch_name: master
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      - name: Enable auto-merge
+        if: ${{ steps.crowdin.outputs.pull_request_number }}
+        run: gh pr merge --squash --auto "$PULL_REQUEST_NUMBER"
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PULL_REQUEST_NUMBER: ${{ steps.crowdin.outputs.pull_request_number }}
