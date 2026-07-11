@@ -1,0 +1,126 @@
+# Downloads approved translations from Crowdin, opens a pull request, adds a
+# changeset for each updated language, and enables auto-merge.
+#
+# English fallbacks that Crowdin fills in for untranslated keys do not show up
+# here as fake translation updates, because the Crowdin Upload workflow merges
+# them into master right after every source upload.
+#
+# The flip side: approved translations still sitting on Crowdin get merged by
+# Crowdin Upload without changesets. Dispatch this workflow before pushing
+# changes to src/_locales/en/messages.json or README.md so that pending
+# translations get their changesets first.
+
+name: Crowdin Download
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}
+
+env:
+  LOCALIZATION_BRANCH_NAME: crowdin-download-${{ github.run_id }}
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Generate token for pull request
+        id: generate-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Run crowdin
+        id: crowdin
+        uses: crowdin/github-action@52aa776766211d83d975df51f3b9c53c2f8ba35f # v2.16.3
+        with:
+          upload_sources: false
+          download_translations: true
+          export_only_approved: true
+          download_translations_args: --ignore-match
+          localization_branch_name: ${{ env.LOCALIZATION_BRANCH_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+    outputs:
+      pull_request_number: ${{ steps.crowdin.outputs.pull_request_number }}
+
+  changeset:
+    needs: download
+
+    if: ${{ needs.download.outputs.pull_request_number }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout the pull request
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          ref: ${{ env.LOCALIZATION_BRANCH_NAME }}
+          fetch-depth: 2
+
+      # The localization branch has exactly one commit on top of master, so
+      # `git diff HEAD^` lists the files Crowdin updated.
+      #
+      # The changeset file name is deterministic per language: if the same
+      # changeset already exists on master from a previous unreleased run,
+      # rewriting it produces no diff (the commit step below does nothing),
+      # and the language keeps a single changelog entry.
+      - name: Create changeset
+        run: |
+          language_codes=$(git diff --name-only HEAD^ | sed -n 's#src/_locales/\([^/]*\)/messages\.json#\1#p')
+          for language_code in $language_codes; do
+            language=$(node -p 'new Intl.DisplayNames(["en"], { type: "language" }).of(process.argv[1].replaceAll("_", "-"))' "$language_code")
+            cat > ".changeset/update-$language_code-translation.md" << EOF
+          ---
+          "ublacklist": patch
+          ---
+
+          Update $language translation
+          EOF
+          done
+
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Commit changes
+        uses: suzuki-shunsuke/commit-action@06e3b49d4706498d325d29bd85adc82ecf2f5d8f # v1.0.0
+        with:
+          github_token: ${{ steps.generate-token.outputs.token }}
+          branch: ${{ env.LOCALIZATION_BRANCH_NAME }}
+          commit_message: Update changesets
+          fail_on_self_push: false
+
+      - name: Enable auto-merge
+        run: gh pr merge --squash --auto "$PULL_REQUEST_NUMBER"
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          PULL_REQUEST_NUMBER: ${{ needs.download.outputs.pull_request_number }}
