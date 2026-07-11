@@ -33,7 +33,7 @@ jobs:
         # https://github.com/actions/checkout/issues/994
         run: |
           git submodule foreach \
-            'git config remote.origin.fetch "+refs/heads/*:ref/remotes/origin/*"'
+            'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
           git submodule update --remote
 
       - name: Generate token
