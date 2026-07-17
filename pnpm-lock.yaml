@@ -78,14 +78,14 @@ importers:
         specifier: 19.2.7
         version: 19.2.7
       react-colorful:
-        specifier: 5.7.0
-        version: 5.7.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: 5.8.0
+        version: 5.8.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-dom:
         specifier: 19.2.7
         version: 19.2.7(react@19.2.7)
       tldts:
-        specifier: 7.4.7
-        version: 7.4.7
+        specifier: 7.4.8
+        version: 7.4.8
       webdav:
         specifier: 5.10.0
         version: 5.10.0
@@ -133,8 +133,8 @@ importers:
         specifier: 0.12.5
         version: 0.12.5
       chrome-types:
-        specifier: 0.1.433
-        version: 0.1.433
+        specifier: 0.1.434
+        version: 0.1.434
       csstype:
         specifier: 3.2.3
         version: 3.2.3
@@ -154,8 +154,8 @@ importers:
         specifier: runtime:24.18.0
         version: runtime:24.18.0
       prettier:
-        specifier: 3.9.4
-        version: 3.9.4
+        specifier: 3.9.5
+        version: 3.9.5
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -774,8 +774,8 @@ packages:
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
 
-  chrome-types@0.1.433:
-    resolution: {integrity: sha512-ZGON1iUj8jZy0RTKJUEpt5LVwWQj5U8RnDk5noPX1sQuG9nqfiY6jyh5U7x2xzGeuK8HM/nPB2xJM85Y4k/slQ==}
+  chrome-types@0.1.434:
+    resolution: {integrity: sha512-59hJuPxIEFZEhM8WmbzQJQtdRdMGVFzCVQgteBTsCt//tkCVJgr/W/MA3B++eLApibSf5vFP1/Zvbvv5HK6LYw==}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -1277,8 +1277,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.9.4:
-    resolution: {integrity: sha512-yWG/o/4oJfo036EKAfK6ACAoDOfHeRHx4tuxkfBZiauURiaSmYwlpOr5LQqKtIkRD2z1PLteme2WoxEnj4tHTg==}
+  prettier@3.9.5:
+    resolution: {integrity: sha512-/FVl766LpUfB5vXgCYOYa0MeV/441Ia99AeICQIQFTY/Nw0roZwULcXpku5i1/m5kt/baz+s4Zogspd839HSMg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1295,8 +1295,8 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  react-colorful@5.7.0:
-    resolution: {integrity: sha512-fuesYIemttah97XmsIHmz4OORDHiSFzyc9HMAIrCHJou2jaRQmL8cFJ76K4zQhhj8jzwOBlOi4BaGTjjOZCfTg==}
+  react-colorful@5.8.0:
+    resolution: {integrity: sha512-Wy9OzPfjSN9bF12OB8N7UQvlsZ0I+7wHxpN+bV5BjNQGxOj6IiwkRjevJK9yOBjJWGQvAaf1OXtn8rUeEatAng==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -1386,11 +1386,11 @@ packages:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
 
-  tldts-core@7.4.7:
-    resolution: {integrity: sha512-rNlAI8fKn/JckBMUSbNL/ES2kmDiurWaE49l+ikwEc9A6lFR7gMx9AhgQMQKBK4H5w4pKLH64JzZfB99uRsGNQ==}
+  tldts-core@7.4.8:
+    resolution: {integrity: sha512-c1P7u0EhACHj7lPy4MJm8iTFEU8+nB0LCtddH0fhP7noaVoXAqafMtOOeX+ulpuPBqnrRgRhw494RICT3mbhnw==}
 
-  tldts@7.4.7:
-    resolution: {integrity: sha512-56L0/9HELHSsG1bFCzay8UoLxzRL7kpFf7Wl5q/kSYwiSJGACvro61xnKzPNM+SadxllzdtXsKDSXE7HPeqIAw==}
+  tldts@7.4.8:
+    resolution: {integrity: sha512-htwgN/8KRB3z3vnC0BOETVh2m499g5GmyTK9Wq5JBLX3FNz6tSBveAd+fQhzy9hkjif8vy2jwDMR1sGhLtZl2A==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -2062,7 +2062,7 @@ snapshots:
 
   charenc@0.0.2: {}
 
-  chrome-types@0.1.433: {}
+  chrome-types@0.1.434: {}
 
   clsx@2.1.1: {}
 
@@ -2416,7 +2416,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.9.4: {}
+  prettier@3.9.5: {}
 
   punycode@2.3.1: {}
 
@@ -2426,7 +2426,7 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-colorful@5.7.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+  react-colorful@5.8.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -2496,11 +2496,11 @@ snapshots:
 
   term-size@2.2.1: {}
 
-  tldts-core@7.4.7: {}
+  tldts-core@7.4.8: {}
 
-  tldts@7.4.7:
+  tldts@7.4.8:
     dependencies:
-      tldts-core: 7.4.7
+      tldts-core: 7.4.8
 
   to-regex-range@5.0.1:
     dependencies:
