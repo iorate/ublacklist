@@ -40,17 +40,17 @@ export function Select({
         {...props}
         className={mergeClassNames(className, styles.trigger)}
       >
-        <BaseSelect.Value className={styles.value ?? ""} />
-        <BaseSelect.Icon className={styles.icon ?? ""}>
+        <BaseSelect.Value className={styles.value} />
+        <BaseSelect.Icon className={styles.icon}>
           <SvgIcon color="var(--ub-color-text-secondary)" svg={menuDown} />
         </BaseSelect.Icon>
       </BaseSelect.Trigger>
       <BaseSelect.Portal>
         <BaseSelect.Positioner
           alignItemWithTrigger={false}
-          className={styles.positioner ?? ""}
+          className={styles.positioner}
         >
-          <BaseSelect.Popup className={styles.popup ?? ""}>
+          <BaseSelect.Popup className={styles.popup}>
             {children}
           </BaseSelect.Popup>
         </BaseSelect.Positioner>

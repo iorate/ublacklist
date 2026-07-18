@@ -26,17 +26,17 @@ export function ColorPicker({
       <Popover.Portal>
         <Popover.Positioner
           align="end"
-          className={styles.positioner ?? ""}
+          className={styles.positioner}
           side="bottom"
         >
-          <Popover.Popup className={styles.popup ?? ""}>
+          <Popover.Popup className={styles.popup}>
             <RgbaColorPicker
               color={colord(value).toRgb()}
               onChange={(newValue) => onValueChange(colord(newValue).toHex())}
             />
             <HexColorInput
               alpha
-              className={styles.input ?? ""}
+              className={styles.input}
               color={colord(value).toHex()}
               prefixed
               onChange={onValueChange}
