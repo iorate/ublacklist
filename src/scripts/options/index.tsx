@@ -15,7 +15,7 @@ import {
   type OptionsQuery,
   SubscriptionSection,
 } from "./subscription-section.ts";
-import { SyncSection } from "./sync-section.tsx";
+import { SyncSection } from "./sync-section.ts";
 
 function Options({ query }: { query: OptionsQuery }) {
   return (
