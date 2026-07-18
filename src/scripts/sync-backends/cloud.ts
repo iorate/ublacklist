@@ -21,9 +21,13 @@ export function createClient(
         token.pkce,
       );
       token = {
-        ...token,
         accessToken: newToken.accessToken,
-        expiresAt: dayjs().add(newToken.expiresIn, "second").toISOString(),
+        expiresAt:
+          newToken.expiresIn != null
+            ? dayjs().add(newToken.expiresIn, "second").toISOString()
+            : null,
+        refreshToken: newToken.refreshToken ?? token.refreshToken,
+        pkce: token.pkce ?? false,
       };
       await hooks.persistToken(token);
     } catch (e: unknown) {
@@ -35,7 +39,10 @@ export function createClient(
     }
   };
   const handleRefresh = async <T>(f: () => Promise<T>): Promise<T> => {
-    if (dayjs().isAfter(dayjs(token.expiresAt))) {
+    if (
+      token.expiresAt != null &&
+      dayjs().isAfter(dayjs(token.expiresAt).subtract(60, "second"))
+    ) {
       await refresh();
     }
     try {

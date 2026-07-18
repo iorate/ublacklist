@@ -73,13 +73,46 @@ test("createClient (cloud)", async (t) => {
     assert.equal(persisted.length, 0);
   });
 
+  await t.test(
+    "refreshes a token that expires within the 60-second margin",
+    async () => {
+      let refreshCount = 0;
+      const cloud = makeCloud({
+        refreshAccessToken() {
+          refreshCount++;
+          return Promise.resolve({
+            accessToken: "access-2",
+            expiresIn: 3600,
+            refreshToken: null,
+          });
+        },
+        readFile: () => Promise.resolve({ content: "content" }),
+      });
+      const { hooks } = makeHooks();
+      const client = createClient(
+        cloud,
+        {
+          ...makeToken(false),
+          expiresAt: new Date(Date.now() + 30_000).toISOString(),
+        },
+        hooks,
+      );
+      await client.readFile("file1");
+      assert.equal(refreshCount, 1);
+    },
+  );
+
   await t.test("refreshes an expired token before the operation", async () => {
     const refreshTokens: string[] = [];
     const accessTokens: string[] = [];
     const cloud = makeCloud({
       refreshAccessToken(refreshToken) {
         refreshTokens.push(refreshToken);
-        return Promise.resolve({ accessToken: "access-2", expiresIn: 3600 });
+        return Promise.resolve({
+          accessToken: "access-2",
+          expiresIn: 3600,
+          refreshToken: null,
+        });
       },
       readFile(accessToken) {
         accessTokens.push(accessToken);
@@ -95,15 +128,74 @@ test("createClient (cloud)", async (t) => {
     assert.ok(persistedToken);
     assert.equal(persistedToken.accessToken, "access-2");
     assert.equal(persistedToken.refreshToken, "refresh-1");
+    assert.ok(persistedToken.expiresAt);
     assert.ok(new Date(persistedToken.expiresAt).getTime() > Date.now());
   });
+
+  await t.test(
+    "replaces the refresh token when the response includes a new one",
+    async () => {
+      const refreshTokens: string[] = [];
+      let refreshCount = 0;
+      const cloud = makeCloud({
+        refreshAccessToken(refreshToken) {
+          refreshTokens.push(refreshToken);
+          refreshCount++;
+          return Promise.resolve({
+            accessToken: `access-${refreshCount + 1}`,
+            expiresIn: -3600,
+            refreshToken: `refresh-${refreshCount + 1}`,
+          });
+        },
+        readFile: () => Promise.resolve({ content: "content" }),
+      });
+      const { hooks, persisted } = makeHooks();
+      const client = createClient(cloud, makeToken(true), hooks);
+      await client.readFile("file1");
+      await client.readFile("file1");
+      assert.deepEqual(refreshTokens, ["refresh-1", "refresh-2"]);
+      assert.equal(persisted.length, 2);
+      assert.equal(persisted[0]?.refreshToken, "refresh-2");
+      assert.equal(persisted[1]?.refreshToken, "refresh-3");
+    },
+  );
+
+  await t.test(
+    "treats the expiry as unknown when the response omits expires_in",
+    async () => {
+      let refreshCount = 0;
+      const cloud = makeCloud({
+        refreshAccessToken() {
+          refreshCount++;
+          return Promise.resolve({
+            accessToken: "access-2",
+            expiresIn: null,
+            refreshToken: null,
+          });
+        },
+        readFile: () => Promise.resolve({ content: "content" }),
+      });
+      const { hooks, persisted } = makeHooks();
+      const client = createClient(cloud, makeToken(true), hooks);
+      await client.readFile("file1");
+      await client.readFile("file1");
+      assert.equal(refreshCount, 1);
+      const [persistedToken] = persisted;
+      assert.ok(persistedToken);
+      assert.equal(persistedToken.expiresAt, null);
+    },
+  );
 
   await t.test("passes and preserves the pkce flag on refresh", async () => {
     const pkceArgs: (boolean | undefined)[] = [];
     const cloud = makeCloud({
       refreshAccessToken(_refreshToken, pkce) {
         pkceArgs.push(pkce);
-        return Promise.resolve({ accessToken: "access-2", expiresIn: 3600 });
+        return Promise.resolve({
+          accessToken: "access-2",
+          expiresIn: 3600,
+          refreshToken: null,
+        });
       },
       readFile: () => Promise.resolve({ content: "content" }),
     });
@@ -126,7 +218,11 @@ test("createClient (cloud)", async (t) => {
       let readCount = 0;
       const cloud = makeCloud({
         refreshAccessToken: () =>
-          Promise.resolve({ accessToken: "access-2", expiresIn: 3600 }),
+          Promise.resolve({
+            accessToken: "access-2",
+            expiresIn: 3600,
+            refreshToken: null,
+          }),
         readFile(accessToken) {
           readCount++;
           if (accessToken !== "access-2") {
@@ -149,7 +245,11 @@ test("createClient (cloud)", async (t) => {
     let readCount = 0;
     const cloud = makeCloud({
       refreshAccessToken: () =>
-        Promise.resolve({ accessToken: "access-2", expiresIn: 3600 }),
+        Promise.resolve({
+          accessToken: "access-2",
+          expiresIn: 3600,
+          refreshToken: null,
+        }),
       readFile() {
         readCount++;
         return Promise.reject(new HTTPError(401, "Unauthorized"));
