@@ -20,9 +20,7 @@ export function createClient(
         token.refreshToken,
         token.pkce,
       );
-      const { expiresAt: _oldExpiresAt, ...restToken } = token;
       token = {
-        ...restToken,
         accessToken: newToken.accessToken,
         ...(newToken.expiresIn != null
           ? {
@@ -31,9 +29,8 @@ export function createClient(
                 .toISOString(),
             }
           : {}),
-        ...(newToken.refreshToken != null
-          ? { refreshToken: newToken.refreshToken }
-          : {}),
+        refreshToken: newToken.refreshToken ?? token.refreshToken,
+        pkce: token.pkce ?? false,
       };
       await hooks.persistToken(token);
     } catch (e: unknown) {
