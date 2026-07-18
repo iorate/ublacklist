@@ -16,11 +16,14 @@ export function createClient(
   let token = { ...initialToken };
   const refresh = async (): Promise<void> => {
     try {
-      const newToken = await cloud.refreshAccessToken(token.refreshToken);
+      const newToken = await cloud.refreshAccessToken(
+        token.refreshToken,
+        token.pkce,
+      );
       token = {
+        ...token,
         accessToken: newToken.accessToken,
         expiresAt: dayjs().add(newToken.expiresIn, "second").toISOString(),
-        refreshToken: token.refreshToken,
       };
       await hooks.persistToken(token);
     } catch (e: unknown) {

@@ -4,10 +4,10 @@ declare namespace NodeJS {
     BROWSER: "chrome" | "edge" | "firefox" | "safari";
     DEBUG: "true" | "false";
     E2E: "true" | "false";
-    DROPBOX_API_KEY: string;
-    DROPBOX_API_SECRET: string;
-    GOOGLE_DRIVE_API_KEY: string;
-    GOOGLE_DRIVE_API_SECRET: string;
+    DROPBOX_APP_KEY: string;
+    DROPBOX_APP_SECRET: string;
+    GOOGLE_DRIVE_CLIENT_ID: string;
+    GOOGLE_DRIVE_CLIENT_SECRET: string;
   }
 }
 

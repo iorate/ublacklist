@@ -43,10 +43,10 @@ jobs:
           (cd dist/chrome && zip -qr ../release/chrome/package.zip .)
           cp dist/release/chrome/package.zip dist/release/github/chrome.zip
         env:
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+          DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
 
       - name: Build and archive (Edge)
         # Edge Add-ons rejects a manifest with the `key` field.
@@ -56,10 +56,10 @@ jobs:
           pnpm build --browser edge
           (cd dist/edge && zip -qr ../release/github/edge.zip .)
         env:
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+          DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
 
       - name: Build and archive (Firefox)
         run: |
@@ -67,10 +67,10 @@ jobs:
           (cd dist/firefox && zip -qr ../release/firefox/package.zip .)
           cp dist/release/firefox/package.zip dist/release/github/firefox.zip
         env:
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+          DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
 
       - name: Build notes
         run: |
@@ -167,18 +167,18 @@ jobs:
         run: |
           git ls-files --recurse-submodules | zip -q -@ dist/release/firefox/source.zip
           {
-            echo "DROPBOX_API_KEY=$DROPBOX_API_KEY"
-            echo "DROPBOX_API_SECRET=$DROPBOX_API_SECRET"
-            echo "GOOGLE_DRIVE_API_KEY=$GOOGLE_DRIVE_API_KEY"
-            echo "GOOGLE_DRIVE_API_SECRET=$GOOGLE_DRIVE_API_SECRET"
+            echo "DROPBOX_APP_KEY=$DROPBOX_APP_KEY"
+            echo "DROPBOX_APP_SECRET=$DROPBOX_APP_SECRET"
+            echo "GOOGLE_DRIVE_CLIENT_ID=$GOOGLE_DRIVE_CLIENT_ID"
+            echo "GOOGLE_DRIVE_CLIENT_SECRET=$GOOGLE_DRIVE_CLIENT_SECRET"
           } > .env
           zip -q dist/release/firefox/source.zip .env
           rm .env
         env:
-          DROPBOX_API_KEY: ${{ secrets.DROPBOX_API_KEY }}
-          DROPBOX_API_SECRET: ${{ secrets.DROPBOX_API_SECRET }}
-          GOOGLE_DRIVE_API_KEY: ${{ secrets.GOOGLE_DRIVE_API_KEY }}
-          GOOGLE_DRIVE_API_SECRET: ${{ secrets.GOOGLE_DRIVE_API_SECRET }}
+          DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
 
       - name: Install wepub
         uses: iorate/setup-wepub@e37aebcc98937c8bfa4e22a438a4b89a75b4e349 # v1.0.0

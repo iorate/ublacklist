@@ -2,41 +2,40 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import type { Cloud } from "../shared/types.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
-import * as Helpers from "./helpers.ts";
+import * as CloudUtils from "./cloud-utils.ts";
 
-const APP_KEY = process.env.DROPBOX_API_KEY;
-const APP_SECRET = process.env.DROPBOX_API_SECRET;
+const APP_KEY = process.env.DROPBOX_APP_KEY;
+const APP_SECRET = process.env.DROPBOX_APP_SECRET;
 
 export const dropbox: Cloud = {
   hostPermissions: [],
 
   modifiedTimePrecision: "second",
 
-  shouldUseAltFlow: Helpers.shouldUseAltFlow(),
+  shouldUseAltFlow: CloudUtils.shouldUseAltFlow(),
 
   // https://www.dropbox.com/developers/documentation/http/documentation
-  authorize: (useAltFlow: boolean) =>
-    Helpers.authorize("https://www.dropbox.com/oauth2/authorize", {
+  authorize: (useAltFlow: boolean, codeVerifier: string) =>
+    CloudUtils.authorize("https://www.dropbox.com/oauth2/authorize", {
       client_id: APP_KEY,
       token_access_type: "offline",
       force_reapprove: "true",
-    })(useAltFlow),
+    })(useAltFlow, codeVerifier),
 
-  getAccessToken: Helpers.getAccessToken(
+  getAccessToken: CloudUtils.getAccessToken(
     "https://api.dropboxapi.com/oauth2/token",
     {
       client_id: APP_KEY,
-      client_secret: APP_SECRET,
     },
   ),
 
-  refreshAccessToken: Helpers.refreshAccessToken(
-    "https://api.dropboxapi.com/oauth2/token",
-    {
-      client_id: APP_KEY,
-      client_secret: APP_SECRET,
-    },
-  ),
+  refreshAccessToken: (refreshToken: string, pkce?: boolean) =>
+    CloudUtils.refreshAccessToken(
+      "https://api.dropboxapi.com/oauth2/token",
+      pkce
+        ? { client_id: APP_KEY }
+        : { client_id: APP_KEY, client_secret: APP_SECRET },
+    )(refreshToken),
 
   // https://www.dropbox.com/developers/documentation/http/documentation#files-upload
   async createFile(
@@ -52,7 +51,7 @@ export const dropbox: Cloud = {
         path: `/${filename}`,
         mode: "add",
         autorename: false,
-        client_modified: Helpers.toISOStringSecond(modifiedTime),
+        client_modified: CloudUtils.toISOStringSecond(modifiedTime),
         mute: true,
         strict_conflict: false,
       }),
@@ -165,7 +164,7 @@ export const dropbox: Cloud = {
         path: id,
         mode: "overwrite",
         autorename: false,
-        client_modified: Helpers.toISOStringSecond(modifiedTime),
+        client_modified: CloudUtils.toISOStringSecond(modifiedTime),
         mute: true,
         strict_conflict: false,
       }),

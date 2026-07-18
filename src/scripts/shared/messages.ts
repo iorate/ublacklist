@@ -16,6 +16,7 @@ type MessageSignatures = {
     id: CloudId,
     authorizationCode: string,
     useAltFlow: boolean,
+    codeVerifier: string,
     initialForce: SyncForce,
   ) => { message: string } | null;
   "connect-to-webdav": (

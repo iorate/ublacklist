@@ -12,6 +12,27 @@ export type AuthorizeParams = {
   [key: string]: string;
 };
 
+function encodeBase64URL(bytes: Uint8Array): string {
+  return btoa(String.fromCharCode(...bytes))
+    .replaceAll("+", "-")
+    .replaceAll("/", "_")
+    .replace(/=+$/, "");
+}
+
+export function generateCodeVerifier(): string {
+  return encodeBase64URL(crypto.getRandomValues(new Uint8Array(32)));
+}
+
+export async function computeCodeChallenge(
+  codeVerifier: string,
+): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(codeVerifier),
+  );
+  return encodeBase64URL(new Uint8Array(digest));
+}
+
 export function toISOStringSecond(time: dayjs.Dayjs): string {
   return time.utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
 }
@@ -78,14 +99,19 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
 export function authorize(
   url: string,
   params: Readonly<AuthorizeParams>,
-): (useAltFlow: boolean) => Promise<{ authorizationCode: string }> {
-  return async (useAltFlow: boolean) => {
+): (
+  useAltFlow: boolean,
+  codeVerifier: string,
+) => Promise<{ authorizationCode: string }> {
+  return async (useAltFlow, codeVerifier) => {
     const authorizationURL = new URL(url);
     authorizationURL.search = new URLSearchParams({
       response_type: "code",
       redirect_uri: useAltFlow
         ? altFlowRedirectURL
         : browser.identity.getRedirectURL(),
+      code_challenge: await computeCodeChallenge(codeVerifier),
+      code_challenge_method: "S256",
       ...params,
     }).toString();
     // biome-ignore lint/style/noNonNullAssertion: `launchAltFlow` does not return `undefined` as far as I know
@@ -110,7 +136,6 @@ export function authorize(
 
 export type GetAccessTokenParams = {
   client_id: string;
-  client_secret: string;
   [key: string]: string;
 };
 
@@ -120,8 +145,9 @@ export function getAccessToken(
 ): (
   authorizationCode: string,
   useAltFlow: boolean,
+  codeVerifier: string,
 ) => Promise<{ accessToken: string; expiresIn: number; refreshToken: string }> {
-  return async (authorizationCode, useAltFlow) => {
+  return async (authorizationCode, useAltFlow, codeVerifier) => {
     const response = await fetch(url, {
       method: "POST",
       body: new URLSearchParams({
@@ -130,6 +156,7 @@ export function getAccessToken(
         redirect_uri: useAltFlow
           ? altFlowRedirectURL
           : browser.identity.getRedirectURL(),
+        code_verifier: codeVerifier,
         ...params,
       }),
     });
@@ -157,7 +184,6 @@ export function getAccessToken(
 
 export type RefreshAccessTokenParams = {
   client_id: string;
-  client_secret: string;
   [key: string]: string;
 };
 
