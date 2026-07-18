@@ -71,7 +71,7 @@ export type Cloud = {
 
 export type CloudToken = {
   accessToken: string;
-  expiresAt?: string;
+  expiresAt: string | null;
   refreshToken: string;
   pkce?: boolean;
 };

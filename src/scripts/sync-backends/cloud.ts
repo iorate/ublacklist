@@ -22,13 +22,10 @@ export function createClient(
       );
       token = {
         accessToken: newToken.accessToken,
-        ...(newToken.expiresIn != null
-          ? {
-              expiresAt: dayjs()
-                .add(newToken.expiresIn, "second")
-                .toISOString(),
-            }
-          : {}),
+        expiresAt:
+          newToken.expiresIn != null
+            ? dayjs().add(newToken.expiresIn, "second").toISOString()
+            : null,
         refreshToken: newToken.refreshToken ?? token.refreshToken,
         pkce: token.pkce ?? false,
       };

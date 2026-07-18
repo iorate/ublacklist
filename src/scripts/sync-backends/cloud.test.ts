@@ -182,7 +182,7 @@ test("createClient (cloud)", async (t) => {
       assert.equal(refreshCount, 1);
       const [persistedToken] = persisted;
       assert.ok(persistedToken);
-      assert.equal(persistedToken.expiresAt, undefined);
+      assert.equal(persistedToken.expiresAt, null);
     },
   );
 
