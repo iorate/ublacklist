@@ -190,9 +190,11 @@ export type RefreshAccessTokenParams = {
 export function refreshAccessToken(
   url: string,
   params: Readonly<RefreshAccessTokenParams>,
-): (
-  refreshToken: string,
-) => Promise<{ accessToken: string; expiresIn: number }> {
+): (refreshToken: string) => Promise<{
+  accessToken: string;
+  expiresIn: number;
+  refreshToken?: string;
+}> {
   return async (refreshToken) => {
     const response = await fetch(url, {
       method: "POST",
@@ -205,7 +207,11 @@ export function refreshAccessToken(
     if (response.ok) {
       const responseBody: unknown = await response.json();
       const parseResult = z
-        .object({ access_token: z.string(), expires_in: z.number() })
+        .object({
+          access_token: z.string(),
+          expires_in: z.number(),
+          refresh_token: z.string().optional(),
+        })
         .safeParse(responseBody);
       if (!parseResult.success) {
         throw new UnexpectedResponse(responseBody);
@@ -213,6 +219,9 @@ export function refreshAccessToken(
       return {
         accessToken: parseResult.data.access_token,
         expiresIn: parseResult.data.expires_in,
+        ...(parseResult.data.refresh_token != null
+          ? { refreshToken: parseResult.data.refresh_token }
+          : {}),
       };
     }
     throw new HTTPError(response.status, response.statusText);

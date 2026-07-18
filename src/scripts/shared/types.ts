@@ -45,7 +45,7 @@ export type Cloud = {
   refreshAccessToken(
     refreshToken: string,
     pkce?: boolean,
-  ): Promise<{ accessToken: string; expiresIn: number }>;
+  ): Promise<{ accessToken: string; expiresIn: number; refreshToken?: string }>;
   createFile(
     accessToken: string,
     filename: string,

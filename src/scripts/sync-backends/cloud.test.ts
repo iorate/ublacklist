@@ -98,6 +98,34 @@ test("createClient (cloud)", async (t) => {
     assert.ok(new Date(persistedToken.expiresAt).getTime() > Date.now());
   });
 
+  await t.test(
+    "replaces the refresh token when the response includes a new one",
+    async () => {
+      const refreshTokens: string[] = [];
+      let refreshCount = 0;
+      const cloud = makeCloud({
+        refreshAccessToken(refreshToken) {
+          refreshTokens.push(refreshToken);
+          refreshCount++;
+          return Promise.resolve({
+            accessToken: `access-${refreshCount + 1}`,
+            expiresIn: -3600,
+            refreshToken: `refresh-${refreshCount + 1}`,
+          });
+        },
+        readFile: () => Promise.resolve({ content: "content" }),
+      });
+      const { hooks, persisted } = makeHooks();
+      const client = createClient(cloud, makeToken(true), hooks);
+      await client.readFile("file1");
+      await client.readFile("file1");
+      assert.deepEqual(refreshTokens, ["refresh-1", "refresh-2"]);
+      assert.equal(persisted.length, 2);
+      assert.equal(persisted[0]?.refreshToken, "refresh-2");
+      assert.equal(persisted[1]?.refreshToken, "refresh-3");
+    },
+  );
+
   await t.test("passes and preserves the pkce flag on refresh", async () => {
     const pkceArgs: (boolean | undefined)[] = [];
     const cloud = makeCloud({

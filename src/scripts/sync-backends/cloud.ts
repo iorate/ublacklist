@@ -24,6 +24,9 @@ export function createClient(
         ...token,
         accessToken: newToken.accessToken,
         expiresAt: dayjs().add(newToken.expiresIn, "second").toISOString(),
+        ...(newToken.refreshToken != null
+          ? { refreshToken: newToken.refreshToken }
+          : {}),
       };
       await hooks.persistToken(token);
     } catch (e: unknown) {
