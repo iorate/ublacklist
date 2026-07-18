@@ -73,6 +73,35 @@ test("createClient (cloud)", async (t) => {
     assert.equal(persisted.length, 0);
   });
 
+  await t.test(
+    "refreshes a token that expires within the 60-second margin",
+    async () => {
+      let refreshCount = 0;
+      const cloud = makeCloud({
+        refreshAccessToken() {
+          refreshCount++;
+          return Promise.resolve({
+            accessToken: "access-2",
+            expiresIn: 3600,
+            refreshToken: null,
+          });
+        },
+        readFile: () => Promise.resolve({ content: "content" }),
+      });
+      const { hooks } = makeHooks();
+      const client = createClient(
+        cloud,
+        {
+          ...makeToken(false),
+          expiresAt: new Date(Date.now() + 30_000).toISOString(),
+        },
+        hooks,
+      );
+      await client.readFile("file1");
+      assert.equal(refreshCount, 1);
+    },
+  );
+
   await t.test("refreshes an expired token before the operation", async () => {
     const refreshTokens: string[] = [];
     const accessTokens: string[] = [];

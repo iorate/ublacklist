@@ -45,7 +45,10 @@ export function createClient(
     }
   };
   const handleRefresh = async <T>(f: () => Promise<T>): Promise<T> => {
-    if (token.expiresAt != null && dayjs().isAfter(dayjs(token.expiresAt))) {
+    if (
+      token.expiresAt != null &&
+      dayjs().isAfter(dayjs(token.expiresAt).subtract(60, "second"))
+    ) {
       await refresh();
     }
     try {

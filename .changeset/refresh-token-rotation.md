@@ -2,4 +2,4 @@
 "ublacklist": patch
 ---
 
-Google Drive and Dropbox sync now supports refresh token rotation, preventing sync from being unexpectedly disconnected if the provider starts issuing a new refresh token on every token refresh.
+Made Google Drive and Dropbox sync more robust: it now supports refresh token rotation, tolerates token responses without an expiration time, and renews access tokens shortly before they expire. This prevents sync from being unexpectedly disconnected if the provider changes its token endpoint behavior.
