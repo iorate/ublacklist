@@ -142,12 +142,7 @@ export function syncFile(
           : createCloudClient(
               supportedClouds[syncCloudId],
               syncCloudToken as CloudToken,
-              {
-                persistToken: (token) =>
-                  saveToRawStorage({ syncCloudToken: token }),
-                onUnauthorized: () =>
-                  saveToRawStorage({ syncCloudToken: false }),
-              },
+              (token) => saveToRawStorage({ syncCloudToken: token ?? false }),
             );
     const cloudFile = await client.findFile(filename);
     if (force === "upload") {

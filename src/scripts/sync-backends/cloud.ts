@@ -3,22 +3,16 @@ import { translate } from "../shared/locales.ts";
 import type { Cloud, CloudToken, SyncBackendClient } from "../shared/types.ts";
 import { HTTPError } from "../shared/utilities.ts";
 
-export type CloudClientHooks = {
-  persistToken(token: CloudToken): Promise<void>;
-  onUnauthorized(): Promise<void>;
-};
-
 export function createClient(
   cloud: Cloud,
-  initialToken: CloudToken,
-  hooks: CloudClientHooks,
+  token: CloudToken,
+  setToken: (token: CloudToken | null) => Promise<void>,
 ): SyncBackendClient {
-  let token = { ...initialToken };
   const refresh = async (): Promise<void> => {
     try {
       const newToken = await cloud.refreshAccessToken(
         token.refreshToken,
-        token.pkce,
+        token.pkce ?? false,
       );
       token = {
         accessToken: newToken.accessToken,
@@ -29,10 +23,10 @@ export function createClient(
         refreshToken: newToken.refreshToken ?? token.refreshToken,
         pkce: token.pkce ?? false,
       };
-      await hooks.persistToken(token);
+      await setToken(token);
     } catch (e: unknown) {
       if (e instanceof HTTPError && e.status === 400) {
-        await hooks.onUnauthorized();
+        await setToken(null);
         throw new Error(translate("unauthorizedError"));
       }
       throw e;
