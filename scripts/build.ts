@@ -54,14 +54,22 @@ function getDefine(context: Context): Record<string, string> {
     BROWSER: browser,
     DEBUG: debug ? "true" : "false",
     E2E: e2e ? "true" : "false",
-    DROPBOX_API_KEY: process.env.DROPBOX_API_KEY ?? "<DROPBOX_API_KEY not set>",
-    DROPBOX_API_SECRET:
-      process.env.DROPBOX_API_SECRET ?? "<DROPBOX_API_SECRET not set>",
-    GOOGLE_DRIVE_API_KEY:
-      process.env.GOOGLE_DRIVE_API_KEY ?? "<GOOGLE_DRIVE_API_KEY not set>",
-    GOOGLE_DRIVE_API_SECRET:
+    DROPBOX_APP_KEY:
+      process.env.DROPBOX_APP_KEY ??
+      process.env.DROPBOX_API_KEY ??
+      "<DROPBOX_APP_KEY not set>",
+    DROPBOX_APP_SECRET:
+      process.env.DROPBOX_APP_SECRET ??
+      process.env.DROPBOX_API_SECRET ??
+      "<DROPBOX_APP_SECRET not set>",
+    GOOGLE_DRIVE_CLIENT_ID:
+      process.env.GOOGLE_DRIVE_CLIENT_ID ??
+      process.env.GOOGLE_DRIVE_API_KEY ??
+      "<GOOGLE_DRIVE_CLIENT_ID not set>",
+    GOOGLE_DRIVE_CLIENT_SECRET:
+      process.env.GOOGLE_DRIVE_CLIENT_SECRET ??
       process.env.GOOGLE_DRIVE_API_SECRET ??
-      "<GOOGLE_DRIVE_API_SECRET not set>",
+      "<GOOGLE_DRIVE_CLIENT_SECRET not set>",
   };
   return Object.fromEntries(
     Object.entries(vars).map(([key, value]) => [

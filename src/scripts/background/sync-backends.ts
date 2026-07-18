@@ -23,6 +23,7 @@ export async function connectToCloud(
   id: CloudId,
   authorizationCode: string,
   useAltFlow: boolean,
+  codeVerifier: string,
   initialForce: SyncForce,
 ): Promise<{ message: string } | null> {
   try {
@@ -34,13 +35,18 @@ export async function connectToCloud(
         }
       }
       const cloud = supportedClouds[id];
-      const token = await cloud.getAccessToken(authorizationCode, useAltFlow);
+      const token = await cloud.getAccessToken(
+        authorizationCode,
+        useAltFlow,
+        codeVerifier,
+      );
       await saveToRawStorage({
         syncCloudId: id,
         syncCloudToken: {
           accessToken: token.accessToken,
           expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
           refreshToken: token.refreshToken,
+          pkce: true,
         },
       });
     });

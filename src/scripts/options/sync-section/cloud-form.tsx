@@ -1,6 +1,6 @@
 import { Checkbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { browser } from "../../shared/browser.ts";
 import { getWebsiteURL, translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
@@ -12,6 +12,7 @@ import labelStyles from "../../styles/label.module.css";
 import rowStyles from "../../styles/row.module.css";
 import textStyles from "../../styles/text.module.css";
 import textareaStyles from "../../styles/textarea.module.css";
+import { generateCodeVerifier } from "../../sync-backends/cloud-utils.ts";
 import { getOS } from "../shared/platform.ts";
 import {
   BackendSelect,
@@ -39,6 +40,7 @@ export function CloudForm({
   const [authCode, setAuthCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [initialForce, setInitialForce] = useState<SyncForce>("none");
+  const codeVerifierRef = useRef("");
   const cloud = supportedClouds[backendId];
   const forceAltFlow = cloud.shouldUseAltFlow(getOS());
   const okButtonEnabled =
@@ -52,6 +54,7 @@ export function CloudForm({
         backendId,
         authCode,
         altFlow,
+        codeVerifierRef.current,
         initialForce,
       );
       if (error) {
@@ -79,7 +82,9 @@ export function CloudForm({
       if (!granted) {
         return;
       }
-      authCode = (await cloud.authorize(altFlow)).authorizationCode;
+      codeVerifierRef.current = generateCodeVerifier();
+      authCode = (await cloud.authorize(altFlow, codeVerifierRef.current))
+        .authorizationCode;
     } catch {
       setPhase("none");
       return;

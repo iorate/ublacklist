@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import type { Cloud } from "../shared/types.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
-import * as Helpers from "./helpers.ts";
+import * as CloudUtils from "./cloud-utils.ts";
 
-const CLIENT_ID = process.env.GOOGLE_DRIVE_API_KEY;
-const CLIENT_SECRET = process.env.GOOGLE_DRIVE_API_SECRET;
+const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
 const MULTIPART_RELATED_BOUNDARY =
   "----------uBlacklistMultipartRelatedBoundaryJMPRhmg2VV4JBuua";
 
@@ -15,18 +15,18 @@ export const googleDrive: Cloud = {
 
   modifiedTimePrecision: "millisecond",
 
-  shouldUseAltFlow: Helpers.shouldUseAltFlow(),
+  shouldUseAltFlow: CloudUtils.shouldUseAltFlow(),
 
   // https://developers.google.com/identity/protocols/oauth2/web-server
-  authorize: (useAltFlow: boolean) =>
-    Helpers.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
+  authorize: (useAltFlow: boolean, codeVerifier: string) =>
+    CloudUtils.authorize("https://accounts.google.com/o/oauth2/v2/auth", {
       client_id: CLIENT_ID,
       scope: "https://www.googleapis.com/auth/drive.appdata",
       access_type: "offline",
       prompt: "consent select_account",
-    })(useAltFlow),
+    })(useAltFlow, codeVerifier),
 
-  getAccessToken: Helpers.getAccessToken(
+  getAccessToken: CloudUtils.getAccessToken(
     "https://oauth2.googleapis.com/token",
     {
       client_id: CLIENT_ID,
@@ -34,7 +34,7 @@ export const googleDrive: Cloud = {
     },
   ),
 
-  refreshAccessToken: Helpers.refreshAccessToken(
+  refreshAccessToken: CloudUtils.refreshAccessToken(
     "https://oauth2.googleapis.com/token",
     {
       client_id: CLIENT_ID,
