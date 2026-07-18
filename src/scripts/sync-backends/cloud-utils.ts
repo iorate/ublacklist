@@ -192,8 +192,8 @@ export function refreshAccessToken(
   params: Readonly<RefreshAccessTokenParams>,
 ): (refreshToken: string) => Promise<{
   accessToken: string;
-  expiresIn: number;
-  refreshToken?: string;
+  expiresIn: number | null;
+  refreshToken: string | null;
 }> {
   return async (refreshToken) => {
     const response = await fetch(url, {
@@ -209,7 +209,7 @@ export function refreshAccessToken(
       const parseResult = z
         .object({
           access_token: z.string(),
-          expires_in: z.number(),
+          expires_in: z.number().optional(),
           refresh_token: z.string().optional(),
         })
         .safeParse(responseBody);
@@ -218,10 +218,8 @@ export function refreshAccessToken(
       }
       return {
         accessToken: parseResult.data.access_token,
-        expiresIn: parseResult.data.expires_in,
-        ...(parseResult.data.refresh_token != null
-          ? { refreshToken: parseResult.data.refresh_token }
-          : {}),
+        expiresIn: parseResult.data.expires_in ?? null,
+        refreshToken: parseResult.data.refresh_token ?? null,
       };
     }
     throw new HTTPError(response.status, response.statusText);
