@@ -2,9 +2,10 @@ import { Button } from "@base-ui/react/button";
 import { Checkbox } from "@base-ui/react/checkbox";
 import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import clsx from "clsx";
+import type React from "react";
 import { useEffect, useId, useState } from "react";
 import { Dialog, DialogTitle } from "../components/dialog.tsx";
-import { expandLinks } from "../components/link.tsx";
+import { Link } from "../components/link.tsx";
 import { Select, SelectOption } from "../components/select.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import { browser } from "../shared/browser.ts";
@@ -206,6 +207,24 @@ function ImportBlacklistDialog({
       />
     </Dialog>
   );
+}
+
+function expandLinks(text: string): React.ReactNode {
+  const children: React.ReactNode[] = [];
+  const split = text.split(/\[([^\]]*)]\(([^)]*)\)/g);
+  for (let i = 0; i < split.length; ++i) {
+    if (i % 3 === 0) {
+      children.push(split[i]);
+    } else if (i % 3 === 1) {
+      children.push(
+        <Link href={split[i + 1]} key={i}>
+          {split[i]}
+        </Link>,
+      );
+      ++i;
+    }
+  }
+  return <>{children}</>;
 }
 
 function SetBlacklist() {
