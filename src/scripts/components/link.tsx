@@ -2,7 +2,7 @@ import clsx from "clsx";
 import type React from "react";
 import styles from "./link.module.css";
 
-export type LinkProps = React.JSX.IntrinsicElements["a"];
+export type LinkProps = React.ComponentProps<"a">;
 
 export function Link({ className, ...props }: LinkProps) {
   return (

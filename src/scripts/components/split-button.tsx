@@ -7,7 +7,7 @@ import menuStyles from "./menu.module.css";
 import styles from "./split-button.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
 
-export type SplitButtonProps = React.JSX.IntrinsicElements["button"] & {
+export type SplitButtonProps = React.ComponentProps<"button"> & {
   menu: React.ReactNode;
   menuAriaLabel: string;
   menuDisabled?: boolean;

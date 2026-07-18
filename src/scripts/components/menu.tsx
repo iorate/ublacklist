@@ -1,22 +1,20 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import dotsVertical from "@mdi/svg/svg/dots-vertical.svg";
-import clsx from "clsx";
 import type React from "react";
 import iconButtonStyles from "../styles/icon-button.module.css";
 import styles from "./menu.module.css";
+import { mergeClassNames } from "./merge-props.ts";
 import { SvgIcon } from "./svg-icon.tsx";
 
-export type MenuProps = React.JSX.IntrinsicElements["button"] & {
+export type MenuProps = Omit<BaseMenu.Trigger.Props, "children"> & {
   children?: React.ReactNode;
-  disabled?: boolean;
 };
 
-export function Menu({ children, disabled = false, ...props }: MenuProps) {
+export function Menu({ children, ...props }: MenuProps) {
   return (
     <BaseMenu.Root highlightItemOnHover={false} modal={false}>
       <BaseMenu.Trigger
         {...props}
-        disabled={disabled}
         render={
           <button className={iconButtonStyles.button} type="button">
             <SvgIcon
@@ -35,10 +33,13 @@ export function Menu({ children, disabled = false, ...props }: MenuProps) {
   );
 }
 
-export type MenuItemProps = React.JSX.IntrinsicElements["div"] & {
-  disabled?: boolean;
-};
+export type MenuItemProps = BaseMenu.Item.Props;
 
 export function MenuItem({ className, ...props }: MenuItemProps) {
-  return <BaseMenu.Item {...props} className={clsx(styles.item, className)} />;
+  return (
+    <BaseMenu.Item
+      {...props}
+      className={mergeClassNames(className, styles.item)}
+    />
+  );
 }

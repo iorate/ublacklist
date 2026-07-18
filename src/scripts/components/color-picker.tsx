@@ -1,34 +1,27 @@
 import { Popover } from "@base-ui/react/popover";
-import clsx from "clsx";
 import { colord } from "colord";
-import type React from "react";
 import { HexColorInput, RgbaColorPicker } from "react-colorful";
 import styles from "./color-picker.module.css";
+import { mergeClassNames, mergeStyle } from "./merge-props.ts";
 
-export type ColorPickerProps = Omit<
-  React.JSX.IntrinsicElements["button"],
-  "onChange"
-> & {
-  disabled?: boolean;
+export type ColorPickerProps = Popover.Trigger.Props & {
   value: string;
-  onChange: (value: string) => void;
+  onValueChange: (value: string) => void;
 };
 
 export function ColorPicker({
   className,
-  disabled = false,
-  value,
-  onChange,
   style,
+  value,
+  onValueChange,
   ...props
 }: ColorPickerProps) {
   return (
     <Popover.Root>
       <Popover.Trigger
         {...props}
-        className={clsx(styles.swatch, className)}
-        disabled={disabled}
-        style={{ backgroundColor: value, ...style }}
+        className={mergeClassNames(className, styles.swatch)}
+        style={mergeStyle(style, { backgroundColor: value })}
       />
       <Popover.Portal>
         <Popover.Positioner
@@ -39,14 +32,14 @@ export function ColorPicker({
           <Popover.Popup className={styles.popup ?? ""}>
             <RgbaColorPicker
               color={colord(value).toRgb()}
-              onChange={(newValue) => onChange(colord(newValue).toHex())}
+              onChange={(newValue) => onValueChange(colord(newValue).toHex())}
             />
             <HexColorInput
               alpha
               className={styles.input ?? ""}
               color={colord(value).toHex()}
               prefixed
-              onChange={onChange}
+              onChange={onValueChange}
             />
           </Popover.Popup>
         </Popover.Positioner>

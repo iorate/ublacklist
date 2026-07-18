@@ -3,7 +3,7 @@ import type React from "react";
 import { useEffect } from "react";
 import styles from "./embedded-dialog.module.css";
 
-export type EmbeddedDialogProps = React.JSX.IntrinsicElements["div"] & {
+export type EmbeddedDialogProps = React.ComponentProps<"div"> & {
   close: () => void;
   initialFocus?: React.RefObject<HTMLElement | null>;
 };
