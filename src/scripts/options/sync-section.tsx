@@ -5,16 +5,11 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsDuration from "dayjs/plugin/duration";
 import { useEffect, useId, useState } from "react";
-import {
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../components/dialog.tsx";
+import { Dialog, DialogTitle } from "../components/dialog.tsx";
 import { browser } from "../shared/browser.ts";
 import buttonStyles from "../styles/button.module.css";
 import styles from "../styles/checkbox.module.css";
+import dialogStyles from "../styles/dialog.module.css";
 import indentStyles from "../styles/indent.module.css";
 import inputStyles from "../styles/input.module.css";
 import labelStyles from "../styles/label.module.css";
@@ -97,10 +92,10 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
 
   return (
     <>
-      <DialogHeader>
+      <div className={dialogStyles.header}>
         <DialogTitle>{translate("options_turnOnSyncDialog_title")}</DialogTitle>
-      </DialogHeader>
-      <DialogBody>
+      </div>
+      <div>
         <div className={rowStyles.row}>
           <div className={rowStyles.rowItem}>
             <Select
@@ -329,8 +324,8 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
             </Select>
           </div>
         </div>
-      </DialogBody>
-      <DialogFooter>
+      </div>
+      <div className={dialogStyles.footer}>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             {errorMessage && (
@@ -466,7 +461,7 @@ function TurnOnSyncForm({ close }: { close: () => void }) {
             </Button>
           </div>
         </div>
-      </DialogFooter>
+      </div>
     </>
   );
 }
