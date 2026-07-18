@@ -44,7 +44,7 @@ export type Cloud = {
   ): Promise<{ accessToken: string; expiresIn: number; refreshToken: string }>;
   refreshAccessToken(
     refreshToken: string,
-    pkce?: boolean,
+    pkce: boolean,
   ): Promise<{
     accessToken: string;
     expiresIn: number | null;

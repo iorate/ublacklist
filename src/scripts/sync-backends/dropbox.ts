@@ -29,7 +29,7 @@ export const dropbox: Cloud = {
     },
   ),
 
-  refreshAccessToken: (refreshToken: string, pkce?: boolean) =>
+  refreshAccessToken: (refreshToken: string, pkce: boolean) =>
     CloudUtils.refreshAccessToken(
       "https://api.dropboxapi.com/oauth2/token",
       pkce
