@@ -1,5 +1,5 @@
 .loading {
-  /* The height of `BlockEmbeddedDialog` */
+  /* The height of `BlockPopupDialog` */
   height: calc(12.5em + 24px);
   width: 360px;
 }

@@ -1,19 +1,19 @@
 import clsx from "clsx";
 import type React from "react";
 import { useEffect } from "react";
-import styles from "./embedded-dialog.module.css";
+import styles from "./dialog.module.css";
 
-export type EmbeddedDialogProps = React.ComponentProps<"div"> & {
+export type PopupDialogProps = React.ComponentProps<"div"> & {
   close: () => void;
   initialFocus?: React.RefObject<HTMLElement | null>;
 };
 
-export function EmbeddedDialog({
+export function PopupDialog({
   className,
   close,
   initialFocus,
   ...props
-}: EmbeddedDialogProps) {
+}: PopupDialogProps) {
   useEffect(() => {
     initialFocus?.current?.focus();
     if (

@@ -1,12 +1,9 @@
 import "../styles/theme.css";
 import "../styles/baseline.css";
 import isMobile from "is-mobile";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  BlockEmbeddedDialog,
-  type BlockEmbeddedDialogProps,
-} from "../block-dialog.ts";
+import { BlockForm, type BlockFormProps } from "../block-dialog.ts";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
 import {
@@ -16,11 +13,12 @@ import {
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
 import { createInteractiveRuleset } from "../shared/utilities.ts";
+import { PopupDialog } from "./dialog.tsx";
 import styles from "./index.module.css";
 import {
   canEnableSerpInfo,
-  EnableSerpInfoEmbeddedDialog,
-  SerpInfoEmbeddedDialog,
+  EnableSerpInfoPopupDialog,
+  SerpInfoPopupDialog,
 } from "./serpinfo.tsx";
 
 async function openOptionsPage(): Promise<void> {
@@ -33,6 +31,25 @@ async function openOptionsPage(): Promise<void> {
 
 function Loading() {
   return <div className={styles.loading} />;
+}
+
+type BlockPopupDialogProps = Omit<
+  BlockFormProps,
+  "id" | "initialFocusRef" | "portalContainer"
+>;
+
+function BlockPopupDialog(props: BlockPopupDialogProps) {
+  const id = useId();
+  const initialFocusRef = useRef<HTMLButtonElement>(null);
+  return (
+    <PopupDialog
+      aria-labelledby={`${id}-title`}
+      close={props.close}
+      initialFocus={initialFocusRef}
+    >
+      <BlockForm id={id} initialFocusRef={initialFocusRef} {...props} />
+    </PopupDialog>
+  );
 }
 
 async function queryUserAgent(tabId: number): Promise<string> {
@@ -52,10 +69,10 @@ function Popup() {
     | { type: "loading" }
     | {
         type: "serpInfo";
-        props: React.ComponentProps<typeof SerpInfoEmbeddedDialog>;
+        props: React.ComponentProps<typeof SerpInfoPopupDialog>;
       }
     | { type: "enableSerpInfo" }
-    | { type: "block"; props: BlockEmbeddedDialogProps }
+    | { type: "block"; props: BlockPopupDialogProps }
   >({ type: "loading" });
   useEffect(() => {
     void (async () => {
@@ -126,11 +143,11 @@ function Popup() {
       {state.type === "loading" ? (
         <Loading />
       ) : state.type === "serpInfo" ? (
-        <SerpInfoEmbeddedDialog {...state.props} />
+        <SerpInfoPopupDialog {...state.props} />
       ) : state.type === "enableSerpInfo" ? (
-        <EnableSerpInfoEmbeddedDialog />
+        <EnableSerpInfoPopupDialog />
       ) : (
-        <BlockEmbeddedDialog {...state.props} />
+        <BlockPopupDialog {...state.props} />
       )}
     </AutoThemeProvider>
   );

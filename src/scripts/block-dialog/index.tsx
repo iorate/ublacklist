@@ -9,7 +9,6 @@ import React, { useId, useMemo, useRef, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import icon from "../../icons/icon.svg";
 import { Dialog } from "../components/dialog.tsx";
-import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
 import { MenuItem } from "../components/menu.tsx";
 import { SplitButton } from "../components/split-button.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
@@ -222,9 +221,9 @@ function ActionButton({
 }
 
 // ---------------------------------------------------------------------------
-// BlockForm — body shared by BlockDialog and BlockEmbeddedDialog.
+// BlockForm — body shared by BlockDialog and the popup's BlockPopupDialog.
 
-type BlockFormProps = {
+export type BlockFormProps = {
   blockWholeSite: boolean;
   close: () => void;
   enableMatchingRules: boolean;
@@ -237,7 +236,7 @@ type BlockFormProps = {
   onBlocked: (newSource: string) => void | Promise<void>;
 };
 
-function BlockForm({
+export function BlockForm({
   blockWholeSite,
   close,
   enableMatchingRules,
@@ -487,25 +486,6 @@ export function BlockDialog({
         />
       )}
     </Dialog>
-  );
-}
-
-export type BlockEmbeddedDialogProps = Omit<
-  BlockFormProps,
-  "id" | "initialFocusRef" | "portalContainer"
->;
-
-export function BlockEmbeddedDialog(props: BlockEmbeddedDialogProps) {
-  const id = useId();
-  const initialFocusRef = useRef<HTMLButtonElement>(null);
-  return (
-    <EmbeddedDialog
-      aria-labelledby={`${id}-title`}
-      close={props.close}
-      initialFocus={initialFocusRef}
-    >
-      <BlockForm id={id} initialFocusRef={initialFocusRef} {...props} />
-    </EmbeddedDialog>
   );
 }
 

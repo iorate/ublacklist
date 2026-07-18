@@ -4,7 +4,6 @@ import cog from "@mdi/svg/svg/cog.svg";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import icon from "../../icons/icon.svg";
-import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
@@ -17,6 +16,7 @@ import iconButtonStyles from "../styles/icon-button.module.css";
 import labelStyles from "../styles/label.module.css";
 import rowStyles from "../styles/row.module.css";
 import switchStyles from "../styles/switch.module.css";
+import { PopupDialog } from "./dialog.tsx";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -26,7 +26,7 @@ async function openOptionsPage(): Promise<void> {
   }
 }
 
-export function SerpInfoEmbeddedDialog({
+export function SerpInfoPopupDialog({
   tabId,
   initialHideBlockedResults,
 }: {
@@ -39,7 +39,7 @@ export function SerpInfoEmbeddedDialog({
     initialHideBlockedResults,
   );
   return (
-    <EmbeddedDialog
+    <PopupDialog
       aria-labelledby={`${id}-title`}
       close={() => window.close()}
       initialFocus={initialFocusRef}
@@ -122,7 +122,7 @@ export function SerpInfoEmbeddedDialog({
           </div>
         </div>
       </div>
-    </EmbeddedDialog>
+    </PopupDialog>
   );
 }
 
@@ -138,11 +138,11 @@ export async function canEnableSerpInfo(
   return pages.some((serp) => serpMatchesUrl(serp, url, mobile));
 }
 
-export function EnableSerpInfoEmbeddedDialog() {
+export function EnableSerpInfoPopupDialog() {
   const id = useId();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
-    <EmbeddedDialog
+    <PopupDialog
       aria-labelledby={`${id}-title`}
       close={() => window.close()}
       initialFocus={initialFocusRef}
@@ -200,6 +200,6 @@ export function EnableSerpInfoEmbeddedDialog() {
           </div>
         </div>
       </div>
-    </EmbeddedDialog>
+    </PopupDialog>
   );
 }
