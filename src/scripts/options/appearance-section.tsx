@@ -113,7 +113,7 @@ function SetBlockColor() {
                 <ColorPicker
                   aria-label={translate("options_blockColor")}
                   value={color}
-                  onChange={save}
+                  onValueChange={save}
                 />
               </div>
             </div>
@@ -205,7 +205,7 @@ function SetHighlightColors() {
                     <ColorPicker
                       aria-labelledby={`${id}-${index}`}
                       value={color}
-                      onChange={(value) => {
+                      onValueChange={(value) => {
                         save(
                           draft.map((item, i) =>
                             i === index ? { ...item, color: value } : item,

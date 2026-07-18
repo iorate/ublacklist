@@ -1,26 +1,24 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import menuDown from "@mdi/svg/svg/menu-down.svg";
-import clsx from "clsx";
 import React from "react";
+import { mergeClassNames } from "./merge-props.ts";
 import styles from "./select.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
 
 export type SelectProps = Omit<
-  React.JSX.IntrinsicElements["button"],
-  "value"
+  BaseSelect.Trigger.Props,
+  "children" | "value"
 > & {
   children?: React.ReactNode;
-  disabled?: boolean;
-  onValueChange?: (value: string) => void;
   value?: string;
+  onValueChange?: (value: string) => void;
 };
 
 export function Select({
   children,
   className,
-  disabled = false,
-  onValueChange,
   value,
+  onValueChange,
   ...props
 }: SelectProps) {
   const items = React.Children.toArray(children).flatMap((child) =>
@@ -30,7 +28,6 @@ export function Select({
   );
   return (
     <BaseSelect.Root
-      disabled={disabled}
       items={items}
       value={value}
       onValueChange={(newValue) => {
@@ -41,19 +38,19 @@ export function Select({
     >
       <BaseSelect.Trigger
         {...props}
-        className={clsx(styles.trigger, className)}
+        className={mergeClassNames(className, styles.trigger)}
       >
-        <BaseSelect.Value className={styles.value ?? ""} />
-        <BaseSelect.Icon className={styles.icon ?? ""}>
+        <BaseSelect.Value className={styles.value} />
+        <BaseSelect.Icon className={styles.icon}>
           <SvgIcon color="var(--ub-color-text-secondary)" svg={menuDown} />
         </BaseSelect.Icon>
       </BaseSelect.Trigger>
       <BaseSelect.Portal>
         <BaseSelect.Positioner
           alignItemWithTrigger={false}
-          className={styles.positioner ?? ""}
+          className={styles.positioner}
         >
-          <BaseSelect.Popup className={styles.popup ?? ""}>
+          <BaseSelect.Popup className={styles.popup}>
             {children}
           </BaseSelect.Popup>
         </BaseSelect.Positioner>
@@ -62,11 +59,7 @@ export function Select({
   );
 }
 
-export type SelectOptionProps = Omit<
-  React.JSX.IntrinsicElements["div"],
-  "value"
-> & {
-  disabled?: boolean;
+export type SelectOptionProps = Omit<BaseSelect.Item.Props, "value"> & {
   value?: string;
 };
 
@@ -76,7 +69,10 @@ export function SelectOption({
   ...props
 }: SelectOptionProps) {
   return (
-    <BaseSelect.Item {...props} className={clsx(styles.item, className)}>
+    <BaseSelect.Item
+      {...props}
+      className={mergeClassNames(className, styles.item)}
+    >
       <BaseSelect.ItemText>{children}</BaseSelect.ItemText>
     </BaseSelect.Item>
   );

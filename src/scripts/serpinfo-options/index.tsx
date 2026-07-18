@@ -21,17 +21,12 @@ import { Button } from "@base-ui/react/button";
 import type React from "react";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../components/dialog.tsx";
+import { Dialog, DialogTitle } from "../components/dialog.tsx";
 import { Link } from "../components/link.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
 import buttonStyles from "../styles/button.module.css";
+import dialogStyles from "../styles/dialog.module.css";
 import labelStyles from "../styles/label.module.css";
 import styles from "../styles/switch.module.css";
 import "../shared/dayjs-locales.ts";
@@ -430,12 +425,12 @@ function AddRemoteSerpInfoForm({
   });
   return (
     <>
-      <DialogHeader>
+      <div className={dialogStyles.header}>
         <DialogTitle>
           {translate("options_addRemoteSerpInfoDialog_title")}
         </DialogTitle>
-      </DialogHeader>
-      <DialogBody>
+      </div>
+      <div>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <div className={clsx(labelStyles.wrapper, labelStyles.fullWidth)}>
@@ -461,8 +456,8 @@ function AddRemoteSerpInfoForm({
             />
           </div>
         </div>
-      </DialogBody>
-      <DialogFooter>
+      </div>
+      <div className={dialogStyles.footer}>
         <div className={clsx(rowStyles.row, rowStyles.right)}>
           <div className={rowStyles.rowItem}>
             <Button
@@ -488,7 +483,7 @@ function AddRemoteSerpInfoForm({
             </Button>
           </div>
         </div>
-      </DialogFooter>
+      </div>
     </>
   );
 }
@@ -520,10 +515,10 @@ function ShowRemoteSerpInfoDialog({
 }) {
   return (
     <Dialog close={close} open={open} width="600px">
-      <DialogHeader>
+      <div className={dialogStyles.header}>
         <DialogTitle>{remote?.parsed?.name ?? remote?.url}</DialogTitle>
-      </DialogHeader>
-      <DialogBody>
+      </div>
+      <div>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
             <Editor
@@ -533,8 +528,8 @@ function ShowRemoteSerpInfoDialog({
             />
           </div>
         </div>
-      </DialogBody>
-      <DialogFooter>
+      </div>
+      <div className={dialogStyles.footer}>
         <div className={clsx(rowStyles.row, rowStyles.right)}>
           <div className={rowStyles.rowItem}>
             <Button
@@ -545,7 +540,7 @@ function ShowRemoteSerpInfoDialog({
             </Button>
           </div>
         </div>
-      </DialogFooter>
+      </div>
     </Dialog>
   );
 }

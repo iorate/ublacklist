@@ -1,12 +1,11 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import clsx from "clsx";
-import type React from "react";
+import sharedStyles from "../styles/dialog.module.css";
 import styles from "./dialog.module.css";
+import { mergeClassNames, mergeStyle } from "./merge-props.ts";
 
-export type DialogProps = React.JSX.IntrinsicElements["div"] & {
+export type DialogProps = BaseDialog.Popup.Props & {
   close: () => void;
   container?: HTMLElement | ShadowRoot;
-  initialFocus?: React.RefObject<HTMLElement | null>;
   open: boolean;
   width?: string;
 };
@@ -16,7 +15,6 @@ export function Dialog({
   className,
   close,
   container,
-  initialFocus,
   open,
   style,
   width = "480px",
@@ -36,9 +34,8 @@ export function Dialog({
         <BaseDialog.Viewport className={styles.viewport}>
           <BaseDialog.Popup
             {...props}
-            className={clsx(styles.popup, className)}
-            initialFocus={initialFocus}
-            style={{ width, ...style }}
+            className={mergeClassNames(className, styles.popup)}
+            style={mergeStyle(style, { width })}
           >
             {children}
           </BaseDialog.Popup>
@@ -48,28 +45,13 @@ export function Dialog({
   );
 }
 
-export type DialogHeaderProps = React.JSX.IntrinsicElements["div"];
-
-export function DialogHeader({ className, ...props }: DialogHeaderProps) {
-  return <div {...props} className={clsx(styles.header, className)} />;
-}
-
-export type DialogTitleProps = React.JSX.IntrinsicElements["h2"];
+export type DialogTitleProps = BaseDialog.Title.Props;
 
 export function DialogTitle({ className, ...props }: DialogTitleProps) {
   return (
-    <BaseDialog.Title {...props} className={clsx(styles.title, className)} />
+    <BaseDialog.Title
+      {...props}
+      className={mergeClassNames(className, sharedStyles.title)}
+    />
   );
-}
-
-export type DialogBodyProps = React.JSX.IntrinsicElements["div"];
-
-export function DialogBody(props: DialogBodyProps) {
-  return <div {...props} />;
-}
-
-export type DialogFooterProps = React.JSX.IntrinsicElements["div"];
-
-export function DialogFooter({ className, ...props }: DialogFooterProps) {
-  return <div {...props} className={clsx(styles.footer, className)} />;
 }

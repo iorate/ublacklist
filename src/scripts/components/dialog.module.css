@@ -27,18 +27,3 @@
   padding: 1.5em;
   position: relative;
 }
-
-.header {
-  margin-bottom: 1em;
-}
-
-.title {
-  font-size: 1.125em;
-  font-weight: normal;
-  margin: 0;
-  overflow-wrap: break-word;
-}
-
-.footer {
-  margin-top: 2em;
-}

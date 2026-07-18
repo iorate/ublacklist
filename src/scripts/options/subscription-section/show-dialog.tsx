@@ -1,12 +1,6 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
-import {
-  Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../../components/dialog.tsx";
+import { Dialog, DialogTitle } from "../../components/dialog.tsx";
 import { Editor } from "../../components/editor.tsx";
 import { Link } from "../../components/link.tsx";
 import { translate } from "../../shared/locales.ts";
@@ -14,9 +8,10 @@ import type { Subscription } from "../../shared/types.ts";
 import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
 import badgeStyles from "../../styles/badge.module.css";
 import buttonStyles from "../../styles/button.module.css";
+import dialogStyles from "../../styles/dialog.module.css";
 import rowStyles from "../../styles/row.module.css";
 import { RulesetEditor } from "../shared/ruleset-editor.tsx";
-import dialogStyles from "./show-dialog.module.css";
+import styles from "./show-dialog.module.css";
 
 export function ShowDialog({
   close,
@@ -29,20 +24,20 @@ export function ShowDialog({
 }) {
   return (
     <Dialog close={close} open={open}>
-      <DialogHeader>
+      <div className={dialogStyles.header}>
         <DialogTitle>
           {getSubscriptionDisplayName(subscription)}
           {subscription.type && subscription.type !== "ruleset" ? (
-            <span className={clsx(badgeStyles.badge, dialogStyles.badge)}>
+            <span className={clsx(badgeStyles.badge, styles.badge)}>
               {subscription.type}
             </span>
           ) : null}
         </DialogTitle>
-      </DialogHeader>
-      <DialogBody>
+      </div>
+      <div>
         <div className={rowStyles.row}>
           <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-            <span className={dialogStyles.url}>
+            <span className={styles.url}>
               <Link href={subscription.url}>{subscription.url}</Link>
             </span>
           </div>
@@ -66,8 +61,8 @@ export function ShowDialog({
             )}
           </div>
         </div>
-      </DialogBody>
-      <DialogFooter>
+      </div>
+      <div className={dialogStyles.footer}>
         <div className={clsx(rowStyles.row, rowStyles.right)}>
           <div className={rowStyles.rowItem}>
             <Button
@@ -78,7 +73,7 @@ export function ShowDialog({
             </Button>
           </div>
         </div>
-      </DialogFooter>
+      </div>
     </Dialog>
   );
 }

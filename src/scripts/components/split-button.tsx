@@ -1,13 +1,15 @@
+import { Button } from "@base-ui/react/button";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import clsx from "clsx";
 import type React from "react";
 import buttonStyles from "../styles/button.module.css";
 import menuStyles from "./menu.module.css";
+import { mergeClassNames } from "./merge-props.ts";
 import styles from "./split-button.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
 
-export type SplitButtonProps = React.JSX.IntrinsicElements["button"] & {
+export type SplitButtonProps = Button.Props & {
   menu: React.ReactNode;
   menuAriaLabel: string;
   menuDisabled?: boolean;
@@ -29,15 +31,14 @@ export function SplitButton({
     : buttonStyles.secondary;
   return (
     <div className={styles.wrapper}>
-      <button
+      <Button
         {...props}
-        className={clsx(
+        className={mergeClassNames(
+          className,
           buttonStyles.button,
           variantClassName,
           styles.main,
-          className,
         )}
-        type="button"
       />
       <BaseMenu.Root highlightItemOnHover={false} modal={false}>
         <BaseMenu.Trigger

@@ -8,9 +8,7 @@ import * as punycode from "punycode/";
 import React, { useId, useMemo, useRef, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import icon from "../../icons/icon.svg";
-import dialogStyles from "../components/dialog.module.css";
 import { Dialog } from "../components/dialog.tsx";
-import { EmbeddedDialog } from "../components/embedded-dialog.tsx";
 import { MenuItem } from "../components/menu.tsx";
 import { SplitButton } from "../components/split-button.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
@@ -25,6 +23,7 @@ import { translate } from "../shared/locales.ts";
 import { getRegistrableDomain } from "../shared/registrable-domain.ts";
 import type { DialogTheme, MessageName0 } from "../shared/types.ts";
 import buttonStyles from "../styles/button.module.css";
+import dialogStyles from "../styles/dialog.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
 import labelStyles from "../styles/label.module.css";
 import rowStyles from "../styles/row.module.css";
@@ -222,9 +221,9 @@ function ActionButton({
 }
 
 // ---------------------------------------------------------------------------
-// BlockForm — body shared by BlockDialog and BlockEmbeddedDialog.
+// BlockForm — body shared by BlockDialog and the popup's BlockPopupDialog.
 
-type BlockFormProps = {
+export type BlockFormProps = {
   blockWholeSite: boolean;
   close: () => void;
   enableMatchingRules: boolean;
@@ -237,7 +236,7 @@ type BlockFormProps = {
   onBlocked: (newSource: string) => void | Promise<void>;
 };
 
-function BlockForm({
+export function BlockForm({
   blockWholeSite,
   close,
   enableMatchingRules,
@@ -487,25 +486,6 @@ export function BlockDialog({
         />
       )}
     </Dialog>
-  );
-}
-
-export type BlockEmbeddedDialogProps = Omit<
-  BlockFormProps,
-  "id" | "initialFocusRef" | "portalContainer"
->;
-
-export function BlockEmbeddedDialog(props: BlockEmbeddedDialogProps) {
-  const id = useId();
-  const initialFocusRef = useRef<HTMLButtonElement>(null);
-  return (
-    <EmbeddedDialog
-      aria-labelledby={`${id}-title`}
-      close={props.close}
-      initialFocus={initialFocusRef}
-    >
-      <BlockForm id={id} initialFocusRef={initialFocusRef} {...props} />
-    </EmbeddedDialog>
   );
 }
 
