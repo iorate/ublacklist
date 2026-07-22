@@ -6,7 +6,7 @@ async function main() {
   const outPath = process.argv[2];
   if (!outPath) {
     throw new Error(
-      "Usage: pnpm node release/scripts/build-version-pr-body.ts <output-path>",
+      "Usage: pnpm node release/scripts/build-release-pr-body.ts <output-path>",
     );
   }
   const changelog = await fs.readFile("CHANGELOG.md", "utf8");
