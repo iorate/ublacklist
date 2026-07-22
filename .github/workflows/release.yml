@@ -41,33 +41,25 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
-      - name: Detect change intents
-        id: detect-intents
+      - name: Apply change intents
+        id: apply-intents
         run: |
-          status=$(pnpm change status)
-          echo "$status"
-          if grep -q '^Pending change intents:' <<< "$status"; then
-            echo 'found=true' >> "$GITHUB_OUTPUT"
-          elif grep -q '^No pending changes\.' <<< "$status"; then
-            echo 'found=false' >> "$GITHUB_OUTPUT"
-          else
-            echo 'Unrecognized "pnpm change status" output.' >&2
+          # Grepping human-readable output is a known trade-off; --json emits a human-readable message on no-op, so it is not usable.
+          output=$(pnpm version -r)
+          echo "$output"
+          if grep -q '^Versions applied:' <<< "$output"; then
+            echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+          elif ! grep -q '^No pending changes\.' <<< "$output"; then
+            echo 'Unrecognized "pnpm version -r" output.' >&2
             exit 1
           fi
 
-      - name: Apply change intents
-        id: apply-intents
-        if: steps.detect-intents.outputs.found == 'true'
-        run: |
-          pnpm version -r
-          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-
       - name: Build release pull request body
-        if: steps.detect-intents.outputs.found == 'true'
+        if: steps.apply-intents.outputs.version != ''
         run: pnpm node release/scripts/build-release-pr-body.ts "$RUNNER_TEMP/release-pr-body.md"
 
       - name: Create release pull request
-        if: steps.detect-intents.outputs.found == 'true'
+        if: steps.apply-intents.outputs.version != ''
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate-token.outputs.token }}
@@ -78,7 +70,7 @@ jobs:
           body-path: ${{ runner.temp }}/release-pr-body.md
 
       - name: Create and push tag
-        if: steps.detect-intents.outputs.found == 'false'
+        if: steps.apply-intents.outputs.version == ''
         run: |
           version=$(node -p "require('./package.json').version")
           if git ls-remote --exit-code origin "refs/tags/v$version" > /dev/null; then
