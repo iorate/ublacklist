@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import {
-  extractReleaseNotes,
-  truncateReleaseNotes,
-} from "./build-release-notes.ts";
+import { extractReleaseNotes, truncateReleaseNotes } from "./release-notes.ts";
 
 test("extractReleaseNotes", async (t) => {
   await t.test(

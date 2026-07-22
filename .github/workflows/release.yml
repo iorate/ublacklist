@@ -41,27 +41,53 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
-      - name: Set git identity for tagging
+      - name: Detect change intents
+        id: detect-intents
         run: |
-          git config user.name 'iorate-bot[bot]'
-          git config user.email '266279786+iorate-bot[bot]@users.noreply.github.com'
+          status=$(pnpm change status)
+          echo "$status"
+          if grep -q '^Pending change intents:' <<< "$status"; then
+            echo 'found=true' >> "$GITHUB_OUTPUT"
+          elif grep -q '^No pending changes\.' <<< "$status"; then
+            echo 'found=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'Unrecognized "pnpm change status" output.' >&2
+            exit 1
+          fi
 
-      - name: Create version pull request or tag
-        id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+      - name: Bump version and changelog
+        if: steps.detect-intents.outputs.found == 'true'
+        run: pnpm version -r
+
+      - name: Build version pull request body
+        if: steps.detect-intents.outputs.found == 'true'
+        run: pnpm node release/scripts/build-version-pr-body.ts "$RUNNER_TEMP/version-pr-body.md"
+
+      - name: Create version pull request
+        if: steps.detect-intents.outputs.found == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          publish: pnpm changeset publish
-          createGithubReleases: false
-          commitMode: github-api
-        env:
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          token: ${{ steps.generate-token.outputs.token }}
+          commit-message: Version Packages
+          branch: version-pr
+          sign-commits: true
+          title: Version Packages
+          body-path: ${{ runner.temp }}/version-pr-body.md
 
-      - name: Push tag
-        if: steps.changesets.outputs.published == 'true'
+      - name: Create and push tag
+        if: steps.detect-intents.outputs.found == 'false'
         run: |
-          git -c credential.helper= \
-              -c credential.helper='!gh auth git-credential' \
-              push origin "v$VERSION"
+          version=$(node -p "require('./package.json').version")
+          if git ls-remote --exit-code origin "refs/tags/v$version" > /dev/null; then
+            echo "Tag v$version already exists; nothing to do."
+            exit 0
+          fi
+          git tag "v$version"
+          git push origin "refs/tags/v$version"
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          VERSION: ${{ fromJSON(steps.changesets.outputs.publishedPackages)[0].version }}
+          GIT_CONFIG_COUNT: 2
+          GIT_CONFIG_KEY_0: credential.helper
+          GIT_CONFIG_VALUE_0: ""
+          GIT_CONFIG_KEY_1: credential.helper
+          GIT_CONFIG_VALUE_1: "!gh auth git-credential"

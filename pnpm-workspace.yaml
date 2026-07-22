@@ -11,4 +11,8 @@ minimumReleaseAgeExclude:
 
 trustPolicy: no-downgrade
 
+versioning:
+  changelog:
+    storage: repository
+
 virtualStoreDirMaxLength: 120 # pin for AMO reproducible builds
