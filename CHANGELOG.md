@@ -1,5 +1,19 @@
 # ublacklist
 
+## 10.0.1
+
+### Patch Changes
+
+- Google Drive and Dropbox sync now uses PKCE when authorizing, improving the security of the sign-in flow. Existing connections keep working without re-authorization.
+
+- Updated the German translation.
+
+- Updated the Russian translation.
+
+- Updated the Chinese (China) translation.
+
+- Updated the Chinese (Taiwan) translation.
+
 ## 10.0.0
 
 ### Major Changes

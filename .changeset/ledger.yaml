@@ -1,0 +1,8 @@
+ublacklist@10.0.1:
+  dir: ""
+  intents:
+    - oauth-pkce
+    - update-de-translation
+    - update-ru-translation
+    - update-zh_CN-translation
+    - update-zh_TW-translation
