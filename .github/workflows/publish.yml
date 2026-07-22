@@ -77,7 +77,7 @@ jobs:
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
           envsubst '$RELEASE_URL' < release/edge/notes-for-certification.template.txt > dist/release/edge/notes-for-certification.txt
           cp release/firefox/approval-notes.txt dist/release/firefox/
-          pnpm node scripts/build-release-notes.ts "$RELEASE_URL"
+          pnpm node release/scripts/build-release-notes.ts "$RELEASE_URL"
         env:
           RELEASE_URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
 
