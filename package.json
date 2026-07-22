@@ -53,6 +53,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.3",
+    "@changesets/changelog-github": "0.7.0",
+    "@changesets/cli": "2.31.0",
     "@playwright/test": "1.61.1",
     "@types/css-tree": "2.3.11",
     "@types/fs-extra": "11.0.4",
@@ -71,7 +73,7 @@
     "prettier": "3.9.5",
     "typescript": "7.0.2"
   },
-  "packageManager": "pnpm@11.15.1",
+  "packageManager": "pnpm@11.11.0",
   "devEngines": {
     "runtime": {
       "name": "node",

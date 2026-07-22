@@ -41,48 +41,36 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
-      - name: Apply change intents
-        id: apply-intents
+      - name: Set git identity for tagging
         run: |
-          # Grepping human-readable output is a known trade-off; --json emits a human-readable message on no-op, so it is not usable.
-          output=$(pnpm version -r)
-          echo "$output"
-          if grep -q '^Versions applied:' <<< "$output"; then
-            echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
-          elif ! grep -q '^No pending changes\.' <<< "$output"; then
-            echo 'Unrecognized "pnpm version -r" output.' >&2
-            exit 1
-          fi
+          git config user.name 'iorate-bot[bot]'
+          git config user.email '266279786+iorate-bot[bot]@users.noreply.github.com'
 
-      - name: Build release pull request body
-        if: steps.apply-intents.outputs.version != ''
-        run: pnpm node release/scripts/build-release-pr-body.ts "$RUNNER_TEMP/release-pr-body.md"
+      - name: Compute next version
+        id: next-version
+        run: |
+          pnpm changeset status --output="$RUNNER_TEMP/changeset-status.json"
+          version=$(jq -r '.releases[0].newVersion // ""' "$RUNNER_TEMP/changeset-status.json")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
-      - name: Create release pull request
-        if: steps.apply-intents.outputs.version != ''
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+      - name: Create release pull request or tag
+        id: changesets
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
-          token: ${{ steps.generate-token.outputs.token }}
-          commit-message: Release v${{ steps.apply-intents.outputs.version }}
-          branch: release-pr
-          sign-commits: true
-          title: Release v${{ steps.apply-intents.outputs.version }}
-          body-path: ${{ runner.temp }}/release-pr-body.md
+          publish: pnpm changeset publish
+          commit: Release v${{ steps.next-version.outputs.version }}
+          title: Release v${{ steps.next-version.outputs.version }}
+          createGithubReleases: false
+          commitMode: github-api
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-      - name: Create and push tag
-        if: steps.apply-intents.outputs.version == ''
+      - name: Push tag
+        if: steps.changesets.outputs.published == 'true'
         run: |
-          version=$(node -p "require('./package.json').version")
-          if git ls-remote --exit-code origin "refs/tags/v$version" > /dev/null; then
-            echo "Tag v$version already exists; nothing to do."
-            exit 0
-          fi
-          git tag "v$version"
-          git push origin "refs/tags/v$version"
+          git -c credential.helper= \
+              -c credential.helper='!gh auth git-credential' \
+              push origin "refs/tags/v$VERSION"
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          GIT_CONFIG_COUNT: 2
-          GIT_CONFIG_KEY_0: credential.helper
-          GIT_CONFIG_VALUE_0: ""
-          GIT_CONFIG_KEY_1: credential.helper
-          GIT_CONFIG_VALUE_1: "!gh auth git-credential"
+          VERSION: ${{ fromJSON(steps.changesets.outputs.publishedPackages)[0].version }}
