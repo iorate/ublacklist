@@ -55,24 +55,27 @@ jobs:
             exit 1
           fi
 
-      - name: Bump version and changelog
+      - name: Apply change intents
+        id: apply-intents
         if: steps.detect-intents.outputs.found == 'true'
-        run: pnpm version -r
+        run: |
+          pnpm version -r
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
-      - name: Build version pull request body
+      - name: Build release pull request body
         if: steps.detect-intents.outputs.found == 'true'
-        run: pnpm node release/scripts/build-version-pr-body.ts "$RUNNER_TEMP/version-pr-body.md"
+        run: pnpm node release/scripts/build-release-pr-body.ts "$RUNNER_TEMP/release-pr-body.md"
 
-      - name: Create version pull request
+      - name: Create release pull request
         if: steps.detect-intents.outputs.found == 'true'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          commit-message: Version Packages
-          branch: version-pr
+          commit-message: Release v${{ steps.apply-intents.outputs.version }}
+          branch: release-pr
           sign-commits: true
-          title: Version Packages
-          body-path: ${{ runner.temp }}/version-pr-body.md
+          title: Release v${{ steps.apply-intents.outputs.version }}
+          body-path: ${{ runner.temp }}/release-pr-body.md
 
       - name: Create and push tag
         if: steps.detect-intents.outputs.found == 'false'
