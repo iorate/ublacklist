@@ -1,5 +1,19 @@
 # ublacklist
 
+## 10.0.1
+
+### Patch Changes
+
+- [#967](https://github.com/iorate/ublacklist/pull/967) [`5263cbc`](https://github.com/iorate/ublacklist/commit/5263cbcf58c04fe83e556c5463d63646d74b6210) - Google Drive and Dropbox sync now uses PKCE when authorizing, improving the security of the sign-in flow. Existing connections keep working without re-authorization.
+
+- [#968](https://github.com/iorate/ublacklist/pull/968) [`4a0b84b`](https://github.com/iorate/ublacklist/commit/4a0b84b9ff8627aba20bd73a95c07423cd8a188f) - Updated the German translation.
+
+- [#953](https://github.com/iorate/ublacklist/pull/953) [`acaa62e`](https://github.com/iorate/ublacklist/commit/acaa62e534401f77030b4af5fcf5d47d9927967a) - Updated the Russian translation.
+
+- [#951](https://github.com/iorate/ublacklist/pull/951) [`ac6e253`](https://github.com/iorate/ublacklist/commit/ac6e2532050dbbebd3daa41e7466fa8bf4372506) - Updated the Chinese (China) translation.
+
+- [#953](https://github.com/iorate/ublacklist/pull/953) [`acaa62e`](https://github.com/iorate/ublacklist/commit/acaa62e534401f77030b4af5fcf5d47d9927967a) - Updated the Chinese (Taiwan) translation.
+
 ## 10.0.0
 
 ### Major Changes
