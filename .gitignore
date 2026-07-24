@@ -22,4 +22,4 @@ README.*.md
 CLAUDE.local.md
 
 # Playwright
-e2e/test-results/
+test-results/
