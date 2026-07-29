@@ -104,7 +104,7 @@ jobs:
           path: dist/release
 
       - name: Install wepub
-        uses: iorate/setup-wepub@676a45f432e46db3f1023903f5141eb4163dfe4d # v2.0.0
+        uses: iorate/wepub/setup@500b0fe2fc4d92c5303edd52f4c0f083d388a567 # v1.0.2
 
       - name: Publish to Chrome Web Store
         run: wepub chrome dist/release/chrome/package.zip
@@ -132,7 +132,7 @@ jobs:
           path: dist/release
 
       - name: Install wepub
-        uses: iorate/setup-wepub@676a45f432e46db3f1023903f5141eb4163dfe4d # v2.0.0
+        uses: iorate/wepub/setup@500b0fe2fc4d92c5303edd52f4c0f083d388a567 # v1.0.2
 
       - name: Publish to Edge Add-ons
         run: wepub edge dist/release/edge/package.zip --notes-file dist/release/edge/notes-for-certification.txt
@@ -181,7 +181,7 @@ jobs:
           GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
 
       - name: Install wepub
-        uses: iorate/setup-wepub@676a45f432e46db3f1023903f5141eb4163dfe4d # v2.0.0
+        uses: iorate/wepub/setup@500b0fe2fc4d92c5303edd52f4c0f083d388a567 # v1.0.2
 
       - name: Publish to Firefox Add-ons
         run: |
