@@ -1,0 +1,82 @@
+name: Version
+
+on:
+  push:
+    branches:
+      - master
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: true
+          cache: true
+
+      - name: Setup changesette
+        uses: iorate/changesette/setup@8d4cb4a9f7059bfebf3db1f6cdd572b3912c96c8 # v1.0.0
+
+      - name: Bump version
+        id: version
+        run: |
+          next="$(changesette version)"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          if [[ -n "$next" ]]; then
+            delim="$(openssl rand -hex 16)"
+            {
+              echo "changelog<<$delim"
+              changesette changelog "$next"
+              echo "$delim"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          branch: changesette/release
+          commit-message: Release v${{ steps.version.outputs.next }}
+          title: Release v${{ steps.version.outputs.next }}
+          body: ${{ steps.version.outputs.changelog }}
+          delete-branch: true
+          sign-commits: true
+
+      - name: Push tag
+        if: steps.version.outputs.next == ''
+        run: |
+          version="$(changesette current)"
+          if [[ -z "$(git ls-remote origin "refs/tags/v$version")" ]]; then
+            git tag "v$version"
+            git -c credential.helper='!gh auth git-credential' \
+              push origin "refs/tags/v$version"
+          fi
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
