@@ -34,6 +34,9 @@ jobs:
           # Protect the release build from cache poisoning.
           cache: false
 
+      - name: Setup changesette
+        uses: iorate/changesette/setup@8d4cb4a9f7059bfebf3db1f6cdd572b3912c96c8 # v1.0.0
+
       - name: Prepare release directories
         run: mkdir -p dist/release/{chrome,edge,firefox,github}
 
@@ -74,10 +77,18 @@ jobs:
 
       - name: Build notes
         run: |
+          changesette changelog "$(changesette current)" \
+            > dist/release/github/release-notes.md
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
-          envsubst '$RELEASE_URL' < release/edge/notes-for-certification.template.txt > dist/release/edge/notes-for-certification.txt
-          cp release/firefox/approval-notes.txt dist/release/firefox/
-          pnpm node release/scripts/build-release-notes.ts "$RELEASE_URL"
+          envsubst '$RELEASE_URL' \
+            < release/edge/notes-for-certification.template.txt \
+            > dist/release/edge/notes-for-certification.txt
+          cp \
+            release/firefox/approval-notes.txt \
+            dist/release/firefox/
+          pnpm node release/scripts/truncate-release-notes.ts 3000 "$RELEASE_URL" \
+            < dist/release/github/release-notes.md \
+            > dist/release/firefox/release-notes.md
         env:
           RELEASE_URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
 
