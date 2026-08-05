@@ -24,7 +24,7 @@ import {
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
   // https://github.com/iorate/ublacklist/issues/378
-  if (process.env.BROWSER === "firefox") {
+  if (process.env.BROWSER === "firefox" || process.env.BROWSER === "edge") {
     window.close();
   }
 }
