@@ -1,5 +1,13 @@
 # ublacklist
 
+## 10.0.2
+
+### Patch Changes
+
+- Fixed an issue where the options page did not open from the popup or the block dialog in Microsoft Edge for Android.
+
+- Fixed an issue where opening the SERPINFO options page created a new tab each time instead of focusing the already open one.
+
 ## 10.0.1
 
 ### Patch Changes
