@@ -56,6 +56,7 @@ type MessageSignatures = {
   ) => void;
 
   "open-options-page": () => void;
+  "open-serpinfo-options-page": () => void;
 
   "backup-settings": () => LocalStorageItemsBackupRestore;
   "restore-settings": (

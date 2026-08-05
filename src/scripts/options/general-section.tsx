@@ -8,10 +8,9 @@ import { Dialog, DialogTitle } from "../components/dialog.tsx";
 import { Link } from "../components/link.tsx";
 import { Select, SelectOption } from "../components/select.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
-import { browser } from "../shared/browser.ts";
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
-import { addMessageListeners } from "../shared/messages.ts";
+import { addMessageListeners, sendMessage } from "../shared/messages.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import {
   downloadTextFile,
@@ -374,9 +373,7 @@ function RegisterSearchEngines() {
             type="button"
             aria-label={translate("options_openSerpInfoOptionsButton")}
             onClick={() => {
-              browser.tabs.create({
-                url: "/pages/serpinfo-options.html",
-              });
+              void sendMessage("open-serpinfo-options-page");
             }}
           >
             <SvgIcon

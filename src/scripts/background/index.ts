@@ -3,6 +3,7 @@ import { browser } from "../shared/browser.ts";
 import { addMessageListeners } from "../shared/messages.ts";
 import * as BackupRestore from "./backup-restore.ts";
 import * as LocalStorage from "./local-storage.ts";
+import * as Pages from "./pages.ts";
 import { loadFromRawStorage } from "./raw-storage.ts";
 import * as SearchEngines from "./search-engines.ts";
 import * as SerpInfo from "./serpinfo.ts";
@@ -28,7 +29,8 @@ function main() {
     "update-subscription": Subscriptions.update,
     "update-all-subscriptions": Subscriptions.updateAll,
 
-    "open-options-page": browser.runtime.openOptionsPage.bind(browser.runtime),
+    "open-options-page": Pages.openOptionsPage,
+    "open-serpinfo-options-page": Pages.openSerpInfoOptionsPage,
 
     "backup-settings": BackupRestore.backup,
     "restore-settings": BackupRestore.restore,

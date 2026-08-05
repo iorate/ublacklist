@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useId, useRef, useState } from "react";
 import icon from "../../icons/icon.svg";
 import { SvgIcon } from "../components/svg-icon.tsx";
-import { browser } from "../shared/browser.ts";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
@@ -21,7 +20,7 @@ import { PopupDialog } from "./dialog.tsx";
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
   // https://github.com/iorate/ublacklist/issues/378
-  if (process.env.BROWSER === "firefox") {
+  if (process.env.BROWSER === "firefox" || process.env.BROWSER === "edge") {
     window.close();
   }
 }
@@ -189,9 +188,7 @@ export function EnableSerpInfoPopupDialog() {
               className={clsx(buttonStyles.button, buttonStyles.primary)}
               ref={initialFocusRef}
               onClick={async () => {
-                await browser.tabs.create({
-                  url: "/pages/serpinfo-options.html",
-                });
+                await sendMessage("open-serpinfo-options-page");
                 window.close();
               }}
             >
