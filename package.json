@@ -66,9 +66,9 @@
     "esbuild": "0.28.1",
     "fs-extra": "11.4.0",
     "lefthook": "2.1.10",
-    "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
-    "oxlint-tsgolint": "^7.0.2001"
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0",
+    "oxlint-tsgolint": "7.0.2001"
   },
   "devEngines": {
     "runtime": {
