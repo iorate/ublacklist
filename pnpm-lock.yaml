@@ -145,13 +145,13 @@ importers:
         specifier: runtime:24.18.0
         version: runtime:24.18.0
       oxfmt:
-        specifier: ^0.62.0
+        specifier: 0.62.0
         version: 0.62.0
       oxlint:
-        specifier: ^1.77.0
+        specifier: 1.77.0
         version: 1.77.0(oxlint-tsgolint@7.0.2001)
       oxlint-tsgolint:
-        specifier: ^7.0.2001
+        specifier: 7.0.2001
         version: 7.0.2001
 
 packages:
