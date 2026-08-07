@@ -76,6 +76,14 @@ name: Your ruleset name
 *://*.example.com/*
 ```
 
+## Authoring rulesets and SERPINFO with AI agents
+
+Agent skills for writing rulesets and SERPINFO are published in [ublacklist/packages](https://github.com/ublacklist/packages). You can install them into your AI coding agent with the [GitHub CLI](https://cli.github.com/):
+
+```shell
+gh skill install ublacklist/packages
+```
+
 ## 贡献
 
 详细的开发设置和指南请参阅我们的[贡献指南](CONTRIBUTING.md)。
