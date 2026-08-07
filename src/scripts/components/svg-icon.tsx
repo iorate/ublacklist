@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useLayoutEffect, useRef } from "react";
+
 import styles from "./svg-icon.module.css";
 
 export type SvgIconProps = {

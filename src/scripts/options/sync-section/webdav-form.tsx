@@ -1,19 +1,21 @@
 import { Input } from "@base-ui/react/input";
 import clsx from "clsx";
 import { useId, useState } from "react";
+
 import { browser } from "../../shared/browser.ts";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import type { SyncBackendId, SyncForce } from "../../shared/types.ts";
-import inputStyles from "../../styles/input.module.css";
-import labelStyles from "../../styles/label.module.css";
-import rowStyles from "../../styles/row.module.css";
 import {
   BackendSelect,
   FormFooter,
   FormHeader,
   InitialSyncSelect,
 } from "./form-parts.tsx";
+
+import inputStyles from "../../styles/input.module.css";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
 
 export function WebDAVForm({
   close,

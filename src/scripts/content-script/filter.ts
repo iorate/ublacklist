@@ -6,6 +6,7 @@ import type {
 import { isEqual } from "es-toolkit";
 import { createStore } from "zustand/vanilla";
 import { shallow } from "zustand/vanilla/shallow";
+
 import type { InteractiveRuleset } from "../shared/interactive-ruleset.ts";
 import { translate } from "../shared/locales.ts";
 import { postMessage } from "../shared/messages.ts";

@@ -39,8 +39,8 @@ jobs:
       - name: pnpm biome ci
         run: pnpm biome ci --reporter=github
 
-      - name: pnpm check:prettier
-        run: pnpm check:prettier
+      - name: pnpm check:format
+        run: pnpm check:format
 
       - name: pnpm check:typescript
         run: pnpm check:typescript

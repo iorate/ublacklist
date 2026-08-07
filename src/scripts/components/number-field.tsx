@@ -1,8 +1,10 @@
 import { NumberField as BaseNumberField } from "@base-ui/react/number-field";
 import minus from "@mdi/svg/svg/minus.svg";
 import plus from "@mdi/svg/svg/plus.svg";
-import styles from "./number-field.module.css";
+
 import { SvgIcon } from "./svg-icon.tsx";
+
+import styles from "./number-field.module.css";
 
 export type NumberFieldProps = BaseNumberField.Root.Props & {
   "data-testid"?: string;

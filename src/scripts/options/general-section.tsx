@@ -4,6 +4,7 @@ import openInNewSVG from "@mdi/svg/svg/open-in-new.svg";
 import clsx from "clsx";
 import type React from "react";
 import { useEffect, useId, useState } from "react";
+
 import { Dialog, DialogTitle } from "../components/dialog.tsx";
 import { Link } from "../components/link.tsx";
 import { Select, SelectOption } from "../components/select.tsx";
@@ -17,6 +18,10 @@ import {
   lines,
   uploadTextFile,
 } from "../shared/utilities.ts";
+import { RulesetEditor } from "./shared/ruleset-editor.tsx";
+import { saveSource } from "./shared/save-source.ts";
+import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
+
 import buttonStyles from "../styles/button.module.css";
 import styles from "../styles/checkbox.module.css";
 import dialogStyles from "../styles/dialog.module.css";
@@ -27,9 +32,6 @@ import rowStyles from "../styles/row.module.css";
 import sectionStyles from "../styles/section.module.css";
 import textStyles from "../styles/text.module.css";
 import textareaStyles from "../styles/textarea.module.css";
-import { RulesetEditor } from "./shared/ruleset-editor.tsx";
-import { saveSource } from "./shared/save-source.ts";
-import { SetBooleanItem } from "./shared/set-boolean-item.tsx";
 
 function ImportBlacklistForm({
   close,

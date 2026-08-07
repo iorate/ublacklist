@@ -1,8 +1,10 @@
 import { Popover } from "@base-ui/react/popover";
 import { colord } from "colord";
 import { HexColorInput, RgbaColorPicker } from "react-colorful";
-import styles from "./color-picker.module.css";
+
 import { mergeClassNames, mergeStyle } from "./merge-props.ts";
+
+import styles from "./color-picker.module.css";
 
 export type ColorPickerProps = Popover.Trigger.Props & {
   value: string;

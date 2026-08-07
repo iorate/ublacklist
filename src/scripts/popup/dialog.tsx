@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type React from "react";
 import { useEffect } from "react";
+
 import styles from "./dialog.module.css";
 
 export type PopupDialogProps = React.ComponentProps<"div"> & {

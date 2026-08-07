@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+
 import { defaultBlockColor } from "../shared/constants.ts";
 import {
   buildBlockStyle,

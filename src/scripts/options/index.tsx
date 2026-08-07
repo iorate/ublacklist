@@ -1,7 +1,7 @@
-import containerStyles from "../styles/container.module.css";
+import { createRoot } from "react-dom/client";
+
 import "../styles/theme.css";
 import "../styles/baseline.css";
-import { createRoot } from "react-dom/client";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
@@ -16,6 +16,8 @@ import {
   SubscriptionSection,
 } from "./subscription-section.ts";
 import { SyncSection } from "./sync-section.ts";
+
+import containerStyles from "../styles/container.module.css";
 
 function Options({ query }: { query: OptionsQuery }) {
   return (

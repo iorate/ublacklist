@@ -2,10 +2,12 @@ import { Button } from "@base-ui/react/button";
 import { Input } from "@base-ui/react/input";
 import clsx from "clsx";
 import { useId, useState } from "react";
+
 import { Dialog, DialogTitle } from "../../components/dialog.tsx";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import type { Subscription, SubscriptionId } from "../../shared/types.ts";
+
 import buttonStyles from "../../styles/button.module.css";
 import dialogStyles from "../../styles/dialog.module.css";
 import inputStyles from "../../styles/input.module.css";

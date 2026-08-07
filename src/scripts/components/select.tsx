@@ -1,9 +1,11 @@
 import { Select as BaseSelect } from "@base-ui/react/select";
 import menuDown from "@mdi/svg/svg/menu-down.svg";
 import React from "react";
+
 import { mergeClassNames } from "./merge-props.ts";
-import styles from "./select.module.css";
 import { SvgIcon } from "./svg-icon.tsx";
+
+import styles from "./select.module.css";
 
 export type SelectProps = Omit<
   BaseSelect.Trigger.Props,

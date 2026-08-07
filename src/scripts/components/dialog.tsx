@@ -1,7 +1,9 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+
+import { mergeClassNames, mergeStyle } from "./merge-props.ts";
+
 import sharedStyles from "../styles/dialog.module.css";
 import styles from "./dialog.module.css";
-import { mergeClassNames, mergeStyle } from "./merge-props.ts";
 
 export type DialogProps = BaseDialog.Popup.Props & {
   close: () => void;

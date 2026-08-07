@@ -1,4 +1,5 @@
 import { escapeRegExp } from "es-toolkit/string";
+
 import { browser } from "../shared/browser.ts";
 import {
   rulesetSubscriptionURL,

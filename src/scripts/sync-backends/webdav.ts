@@ -6,6 +6,7 @@ import {
   getPatcher,
   type WebDAVClientError,
 } from "webdav";
+
 import type { SyncBackendClient, WebDAVParams } from "../shared/types.ts";
 import { UnexpectedResponse } from "../shared/utilities.ts";
 

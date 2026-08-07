@@ -15,6 +15,7 @@ import {
 } from "@codemirror/view";
 import { type Highlighter, tags as t } from "@lezer/highlight";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+
 import { useColorScheme } from "./theme.tsx";
 
 type ColorScheme = {

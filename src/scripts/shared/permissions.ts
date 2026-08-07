@@ -1,4 +1,5 @@
 import { MatchPattern } from "@ublacklist/match-pattern";
+
 import { browser } from "./browser.ts";
 import { permissionExemptOrigins } from "./constants.ts";
 

@@ -3,19 +3,21 @@ import { Switch } from "@base-ui/react/switch";
 import cog from "@mdi/svg/svg/cog.svg";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
+
 import icon from "../../icons/icon.svg";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import { loadFromLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
 import { serpMatchesUrl } from "../shared/serpinfo-match.ts";
+import { PopupDialog } from "./dialog.tsx";
+
 import buttonStyles from "../styles/button.module.css";
 import dialogStyles from "../styles/dialog.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
 import labelStyles from "../styles/label.module.css";
 import rowStyles from "../styles/row.module.css";
 import switchStyles from "../styles/switch.module.css";
-import { PopupDialog } from "./dialog.tsx";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");

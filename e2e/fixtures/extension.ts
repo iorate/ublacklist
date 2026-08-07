@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import { type BrowserContext, test as base, chromium } from "@playwright/test";
 
 export const test = base.extend<{

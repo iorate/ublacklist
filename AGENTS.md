@@ -15,7 +15,7 @@ pnpm install
 # Build extension (outputs to dist/<browser>[-debug])
 pnpm build [--browser=chrome|firefox|edge|safari] [--debug]
 
-# Run all checks (biome, prettier, typescript)
+# Run all checks (biome, oxfmt, typescript)
 pnpm check
 
 # Run tests
@@ -27,7 +27,7 @@ pnpm fix
 
 ## Verifying Changes
 
-After editing, run `pnpm check` to verify (this runs biome, prettier, and tsgo together).
+After editing, run `pnpm check` to verify (this runs biome, oxfmt, and tsgo together).
 
 ## Subsystem References
 

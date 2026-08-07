@@ -6,11 +6,13 @@ import type {
 } from "@ublacklist/serpinfo";
 import { zip } from "es-toolkit";
 import punycode from "punycode/";
+
 import iconSVG from "../../icons/icon.svg";
 import { adoptStyleSheet } from "../shared/adopt-style-sheet.ts";
 import { attributes as a, classes as c } from "./constants.ts";
 import { cssStringify } from "./css-stringify.ts";
 import { setStaticGlobalStyle } from "./global-styles.ts";
+
 import iconButtonStyles from "./icon-button.css" with { type: "text" };
 import textButtonStyles from "./text-button.css" with { type: "text" };
 

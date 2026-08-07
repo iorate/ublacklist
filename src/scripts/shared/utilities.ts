@@ -1,5 +1,6 @@
 import { Ruleset, type RulesetJSON } from "@ublacklist/ruleset";
 import dayjs from "dayjs";
+
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import type {

@@ -1,3 +1,4 @@
+import { Button } from "@base-ui/react/button";
 import { Input } from "@base-ui/react/input";
 import { Switch } from "@base-ui/react/switch";
 import deleteSVG from "@mdi/svg/svg/delete.svg";
@@ -7,29 +8,18 @@ import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
-import { SvgIcon } from "../components/svg-icon.tsx";
-import containerStyles from "../styles/container.module.css";
-import iconButtonStyles from "../styles/icon-button.module.css";
-import inputStyles from "../styles/input.module.css";
-import listStyles from "../styles/list.module.css";
-import rowStyles from "../styles/row.module.css";
-import sectionStyles from "../styles/section.module.css";
-import textStyles from "../styles/text.module.css";
-import "../styles/theme.css";
-import "../styles/baseline.css";
-import { Button } from "@base-ui/react/button";
 import type React from "react";
 import { Suspense, use, useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import { Dialog, DialogTitle } from "../components/dialog.tsx";
 import { Link } from "../components/link.tsx";
+import { SvgIcon } from "../components/svg-icon.tsx";
 import { AutoThemeProvider } from "../components/theme.tsx";
+
+import "../styles/theme.css";
+import "../styles/baseline.css";
 import { browser } from "../shared/browser.ts";
-import buttonStyles from "../styles/button.module.css";
-import dialogStyles from "../styles/dialog.module.css";
-import labelStyles from "../styles/label.module.css";
-import styles from "../styles/switch.module.css";
-import "../shared/dayjs-locales.ts";
 import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
 import { permissionExemptOrigins } from "../shared/constants.ts";
 import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
@@ -42,6 +32,20 @@ import type {
 } from "../shared/serpinfo-settings.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import { Editor } from "./editor.tsx";
+
+import buttonStyles from "../styles/button.module.css";
+import containerStyles from "../styles/container.module.css";
+import "../shared/dayjs-locales.ts";
+
+import dialogStyles from "../styles/dialog.module.css";
+import iconButtonStyles from "../styles/icon-button.module.css";
+import inputStyles from "../styles/input.module.css";
+import labelStyles from "../styles/label.module.css";
+import listStyles from "../styles/list.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
+import styles from "../styles/switch.module.css";
+import textStyles from "../styles/text.module.css";
 import pageStyles from "./index.module.css";
 
 dayjs.extend(dayjsLocalizedFormat);

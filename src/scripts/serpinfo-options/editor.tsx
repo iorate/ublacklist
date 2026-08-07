@@ -1,6 +1,7 @@
 import { yamlLanguage } from "@codemirror/lang-yaml";
 import { LanguageSupport, syntaxTree } from "@codemirror/language";
 import { type Diagnostic, linter } from "@codemirror/lint";
+
 import { Editor as _Editor, type EditorProps } from "../components/editor.tsx";
 
 const yamlLinter = linter((view) => {

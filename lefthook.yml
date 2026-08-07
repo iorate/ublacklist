@@ -4,7 +4,6 @@ pre-commit:
     - name: biome
       run: pnpm biome check --write --files-ignore-unknown=true --no-errors-on-unmatched {staged_files}
       stage_fixed: true
-    - name: prettier
-      glob: "*.{md,yaml,yml}"
-      run: pnpm prettier --write {staged_files}
+    - name: oxfmt
+      run: pnpm oxfmt --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true

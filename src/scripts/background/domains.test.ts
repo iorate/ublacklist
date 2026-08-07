@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+
 import { Ruleset } from "@ublacklist/ruleset";
+
 import { domainsToRuleset, parseDomainLine } from "./domains.ts";
 
 test("parseDomainLine", async (t) => {

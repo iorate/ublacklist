@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+
 import { browser } from "../shared/browser.ts";
 import { addMessageListeners } from "../shared/messages.ts";
 import * as BackupRestore from "./backup-restore.ts";
@@ -8,8 +9,8 @@ import { loadFromRawStorage } from "./raw-storage.ts";
 import * as SearchEngines from "./search-engines.ts";
 import * as SerpInfo from "./serpinfo.ts";
 import * as Subscriptions from "./subscriptions.ts";
-import * as Sync from "./sync.ts";
 import * as SyncBackends from "./sync-backends.ts";
+import * as Sync from "./sync.ts";
 
 function main() {
   addMessageListeners({

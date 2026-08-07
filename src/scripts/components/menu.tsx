@@ -1,10 +1,12 @@
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import dotsVertical from "@mdi/svg/svg/dots-vertical.svg";
 import type React from "react";
-import iconButtonStyles from "../styles/icon-button.module.css";
-import styles from "./menu.module.css";
+
 import { mergeClassNames } from "./merge-props.ts";
 import { SvgIcon } from "./svg-icon.tsx";
+
+import iconButtonStyles from "../styles/icon-button.module.css";
+import styles from "./menu.module.css";
 
 export type MenuProps = Omit<BaseMenu.Trigger.Props, "children"> & {
   children?: React.ReactNode;

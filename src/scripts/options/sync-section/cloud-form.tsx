@@ -1,17 +1,12 @@
 import { Checkbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
 import { useId, useRef, useState } from "react";
+
 import { browser } from "../../shared/browser.ts";
 import { getWebsiteURL, translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
 import { supportedClouds } from "../../shared/supported-clouds.ts";
 import type { CloudId, SyncBackendId, SyncForce } from "../../shared/types.ts";
-import checkboxStyles from "../../styles/checkbox.module.css";
-import indentStyles from "../../styles/indent.module.css";
-import labelStyles from "../../styles/label.module.css";
-import rowStyles from "../../styles/row.module.css";
-import textStyles from "../../styles/text.module.css";
-import textareaStyles from "../../styles/textarea.module.css";
 import { generateCodeVerifier } from "../../sync-backends/cloud-utils.ts";
 import { getOS } from "../shared/platform.ts";
 import {
@@ -20,6 +15,13 @@ import {
   FormHeader,
   InitialSyncSelect,
 } from "./form-parts.tsx";
+
+import checkboxStyles from "../../styles/checkbox.module.css";
+import indentStyles from "../../styles/indent.module.css";
+import labelStyles from "../../styles/label.module.css";
+import rowStyles from "../../styles/row.module.css";
+import textStyles from "../../styles/text.module.css";
+import textareaStyles from "../../styles/textarea.module.css";
 
 const altFlowRedirectURL = getWebsiteURL("/callback");
 

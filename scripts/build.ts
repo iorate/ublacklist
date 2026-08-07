@@ -1,10 +1,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import util from "node:util";
+
 import * as dotenv from "dotenv";
 import * as esbuild from "esbuild";
 import fse from "fs-extra";
 import { z } from "zod";
+
 import pkg from "../package.json" with { type: "json" };
 import { getManifest, type ManifestContext } from "../src/manifest.ts";
 

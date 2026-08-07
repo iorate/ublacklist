@@ -9,6 +9,7 @@
     "useIgnoreFile": true
   },
   "formatter": {
+    "enabled": false,
     "indentStyle": "space"
   },
   "linter": {
@@ -24,6 +25,9 @@
         "useBlockStatements": "warn"
       }
     }
+  },
+  "assist": {
+    "enabled": false
   },
   "overrides": [
     {
