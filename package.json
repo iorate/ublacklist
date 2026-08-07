@@ -26,7 +26,7 @@
     "@codemirror/language": "6.12.4",
     "@codemirror/lint": "6.9.7",
     "@codemirror/state": "6.7.1",
-    "@codemirror/view": "6.43.7",
+    "@codemirror/view": "6.43.8",
     "@lezer/highlight": "1.2.3",
     "@mdi/svg": "7.4.47",
     "@neodrag/vanilla": "2.3.1",
