@@ -29,10 +29,9 @@ pnpm fix
 
 After editing, run `pnpm check` to verify (this runs oxlint and oxfmt).
 
-## Subsystem References
+## Ruleset and SERPINFO Specifications
 
-- Ruleset syntax: [ruleset specification](https://github.com/ublacklist/packages/blob/main/packages/ruleset/docs/spec.md) in ublacklist/packages
-- SERPINFO format: [SERPINFO specification](https://github.com/ublacklist/packages/blob/main/packages/serpinfo/docs/spec.md) in ublacklist/packages
+The ruleset and SERPINFO specifications are available as agent skills (`ublacklist-ruleset` and `ublacklist-serpinfo`), published in [ublacklist/packages](https://github.com/ublacklist/packages).
 
 ## Adding or Changing Messages
 
