@@ -1,5 +1,6 @@
 # Environment files
 .env
+.env.local
 
 # Build outputs
 dist/
@@ -7,19 +8,10 @@ dist/
 # Dependencies
 node_modules/
 
-# Local development
-*.local
-local/
-
 # Untranslated readme files
 README.*.md
 !README.de.md
 !README.zh-CN.md
-
-# Claude Code
-.claude/settings.local.json
-.claude/worktrees/
-CLAUDE.local.md
 
 # Playwright
 test-results/
