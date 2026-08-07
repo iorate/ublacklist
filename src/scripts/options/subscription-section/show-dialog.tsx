@@ -1,16 +1,18 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
+
 import { Dialog, DialogTitle } from "../../components/dialog.tsx";
 import { Editor } from "../../components/editor.tsx";
 import { Link } from "../../components/link.tsx";
 import { translate } from "../../shared/locales.ts";
 import type { Subscription } from "../../shared/types.ts";
 import { getSubscriptionDisplayName } from "../../shared/utilities.ts";
+import { RulesetEditor } from "../shared/ruleset-editor.tsx";
+
 import badgeStyles from "../../styles/badge.module.css";
 import buttonStyles from "../../styles/button.module.css";
 import dialogStyles from "../../styles/dialog.module.css";
 import rowStyles from "../../styles/row.module.css";
-import { RulesetEditor } from "../shared/ruleset-editor.tsx";
 import styles from "./show-dialog.module.css";
 
 export function ShowDialog({

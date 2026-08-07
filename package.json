@@ -9,13 +9,12 @@
   "scripts": {
     "build": "node scripts/build.ts",
     "check": "pnpm run /^check:/",
-    "check:biome": "biome check",
-    "check:prettier": "prettier --check \"**/*.{md,yaml,yml}\"",
-    "check:typescript": "tsc",
+    "check:lint": "oxlint",
+    "check:format": "oxfmt --check",
     "e2e": "pnpm build --e2e && playwright test --config e2e/playwright.config.ts",
     "fix": "pnpm run /^fix:/",
-    "fix:biome": "biome check --write",
-    "fix:prettier": "prettier --write \"**/*.{md,yaml,yml}\"",
+    "fix:lint": "oxlint --fix",
+    "fix:format": "oxfmt",
     "generate": "pnpm run /^generate:/",
     "generate:message-names": "node scripts/generate-message-names.ts",
     "test": "node --test"
@@ -52,7 +51,6 @@
     "zustand": "5.0.14"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.6",
     "@playwright/test": "1.62.0",
     "@types/css-tree": "2.3.11",
     "@types/fs-extra": "11.0.4",
@@ -68,15 +66,16 @@
     "esbuild": "0.28.1",
     "fs-extra": "11.4.0",
     "lefthook": "2.1.10",
-    "prettier": "3.9.6",
-    "typescript": "7.0.2"
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.77.0",
+    "oxlint-tsgolint": "^7.0.2001"
   },
-  "packageManager": "pnpm@11.17.0",
   "devEngines": {
     "runtime": {
       "name": "node",
       "version": "24.18.0",
       "onFail": "download"
     }
-  }
+  },
+  "packageManager": "pnpm@11.17.0"
 }

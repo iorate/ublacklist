@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+
 import type { Cloud, CloudToken } from "../shared/types.ts";
 
 globalThis.browser = { i18n: { getMessage: (name: string) => name } };

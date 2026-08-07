@@ -1,13 +1,4 @@
 {
-  "editor.defaultFormatter": "biomejs.biome",
-  "[markdown][yaml][github-actions-workflow]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
-  },
-  "js/ts.experimental.useTsgo": true,
-  "typescript.native-preview.tsdk": "node_modules/@typescript/native-preview"
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true
 }

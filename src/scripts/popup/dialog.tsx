@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type React from "react";
 import { useEffect } from "react";
+
 import styles from "./dialog.module.css";
 
 export type PopupDialogProps = React.ComponentProps<"div"> & {
@@ -26,6 +27,7 @@ export function PopupDialog({
     }
   }, [initialFocus]);
   return (
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       {...props}
       className={clsx(
@@ -33,6 +35,7 @@ export function PopupDialog({
         process.env.BROWSER === "safari" ? styles.safari : styles.standard,
         className,
       )}
+      /* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role */
       role="dialog"
       tabIndex={-1}
       onKeyDown={(e) => {

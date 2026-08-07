@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+
 import { Ruleset } from "@ublacklist/ruleset";
+
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { getRegistrableDomain } from "./registrable-domain.ts";
 

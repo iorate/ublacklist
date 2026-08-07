@@ -1,4 +1,5 @@
 import type dayjs from "dayjs";
+
 import type {
   SerpInfoSettings,
   Serializable as SerpInfoSettingsSerializable,

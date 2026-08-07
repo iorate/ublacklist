@@ -1,7 +1,7 @@
-import containerStyles from "../styles/container.module.css";
+import { createRoot } from "react-dom/client";
+
 import "../styles/theme.css";
 import "../styles/baseline.css";
-import { createRoot } from "react-dom/client";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
@@ -17,19 +17,19 @@ import {
 } from "./subscription-section.ts";
 import { SyncSection } from "./sync-section.ts";
 
+import containerStyles from "../styles/container.module.css";
+
 function Options({ query }: { query: OptionsQuery }) {
   return (
     <AutoThemeProvider>
       <div className={containerStyles.wrapper}>
         <div className={containerStyles.container}>
-          {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
           <GeneralSection id="general" />
           <AppearanceSection id="appearance" />
           <SyncSection id="sync" />
           <SubscriptionSection id="subscription" query={query} />
           <BackupRestoreSection id="backup-restore" />
           <AboutSection id="about" />
-          {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
         </div>
       </div>
     </AutoThemeProvider>

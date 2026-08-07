@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
 import { z } from "zod";
+
 import { type Browser, browser } from "../shared/browser.ts";
 import { getWebsiteURL } from "../shared/locales.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
@@ -52,9 +53,9 @@ export function shouldUseAltFlow(): (os: string) => boolean {
 const altFlowRedirectURL = getWebsiteURL("/callback");
 
 async function launchAltFlow(params: { url: string }): Promise<string> {
-  const { id: openerTabId } =
-    // biome-ignore lint/style/noNonNullAssertion: We can expect that this query returns at least one tab.
-    (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
+  const { id: openerTabId } = (
+    await browser.tabs.query({ active: true, currentWindow: true })
+  )[0]!;
   if (openerTabId == null) {
     throw new Error("failed to get the current tab");
   }
@@ -114,7 +115,6 @@ export function authorize(
       code_challenge_method: "S256",
       ...params,
     }).toString();
-    // biome-ignore lint/style/noNonNullAssertion: `launchAltFlow` does not return `undefined` as far as I know
     const redirectURL = (await (useAltFlow
       ? launchAltFlow({ url: authorizationURL.toString() })
       : browser.identity.launchWebAuthFlow({

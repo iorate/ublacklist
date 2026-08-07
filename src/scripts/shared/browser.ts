@@ -6,7 +6,6 @@ declare global {
   var browser: unknown;
 }
 
-// biome-ignore lint/suspicious/noRedeclare: This is an exported variable
 export const browser = (
   process.env.BROWSER === "chrome" || process.env.BROWSER === "edge"
     ? globalThis.chrome

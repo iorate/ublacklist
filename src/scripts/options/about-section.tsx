@@ -1,10 +1,12 @@
 import clsx from "clsx";
 import { useId, useMemo } from "react";
+
 import icon from "../../icons/icon.svg";
 import { Link } from "../components/link.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import { browser } from "../shared/browser.ts";
 import { getWebsiteURL, translate } from "../shared/locales.ts";
+
 import labelStyles from "../styles/label.module.css";
 import rowStyles from "../styles/row.module.css";
 import sectionStyles from "../styles/section.module.css";

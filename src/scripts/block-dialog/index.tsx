@@ -7,6 +7,7 @@ import clsx from "clsx";
 import * as punycode from "punycode/";
 import React, { useId, useMemo, useRef, useState } from "react";
 import { createRoot, type Root } from "react-dom/client";
+
 import icon from "../../icons/icon.svg";
 import { Dialog } from "../components/dialog.tsx";
 import { MenuItem } from "../components/menu.tsx";
@@ -22,6 +23,7 @@ import type {
 import { translate } from "../shared/locales.ts";
 import { getRegistrableDomain } from "../shared/registrable-domain.ts";
 import type { DialogTheme, MessageName0 } from "../shared/types.ts";
+
 import buttonStyles from "../styles/button.module.css";
 import dialogStyles from "../styles/dialog.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
@@ -497,7 +499,7 @@ export type BlockDialogRequest = {
   theme: DialogTheme;
   blockWholeSite: boolean;
   enableMatchingRules: boolean;
-  onBlocked(newSource: string): void;
+  onBlocked: (newSource: string) => void;
   openOptionsPage(): void;
 };
 

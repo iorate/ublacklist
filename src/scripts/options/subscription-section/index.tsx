@@ -1,6 +1,7 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
+
 import { EnableSubscriptionURL } from "../../shared/enable-subscription-url.tsx";
 import { translate } from "../../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../../shared/messages.ts";
@@ -8,15 +9,16 @@ import { requestPermission } from "../../shared/permissions.ts";
 import { storageStore } from "../../shared/storage-store.ts";
 import type { SubscriptionId, Subscriptions } from "../../shared/types.ts";
 import { numberEntries, numberKeys } from "../../shared/utilities.ts";
+import { SetIntervalItem } from "../shared/set-interval-item.tsx";
+import { AddDialog } from "./add-dialog.tsx";
+import { SubscriptionTableRow } from "./table-row.tsx";
+
 import buttonStyles from "../../styles/button.module.css";
 import labelStyles from "../../styles/label.module.css";
 import rowStyles from "../../styles/row.module.css";
 import sectionStyles from "../../styles/section.module.css";
 import tableStyles from "../../styles/table.module.css";
-import { SetIntervalItem } from "../shared/set-interval-item.tsx";
-import { AddDialog } from "./add-dialog.tsx";
 import localStyles from "./index.module.css";
-import { SubscriptionTableRow } from "./table-row.tsx";
 
 export type OptionsQuery = {
   addSubscriptionName: string | null;
@@ -86,6 +88,7 @@ export function SubscriptionTable({
               <thead>
                 <tr>
                   <th
+                    aria-label={translate("options_subscriptionCheckBoxLabel")}
                     className={tableStyles.headerCell}
                     style={{ width: "2.25em" }}
                   />
@@ -99,6 +102,9 @@ export function SubscriptionTable({
                     {translate("options_subscriptionUpdateResultHeader")}
                   </th>
                   <th
+                    aria-label={translate(
+                      "options_subscriptionMenuButtonLabel",
+                    )}
                     className={tableStyles.headerCell}
                     style={{ width: "calc(0.75em + 36px)" }}
                   />

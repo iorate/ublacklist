@@ -3,6 +3,7 @@ import "../styles/baseline.css";
 import isMobile from "is-mobile";
 import { useEffect, useId, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+
 import { BlockForm, type BlockFormProps } from "../block-dialog.ts";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
@@ -14,12 +15,13 @@ import { translate } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
 import { createInteractiveRuleset } from "../shared/utilities.ts";
 import { PopupDialog } from "./dialog.tsx";
-import styles from "./index.module.css";
 import {
   canEnableSerpInfo,
   EnableSerpInfoPopupDialog,
   SerpInfoPopupDialog,
 } from "./serpinfo.tsx";
+
+import styles from "./index.module.css";
 
 async function openOptionsPage(): Promise<void> {
   await sendMessage("open-options-page");
@@ -80,7 +82,6 @@ function Popup() {
         id: tabId,
         url,
         title = null,
-        // biome-ignore lint/style/noNonNullAssertion: We can expect that this query returns at least one tab.
       } = (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
       if (tabId == null || url == null) {
         return;
@@ -161,4 +162,4 @@ function main(): void {
   root.render(<Popup />);
 }
 
-void main();
+main();

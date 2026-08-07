@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { range } from "es-toolkit";
 import LZString from "lz-string";
 import { z } from "zod";
+
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";
 import type { SyncBackendClient } from "../shared/types.ts";

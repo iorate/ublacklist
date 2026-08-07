@@ -2,22 +2,24 @@ import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { useEffect, useId, useState } from "react";
+
 import { translate } from "../../shared/locales.ts";
 import { addMessageListeners, sendMessage } from "../../shared/messages.ts";
 import { storageStore } from "../../shared/storage-store.ts";
 import type { SyncBackendId } from "../../shared/types.ts";
 import { isErrorResult } from "../../shared/utilities.ts";
+import { FromNow } from "../shared/from-now.tsx";
+import { SetBooleanItem } from "../shared/set-boolean-item.tsx";
+import { SetIntervalItem } from "../shared/set-interval-item.tsx";
+import { messageNames } from "./message-names.ts";
+import { TurnOnSyncDialog } from "./turn-on-sync-dialog.tsx";
+
 import buttonStyles from "../../styles/button.module.css";
 import indentStyles from "../../styles/indent.module.css";
 import labelStyles from "../../styles/label.module.css";
 import listStyles from "../../styles/list.module.css";
 import rowStyles from "../../styles/row.module.css";
 import sectionStyles from "../../styles/section.module.css";
-import { FromNow } from "../shared/from-now.tsx";
-import { SetBooleanItem } from "../shared/set-boolean-item.tsx";
-import { SetIntervalItem } from "../shared/set-interval-item.tsx";
-import { messageNames } from "./message-names.ts";
-import { TurnOnSyncDialog } from "./turn-on-sync-dialog.tsx";
 
 function TurnOnSync({
   backendId,

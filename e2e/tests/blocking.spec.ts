@@ -1,6 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+
 import type { BrowserContext } from "@playwright/test";
+
 import { expect, test } from "../fixtures/extension.ts";
 
 const GOOGLE_SERP_URL = "https://www.google.com/search?q=test";

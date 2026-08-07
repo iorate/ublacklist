@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { omit } from "es-toolkit";
+
 import { browser } from "../shared/browser.ts";
 import { clampUpdateInterval } from "../shared/intervals.ts";
 import { postMessage } from "../shared/messages.ts";

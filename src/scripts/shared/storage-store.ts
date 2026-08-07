@@ -1,5 +1,6 @@
 import { createStore, type Mutate, type StoreApi, useStore } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
+
 import { type Browser, browser } from "./browser.ts";
 import { defaultLocalStorageItems } from "./local-storage.ts";
 import type { LocalStorageItems, LocalStorageItemsSavable } from "./types.ts";

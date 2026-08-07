@@ -2,6 +2,7 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { useState } from "react";
+
 import { Menu, MenuItem } from "../../components/menu.tsx";
 import { translate } from "../../shared/locales.ts";
 import { sendMessage } from "../../shared/messages.ts";
@@ -11,13 +12,14 @@ import {
   getSubscriptionDisplayName,
   isErrorResult,
 } from "../../shared/utilities.ts";
+import { FromNow } from "../shared/from-now.tsx";
+import { RenameDialog } from "./rename-dialog.tsx";
+import { ShowDialog } from "./show-dialog.tsx";
+
 import badgeStyles from "../../styles/badge.module.css";
 import styles from "../../styles/checkbox.module.css";
 import labelStyles from "../../styles/label.module.css";
 import tableStyles from "../../styles/table.module.css";
-import { FromNow } from "../shared/from-now.tsx";
-import { RenameDialog } from "./rename-dialog.tsx";
-import { ShowDialog } from "./show-dialog.tsx";
 import localStyles from "./table-row.module.css";
 
 export function SubscriptionTableRow({
@@ -48,16 +50,14 @@ export function SubscriptionTableRow({
         </Checkbox.Root>
       </td>
       <td className={tableStyles.cell}>
-        <div className={labelStyles.wrapper}>
-          <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
-            {getSubscriptionDisplayName(subscription)}
-            {subscription.type && subscription.type !== "ruleset" ? (
-              <span className={clsx(badgeStyles.badge, localStyles.badge)}>
-                {subscription.type}
-              </span>
-            ) : null}
-          </label>
-        </div>
+        <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
+          {getSubscriptionDisplayName(subscription)}
+          {subscription.type && subscription.type !== "ruleset" ? (
+            <span className={clsx(badgeStyles.badge, localStyles.badge)}>
+              {subscription.type}
+            </span>
+          ) : null}
+        </label>
       </td>
       <td className={tableStyles.cell}>
         {updating ? (

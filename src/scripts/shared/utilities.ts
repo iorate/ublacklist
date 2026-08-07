@@ -1,5 +1,6 @@
 import { Ruleset, type RulesetJSON } from "@ublacklist/ruleset";
 import dayjs from "dayjs";
+
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
 import type {
@@ -58,7 +59,6 @@ export class Mutex {
     if (!this.queue.length) {
       return;
     }
-    // biome-ignore lint/style/noNonNullAssertion: `queue` is not empty
     await this.queue[0]!();
     this.queue.shift();
     void this.dequeue();

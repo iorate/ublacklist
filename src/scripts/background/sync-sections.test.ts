@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { registerHooks } from "node:module";
 import { test } from "node:test";
+
 import type { RawStorageItems } from "./raw-storage.ts";
 
 globalThis.browser = { i18n: { getMessage: () => "" } };

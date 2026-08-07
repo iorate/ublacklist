@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+
 import { truncateReleaseNotes } from "./truncate-release-notes.ts";
 
 test("truncateReleaseNotes", async (t) => {

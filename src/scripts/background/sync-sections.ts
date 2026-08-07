@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 import { z } from "zod";
+
 import { postMessage } from "../shared/messages.ts";
 import * as SerpInfoSettings from "../shared/serpinfo-settings.ts";
 import type { Subscriptions } from "../shared/types.ts";
@@ -42,7 +43,7 @@ export type SyncSectionConfig = {
     localItems: Readonly<RawStorageItems>,
   ): Partial<RawStorageItems>;
   affectedKeys: readonly (keyof RawStorageItems)[];
-  afterSync?(cloudItems: Readonly<Partial<RawStorageItems>>): void;
+  afterSync?: (cloudItems: Readonly<Partial<RawStorageItems>>) => void;
 };
 
 export type SyncSection = {

@@ -5,6 +5,7 @@ import addIcon from "@mdi/svg/svg/plus.svg";
 import clsx from "clsx";
 import { isEqual } from "es-toolkit";
 import { useId, useRef, useState } from "react";
+
 import { ColorPicker } from "../components/color-picker.tsx";
 import { SvgIcon } from "../components/svg-icon.tsx";
 import {
@@ -14,6 +15,8 @@ import {
 import { saveToLocalStorage } from "../shared/local-storage.ts";
 import { translate } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
+import { saveSource } from "./shared/save-source.ts";
+
 import iconButtonStyles from "../styles/icon-button.module.css";
 import indentStyles from "../styles/indent.module.css";
 import labelStyles from "../styles/label.module.css";
@@ -22,7 +25,6 @@ import styles from "../styles/radio.module.css";
 import rowStyles from "../styles/row.module.css";
 import sectionStyles from "../styles/section.module.css";
 import localStyles from "./appearance-section.module.css";
-import { saveSource } from "./shared/save-source.ts";
 
 function SetBlockColor() {
   const id = useId();

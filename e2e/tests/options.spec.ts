@@ -6,6 +6,7 @@
 // - Do NOT select by translated texts (getByLabel, getByRole with name),
 //   implementation classes, or ARIA roles; they are unstable across UI rewrites.
 import type { BrowserContext, Page } from "@playwright/test";
+
 import { expect, test } from "../fixtures/extension.ts";
 
 const MOCK_SUBSCRIPTION_URL =

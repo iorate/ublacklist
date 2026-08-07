@@ -1,17 +1,19 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { useId } from "react";
+
 import { DialogTitle } from "../../components/dialog.tsx";
 import { Select, SelectOption } from "../../components/select.tsx";
 import { translate } from "../../shared/locales.ts";
 import type { SyncBackendId, SyncForce } from "../../shared/types.ts";
+import { getOS } from "../shared/platform.ts";
+import { messageNames } from "./message-names.ts";
+
 import buttonStyles from "../../styles/button.module.css";
 import dialogStyles from "../../styles/dialog.module.css";
 import labelStyles from "../../styles/label.module.css";
 import rowStyles from "../../styles/row.module.css";
 import textStyles from "../../styles/text.module.css";
-import { getOS } from "../shared/platform.ts";
-import { messageNames } from "./message-names.ts";
 
 export function FormHeader() {
   return (

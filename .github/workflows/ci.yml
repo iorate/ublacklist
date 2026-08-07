@@ -36,14 +36,8 @@ jobs:
           run_install: true
           cache: true
 
-      - name: pnpm biome ci
-        run: pnpm biome ci --reporter=github
-
-      - name: pnpm check:prettier
-        run: pnpm check:prettier
-
-      - name: pnpm check:typescript
-        run: pnpm check:typescript
+      - name: pnpm check
+        run: pnpm check
 
       - name: pnpm test
         run: pnpm test

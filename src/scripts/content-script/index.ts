@@ -3,6 +3,7 @@ import { MatchPatternMap } from "@ublacklist/match-pattern";
 import type { SerpDescription } from "@ublacklist/serpinfo";
 import isMobile from "is-mobile";
 import { createStore } from "zustand/vanilla";
+
 import iconSVG from "../../icons/icon.svg";
 import { adoptStyleSheet } from "../shared/adopt-style-sheet.ts";
 import { translate } from "../shared/locales.ts";
@@ -11,7 +12,6 @@ import { serpMatchesUrl } from "../shared/serpinfo-match.ts";
 import type { SerpIndex } from "../shared/serpinfo-settings.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import { attributes as a, classes as c } from "./constants.ts";
-import controlStyles from "./control.css" with { type: "text" };
 import { blockedResultCountStore, setupFilter } from "./filter.ts";
 import { setGlobalStyle, setStaticGlobalStyle } from "./global-styles.ts";
 import { createIsDarkModeStore } from "./is-dark-mode.ts";
@@ -20,6 +20,8 @@ import {
   buildHideStyle,
   buildHighlightStyle,
 } from "./style-builders.ts";
+
+import controlStyles from "./control.css" with { type: "text" };
 
 const hideBlockedResultsStore = createStore(() => true);
 
@@ -166,16 +168,13 @@ function setupControl() {
       <span></span>
     </button>
   `;
-  // biome-ignore lint/style/noNonNullAssertion: <button> always exists
   const button = shadowRoot.querySelector("button")!;
   button.addEventListener("click", (event) => {
     event.stopPropagation();
     hideBlockedResultsStore.setState((value) => !value);
   });
-  // biome-ignore lint/style/noNonNullAssertion: <svg> always exists
   const svg = button.querySelector("svg")!;
   svg.role = "img";
-  // biome-ignore lint/style/noNonNullAssertion: <span> always exists
   const span = button.querySelector("span")!;
 
   const handleHideBlockedResultsChange = (value: boolean) => {
@@ -222,7 +221,7 @@ function awaitLoad(callback: () => void) {
   }
 }
 
-storageStore.attachPromise.then(() => {
+void storageStore.attachPromise.then(() => {
   const serps = getSerpDescriptions();
   if (serps.length === 0) {
     return;

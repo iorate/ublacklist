@@ -1,10 +1,7 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { use, useState } from "react";
-import buttonStyles from "../styles/button.module.css";
-import labelStyles from "../styles/label.module.css";
-import rowStyles from "../styles/row.module.css";
-import sectionStyles from "../styles/section.module.css";
+
 import { browser } from "./browser.ts";
 import {
   rulesetSubscriptionURL,
@@ -12,6 +9,11 @@ import {
   subscriptionURLOrigin,
 } from "./constants.ts";
 import { translate } from "./locales.ts";
+
+import buttonStyles from "../styles/button.module.css";
+import labelStyles from "../styles/label.module.css";
+import rowStyles from "../styles/row.module.css";
+import sectionStyles from "../styles/section.module.css";
 
 const hasPermissionPromise = browser.permissions.contains({
   origins: [`${subscriptionURLOrigin}/*`],

@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+
 import { browser } from "../shared/browser.ts";
 import { clampSyncInterval } from "../shared/intervals.ts";
 import { postMessage } from "../shared/messages.ts";

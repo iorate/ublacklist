@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+
 import { browser } from "../shared/browser.ts";
 import { defaultLocalStorageItems } from "../shared/local-storage.ts";
 import type {
