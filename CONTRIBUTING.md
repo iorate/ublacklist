@@ -67,7 +67,7 @@ Output is written to `dist/<browser>` (or `dist/<browser>-debug` with `--debug`)
 Run all checks and tests before submitting a pull request:
 
 ```shell
-pnpm check  # biome + oxfmt + typescript
+pnpm check  # oxlint + oxfmt
 pnpm test
 ```
 

@@ -499,7 +499,7 @@ export type BlockDialogRequest = {
   theme: DialogTheme;
   blockWholeSite: boolean;
   enableMatchingRules: boolean;
-  onBlocked(newSource: string): void;
+  onBlocked: (newSource: string) => void;
   openOptionsPage(): void;
 };
 

@@ -1,8 +1,8 @@
 pre-commit:
   # Run serially: parallel `pnpm` invocations race on pnpm's deps-status check.
   jobs:
-    - name: biome
-      run: pnpm biome check --write --files-ignore-unknown=true --no-errors-on-unmatched {staged_files}
+    - name: oxlint
+      run: pnpm oxlint --fix --no-error-on-unmatched-pattern {staged_files}
       stage_fixed: true
     - name: oxfmt
       run: pnpm oxfmt --no-error-on-unmatched-pattern {staged_files}

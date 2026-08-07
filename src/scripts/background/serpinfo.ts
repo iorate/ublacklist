@@ -118,7 +118,7 @@ export function onStartup() {
 export function main() {
   addMessageFromTabListeners({
     "notify-blocked-result-count"(tabId: number, count: number) {
-      browser.action.setBadgeText({
+      void browser.action.setBadgeText({
         tabId,
         text: count ? String(count) : "",
       });

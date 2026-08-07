@@ -168,16 +168,13 @@ function setupControl() {
       <span></span>
     </button>
   `;
-  // biome-ignore lint/style/noNonNullAssertion: <button> always exists
   const button = shadowRoot.querySelector("button")!;
   button.addEventListener("click", (event) => {
     event.stopPropagation();
     hideBlockedResultsStore.setState((value) => !value);
   });
-  // biome-ignore lint/style/noNonNullAssertion: <svg> always exists
   const svg = button.querySelector("svg")!;
   svg.role = "img";
-  // biome-ignore lint/style/noNonNullAssertion: <span> always exists
   const span = button.querySelector("span")!;
 
   const handleHideBlockedResultsChange = (value: boolean) => {
@@ -224,7 +221,7 @@ function awaitLoad(callback: () => void) {
   }
 }
 
-storageStore.attachPromise.then(() => {
+void storageStore.attachPromise.then(() => {
   const serps = getSerpDescriptions();
   if (serps.length === 0) {
     return;

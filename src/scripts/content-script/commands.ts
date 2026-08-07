@@ -379,7 +379,6 @@ const buttonCommandImpl: ButtonCommandImpl = {
       unhighlight: context.buttonProps.unhighlightLabel,
     };
     for (const [part, label] of Object.entries(labels)) {
-      // biome-ignore lint/style/noNonNullAssertion: the span always exists
       shadowRoot.querySelector(`[part="${part}"]`)!.textContent = label;
     }
     addButtonListeners(shadowRoot, context.buttonProps);

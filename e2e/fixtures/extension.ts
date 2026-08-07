@@ -6,7 +6,7 @@ export const test = base.extend<{
   context: BrowserContext;
   extensionId: string;
 }>({
-  // biome-ignore lint/correctness/noEmptyPattern: playwright test fixtures require the object destructuring pattern
+  // oxlint-disable-next-line no-empty-pattern -- playwright test fixtures require the object destructuring pattern
   context: async ({}, use) => {
     const pathToExtension = path.join(
       import.meta.dirname,

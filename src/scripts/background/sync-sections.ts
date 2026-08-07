@@ -43,7 +43,7 @@ export type SyncSectionConfig = {
     localItems: Readonly<RawStorageItems>,
   ): Partial<RawStorageItems>;
   affectedKeys: readonly (keyof RawStorageItems)[];
-  afterSync?(cloudItems: Readonly<Partial<RawStorageItems>>): void;
+  afterSync?: (cloudItems: Readonly<Partial<RawStorageItems>>) => void;
 };
 
 export type SyncSection = {

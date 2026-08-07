@@ -80,7 +80,7 @@ function getResult(
 ): Result {
   const url = getURL(root, description.url);
   const props: Record<string, string> = {
-    ...(serpDescription.commonProps || {}),
+    ...serpDescription.commonProps,
   };
   for (const [name, propDesc] of Object.entries(description.props || {})) {
     const prop = getProperty(root, propDesc);

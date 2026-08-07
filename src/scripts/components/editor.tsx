@@ -91,13 +91,13 @@ export function Editor({
   const themeCompartment = useRef(new Compartment());
   const updateListenerCompartment = useRef(new Compartment());
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 'view' and `resizeObserver` do not change between renders
+  const initialValue = useRef(value);
   const parentCallback = useCallback((parent: HTMLDivElement | null) => {
     if (parent) {
       // mount
       view.current = new EditorView({
         state: EditorState.create({
-          doc: value, // Set the initial value to prevent undo from going back to empty
+          doc: initialValue.current, // Set the initial value to prevent undo from going back to empty
           extensions: [
             keymap.of([...standardKeymap, ...historyKeymap]),
             history(),

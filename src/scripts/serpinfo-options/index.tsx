@@ -60,7 +60,7 @@ function BasicSettingsSection(props: { id: string }) {
       settings.remote,
     );
     if (hostPermissions.length) {
-      browser.permissions
+      void browser.permissions
         .contains({ origins: hostPermissions })
         .then((granted) => {
           setHostPermissionsRequired(!granted);
@@ -104,7 +104,7 @@ function BasicSettingsSection(props: { id: string }) {
                     settings.remote,
                   );
                   if (hostPermissions.length) {
-                    browser.permissions
+                    void browser.permissions
                       .request({ origins: hostPermissions })
                       .then((granted) => {
                         if (granted) {
@@ -636,11 +636,9 @@ function OptionsImpl() {
   return (
     <div className={containerStyles.wrapper}>
       <div className={containerStyles.container}>
-        {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
         <BasicSettingsSection id="basic-settings" />
         <RemoteSerpInfoSection id="remote-serpinfo" />
         <UserSerpInfoSection id="user-serpinfo" />
-        {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
       </div>
     </div>
   );

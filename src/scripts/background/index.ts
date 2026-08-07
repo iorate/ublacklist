@@ -43,7 +43,7 @@ function main() {
     void Sync.setupSyncAlarm();
     void Subscriptions.setupUpdateAllAlarm();
     void SearchEngines.registerContentScripts();
-    void SerpInfo.onStartup();
+    SerpInfo.onStartup();
   };
 
   browser.runtime.onInstalled.addListener(({ reason }) => {

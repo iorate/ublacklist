@@ -20,11 +20,10 @@ export function getManifest(context: ManifestContext) {
       default_popup: "pages/popup.html",
     },
 
-    background: {
-      ...(browser === "firefox"
+    background:
+      browser === "firefox"
         ? { scripts: ["scripts/background.js"] }
-        : { service_worker: "scripts/background.js" }),
-    },
+        : { service_worker: "scripts/background.js" },
 
     ...(browser === "firefox"
       ? {

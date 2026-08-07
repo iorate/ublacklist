@@ -50,16 +50,14 @@ export function SubscriptionTableRow({
         </Checkbox.Root>
       </td>
       <td className={tableStyles.cell}>
-        <div className={labelStyles.wrapper}>
-          <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
-            {getSubscriptionDisplayName(subscription)}
-            {subscription.type && subscription.type !== "ruleset" ? (
-              <span className={clsx(badgeStyles.badge, localStyles.badge)}>
-                {subscription.type}
-              </span>
-            ) : null}
-          </label>
-        </div>
+        <label className={labelStyles.controlLabel} htmlFor={checkboxId}>
+          {getSubscriptionDisplayName(subscription)}
+          {subscription.type && subscription.type !== "ruleset" ? (
+            <span className={clsx(badgeStyles.badge, localStyles.badge)}>
+              {subscription.type}
+            </span>
+          ) : null}
+        </label>
       </td>
       <td className={tableStyles.cell}>
         {updating ? (

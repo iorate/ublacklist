@@ -24,14 +24,12 @@ function Options({ query }: { query: OptionsQuery }) {
     <AutoThemeProvider>
       <div className={containerStyles.wrapper}>
         <div className={containerStyles.container}>
-          {/* biome-ignore-start lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
           <GeneralSection id="general" />
           <AppearanceSection id="appearance" />
           <SyncSection id="sync" />
           <SubscriptionSection id="subscription" query={query} />
           <BackupRestoreSection id="backup-restore" />
           <AboutSection id="about" />
-          {/* biome-ignore-end lint/correctness/useUniqueElementIds: IDs are intentionally hardcoded for URL fragment navigation */}
         </div>
       </div>
     </AutoThemeProvider>

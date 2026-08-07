@@ -88,6 +88,7 @@ export function SubscriptionTable({
               <thead>
                 <tr>
                   <th
+                    aria-label={translate("options_subscriptionCheckBoxLabel")}
                     className={tableStyles.headerCell}
                     style={{ width: "2.25em" }}
                   />
@@ -101,6 +102,9 @@ export function SubscriptionTable({
                     {translate("options_subscriptionUpdateResultHeader")}
                   </th>
                   <th
+                    aria-label={translate(
+                      "options_subscriptionMenuButtonLabel",
+                    )}
                     className={tableStyles.headerCell}
                     style={{ width: "calc(0.75em + 36px)" }}
                   />

@@ -59,7 +59,6 @@ export class Mutex {
     if (!this.queue.length) {
       return;
     }
-    // biome-ignore lint/style/noNonNullAssertion: `queue` is not empty
     await this.queue[0]!();
     this.queue.shift();
     void this.dequeue();

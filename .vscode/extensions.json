@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "biomejs.biome",
-    "esbenp.prettier-vscode",
-    "typescriptteam.native-preview"
-  ]
+  "recommendations": ["oxc.oxc-vscode"]
 }
