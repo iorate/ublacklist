@@ -1,5 +1,5 @@
 {
-  "exclude": ["dist", "node_modules", "local", ".claude/worktrees"],
+  "include": ["src", "scripts", "e2e", "release"],
 
   "compilerOptions": {
     // Type Checking
