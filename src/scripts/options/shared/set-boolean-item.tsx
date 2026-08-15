@@ -12,9 +12,11 @@ import styles from "../../styles/switch.module.css";
 import localStyles from "./set-boolean-item.module.css";
 
 export type BooleanItemKey = keyof {
-  [Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
-    ? Key
-    : never]: boolean;
+  [
+    Key in keyof LocalStorageItems as boolean extends LocalStorageItems[Key]
+      ? Key
+      : never
+  ]: boolean;
 };
 
 export function SetBooleanItem({

@@ -60,14 +60,14 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@types/webextension-polyfill": "0.12.5",
-    "chrome-types": "0.1.436",
+    "chrome-types": "0.1.438",
     "csstype": "3.2.3",
     "dotenv": "17.4.2",
-    "esbuild": "0.28.1",
+    "esbuild": "0.28.2",
     "fs-extra": "11.4.0",
     "lefthook": "2.1.10",
-    "oxfmt": "0.62.0",
-    "oxlint": "1.77.0",
+    "oxfmt": "0.63.0",
+    "oxlint": "1.78.0",
     "oxlint-tsgolint": "7.0.2001"
   },
   "devEngines": {
@@ -77,5 +77,5 @@
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@11.20.0"
+  "packageManager": "pnpm@11.21.0"
 }
