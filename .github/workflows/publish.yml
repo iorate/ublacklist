@@ -35,7 +35,7 @@ jobs:
           cache: false
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@3524e7dec1f7edf104feec6a8605bb25ef258060 # v2.0.1
+        uses: iorate/changesette/setup@bdcc11407fab5c629a0efa7bb76e8186f7184a76 # v3.0.0
 
       - name: Prepare release directories
         run: mkdir -p dist/release/{chrome,edge,firefox,github}
@@ -77,7 +77,7 @@ jobs:
 
       - name: Build notes
         run: |
-          changesette changelog "$(changesette current)" \
+          changesette get-changelog-entry ublacklist "$(jq -re .version package.json)" \
             > dist/release/github/release-notes.md
           # shellcheck disable=SC2016 # envsubst reads $VAR as an allowlist literal
           envsubst '$RELEASE_URL' \

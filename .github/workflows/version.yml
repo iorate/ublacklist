@@ -33,20 +33,23 @@ jobs:
           cache: true
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@3524e7dec1f7edf104feec6a8605bb25ef258060 # v2.0.1
+        uses: iorate/changesette/setup@bdcc11407fab5c629a0efa7bb76e8186f7184a76 # v3.0.0
 
       - name: Bump version
         id: version
         run: |
-          next="$(changesette version)"
-          echo "next=$next" >> "$GITHUB_OUTPUT"
-          if [[ -n "$next" ]]; then
+          changesette version --output "$RUNNER_TEMP/plan.json"
+          if release="$(jq -e '[.releases[] | select(.type != "none")][0]' "$RUNNER_TEMP/plan.json")"; then
+            version="$(jq -re '.newVersion' <<< "$release")"
+            echo "title=Release v$version" >> "$GITHUB_OUTPUT"
             delim="$(openssl rand -hex 16)"
             {
-              echo "changelog<<$delim"
-              changesette changelog "$next"
+              echo "body<<$delim"
+              jq -re '.changelogEntry' <<< "$release"
               echo "$delim"
             } >> "$GITHUB_OUTPUT"
+          else
+            echo "title=Consume changesets" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Generate token
@@ -59,20 +62,21 @@ jobs:
           permission-pull-requests: write
 
       - name: Create pull request
+        id: pr
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ steps.generate-token.outputs.token }}
           branch: changesette/release
-          commit-message: Release v${{ steps.version.outputs.next }}
-          title: Release v${{ steps.version.outputs.next }}
-          body: ${{ steps.version.outputs.changelog }}
+          commit-message: ${{ steps.version.outputs.title }}
+          title: ${{ steps.version.outputs.title }}
+          body: ${{ steps.version.outputs.body }}
           delete-branch: true
           sign-commits: true
 
       - name: Push tag
-        if: steps.version.outputs.next == ''
+        if: steps.pr.outputs.pull-request-number == ''
         run: |
-          version="$(changesette current)"
+          version="$(jq -re .version package.json)"
           if [[ -z "$(git ls-remote origin "refs/tags/v$version")" ]]; then
             git tag "v$version"
             git -c credential.helper='!gh auth git-credential' \
