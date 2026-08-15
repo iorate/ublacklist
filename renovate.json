@@ -3,5 +3,12 @@
   "extends": [
     "github>ublacklist/.github:renovate-config",
     ":pinAllExceptPeerDependencies"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["git-submodules"],
+      "matchDepNames": ["builtin"],
+      "automerge": true
+    }
   ]
 }
