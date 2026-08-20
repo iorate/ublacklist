@@ -33,13 +33,13 @@ jobs:
           cache: true
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@bdcc11407fab5c629a0efa7bb76e8186f7184a76 # v3.0.0
+        uses: iorate/changesette/setup@0d22976fb72d9c6d71053d12eda47bb70ef9ad38 # v4.0.0
 
       - name: Bump version
         id: version
         run: |
-          changesette version --output "$RUNNER_TEMP/plan.json"
-          if release="$(jq -e '[.releases[] | select(.type != "none")][0]' "$RUNNER_TEMP/plan.json")"; then
+          plan="$(changesette version --allow-no-changesets --output -)"
+          if release="$(jq -e '[.releases[] | select(.type != "none")][0]' <<< "$plan")"; then
             version="$(jq -re '.newVersion' <<< "$release")"
             echo "title=Release v$version" >> "$GITHUB_OUTPUT"
             delim="$(openssl rand -hex 16)"
