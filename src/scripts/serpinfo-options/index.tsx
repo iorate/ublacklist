@@ -9,7 +9,7 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import type React from "react";
-import { Suspense, use, useEffect, useId, useRef, useState } from "react";
+import { Suspense, use, useEffect, useId, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Dialog, DialogTitle } from "../components/dialog.tsx";
@@ -59,15 +59,13 @@ function BasicSettingsSection(props: { id: string }) {
       settings.user,
       settings.remote,
     );
-    if (hostPermissions.length) {
-      void browser.permissions
-        .contains({ origins: hostPermissions })
-        .then((granted) => {
-          setHostPermissionsRequired(!granted);
-        });
-    } else {
-      setHostPermissionsRequired(false);
-    }
+    void (
+      hostPermissions.length
+        ? browser.permissions.contains({ origins: hostPermissions })
+        : Promise.resolve(true)
+    ).then((granted) => {
+      setHostPermissionsRequired(!granted);
+    });
   }, [settings]);
   return (
     <section
@@ -163,8 +161,12 @@ function collectMatches(serpInfo: SerpInfo): string[] {
 function RemoteSerpInfoSection(props: { id: string }) {
   const id = useId();
   const settings = storageStore.use.serpInfoSettings();
-  const [addDialogOpen, setAddDialogOpen] = useState(false);
-  const addDialogInitialURLRef = useRef("");
+  const [addDialogInitialURL, setAddDialogInitialURL] = useState<string | null>(
+    () => new URL(location.href).searchParams.get("url"),
+  );
+  const [addDialogOpen, setAddDialogOpen] = useState(
+    addDialogInitialURL != null,
+  );
   const [showDialogRemote, setShowDialogRemote] =
     useState<RemoteSerpInfo | null>(null);
   const [updateStatus, setUpdateStatus] = useState<
@@ -173,11 +175,6 @@ function RemoteSerpInfoSection(props: { id: string }) {
   useEffect(() => {
     const originalHref = location.href;
     const here = new URL(originalHref);
-    const url = here.searchParams.get("url");
-    if (url != null) {
-      addDialogInitialURLRef.current = url;
-      setAddDialogOpen(true);
-    }
     here.search = "";
     history.replaceState(null, "", here);
     return () => history.replaceState(null, "", originalHref);
@@ -388,9 +385,9 @@ function RemoteSerpInfoSection(props: { id: string }) {
       <AddRemoteSerpInfoDialog
         close={() => {
           setAddDialogOpen(false);
-          addDialogInitialURLRef.current = "";
+          setAddDialogInitialURL(null);
         }}
-        initialURL={addDialogInitialURLRef.current}
+        initialURL={addDialogInitialURL ?? ""}
         open={addDialogOpen}
       />
       <ShowRemoteSerpInfoDialog
