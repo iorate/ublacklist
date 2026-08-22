@@ -1,0 +1,11 @@
+{
+  "fixed": [],
+  "linked": [],
+  "privatePackages": {
+    "version": true
+  },
+  "ignore": [],
+  "snapshot": {
+    "useCalculatedVersion": false
+  }
+}
