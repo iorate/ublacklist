@@ -17,8 +17,6 @@
   },
   "rules": {
     "curly": "error",
-    "react/refs": "off",
-    "react/set-state-in-effect": "off",
     "typescript/no-floating-promises": [
       "error",
       {

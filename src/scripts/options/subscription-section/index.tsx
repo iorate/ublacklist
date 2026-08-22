@@ -1,6 +1,6 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
-import { Suspense, useEffect, useId, useRef, useState } from "react";
+import { Suspense, useEffect, useId, useState } from "react";
 
 import { EnableSubscriptionURL } from "../../shared/enable-subscription-url.tsx";
 import { translate } from "../../shared/locales.ts";
@@ -34,14 +34,14 @@ export function SubscriptionTable({
   subscriptions: Subscriptions;
 }) {
   const [updating, setUpdating] = useState<Record<SubscriptionId, boolean>>({});
-  const queryRef = useRef(
+  const [initialQuery, setInitialQuery] = useState(
     query.addSubscriptionName != null ||
       query.addSubscriptionURL != null ||
       query.addSubscriptionType != null
       ? query
       : null,
   );
-  const [addDialogOpen, setAddDialogOpen] = useState(queryRef.current != null);
+  const [addDialogOpen, setAddDialogOpen] = useState(initialQuery != null);
 
   useEffect(
     () =>
@@ -159,11 +159,11 @@ export function SubscriptionTable({
       <AddDialog
         close={() => {
           setAddDialogOpen(false);
-          queryRef.current = null;
+          setInitialQuery(null);
         }}
-        initialName={queryRef.current?.addSubscriptionName ?? ""}
-        initialType={queryRef.current?.addSubscriptionType ?? "ruleset"}
-        initialURL={queryRef.current?.addSubscriptionURL ?? ""}
+        initialName={initialQuery?.addSubscriptionName ?? ""}
+        initialType={initialQuery?.addSubscriptionType ?? "ruleset"}
+        initialURL={initialQuery?.addSubscriptionURL ?? ""}
         open={addDialogOpen}
       />
     </div>

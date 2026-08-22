@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { NumberField } from "../../components/number-field.tsx";
 import {
@@ -45,10 +45,11 @@ export function SetIntervalItem({
     clampIntervals[itemKey](storedMinutes) / minutesPerUnit[unit],
   );
   const [value, setValue] = useState<number | null>(storedValue);
-
-  useEffect(() => {
+  const [prevStoredValue, setPrevStoredValue] = useState(storedValue);
+  if (prevStoredValue !== storedValue) {
+    setPrevStoredValue(storedValue);
     setValue(storedValue);
-  }, [storedValue]);
+  }
 
   return (
     <div className={clsx(rowStyles.row, localStyles.row)}>
