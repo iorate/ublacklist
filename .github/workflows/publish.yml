@@ -35,7 +35,7 @@ jobs:
           cache: false
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@8224d80e6693cd3001dce6ad699bbfbe62fc2de9 # v6.0.0
+        uses: iorate/changesette/setup@ab7bf31298fd9efd8ae6342b7bd6fc2116ce0336 # v6.2.1
 
       - name: Prepare release directories
         run: mkdir -p dist/release/{chrome,edge,firefox,github}

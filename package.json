@@ -35,7 +35,7 @@
     "@ublacklist/ruleset": "2.0.0",
     "@ublacklist/serpinfo": "2.0.0",
     "clsx": "2.1.1",
-    "colord": "2.9.3",
+    "colord": "2.10.0",
     "css-tree": "3.2.1",
     "dayjs": "1.11.23",
     "es-toolkit": "1.51.0",
@@ -45,7 +45,7 @@
     "react": "19.2.8",
     "react-colorful": "5.8.0",
     "react-dom": "19.2.8",
-    "tldts": "7.4.10",
+    "tldts": "7.4.11",
     "webdav": "5.10.0",
     "zod": "4.4.3",
     "zustand": "5.0.15"
@@ -58,16 +58,16 @@
     "@types/node": "24.13.3",
     "@types/punycode": "2.1.4",
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react-dom": "19.2.5",
     "@types/webextension-polyfill": "0.12.5",
-    "chrome-types": "0.1.439",
+    "chrome-types": "0.1.440",
     "csstype": "3.2.3",
     "dotenv": "17.4.2",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.0",
     "lefthook": "2.1.10",
-    "oxfmt": "0.64.0",
-    "oxlint": "1.79.0",
+    "oxfmt": "0.65.0",
+    "oxlint": "1.80.0",
     "oxlint-tsgolint": "7.0.2001"
   },
   "devEngines": {
@@ -77,5 +77,5 @@
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@11.22.0"
+  "packageManager": "pnpm@11.24.0"
 }
