@@ -1,5 +1,13 @@
 # ublacklist
 
+## 10.0.3
+
+### Patch Changes
+
+- Fixed an issue where the `domainToURL` command in SERPINFO extracted a bogus domain such as `1.8m` from text like "1.8M followers".
+
+- Fixed an issue where search results were not re-evaluated when another extension or user script rewrote their links in place.
+
 ## 10.0.2
 
 ### Patch Changes
