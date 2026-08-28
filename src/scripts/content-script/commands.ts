@@ -149,7 +149,7 @@ const propertyCommandImpl: PropertyCommandImpl = {
       return null;
     }
     // https://stackoverflow.com/questions/47514123/domain-name-regex-including-idn-characters-c-sharp
-    const m = /(?:[\p{L}\p{N}][\p{L}\p{N}_-]*\.)+[\p{L}\p{N}]{2,}/u.exec(text);
+    const m = /(?:[\p{L}\p{N}][\p{L}\p{N}_-]*\.)+\p{L}{2,}/u.exec(text);
     if (m == null) {
       return null;
     }
