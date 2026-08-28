@@ -159,6 +159,10 @@ class Filter {
   #resume() {
     this.#observer.observe(document.body, {
       childList: true,
+      attributes: true,
+      // Limited to href because the performance impact of observing more
+      // attributes on mutation-heavy SERPs is unknown
+      attributeFilter: ["href"],
       subtree: true,
     });
   }
