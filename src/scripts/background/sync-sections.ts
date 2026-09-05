@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { omit } from "es-toolkit";
-import { z } from "zod";
+import * as z from "zod";
 
 import { postMessage } from "../shared/messages.ts";
 import * as SerpInfoSettings from "../shared/serpinfo-settings.ts";
