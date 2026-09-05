@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import dayjsRelativeTime from "dayjs/plugin/relativeTime";
 import { useEffect, useState } from "react";
 
-import "../../shared/dayjs-locales.ts";
-import { translate } from "../../shared/locales.ts";
+import "../../shared/dayjs-locales.generated.ts";
+import { getDayjsLocale } from "../../shared/locales.ts";
 
 dayjs.extend(dayjsRelativeTime);
 
@@ -21,7 +21,7 @@ export function FromNow({ time }: FromNowProps) {
   }, []);
   return (
     <time dateTime={time.toISOString()}>
-      {time.locale(translate("lang")).fromNow()}
+      {time.locale(getDayjsLocale()).fromNow()}
     </time>
   );
 }

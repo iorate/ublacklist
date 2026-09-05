@@ -4,7 +4,7 @@ import "../styles/theme.css";
 import "../styles/baseline.css";
 import { AutoThemeProvider } from "../components/theme.tsx";
 import { browser } from "../shared/browser.ts";
-import { translate } from "../shared/locales.ts";
+import { getLocale } from "../shared/locales.ts";
 import { storageStore } from "../shared/storage-store.ts";
 import { AboutSection } from "./about-section.tsx";
 import { AppearanceSection } from "./appearance-section.tsx";
@@ -37,7 +37,7 @@ function Options({ query }: { query: OptionsQuery }) {
 }
 
 async function main(): Promise<void> {
-  document.documentElement.lang = translate("lang");
+  document.documentElement.lang = getLocale();
 
   const [, platformInfo] = await Promise.all([
     storageStore.attachPromise,

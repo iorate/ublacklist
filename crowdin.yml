@@ -26,7 +26,7 @@ files:
     languages_mapping:
       two_letters_code:
         de: de
-        es-ES: es-ES
+        es-ES: es
         fr: fr
         ja: ja
         ko: ko
