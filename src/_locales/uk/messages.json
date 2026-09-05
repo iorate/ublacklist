@@ -7,10 +7,6 @@
     "message": "Блокує визначені Вами сайти, що появляються в результатах пошуку Google",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "uk",
-    "description": "The language code."
-  },
   "error": {
     "message": "Помилка: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

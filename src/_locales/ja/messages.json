@@ -7,10 +7,6 @@
     "message": "指定したサイトが Google の検索結果で表示されないようにします",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "ja",
-    "description": "The language code."
-  },
   "error": {
     "message": "エラー: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

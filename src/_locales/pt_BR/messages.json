@@ -7,10 +7,6 @@
     "message": "Bloqueia sites que você escolher de aparecer nos resultados de pesquisa do Google",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "pt-BR",
-    "description": "The language code."
-  },
   "error": {
     "message": "Erro: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

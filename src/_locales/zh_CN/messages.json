@@ -7,10 +7,6 @@
     "message": "在谷歌的搜索结果中屏蔽特定的网站显示。",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "zh-cn",
-    "description": "The language code."
-  },
   "error": {
     "message": "出现错误: $1",
     "description": "Error message. '$1' will be replaced with the actual error."
