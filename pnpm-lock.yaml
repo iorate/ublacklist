@@ -138,6 +138,9 @@ importers:
       fs-extra:
         specifier: 11.4.0
         version: 11.4.0
+      js-yaml:
+        specifier: 5.4.1
+        version: 5.4.1
       lefthook:
         specifier: 2.1.12
         version: 2.1.12

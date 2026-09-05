@@ -8,10 +8,5 @@ dist/
 # Dependencies
 node_modules/
 
-# Untranslated readme files
-README.*.md
-!README.de.md
-!README.zh-CN.md
-
 # Playwright
 test-results/

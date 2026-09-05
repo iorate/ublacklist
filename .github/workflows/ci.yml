@@ -36,6 +36,11 @@ jobs:
           run_install: true
           cache: true
 
+      - name: Check generated files
+        run: |
+          pnpm generate
+          git diff --exit-code
+
       - name: pnpm check
         run: pnpm check
 

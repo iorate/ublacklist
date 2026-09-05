@@ -1,0 +1,38 @@
+# Supported translations. English is the source and is not listed here.
+# After editing, run `pnpm generate`.
+#
+# browser: directory name under src/_locales
+# crowdin: language code on Crowdin
+# readme:  suffix of the translated README (README.<readme>.md); omit if not translated
+# website: locale of https://ublacklist.github.io; omit if the website is not translated.
+#          When adding one, register https://ublacklist.github.io/<website>/callback
+#          as a redirect URI on Google Cloud and Dropbox.
+- browser: de
+  crowdin: de
+  readme: de
+  website: de
+- browser: es
+  crowdin: es
+- browser: fr
+  crowdin: fr
+- browser: ja
+  crowdin: ja
+  website: ja
+- browser: ko
+  crowdin: ko
+- browser: pl
+  crowdin: pl
+- browser: pt_BR
+  crowdin: pt-BR
+  website: pt-BR
+- browser: ru
+  crowdin: ru
+- browser: tr
+  crowdin: tr
+- browser: uk
+  crowdin: uk
+- browser: zh_CN
+  crowdin: zh-CN
+  readme: zh-CN
+- browser: zh_TW
+  crowdin: zh-TW
