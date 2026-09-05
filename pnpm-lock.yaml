@@ -45,8 +45,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       '@ublacklist/ruleset':
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: 2.0.1
+        version: 2.0.1
       '@ublacklist/serpinfo':
         specifier: 2.0.0
         version: 2.0.0
@@ -721,8 +721,8 @@ packages:
   '@ublacklist/match-pattern@2.0.0':
     resolution: {integrity: sha512-iR5GAS1V0g3lC06Y6jWDVA6pe6j1V88TfY8sD3oXTvfk8JurBh7o90jHWANax7VthXmcnFO2QKad6yJb8c5HCQ==}
 
-  '@ublacklist/ruleset@2.0.0':
-    resolution: {integrity: sha512-8xNUFwJq3aI4TONhtq4w/l9zruymhW7dQUDr4nu0xaDeDfEelK+SAuarbLG6kY4tzVONXWwaA3hNOS5OCbIPeA==}
+  '@ublacklist/ruleset@2.0.1':
+    resolution: {integrity: sha512-fLzwXWw/ND0HcFkUJBzrSYriw7cgsZLe2GYQmjz/OuvNNYlyhbi8Maj89cC0GkrAloT1/HvJNbUccs7NCRBfOw==}
 
   '@ublacklist/serpinfo@2.0.0':
     resolution: {integrity: sha512-0gpcL4XJ0NLubstBQXOqj3/gm9z+WZFS91tGX0HqIwed0f4LLhWUrot/ezeDYbmy/hzYemFyN2Dfw5QMosax8A==}
@@ -1573,7 +1573,7 @@ snapshots:
 
   '@ublacklist/match-pattern@2.0.0': {}
 
-  '@ublacklist/ruleset@2.0.0':
+  '@ublacklist/ruleset@2.0.1':
     dependencies:
       '@lezer/common': 1.5.2
       '@lezer/highlight': 1.2.3
