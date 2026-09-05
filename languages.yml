@@ -3,7 +3,9 @@
 #
 # browser: directory name under src/_locales
 # crowdin: language code on Crowdin
-# readme:  suffix of the translated README (README.<readme>.md); omit if not translated
+# readme:  suffix of the translated README (README.<readme>.md). Add it once the
+#          translation on Crowdin is good enough to merge; until then the file
+#          Crowdin exports is ignored by git in the Crowdin workflows.
 # website: locale of https://ublacklist.github.io; omit if the website is not translated.
 #          When adding one, register https://ublacklist.github.io/<website>/callback
 #          as a redirect URI on Google Cloud and Dropbox.
