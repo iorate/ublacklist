@@ -48,6 +48,9 @@ jobs:
           permission-contents: write
           permission-pull-requests: write
 
+      - name: Exclude README translations not yet merged
+        run: cat .github/crowdin-git-exclude >> .git/info/exclude
+
       - name: Run crowdin
         id: crowdin
         uses: crowdin/github-action@71fdb8814261dd703be4ca7c6450d21b1868da4b # v3.0.1

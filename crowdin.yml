@@ -23,18 +23,17 @@ files:
   - source: /README.md
     translation: /README.%two_letters_code%.md
     dest: /README.md
-    excluded_target_languages:
-      - es-ES
-      - fr
-      - ja
-      - ko
-      - pl
-      - pt-BR
-      - ru
-      - tr
-      - uk
-      - zh-TW
     languages_mapping:
       two_letters_code:
         de: de
+        es-ES: es-ES
+        fr: fr
+        ja: ja
+        ko: ko
+        pl: pl
+        pt-BR: pt-BR
+        ru: ru
+        tr: tr
+        uk: uk
         zh-CN: zh-CN
+        zh-TW: zh-TW
