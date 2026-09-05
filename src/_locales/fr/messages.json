@@ -7,10 +7,6 @@
     "message": "Empêche des sites spécifiés d'apparaître dans les résultats de recherche Google",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "fr",
-    "description": "The language code."
-  },
   "error": {
     "message": "Erreur : $1",
     "description": "Error message. '$1' will be replaced with the actual error."

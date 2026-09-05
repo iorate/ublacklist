@@ -7,10 +7,6 @@
     "message": "Blockiert Seiten, damit diese nicht in den Suchergebnissen von Google auftauchen",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "de",
-    "description": "The language code."
-  },
   "error": {
     "message": "Fehler: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

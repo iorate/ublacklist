@@ -7,10 +7,6 @@
     "message": "封鎖 Google 搜尋結果中的特定網站結果",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "zh-tw",
-    "description": "The language code."
-  },
   "error": {
     "message": "錯誤：$1",
     "description": "Error message. '$1' will be replaced with the actual error."

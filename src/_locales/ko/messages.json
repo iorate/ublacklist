@@ -7,10 +7,6 @@
     "message": "Google 검색 결과에 나타나는 특정 사이트들을 차단합니다",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "ko",
-    "description": "The language code."
-  },
   "error": {
     "message": "오류: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

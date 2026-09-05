@@ -7,10 +7,6 @@
     "message": "Блокирует сайты в поисковой выдаче Google",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "ru",
-    "description": "The language code."
-  },
   "error": {
     "message": "Ошибка: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

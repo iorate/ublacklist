@@ -7,10 +7,6 @@
     "message": "Blokuj wybrane witryny w wynikach wyszukiwania Google",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "pl",
-    "description": "The language code."
-  },
   "error": {
     "message": "Błąd: $1",
     "description": "Error message. '$1' will be replaced with the actual error."
