@@ -12,7 +12,7 @@
   readme: de
   website: de
 - browser: es
-  crowdin: es
+  crowdin: es-ES
 - browser: fr
   crowdin: fr
 - browser: ja

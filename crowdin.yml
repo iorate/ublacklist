@@ -9,7 +9,7 @@ files:
     languages_mapping:
       two_letters_code:
         de: de
-        es: es
+        es-ES: es
         fr: fr
         ja: ja
         ko: ko
@@ -24,7 +24,7 @@ files:
     translation: /README.%two_letters_code%.md
     dest: /README.md
     excluded_target_languages:
-      - es
+      - es-ES
       - fr
       - ja
       - ko
