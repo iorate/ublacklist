@@ -1,5 +1,17 @@
 # ublacklist
 
+## 10.0.4
+
+### Patch Changes
+
+- Reduced the size of the extension by about 19% by no longer bundling unused parts of the validation library, such as error messages for every language.
+
+- WebDAV sync now creates the folder specified by the URL if it does not exist, instead of failing with a 404 error.
+
+- Rewrote the WebDAV sync backend with a built-in client. Please report any issues with WebDAV sync.
+
+- Updated the Japanese translation.
+
 ## 10.0.3
 
 ### Patch Changes
