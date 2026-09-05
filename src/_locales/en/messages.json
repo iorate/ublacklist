@@ -7,10 +7,6 @@
     "message": "Blocks sites you specify from appearing in Google search results",
     "description": "The description of the extension."
   },
-  "lang": {
-    "message": "en",
-    "description": "The language code."
-  },
   "error": {
     "message": "Error: $1",
     "description": "Error message. '$1' will be replaced with the actual error."

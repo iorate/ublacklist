@@ -23,7 +23,12 @@ import { browser } from "../shared/browser.ts";
 import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
 import { permissionExemptOrigins } from "../shared/constants.ts";
 import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
-import { getWebsiteURL, translate } from "../shared/locales.ts";
+import {
+  getDayjsLocale,
+  getLocale,
+  getWebsiteURL,
+  translate,
+} from "../shared/locales.ts";
 import { postMessage, sendMessage } from "../shared/messages.ts";
 import { requestPermission } from "../shared/permissions.ts";
 import type {
@@ -35,7 +40,7 @@ import { Editor } from "./editor.tsx";
 
 import buttonStyles from "../styles/button.module.css";
 import containerStyles from "../styles/container.module.css";
-import "../shared/dayjs-locales.ts";
+import "../shared/dayjs-locales.generated.ts";
 
 import dialogStyles from "../styles/dialog.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
@@ -233,7 +238,7 @@ function RemoteSerpInfoSection(props: { id: string }) {
                                 {`${translate("options_remoteSerpInfoLastModified")}: ${dayjs(
                                   lastModified,
                                 )
-                                  .locale(translate("lang"))
+                                  .locale(getDayjsLocale())
                                   .format("LL")}`}
                               </div>
                             )}
@@ -652,7 +657,7 @@ function Options() {
 }
 
 function main(): void {
-  document.documentElement.lang = translate("lang");
+  document.documentElement.lang = getLocale();
   const root = createRoot(
     document.body.appendChild(document.createElement("div")),
   );

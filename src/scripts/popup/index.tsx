@@ -11,7 +11,7 @@ import {
   loadFromLocalStorage,
   saveToLocalStorage,
 } from "../shared/local-storage.ts";
-import { translate } from "../shared/locales.ts";
+import { getLocale } from "../shared/locales.ts";
 import { sendMessage, sendMessageToTab } from "../shared/messages.ts";
 import { createInteractiveRuleset } from "../shared/utilities.ts";
 import { PopupDialog } from "./dialog.tsx";
@@ -155,7 +155,7 @@ function Popup() {
 }
 
 function main(): void {
-  document.documentElement.lang = translate("lang");
+  document.documentElement.lang = getLocale();
   const root = createRoot(
     document.body.appendChild(document.createElement("div")),
   );

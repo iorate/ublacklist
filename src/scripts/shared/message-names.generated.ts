@@ -5,7 +5,6 @@ export type MessageName =
 export type MessageName0 =
   | "extensionName"
   | "extensionDescription"
-  | "lang"
   | "unauthorizedError"
   | "cancelButton"
   | "okButton"
