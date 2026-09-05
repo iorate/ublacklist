@@ -21,6 +21,7 @@ on:
     branches:
       - master
     paths:
+      - crowdin.yml
       - src/_locales/en/messages.json
       - README.md
   workflow_dispatch:

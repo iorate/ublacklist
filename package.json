@@ -16,6 +16,7 @@
     "fix:lint": "oxlint --fix",
     "fix:format": "oxfmt",
     "generate": "pnpm run /^generate:/",
+    "generate:languages": "node scripts/generate-languages.ts",
     "generate:message-names": "node scripts/generate-message-names.ts",
     "test": "node --test"
   },
@@ -65,6 +66,7 @@
     "dotenv": "17.4.2",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.0",
+    "js-yaml": "5.4.1",
     "lefthook": "2.1.12",
     "oxfmt": "0.66.0",
     "oxlint": "1.81.0",

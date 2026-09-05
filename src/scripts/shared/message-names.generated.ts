@@ -6,7 +6,6 @@ export type MessageName0 =
   | "extensionName"
   | "extensionDescription"
   | "lang"
-  | "websiteLocale"
   | "unauthorizedError"
   | "cancelButton"
   | "okButton"
