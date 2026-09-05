@@ -1,14 +1,6 @@
-# Downloads approved translations from Crowdin, opens a pull request, adds a
-# changeset for each updated language, and enables auto-merge.
-#
-# English fallbacks that Crowdin fills in for untranslated keys do not show up
-# here as fake translation updates, because the Crowdin Upload workflow merges
-# them into master right after every source upload.
-#
-# The flip side: approved translations still sitting on Crowdin get merged by
-# Crowdin Upload without changesets. Dispatch this workflow before pushing
-# changes to src/_locales/en/messages.json or README.md so that pending
-# translations get their changesets first.
+# Downloads approved translations from Crowdin and opens a pull request with a
+# changeset for each updated language. Dispatch it before changing the sources,
+# or Crowdin Upload merges the pending translations without changesets.
 
 name: Crowdin Download
 
@@ -85,13 +77,8 @@ jobs:
           ref: ${{ env.LOCALIZATION_BRANCH_NAME }}
           fetch-depth: 2
 
-      # The localization branch has exactly one commit on top of master, so
-      # `git diff HEAD^` lists the files Crowdin updated.
-      #
-      # The changeset file name is deterministic per language: if the same
-      # changeset already exists on master from a previous unreleased run,
-      # rewriting it produces no diff (the commit step below does nothing),
-      # and the language keeps a single changelog entry.
+      # HEAD^ is master. The changeset file name is fixed per language so that
+      # repeated runs before a release keep a single changelog entry.
       - name: Create changeset
         run: |
           language_codes=$(git diff --name-only HEAD^ | sed -n 's#src/_locales/\([^/]*\)/messages\.json#\1#p')
