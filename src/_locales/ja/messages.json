@@ -760,7 +760,7 @@
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "URL で指定したフォルダーにファイルが作成されます。",
+    "message": "URL で指定したフォルダにファイルが作成されます。",
     "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
@@ -772,7 +772,7 @@
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUrlCreateDescription": {
-    "message": "The folder specified by the URL is created if it does not exist.",
+    "message": "URL で指定したフォルダが存在しない場合は作成されます。",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
