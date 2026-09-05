@@ -1,7 +1,7 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
 import { useId, useState } from "react";
-import { z } from "zod";
+import * as z from "zod";
 
 import { browser } from "../shared/browser.ts";
 import { translate } from "../shared/locales.ts";

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { z } from "zod";
+import * as z from "zod";
 
 import type { Cloud } from "../shared/types.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";

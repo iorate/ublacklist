@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
-import { z } from "zod";
+import * as z from "zod";
 
 import { type Browser, browser } from "../shared/browser.ts";
 import { getWebsiteURL } from "../shared/locales.ts";
