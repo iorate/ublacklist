@@ -152,11 +152,14 @@ async function writeFile(
 
 export function createClient(params: WebDAVParams): SyncBackendClient {
   return {
-    createFile: (
+    createFile: async (
       filename: string,
       content: string,
       modifiedTime: dayjs.Dayjs,
-    ) => writeFile(params, filename, content, modifiedTime),
+    ) => {
+      await ensureWebDAVFolder(params);
+      await writeFile(params, filename, content, modifiedTime);
+    },
     findFile: (filename: string) => findFile(params, filename),
     readFile: (id: string) => readFile(params, id),
     updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
