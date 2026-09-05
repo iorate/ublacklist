@@ -17,6 +17,7 @@ function basicAuthorization(username: string, password: string): string {
 function folderURL(params: WebDAVParams): string {
   const { origin, pathname } = new URL(params.url);
   let url = origin + (pathname.endsWith("/") ? pathname : `${pathname}/`);
+  // Legacy `path` (always "" since #838) is encoded per segment, as the former webdav library did
   const segments = params.path.split("/").filter(Boolean);
   if (segments.length > 0) {
     url += `${segments.map(encodeURIComponent).join("/")}/`;
@@ -55,14 +56,39 @@ function discardBody(response: Response): void {
   void response.body?.cancel();
 }
 
-export async function checkWebDAVFolder(params: WebDAVParams): Promise<void> {
-  const response = await request(params, "PROPFIND", folderURL(params), {
+function parentURL(url: string): string {
+  return url.slice(0, url.lastIndexOf("/", url.length - 2) + 1);
+}
+
+async function ensureCollection(
+  params: WebDAVParams,
+  url: string,
+): Promise<void> {
+  const propfindResponse = await request(params, "PROPFIND", url, {
     headers: { Depth: "0" },
   });
-  discardBody(response);
-  if (response.status !== 207) {
-    throw new HTTPError(response.status, response.statusText);
+  discardBody(propfindResponse);
+  if (propfindResponse.status === 207) {
+    return;
   }
+  if (propfindResponse.ok) {
+    throw new Error(
+      `Unexpected status in WebDAV PROPFIND response: ${propfindResponse.status}`,
+    );
+  }
+  if (propfindResponse.status !== 404 || new URL(url).pathname === "/") {
+    throw new HTTPError(propfindResponse.status, propfindResponse.statusText);
+  }
+  await ensureCollection(params, parentURL(url));
+  const mkcolResponse = await request(params, "MKCOL", url);
+  discardBody(mkcolResponse);
+  if (!mkcolResponse.ok) {
+    throw new HTTPError(mkcolResponse.status, mkcolResponse.statusText);
+  }
+}
+
+export function ensureWebDAVFolder(params: WebDAVParams): Promise<void> {
+  return ensureCollection(params, folderURL(params));
 }
 
 async function findFile(

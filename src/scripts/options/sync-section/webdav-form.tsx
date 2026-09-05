@@ -79,7 +79,7 @@ export function WebDAVForm({
                 {translate("clouds_webdavUrlLabel")}
               </label>
               <div className={labelStyles.subLabel}>
-                {translate("clouds_webdavUrlDescription")}
+                {translate("clouds_webdavUrlCreateDescription")}
               </div>
             </div>
             <Input
