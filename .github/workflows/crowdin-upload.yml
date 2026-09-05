@@ -1,18 +1,8 @@
-# Uploads translation sources to Crowdin whenever they change on master, then
-# immediately downloads the translation files Crowdin exports for them and
-# merges them back into master.
-#
-# In that export, untranslated new keys are filled with the English source
-# text. Merging these fallbacks right away — deliberately without changesets —
-# keeps them from showing up as fake translation updates in later runs of the
-# Crowdin Download workflow, which generates a changeset for every changed
-# language.
-#
-# Caveat: translations that are already approved on Crowdin but not yet
-# downloaded get merged here too, also without changesets, and later Crowdin
-# Download runs no longer see them — they ship without a changelog entry.
-# When such translations are pending, dispatch Crowdin Download before pushing
-# changes to the paths below, or add changesets by hand afterwards.
+# Uploads sources to Crowdin and merges the exported translations back right
+# away, without changesets, so that the English fallbacks Crowdin fills in for
+# new keys do not show up as translation updates in Crowdin Download.
+# Approved translations pending on Crowdin get merged here without changesets
+# too; dispatch Crowdin Download first if there are any.
 
 name: Crowdin Upload
 
