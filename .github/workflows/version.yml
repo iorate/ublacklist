@@ -33,7 +33,7 @@ jobs:
           cache: true
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@0585b52e4cdb49ec30a461c3f1ed165319b3a59f # v6.3.0
+        uses: iorate/changesette/setup@ad4d4fdef2a62a9e36cd1dfac53f68dc0cbfc03b # v6.3.1
 
       - name: Bump version
         id: version
