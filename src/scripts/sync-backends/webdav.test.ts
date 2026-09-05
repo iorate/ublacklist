@@ -321,27 +321,43 @@ test("createClient (webdav)", async (t) => {
     });
   });
 
-  for (const [name, write] of [
+  const modifiedTime = dayjs.unix(1577934245);
+
+  function mockPut(
+    t: TestContext,
+    status: number,
+  ): { calls: { url: string; init: RequestInit }[] } {
+    return mockFetch(t, (_url, init) =>
+      init.method === "PROPFIND"
+        ? new Response(null, { status: 207 })
+        : new Response(null, { status }),
+    );
+  }
+
+  for (const [name, write, expectedCalls] of [
     [
       "createFile",
       (content: string, modifiedTime: dayjs.Dayjs) =>
         client.createFile("uBlacklist.txt", content, modifiedTime),
+      [
+        "PROPFIND https://example.com/dav/",
+        "PUT https://example.com/dav/uBlacklist.txt",
+      ],
     ],
     [
       "updateFile",
       (content: string, modifiedTime: dayjs.Dayjs) =>
         client.updateFile("uBlacklist.txt", content, modifiedTime),
+      ["PUT https://example.com/dav/uBlacklist.txt"],
     ],
   ] as const) {
     await t.test(name, async (t) => {
-      const modifiedTime = dayjs.unix(1577934245);
-
       for (const status of [201, 204]) {
         await t.test(`sends PUT and resolves on ${status}`, async () => {
-          const { calls } = mockFetch(t, () => new Response(null, { status }));
+          const { calls } = mockPut(t, status);
           await write("example.com", modifiedTime);
-          assert.equal(calls.length, 1);
-          const [call] = calls;
+          assert.deepEqual(summarize(calls), expectedCalls);
+          const call = calls.at(-1);
           assert.ok(call);
           assert.equal(call.url, "https://example.com/dav/uBlacklist.txt");
           assert.equal(call.init.method, "PUT");
@@ -363,12 +379,54 @@ test("createClient (webdav)", async (t) => {
       }
 
       await t.test("rejects with HTTPError on 403", async () => {
-        mockFetch(t, () => new Response(null, { status: 403 }));
+        const { calls } = mockPut(t, 403);
         await assert.rejects(
           write("example.com", modifiedTime),
           (e: unknown) => e instanceof HTTPError && e.status === 403,
         );
+        assert.deepEqual(summarize(calls), expectedCalls);
       });
     });
   }
+
+  await t.test("createFile", async (t) => {
+    await t.test("creates the folder before PUT if it is missing", async () => {
+      const existing = ["https://example.com/dav/"];
+      const { calls } = mockFetch(t, (url, init) => {
+        if (init.method === "PROPFIND") {
+          return new Response(null, {
+            status: existing.includes(url) ? 207 : 404,
+          });
+        }
+        if (init.method === "MKCOL") {
+          existing.push(url);
+          return new Response(null, { status: 201 });
+        }
+        if (init.method === "PUT") {
+          return new Response(null, { status: 201 });
+        }
+        throw new Error(`Unexpected method: ${init.method}`);
+      });
+      await createClient(
+        params({ url: "https://example.com/dav/new/" }),
+      ).createFile("uBlacklist.txt", "example.com", modifiedTime);
+      assert.deepEqual(summarize(calls), [
+        "PROPFIND https://example.com/dav/new/",
+        "PROPFIND https://example.com/dav/",
+        "MKCOL https://example.com/dav/new/",
+        "PUT https://example.com/dav/new/uBlacklist.txt",
+      ]);
+    });
+
+    await t.test("does not PUT when the folder cannot be created", async () => {
+      const { calls } = mockCollections(t, ["https://example.com/dav/"], 403);
+      await assert.rejects(
+        createClient(
+          params({ url: "https://example.com/dav/new/" }),
+        ).createFile("uBlacklist.txt", "example.com", modifiedTime),
+        (e: unknown) => e instanceof HTTPError && e.status === 403,
+      );
+      assert.equal(calls.length, 3);
+    });
+  });
 });
