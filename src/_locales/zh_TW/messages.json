@@ -771,8 +771,8 @@
     "message": "WebDAV 網址",
     "description": "Label for the input for the WebDAV URL."
   },
-  "clouds_webdavUrlDescription": {
-    "message": "網址指定的資料夾必須已經存在。",
+  "clouds_webdavUrlCreateDescription": {
+    "message": "The folder specified by the URL is created if it does not exist.",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {

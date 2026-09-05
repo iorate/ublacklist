@@ -771,8 +771,8 @@
     "message": "WebDAV URL",
     "description": "Label for the input for the WebDAV URL."
   },
-  "clouds_webdavUrlDescription": {
-    "message": "The folder specified by the URL must already exist.",
+  "clouds_webdavUrlCreateDescription": {
+    "message": "The folder specified by the URL is created if it does not exist.",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
