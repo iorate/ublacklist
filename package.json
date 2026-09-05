@@ -33,7 +33,7 @@
     "@sindresorhus/fnv1a": "3.1.0",
     "@ublacklist/match-pattern": "2.0.0",
     "@ublacklist/ruleset": "2.0.1",
-    "@ublacklist/serpinfo": "2.0.0",
+    "@ublacklist/serpinfo": "3.0.0",
     "clsx": "2.1.1",
     "colord": "2.10.0",
     "css-tree": "3.2.1",
