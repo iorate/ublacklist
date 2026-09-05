@@ -13,7 +13,7 @@ import { createClient as createBrowserSyncClient } from "../sync-backends/browse
 import { createClient as createCloudClient } from "../sync-backends/cloud.ts";
 import {
   createClient as createWebDAVClient,
-  checkWebDAVFolder,
+  ensureWebDAVFolder,
 } from "../sync-backends/webdav.ts";
 import { loadFromRawStorage, saveToRawStorage } from "./raw-storage.ts";
 import { sync } from "./sync.ts";
@@ -70,7 +70,7 @@ export async function connectToWebDAV(
           throw new Error("Already connected to another backend");
         }
       }
-      await checkWebDAVFolder(params);
+      await ensureWebDAVFolder(params);
       await saveToRawStorage({
         syncCloudId: "webdav",
         syncCloudToken: params,

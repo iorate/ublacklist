@@ -18,7 +18,7 @@ registerHooks({
 });
 
 const { HTTPError } = await import("../shared/utilities.ts");
-const { checkWebDAVFolder, createClient } = await import("./webdav.ts");
+const { createClient, ensureWebDAVFolder } = await import("./webdav.ts");
 
 function mockFetch(
   t: TestContext,
@@ -46,10 +46,33 @@ function header(init: RequestInit, name: string): string | null {
   return new Headers(init.headers).get(name);
 }
 
-test("checkWebDAVFolder", async (t) => {
+function mockCollections(
+  t: TestContext,
+  existing: string[],
+  mkcolStatus = 201,
+): { calls: { url: string; init: RequestInit }[] } {
+  return mockFetch(t, (url, init) => {
+    if (init.method === "PROPFIND") {
+      return new Response(null, { status: existing.includes(url) ? 207 : 404 });
+    }
+    if (init.method === "MKCOL") {
+      if (mkcolStatus < 400) {
+        existing.push(url);
+      }
+      return new Response(null, { status: mkcolStatus });
+    }
+    throw new Error(`Unexpected method: ${init.method}`);
+  });
+}
+
+function summarize(calls: { url: string; init: RequestInit }[]): string[] {
+  return calls.map((call) => `${call.init.method} ${call.url}`);
+}
+
+test("ensureWebDAVFolder", async (t) => {
   await t.test("resolves on 207 and sends PROPFIND with Depth 0", async () => {
     const { calls } = mockFetch(t, () => new Response(null, { status: 207 }));
-    await checkWebDAVFolder(params());
+    await ensureWebDAVFolder(params());
     assert.equal(calls.length, 1);
     const [call] = calls;
     assert.ok(call);
@@ -69,20 +92,20 @@ test("checkWebDAVFolder", async (t) => {
       ["https://u:p@example.com/dav/", "https://example.com/dav/"],
     ] as const) {
       const { calls } = mockFetch(t, () => new Response(null, { status: 207 }));
-      await checkWebDAVFolder(params({ url }));
+      await ensureWebDAVFolder(params({ url }));
       assert.equal(calls[0]?.url, expected);
     }
   });
 
   await t.test("appends the legacy path", async () => {
     const { calls } = mockFetch(t, () => new Response(null, { status: 207 }));
-    await checkWebDAVFolder(params({ path: "/sub//dir 1/" }));
+    await ensureWebDAVFolder(params({ path: "/sub//dir 1/" }));
     assert.equal(calls[0]?.url, "https://example.com/dav/sub/dir%201/");
   });
 
   await t.test("encodes non-ASCII credentials as UTF-8", async () => {
     const { calls } = mockFetch(t, () => new Response(null, { status: 207 }));
-    await checkWebDAVFolder(
+    await ensureWebDAVFolder(
       params({ username: "ユーザー", password: "ファイヤーウォーキング" }),
     );
     assert.ok(calls[0]);
@@ -92,15 +115,127 @@ test("checkWebDAVFolder", async (t) => {
     );
   });
 
-  await t.test("rejects with HTTPError on non-207 statuses", async () => {
-    for (const status of [404, 401, 409, 200]) {
-      mockFetch(t, () => new Response(null, { status }));
+  await t.test("creates the folder when the parent exists", async () => {
+    const { calls } = mockCollections(t, ["https://example.com/dav/"]);
+    await ensureWebDAVFolder(params({ url: "https://example.com/dav/new/" }));
+    assert.deepEqual(summarize(calls), [
+      "PROPFIND https://example.com/dav/new/",
+      "PROPFIND https://example.com/dav/",
+      "MKCOL https://example.com/dav/new/",
+    ]);
+    const mkcol = calls[2];
+    assert.ok(mkcol);
+    assert.equal(mkcol.init.credentials, "omit");
+    assert.equal(mkcol.init.cache, "no-store");
+    assert.equal(header(mkcol.init, "Authorization"), "Basic dXNlcjpwYXNz");
+    assert.equal(header(mkcol.init, "Depth"), null);
+    assert.equal(mkcol.init.body, null);
+  });
+
+  await t.test("creates missing ancestors from the top down", async () => {
+    const { calls } = mockCollections(t, ["https://example.com/dav/"]);
+    await ensureWebDAVFolder(params({ url: "https://example.com/dav/a/b/c/" }));
+    assert.deepEqual(summarize(calls), [
+      "PROPFIND https://example.com/dav/a/b/c/",
+      "PROPFIND https://example.com/dav/a/b/",
+      "PROPFIND https://example.com/dav/a/",
+      "PROPFIND https://example.com/dav/",
+      "MKCOL https://example.com/dav/a/",
+      "MKCOL https://example.com/dav/a/b/",
+      "MKCOL https://example.com/dav/a/b/c/",
+    ]);
+  });
+
+  await t.test("keeps the encoding of the URL in ancestors", async () => {
+    const { calls } = mockCollections(t, ["https://example.com/dav/my%20dir/"]);
+    await ensureWebDAVFolder(
+      params({ url: "https://example.com/dav/my dir/a%2Fb/new/" }),
+    );
+    assert.deepEqual(summarize(calls), [
+      "PROPFIND https://example.com/dav/my%20dir/a%2Fb/new/",
+      "PROPFIND https://example.com/dav/my%20dir/a%2Fb/",
+      "PROPFIND https://example.com/dav/my%20dir/",
+      "MKCOL https://example.com/dav/my%20dir/a%2Fb/",
+      "MKCOL https://example.com/dav/my%20dir/a%2Fb/new/",
+    ]);
+  });
+
+  await t.test(
+    "keeps the encoding of the legacy path in ancestors",
+    async () => {
+      const { calls } = mockCollections(t, ["https://example.com/dav/"]);
+      await ensureWebDAVFolder(params({ path: "/a b/c" }));
+      assert.deepEqual(summarize(calls), [
+        "PROPFIND https://example.com/dav/a%20b/c/",
+        "PROPFIND https://example.com/dav/a%20b/",
+        "PROPFIND https://example.com/dav/",
+        "MKCOL https://example.com/dav/a%20b/",
+        "MKCOL https://example.com/dav/a%20b/c/",
+      ]);
+    },
+  );
+
+  await t.test("rejects with HTTPError when MKCOL fails", async () => {
+    for (const status of [403, 405, 409]) {
+      const { calls } = mockCollections(
+        t,
+        ["https://example.com/dav/"],
+        status,
+      );
       await assert.rejects(
-        checkWebDAVFolder(params()),
+        ensureWebDAVFolder(params({ url: "https://example.com/dav/new/" })),
         (e: unknown) => e instanceof HTTPError && e.status === status,
       );
+      assert.equal(calls.length, 3);
     }
   });
+
+  await t.test(
+    "rejects with HTTPError on non-404 PROPFIND failures",
+    async () => {
+      for (const status of [401, 403, 405]) {
+        const { calls } = mockFetch(t, () => new Response(null, { status }));
+        await assert.rejects(
+          ensureWebDAVFolder(params({ url: "https://example.com/dav/new/" })),
+          (e: unknown) => e instanceof HTTPError && e.status === status,
+        );
+        assert.equal(calls.length, 1);
+      }
+    },
+  );
+
+  await t.test(
+    "rejects with a plain Error on 2xx non-207 PROPFIND",
+    async () => {
+      for (const status of [200, 204]) {
+        const { calls } = mockFetch(t, () => new Response(null, { status }));
+        await assert.rejects(
+          ensureWebDAVFolder(params({ url: "https://example.com/dav/new/" })),
+          (e: unknown) =>
+            e instanceof Error &&
+            !(e instanceof HTTPError) &&
+            e.message.includes(String(status)),
+        );
+        assert.equal(calls.length, 1);
+      }
+    },
+  );
+
+  await t.test(
+    "rejects with HTTPError 404 when no ancestor exists",
+    async () => {
+      const { calls } = mockCollections(t, []);
+      await assert.rejects(
+        ensureWebDAVFolder(params({ url: "https://example.com/dav/new/" })),
+        (e: unknown) => e instanceof HTTPError && e.status === 404,
+      );
+      assert.deepEqual(summarize(calls), [
+        "PROPFIND https://example.com/dav/new/",
+        "PROPFIND https://example.com/dav/",
+        "PROPFIND https://example.com/",
+      ]);
+    },
+  );
 });
 
 test("createClient (webdav)", async (t) => {
