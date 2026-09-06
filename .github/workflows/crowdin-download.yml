@@ -77,14 +77,26 @@ jobs:
           ref: ${{ env.LOCALIZATION_BRANCH_NAME }}
           fetch-depth: 2
 
-      # HEAD^ is master. The changeset file name is fixed per language so that
-      # repeated runs before a release keep a single changelog entry.
-      - name: Create changeset
+      # Compare the pull request (HEAD) with master (HEAD^) and create a
+      # changeset for each language that changes the translation of a message
+      # whose English source is unchanged since the last release.
+      - name: Create changesets
         run: |
-          language_codes=$(git diff --name-only HEAD^ | sed -n 's#src/_locales/\([^/]*\)/messages\.json#\1#p')
-          for language_code in $language_codes; do
-            language=$(node -p 'new Intl.DisplayNames(["en"], { type: "language" }).of(process.argv[1].replaceAll("_", "-"))' "$language_code")
-            cat > ".changeset/update-$language_code-translation.md" << EOF
+          version=$(jq -r .version package.json)
+          git fetch --depth=1 origin tag "v$version"
+          for file in $(git diff --name-only HEAD^ -- 'src/_locales/*/messages.json'); do
+            updated=$(jq -s '
+              . as [$previous, $current, $en_released, $en_current]
+              | $previous + $current | keys
+              | any($previous[.].message != $current[.].message and $en_released[.].message == $en_current[.].message)
+            ' <(git show "HEAD^:$file") "$file" \
+              <(git show "v$version:src/_locales/en/messages.json") src/_locales/en/messages.json)
+            [[ "$updated" == true ]] || continue
+            language_code=$(echo "$file" | cut -d/ -f3 | sed "s/_/-/")
+            language=$(node -p '
+              new Intl.DisplayNames(["en"], { type: "language" }).of(process.argv[1])
+            ' "$language_code")
+            cat > ".changeset/zz-${language_code,,}.md" << EOF
           ---
           "ublacklist": patch
           ---
