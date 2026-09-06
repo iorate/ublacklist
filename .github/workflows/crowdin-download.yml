@@ -96,7 +96,7 @@ jobs:
             language=$(node -p '
               new Intl.DisplayNames(["en"], { type: "language" }).of(process.argv[1])
             ' "$language_code")
-            cat > ".changeset/zz-${language_code,,}.md" << EOF
+            cat > ".changeset/zz-${language_code}.md" << EOF
           ---
           "ublacklist": patch
           ---
