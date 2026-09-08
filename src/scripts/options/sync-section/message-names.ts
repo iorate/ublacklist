@@ -14,6 +14,11 @@ export const messageNames: Record<
     syncTurnedOn: "clouds_dropboxSyncTurnedOn",
     syncDescription: "clouds_dropboxSyncDescription",
   },
+  oneDrive: {
+    sync: "clouds_oneDriveSync",
+    syncTurnedOn: "clouds_oneDriveSyncTurnedOn",
+    syncDescription: "clouds_oneDriveSyncDescription",
+  },
   webdav: {
     sync: "clouds_webdavSync",
     syncTurnedOn: "clouds_webdavSyncTurnedOn",

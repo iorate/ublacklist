@@ -25,7 +25,7 @@ export type Result = ErrorResult | SuccessResult;
 // #endregion Result
 
 // #region SyncBackends
-export type CloudId = "googleDrive" | "dropbox";
+export type CloudId = "googleDrive" | "dropbox" | "oneDrive";
 export type SyncBackendId = CloudId | "webdav" | "browserSync";
 
 export type SyncForce = "none" | "upload" | "download";

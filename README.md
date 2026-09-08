@@ -15,7 +15,7 @@ This extension prevents the sites you specify from appearing in Google search re
 
 You can add rules on search result pages, or on sites to be blocked by clicking the toolbar icon. Rules can be specified either by [match patterns](https://ublacklist.github.io/docs/advanced-features#match-patterns) (e.g. `*://*.example.com/*`) or by [expressions](https://ublacklist.github.io/docs/advanced-features#expressions) including regular expressions, variables and string matchers (e.g. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…).
 
-You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, WebDAV) or browser sync.
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, OneDrive, WebDAV) or browser sync.
 
 You can also subscribe to public rulesets. Some public rulesets are listed on the website:
 https://ublacklist.github.io/rulesets

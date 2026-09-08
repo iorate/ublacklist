@@ -8,6 +8,7 @@ declare namespace NodeJS {
     DROPBOX_APP_SECRET: string;
     GOOGLE_DRIVE_CLIENT_ID: string;
     GOOGLE_DRIVE_CLIENT_SECRET: string;
+    ONEDRIVE_CLIENT_ID: string;
   }
 }
 

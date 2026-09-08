@@ -49,6 +49,11 @@ export function BackendSelect({
             <SelectOption value="dropbox">
               {translate(messageNames.dropbox.sync)}
             </SelectOption>
+            {process.env.BROWSER !== "safari" && (
+              <SelectOption value="oneDrive">
+                {translate(messageNames.oneDrive.sync)}
+              </SelectOption>
+            )}
             <SelectOption value="webdav">
               {translate(messageNames.webdav.sync)}
             </SelectOption>

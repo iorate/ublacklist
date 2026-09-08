@@ -72,6 +72,8 @@ function getDefine(context: Context): Record<string, string> {
       process.env.GOOGLE_DRIVE_CLIENT_SECRET ??
       process.env.GOOGLE_DRIVE_API_SECRET ??
       "<GOOGLE_DRIVE_CLIENT_SECRET not set>",
+    ONEDRIVE_CLIENT_ID:
+      process.env.ONEDRIVE_CLIENT_ID ?? "<ONEDRIVE_CLIENT_ID not set>",
   };
   return Object.fromEntries(
     Object.entries(vars).map(([key, value]) => [
