@@ -35,7 +35,7 @@ import styles from "./index.module.css";
 // ---------------------------------------------------------------------------
 // Helpers
 
-function isProcessableUrl(url: string): boolean {
+export function isProcessableUrl(url: string): boolean {
   try {
     const u = new URL(url);
     return u.protocol === "http:" || u.protocol === "https:";
