@@ -59,10 +59,9 @@ async function setModifiedTime(
       },
     }),
   });
-  if (response.ok) {
-    return;
+  if (!response.ok) {
+    throw new HTTPError(response.status, response.statusText);
   }
-  throw new HTTPError(response.status, response.statusText);
 }
 
 async function uploadContent(
@@ -78,15 +77,15 @@ async function uploadContent(
     },
     body: content,
   });
-  if (response.ok) {
-    const responseBody: unknown = await response.json();
-    const parseResult = z.object({ id: z.string() }).safeParse(responseBody);
-    if (!parseResult.success) {
-      throw new UnexpectedResponse(responseBody);
-    }
-    return parseResult.data.id;
+  if (!response.ok) {
+    throw new HTTPError(response.status, response.statusText);
   }
-  throw new HTTPError(response.status, response.statusText);
+  const responseBody: unknown = await response.json();
+  const parseResult = z.object({ id: z.string() }).safeParse(responseBody);
+  if (!parseResult.success) {
+    throw new UnexpectedResponse(responseBody);
+  }
+  return parseResult.data.id;
 }
 
 export const oneDrive: Cloud = {
@@ -149,28 +148,26 @@ export const oneDrive: Cloud = {
         },
       },
     );
-    if (response.ok) {
-      const responseBody: unknown = await response.json();
-      const parseResult = z
-        .object({
-          id: z.string(),
-          fileSystemInfo: z.object({ lastModifiedDateTime: z.string() }),
-        })
-        .safeParse(responseBody);
-      if (!parseResult.success) {
-        throw new UnexpectedResponse(responseBody);
-      }
-      return {
-        id: parseResult.data.id,
-        modifiedTime: dayjs(
-          parseResult.data.fileSystemInfo.lastModifiedDateTime,
-        ),
-      };
-    }
     if (response.status === 404) {
       return null;
     }
-    throw new HTTPError(response.status, response.statusText);
+    if (!response.ok) {
+      throw new HTTPError(response.status, response.statusText);
+    }
+    const responseBody: unknown = await response.json();
+    const parseResult = z
+      .object({
+        id: z.string(),
+        fileSystemInfo: z.object({ lastModifiedDateTime: z.string() }),
+      })
+      .safeParse(responseBody);
+    if (!parseResult.success) {
+      throw new UnexpectedResponse(responseBody);
+    }
+    return {
+      id: parseResult.data.id,
+      modifiedTime: dayjs(parseResult.data.fileSystemInfo.lastModifiedDateTime),
+    };
   },
 
   async readFile(
@@ -182,11 +179,10 @@ export const oneDrive: Cloud = {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (response.ok) {
-      const responseBody = await response.text();
-      return { content: responseBody };
+    if (!response.ok) {
+      throw new HTTPError(response.status, response.statusText);
     }
-    throw new HTTPError(response.status, response.statusText);
+    return { content: await response.text() };
   },
 
   async updateFile(
