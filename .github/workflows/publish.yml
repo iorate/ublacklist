@@ -28,14 +28,14 @@ jobs:
           submodules: recursive
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
         with:
           run_install: true
           # Protect the release build from cache poisoning.
           cache: false
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@ad4d4fdef2a62a9e36cd1dfac53f68dc0cbfc03b # v6.3.1
+        uses: iorate/changesette/setup@29e1185a91faff2ec8eb4405de73fc383b649f2d # v6.4.0
 
       - name: Prepare release directories
         run: mkdir -p dist/release/{chrome,edge,firefox,github}
