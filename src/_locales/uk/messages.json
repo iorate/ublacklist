@@ -755,6 +755,18 @@
     "message": "Синхронізовано з Dropbox",
     "description": "Message indicating Dropbox sync is turned on."
   },
+  "clouds_oneDriveSync": {
+    "message": "Sync with OneDrive",
+    "description": "Label for the radio button to sync with OneDrive."
+  },
+  "clouds_oneDriveSyncDescription": {
+    "message": "A file will be created within \"/Apps/uBlacklist/\".",
+    "description": "Description for OneDrive sync."
+  },
+  "clouds_oneDriveSyncTurnedOn": {
+    "message": "Synced with OneDrive",
+    "description": "Message indicating OneDrive sync is turned on."
+  },
   "clouds_webdavSync": {
     "message": "Sync with WebDAV",
     "description": "Label for the radio button to sync with WebDAV."

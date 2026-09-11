@@ -15,7 +15,7 @@
 
 您可以为搜索结果添加规则或点击工具栏图标以屏蔽指定的网站。规则可以通过以下方式指定：[匹配模式](https://ublacklist.github.io/docs/advanced-features#match-patterns) (示例：`*://*.example.com/*`) 或使用[表达式](https://ublacklist.github.io/docs/advanced-features#expressions)包括正则表达式、变量和字符串匹配器 (示例：`/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…)。
 
-You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, WebDAV) or browser sync.
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, OneDrive, WebDAV) or browser sync.
 
 You can also subscribe to public rulesets. Some public rulesets are listed on the website:
 https://ublacklist.github.io/rulesets

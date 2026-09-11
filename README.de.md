@@ -15,7 +15,7 @@ Diese Erweiterung verhindert, dass die von Ihnen angegebenen Seiten in Google-Su
 
 Sie können Regeln auf Suchergebnisseiten oder auf Seiten, die blockiert werden sollen, hinzufügen, indem Sie auf das Symbol in der Symbolleiste klicken. Regeln können entweder durch [Übereinstimmende Muster](https://ublacklist.github.io/de/docs/advanced-features#match-patterns) (z. B. `*://*.example.com/*`) oder durch [Ausdrücke](https://ublacklist.github.io/de/docs/advanced-features#expressions) einschließlich regulärer Ausdrücke, Variablen und Zeichenfolgenübereinstimmungen (z. B. `/example\.(net|org)/`, `path*="example"i`, `$category = "images" & title ^= "Example"`…) festgelegt werden.
 
-Sie können Regelsätze geräteübergreifend über Cloud-Speicher (Google Drive, Dropbox, WebDAV) oder die Browser-Synchronisation synchronisieren.
+You can synchronize rulesets across devices via cloud storage (Google Drive, Dropbox, OneDrive, WebDAV) or browser sync.
 
 Sie können auch öffentliche Regelsätze abonnieren. Einige öffentliche Regelsätze sind auf der Website aufgeführt:
 https://ublacklist.github.io/rulesets
