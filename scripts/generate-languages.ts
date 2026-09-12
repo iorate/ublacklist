@@ -38,7 +38,7 @@ function toCrowdinConfig(languages: readonly Language[]): string {
   return `${header}\n${dump(config)}`;
 }
 
-function toCrowdinGitExclude(languages: readonly Language[]): string {
+function toCrowdinGitignore(languages: readonly Language[]): string {
   return [
     header,
     "README.*.md",
@@ -69,8 +69,8 @@ function toDayjsLocalesModule(languages: readonly Language[]): string {
 async function main() {
   await fs.writeFile("crowdin.yml", toCrowdinConfig(languages));
   await fs.writeFile(
-    ".github/crowdin-git-exclude",
-    toCrowdinGitExclude(languages),
+    ".github/crowdin.gitignore",
+    toCrowdinGitignore(languages),
   );
   await fs.writeFile(
     "src/scripts/shared/locales.generated.ts",

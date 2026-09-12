@@ -47,7 +47,7 @@ jobs:
           permission-pull-requests: write
 
       - name: Exclude README translations not yet merged
-        run: cat .github/crowdin-git-exclude >> .git/info/exclude
+        run: cat .github/crowdin.gitignore >> .git/info/exclude
 
       - name: Run crowdin
         id: crowdin
@@ -56,6 +56,8 @@ jobs:
           download_translations: true
           export_only_approved: true
           download_translations_args: --ignore-match
+          commit_message: Import translations from Crowdin
+          pull_request_title: Import translations from Crowdin
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           CROWDIN_PROJECT_ID: ${{ vars.CROWDIN_PROJECT_ID }}
