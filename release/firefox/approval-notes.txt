@@ -1,4 +1,4 @@
-This add-on requires pnpm 10 or later to build.
+This add-on requires pnpm 10.30.3 or later to build.
 
 $ pnpm install
 

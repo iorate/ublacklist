@@ -43,7 +43,7 @@ Please use [Crowdin](https://crowdin.com/project/ublacklist) for all translation
 
 ### Prerequisites
 
-[pnpm](https://pnpm.io/) >= 10 is required.
+[pnpm](https://pnpm.io/) >= 10.30.3 is required.
 
 ### Installation
 

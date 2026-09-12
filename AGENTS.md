@@ -9,7 +9,7 @@ uBlacklist is a browser extension that blocks specific sites from appearing in s
 ## Development Commands
 
 ```shell
-# Install dependencies (pnpm >= 10 required)
+# Install dependencies (pnpm >= 10.30.3 required)
 pnpm install
 
 # Build extension (outputs to dist/<browser>[-debug])
