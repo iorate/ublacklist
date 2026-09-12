@@ -155,6 +155,10 @@
     "message": "Set up",
     "description": "Text for the button to open SERPINFO options."
   },
+  "popup_cannotBlockPage": {
+    "message": "This page cannot be blocked",
+    "description": "Message indicating the current page (e.g. a browser internal page) cannot be blocked."
+  },
   "options_generalTitle": {
     "message": "일반",
     "description": "Title of the General section."
