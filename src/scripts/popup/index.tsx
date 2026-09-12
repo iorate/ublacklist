@@ -48,7 +48,7 @@ function Loading() {
   return <div className={styles.loading} />;
 }
 
-function EmptyPopupDialog() {
+function CannotBlockPopupDialog() {
   const id = useId();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
@@ -64,7 +64,7 @@ function EmptyPopupDialog() {
               <SvgIcon svg={icon} />
             </div>
             <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
-              {translate("extensionName")}
+              {translate("popup_cannotBlockPage")}
             </div>
           </div>
         </h2>
@@ -135,7 +135,7 @@ async function queryUserAgent(tabId: number): Promise<string> {
 function Popup() {
   const [state, setState] = useState<
     | { type: "loading" }
-    | { type: "empty" }
+    | { type: "cannotBlock" }
     | {
         type: "serpInfo";
         props: React.ComponentProps<typeof SerpInfoPopupDialog>;
@@ -151,7 +151,7 @@ function Popup() {
         title = null,
       } = (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
       if (tabId == null || url == null || !isProcessableUrl(url)) {
-        setState({ type: "empty" });
+        setState({ type: "cannotBlock" });
         return;
       }
       try {
@@ -211,8 +211,8 @@ function Popup() {
     <AutoThemeProvider>
       {state.type === "loading" ? (
         <Loading />
-      ) : state.type === "empty" ? (
-        <EmptyPopupDialog />
+      ) : state.type === "cannotBlock" ? (
+        <CannotBlockPopupDialog />
       ) : state.type === "serpInfo" ? (
         <SerpInfoPopupDialog {...state.props} />
       ) : state.type === "enableSerpInfo" ? (

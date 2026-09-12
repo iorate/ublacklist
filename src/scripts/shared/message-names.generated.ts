@@ -40,6 +40,7 @@ export type MessageName0 =
   | "popup_serpInfoMode_showBlockedResults"
   | "popup_serpInfoMode_available"
   | "popup_serpInfoMode_setupButton"
+  | "popup_cannotBlockPage"
   | "options_generalTitle"
   | "options_blacklistLabel"
   | "options_blacklistHelper"
