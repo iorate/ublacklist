@@ -6,8 +6,7 @@
   ],
   "git-submodules": {
     "enabled": true,
-    "schedule": ["* * * * 4"],
-    "minimumReleaseAge": null
+    "schedule": ["* * * * 4"]
   },
   "packageRules": [
     {
