@@ -732,7 +732,7 @@
     "description": "Text for the button to save user SERPINFO."
   },
   "clouds_googleDriveSync": {
-    "message": "Google ドライブと同期する",
+    "message": "Google ドライブで同期する",
     "description": "Label for the radio button to sync with Google Drive."
   },
   "clouds_googleDriveSyncDescription": {
@@ -740,11 +740,11 @@
     "description": "Description for Google Drive sync."
   },
   "clouds_googleDriveSyncTurnedOn": {
-    "message": "Google ドライブと同期しています",
+    "message": "Google ドライブで同期しています",
     "description": "Message indicating Google Drive sync is turned on."
   },
   "clouds_dropboxSync": {
-    "message": "Dropbox と同期する",
+    "message": "Dropbox で同期する",
     "description": "Label for the radio button to sync with Dropbox."
   },
   "clouds_dropboxSyncDescription": {
@@ -752,19 +752,19 @@
     "description": "Description for Dropbox sync."
   },
   "clouds_dropboxSyncTurnedOn": {
-    "message": "Dropbox と同期しています",
+    "message": "Dropbox で同期しています",
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_oneDriveSync": {
-    "message": "Sync with OneDrive",
+    "message": "OneDrive で同期する",
     "description": "Label for the radio button to sync with OneDrive."
   },
   "clouds_oneDriveSyncDescription": {
-    "message": "A file will be created within \"/Apps/uBlacklist/\".",
+    "message": "フォルダ \"/Apps/uBlacklist/\" にファイルが作成されます。",
     "description": "Description for OneDrive sync."
   },
   "clouds_oneDriveSyncTurnedOn": {
-    "message": "Synced with OneDrive",
+    "message": "OneDrive で同期しています",
     "description": "Message indicating OneDrive sync is turned on."
   },
   "clouds_webdavSync": {
