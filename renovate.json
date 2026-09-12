@@ -4,6 +4,11 @@
     "github>ublacklist/.github:renovate-config",
     ":pinAllExceptPeerDependencies"
   ],
+  "git-submodules": {
+    "enabled": true,
+    "schedule": ["* * * * 4"],
+    "minimumReleaseAge": null
+  },
   "packageRules": [
     {
       "matchManagers": ["git-submodules"],
