@@ -48,7 +48,7 @@ function Loading() {
   return <div className={styles.loading} />;
 }
 
-function CannotBlockPopupDialog() {
+function CannotBlockPopupDialog({ url }: { url: string | null }) {
   const id = useId();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
   return (
@@ -69,6 +69,13 @@ function CannotBlockPopupDialog() {
           </div>
         </h2>
       </div>
+      {url != null && (
+        <div className={rowStyles.row}>
+          <div className={clsx(rowStyles.rowItem, rowStyles.expanded)}>
+            <span className={styles.url}>{url}</span>
+          </div>
+        </div>
+      )}
       <div className={dialogStyles.footer}>
         <div
           className={clsx(rowStyles.row, rowStyles.multiline, rowStyles.right)}
@@ -135,7 +142,7 @@ async function queryUserAgent(tabId: number): Promise<string> {
 function Popup() {
   const [state, setState] = useState<
     | { type: "loading" }
-    | { type: "cannotBlock" }
+    | { type: "cannotBlock"; url: string | null }
     | {
         type: "serpInfo";
         props: React.ComponentProps<typeof SerpInfoPopupDialog>;
@@ -151,7 +158,7 @@ function Popup() {
         title = null,
       } = (await browser.tabs.query({ active: true, currentWindow: true }))[0]!;
       if (tabId == null || url == null || !isProcessableUrl(url)) {
-        setState({ type: "cannotBlock" });
+        setState({ type: "cannotBlock", url: url ?? null });
         return;
       }
       try {
@@ -212,7 +219,7 @@ function Popup() {
       {state.type === "loading" ? (
         <Loading />
       ) : state.type === "cannotBlock" ? (
-        <CannotBlockPopupDialog />
+        <CannotBlockPopupDialog url={state.url} />
       ) : state.type === "serpInfo" ? (
         <SerpInfoPopupDialog {...state.props} />
       ) : state.type === "enableSerpInfo" ? (
