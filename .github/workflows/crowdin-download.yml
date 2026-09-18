@@ -116,7 +116,7 @@ jobs:
           permission-contents: write
 
       - name: Commit changes
-        uses: suzuki-shunsuke/commit-action@06e3b49d4706498d325d29bd85adc82ecf2f5d8f # v1.0.0
+        uses: suzuki-shunsuke/commit-action@5eaa5ecce3ffe93d09a85b946dc5136e3713b1b7 # v1.1.0
         with:
           github_token: ${{ steps.generate-token.outputs.token }}
           branch: ${{ env.LOCALIZATION_BRANCH_NAME }}
