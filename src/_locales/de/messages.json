@@ -156,7 +156,7 @@
     "description": "Text for the button to open SERPINFO options."
   },
   "popup_cannotBlockPage": {
-    "message": "This page cannot be blocked",
+    "message": "Diese Seite kann nicht blockiert werden",
     "description": "Message indicating the current page (e.g. a browser internal page) cannot be blocked."
   },
   "options_generalTitle": {
@@ -760,15 +760,15 @@
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_oneDriveSync": {
-    "message": "Sync with OneDrive",
+    "message": "Mit OneDrive synchronisieren",
     "description": "Label for the radio button to sync with OneDrive."
   },
   "clouds_oneDriveSyncDescription": {
-    "message": "A file will be created within \"/Apps/uBlacklist/\".",
+    "message": "Eine Datei wird in \"/Apps/uBlacklist/\" erstellt.",
     "description": "Description for OneDrive sync."
   },
   "clouds_oneDriveSyncTurnedOn": {
-    "message": "Synced with OneDrive",
+    "message": "Mit OneDrive synchronisiert",
     "description": "Message indicating OneDrive sync is turned on."
   },
   "clouds_webdavSync": {
@@ -788,7 +788,7 @@
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUrlCreateDescription": {
-    "message": "The folder specified by the URL is created if it does not exist.",
+    "message": "Der durch die URL angegebene Ordner wird erstellt, falls er nicht existiert.",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
