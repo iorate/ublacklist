@@ -149,7 +149,10 @@ jobs:
         uses: iorate/wepub/setup@cc561a13c1b2a0eb32e0e56aadeef79a289d4acc # v1.0.5
 
       - name: Publish to Edge Add-ons
-        run: wepub edge dist/release/edge/package.zip --notes-file dist/release/edge/notes-for-certification.txt
+        # Temporary: verify that the Edge Add-ons API accepts a submission without notes (iorate/wepub#140).
+        run: |
+          wepub edge -v dist/release/edge/package.zip \
+            || wepub edge -v dist/release/edge/package.zip --notes-file dist/release/edge/notes-for-certification.txt
         env:
           WEPUB_EDGE_PRODUCT_ID: ${{ vars.EDGE_PRODUCT_ID }}
           WEPUB_EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
