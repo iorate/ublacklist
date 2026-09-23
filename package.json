@@ -62,7 +62,7 @@
     "@types/webextension-polyfill": "0.12.6",
     "chrome-types": "0.1.447",
     "csstype": "3.2.3",
-    "dotenv": "17.4.2",
+    "dotenv": "18.0.1",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.0",
     "js-yaml": "5.4.2",
