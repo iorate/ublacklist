@@ -4,6 +4,9 @@ body:
       value: |
         Feel free to raise a bug report if something isn't working as expected.
 
+        > [!IMPORTANT]
+        > **Google: block buttons missing or blocked sites still shown on some results?** This is a known issue. See [#1105](https://github.com/iorate/ublacklist/discussions/1105) for workarounds instead of opening a new report.
+
         This form is for bugs in the **uBlacklist extension itself**. For issues with the [website](https://ublacklist.github.io), please use the [Website category](https://github.com/iorate/ublacklist/discussions/new?category=website) instead.
 
   - type: textarea
