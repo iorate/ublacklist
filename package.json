@@ -28,7 +28,7 @@
     "@codemirror/lint": "6.9.7",
     "@codemirror/state": "6.7.6",
     "@codemirror/view": "6.43.13",
-    "@lezer/highlight": "1.2.3",
+    "@lezer/highlight": "1.2.5",
     "@mdi/svg": "7.4.47",
     "@neodrag/vanilla": "2.3.1",
     "@sindresorhus/fnv1a": "3.1.0",
@@ -46,7 +46,7 @@
     "react": "19.3.0",
     "react-colorful": "5.8.1",
     "react-dom": "19.3.0",
-    "tldts": "7.4.14",
+    "tldts": "7.4.16",
     "zod": "4.6.5",
     "zustand": "5.0.15"
   },
@@ -55,21 +55,21 @@
     "@types/css-tree": "3.2.0",
     "@types/fs-extra": "11.0.4",
     "@types/license-checker": "25.0.6",
-    "@types/node": "26.6.2",
+    "@types/node": "26.6.3",
     "@types/punycode": "2.1.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/webextension-polyfill": "0.12.6",
-    "chrome-types": "0.1.449",
+    "chrome-types": "0.1.450",
     "csstype": "3.2.3",
-    "dotenv": "18.0.3",
+    "dotenv": "18.0.4",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.1",
     "js-yaml": "5.4.2",
     "lefthook": "2.1.14",
-    "oxfmt": "0.70.0",
-    "oxlint": "1.85.0",
-    "oxlint-tsgolint": "7.0.2002"
+    "oxfmt": "0.71.0",
+    "oxlint": "1.86.0",
+    "oxlint-tsgolint": "7.0.2003"
   },
   "devEngines": {
     "runtime": {
@@ -78,5 +78,5 @@
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.8.1"
 }
