@@ -1,6 +1,6 @@
 {
   "name": "ublacklist",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "private": true,
   "type": "module",
   "imports": {

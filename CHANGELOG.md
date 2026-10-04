@@ -1,5 +1,13 @@
 # ublacklist
 
+## 10.1.2
+
+### Patch Changes
+
+- Fixed an issue where clicking the block button navigated to the search result when the result element was a link.
+
+- Updated the Korean translation.
+
 ## 10.1.1
 
 ### Patch Changes
