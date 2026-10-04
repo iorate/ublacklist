@@ -1,6 +1,6 @@
 # uBlacklist
 
-[English](README.md) | Deutsch | [简体中文](README.zh-CN.md)
+[English](README.md) | [Deutsch](README.de.md) | [한국어](README.ko.md) | [简体中文](README.zh-CN.md)
 
 Verhindert, dass bestimmte Seiten in den Google-Suchergebnissen angezeigt werden
 
