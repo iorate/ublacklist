@@ -48,7 +48,7 @@
     "description": "Link text to unblock a site."
   },
   "content_unhighlightSiteLink": {
-    "message": "Unhighlight this site",
+    "message": "이 사이트 강조 해제",
     "description": "Link text to unhighlight a site."
   },
   "popup_blockSiteTitle": {
@@ -60,11 +60,11 @@
     "description": "Title of the popup to unblock a site."
   },
   "popup_highlightSiteTitle": {
-    "message": "Highlight this site",
+    "message": "이 사이트 강조",
     "description": "Title of the popup to highlight a site."
   },
   "popup_unhighlightSiteTitle": {
-    "message": "Unhighlight this site",
+    "message": "이 사이트 강조 해제",
     "description": "Title of the popup to unhighlight a site."
   },
   "popup_details": {
@@ -72,7 +72,7 @@
     "description": "Title of the details disclosure widget."
   },
   "popup_propertiesLabel": {
-    "message": "Properties",
+    "message": "속성",
     "description": "Label for the table showing the entry's URL, title, and other properties."
   },
   "popup_addedRulesLabel": {
@@ -84,7 +84,7 @@
     "description": "Label for the textarea showing rules to be removed."
   },
   "popup_noRules": {
-    "message": "(none)",
+    "message": "(없음)",
     "description": "Placeholder shown in a rules list when no rules apply."
   },
   "popup_blockSiteButton": {
@@ -96,15 +96,15 @@
     "description": "Text for the button to unblock a site."
   },
   "popup_highlightSiteButton": {
-    "message": "Highlight",
+    "message": "강조",
     "description": "Text for the button to highlight a site."
   },
   "popup_unhighlightSiteButton": {
-    "message": "Unhighlight",
+    "message": "강조 해제",
     "description": "Text for the button to unhighlight a site."
   },
   "popup_changeActionLabel": {
-    "message": "Change action",
+    "message": "작업 변경",
     "description": "Accessibility label for the dropdown arrow that lets the user change the main action (block / unblock / highlight)."
   },
   "popup_openOptionsLink": {
@@ -124,39 +124,39 @@
     "description": "Text for the button to activate the extension."
   },
   "popup_matchingRules": {
-    "message": "Matching Rules",
+    "message": "일치하는 규칙",
     "description": "Title of the disclosure widget containing matching rules information."
   },
   "popup_blockingRulesLabel": {
-    "message": "Rules blocking this entry",
+    "message": "이 항목을 차단하는 규칙",
     "description": "Label for the textarea showing rules blocking the entry."
   },
   "popup_unblockingRulesLabel": {
-    "message": "Rules unblocking this entry",
+    "message": "이 항목을 차단 해제하는 규칙",
     "description": "Label for the textarea showing rules unblocking the entry."
   },
   "popup_highlightingRulesLabel": {
-    "message": "Rules highlighting this entry",
+    "message": "이 항목을 강조하는 규칙",
     "description": "Label for the textarea showing rules highlighting the entry."
   },
   "popup_myRulesetHeader": {
-    "message": "My ruleset",
+    "message": "내 규칙 세트",
     "description": "Header shown above rules from the user's own ruleset in the matching rules view."
   },
   "popup_serpInfoMode_showBlockedResults": {
-    "message": "Show blocked search results",
+    "message": "차단된 검색 결과 표시",
     "description": "Label for the switch to show blocked results."
   },
   "popup_serpInfoMode_available": {
-    "message": "You can use uBlacklist on this page",
+    "message": "이 페이지에서 uBlacklist를 사용할 수 있습니다",
     "description": "Message indicating uBlacklist can be used on the current page."
   },
   "popup_serpInfoMode_setupButton": {
-    "message": "Set up",
+    "message": "설정",
     "description": "Text for the button to open SERPINFO options."
   },
   "popup_cannotBlockPage": {
-    "message": "This page cannot be blocked",
+    "message": "이 페이지는 차단할 수 없습니다",
     "description": "Message indicating the current page (e.g. a browser internal page) cannot be blocked."
   },
   "options_generalTitle": {
@@ -252,15 +252,15 @@
     "description": "Label for the switch to skip the block dialog."
   },
   "options_skipBlockDialogDescription": {
-    "message": "Hold Shift when clicking the block button to toggle this behavior.",
+    "message": "차단 버튼을 클릭할 때 Shift 키를 누르고 있으면 이 동작이 전환됩니다.",
     "description": "Description of the skip block dialog feature."
   },
   "options_hideBlockButtonsLabel": {
-    "message": "Hide the block buttons",
+    "message": "차단 버튼 숨기기",
     "description": "Label for the switch to hide block buttons."
   },
   "options_hideControlLabel": {
-    "message": "Hide the show/hide button for blocked results",
+    "message": "차단된 결과 표시/숨기기 버튼 숨기기",
     "description": "Label for the switch to hide the button that shows/hides blocked results."
   },
   "options_blockWholeSiteLabel": {
@@ -272,7 +272,7 @@
     "description": "Description of the block whole site feature."
   },
   "options_enableMatchingRules": {
-    "message": "Show matching rules in the \"Block this site\" dialog",
+    "message": "\"이 사이트 차단\" 대화상자에 일치하는 규칙 표시",
     "description": "Label for the switch to enable matching rules."
   },
   "options_appearanceTitle": {
@@ -368,19 +368,19 @@
     "description": "Text for the button to turn on sync in the dialog."
   },
   "options_turnOnSyncDialog_initialSyncLabel": {
-    "message": "Initial sync",
+    "message": "초기 동기화",
     "description": "Label for the initial-sync-behavior selector in the turn-on-sync dialog."
   },
   "options_turnOnSyncDialog_initialSyncLastWriteWins": {
-    "message": "Keep newest version",
+    "message": "최신 버전 유지",
     "description": "Option that keeps whichever side (local or cloud) was modified most recently for each category."
   },
   "options_turnOnSyncDialog_initialSyncUseLocal": {
-    "message": "Use local version",
+    "message": "로컬 버전 사용",
     "description": "Option that uses the local version of settings, overwriting the remote version, on the first sync."
   },
   "options_turnOnSyncDialog_initialSyncUseRemote": {
-    "message": "Use remote version",
+    "message": "원격 버전 사용",
     "description": "Option that uses the remote version of settings, overwriting local settings, on the first sync."
   },
   "options_turnOffSync": {
@@ -428,15 +428,15 @@
     "description": "Label for the switch to sync SERPINFO."
   },
   "options_syncIntervalInMinutes": {
-    "message": "Sync interval (minutes)",
+    "message": "동기화 간격(분)",
     "description": "Label for the number field to set a sync interval in minutes."
   },
   "options_increaseIntervalButton": {
-    "message": "Increase",
+    "message": "증가",
     "description": "Accessible name for the button to increase an interval."
   },
   "options_decreaseIntervalButton": {
-    "message": "Decrease",
+    "message": "감소",
     "description": "Accessible name for the button to decrease an interval."
   },
   "options_subscriptionTitle": {
@@ -444,19 +444,19 @@
     "description": "Title of the Subscription section."
   },
   "options_enableRulesetSubscriptionURL": {
-    "message": "Enable ruleset subscription links",
+    "message": "규칙 세트 구독 링크 활성화",
     "description": "Text for the button to enable ruleset subscription links."
   },
   "options_enableRulesetSubscriptionURLDescription": {
-    "message": "Redirects $1 to this page to add a ruleset subscription.",
+    "message": "규칙 세트 구독을 추가하기 위해 $1을(를) 이 페이지로 리디렉션합니다.",
     "description": "Description for the ruleset subscription URL feature. '$1' will be replaced with the domain."
   },
   "options_enableRulesetSubscriptionURLButton": {
-    "message": "Enable",
+    "message": "활성화",
     "description": "Text for the button to enable ruleset subscription URL."
   },
   "options_rulesetSubscriptionURLIsEnabled": {
-    "message": "Ruleset subscription links are enabled",
+    "message": "규칙 세트 구독 링크가 활성화되었습니다",
     "description": "Message indicating ruleset subscription links are enabled."
   },
   "options_subscriptionFeature": {
@@ -508,7 +508,7 @@
     "description": "Text for the menu item to update a subscription now."
   },
   "options_renameSubscriptionMenu": {
-    "message": "Rename",
+    "message": "이름 바꾸기",
     "description": "Text for the menu item to rename a subscription."
   },
   "options_removeSubscriptionMenu": {
@@ -516,11 +516,11 @@
     "description": "Text for the menu item to remove a subscription."
   },
   "options_renameSubscriptionDialog_title": {
-    "message": "Rename subscription",
+    "message": "구독 이름 바꾸기",
     "description": "Title of the rename subscription dialog."
   },
   "options_renameSubscriptionDialog_renameButton": {
-    "message": "Rename",
+    "message": "이름 바꾸기",
     "description": "Text for the rename button in the rename subscription dialog."
   },
   "options_updateAllSubscriptionsNowButton": {
@@ -536,15 +536,15 @@
     "description": "Label for the URL input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_typeLabel": {
-    "message": "Type",
+    "message": "유형",
     "description": "Label for the type select in the add subscription dialog."
   },
   "options_addSubscriptionDialog_typeRuleset": {
-    "message": "Ruleset",
+    "message": "규칙 세트",
     "description": "Label for the ruleset option in the type select."
   },
   "options_addSubscriptionDialog_typeDomains": {
-    "message": "Domains",
+    "message": "도메인",
     "description": "Label for the domains option in the type select."
   },
   "options_addSubscriptionDialog_nameLabel": {
@@ -552,7 +552,7 @@
     "description": "Label for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_nameDescription": {
-    "message": "If empty, the name of the downloaded ruleset or the URL will be used.",
+    "message": "비워두면 다운로드한 규칙 세트의 이름이나 URL이 사용됩니다.",
     "description": "Helper text for the name input in the add subscription dialog."
   },
   "options_addSubscriptionDialog_addButton": {
@@ -564,7 +564,7 @@
     "description": "Label for the textarea in the show subscription dialog."
   },
   "options_updateIntervalInDays": {
-    "message": "Update interval (days)",
+    "message": "업데이트 간격(일)",
     "description": "Label for the number field to set an update interval in days."
   },
   "options_backupRestoreTitle": {
@@ -628,7 +628,7 @@
     "description": "Text for the link to third-party notices."
   },
   "options_experimentalSectionTitle": {
-    "message": "Experimental features",
+    "message": "실험적 기능",
     "description": "Title of the Experimental section."
   },
   "options_serpInfoLabel": {
@@ -636,83 +636,83 @@
     "description": "Label for SERPINFO."
   },
   "options_openSerpInfoOptionsButton": {
-    "message": "Options",
+    "message": "옵션",
     "description": "Text for the button to open SERPINFO options."
   },
   "options_serpInfoBasicSettingsSection": {
-    "message": "Basic settings",
+    "message": "기본 설정",
     "description": "Title of the Basic Settings section for SERPINFO."
   },
   "options_enableSerpInfo": {
-    "message": "Enable SERPINFO",
+    "message": "SERPINFO 활성화",
     "description": "Label for the switch to enable SERPINFO."
   },
   "options_enableSerpInfoSubscriptionURL": {
-    "message": "Enable SERPINFO subscription links",
+    "message": "SERPINFO 구독 링크 활성화",
     "description": "Text for the button to enable SERPINFO subscription URL."
   },
   "options_enableSerpInfoSubscriptionURLDescription": {
-    "message": "Redirects $1 to this page to add SERPINFO.",
+    "message": "SERPINFO를 추가하기 위해 $1을(를) 이 페이지로 리디렉션합니다.",
     "description": "Description for the SERPINFO subscription URL feature. '$1' will be replaced with the domain."
   },
   "options_enableSerpInfoSubscriptionURLButton": {
-    "message": "Enable",
+    "message": "활성화",
     "description": "Text for the button to enable SERPINFO subscription URL."
   },
   "options_serpInfoSubscriptionURLIsEnabled": {
-    "message": "SERPINFO subscription links are enabled",
+    "message": "SERPINFO 구독 링크가 활성화되었습니다",
     "description": "Message indicating SERPINFO subscription links are enabled."
   },
   "options_accessPermissionLabel": {
-    "message": "Update access permissions",
+    "message": "접근 권한 업데이트",
     "description": "Label for the access permission."
   },
   "options_accessPermissionDescription": {
-    "message": "If SERPINFO settings are synced from another device or otherwise changed, you may be required to update access permissions.",
+    "message": "다른 기기에서 SERPINFO 설정이 동기화되었거나 기타 변경 사항이 있는 경우, 접근 권한을 업데이트해야 할 수 있습니다.",
     "description": "Description for the access permission."
   },
   "options_accessPermissionButton": {
-    "message": "Update",
+    "message": "업데이트",
     "description": "Text for the button to update access permission."
   },
   "options_remoteSerpInfoSection": {
-    "message": "SERPINFO list",
+    "message": "SERPINFO 목록",
     "description": "Title of the Remote SERPINFO section."
   },
   "options_remoteSerpInfoVersion": {
-    "message": "Version",
+    "message": "버전",
     "description": "Version of remote SERPINFO."
   },
   "options_remoteSerpInfoLastModified": {
-    "message": "Last modified",
+    "message": "최종 수정일",
     "description": "Last modified date of remote SERPINFO."
   },
   "options_remoteSerpInfoHomepage": {
-    "message": "Homepage",
+    "message": "홈페이지",
     "description": "Homepage of remote SERPINFO."
   },
   "options_showRemoteSerpInfoButton": {
-    "message": "Show",
+    "message": "표시",
     "description": "Text for the button to show remote SERPINFO."
   },
   "options_removeRemoteSerpInfoButton": {
-    "message": "Remove",
+    "message": "제거",
     "description": "Text for the button to remove remote SERPINFO."
   },
   "options_updateAllRemoteSerpInfoButton": {
-    "message": "Update now",
+    "message": "지금 업데이트",
     "description": "Text for the button to update all remote SERPINFO."
   },
   "options_remoteSerpInfoUpdateDone": {
-    "message": "Completed",
+    "message": "완료됨",
     "description": "Message shown when remote SERPINFO update is done."
   },
   "options_addRemoteSerpInfoButton": {
-    "message": "Add",
+    "message": "추가",
     "description": "Text for the button to add remote SERPINFO."
   },
   "options_addRemoteSerpInfoDialog_title": {
-    "message": "Add SERPINFO",
+    "message": "SERPINFO 추가",
     "description": "Title of the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_urlLabel": {
@@ -720,19 +720,19 @@
     "description": "Label for the input in the add SERPINFO dialog."
   },
   "options_addRemoteSerpInfoDialog_addButton": {
-    "message": "Add",
+    "message": "추가",
     "description": "Text for the add button in the add SERPINFO dialog."
   },
   "options_userSerpInfoSection": {
-    "message": "My SERPINFO",
+    "message": "내 SERPINFO",
     "description": "Title of the User SERPINFO section."
   },
   "options_userSerpInfoDocumentationLink": {
-    "message": "Documentation",
+    "message": "문서",
     "description": "Link to the documentation for SERPINFO."
   },
   "options_saveUserSerpInfo": {
-    "message": "Save",
+    "message": "저장",
     "description": "Text for the button to save user SERPINFO."
   },
   "clouds_googleDriveSync": {
@@ -760,27 +760,27 @@
     "description": "Message indicating Dropbox sync is turned on."
   },
   "clouds_oneDriveSync": {
-    "message": "Sync with OneDrive",
+    "message": "OneDrive와 동기화",
     "description": "Label for the radio button to sync with OneDrive."
   },
   "clouds_oneDriveSyncDescription": {
-    "message": "A file will be created within \"/Apps/uBlacklist/\".",
+    "message": "\"/Apps/uBlacklist/\" 내에 파일이 생성됩니다.",
     "description": "Description for OneDrive sync."
   },
   "clouds_oneDriveSyncTurnedOn": {
-    "message": "Synced with OneDrive",
+    "message": "OneDrive와 동기화됨",
     "description": "Message indicating OneDrive sync is turned on."
   },
   "clouds_webdavSync": {
-    "message": "Sync with WebDAV",
+    "message": "WebDAV와 동기화",
     "description": "Label for the radio button to sync with WebDAV."
   },
   "clouds_webdavSyncDescription": {
-    "message": "A file will be created within the folder at the URL.",
+    "message": "해당 URL의 폴더 내에 파일이 생성됩니다.",
     "description": "Description for WebDAV sync."
   },
   "clouds_webdavSyncTurnedOn": {
-    "message": "Synced with WebDAV",
+    "message": "WebDAV와 동기화됨",
     "description": "Message indicating WebDAV sync is turned on."
   },
   "clouds_webdavUrlLabel": {
@@ -788,31 +788,31 @@
     "description": "Label for the input for the WebDAV URL."
   },
   "clouds_webdavUrlCreateDescription": {
-    "message": "The folder specified by the URL is created if it does not exist.",
+    "message": "URL로 지정된 폴더가 없으면 새로 생성됩니다.",
     "description": "Description for the input for the WebDAV URL."
   },
   "clouds_webdavUsernameLabel": {
-    "message": "Username",
+    "message": "사용자 이름",
     "description": "Label for the input for the WebDAV username."
   },
   "clouds_webdavPasswordLabel": {
-    "message": "Password",
+    "message": "비밀번호",
     "description": "Label for the input for the WebDAV password."
   },
   "clouds_browserSync": {
-    "message": "Sync with browser",
+    "message": "브라우저와 동기화",
     "description": "Label for the radio button to sync with browser storage."
   },
   "clouds_browserSyncDescription": {
-    "message": "Uses the browser's built-in sync feature. Sync timing depends on the browser's implementation. Has storage size limitations.",
+    "message": "브라우저의 기본 내장 동기화 기능을 사용합니다. 동기화 주기는 브라우저의 동작 방식에 따라 달라집니다. 저장 공간 크기 제한이 있습니다.",
     "description": "Description for browser storage sync."
   },
   "clouds_browserSyncTurnedOn": {
-    "message": "Synced with browser",
+    "message": "브라우저와 동기화됨",
     "description": "Message indicating browser storage sync is turned on."
   },
   "clouds_browserSyncQuotaExceeded": {
-    "message": "Data size exceeds browser storage limit. Try reducing the number of rules or switch to another sync method.",
+    "message": "데이터 크기가 브라우저 저장 한도를 초과했습니다. 규칙 수를 줄이거나 다른 동기화 방식으로 전환해 보세요.",
     "description": "Error message shown when sync fails due to quota exceeded."
   }
 }
