@@ -238,6 +238,7 @@ function addButtonListeners(
     return;
   }
   button.addEventListener("click", (event) => {
+    event.preventDefault();
     event.stopPropagation();
     buttonProps.onClick(event);
   });
