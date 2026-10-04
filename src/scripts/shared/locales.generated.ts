@@ -19,7 +19,7 @@ export const locales: Readonly<
   },
   "ko": {
     "dayjs": "ko",
-    "website": false
+    "website": true
   },
   "pl": {
     "dayjs": "pl",
