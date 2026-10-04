@@ -16,7 +16,7 @@ de: { readme: true, website: true }
 es: { crowdin: es-ES }
 fr:
 ja: { website: true }
-ko:
+ko: { readme: true, website: true }
 pl:
 pt-BR: { website: true }
 ru:
