@@ -21,13 +21,13 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@base-ui/react": "1.8.0",
+    "@base-ui/react": "1.9.0",
     "@codemirror/commands": "6.11.1",
     "@codemirror/lang-yaml": "6.1.3",
-    "@codemirror/language": "6.12.4",
+    "@codemirror/language": "6.13.1",
     "@codemirror/lint": "6.9.7",
     "@codemirror/state": "6.7.6",
-    "@codemirror/view": "6.43.13",
+    "@codemirror/view": "6.43.14",
     "@lezer/highlight": "1.2.5",
     "@mdi/svg": "7.4.47",
     "@neodrag/vanilla": "2.3.1",
@@ -46,37 +46,37 @@
     "react": "19.3.0",
     "react-colorful": "5.8.1",
     "react-dom": "19.3.0",
-    "tldts": "7.4.16",
-    "zod": "4.6.5",
+    "tldts": "7.4.18",
+    "zod": "4.6.7",
     "zustand": "5.0.15"
   },
   "devDependencies": {
-    "@playwright/test": "1.63.0",
+    "@playwright/test": "1.64.0",
     "@types/css-tree": "3.2.0",
     "@types/fs-extra": "11.0.4",
     "@types/license-checker": "25.0.6",
-    "@types/node": "26.6.4",
+    "@types/node": "26.6.5",
     "@types/punycode": "2.1.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/webextension-polyfill": "0.12.6",
-    "chrome-types": "0.1.452",
+    "chrome-types": "0.1.455",
     "csstype": "3.2.3",
-    "dotenv": "18.0.5",
+    "dotenv": "18.0.7",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.1",
     "js-yaml": "5.4.3",
-    "lefthook": "2.1.17",
-    "oxfmt": "0.72.0",
-    "oxlint": "1.87.0",
-    "oxlint-tsgolint": "7.0.2003"
+    "lefthook": "2.2.1",
+    "oxfmt": "0.73.0",
+    "oxlint": "1.88.0",
+    "oxlint-tsgolint": "7.0.2004"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.10.0",
+      "version": "26.12.0",
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.10.0"
+  "packageManager": "pnpm@12.13.0"
 }
