@@ -27,7 +27,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup changesette
-        uses: iorate/changesette/setup@fed73d2efd3423bab6ab0c93d6d4d7e4b62bc1c1 # v7.2.0
+        uses: iorate/changesette/setup@b370e56da41258dce8313c46a75eb4c5647f0fd6 # v7.2.2
 
       - name: Bump version
         id: version
