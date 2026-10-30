@@ -39,7 +39,7 @@
     "colord": "2.10.0",
     "css-tree": "3.2.1",
     "dayjs": "1.11.23",
-    "es-toolkit": "1.52.0",
+    "es-toolkit": "1.53.0",
     "is-mobile": "5.0.0",
     "lz-string": "1.5.0",
     "punycode": "2.3.1",
@@ -48,7 +48,7 @@
     "react-dom": "19.3.1",
     "tldts": "7.4.19",
     "zod": "4.6.7",
-    "zustand": "5.0.15"
+    "zustand": "5.0.16"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
@@ -60,23 +60,23 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@types/webextension-polyfill": "0.12.6",
-    "chrome-types": "0.1.457",
+    "chrome-types": "0.1.460",
     "csstype": "3.2.3",
-    "dotenv": "18.0.8",
+    "dotenv": "18.0.9",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.1",
     "js-yaml": "5.5.0",
     "lefthook": "2.2.1",
-    "oxfmt": "0.74.0",
-    "oxlint": "1.89.0",
-    "oxlint-tsgolint": "7.0.2004"
+    "oxfmt": "0.75.0",
+    "oxlint": "1.90.0",
+    "oxlint-tsgolint": "7.0.2005"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.12.0",
+      "version": "26.12.1",
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.14.0"
+  "packageManager": "pnpm@12.16.1"
 }
