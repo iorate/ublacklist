@@ -275,9 +275,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@types/webextension-polyfill':
-        specifier: 0.12.6
-        version: 0.12.6
       chrome-types:
         specifier: 0.1.460
         version: 0.1.460
@@ -868,9 +865,6 @@ packages:
 
   '@types/react@19.3.0':
     resolution: {integrity: sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==}
-
-  '@types/webextension-polyfill@0.12.6':
-    resolution: {integrity: sha512-XTNQSGiQaipt1iocbpHSjYHd+Ujcya+K5H4H2uH7JwycReTFixoYqGWIKih2Ec072NuEW2lAyXRDYmlEx00+cw==}
 
   '@ublacklist/match-pattern@2.0.0':
     resolution: {integrity: sha512-iR5GAS1V0g3lC06Y6jWDVA6pe6j1V88TfY8sD3oXTvfk8JurBh7o90jHWANax7VthXmcnFO2QKad6yJb8c5HCQ==}
@@ -1619,8 +1613,6 @@ snapshots:
   '@types/react@19.3.0':
     dependencies:
       csstype: 3.2.3
-
-  '@types/webextension-polyfill@0.12.6': {}
 
   '@ublacklist/match-pattern@2.0.0': {}
 

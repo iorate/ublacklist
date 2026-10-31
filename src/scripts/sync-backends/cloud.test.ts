@@ -3,7 +3,9 @@ import { test } from "node:test";
 
 import type { Cloud, CloudToken } from "../shared/types.ts";
 
-globalThis.browser = { i18n: { getMessage: (name: string) => name } };
+globalThis.browser = {
+  i18n: { getMessage: (name: string) => name },
+} as typeof browser;
 
 const { HTTPError } = await import("../shared/utilities.ts");
 const { createClient } = await import("./cloud.ts");

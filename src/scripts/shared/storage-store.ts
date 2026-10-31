@@ -1,7 +1,7 @@
 import { createStore, type Mutate, type StoreApi, useStore } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
-import { type Browser, browser } from "./browser.ts";
+import { browser } from "./browser.ts";
 import { defaultLocalStorageItems } from "./local-storage.ts";
 import type { LocalStorageItems, LocalStorageItemsSavable } from "./types.ts";
 
@@ -32,9 +32,9 @@ function createStorageStore<
     store.setState(state as T);
   });
 
-  const listener = (
-    changes: Browser.Storage.StorageAreaOnChangedChangesType,
-  ) => {
+  const listener = (changes: {
+    [key: string]: browser.storage.StorageChange;
+  }) => {
     const state: Partial<T> = {};
     for (const [key, { newValue }] of Object.entries(changes)) {
       if (!Object.hasOwn(defaultState, key) || newValue === undefined) {

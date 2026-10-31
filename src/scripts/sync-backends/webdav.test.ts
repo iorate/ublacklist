@@ -6,7 +6,9 @@ import dayjs from "dayjs";
 
 import type { WebDAVParams } from "../shared/types.ts";
 
-globalThis.browser = { i18n: { getMessage: (name: string) => name } };
+globalThis.browser = {
+  i18n: { getMessage: (name: string) => name },
+} as typeof browser;
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
