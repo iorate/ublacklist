@@ -6,8 +6,8 @@ import { test } from "node:test";
 import type { RawStorageItems } from "./raw-storage.ts";
 
 globalThis.browser = {
-  i18n: { getMessage: () => "", getUILanguage: () => "en" },
-};
+  i18n: { getMessage: (_name: string) => "", getUILanguage: () => "en" },
+} as typeof browser;
 
 registerHooks({
   resolve(specifier, context, nextResolve) {

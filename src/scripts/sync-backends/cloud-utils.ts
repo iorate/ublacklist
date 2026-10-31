@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import dayjsUTC from "dayjs/plugin/utc";
 import * as z from "zod";
 
-import { type Browser, browser } from "../shared/browser.ts";
+import { browser } from "../shared/browser.ts";
 import { getWebsiteURL } from "../shared/locales.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
 
@@ -70,7 +70,7 @@ async function launchAltFlow(params: { url: string }): Promise<string> {
   }
   return new Promise<string>((resolve, reject) => {
     const [onUpdated, onRemoved] = [
-      (tabId: number, _changeInfo: unknown, tab: Browser.Tabs.Tab) => {
+      (tabId: number, _changeInfo: unknown, tab: browser.tabs.Tab) => {
         if (
           tabId === authorizationTabId &&
           tab.url?.startsWith(altFlowRedirectURL)

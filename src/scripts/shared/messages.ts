@@ -1,4 +1,4 @@
-import { type Browser, browser } from "./browser.ts";
+import { browser } from "./browser.ts";
 import type {
   CloudId,
   LocalStorageItemsBackupRestore,
@@ -149,9 +149,9 @@ function invokeListener(
 export function addMessageListeners(
   listeners: Readonly<MessageListeners>,
 ): () => void {
-  const listener = ((
+  const listener = (
     message: unknown,
-    _sender: Browser.Runtime.MessageSender,
+    _sender: browser.runtime.MessageSender,
     sendResponse: (response: unknown) => void,
   ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
@@ -162,7 +162,7 @@ export function addMessageListeners(
         sendResponse,
       );
     }
-  }) as Browser.Runtime.OnMessageListener;
+  };
   browser.runtime.onMessage.addListener(listener);
   return () => {
     browser.runtime.onMessage.removeListener(listener);
@@ -172,9 +172,9 @@ export function addMessageListeners(
 export function addMessageFromTabListeners(
   listeners: Readonly<MessageFromTabListeners>,
 ): () => void {
-  const listener = ((
+  const listener = (
     message: unknown,
-    sender: Browser.Runtime.MessageSender,
+    sender: browser.runtime.MessageSender,
     sendResponse: (response: unknown) => void,
   ) => {
     const { type, args } = message as { type: MessageTypes; args: unknown[] };
@@ -189,7 +189,7 @@ export function addMessageFromTabListeners(
         sendResponse,
       );
     }
-  }) as Browser.Runtime.OnMessageListener;
+  };
   browser.runtime.onMessage.addListener(listener);
   return () => {
     browser.runtime.onMessage.removeListener(listener);
