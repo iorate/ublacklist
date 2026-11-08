@@ -5,7 +5,6 @@ import type {
   RootCommand,
 } from "@ublacklist/serpinfo";
 import { zip } from "es-toolkit";
-import punycode from "punycode/";
 
 import iconSVG from "../../icons/icon.svg";
 import { adoptStyleSheet } from "../shared/adopt-style-sheet.ts";
@@ -153,7 +152,11 @@ const propertyCommandImpl: PropertyCommandImpl = {
     if (m == null) {
       return null;
     }
-    return `https://${punycode.toASCII(m[0])}/`;
+    try {
+      return new URL(`https://${m[0]}/`).href;
+    } catch {
+      return null;
+    }
   },
   or(context, commands) {
     for (const command of commands) {
