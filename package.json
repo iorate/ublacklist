@@ -54,7 +54,6 @@
     "@playwright/test": "1.64.1",
     "@types/css-tree": "3.2.0",
     "@types/fs-extra": "11.0.4",
-    "@types/license-checker": "25.0.6",
     "@types/node": "26.6.5",
     "@types/punycode": "2.1.4",
     "@types/react": "19.3.0",
