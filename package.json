@@ -61,7 +61,6 @@
     "@types/react-dom": "19.3.0",
     "chrome-types": "0.1.460",
     "csstype": "3.2.3",
-    "dotenv": "18.0.9",
     "esbuild": "0.28.2",
     "fs-extra": "11.4.1",
     "js-yaml": "5.5.0",
