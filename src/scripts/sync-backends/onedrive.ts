@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import * as z from "zod";
 
 import { browser } from "../shared/browser.ts";
@@ -45,7 +44,7 @@ async function withoutOriginHeader<T>(f: () => Promise<T>): Promise<T> {
 async function setModifiedTime(
   accessToken: string,
   id: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
 ): Promise<void> {
   const response = await fetch(`${GRAPH_URL}/me/drive/items/${id}`, {
     method: "PATCH",
@@ -126,7 +125,7 @@ export const oneDrive: Cloud = {
     accessToken: string,
     filename: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     const id = await uploadContent(
       accessToken,
@@ -139,7 +138,7 @@ export const oneDrive: Cloud = {
   async findFile(
     accessToken: string,
     filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  ): Promise<{ id: string; modifiedTime: Date } | null> {
     const response = await fetch(
       `${GRAPH_URL}/me/drive/special/approot:/${encodeURIComponent(filename)}`,
       {
@@ -166,7 +165,9 @@ export const oneDrive: Cloud = {
     }
     return {
       id: parseResult.data.id,
-      modifiedTime: dayjs(parseResult.data.fileSystemInfo.lastModifiedDateTime),
+      modifiedTime: new Date(
+        parseResult.data.fileSystemInfo.lastModifiedDateTime,
+      ),
     };
   },
 
@@ -189,7 +190,7 @@ export const oneDrive: Cloud = {
     accessToken: string,
     id: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     await uploadContent(
       accessToken,

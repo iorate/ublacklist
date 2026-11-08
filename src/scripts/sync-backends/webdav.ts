@@ -1,10 +1,5 @@
-import dayjs from "dayjs";
-import dayjsUTC from "dayjs/plugin/utc";
-
 import type { SyncBackendClient, WebDAVParams } from "../shared/types.ts";
 import { HTTPError } from "../shared/utilities.ts";
-
-dayjs.extend(dayjsUTC);
 
 function encodeBase64(bytes: Uint8Array): string {
   return btoa(String.fromCharCode(...bytes));
@@ -94,7 +89,7 @@ export function ensureWebDAVFolder(params: WebDAVParams): Promise<void> {
 async function findFile(
   params: WebDAVParams,
   filename: string,
-): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+): Promise<{ id: string; modifiedTime: Date } | null> {
   const response = await request(params, "HEAD", fileURL(params, filename));
   if (response.status === 404) {
     return null;
@@ -106,8 +101,8 @@ async function findFile(
   if (lastModified == null) {
     throw new Error("Missing Last-Modified header in WebDAV HEAD response");
   }
-  const modifiedTime = dayjs.utc(lastModified);
-  if (!modifiedTime.isValid()) {
+  const modifiedTime = new Date(lastModified);
+  if (Number.isNaN(modifiedTime.getTime())) {
     throw new Error(
       `Invalid Last-Modified header in WebDAV HEAD response: ${lastModified}`,
     );
@@ -133,14 +128,14 @@ async function writeFile(
   params: WebDAVParams,
   id: string,
   content: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
 ): Promise<void> {
   const response = await request(params, "PUT", fileURL(params, id), {
     headers: {
       "Content-Type": "application/octet-stream",
-      "X-OC-Mtime": modifiedTime.unix().toString(),
-      "X-Last-Modified": modifiedTime.toString(),
-      "Last-Modified": modifiedTime.toString(),
+      "X-OC-Mtime": Math.floor(modifiedTime.getTime() / 1000).toString(),
+      "X-Last-Modified": modifiedTime.toUTCString(),
+      "Last-Modified": modifiedTime.toUTCString(),
     },
     body: content,
   });
@@ -155,14 +150,14 @@ export function createClient(params: WebDAVParams): SyncBackendClient {
     createFile: async (
       filename: string,
       content: string,
-      modifiedTime: dayjs.Dayjs,
+      modifiedTime: Date,
     ) => {
       await ensureWebDAVFolder(params);
       await writeFile(params, filename, content, modifiedTime);
     },
     findFile: (filename: string) => findFile(params, filename),
     readFile: (id: string) => readFile(params, id),
-    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
+    updateFile: (id: string, content: string, modifiedTime: Date) =>
       writeFile(params, id, content, modifiedTime),
     modifiedTimePrecision: "second",
   };

@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import { browser } from "../shared/browser.ts";
 import { addMessageListeners } from "../shared/messages.ts";
 import * as BackupRestore from "./backup-restore.ts";
@@ -82,14 +80,11 @@ function main() {
           browser.alarms.get(Sync.SYNC_ALARM_NAME),
           browser.alarms.get(Subscriptions.UPDATE_ALL_ALARM_NAME),
         ]);
-        const now = dayjs();
-        if (syncAlarm && dayjs(syncAlarm.scheduledTime).isBefore(now)) {
+        const now = Date.now();
+        if (syncAlarm && syncAlarm.scheduledTime < now) {
           void Sync.sync();
         }
-        if (
-          updateAllAlarm &&
-          dayjs(updateAllAlarm.scheduledTime).isBefore(now)
-        ) {
+        if (updateAllAlarm && updateAllAlarm.scheduledTime < now) {
           void Subscriptions.updateAll();
         }
       })();

@@ -1,6 +1,5 @@
 import { Checkbox } from "@base-ui/react/checkbox";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import { useState } from "react";
 
 import { Menu, MenuItem } from "../../components/menu.tsx";
@@ -67,7 +66,7 @@ export function SubscriptionTableRow({
         ) : isErrorResult(subscription.updateResult) ? (
           translate("error", subscription.updateResult.message)
         ) : (
-          <FromNow time={dayjs(subscription.updateResult.timestamp)} />
+          <FromNow time={new Date(subscription.updateResult.timestamp)} />
         )}
       </td>
       <td className={tableStyles.cell}>

@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import { translate } from "../shared/locales.ts";
 import type { Cloud, CloudToken, SyncBackendClient } from "../shared/types.ts";
 import { HTTPError } from "../shared/utilities.ts";
@@ -19,7 +17,7 @@ export function createClient(
         accessToken: newToken.accessToken,
         expiresAt:
           newToken.expiresIn != null
-            ? dayjs().add(newToken.expiresIn, "second").toISOString()
+            ? new Date(Date.now() + newToken.expiresIn * 1000).toISOString()
             : null,
         refreshToken: newToken.refreshToken ?? token.refreshToken,
         pkce: token.pkce ?? false,
@@ -36,7 +34,7 @@ export function createClient(
   const handleRefresh = async <T>(f: () => Promise<T>): Promise<T> => {
     if (
       token.expiresAt != null &&
-      dayjs().isAfter(dayjs(token.expiresAt).subtract(60, "second"))
+      Date.now() > new Date(token.expiresAt).getTime() - 60 * 1000
     ) {
       await refresh();
     }
@@ -51,11 +49,7 @@ export function createClient(
     }
   };
   return {
-    createFile: (
-      filename: string,
-      content: string,
-      modifiedTime: dayjs.Dayjs,
-    ) =>
+    createFile: (filename: string, content: string, modifiedTime: Date) =>
       handleRefresh(() =>
         cloud.createFile(token.accessToken, filename, content, modifiedTime),
       ),
@@ -63,7 +57,7 @@ export function createClient(
       handleRefresh(() => cloud.findFile(token.accessToken, filename)),
     readFile: (id: string) =>
       handleRefresh(() => cloud.readFile(token.accessToken, id)),
-    updateFile: (id: string, content: string, modifiedTime: dayjs.Dayjs) =>
+    updateFile: (id: string, content: string, modifiedTime: Date) =>
       handleRefresh(() =>
         cloud.updateFile(token.accessToken, id, content, modifiedTime),
       ),

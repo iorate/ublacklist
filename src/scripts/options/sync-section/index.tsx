@@ -1,6 +1,5 @@
 import { Button } from "@base-ui/react/button";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import { useEffect, useId, useState } from "react";
 
 import { translate } from "../../shared/locales.ts";
@@ -115,7 +114,7 @@ function SyncNow(props: { backendId: SyncBackendId | false | null }) {
               ) : isErrorResult(syncResult) ? (
                 translate("error", syncResult.message)
               ) : (
-                <FromNow time={dayjs(syncResult.timestamp)} />
+                <FromNow time={new Date(syncResult.timestamp)} />
               )}
             </div>
           </div>

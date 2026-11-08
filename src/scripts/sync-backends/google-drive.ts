@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import * as z from "zod";
 
 import type { Cloud } from "../shared/types.ts";
@@ -50,7 +49,7 @@ export const googleDrive: Cloud = {
     accessToken: string,
     filename: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     const requestURL = new URL(
       "https://www.googleapis.com/upload/drive/v3/files",
@@ -89,7 +88,7 @@ ${content}\r
   async findFile(
     accessToken: string,
     filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  ): Promise<{ id: string; modifiedTime: Date } | null> {
     const requestURL = new URL("https://www.googleapis.com/drive/v3/files");
     requestURL.search = new URLSearchParams({
       // Move authorization from the 'Authorization' header to avoid preflight requests.
@@ -120,7 +119,7 @@ ${content}\r
       }
       return {
         id: file.id,
-        modifiedTime: dayjs(file.modifiedTime),
+        modifiedTime: new Date(file.modifiedTime),
       };
     }
     throw new HTTPError(response.status, response.statusText);
@@ -158,7 +157,7 @@ ${content}\r
     accessToken: string,
     id: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     const requestURL = new URL(
       `https://www.googleapis.com/upload/drive/v3/files/${id}`,

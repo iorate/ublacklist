@@ -1,10 +1,9 @@
-import dayjs from "dayjs";
-
 import { translate } from "../shared/locales.ts";
 import { supportedClouds } from "../shared/supported-clouds.ts";
 import type {
   CloudId,
   CloudToken,
+  SyncBackendClient,
   SyncForce,
   WebDAVParams,
 } from "../shared/types.ts";
@@ -45,7 +44,9 @@ export async function connectToCloud(
         syncCloudId: id,
         syncCloudToken: {
           accessToken: token.accessToken,
-          expiresAt: dayjs().add(token.expiresIn, "second").toISOString(),
+          expiresAt: new Date(
+            Date.now() + token.expiresIn * 1000,
+          ).toISOString(),
           refreshToken: token.refreshToken,
           pkce: true,
         },
@@ -116,12 +117,20 @@ export function disconnect(): Promise<void> {
   });
 }
 
+function truncateTime(
+  time: Date,
+  precision: SyncBackendClient["modifiedTimePrecision"],
+): number {
+  const ms = time.getTime();
+  return precision === "second" ? Math.floor(ms / 1000) * 1000 : ms;
+}
+
 export function syncFile(
   filename: string,
   content: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
   force: SyncForce,
-): Promise<{ content: string; modifiedTime: dayjs.Dayjs } | null> {
+): Promise<{ content: string; modifiedTime: Date } | null> {
   return mutex.lock(async () => {
     const { syncCloudId, syncCloudToken } = await loadFromRawStorage([
       "syncCloudId",
@@ -149,7 +158,7 @@ export function syncFile(
     if (force === "upload") {
       // Use `now` so this device's version wins on other devices' next sync,
       // regardless of their existing local/cloud timestamps.
-      const forcedTime = dayjs();
+      const forcedTime = new Date();
       if (cloudFile) {
         await client.updateFile(cloudFile.id, content, forcedTime);
       } else {
@@ -165,24 +174,22 @@ export function syncFile(
       return { content: cloudContent, modifiedTime: cloudFile.modifiedTime };
     }
     if (cloudFile) {
-      if (
-        modifiedTime.isBefore(
-          cloudFile.modifiedTime,
-          client.modifiedTimePrecision,
-        )
-      ) {
+      const localTime = truncateTime(
+        modifiedTime,
+        client.modifiedTimePrecision,
+      );
+      const cloudTime = truncateTime(
+        cloudFile.modifiedTime,
+        client.modifiedTimePrecision,
+      );
+      if (localTime < cloudTime) {
         const { content: cloudContent } = await client.readFile(cloudFile.id);
         return {
           content: cloudContent,
           modifiedTime: cloudFile.modifiedTime,
         };
       }
-      if (
-        modifiedTime.isSame(
-          cloudFile.modifiedTime,
-          client.modifiedTimePrecision,
-        )
-      ) {
+      if (localTime === cloudTime) {
         return null;
       }
       await client.updateFile(cloudFile.id, content, modifiedTime);

@@ -3,7 +3,6 @@ import {
   type MatchPatternMapJSON,
 } from "@ublacklist/match-pattern";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
-import dayjs from "dayjs";
 import * as z from "zod";
 
 import { BUILTINS, GOOGLE_SERPINFO_URL } from "./builtin-serpinfo.ts";
@@ -183,8 +182,9 @@ function shouldUpdateFromBuiltin(
   ) {
     return false;
   }
-  return dayjs(stored.parsed.lastModified).isBefore(
-    builtinParseResult.data.lastModified,
+  return (
+    new Date(stored.parsed.lastModified).getTime() <
+    new Date(builtinParseResult.data.lastModified).getTime()
   );
 }
 

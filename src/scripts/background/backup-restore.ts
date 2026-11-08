@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import {
   defaultLocalStorageItems,
   loadFromLocalStorage,
@@ -53,7 +51,7 @@ export async function restore(
 ): Promise<void> {
   await resetAllInRawStorage(({ nextSubscriptionId }) => {
     const defaults = defaultLocalStorageItems;
-    const now = dayjs().toISOString();
+    const now = new Date().toISOString();
 
     const blacklist = items.blacklist ?? defaults.blacklist;
     const ruleset = toPlainRuleset(blacklist);

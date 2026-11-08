@@ -1,5 +1,4 @@
 import { Ruleset, type RulesetJSON } from "@ublacklist/ruleset";
-import dayjs from "dayjs";
 
 import { InteractiveRuleset } from "./interactive-ruleset.ts";
 import { translate } from "./locales.ts";
@@ -81,7 +80,7 @@ export function errorResult(message: string): ErrorResult {
 export function successResult(): SuccessResult {
   return {
     type: "success",
-    timestamp: dayjs().toISOString(),
+    timestamp: new Date().toISOString(),
   };
 }
 // #endregion Result

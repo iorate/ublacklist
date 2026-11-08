@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import { browser } from "../shared/browser.ts";
 import { clampSyncInterval } from "../shared/intervals.ts";
 import { postMessage } from "../shared/messages.ts";
@@ -116,7 +114,7 @@ async function doSync(
 
 export async function setupSyncAlarm(): Promise<void> {
   const alarm = await browser.alarms.get(SYNC_ALARM_NAME);
-  if (alarm && dayjs().isBefore(alarm.scheduledTime)) {
+  if (alarm && Date.now() < alarm.scheduledTime) {
     return;
   }
   void sync();

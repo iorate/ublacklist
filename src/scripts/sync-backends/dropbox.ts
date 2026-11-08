@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import * as z from "zod";
 
 import type { Cloud } from "../shared/types.ts";
@@ -43,7 +42,7 @@ export const dropbox: Cloud = {
     accessToken: string,
     filename: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     const urlBuilder = new URL("https://content.dropboxapi.com/2/files/upload");
     urlBuilder.search = new URLSearchParams({
@@ -74,7 +73,7 @@ export const dropbox: Cloud = {
   async findFile(
     accessToken: string,
     filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+  ): Promise<{ id: string; modifiedTime: Date } | null> {
     const urlBuilder = new URL(
       "https://api.dropboxapi.com/2/files/get_metadata",
     );
@@ -103,7 +102,7 @@ export const dropbox: Cloud = {
       }
       return {
         id: parseResult.data.id,
-        modifiedTime: dayjs(parseResult.data.client_modified),
+        modifiedTime: new Date(parseResult.data.client_modified),
       };
     }
     if (response.status === 409) {
@@ -156,7 +155,7 @@ export const dropbox: Cloud = {
     accessToken: string,
     id: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void> {
     const urlBuilder = new URL("https://content.dropboxapi.com/2/files/upload");
     urlBuilder.search = new URLSearchParams({

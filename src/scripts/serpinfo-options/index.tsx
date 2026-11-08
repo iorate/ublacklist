@@ -6,8 +6,6 @@ import eyeSVG from "@mdi/svg/svg/eye.svg";
 import homeSVG from "@mdi/svg/svg/home.svg";
 import { parse, type SerpInfo } from "@ublacklist/serpinfo";
 import clsx from "clsx";
-import dayjs from "dayjs";
-import dayjsLocalizedFormat from "dayjs/plugin/localizedFormat";
 import type React from "react";
 import { Suspense, use, useEffect, useId, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -23,12 +21,7 @@ import { browser } from "../shared/browser.ts";
 import { GOOGLE_SERPINFO_URL } from "../shared/builtin-serpinfo.ts";
 import { permissionExemptOrigins } from "../shared/constants.ts";
 import { EnableSubscriptionURL } from "../shared/enable-subscription-url.tsx";
-import {
-  getDayjsLocale,
-  getLocale,
-  getWebsiteURL,
-  translate,
-} from "../shared/locales.ts";
+import { getLocale, getWebsiteURL, translate } from "../shared/locales.ts";
 import { postMessage, sendMessage } from "../shared/messages.ts";
 import { requestPermission } from "../shared/permissions.ts";
 import type {
@@ -40,8 +33,6 @@ import { Editor } from "./editor.tsx";
 
 import buttonStyles from "../styles/button.module.css";
 import containerStyles from "../styles/container.module.css";
-import "../shared/dayjs-locales.generated.ts";
-
 import dialogStyles from "../styles/dialog.module.css";
 import iconButtonStyles from "../styles/icon-button.module.css";
 import inputStyles from "../styles/input.module.css";
@@ -52,8 +43,6 @@ import sectionStyles from "../styles/section.module.css";
 import styles from "../styles/switch.module.css";
 import textStyles from "../styles/text.module.css";
 import pageStyles from "./index.module.css";
-
-dayjs.extend(dayjsLocalizedFormat);
 
 function BasicSettingsSection(props: { id: string }) {
   const id = useId();
@@ -235,11 +224,7 @@ function RemoteSerpInfoSection(props: { id: string }) {
                             )}
                             {lastModified && (
                               <div className={labelStyles.subLabel}>
-                                {`${translate("options_remoteSerpInfoLastModified")}: ${dayjs(
-                                  lastModified,
-                                )
-                                  .locale(getDayjsLocale())
-                                  .format("LL")}`}
+                                {`${translate("options_remoteSerpInfoLastModified")}: ${new Intl.DateTimeFormat(getLocale(), { dateStyle: "long" }).format(new Date(lastModified))}`}
                               </div>
                             )}
                             {error && (
