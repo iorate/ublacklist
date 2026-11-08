@@ -217,9 +217,6 @@ importers:
       css-tree:
         specifier: 3.2.1
         version: 3.2.1
-      dayjs:
-        specifier: 1.11.23
-        version: 1.11.23
       es-toolkit:
         specifier: 1.53.0
         version: 1.53.0
@@ -876,9 +873,6 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
-
-  dayjs@1.11.23:
-    resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
 
   es-toolkit@1.53.0:
     resolution: {integrity: sha512-3+AYXp9fmJ/UhHBMYj2/U+RaUouMD90SzoItyDOB2Za7W6dB7fQApFGnZPl2MF6K8/Tv1koh1JyirSx/kju6Pw==}
@@ -1599,8 +1593,6 @@ snapshots:
       source-map-js: 1.2.2
 
   csstype@3.2.3: {}
-
-  dayjs@1.11.23: {}
 
   es-toolkit@1.53.0: {}
 

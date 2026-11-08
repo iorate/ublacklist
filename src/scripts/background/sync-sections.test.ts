@@ -10,12 +10,6 @@ globalThis.browser = {
 } as typeof browser;
 
 registerHooks({
-  resolve(specifier, context, nextResolve) {
-    if (specifier.startsWith("dayjs/plugin/") && !specifier.endsWith(".js")) {
-      return nextResolve(`${specifier}.js`, context);
-    }
-    return nextResolve(specifier, context);
-  },
   load(url, context, nextLoad) {
     if (url.endsWith(".yml")) {
       return {

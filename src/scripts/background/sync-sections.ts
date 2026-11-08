@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 import * as z from "zod";
 
@@ -54,12 +53,12 @@ export type SyncSection = {
   beforeUpload(localItems: Readonly<RawStorageItems>): {
     filename: string;
     content: string;
-    modifiedTime: dayjs.Dayjs;
+    modifiedTime: Date;
   };
   afterDownload(
     cloudItems: Readonly<Partial<RawStorageItems>>,
     cloudContent: string,
-    cloudModifiedTime: dayjs.Dayjs,
+    cloudModifiedTime: Date,
     localItems: Readonly<RawStorageItems>,
   ): Partial<RawStorageItems>;
   afterDownloadAll(
@@ -82,7 +81,7 @@ function createSyncSection(config: SyncSectionConfig): SyncSection {
       return {
         filename: config.filename,
         content: config.serialize(localItems),
-        modifiedTime: dayjs(config.getModifiedTime(localItems)),
+        modifiedTime: new Date(config.getModifiedTime(localItems)),
       };
     },
     afterDownload(cloudItems, cloudContent, cloudModifiedTime, localItems) {

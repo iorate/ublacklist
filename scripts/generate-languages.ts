@@ -51,19 +51,12 @@ function toCrowdinGitignore(languages: readonly Language[]): string {
 
 function toLocalesModule(languages: readonly Language[]): string {
   const locales = Object.fromEntries(
-    languages.map(({ tag, dayjs, website }) => [tag, { dayjs, website }]),
+    languages.map(({ tag, website }) => [tag, { website }]),
   );
   return `export const locales: Readonly<
-  Record<string, { dayjs: string; website: boolean }>
+  Record<string, { website: boolean }>
 > = ${JSON.stringify(locales, null, 2)};
 `;
-}
-
-function toDayjsLocalesModule(languages: readonly Language[]): string {
-  return [
-    ...languages.map(({ dayjs }) => `import "dayjs/locale/${dayjs}";`),
-    "",
-  ].join("\n");
 }
 
 async function main() {
@@ -75,10 +68,6 @@ async function main() {
   await fs.writeFile(
     "src/scripts/shared/locales.generated.ts",
     toLocalesModule(languages),
-  );
-  await fs.writeFile(
-    "src/scripts/shared/dayjs-locales.generated.ts",
-    toDayjsLocalesModule(languages),
   );
 }
 

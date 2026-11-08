@@ -8,7 +8,6 @@ const languagesSchema = z.record(
   z
     .strictObject({
       crowdin: z.string().optional(),
-      dayjs: z.string().optional(),
       readme: z.boolean().optional(),
       website: z.boolean().optional(),
     })
@@ -19,7 +18,6 @@ export type Language = {
   tag: string;
   directory: string;
   crowdin: string;
-  dayjs: string;
   readme: boolean;
   website: boolean;
 };
@@ -32,7 +30,6 @@ export const languages: readonly Language[] = Object.entries(
   tag,
   directory: tag.replaceAll("-", "_"),
   crowdin: options?.crowdin ?? tag,
-  dayjs: options?.dayjs ?? tag.toLowerCase(),
   readme: options?.readme ?? false,
   website: options?.website ?? false,
 }));

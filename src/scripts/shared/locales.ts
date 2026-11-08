@@ -29,10 +29,6 @@ export function getLocale(): string {
   return resolveLocale(browser.i18n.getUILanguage());
 }
 
-export function getDayjsLocale(): string {
-  return locales[getLocale()]?.dayjs ?? "en";
-}
-
 export function getWebsiteURL(path: string): string {
   const locale = getLocale();
   return `https://ublacklist.github.io${

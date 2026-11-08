@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { omit } from "es-toolkit";
 
 import { browser } from "../shared/browser.ts";
@@ -77,7 +76,7 @@ export function update(id: SubscriptionId): Promise<void> {
 
 export async function setupUpdateAllAlarm(): Promise<void> {
   const alarm = await browser.alarms.get(UPDATE_ALL_ALARM_NAME);
-  if (alarm && dayjs().isBefore(alarm.scheduledTime)) {
+  if (alarm && Date.now() < alarm.scheduledTime) {
     return;
   }
   void updateAll();

@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import { browser } from "../shared/browser.ts";
 import { defaultLocalStorageItems } from "../shared/local-storage.ts";
 import type {
@@ -28,7 +26,7 @@ export type RawStorageItemsFor<T extends readonly (keyof RawStorageItems)[]> = {
   [Key in T[number]]: RawStorageItems[Key];
 };
 
-const timeZero = dayjs(0).toISOString();
+const timeZero = new Date(0).toISOString();
 
 const defaultRawStorageItems: Readonly<RawStorageItems> = {
   ...defaultLocalStorageItems,

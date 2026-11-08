@@ -1,5 +1,3 @@
-import type dayjs from "dayjs";
-
 import type {
   SerpInfoSettings,
   Serializable as SerpInfoSettingsSerializable,
@@ -55,18 +53,18 @@ export type Cloud = {
     accessToken: string,
     filename: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void>;
   findFile(
     accessToken: string,
     filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  ): Promise<{ id: string; modifiedTime: Date } | null>;
   readFile(accessToken: string, id: string): Promise<{ content: string }>;
   updateFile(
     accessToken: string,
     id: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void>;
 };
 
@@ -81,17 +79,13 @@ export type SyncBackendClient = {
   createFile(
     filename: string,
     content: string,
-    modifiedTime: dayjs.Dayjs,
+    modifiedTime: Date,
   ): Promise<void>;
   findFile(
     filename: string,
-  ): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null>;
+  ): Promise<{ id: string; modifiedTime: Date } | null>;
   readFile(id: string): Promise<{ content: string }>;
-  updateFile(
-    id: string,
-    content: string,
-    modifiedTime: dayjs.Dayjs,
-  ): Promise<void>;
+  updateFile(id: string, content: string, modifiedTime: Date): Promise<void>;
   modifiedTimePrecision: "second" | "millisecond";
 };
 

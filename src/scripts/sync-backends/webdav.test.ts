@@ -1,23 +1,11 @@
 import assert from "node:assert/strict";
-import { registerHooks } from "node:module";
 import { type TestContext, test } from "node:test";
-
-import dayjs from "dayjs";
 
 import type { WebDAVParams } from "../shared/types.ts";
 
 globalThis.browser = {
   i18n: { getMessage: (name: string) => name },
 } as typeof browser;
-
-registerHooks({
-  resolve(specifier, context, nextResolve) {
-    if (specifier.startsWith("dayjs/plugin/") && !specifier.endsWith(".js")) {
-      return nextResolve(`${specifier}.js`, context);
-    }
-    return nextResolve(specifier, context);
-  },
-});
 
 const { HTTPError } = await import("../shared/utilities.ts");
 const { createClient, ensureWebDAVFolder } = await import("./webdav.ts");
@@ -256,7 +244,7 @@ test("createClient (webdav)", async (t) => {
       const file = await client.findFile("uBlacklist.txt");
       assert.ok(file);
       assert.equal(file.id, "uBlacklist.txt");
-      assert.equal(file.modifiedTime.unix(), 1577934245);
+      assert.equal(file.modifiedTime.getTime() / 1000, 1577934245);
       assert.equal(calls[0]?.url, "https://example.com/dav/uBlacklist.txt");
       assert.equal(calls[0]?.init.method, "HEAD");
     });
@@ -323,7 +311,7 @@ test("createClient (webdav)", async (t) => {
     });
   });
 
-  const modifiedTime = dayjs.unix(1577934245);
+  const modifiedTime = new Date(1577934245 * 1000);
 
   function mockPut(
     t: TestContext,
@@ -339,7 +327,7 @@ test("createClient (webdav)", async (t) => {
   for (const [name, write, expectedCalls] of [
     [
       "createFile",
-      (content: string, modifiedTime: dayjs.Dayjs) =>
+      (content: string, modifiedTime: Date) =>
         client.createFile("uBlacklist.txt", content, modifiedTime),
       [
         "PROPFIND https://example.com/dav/",
@@ -348,7 +336,7 @@ test("createClient (webdav)", async (t) => {
     ],
     [
       "updateFile",
-      (content: string, modifiedTime: dayjs.Dayjs) =>
+      (content: string, modifiedTime: Date) =>
         client.updateFile("uBlacklist.txt", content, modifiedTime),
       ["PUT https://example.com/dav/uBlacklist.txt"],
     ],
@@ -371,11 +359,11 @@ test("createClient (webdav)", async (t) => {
           assert.equal(header(call.init, "X-OC-Mtime"), "1577934245");
           assert.equal(
             header(call.init, "X-Last-Modified"),
-            modifiedTime.toString(),
+            modifiedTime.toUTCString(),
           );
           assert.equal(
             header(call.init, "Last-Modified"),
-            modifiedTime.toString(),
+            modifiedTime.toUTCString(),
           );
         });
       }

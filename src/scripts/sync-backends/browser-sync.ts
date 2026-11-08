@@ -1,5 +1,4 @@
 import fnv1a from "@sindresorhus/fnv1a";
-import dayjs from "dayjs";
 import { range } from "es-toolkit";
 import LZString from "lz-string";
 import * as z from "zod";
@@ -38,7 +37,7 @@ async function writeFileInternal(
   id: string,
   content: string,
   filename: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
   existingChunkCount?: number,
 ): Promise<void> {
   const compressed = LZString.compressToBase64(content);
@@ -76,7 +75,7 @@ async function writeFileInternal(
 async function createFile(
   filename: string,
   content: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
 ): Promise<void> {
   const id = computeId(filename);
   const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
@@ -88,7 +87,7 @@ async function createFile(
 
 async function findFile(
   filename: string,
-): Promise<{ id: string; modifiedTime: dayjs.Dayjs } | null> {
+): Promise<{ id: string; modifiedTime: Date } | null> {
   const id = computeId(filename);
   const { [id]: metadataRaw } = await browser.storage.sync.get(id);
   if (metadataRaw == null) {
@@ -98,7 +97,7 @@ async function findFile(
   if (metadata.filename !== filename) {
     throw new Error(`Hash collision for filename: ${filename}`);
   }
-  return { id, modifiedTime: dayjs(metadata.lastModified) };
+  return { id, modifiedTime: new Date(metadata.lastModified) };
 }
 
 async function readFile(id: string): Promise<{ content: string }> {
@@ -124,7 +123,7 @@ async function readFile(id: string): Promise<{ content: string }> {
 async function writeFile(
   id: string,
   content: string,
-  modifiedTime: dayjs.Dayjs,
+  modifiedTime: Date,
 ): Promise<void> {
   const { [id]: existingMetadataRaw } = await browser.storage.sync.get(id);
   if (existingMetadataRaw == null) {

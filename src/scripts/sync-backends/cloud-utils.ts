@@ -1,12 +1,8 @@
-import dayjs from "dayjs";
-import dayjsUTC from "dayjs/plugin/utc";
 import * as z from "zod";
 
 import { browser } from "../shared/browser.ts";
 import { getWebsiteURL } from "../shared/locales.ts";
 import { HTTPError, UnexpectedResponse } from "../shared/utilities.ts";
-
-dayjs.extend(dayjsUTC);
 
 export type AuthorizeParams = {
   client_id: string;
@@ -34,8 +30,8 @@ export async function computeCodeChallenge(
   return encodeBase64URL(new Uint8Array(digest));
 }
 
-export function toISOStringSecond(time: dayjs.Dayjs): string {
-  return time.utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
+export function toISOStringSecond(time: Date): string {
+  return time.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
 export function shouldUseAltFlow(): (os: string) => boolean {

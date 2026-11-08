@@ -6,7 +6,6 @@
 # file name (README.<tag>.md) and the website locale.
 #
 # crowdin: language code on Crowdin (default: the tag).
-# dayjs:   locale name of dayjs (default: the tag in lower case).
 # readme:  true once the README translation on Crowdin is good enough to merge.
 #          Until then, the file Crowdin exports is ignored in the Crowdin workflows.
 # website: true if https://ublacklist.github.io is translated. When setting it,

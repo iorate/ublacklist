@@ -1,5 +1,3 @@
-import dayjs from "dayjs";
-
 import { postMessage } from "../shared/messages.ts";
 import type {
   LocalStorageItemsSavable,
@@ -23,7 +21,7 @@ type LocalStorageSection = {
   beforeSave(
     items: Partial<RawStorageItems>,
     dirtyFlagsUpdate: Partial<SyncDirtyFlags>,
-    now: dayjs.Dayjs,
+    now: Date,
   ): void;
   afterSave?(items: Partial<RawStorageItems>, source: SaveSource): void;
 };
@@ -80,7 +78,7 @@ export async function save(
   source: SaveSource,
 ): Promise<void> {
   const dirtyFlagsUpdate: Partial<SyncDirtyFlags> = {};
-  const now = dayjs();
+  const now = new Date();
   for (const section of localStorageSections) {
     section.beforeSave(items, dirtyFlagsUpdate, now);
   }
@@ -111,7 +109,7 @@ export async function addSubscription(
       return {
         subscriptions: { ...subscriptions, [nextSubscriptionId]: subscription },
         nextSubscriptionId: nextSubscriptionId + 1,
-        subscriptionsLastModified: dayjs().toISOString(),
+        subscriptionsLastModified: new Date().toISOString(),
       };
     },
   );
@@ -130,7 +128,7 @@ export async function removeSubscription(id: SubscriptionId): Promise<void> {
     delete newSubscriptions[id];
     return {
       subscriptions: newSubscriptions,
-      subscriptionsLastModified: dayjs().toISOString(),
+      subscriptionsLastModified: new Date().toISOString(),
     };
   });
   syncDelayed({ subscriptions: true });
@@ -147,7 +145,7 @@ export async function renameSubscription(
     }
     return {
       subscriptions: newSubscriptions,
-      subscriptionsLastModified: dayjs().toISOString(),
+      subscriptionsLastModified: new Date().toISOString(),
     };
   });
   syncDelayed({ subscriptions: true });
@@ -164,7 +162,7 @@ export async function enableSubscription(
     }
     return {
       subscriptions: newSubscriptions,
-      subscriptionsLastModified: dayjs().toISOString(),
+      subscriptionsLastModified: new Date().toISOString(),
     };
   });
   syncDelayed({ subscriptions: true });

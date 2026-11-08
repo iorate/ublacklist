@@ -1,27 +1,54 @@
-import dayjs from "dayjs";
-import dayjsRelativeTime from "dayjs/plugin/relativeTime";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
-import "../../shared/dayjs-locales.generated.ts";
-import { getDayjsLocale } from "../../shared/locales.ts";
+import { getLocale } from "../../shared/locales.ts";
 
-dayjs.extend(dayjsRelativeTime);
+const MINUTE = 60 * 1000;
+
+const units: readonly (readonly [Intl.RelativeTimeFormatUnit, number])[] = [
+  ["year", MINUTE * 60 * 24 * 365],
+  ["month", MINUTE * 60 * 24 * 30],
+  ["day", MINUTE * 60 * 24],
+  ["hour", MINUTE * 60],
+  ["minute", MINUTE],
+];
+
+function formatFromNow(delta: number, locale: string): string {
+  const magnitude = Math.abs(delta);
+  const found = units.find(([, unitMs]) => magnitude >= unitMs);
+  if (!found) {
+    return new Intl.RelativeTimeFormat(locale, { numeric: "auto" }).format(
+      0,
+      "minute",
+    );
+  }
+  const [unit, unitMs] = found;
+  return new Intl.RelativeTimeFormat(locale).format(
+    Math.sign(delta) * Math.floor(magnitude / unitMs),
+    unit,
+  );
+}
+
+function modulo(dividend: number, divisor: number): number {
+  return ((dividend % divisor) + divisor) % divisor;
+}
 
 export type FromNowProps = {
-  time: dayjs.Dayjs;
+  time: Date;
 };
 
 export function FromNow({ time }: FromNowProps) {
-  const [, setState] = useState(0);
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setState((state) => state + 1);
-    }, 5000);
-    return () => clearInterval(intervalId);
-  }, []);
-  return (
-    <time dateTime={time.toISOString()}>
-      {time.locale(getDayjsLocale()).fromNow()}
-    </time>
+  const [text, setText] = useState(() =>
+    formatFromNow(time.getTime() - Date.now(), getLocale()),
   );
+  useLayoutEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    const update = () => {
+      const delta = time.getTime() - Date.now();
+      setText(formatFromNow(delta, getLocale()));
+      timeoutId = setTimeout(update, modulo(delta, MINUTE) || MINUTE);
+    };
+    update();
+    return () => clearTimeout(timeoutId);
+  }, [time]);
+  return <time dateTime={time.toISOString()}>{text}</time>;
 }
