@@ -3,7 +3,6 @@ import path from "node:path";
 import util from "node:util";
 
 import * as esbuild from "esbuild";
-import fse from "fs-extra";
 import { z } from "zod";
 
 import pkg from "../package.json" with { type: "json" };
@@ -15,6 +14,11 @@ type Context = ManifestContext & {
   destDir: string;
   additionalLicensePaths: Record<string, string>;
 };
+
+async function outputFile(file: string, data: string): Promise<void> {
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  await fs.writeFile(file, data);
+}
 
 async function getStaticAssets(context: Context): Promise<string[]> {
   const { browser, srcDir } = context;
@@ -86,14 +90,14 @@ async function buildStaticAssets(context: Context) {
   const { srcDir, destDir } = context;
   await Promise.all(
     (await getStaticAssets(context)).map((src) =>
-      fse.copy(path.join(srcDir, src), path.join(destDir, src)),
+      fs.cp(path.join(srcDir, src), path.join(destDir, src)),
     ),
   );
 }
 
 async function buildManifestJSON(context: Context) {
   const { destDir } = context;
-  await fse.outputFile(
+  await outputFile(
     path.join(destDir, "manifest.json"),
     `${JSON.stringify(getManifest(context), null, 2)}\n`,
   );
@@ -190,7 +194,7 @@ async function buildThirdPartyNotices(
       return `${name}\n\n${license}\n`;
     }),
   );
-  await fse.outputFile(
+  await outputFile(
     path.join(destDir, "third-party-notices.txt"),
     notices.join("\n\n"),
   );

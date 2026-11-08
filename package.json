@@ -53,7 +53,6 @@
   "devDependencies": {
     "@playwright/test": "1.64.1",
     "@types/css-tree": "3.2.0",
-    "@types/fs-extra": "11.0.4",
     "@types/node": "26.6.5",
     "@types/punycode": "2.1.4",
     "@types/react": "19.3.0",
@@ -61,7 +60,6 @@
     "chrome-types": "0.1.460",
     "csstype": "3.2.3",
     "esbuild": "0.28.2",
-    "fs-extra": "11.4.1",
     "js-yaml": "5.5.0",
     "lefthook": "2.2.1",
     "oxfmt": "0.75.0",
