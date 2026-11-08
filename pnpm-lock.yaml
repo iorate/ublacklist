@@ -281,9 +281,6 @@ importers:
       csstype:
         specifier: 3.2.3
         version: 3.2.3
-      dotenv:
-        specifier: 18.0.9
-        version: 18.0.9
       esbuild:
         specifier: 0.28.2
         version: 0.28.2
@@ -900,11 +897,6 @@ packages:
 
   dayjs@1.11.23:
     resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
-
-  dotenv@18.0.9:
-    resolution: {integrity: sha512-3fVOW4cB02R066PUSwn8O4TJyz9NckQl7F81blIbaq9jKBm2tSmOKky7ZHIXzGvkVPXCSn6jkpziBPZdGFs8Tw==}
-    engines: {node: '>=12'}
-    hasBin: true
 
   es-toolkit@1.53.0:
     resolution: {integrity: sha512-3+AYXp9fmJ/UhHBMYj2/U+RaUouMD90SzoItyDOB2Za7W6dB7fQApFGnZPl2MF6K8/Tv1koh1JyirSx/kju6Pw==}
@@ -1652,8 +1644,6 @@ snapshots:
   csstype@3.2.3: {}
 
   dayjs@1.11.23: {}
-
-  dotenv@18.0.9: {}
 
   es-toolkit@1.53.0: {}
 

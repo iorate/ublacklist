@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import util from "node:util";
 
-import * as dotenv from "dotenv";
 import * as esbuild from "esbuild";
 import fse from "fs-extra";
 import { z } from "zod";
@@ -197,8 +196,20 @@ async function buildThirdPartyNotices(
   );
 }
 
+function loadEnvFile(file: string): void {
+  try {
+    process.loadEnvFile(file);
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      return;
+    }
+    throw error;
+  }
+}
+
 async function main() {
-  dotenv.config({ path: [".env.local", ".env"], quiet: true });
+  loadEnvFile(".env.local");
+  loadEnvFile(".env");
   const { values: args } = util.parseArgs({
     options: {
       browser: { type: "string", short: "b" },
