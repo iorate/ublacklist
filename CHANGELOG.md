@@ -1,5 +1,13 @@
 # ublacklist
 
+## 10.1.3
+
+### Patch Changes
+
+- Fixed an issue where the `domainToURL` command in SERPINFO did not produce the correct URL when the domain text contained uppercase non-ASCII letters or full-width characters.
+
+- Changed relative times in the options page, such as the last sync time, to be rounded down to whole minutes, hours, days, months, or years.
+
 ## 10.1.2
 
 ### Patch Changes
