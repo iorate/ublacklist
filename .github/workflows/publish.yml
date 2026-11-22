@@ -117,7 +117,7 @@ jobs:
           path: dist/release
 
       - name: Install wepub
-        uses: iorate/wepub/setup@fc99f54390af6bc8218d1eeda0a994198cd25831 # v1.0.6
+        uses: iorate/wepub/setup@2dc00a112fcaba73f2b0c2c17dd9605950527582 # v1.0.7
 
       - name: Publish to Chrome Web Store
         run: wepub chrome dist/release/chrome/package.zip
@@ -145,7 +145,7 @@ jobs:
           path: dist/release
 
       - name: Install wepub
-        uses: iorate/wepub/setup@fc99f54390af6bc8218d1eeda0a994198cd25831 # v1.0.6
+        uses: iorate/wepub/setup@2dc00a112fcaba73f2b0c2c17dd9605950527582 # v1.0.7
 
       - name: Publish to Edge Add-ons
         run: wepub edge dist/release/edge/package.zip --notes-file dist/release/edge/notes-for-certification.txt
@@ -196,7 +196,7 @@ jobs:
           ONEDRIVE_CLIENT_ID: ${{ secrets.ONEDRIVE_CLIENT_ID }}
 
       - name: Install wepub
-        uses: iorate/wepub/setup@fc99f54390af6bc8218d1eeda0a994198cd25831 # v1.0.6
+        uses: iorate/wepub/setup@2dc00a112fcaba73f2b0c2c17dd9605950527582 # v1.0.7
 
       - name: Publish to Firefox Add-ons
         run: |
