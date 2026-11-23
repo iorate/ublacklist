@@ -65,7 +65,7 @@ jobs:
   changeset:
     needs: download
 
-    if: ${{ needs.download.outputs.pull_request_number }}
+    if: needs.download.outputs.pull_request_number
 
     runs-on: ubuntu-latest
 
