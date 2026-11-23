@@ -64,7 +64,7 @@ jobs:
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
       - name: Enable auto-merge
-        if: ${{ steps.crowdin.outputs.pull_request_number }}
+        if: steps.crowdin.outputs.pull_request_number
         run: gh pr merge --squash --auto "$PULL_REQUEST_NUMBER"
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}

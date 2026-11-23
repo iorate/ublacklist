@@ -76,7 +76,7 @@ jobs:
       - name: pnpm e2e
         run: pnpm e2e
 
-  actionlint:
+  workflows:
     runs-on: ubuntu-latest
 
     timeout-minutes: 30
@@ -87,24 +87,26 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Run actionlint
-        uses: docker://rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+      - name: Run jactionlint
+        uses: docker://ghcr.io/jdx/jactionlint:2.6.0@sha256:323474d5999ac01a4712d99a8c21d245b62f79977a1e9cc8795f321142a087d7
         with:
-          args: -color
+          args: --online
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
-  zizmor:
+  ci:
+    needs:
+      - check
+      - e2e
+      - workflows
+
+    if: always()
+
     runs-on: ubuntu-latest
 
     timeout-minutes: 30
 
-    permissions:
-      security-events: write
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Run zizmor
-        uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
+      - name: Fail unless every job succeeded
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped')
+        run: exit 1

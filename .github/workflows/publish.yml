@@ -212,7 +212,11 @@ jobs:
           WEPUB_FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
 
   github:
-    needs: [build, chrome, edge, firefox]
+    needs:
+      - build
+      - chrome
+      - edge
+      - firefox
 
     runs-on: ubuntu-latest
 
