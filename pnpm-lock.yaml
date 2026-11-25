@@ -206,8 +206,8 @@ importers:
         specifier: 2.3.1
         version: 2.3.1
       '@sindresorhus/fnv1a':
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 4.0.0
+        version: 4.0.0
       '@ublacklist/match-pattern':
         specifier: 2.0.0
         version: 2.0.0
@@ -830,9 +830,9 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  '@sindresorhus/fnv1a@3.1.0':
-    resolution: {integrity: sha512-KV321z5m/0nuAg83W1dPLy85HpHDk7Sdi4fJbwvacWsEhAh+rZUW4ZfGcXmUIvjZg4ss2bcwNlRhJ7GBEUG08w==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+  '@sindresorhus/fnv1a@4.0.0':
+    resolution: {integrity: sha512-af0YajY4aVnezXbYy6ni/v0qeRQHsERAB5wkrHkwrhemdZVnwhLg/3qx8j3fcOtjeA+bXOC+Sf9tudq7A207Bg==}
+    engines: {node: '>=22'}
 
   '@types/css-tree@3.2.0':
     resolution: {integrity: sha512-J5KXmk6BFIepOT7280FdFyNs4c5fh0Uee0otjKEvzchrRs38Ii9qminqc4ds0L19X8Zd/rT+brR9jkBthygjWw==}
@@ -1548,7 +1548,7 @@ snapshots:
     dependencies:
       playwright: 1.65.1
 
-  '@sindresorhus/fnv1a@3.1.0': {}
+  '@sindresorhus/fnv1a@4.0.0': {}
 
   '@types/css-tree@3.2.0': {}
 
