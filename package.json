@@ -31,7 +31,7 @@
     "@lezer/highlight": "1.2.5",
     "@mdi/svg": "7.4.47",
     "@neodrag/vanilla": "2.3.1",
-    "@sindresorhus/fnv1a": "3.1.0",
+    "@sindresorhus/fnv1a": "4.0.0",
     "@ublacklist/match-pattern": "2.0.0",
     "@ublacklist/ruleset": "2.0.1",
     "@ublacklist/serpinfo": "3.0.0",
